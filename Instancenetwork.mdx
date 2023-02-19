@@ -1,0 +1,46 @@
+---
+title: "Instance Network"
+---
+The network is where your team can diagram its data science projects. Each time a resource is placed on a network is called an “instance” of that resource. We help you make distinctions between different instances of your resources because often you’ll use the same resource in two different contexts – and that context is important to document. For example, a database may be used twice for two totally different purposes in the same project.  
+This guide will cover:
+1. How to create instances on your network
+2. How to document instance relationships 
+4. How to use the network’s interactive features 
+
+## Creating Instances
+First, navigate to the network in the subproject where you’re working. You can also view the network at the project or even the network level but can only add instances from the subproject level. 
+Second, press the “Add Instance” button that sits just above the network window. 
+Third, place your cursor over where you’d like to have your instance appear (you can reposition it later) and RIGHT CLICK. When placing an instance your left mouse button lets you pan across the network. The right mouse button is how you place an instance. 
+As soon as you click, a modal like the one below will appear. 
+<Frame caption="This is where you create your instance">
+  <img src=" https://d27n7fycrsusaz.cloudfront.net/create+instance+modal.PNG" />
+</Frame>
+The name and date section are fairly self-explanatory, we cover what an instance’s “pipeline status” is in the “Pipelines” section of our docs and the instance description can be filled out however you see fit. The one field that’s important to take note of at this point is the “underlying resource” box. Whichever resource you’re trying to make an instance of, copy its resource ID and paste it here.
+Once you press the “Create Instance” button, it will show up on your network and a modal to document the instance will instantly appear.
+Here’s a video illustrating this process: 
+<iframe src=" https://youtu.be/MysBvJnbDFg"> </iframe>
+## Documenting Instances
+Once you have more than one instance on your network it’s time to document how they relate. The video below walks you through that process.
+<iframe src="https://www.youtube.com/embed/ZSnY7xeaubU"> </iframe>
+At 0:28 in the video we start working with a modal that lets us document how the two resources are related. There are four different types of relationships we can note. They are:
+* **Origin:** An origin is a resource that generates another one. For example, a script may be the origin of an output like a graph. 
+* **Input Dataset:** As the name suggests, this is a resource that inputs data to another. For example, a database may be the input data for a script.
+* **Output Artifact:** This is a resource that was output by another resource. For example, a graph may be the output of a script. 
+* **Deployment: Sometimes an instance might be used by another instance. This is said to be its deployment. For example, a database can be deployed to be used by a script.
+After you document instance relationships you can click on an instance and this modal will appear.
+<Frame caption="This is the modal that displays details about your instance">
+  <img src="https://d27n7fycrsusaz.cloudfront.net/documenting+instance+modal.PNG" />
+</Frame>
+This screen shows you details about the resource. Here’s what each tab does, in order of appearance: 
+* **Overview Tab: ** Displays general information about the instance.
+* **Resource Details Tab:** Displays information about the instance's underlying resource.
+* **Resource Content Tab: ** Reports where the underlying resource is located.
+* **Input Datasets: ** Indicates which (if any) datasets the instance relies on. The info on this tab is created by the relationships you define between instances. 
+* **Output Artifacts: ** Indicates which (if any) instances are output by the one you’re looking at. The info on this tab is created by the relationships you define between instances.
+* **Origin: ** If your instance was created by another one, that’s reported here. The info on this tab is created by the relationships you define between instances. 
+* **Deployments:** If your instance is used by another instance, that’s reported here. The info on this tab is created by the relationships you define between instances. 
+* **Network: ** Clicking this button displays the instance on the network
+* **Comments: ** Any user can add comments on your instance
+* **History: ** This tab reports every action done to an instance
+* **Settings: Lets you change who can edit the instance
+
