@@ -44,5 +44,5 @@ docker build -t mint-client .
 ```
 ### run
 ```sh 
-docker run -p:3000:3000 mint
+docker run -p:3000:3000 mint-client
 ```
