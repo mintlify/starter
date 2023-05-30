@@ -13,8 +13,8 @@
   },
   "topbarLinks": [
     {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs"
+      "name": "Help Centre Home",
+      "url": "https://phenomenal.mintlify.app/introduction"
     }
   ],
   "topbarCtaButton": {
