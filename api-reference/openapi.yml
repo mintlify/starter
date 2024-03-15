@@ -237,7 +237,7 @@ paths:
                     example: Account deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/users/{user_id}/accounts/entries/connection":
+  "/users/{user_id}/accounts/entries/connections":
     post:
       summary: Connects a user account to a payroll provider
       parameters:
@@ -277,7 +277,125 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-
+  "/users/{user_id}/accounts/entries/payslips":
+    post:
+      summary: Fetches payslips for a user account
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to fetch payslips for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_id:
+                  type: string
+                  description: The id of the account
+                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+                from_date:
+                  "$ref": "#/components/schemas/Date"
+                to_date:
+                  "$ref": "#/components/schemas/Date"
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PayrollData"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/accounts/entries":
+    get:
+      summary: Returns all entries for a user account
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to get entries for
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [payroll_provider, created_at]
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/Paginatioin"
+                  entries:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/PayrollData"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/accounts/entry/{entry_id}":
+    delete:
+      summary: Deletes an entry for the user
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to delete an entry for
+        - in: path
+          name: entry_id
+          schema:
+            type: string
+          required: true
+          description: ID of the entry to delete
+      responses: 
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Entry deleted successfully.
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -412,9 +530,9 @@ components:
           type: string
           description: The id of the user
           example: 95a0e70b-fe02-4f47-aef9-2efff279df71
-        account_id:
+        entry_id:
           type: string
-          description: The id of the account
+          description: The id of the entry
           example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         created_at:
           "$ref": "#/components/schemas/Date"
