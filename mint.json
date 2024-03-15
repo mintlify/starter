@@ -85,6 +85,12 @@
       ]
     },
     {
+      "group": "User Token",
+      "pages": [
+        "api-reference/users/token"
+      ]
+    },
+    {
       "group": "Payroll",
       "pages": [
         "api-reference/payroll/get"

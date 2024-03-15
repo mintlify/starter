@@ -109,6 +109,25 @@ paths:
                     example: User deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/token":
+    post:
+      summary: Generate a link token for authentication in subsequent steps to a unique user ID.
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to get
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserToken"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -142,6 +161,10 @@ components:
           schema:
             "$ref": "#/components/schemas/Error"
   schemas:
+    Date:
+      type: string
+      format: date
+      example: 2019-05-17T00:00:00.000Z
     Paginatioin:
       type: object
       required: [offset, limit, count]
@@ -187,10 +210,17 @@ components:
       - required: [user_id, created_at]
         properties:
           created_at:
-            description: Id of the user either passed in the request or generated
-            type: string
-            format: date
-            example: 2019-05-17T00:00:00.000Z
+            "$ref": "#/components/schemas/Date"
+    UserToken:
+      type: object
+      required: [token, created_at]
+      properties:
+        token:
+          type: string
+          description: The token to be used in subsequent requests
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTVhMGU3MGItZmUwMi00ZjQ3LWFlZjktMmVmZmYyNzlkZjcxIiwiaWF0IjoxNTE2MjM5MDIyfQ.4S5J
+        created_at:
+            "$ref": "#/components/schemas/Date"
     Error:
       required:
       - message
