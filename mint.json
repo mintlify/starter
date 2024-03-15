@@ -94,7 +94,8 @@
       "group": "Accounts",
       "pages": [
         "api-reference/accounts/create",
-        "api-reference/accounts/delete"  
+        "api-reference/accounts/delete",
+        "api-reference/accounts/list"
       ]
     },
     {
