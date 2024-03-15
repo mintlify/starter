@@ -112,6 +112,22 @@
       "pages": [
         "api-reference/payroll/get"
       ]
+    },
+    {
+      "group": "Documents",
+      "pages": [
+        "api-reference/documents/get",
+        "api-reference/documents/list"
+      ]
+    },
+    {
+      "group": "Webhooks",
+      "pages": [
+        "api-reference/webhooks/create",
+        "api-reference/webhooks/get",
+        "api-reference/webhooks/delete",
+        "api-reference/webhooks/list"
+      ]
     }
   ],
   "footerSocials": {

@@ -398,7 +398,7 @@ paths:
           "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
-      description: Returns all plants from the system that the user has access to
+      summary: Returns all plants from the system that the user has access to
       responses:
         '200':
           description: Plant response
@@ -414,6 +414,194 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Error"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/documents/{entry_id}":
+    get:
+      summary: Returns all documents for a user entry
+      parameters:
+        - in: path
+          name: entry_id
+          schema:
+            type: string
+          required: true
+          description: The id of the entry
+        - name: document_id
+          in: query
+          description: The id of the document
+          required: false
+          schema:
+            type: string
+        - name: user_id
+          in: query
+          description: ID of the user to get documents for
+          required: false
+          schema:
+            type: string
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [payroll_provider, created_at]
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                user_id: 
+                  type: string
+                  description: The id of the user
+                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/Paginatioin"
+                  documents:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/PayrollData"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/documents/{user_id}":
+    get:
+      summary: List all documents for a user.
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to get documents for
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [payroll_provider, created_at]
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                user_id: 
+                  type: string
+                  description: The id of the user
+                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+      responses:
+        '200':
+          description: Document response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/CreatedUser"
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/webhooks":
+    post:
+      summary: Creates a webhook.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The url to send the webhook to
+                  example: https://webhook.site/3e3e3e3e-3e3e-3e3e-3e3e-3e3e3e3e3e3e
+                event:
+                  type: string
+                  description: The event to send the webhook for
+                  example: payroll
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook_id:
+                    type: string
+                    description: The id of the webhook
+                    example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+                  url:
+                    type: string
+                    description: The url to send the webhook to
+                    example: https://webhook.site/3e3e3e3e-3e3e-3e3e-3e3e-3e3e3e3e3e3e
+                  event:
+                    type: string
+                    description: The event to send the webhook for
+                    example: payroll
+                  created_at:
+                    "$ref": "#/components/schemas/Date"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+
 components:
   responses:
     UnauthorizedApiKey:
