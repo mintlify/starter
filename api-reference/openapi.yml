@@ -155,6 +155,35 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/accounts/{account_id}":
+    delete:
+      summary: Deletes an account for the user (e.g. a Xero account)
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to delete an account for
+        - in: path
+          name: account_id
+          schema:
+            type: string
+          required: true
+          description: ID of the account to delete
+      responses: 
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Account deleted successfully.
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
