@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NewUser"
+                "$ref": "#/components/schemas/CreatedUser"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NewUser"
+                "$ref": "#/components/schemas/CreatedUser"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -49,19 +49,13 @@ paths:
   "/users/{user_id}":
     get:
       summary: Creates a user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/User"
       responses: 
         '201':
           description: Created
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NewUser"
+                "$ref": "#/components/schemas/CreatedUser"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -77,7 +71,7 @@ paths:
               schema:
                 type: object
                 items:
-                  "$ref": "#/components/schemas/NewUser"
+                  "$ref": "#/components/schemas/CreatedUser"
         '400':
           description: Unexpected error
           content:
@@ -106,13 +100,17 @@ components:
         user_id:
           description: Optionl Id of the user. If not passed, it will be generated.
           type: string
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         name:
           description: The full name of the user.
           type: string
+          example: John Smith
         email:
           description: The email of the user.
           type: string
-    NewUser:
+          format: email
+          example: john.smith@company.com
+    CreatedUser:
       allOf:
       - "$ref": "#/components/schemas/User"
       - required: [user_id, created_at]
@@ -120,6 +118,8 @@ components:
           created_at:
             description: Id of the user either passed in the request or generated
             type: string
+            format: date
+            example: 2019-05-17T00:00:00.000Z
     Error:
       required:
       - message
