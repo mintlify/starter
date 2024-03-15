@@ -1,0 +1,309 @@
+---
+openapi: 3.0.1
+info:
+  title: Payroll API
+  description: A full flagged payroll api provided by Teal
+  version: 1.0.0
+servers:
+  - url: https://api.sandbox.goteal.co
+    description: Sandbox server for experiments
+  - url: https://api.goteal.co/v1
+    description: Production server
+security:
+- ApiKeyAuth: []
+- bearerAuth: []
+paths:
+  "/users":
+    post:
+      summary: Creates a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreatedUser"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+    get:
+      summary: List all users.
+      parameters:
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [name, email, created_at]
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/Paginatioin"
+                  users:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/CreatedUser"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}":
+    get:
+      summary: Creates a user.
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreatedUser"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+    delete:
+      summary: Deletes a user.
+      responses: 
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted successfully.
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/token":
+    post:
+      summary: Generate a link token for authentication in subsequent steps to a unique user ID.
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to get
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UserToken"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/accounts":
+    post:
+      summary: Creates an account for the user e.g. a Xero account
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to create an account for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Accounts"
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccountsResult"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/payroll":
+    get:
+      description: Returns all plants from the system that the user has access to
+      responses:
+        '200':
+          description: Plant response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/CreatedUser"
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+components:
+  responses:
+    UnauthorizedApiKey:
+      description: Unauthorized if the X-API-KEY is not provided or is wrong
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Unauthorized"
+    BadRequest:
+      description: Bad request if one of the required parameters is missing
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Error"
+  schemas:
+    Date:
+      type: string
+      format: date
+      example: 2019-05-17T00:00:00.000Z
+    Paginatioin:
+      type: object
+      required: [offset, limit, count]
+      properties:
+        offset:
+          description: The offset to start at - zero based
+          type: integer
+          format: int32
+          minimum: 1
+          default: 0
+        limit:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          default: 20
+        orederd_by:
+          type: string
+        count:
+          type: integer
+          format: int32
+          minimum: 0
+    User:
+      required: [name, email]
+      type: object
+      properties:
+        user_id:
+          description: Optionl Id of the user. If not passed, it will be generated.
+          type: string
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+        name:
+          description: The full name of the user.
+          type: string
+          example: John Smith
+        email:
+          description: The email of the user.
+          type: string
+          format: email
+          example: john.smith@company.com
+    CreatedUser:
+      allOf:
+      - "$ref": "#/components/schemas/User"
+      - required: [user_id, created_at]
+        properties:
+          created_at:
+            "$ref": "#/components/schemas/Date"
+    UserToken:
+      type: object
+      required: [token, created_at]
+      properties:
+        token:
+          type: string
+          description: The token to be used in subsequent requests
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTVhMGU3MGItZmUwMi00ZjQ3LWFlZjktMmVmZmYyNzlkZjcxIiwiaWF0IjoxNTE2MjM5MDIyfQ.4S5J
+        created_at:
+            "$ref": "#/components/schemas/Date"
+    Accounts:
+      type: object
+      required: [payroll_provider, user_name, password]
+      properties:
+        payroll_provider:
+          type: string
+          description: The payroll provider to use
+          example: quickbooks
+        user_name:
+          type: string
+          description: The login of the user
+          example: john.smith@company.com
+        password:
+          type: string
+          description: The password of the user
+          example: very-secret-password
+    AccountsResult:
+      type: object
+      required: [payroll_provider, user_name, created_at, account_id]
+      properties:
+        account_id:
+          type: string
+          description: The id of the account
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+        payroll_provider:
+          type: string
+          description: The payroll provider to use
+          example: quickbooks
+        user_name:
+          type: string
+          description: The login of the user
+          example: john.smith@company.com
+        created_at:
+            "$ref": "#/components/schemas/Date" 
+          
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message describing the error
+          example: The request is missing the required field `name`
+    Unauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message describing the error
+          example: No X-API-KEY Key header provided or wrong value
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    bearerAuth:
+      type: http
+      scheme: bearer
