@@ -237,6 +237,47 @@ paths:
                     example: Account deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/accounts/entries/connection":
+    post:
+      summary: Connects a user account to a payroll provider
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to connect an account for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payroll_provider:
+                  type: string
+                  description: The payroll provider to use
+                  example: quickbooks
+                user_name:
+                  type: string
+                  description: The login of the user
+                  example: john.smith@gmail.com
+                password: 
+                  type: string
+                  description: The password of the user
+                  example: very-secret-password
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PayrollData"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -363,8 +404,34 @@ components:
           description: The login of the user
           example: john.smith@company.com
         created_at:
-            "$ref": "#/components/schemas/Date" 
-          
+            "$ref": "#/components/schemas/Date"
+    PayrollData:
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: The id of the user
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+        account_id:
+          type: string
+          description: The id of the account
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+        created_at:
+          "$ref": "#/components/schemas/Date"
+        payroll_provider:
+          type: string
+          description: The payroll provider to use
+          example: quickbooks
+        number_entries:
+          type: integer
+          description: The number of entries
+          example: 5
+        entry:
+          type: array
+          items:
+            type: object
+  
+    
     Error:
       required:
       - message

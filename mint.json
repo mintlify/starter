@@ -99,6 +99,15 @@
       ]
     },
     {
+      "group": "Entries",
+      "pages": [
+        "api-reference/entries/connections-create",
+        "api-reference/entries/payslips-create",
+        "api-reference/entries/delete",
+        "api-reference/entries/list"
+      ]
+    },
+    {
       "group": "Payroll",
       "pages": [
         "api-reference/payroll/get"
