@@ -128,6 +128,33 @@ paths:
                 "$ref": "#/components/schemas/UserToken"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}/accounts":
+    post:
+      summary: Creates an account for the user e.g. a Xero account
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to create an account for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Accounts"
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/AccountsResult"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -221,6 +248,41 @@ components:
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTVhMGU3MGItZmUwMi00ZjQ3LWFlZjktMmVmZmYyNzlkZjcxIiwiaWF0IjoxNTE2MjM5MDIyfQ.4S5J
         created_at:
             "$ref": "#/components/schemas/Date"
+    Accounts:
+      type: object
+      required: [payroll_provider, user_name, password]
+      properties:
+        payroll_provider:
+          type: string
+          description: The payroll provider to use
+          example: quickbooks
+        user_name:
+          type: string
+          description: The login of the user
+          example: john.smith@company.com
+        password:
+          type: string
+          description: The password of the user
+          example: very-secret-password
+    AccountsResult:
+      type: object
+      required: [payroll_provider, user_name, created_at, account_id]
+      properties:
+        account_id:
+          type: string
+          description: The id of the account
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+        payroll_provider:
+          type: string
+          description: The payroll provider to use
+          example: quickbooks
+        user_name:
+          type: string
+          description: The login of the user
+          example: john.smith@company.com
+        created_at:
+            "$ref": "#/components/schemas/Date" 
+          
     Error:
       required:
       - message

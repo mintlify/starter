@@ -91,6 +91,12 @@
       ]
     },
     {
+      "group": "Accounts",
+      "pages": [
+        "api-reference/accounts/create"
+      ]
+    },
+    {
       "group": "Payroll",
       "pages": [
         "api-reference/payroll/get"
