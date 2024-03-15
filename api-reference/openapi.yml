@@ -15,22 +15,20 @@ security:
 paths:
   "/users":
     post:
-      description: Returns all plants from the system that the user has access to
-      responses:
-        '200':
-          description: Plant response
+      summary: Creates a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+      responses: 
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  "$ref": "#/components/schemas/NewUser"
-        '400':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
+                "$ref": "#/components/schemas/NewUser"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -56,17 +54,20 @@ components:
       type: object
       properties:
         user_id:
-          description: Optional id to be referenced in othe endpoings
+          description: Optionl Id of the user. If not passed, it will be generated.
           type: string
         name:
-          description: The name of the plant
+          description: The full name of the user.
+          type: string
+        email:
+          description: The email of the user.
           type: string
     NewUser:
       allOf:
       - "$ref": "#/components/schemas/User"
-      - required: [user_id]
+      - required: [user_id, created_at]
         properties:
-          user_id:
+          created_at:
             description: Id of the user either passed in the request or generated
             type: string
     Error:
