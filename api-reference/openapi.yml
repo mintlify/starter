@@ -1,0 +1,90 @@
+---
+openapi: 3.0.1
+info:
+  title: Payroll API
+  description: A full flagged payroll api provided by Teal
+  version: 1.0.0
+servers:
+  - url: https://api.goteal.co/v1
+    description: Production server
+  - url: https://api.sandbox.goteal.co
+    description: Sandbox server for experiments
+security:
+- ApiKeyAuth: []
+- bearerAuth: []
+paths:
+  "/users":
+    post:
+      description: Returns all plants from the system that the user has access to
+      responses:
+        '200':
+          description: Plant response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/NewUser"
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+  "/payroll":
+    get:
+      description: Returns all plants from the system that the user has access to
+      responses:
+        '200':
+          description: Plant response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  "$ref": "#/components/schemas/NewUser"
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+components:
+  schemas:
+    User:
+      required: [name, email]
+      type: object
+      properties:
+        user_id:
+          description: Optional id to be referenced in othe endpoings
+          type: string
+        name:
+          description: The name of the plant
+          type: string
+    NewUser:
+      allOf:
+      - "$ref": "#/components/schemas/User"
+      - required: [user_id]
+        properties:
+          user_id:
+            description: Id of the user either passed in the request or generated
+            type: string
+    Error:
+      required:
+      - error
+      - message
+      type: object
+      properties:
+        error:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    bearerAuth:
+      type: http
+      scheme: bearer

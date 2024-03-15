@@ -5,6 +5,7 @@
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
+  "openapi": ["openapi.yml"],
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#0D9373",
@@ -75,11 +76,15 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Users",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/users/create"
+      ]
+    },
+    {
+      "group": "Payroll",
+      "pages": [
+        "api-reference/payroll/get"
       ]
     }
   ],
