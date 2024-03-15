@@ -29,6 +29,18 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/NewUser"
+        '400':
+          description: Bad request if one of the required parameters is missing
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '401':
+          description: Unauthorized if the X-API-KEY is not provided or is wrong
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Unauthorized"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -72,15 +84,14 @@ components:
             type: string
     Error:
       required:
-      - error
       - message
       type: object
       properties:
-        error:
-          type: integer
-          format: int32
         message:
           type: string
+    Unauthorized:
+      allOf:
+      - "$ref": "#/components/schemas/Error"
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
