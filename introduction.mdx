@@ -1,7 +1,9 @@
 ---
 title: Introduction
-description: 'Welcome to the home of your new documentation'
+description: 'Welcome to Teal'
 ---
+
+## How it works
 
 <img
   className="block dark:hidden"
@@ -13,6 +15,111 @@ description: 'Welcome to the home of your new documentation'
   src="/images/hero-dark.svg"
   alt="Hero Dark"
 />
+
+Our modular API gives you access to one of the richest sources of data to improve your underwriting process - payroll data. This data is acquired with user consent either via payroll-linked access or with payslip upload.
+
+<img
+  className="block dark:hidden"
+  src="/images/flow-light.svg"
+  alt="Flow Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/flow-dark.svg"
+  alt="Flow Dark"
+/>
+
+### Connecting payroll account
+
+By connecting to our API you will have access to consent based access to a user’s historical payroll data. Teal's API enables lenders to receive income data safely from their users, fully embedded within lending flows.
+
+The user will be walked through a permission flow, where they will allow to connect to their payroll provider. Teal will extract their data, and then expose via API to your services.
+
+<img
+  className="block dark:hidden"
+  src="/images/connect-light.svg"
+  alt="Connect Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/connect-dark.svg"
+  alt="Connect Dark"
+/>
+
+### Uploading payslips
+
+Our API also supports the upload of payslip documents. Thus, enabling the automatic extraction of payslips information and instant data share. We use state of the art LLMs in combination with our own models for maximum accuracy of the extracted data.
+
+Borrowers will be able to upload their payslips in a webflow hosted by Teal. The payslips will be parsed and data such as identity, income and employment information will be extracted, encrypted and securely stored in the database. The documents are verified for authenticity, controlling for visual inconsistencies and changes in the meta data.
+
+<img
+  className="block dark:hidden"
+  src="/images/upload-light.svg"
+  alt="Upload Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/upload-dark.svg"
+  alt="Upload Dark"
+/>
+
+## Accessing user data
+
+The data is securely exposed via our API. By default, the data is extracted in JSON format after the request is done. The data will be exposed via our API, so lenders can receive it immediately and take a decision based on the shared data.
+
+Example of payroll submission retrieval:
+
+``````JSON
+
+  "userId": "user-1234",
+  "serverTimestampMs": 1564061013564,
+  "source": "Payroll",
+	"payroll_submission":
+        {
+            "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
+            "identityInformation": {
+                "name": "Jane Doe",
+                "date_of_birth": "1990-04-01",
+                "address": {
+                    "street": "123 Main St",
+                    "county": "Anyshire",
+                    "city": "Anycity",
+                    "post_code": "AB12 3CD",
+                    "country": "Countryland",
+                },
+                "email": "jane.doe@example.com",
+                "phone": "+1234567890",
+                "NI_number": "AB123456C",
+                "employmentInformation": {
+                    "employer_name": "Acme Corp",
+                    "role": "Software Developer",
+                    "type": "Full-Time",
+                    "status": "Active",
+                    "start_date": "2018-06-01",
+                    "leave_date": null
+                },
+                "incomeInformation": {
+                    "pay_date": "2024-02-15",
+                    "pay_interval_start": "2024-02-01",
+                    "pay_interval_end": "2024-02-15",
+                    "pay_frequency": "weekly",
+                    "earnings": {
+                        "gross_pay": 2000,
+                        "net_pay": 1500,
+                        "base_salary": 1900,
+                        "bonus": 100
+                    },
+                    "deductions": {
+                        "income_tax": 300,
+                        "employee_ni": 150,
+                        "employee_pension": 50,
+                        "total_deductions": 500
+                    }
+                }
+            }
+        }
+``````
+-------------
 
 ## Setting up
 
