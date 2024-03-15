@@ -78,7 +78,9 @@
     {
       "group": "Users",
       "pages": [
-        "api-reference/users/create"
+        "api-reference/users/create",
+        "api-reference/users/get",
+        "api-reference/users/list"
       ]
     },
     {

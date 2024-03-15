@@ -5,10 +5,10 @@ info:
   description: A full flagged payroll api provided by Teal
   version: 1.0.0
 servers:
-  - url: https://api.goteal.co/v1
-    description: Production server
   - url: https://api.sandbox.goteal.co
     description: Sandbox server for experiments
+  - url: https://api.goteal.co/v1
+    description: Production server
 security:
 - ApiKeyAuth: []
 - bearerAuth: []
@@ -30,17 +30,42 @@ paths:
               schema:
                 "$ref": "#/components/schemas/NewUser"
         '400':
-          description: Bad request if one of the required parameters is missing
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Error"
+          "$ref": "#/components/responses/BadRequest"
         '401':
-          description: Unauthorized if the X-API-KEY is not provided or is wrong
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+    get:
+      summary: List all users.
+      responses: 
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Unauthorized"
+                "$ref": "#/components/schemas/NewUser"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/users/{user_id}":
+    get:
+      summary: Creates a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NewUser"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -60,6 +85,19 @@ paths:
               schema:
                 "$ref": "#/components/schemas/Error"
 components:
+  responses:
+    UnauthorizedApiKey:
+      description: Unauthorized if the X-API-KEY is not provided or is wrong
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Unauthorized"
+    BadRequest:
+      description: Bad request if one of the required parameters is missing
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Error"
   schemas:
     User:
       required: [name, email]
