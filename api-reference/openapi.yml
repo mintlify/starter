@@ -94,6 +94,21 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
+    delete:
+      summary: Deletes a user.
+      responses: 
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted successfully.
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/payroll":
     get:
       description: Returns all plants from the system that the user has access to
@@ -129,6 +144,7 @@ components:
   schemas:
     Paginatioin:
       type: object
+      required: [offset, limit, count]
       properties:
         offset:
           description: The offset to start at - zero based
@@ -185,8 +201,12 @@ components:
           description: A message describing the error
           example: The request is missing the required field `name`
     Unauthorized:
-      allOf:
-      - "$ref": "#/components/schemas/Error"
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message describing the error
+          example: No X-API-KEY Key header provided or wrong value
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
