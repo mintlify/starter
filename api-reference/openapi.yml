@@ -35,13 +35,47 @@ paths:
           "$ref": "#/components/responses/UnauthorizedApiKey"
     get:
       summary: List all users.
+      parameters:
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [name, email, created_at]
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
       responses: 
         '201':
           description: Created
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/CreatedUser"
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/Paginatioin"
+                  users:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/CreatedUser"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -93,6 +127,27 @@ components:
           schema:
             "$ref": "#/components/schemas/Error"
   schemas:
+    Paginatioin:
+      type: object
+      properties:
+        offset:
+          description: The offset to start at - zero based
+          type: integer
+          format: int32
+          minimum: 1
+          default: 0
+        limit:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          default: 20
+        orederd_by:
+          type: string
+        count:
+          type: integer
+          format: int32
+          minimum: 0
     User:
       required: [name, email]
       type: object
@@ -127,6 +182,8 @@ components:
       properties:
         message:
           type: string
+          description: A message describing the error
+          example: The request is missing the required field `name`
     Unauthorized:
       allOf:
       - "$ref": "#/components/schemas/Error"
