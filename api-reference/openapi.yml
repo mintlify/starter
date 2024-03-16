@@ -43,6 +43,8 @@ paths:
           schema:
             type: string
             enum: [name, email, created_at]
+            default: created_at
+            example: name
         - name: offset
           in: query
           description: The offset to start at
@@ -63,8 +65,8 @@ paths:
             maximum: 100
             default: 20
       responses: 
-        '201':
-          description: Created
+        '200':
+          description: OK
           content:
             application/json:
               schema:
@@ -565,43 +567,89 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                url:
-                  type: string
-                  description: The url to send the webhook to
-                  example: https://webhook.site/3e3e3e3e-3e3e-3e3e-3e3e-3e3e3e3e3e3e
-                event:
-                  type: string
-                  description: The event to send the webhook for
-                  example: payroll
+              "$ref": "#/components/schemas/Webhook"
       responses: 
         '201':
           description: Created
           content:
             application/json:
               schema:
+                "$ref": "#/components/schemas/CreatedWebhook"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+    get:
+      summary: Lists all the webhooks
+      parameters:
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [name, url, created_at]
+            default: created_at
+            example: name
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  webhook_id:
-                    type: string
-                    description: The id of the webhook
-                    example: 95a0e70b-fe02-4f47-aef9-2efff279df71
-                  url:
-                    type: string
-                    description: The url to send the webhook to
-                    example: https://webhook.site/3e3e3e3e-3e3e-3e3e-3e3e-3e3e3e3e3e3e
-                  event:
-                    type: string
-                    description: The event to send the webhook for
-                    example: payroll
-                  created_at:
-                    "$ref": "#/components/schemas/Date"
+                  pagination:
+                    "$ref": "#/components/schemas/Paginatioin"
+                  users:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/CreatedWebhook"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
 
+  "/webhooks/{webhook_id}":
+    get:
+      summary: Returns a webhook.
+      parameters:
+        - in: path
+          name: webhook_id
+          schema:
+            type: string
+          required: true
+          description: ID of the webhook to get
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreatedWebhook"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
 components:
   responses:
     UnauthorizedApiKey:
@@ -637,8 +685,9 @@ components:
           minimum: 1
           maximum: 100
           default: 20
-        orederd_by:
+        oredered_by:
           type: string
+          example: name
         count:
           type: integer
           format: int32
@@ -736,7 +785,39 @@ components:
           type: array
           items:
             type: object
-  
+    Webhook:
+      type: object
+      required: [name, events, url]
+      properties:
+        name:
+          type: string
+          description: A unique name of the webhook
+          example: user-payroll-submitted
+        events:
+          type: array
+          items:
+            type: string
+          example: ["user-payroll-submitted", "user-payroll-created"]
+        url:
+          type: string
+          format: url
+          example: https://webhooks.company.com
+        secret:
+          type: string
+          description: A secret to sign the body of the webhook as described at "https://docs.goteal.co"
+    CreatedWebhook:
+      allOf:
+      - required: [webhook_id]
+        properties:
+          webhook_id:
+            type: string
+            description: The id of the webhook
+            example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+      - "$ref": "#/components/schemas/Webhook"
+      - required: [created_at]
+        properties:
+          created_at:
+            "$ref": "#/components/schemas/Date"
     
     Error:
       required:

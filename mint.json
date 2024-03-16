@@ -111,8 +111,8 @@
       "pages": [
         "api-reference/webhooks/create",
         "api-reference/webhooks/get",
-        "api-reference/webhooks/delete",
-        "api-reference/webhooks/list"
+        "api-reference/webhooks/list",
+        "api-reference/webhooks/delete"
       ]
     }
   ],
