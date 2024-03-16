@@ -628,7 +628,6 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-
   "/webhooks/{webhook_id}":
     get:
       summary: Returns a webhook.
@@ -648,6 +647,28 @@ paths:
                 "$ref": "#/components/schemas/CreatedWebhook"
         '400':
           "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+    delete:
+      summary: Deletes a webhook.
+      parameters:
+        - in: path
+          name: webhook_id
+          schema:
+            type: string
+          required: true
+          description: ID of the webhook to delete
+      responses: 
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
 components:
@@ -818,7 +839,6 @@ components:
         properties:
           created_at:
             "$ref": "#/components/schemas/Date"
-    
     Error:
       required:
       - message

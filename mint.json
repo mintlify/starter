@@ -66,8 +66,8 @@
       "pages": [
         "api-reference/users/create",
         "api-reference/users/get",
-        "api-reference/users/delete",
-        "api-reference/users/list"
+        "api-reference/users/list",
+        "api-reference/users/delete"
       ]
     },
     {
@@ -80,8 +80,8 @@
       "group": "Accounts",
       "pages": [
         "api-reference/accounts/create",
-        "api-reference/accounts/delete",
-        "api-reference/accounts/list"
+        "api-reference/accounts/list",
+        "api-reference/accounts/delete"
       ]
     },
     {
@@ -89,8 +89,8 @@
       "pages": [
         "api-reference/entries/connections-create",
         "api-reference/entries/payslips-create",
-        "api-reference/entries/delete",
-        "api-reference/entries/list"
+        "api-reference/entries/list",
+        "api-reference/entries/delete"
       ]
     },
     {
