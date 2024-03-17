@@ -256,6 +256,8 @@ paths:
   "/users/{user_id}/accounts/entries/connections":
     post:
       summary: Connects a user account to a payroll provider
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: user_id
@@ -296,6 +298,8 @@ paths:
   "/users/{user_id}/accounts/entries/payslips":
     post:
       summary: Fetches payslips for a user account
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: user_id
@@ -1032,6 +1036,6 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
