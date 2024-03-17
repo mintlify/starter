@@ -416,13 +416,19 @@ paths:
     get:
       summary: Returns all plants from the system that the user has access to
       parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to get payroll for
         - name: orederd_by
           in: query
           description: The field of the user to order by
           required: false
           schema:
             type: string
-            enum: [name, email, created_at]
+            enum: [account_id, entry_id, created_at]
             default: created_at
             example: name
         - name: offset
@@ -451,7 +457,16 @@ paths:
             application/json:
               schema:
                 type: object
+                required: [pagination, payroll_submissions]
                 properties:
+                  account_id:
+                    type: string
+                    format: uuid
+                    description: The id of the account
+                  entry_id:
+                    type: string
+                    format: uuid
+                    description: The id of the entry
                   pagination:
                     "$ref": "#/components/schemas/Paginatioin"
                   payroll_submissions: 
@@ -901,12 +916,35 @@ components:
           example: No X-API-KEY Key header provided or wrong value
     PayrollSubmission:
       type: object
+      required: 
+        - id
+        - account_id
+        - entry_id
+        - created_at
+        - identity_information
+        - employment_information
+        - income_information
       properties:
         id:
           type: string
           format: uuid
+        account_id:
+          type: string
+          format: uuid
+          description: The id of the account
+        entry_id:
+          type: string
+          format: uuid
+          description: The id of the entry
+        created_at:
+          "$ref": "#/components/schemas/Date"
+          description: The date the payroll was submitted
         identity_information:
           $ref: '#/components/schemas/IdentityInformation'
+        employment_information:
+          $ref: '#/components/schemas/EmploymentInformation'
+        income_information:
+          $ref: '#/components/schemas/IncomeInformation'
     IdentityInformation:
       type: object
       properties:
@@ -923,10 +961,6 @@ components:
           type: string
         NI_number:
           type: string
-        employment_information:
-          $ref: '#/components/schemas/EmploymentInformation'
-        income_information:
-          $ref: '#/components/schemas/IncomeInformation'
     Address:
       type: object
       properties:
