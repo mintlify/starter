@@ -85,6 +85,13 @@ paths:
   "/users/{user_id}":
     get:
       summary: Creates a user.
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to delete.
       responses: 
         '201':
           description: Created
@@ -97,7 +104,14 @@ paths:
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
     delete:
-      summary: Deletes a user.
+      summary: Deletes a user along with all the files, accounts, entries and payroll submission associated with it.
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to delete.
       responses: 
         '204':
           description: No Content
@@ -398,9 +412,38 @@ paths:
                     example: Entry deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/payroll":
+  "/payroll/{user_id}":
     get:
       summary: Returns all plants from the system that the user has access to
+      parameters:
+        - name: orederd_by
+          in: query
+          description: The field of the user to order by
+          required: false
+          schema:
+            type: string
+            enum: [name, email, created_at]
+            default: created_at
+            example: name
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
       responses:
         '200':
           description: Plant response
@@ -408,8 +451,13 @@ paths:
             application/json:
               schema:
                 type: object
-                items:
-                  "$ref": "#/components/schemas/CreatedUser"
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/Paginatioin"
+                  payroll_submissions: 
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/PayrollSubmission"
         '400':
           description: Unexpected error
           content:
@@ -418,7 +466,7 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/documents/{entry_id}":
+  "/documents/{user_id}/{file_name}":
     get:
       summary: Returns all documents for a user entry
       parameters:
@@ -511,7 +559,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [payroll_provider, created_at]
+            enum: [file_name, upload_time]
         - name: offset
           in: query
           description: The offset to start at
@@ -519,7 +567,7 @@ paths:
           schema:
             type: integer
             format: int32
-            minimum: 1
+            minimum: 0
             default: 0
         - name: limit
           in: query
@@ -530,18 +578,7 @@ paths:
             format: int32
             minimum: 1
             maximum: 100
-            default: 20
-      requestBody: 
-        required: true
-        content: 
-          application/json: 
-            schema: 
-              type: object
-              properties: 
-                user_id: 
-                  type: string
-                  description: The id of the user
-                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+            default: 50
       responses:
         '200':
           description: Document response
@@ -713,6 +750,10 @@ components:
           type: integer
           format: int32
           minimum: 0
+        total_count:
+          type: integer
+          format: int32
+          example: 89
     User:
       required: [name, email]
       type: object
@@ -855,6 +896,100 @@ components:
           type: string
           description: A message describing the error
           example: No X-API-KEY Key header provided or wrong value
+    PayrollSubmission:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        identity_information:
+          $ref: '#/components/schemas/IdentityInformation'
+    IdentityInformation:
+      type: object
+      properties:
+        name:
+          type: string
+        date_of_birth:
+          "$ref": "#/components/schemas/Date"
+        address:
+          $ref: '#/components/schemas/Address'
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        NI_number:
+          type: string
+        employment_information:
+          $ref: '#/components/schemas/EmploymentInformation'
+        income_information:
+          $ref: '#/components/schemas/IncomeInformation'
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        county:
+          type: string
+        city:
+          type: string
+        post_code:
+          type: string
+        country:
+          type: string
+    EmploymentInformation:
+      type: object
+      properties:
+        employer_name:
+          type: string
+        role:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        start_date:
+          "$ref": "#/components/schemas/Date"
+        leave_date:
+          "$ref": "#/components/schemas/Date"
+          nullable: true
+    IncomeInformation:
+      type: object
+      properties:
+        pay_date:
+          "$ref": "#/components/schemas/Date"
+        pay_interval_start:
+          "$ref": "#/components/schemas/Date"
+        pay_interval_end:
+          "$ref": "#/components/schemas/Date"
+        pay_frequency:
+          type: string
+        earnings:
+          $ref: '#/components/schemas/Earnings'
+        deductions:
+          $ref: '#/components/schemas/Deductions'
+    Earnings:
+      type: object
+      properties:
+        gross_pay:
+          type: number
+        net_pay:
+          type: number
+        base_salary:
+          type: number
+        bonus:
+          type: number
+    Deductions:
+      type: object
+      properties:
+        income_tax:
+          type: number
+        employee_ni:
+          type: number
+        employee_pension:
+          type: number
+        total_deductions:
+          type: number
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
