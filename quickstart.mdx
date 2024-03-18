@@ -1,86 +1,140 @@
 ---
-title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+title: 'Data'
+description: 'Manage your data easily and securely'
 ---
+This documentation is designed to provide developers with detailed insights into our API's structure, focusing on the management, delivery, and security of financial data.
 
-## Setup your development
+## 1. Data Structure
 
-Learn how to update your docs locally and and deploy them to the public.
+Our API organizes financial data into several key entities, each tailored for specific aspects of data handling and retrieval.
 
-### Edit and preview
+### Users `/users`
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+Represents the borrowers and end-users that give consented access and upload their payslips to our API.
 
-### Deploy your changes
+**Example:** Register a new user
+```bash
+curl --request GET \
+  --url https://api.sandbox.goteal.co/users/{user_id} \
+  --header 'X-API-KEY: <api-key>'
+```
 
-<AccordionGroup>
+### Accounts `/users/accounts`
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+Accounts are the payroll or financial accounts that users link to our platform, providing a stream of payroll data.
 
-</AccordionGroup>
+**Example:** Link a payroll account
+```bash
+curl --request POST \
+  --url https://api.sandbox.goteal.co/users/{user_id}/accounts \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "payroll_provider": "quickbooks",
+  "user_name": "john.smith@company.com",
+  "password": "very-secret-password"
+}'
+```
 
-## Update your docs
+### Entries `users/accounts/entries`
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+Entries log each data submission, tracking the origin (account connection or manual upload) and content type of the data.
 
-<CardGroup>
+**Example:** Retrieve submissions for a user
+```bash
+curl --request POST \
+  --url https://api.sandbox.goteal.co/users/{user_id}/accounts/entries/connections \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "payroll_provider": "quickbooks",
+  "user_name": "john.smith@gmail.com",
+  "password": "very-secret-password"
+}'
+```
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+### Payroll `payroll`
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+Aggregates detailed payroll information obtained through account synchronization or document analysis, including comprehensive earnings and deductions data.
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
+**Example:** Access payroll data
+```bash
+curl --request GET \
+  --url https://api.sandbox.goteal.co/payroll/{user_id} \
+  --header 'X-API-KEY: <api-key>''
+```
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
+### Documents `documents`
 
-</CardGroup>
+Original documents (e.g., payslips) uploaded by users are stored securely, serving as the basis for data extraction and verification.
+
+**Example:** Upload a payslip
+```bash
+curl --request GET \
+  --url https://api.sandbox.goteal.co/documents/{user_id}/{file_id} \
+  --header 'X-API-KEY: <api-key>'
+```
+
+## 2. Data Delivery
+
+Data delivery mechanisms are designed to ensure timely, secure, and efficient access to financial data, facilitating seamless integration and real-time processing.
+
+### Timing
+
+Data processing is immediate for connected accounts, with payroll information updated in real-time as new data becomes available. Manual uploads are processed within minutes of submission, ensuring prompt data availability.
+
+### Availability
+
+Our API provides round-the-clock access to processed data, supporting queries for real-time and historical financial information. Data is accessible through dedicated endpoints, with responses designed for easy integration into client applications.
+
+**Example:** Query user's latest payroll entry
+```bash
+curl https://api.example.com/v1/users/{userId}/payroll/latest \
+-H "Authorization: Bearer yourApiKey"
+```
+
+### `webhooks`
+
+Webhooks offer a proactive approach to data delivery, notifying client applications of specific events, such as new data submissions or updates to existing entries, facilitating immediate action or processing.
+
+**Example:** Configure a webhook for new payroll data
+```bash
+curl --request POST \
+  --url https://api.sandbox.goteal.co/webhooks \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "events": [
+    "user-payroll-submitted",
+    "user-payroll-created"
+  ],
+  "name": "user-payroll-submitted",
+  "secret": "<string>",
+  "url": "https://webhooks.company.com"
+}'
+```
+
+## 3. Data Security
+
+Adhering to strict security protocols, our API ensures the integrity and confidentiality of sensitive financial data throughout its lifecycle.
+
+### Permissioned Access
+
+Data access within our API is strictly governed by user permissions and OAuth protocols, ensuring that only authorized parties can retrieve or modify data. 
+
+### Data Deletion Requests
+
+In compliance with privacy laws, our API supports explicit requests for data deletion, allowing users to manage their data footprint effectively.
+
+**Example:** Request data deletion
+```bash
+curl --request DELETE \
+  --url https://api.sandbox.goteal.co/users/{user_id} \
+  --header 'X-API-KEY: <api-key>'
+```
+
+### Security and Compliance
+
+Our infrastructure employs advanced security measures, including data encryption, regular security audits, and compliance with global data protection standards (e.g., GDPR, CCPA), to safeguard user data against unauthorized access or breaches.
+
+This enhanced documentation provides a clearer, more detailed view of how our API manages, delivers, and secures financial data, emphasizing our commitment to data integrity, security, and user control.
