@@ -8,91 +8,246 @@ description: 'Learn how to preview changes locally'
   higher).
 </Info>
 
-Step 1. Install Mintlify on your OS:
+## Setting Up for Testing
 
-<CodeGroup>
+Before you begin testing, ensure you have the following:
+- An API key for authentication: select your unique 'user_id'
+- A callback URL for receiving webhook notifications: generate your URL in [webhook.site](https://webhook.site/)
 
-```bash npm
-npm i -g mintlify
-```
+In this sandbox the user is already created. This serves for you to test all endpoints with an already existing user data.
 
-```bash yarn
-yarn global add mintlify
-```
+## 1. Webhooks Setup `/webhooks`
 
-</CodeGroup>
-
-Step 2. Go to the docs are located (where you can find `mint.json`) and run the following command:
+Configure webhooks to receive notifications for events such as new payroll submissions.
 
 ```bash
-mintlify dev
+curl -X POST https://api.sandbox.goteal.co/webhooks \
+--header "X-API-KEY: 415b293d-07aa-4176-9c97-77fa0e42c24a" \
+--header "Content-Type: application/json" \
+--data '{
+    "events": ["user-payroll-submitted"],
+    "name": "test-webhook2-A",
+    "url": "https://webhook.site/4fb47692-2625-468d-a84b-4233a585ad0f",
+    "secret": "secret-123"
+}'
 ```
+**Response Example:**
 
-The documentation website is now available at `http://localhost:3000`.
+```json
+{
+"id": "abf7c04e-5dfa-4155-a4b0-edffe7263939",
+"client_id": "40a3fe5a-b6e9-45b1-a6c4-7ce66b6aaae1",
+"events": [user-payroll-submitted],
+"name": "test-webhook2-A",
+"url": "https://webhook.site/4fb47692-2625-468d-a84b-4233a585ad0f",
+"secret": "secret-123",
+"create_time": "2024-03-14T10:51:37.781349660Z"
+        }
+```
+This will create also a test user data automatically.
 
-### Custom Ports
+## 2. Generating a user token `/users/{userId}/token`
 
-Mintlify uses port 3000 by default. You can use the `--port` flag to customize the port Mintlify runs on. For example, use this command to run in port 3333:
+### 1.1 Creating a User `/users`
+
+After creating a webhook, generate a token to authenticate subsequent actions for that user. The token ensures that actions such as account connection and payslip uploads are securely attributed to the correct user.
 
 ```bash
-mintlify dev --port 3333
+curl --request POST \
+curl -X POST https://api.sandbox.goteal.co/users/user2-A/token 
+-H "X-API-KEY: 415b293d-07aa-4176-9c97-77fa0e42c24a"
 ```
 
-You will see an error like this if you try to run Mintlify in a port that's already taken:
+**Response Example:**
 
-```md
-Error: listen EADDRINUSE: address already in use :::3000
+```json
+"user_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfbmFtZSI6InN5cy1jbGllbnQxIiwidXNlcl9pZCI6InVzZXIyLUEiLCJpc3MiOiJzYW5kb2J4LmFwcC5nb3RlYWwuaW8iLCJleHAiOjE3MTA0MTcyMTR9.BSnwRH4IoD6QDEPtPR7wVWmhK5SwWRjTsZ7V2MhpJL4",
+"user_id":"user2-A",
+"payroll_app":"https://sandobx.app.goteal.io/?user=user2-A&jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfbmFtZSI6InN5cy1jbGllbnQxIiwidXNlcl9pZCI6InVzZXIyLUEiLCJpc3MiOiJzYW5kb2J4LmFwcC5nb3RlYWwuaW8iLCJleHAiOjE3MTA0MTcyMTR9.BSnwRH4IoD6QDEPtPR7wVWmhK5SwWRjTsZ7V2MhpJL4",
+"server_timestamp_ms": 1710413614591
 ```
 
-## Mintlify Versions
+## 3. Connecting a Payroll Account `/users/accounts`
 
-Each CLI is linked to a specific version of Mintlify. Please update the CLI if your local website looks different than production.
+This simulates the user connecting their payroll account for automatic data retrieval.
 
-<CodeGroup>
+```bash
+curl -X POST https://api.sandbox.goteal.co/users/user2-A/payroll/accounts \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfbmFtZSI6InN5cy1jbGllbnQxIiwidXNlcl9pZCI6InVzZXIyLUEiLCJpc3MiOiJzYW5kb2J4LmFwcC5nb3RlYWwuaW8iLCJleHAiOjE3MTA0MTcyMTR9.BSnwRH4IoD6QDEPtPR7wVWmhK5SwWRjTsZ7V2MhpJL4" \
+--data '{
+   "payroll_provider":"sage",
+   "login_credentials": {
+       "user":"u1",
+       "password":"pass"
+    }
+ }'
 
-```bash npm
-npm i -g mintlify@latest
+**Response Example:**
+
+```json
+'{
+   "payroll_provider":"sage",
+   "login_credentials": {
+       "user":"u1",
+       "password":"pass"
+    }
+ }'
+  "status": "success",
+  "message": "Payroll account connected successfully."
 ```
 
-```bash yarn
-yarn global upgrade mintlify
+## 3. Data Retrieval
+
+### 3.1 Fetching Payroll Data `/payroll`
+
+Retrieve the payroll data submitted through the connected account or document upload.
+
+```bash
+curl https://api.sandbox.goteal.co/users/user1/payroll -H "X-API-KEY: 415b293d-07aa-4176-9c97-77fa0e42c24a"
+```
+**Response Example:**
+
+```json
+[
+    {
+        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
+        "identity_information": {
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "phone": "+1234567890",
+            "address": {
+                "city": "Anycity",
+                "county": "Anyshire",
+                "street": "123 Main St",
+                "country": "Countryland",
+                "post_code": "AB12 3CD"
+            },
+            "NI_number": "AB123456C",
+            "date_of_birth": "1990-04-01",
+            "income_information": {
+                "earnings": {
+                    "bonus": 100,
+                    "net_pay": 1500,
+                    "gross_pay": 2000,
+                    "base_salary": 1900
+                },
+                "pay_date": "2024-02-15",
+                "deductions": {
+                    "income_tax": 300,
+                    "employee_ni": 150,
+                    "employee_pension": 50,
+                    "total_deductions": 500
+                },
+                "pay_frequency": "weekly",
+                "pay_interval_end": "2024-02-15",
+                "pay_interval_start": "2024-02-01"
+            },
+            "employment_information": {
+                "role": "Software Developer",
+                "type": "Full-Time",
+                "status": "Active",
+                "leave_date": null,
+                "start_date": "2018-06-01",
+                "employer_name": "Acme Corp"
+            }
+        }
+    },
+    {
+        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
+        "identity_information": {
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "phone": "+1234567890",
+            "address": {
+                "city": "Anycity",
+                "county": "Anyshire",
+                "street": "123 Main St",
+                "country": "Countryland",
+                "post_code": "AB12 3CD"
+            },
+            "NI_number": "AB123456C",
+            "date_of_birth": "1990-04-01",
+            "income_information": {
+                "earnings": {
+                    "bonus": 100,
+                    "net_pay": 1500,
+                    "gross_pay": 2000,
+                    "base_salary": 1900
+                },
+                "pay_date": "2024-02-15",
+                "deductions": {
+                    "income_tax": 300,
+                    "employee_ni": 150,
+                    "employee_pension": 50,
+                    "total_deductions": 500
+                },
+                "pay_frequency": "weekly",
+                "pay_interval_end": "2024-02-15",
+                "pay_interval_start": "2024-02-01"
+            },
+            "employment_information": {
+                "role": "Software Developer",
+                "type": "Full-Time",
+                "status": "Active",
+                "leave_date": null,
+                "start_date": "2018-06-01",
+                "employer_name": "Acme Corp"
+            }
+        }
+    },
+    {
+        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
+        "identity_information": {
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "phone": "+1234567890",
+            "address": {
+                "city": "Anycity",
+                "county": "Anyshire",
+                "street": "123 Main St",
+                "country": "Countryland",
+                "post_code": "AB12 3CD"
+            },
+            "NI_number": "AB123456C",
+            "date_of_birth": "1990-04-01",
+            "income_information": {
+                "earnings": {
+                    "bonus": 100,
+                    "net_pay": 1500,
+                    "gross_pay": 2000,
+                    "base_salary": 1900
+                },
+                "pay_date": "2024-02-15",
+                "deductions": {
+                    "income_tax": 300,
+                    "employee_ni": 150,
+                    "employee_pension": 50,
+                    "total_deductions": 500
+                },
+                "pay_frequency": "weekly",
+                "pay_interval_end": "2024-02-15",
+                "pay_interval_start": "2024-02-01"
+            },
+            "employment_information": {
+                "role": "Software Developer",
+                "type": "Full-Time",
+                "status": "Active",
+                "leave_date": null,
+                "start_date": "2018-06-01",
+                "employer_name": "Acme Corp"
+            }
+        }
+    }
+]
 ```
 
-</CodeGroup>
+## 4. Cleanup: Deleting a User `/users`
 
-## Deployment
+After testing, clean up by deleting the test user and their associated data.
 
-<Tip>
-  Unlimited editors available under the [Startup
-  Plan](https://mintlify.com/pricing)
-</Tip>
-
-You should see the following if the deploy successfully went through:
-
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-## Troubleshooting
-
-Here's how to solve some common problems when working with the CLI.
-
-<AccordionGroup>
-  <Accordion title="Mintlify is not loading">
-    Update to Node v18. Run `mintlify install` and try again.
-  </Accordion>
-  <Accordion title="No such file or directory on Windows">
-Go to the `C:/Users/Username/.mintlify/` directory and remove the `mint`
-folder. Then Open the Git Bash in this location and run `git clone
-https://github.com/mintlify/mint.git`.
-
-Repeat step 3.
-
-  </Accordion>
-  <Accordion title="Getting an unknown error">
-    Try navigating to the root of your device and delete the ~/.mintlify folder.
-    Then run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in a CLI version? [Check out the CLI changelog.](/changelog/command-line)
+```bash
+curl --request DELETE \
+  --url https://api.sandbox.goteal.co/users/{user_id} \
+  --header 'X-API-KEY: <api-key>'
+```
