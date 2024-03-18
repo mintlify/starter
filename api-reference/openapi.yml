@@ -72,7 +72,7 @@ paths:
                 type: object
                 properties:
                   pagination:
-                    "$ref": "#/components/schemas/Paginatioin"
+                    "$ref": "#/components/schemas/PaginationWithOrderedBy"
                   users:
                     type: array
                     items:
@@ -92,8 +92,8 @@ paths:
           required: true
           description: ID of the user to delete.
       responses: 
-        '201':
-          description: Created
+        '200':
+          description: REturns the user details
           content:
             application/json:
               schema:
@@ -124,16 +124,19 @@ paths:
                     example: User deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/users/{user_id}/token":
+  "/user-tokens":
     post:
       summary: Generate a link token for authentication in subsequent steps to a unique user ID.
-      parameters:
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                user_id:
+                  type: string
+                  description: The id of the user
+                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
       responses: 
         '201':
           description: Created
@@ -143,22 +146,22 @@ paths:
                 "$ref": "#/components/schemas/UserToken"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/users/{user_id}/accounts":
+  "/accounts":
     post:
       summary: Creates an account for the user e.g. a Xero account
-      parameters:
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to create an account for
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Accounts"
+              allOf:
+                - type: object
+                  properties:
+                    user_id:
+                      type: string
+                      description: The id of the user
+                      example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+                - "$ref": "#/components/schemas/Accounts"
       responses: 
         '201':
           description: Created
@@ -173,7 +176,7 @@ paths:
     get:
       summary: Returns all accounts for the user (e.g. Xero accounts)
       parameters:
-        - in: path
+        - in: query
           name: user_id
           schema:
             type: string
@@ -185,7 +188,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [payroll_provider, user_name, created_at]
+            enum: [payroll_provider, created_at]
         - name: offset
           in: query
           description: The offset to start at
@@ -214,7 +217,7 @@ paths:
                 type: object
                 properties:
                   pagination:
-                    "$ref": "#/components/schemas/Paginatioin"
+                    "$ref": "#/components/schemas/PaginationWithOrderedBy"
                   accounts:
                     type: array
                     items:
@@ -223,16 +226,10 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/users/{user_id}/accounts/{account_id}":
+  "/accounts/{account_id}":
     delete:
       summary: Deletes an account for the user (e.g. a Xero account)
       parameters:
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to delete an account for
         - in: path
           name: account_id
           schema:
@@ -252,89 +249,11 @@ paths:
                     example: Account deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/users/{user_id}/accounts/entries/connections":
-    post:
-      summary: Connects a user account to a payroll provider
-      security:
-        - BearerAuth: []
-      parameters:
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to connect an account for
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                payroll_provider:
-                  type: string
-                  description: The payroll provider to use
-                  example: quickbooks
-                user_name:
-                  type: string
-                  description: The login of the user
-                  example: john.smith@gmail.com
-                password: 
-                  type: string
-                  description: The password of the user
-                  example: very-secret-password
-      responses: 
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PayrollData"
-        '400':
-          "$ref": "#/components/responses/BadRequest"
-        '401':
-          "$ref": "#/components/responses/UnauthorizedBearer"
-  "/users/{user_id}/accounts/entries/payslips":
-    post:
-      summary: Fetches payslips for a user account
-      security:
-        - BearerAuth: []
-      parameters:
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to fetch payslips for
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                payslip:
-                  type: string
-                  format: binary
-                  description: File to upload
-                  # example: >
-                  #   @"/local/file/system/path/to/payslip/Payslip_44404148.pdf"
-      responses: 
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/PayrollData"
-        '400':
-          "$ref": "#/components/responses/BadRequest"
-        '401':
-          "$ref": "#/components/responses/UnauthorizedBearer"
-  "/users/{user_id}/accounts/entries":
+  "/entries":
     get:
       summary: Returns all entries for a user account sorted desc by created_at
       parameters:
-        - in: path
+        - in: query
           name: user_id
           schema:
             type: string
@@ -384,16 +303,10 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/users/{user_id}/accounts/entry/{entry_id}":
+  "/entries/{entry_id}":
     delete:
       summary: Deletes an entry for the user
       parameters:
-        - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to delete an entry for
         - in: path
           name: entry_id
           schema:
@@ -413,6 +326,64 @@ paths:
                     example: Entry deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/entries/connections":
+    post:
+      summary: Connects a user account to a payroll provider
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [account_id]
+              properties:
+                account_id:
+                  type: string
+                  format: uuid
+                  description: The account id to use to connect to the payroll provider
+                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PayrollData"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedBearer"
+  "/entries/payslips":
+    post:
+      summary: Fetches payslips for a user account
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                payslip:
+                  type: string
+                  format: binary
+                  description: File to upload
+                  example: >
+                    @"/local/file/system/path/to/payslip/Payslip_44404148.pdf"
+      responses: 
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PayrollData"
+        '400':
+          "$ref": "#/components/responses/BadRequest"
+        '401':
+          "$ref": "#/components/responses/UnauthorizedBearer"
   "/payroll/{user_id}":
     get:
       summary: Returns all plants from the system that the user has access to
@@ -476,7 +447,7 @@ paths:
                 required: [pagination, payroll_submissions]
                 properties:
                   pagination:
-                    "$ref": "#/components/schemas/Paginatioin"
+                    "$ref": "#/components/schemas/Pagination"
                   payroll_submissions: 
                     type: array
                     items:
@@ -489,7 +460,7 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/documents/{user_id}/{file_id}":
+  "/documents/{file_id}":
     get:
       summary: Returns all documents for a user entry
       parameters:
@@ -713,7 +684,16 @@ components:
       type: string
       format: date
       example: 2019-05-17T00:00:00.000Z
-    Paginatioin:
+    PaginationWithOrderedBy:
+      type: object
+      allOf:
+      - "$ref": "#/components/schemas/Pagination"
+      required: [offset, limit, count, ordered_by]
+      properties:
+        ordered_by:
+          type: string
+          example: created_at
+    Pagination:
       type: object
       required: [offset, limit, count]
       properties:
@@ -731,9 +711,6 @@ components:
           maximum: 100
           default: 20
           example: 25
-        oredered_by:
-          type: string
-          example: name
         count:
           type: integer
           format: int32
@@ -748,15 +725,15 @@ components:
       type: object
       properties:
         user_id:
-          description: Optionl Id of the user. If not passed, it will be generated.
+          description: Optionl Id of the user. If not passed, it will be generated. If it is passed it must be unique for the client.
           type: string
           example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         name:
-          description: The full name of the user.
+          description: The full name of the user. It doens't have to be unique for the client.
           type: string
           example: John Smith
         email:
-          description: The email of the user.
+          description: The email of the user. It doesn't have to be uniqe for the client.
           type: string
           format: email
           example: john.smith@company.com
@@ -779,7 +756,7 @@ components:
             "$ref": "#/components/schemas/Date"
     Accounts:
       type: object
-      required: [payroll_provider, user_name, password]
+      required: [payroll_provider]
       properties:
         payroll_provider:
           type: string
@@ -1019,3 +996,4 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+      description: Bearer token for authentication. The token should be the one returned by the /user-tokens endpoint.

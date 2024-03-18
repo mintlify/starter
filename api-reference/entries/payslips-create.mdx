@@ -1,4 +1,133 @@
 ---
-title: 'Fetch a payslip'
-openapi: 'POST /users/{user_id}/accounts/entries/payslips'
+title: 'Upload payslips'
+openapi: 'POST /entries/payslips'
 ---
+
+
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.sandbox.goteal.co/entries/payslips \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: multipart/form-data' \
+  --form 'payslip=@"/local/file/system/path/to/payslip/Payslip1.pdf"'
+  --form 'payslip=@"/local/file/system/path/to/payslip/Payslip2.pdf"'
+  --form 'payslip=@"/local/file/system/path/to/payslip/Payslip3.pdf"'
+```
+
+```python Python
+import requests
+
+url = "https://api.sandbox.goteal.co/entries/payslips"
+
+payload = "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"payslip\"\r\n\r\n@\"/local/file/system/path/to/payslip/Payslip_44404148.pdf\"\n\r\n-----011000010111000001101001--\r\n\r\n"
+headers = {
+    "Authorization": "Bearer <token>",
+    "Content-Type": "multipart/form-data"
+}
+
+response = requests.request("POST", url, data=payload, headers=headers)
+
+print(response.text)
+
+```
+
+
+```javascript JavaScript
+const form = new FormData();
+form.append("payslip", "@\"/local/file/system/path/to/payslip/Payslip_44404148.pdf\"\n");
+
+const options = {
+  method: 'POST',
+  headers: {Authorization: 'Bearer <token>', 'Content-Type': 'multipart/form-data'}
+};
+
+options.body = form;
+
+fetch('https://api.sandbox.goteal.co/entries/payslips', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
+```
+
+
+```php PHP
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.sandbox.goteal.co/entries/payslips",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"payslip\"\r\n\r\n@\"/local/file/system/path/to/payslip/Payslip_44404148.pdf\"\n\r\n-----011000010111000001101001--\r\n\r\n",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer <token>",
+    "Content-Type: multipart/form-data"
+  ],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+  echo $response;
+}
+```
+
+
+
+```go Go
+package main
+
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io/ioutil"
+)
+
+func main() {
+
+	url := "https://api.sandbox.goteal.co/entries/payslips"
+
+	payload := strings.NewReader("-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"payslip\"\r\n\r\n@\"/local/file/system/path/to/payslip/Payslip_44404148.pdf\"\n\r\n-----011000010111000001101001--\r\n\r\n")
+
+	req, _ := http.NewRequest("POST", url, payload)
+
+	req.Header.Add("Authorization", "Bearer <token>")
+	req.Header.Add("Content-Type", "multipart/form-data")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(res)
+	fmt.Println(string(body))
+
+}
+```
+
+
+
+```java Java
+HttpResponse<String> response = Unirest.post("https://api.sandbox.goteal.co/entries/payslips")
+  .header("Authorization", "Bearer <token>")
+  .header("Content-Type", "multipart/form-data")
+  .body("-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"payslip\"\r\n\r\n@\"/local/file/system/path/to/payslip/Payslip_44404148.pdf\"\n\r\n-----011000010111000001101001--\r\n\r\n")
+  .asString();
+```
+
+</RequestExample>
+

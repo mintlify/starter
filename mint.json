@@ -62,7 +62,7 @@
     {
       "group": "User Token",
       "pages": [
-        "api-reference/users/token"
+        "api-reference/users/tokens"
       ]
     },
     {
