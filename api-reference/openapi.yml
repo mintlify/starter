@@ -11,7 +11,6 @@ servers:
     description: Production server
 security:
 - ApiKeyAuth: []
-- bearerAuth: []
 paths:
   "/users":
     post:
@@ -294,7 +293,7 @@ paths:
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
-          "$ref": "#/components/responses/UnauthorizedApiKey"
+          "$ref": "#/components/responses/UnauthorizedBearer"
   "/users/{user_id}/accounts/entries/payslips":
     post:
       summary: Fetches payslips for a user account
@@ -310,18 +309,16 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
-                account_id:
+                payslip:
                   type: string
-                  description: The id of the account
-                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
-                from_date:
-                  "$ref": "#/components/schemas/Date"
-                to_date:
-                  "$ref": "#/components/schemas/Date"
+                  format: binary
+                  description: File to upload
+                  # example: >
+                  #   @"/local/file/system/path/to/payslip/Payslip_44404148.pdf"
       responses: 
         '201':
           description: Created
@@ -332,7 +329,7 @@ paths:
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
-          "$ref": "#/components/responses/UnauthorizedApiKey"
+          "$ref": "#/components/responses/UnauthorizedBearer"
   "/users/{user_id}/accounts/entries":
     get:
       summary: Returns all entries for a user account
@@ -485,65 +482,22 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/documents/{user_id}/{file_name}":
+  "/documents/{user_id}/{file_id}":
     get:
       summary: Returns all documents for a user entry
       parameters:
         - in: path
-          name: entry_id
+          name: user_id
           schema:
             type: string
           required: true
-          description: The id of the entry
-        - name: document_id
-          in: query
-          description: The id of the document
-          required: false
-          schema:
-            type: string
-        - name: user_id
-          in: query
           description: ID of the user to get documents for
-          required: false
+        - in: path
+          name: file_id
           schema:
             type: string
-        - name: orederd_by
-          in: query
-          description: The field of the user to order by
-          required: false
-          schema:
-            type: string
-            enum: [payroll_provider, created_at]
-        - name: offset
-          in: query
-          description: The offset to start at
-          required: false
-          schema:
-            type: integer
-            format: int32
-            minimum: 1
-            default: 0
-        - name: limit
-          in: query
-          description: The number of items to return
-          required: false
-          schema:
-            type: integer
-            format: int32
-            minimum: 1
-            maximum: 100
-            default: 20
-      requestBody: 
-        required: true
-        content: 
-          application/json: 
-            schema: 
-              type: object
-              properties: 
-                user_id: 
-                  type: string
-                  description: The id of the user
-                  example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+          required: true
+          description: The id of the file
       responses: 
         '201':
           description: Created
@@ -741,6 +695,12 @@ components:
         application/json:
           schema:
             "$ref": "#/components/schemas/Error"
+    UnauthorizedBearer:
+      description: Unauthorized if the X-API-KEY is not provided or is wrong
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/UnauthorizedBarer"
   schemas:
     Date:
       type: string
@@ -846,29 +806,22 @@ components:
             "$ref": "#/components/schemas/Date"
     PayrollData:
       type: object
+      required: [account_id, entry_id, pagination, payroll_submissions]
       properties:
-        user_id:
+        account_id:
           type: string
-          description: The id of the user
-          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
+          format: uuid
+          description: The id of the account
         entry_id:
           type: string
+          format: uuid
           description: The id of the entry
-          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
-        created_at:
-          "$ref": "#/components/schemas/Date"
-        payroll_provider:
-          type: string
-          description: The payroll provider to use
-          example: quickbooks
-        number_entries:
-          type: integer
-          description: The number of entries
-          example: 5
-        entry:
+        pagination:
+          "$ref": "#/components/schemas/Paginatioin"
+        payroll_submissions: 
           type: array
           items:
-            type: object
+            "$ref": "#/components/schemas/PayrollSubmission"
     Webhook:
       type: object
       required: [name, events, url]
@@ -917,7 +870,14 @@ components:
         message:
           type: string
           description: A message describing the error
-          example: No X-API-KEY Key header provided or wrong value
+          example: No X-API-KEY header provided or wrong value
+    UnauthorizedBarer:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message describing the error
+          example: "Not Authorization: Bearer <token> provided or wrong value"
     PayrollSubmission:
       type: object
       required: 
