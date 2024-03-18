@@ -1,24 +1,14 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'Quickstart'
+description: 'Welcome to the comprehensive guide to use Teal API, a pivotal resource for accessing real-time payroll and employment verification data.'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+Teal is a payroll API platform, streamlining the entire income verification process by connecting you to data sourced from payroll and HR systems or analysing income documents, all with the user consent at the core.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Teal supports you during the underwriting process, increasing both speed and accuracy levels. With this information you can assess the level of affordability of a borrower, by verifying their level of income and their employment status.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
 
 ## Authentication
 
@@ -31,3 +21,52 @@ All API endpoints are authenticated using Bearer tokens and picked up from the s
   }
 ]
 ```
+Secure your API interactions through standard HTTP basic authentication:
+
+- `username` — Your `api_key_id`
+- `password` — Your `api_key_secret`
+
+Example request:
+
+```json
+curl <https://api>.goteal.co/v2/[endpoint] \\
+  -u api_key_id:api_key_secret
+```
+
+## Environments
+
+Our API offers two environments to cater to different stages of development and production:
+
+- **Production:** For real-world use. Base URL: `https://api.goteal.co/v2`
+- **Sandbox:** For testing with simulated data. Base URL: `https://api-sandbox.goteal.co/v2`
+
+
+## Data
+
+After connecting a new account, data is retrieved in stages:
+
+- **Instant Data:** Quickly available post-connection, covering static information that changes infrequently.
+- **Event Data:** Compiled over time, providing a historical view that can extend back several years.
+
+We continuously update and enrich your data as new information becomes available.
+
+
+
+### Security
+
+To protect your API keys:
+
+- Only make API calls from server-side applications.
+- Avoid embedding API keys in client-side code.
+- Store keys securely, outside of your application's source code repository.
+- Regularly review and prune old or unused keys.
+
+### Handling Responses
+
+Our API uses standard HTTP status codes for feedback:
+
+- `200 OK`: Request succeeded.
+- `401 Unauthorized`: Authentication failed.
+- `429 Too Many Requests`: Rate limit exceeded, etc.
+
+
