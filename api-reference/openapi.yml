@@ -332,7 +332,7 @@ paths:
           "$ref": "#/components/responses/UnauthorizedBearer"
   "/users/{user_id}/accounts/entries":
     get:
-      summary: Returns all entries for a user account
+      summary: Returns all entries for a user account sorted desc by created_at
       parameters:
         - in: path
           name: user_id
@@ -340,13 +340,13 @@ paths:
             type: string
           required: true
           description: ID of the user to get entries for
-        - name: orederd_by
+        - name: account_id
           in: query
-          description: The field of the user to order by
+          description: The offset to start at
           required: false
           schema:
             type: string
-            enum: [payroll_provider, created_at]
+            format: uuid
         - name: offset
           in: query
           description: The offset to start at
@@ -379,7 +379,7 @@ paths:
                   entries:
                     type: array
                     items:
-                      "$ref": "#/components/schemas/PayrollData"
+                      "$ref": "#/components/schemas/Entry"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -451,6 +451,21 @@ paths:
             minimum: 1
             maximum: 100
             default: 20
+        - name: account_id
+          in: query
+          description: The account_id to fileter on
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: entry_id
+          in: query
+          description: The account_id to fileter on
+          required: false
+          schema:
+            type: string
+            format: uuid
+        
       responses:
         '200':
           description: Plant response
@@ -460,14 +475,6 @@ paths:
                 type: object
                 required: [pagination, payroll_submissions]
                 properties:
-                  account_id:
-                    type: string
-                    format: uuid
-                    description: The id of the account
-                  entry_id:
-                    type: string
-                    format: uuid
-                    description: The id of the entry
                   pagination:
                     "$ref": "#/components/schemas/Paginatioin"
                   payroll_submissions: 
@@ -802,6 +809,19 @@ components:
           type: string
           description: The login of the user
           example: john.smith@company.com
+        created_at:
+            "$ref": "#/components/schemas/Date"
+    Entry:
+      type: object
+      properties:
+        account_id:
+          type: string
+          format: uuid
+          description: The id of the account
+        entry_id:
+          type: string
+          format: uuid
+          description: The id of the entry
         created_at:
             "$ref": "#/components/schemas/Date"
     PayrollData:
