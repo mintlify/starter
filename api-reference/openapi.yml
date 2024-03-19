@@ -793,10 +793,12 @@ components:
           type: string
           format: uuid
           description: The id of the account
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         entry_id:
           type: string
           format: uuid
           description: The id of the entry
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         created_at:
             "$ref": "#/components/schemas/Date"
     DocumentResponse:
@@ -807,6 +809,7 @@ components:
           type: string
           format: uuid
           description: A unique document identifier
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         file_name:
           type: string
           description: Name of the file
@@ -829,6 +832,7 @@ components:
           type: string
           format: uuid
           description: The id of the account
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         entry_id:
           type: string
           format: uuid
@@ -858,6 +862,7 @@ components:
           type: string
           description: A secret to sign the body of the webhook as described at "https://docs.goteal.co"
           writeOnly: true # Not included in response objects
+          example: very-secret
     CreatedWebhook:
       allOf:
       - required: [webhook_id]
@@ -908,17 +913,21 @@ components:
         id:
           type: string
           format: uuid
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71
         account_id:
           type: string
           format: uuid
           description: The id of the account
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71S
         entry_id:
           type: string
           format: uuid
           description: The id of the entry
+          example: 95a0e70b-fe02-4f47-aef9-2efff279df71S1
         created_at:
           "$ref": "#/components/schemas/Date"
           description: The date the payroll was submitted
+          example: 2019-05-17T00:00:00.000Z
         identity_information:
           $ref: '#/components/schemas/IdentityInformation'
         employment_information:
@@ -930,41 +939,67 @@ components:
       properties:
         name:
           type: string
+          description: The full name of the user
+          example: John Smith
         date_of_birth:
           "$ref": "#/components/schemas/Date"
         address:
           $ref: '#/components/schemas/Address'
         email:
           type: string
+          description: The email of the user
           format: email
+          example: john.smith@company.com
         phone:
           type: string
+          description: The phone number of the user
+          example: +447123456789
         NI_number:
           type: string
+          description: The national insurance number of the user
+          example: AB123456C
     Address:
       type: object
       properties:
         street:
           type: string
+          description: The street of the address
+          example: 123 Main Street
         county:
           type: string
+          description: The county of the address
+          example: Greater London
         city:
           type: string
+          description: The city of the address
+          example: London
         post_code:
           type: string
+          description: The post code of the address
+          example: SW1A 1AA
         country:
           type: string
+          description: The country of the address
+          example: United Kingdom
     EmploymentInformation:
       type: object
       properties:
         employer_name:
           type: string
+          description: The name of the employer
+          example: Acme Ltd
         role:
           type: string
+          description: The role of the user
+          example: Software Engineer
         type:
           type: string
+          description: The type of employment
+          example: Full-time
         status:
           type: string
+          description: The status of the employment
+          example: Active
         start_date:
           "$ref": "#/components/schemas/Date"
         leave_date:
@@ -975,12 +1010,23 @@ components:
       properties:
         pay_date:
           "$ref": "#/components/schemas/Date"
+          type: string
+          description: The date the payroll was submitted
+          example: 2023-05-27
         pay_interval_start:
           "$ref": "#/components/schemas/Date"
+          type: string
+          description: The start date of the pay interval
+          example: 2023-05-01
         pay_interval_end:
           "$ref": "#/components/schemas/Date"
+          type: string
+          description: The end date of the pay interval
+          example: 2023-05-31
         pay_frequency:
           type: string
+          description: The frequency of the pay
+          example: Monthly
         earnings:
           $ref: '#/components/schemas/Earnings'
         deductions:
@@ -990,23 +1036,39 @@ components:
       properties:
         gross_pay:
           type: number
+          description: The gross pay
+          example: 3500
         net_pay:
           type: number
+          description: The net pay
+          example: 2500
         base_salary:
           type: number
+          description: The base salary
+          example: 3000
         bonus:
           type: number
+          description: The bonus
+          example: 500
     Deductions:
       type: object
       properties:
         income_tax:
           type: number
+          description: The income tax
+          example: 500
         employee_ni:
           type: number
+          description: The employee national insurance
+          example: 200
         employee_pension:
           type: number
+          description: The employee pension
+          example: 300
         total_deductions:
           type: number
+          description: The total deductions
+          example: 1000
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
