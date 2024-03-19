@@ -482,7 +482,7 @@ paths:
           content:
             application/json:
               schema:
-               "$ref": "#/components/schemas/PayrollSubmission"
+               "$ref": "#/components/schemas/DocumentResponse"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -497,7 +497,7 @@ paths:
             type: string
           required: true
           description: ID of the user to get documents for
-        - name: orederd_by
+        - name: ordered_by
           in: query
           description: The field of the user to order by
           required: false
@@ -536,7 +536,7 @@ paths:
                   documents:
                     type: array
                     items:
-                      "$ref": "#/components/schemas/PayrollSubmission"
+                      "$ref": "#/components/schemas/DocumentResponse"
         '400':
           description: Unexpected error
           content:
@@ -799,6 +799,28 @@ components:
           description: The id of the entry
         created_at:
             "$ref": "#/components/schemas/Date"
+    DocumentResponse:
+      type: object
+      required: ["document_id", "file_name", "type", "upload_time", "file_contents"]
+      properties:
+        document_id:
+          type: string
+          format: uuid
+          description: A unique document identifier
+        file_name:
+          type: string
+          description: Name of the file
+          example: payslip1.pdf
+        type:
+          type: string
+          description: The type of document
+          example: "Payslip"
+        upload_time:
+          "$ref": "#/components/schemas/Date"
+        file_contents:
+          type: string
+          description: Base-64 encoded string containing file contents
+          example: "JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoS..."
     PayrollData:
       type: object
       required: [account_id, entry_id, pagination, payroll_submissions]
