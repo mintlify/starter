@@ -294,7 +294,7 @@ paths:
                 type: object
                 properties:
                   pagination:
-                    "$ref": "#/components/schemas/Paginatioin"
+                    "$ref": "#/components/schemas/Pagination"
                   entries:
                     type: array
                     items:
@@ -477,34 +477,27 @@ paths:
           required: true
           description: The id of the file
       responses: 
-        '201':
-          description: Created
+        '200':
+          description: Document response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  pagination:
-                    "$ref": "#/components/schemas/Paginatioin"
-                  documents:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/PayrollData"
+               "$ref": "#/components/schemas/DocumentResponse"
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/documents/{user_id}":
+  "/documents":
     get:
       summary: List all documents for a user.
       parameters:
-        - in: path
+        - in: query
           name: user_id
           schema:
             type: string
           required: true
           description: ID of the user to get documents for
-        - name: orederd_by
+        - name: ordered_by
           in: query
           description: The field of the user to order by
           required: false
@@ -537,8 +530,13 @@ paths:
             application/json:
               schema:
                 type: object
-                items:
-                  "$ref": "#/components/schemas/CreatedUser"
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/Pagination"
+                  documents:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/DocumentResponse"
         '400':
           description: Unexpected error
           content:
@@ -607,7 +605,7 @@ paths:
                 type: object
                 properties:
                   pagination:
-                    "$ref": "#/components/schemas/Paginatioin"
+                    "$ref": "#/components/schemas/Pagination"
                   users:
                     type: array
                     items:
@@ -801,6 +799,28 @@ components:
           description: The id of the entry
         created_at:
             "$ref": "#/components/schemas/Date"
+    DocumentResponse:
+      type: object
+      required: ["document_id", "file_name", "type", "upload_time", "file_contents"]
+      properties:
+        document_id:
+          type: string
+          format: uuid
+          description: A unique document identifier
+        file_name:
+          type: string
+          description: Name of the file
+          example: payslip1.pdf
+        type:
+          type: string
+          description: The type of document
+          example: "Payslip"
+        upload_time:
+          "$ref": "#/components/schemas/Date"
+        file_contents:
+          type: string
+          description: Base-64 encoded string containing file contents
+          example: "JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoS..."
     PayrollData:
       type: object
       required: [account_id, entry_id, pagination, payroll_submissions]
@@ -813,8 +833,6 @@ components:
           type: string
           format: uuid
           description: The id of the entry
-        pagination:
-          "$ref": "#/components/schemas/Paginatioin"
         payroll_submissions: 
           type: array
           items:
@@ -839,6 +857,7 @@ components:
         secret:
           type: string
           description: A secret to sign the body of the webhook as described at "https://docs.goteal.co"
+          writeOnly: true # Not included in response objects
     CreatedWebhook:
       allOf:
       - required: [webhook_id]
