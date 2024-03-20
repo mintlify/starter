@@ -12,48 +12,47 @@ Our API organizes financial data into several key entities, each tailored for sp
 
 Represents the borrowers and end-users that give consented access and upload their payslips to our API.
 
-**Example:** Register a new user
+**Example:** Retrieve a new user
 ```bash
 curl --request GET \
   --url https://api.sandbox.goteal.co/users/{user_id} \
   --header 'X-API-KEY: <api-key>'
 ```
 
-### Accounts `/users/accounts`
+### Accounts `/accounts`
 
 Accounts are the payroll or financial accounts that users link to our platform, providing a stream of payroll data.
 
 **Example:** Link a payroll account
 ```bash
 curl --request POST \
-  --url https://api.sandbox.goteal.co/users/{user_id}/accounts \
+  --url https://api.sandbox.goteal.co/accounts \
   --header 'Content-Type: application/json' \
   --header 'X-API-KEY: <api-key>' \
   --data '{
+  "user_id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+  "password": "very-secret-password",
   "payroll_provider": "quickbooks",
-  "user_name": "john.smith@company.com",
-  "password": "very-secret-password"
+  "user_name": "john.smith@company.com"
 }'
 ```
 
-### Entries `users/accounts/entries`
+### Entries `/entries`
 
 Entries log each data submission, tracking the origin (account connection or manual upload) and content type of the data.
 
 **Example:** Retrieve submissions for a user
 ```bash
 curl --request POST \
-  --url https://api.sandbox.goteal.co/users/{user_id}/accounts/entries/connections \
+  --url https://api.sandbox.goteal.co/entries/connections \
+  --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --header 'X-API-KEY: <api-key>' \
   --data '{
-  "payroll_provider": "quickbooks",
-  "user_name": "john.smith@gmail.com",
-  "password": "very-secret-password"
+  "account_id": "95a0e70b-fe02-4f47-aef9-2efff279df71"
 }'
 ```
 
-### Payroll `payroll`
+### Payroll `/payroll`
 
 Aggregates detailed payroll information obtained through account synchronization or document analysis, including comprehensive earnings and deductions data.
 
@@ -64,14 +63,14 @@ curl --request GET \
   --header 'X-API-KEY: <api-key>''
 ```
 
-### Documents `documents`
+### Documents `/documents`
 
 Original documents (e.g., payslips) uploaded by users are stored securely, serving as the basis for data extraction and verification.
 
 **Example:** Upload a payslip
 ```bash
 curl --request GET \
-  --url https://api.sandbox.goteal.co/documents/{user_id}/{file_id} \
+  --url https://api.sandbox.goteal.co/payroll/{user_id} \
   --header 'X-API-KEY: <api-key>'
 ```
 
@@ -86,12 +85,6 @@ Data processing is immediate for connected accounts, with payroll information up
 ### Availability
 
 Our API provides round-the-clock access to processed data, supporting queries for real-time and historical financial information. Data is accessible through dedicated endpoints, with responses designed for easy integration into client applications.
-
-**Example:** Query user's latest payroll entry
-```bash
-curl https://api.example.com/v1/users/{userId}/payroll/latest \
--H "Authorization: Bearer yourApiKey"
-```
 
 ### `webhooks`
 
@@ -109,7 +102,7 @@ curl --request POST \
     "user-payroll-created"
   ],
   "name": "user-payroll-submitted",
-  "secret": "<string>",
+  "secret": "very-secret",
   "url": "https://webhooks.company.com"
 }'
 ```
@@ -118,13 +111,13 @@ curl --request POST \
 
 Adhering to strict security protocols, our API ensures the integrity and confidentiality of sensitive financial data throughout its lifecycle.
 
-### Permissioned Access
+### Data Sharing
 
-Data access within our API is strictly governed by user permissions and OAuth protocols, ensuring that only authorized parties can retrieve or modify data. 
+Access to data through our API is regulated by user permissions alongside OAuth 2.0 protocols, allowing us to securely access user-authorized data. Upon obtaining this data, we then facilitate its secure transfer to the third party requesting this information. This process ensures that data sharing is both compliant with user consent and adheres to stringent privacy standards, safeguarding data integrity during transmission.
 
 ### Data Deletion Requests
 
-In compliance with privacy laws, our API supports explicit requests for data deletion, allowing users to manage their data footprint effectively.
+In compliance with privacy laws, our API supports explicit requests for data deletion, allowing our clients to manage the data footprint of their customers if needed be.
 
 **Example:** Request data deletion
 ```bash
