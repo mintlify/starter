@@ -3,98 +3,96 @@ title: 'Sandbox'
 description: 'Learn how to preview changes locally'
 ---
 
-<Info>
-  **Prerequisite** You should have installed Node.js (version 18.10.0 or
-  higher).
-</Info>
-
 ## Setting Up for Testing
 
 Before you begin testing, ensure you have the following:
-- An API key for authentication: select your unique 'user_id'
+- An API key for authentication: please ask your Teal connection to suppy you with an API key
 - A callback URL for receiving webhook notifications: generate your URL in [webhook.site](https://webhook.site/)
-
-In this sandbox the user is already created. This serves for you to test all endpoints with an already existing user data.
 
 ## 1. Webhooks Setup `/webhooks`
 
 Configure webhooks to receive notifications for events such as new payroll submissions.
 
 ```bash
-curl -X POST https://api.sandbox.goteal.co/webhooks \
---header "X-API-KEY: 415b293d-07aa-4176-9c97-77fa0e42c24a" \
---header "Content-Type: application/json" \
---data '{
-    "events": ["user-payroll-submitted"],
-    "name": "test-webhook2-A",
-    "url": "https://webhook.site/4fb47692-2625-468d-a84b-4233a585ad0f",
-    "secret": "secret-123"
+curl --request POST \
+  --url https://api.sandbox.goteal.co/webhooks \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "events": [
+    "user-payroll-submitted",
+    "user-payroll-created"
+  ],
+  "name": "user-payroll-submitted",
+  "secret": "very-secret",
+  "url": "https://webhooks.company.com"
 }'
 ```
 **Response Example:**
 
 ```json
 {
-"id": "abf7c04e-5dfa-4155-a4b0-edffe7263939",
-"client_id": "40a3fe5a-b6e9-45b1-a6c4-7ce66b6aaae1",
-"events": [user-payroll-submitted],
-"name": "test-webhook2-A",
-"url": "https://webhook.site/4fb47692-2625-468d-a84b-4233a585ad0f",
-"secret": "secret-123",
-"create_time": "2024-03-14T10:51:37.781349660Z"
-        }
+  "webhook_id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+  "events": [
+    "user-payroll-submitted",
+    "user-payroll-created"
+  ],
+  "name": "user-payroll-submitted",
+  "url": "https://webhooks.company.com",
+  "created_at": "2019-05-17T00:00:00.000Z"
+}
 ```
 This will create also a test user data automatically.
 
-## 2. Generating a user token `/users/{userId}/token`
-
-### 1.1 Creating a User `/users`
+## 2. Generating a user token `/uer-tokens`
 
 After creating a webhook, generate a token to authenticate subsequent actions for that user. The token ensures that actions such as account connection and payslip uploads are securely attributed to the correct user.
 
 ```bash
 curl --request POST \
-curl -X POST https://api.sandbox.goteal.co/users/user2-A/token 
--H "X-API-KEY: 415b293d-07aa-4176-9c97-77fa0e42c24a"
+  --url https://api.sandbox.goteal.co/user-tokens \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "user_id": "95a0e70b-fe02-4f47-aef9-2efff279df71"
+}'
 ```
 
 **Response Example:**
 
 ```json
-"user_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfbmFtZSI6InN5cy1jbGllbnQxIiwidXNlcl9pZCI6InVzZXIyLUEiLCJpc3MiOiJzYW5kb2J4LmFwcC5nb3RlYWwuaW8iLCJleHAiOjE3MTA0MTcyMTR9.BSnwRH4IoD6QDEPtPR7wVWmhK5SwWRjTsZ7V2MhpJL4",
-"user_id":"user2-A",
-"payroll_app":"https://sandobx.app.goteal.io/?user=user2-A&jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfbmFtZSI6InN5cy1jbGllbnQxIiwidXNlcl9pZCI6InVzZXIyLUEiLCJpc3MiOiJzYW5kb2J4LmFwcC5nb3RlYWwuaW8iLCJleHAiOjE3MTA0MTcyMTR9.BSnwRH4IoD6QDEPtPR7wVWmhK5SwWRjTsZ7V2MhpJL4",
-"server_timestamp_ms": 1710413614591
+{
+  "created_at": "2019-05-17T00:00:00.000Z",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTVhMGU3MGItZmUwMi00ZjQ3LWFlZjktMmVmZmYyNzlkZjcxIiwiaWF0IjoxNTE2MjM5MDIyfQ.4S5J"
+}
 ```
 
-## 3. Connecting a Payroll Account `/users/accounts`
+## 3. Connecting a Payroll Account `/accounts`
 
 This simulates the user connecting their payroll account for automatic data retrieval.
 
 ```bash
-curl -X POST https://api.sandbox.goteal.co/users/user2-A/payroll/accounts \
--H "Content-Type: application/json" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfbmFtZSI6InN5cy1jbGllbnQxIiwidXNlcl9pZCI6InVzZXIyLUEiLCJpc3MiOiJzYW5kb2J4LmFwcC5nb3RlYWwuaW8iLCJleHAiOjE3MTA0MTcyMTR9.BSnwRH4IoD6QDEPtPR7wVWmhK5SwWRjTsZ7V2MhpJL4" \
---data '{
-   "payroll_provider":"sage",
-   "login_credentials": {
-       "user":"u1",
-       "password":"pass"
-    }
- }'
+curl --request POST \
+  --url https://api.sandbox.goteal.co/accounts \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "user_id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+  "password": "very-secret-password",
+  "payroll_provider": "quickbooks",
+  "user_name": "john.smith@company.com"
+}'
+```
 
 **Response Example:**
 
 ```json
-'{
-   "payroll_provider":"sage",
-   "login_credentials": {
-       "user":"u1",
-       "password":"pass"
-    }
- }'
-  "status": "success",
-  "message": "Payroll account connected successfully."
+{
+  "account_id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+  "created_at": "2019-05-17T00:00:00.000Z",
+  "payroll_provider": "quickbooks",
+  "user_name": "john.smith@company.com"
+}
 ```
 
 ## 3. Data Retrieval
@@ -104,142 +102,69 @@ curl -X POST https://api.sandbox.goteal.co/users/user2-A/payroll/accounts \
 Retrieve the payroll data submitted through the connected account or document upload.
 
 ```bash
-curl https://api.sandbox.goteal.co/users/user1/payroll -H "X-API-KEY: 415b293d-07aa-4176-9c97-77fa0e42c24a"
+curl --request GET \
+  --url https://api.sandbox.goteal.co/payroll/{user_id} \
+  --header 'X-API-KEY: <api-key>'
 ```
 **Response Example:**
 
 ```json
-[
+{
+  "pagination": {
+    "count": 14,
+    "limit": 25,
+    "offset": 75,
+    "total_count": 89
+  },
+  "payroll_submissions": [
     {
-        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
-        "identity_information": {
-            "name": "Jane Doe",
-            "email": "jane.doe@example.com",
-            "phone": "+1234567890",
-            "address": {
-                "city": "Anycity",
-                "county": "Anyshire",
-                "street": "123 Main St",
-                "country": "Countryland",
-                "post_code": "AB12 3CD"
-            },
-            "NI_number": "AB123456C",
-            "date_of_birth": "1990-04-01",
-            "income_information": {
-                "earnings": {
-                    "bonus": 100,
-                    "net_pay": 1500,
-                    "gross_pay": 2000,
-                    "base_salary": 1900
-                },
-                "pay_date": "2024-02-15",
-                "deductions": {
-                    "income_tax": 300,
-                    "employee_ni": 150,
-                    "employee_pension": 50,
-                    "total_deductions": 500
-                },
-                "pay_frequency": "weekly",
-                "pay_interval_end": "2024-02-15",
-                "pay_interval_start": "2024-02-01"
-            },
-            "employment_information": {
-                "role": "Software Developer",
-                "type": "Full-Time",
-                "status": "Active",
-                "leave_date": null,
-                "start_date": "2018-06-01",
-                "employer_name": "Acme Corp"
-            }
-        }
-    },
-    {
-        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
-        "identity_information": {
-            "name": "Jane Doe",
-            "email": "jane.doe@example.com",
-            "phone": "+1234567890",
-            "address": {
-                "city": "Anycity",
-                "county": "Anyshire",
-                "street": "123 Main St",
-                "country": "Countryland",
-                "post_code": "AB12 3CD"
-            },
-            "NI_number": "AB123456C",
-            "date_of_birth": "1990-04-01",
-            "income_information": {
-                "earnings": {
-                    "bonus": 100,
-                    "net_pay": 1500,
-                    "gross_pay": 2000,
-                    "base_salary": 1900
-                },
-                "pay_date": "2024-02-15",
-                "deductions": {
-                    "income_tax": 300,
-                    "employee_ni": 150,
-                    "employee_pension": 50,
-                    "total_deductions": 500
-                },
-                "pay_frequency": "weekly",
-                "pay_interval_end": "2024-02-15",
-                "pay_interval_start": "2024-02-01"
-            },
-            "employment_information": {
-                "role": "Software Developer",
-                "type": "Full-Time",
-                "status": "Active",
-                "leave_date": null,
-                "start_date": "2018-06-01",
-                "employer_name": "Acme Corp"
-            }
-        }
-    },
-    {
-        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
-        "identity_information": {
-            "name": "Jane Doe",
-            "email": "jane.doe@example.com",
-            "phone": "+1234567890",
-            "address": {
-                "city": "Anycity",
-                "county": "Anyshire",
-                "street": "123 Main St",
-                "country": "Countryland",
-                "post_code": "AB12 3CD"
-            },
-            "NI_number": "AB123456C",
-            "date_of_birth": "1990-04-01",
-            "income_information": {
-                "earnings": {
-                    "bonus": 100,
-                    "net_pay": 1500,
-                    "gross_pay": 2000,
-                    "base_salary": 1900
-                },
-                "pay_date": "2024-02-15",
-                "deductions": {
-                    "income_tax": 300,
-                    "employee_ni": 150,
-                    "employee_pension": 50,
-                    "total_deductions": 500
-                },
-                "pay_frequency": "weekly",
-                "pay_interval_end": "2024-02-15",
-                "pay_interval_start": "2024-02-01"
-            },
-            "employment_information": {
-                "role": "Software Developer",
-                "type": "Full-Time",
-                "status": "Active",
-                "leave_date": null,
-                "start_date": "2018-06-01",
-                "employer_name": "Acme Corp"
-            }
-        }
+      "account_id": "95a0e70b-fe02-4f47-aef9-2efff279df71S",
+      "created_at": "2019-05-17T00:00:00.000Z",
+      "employment_information": {
+        "employer_name": "Acme Ltd",
+        "leave_date": "2019-05-17T00:00:00.000Z",
+        "role": "Software Engineer",
+        "start_date": "2019-05-17T00:00:00.000Z",
+        "status": "Active",
+        "type": "Full-time"
+      },
+      "entry_id": "95a0e70b-fe02-4f47-aef9-2efff279df71S1",
+      "id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+      "identity_information": {
+        "NI_number": "AB123456C",
+        "address": {
+          "city": "London",
+          "country": "United Kingdom",
+          "county": "Greater London",
+          "post_code": "SW1A 1AA",
+          "street": "123 Main Street"
+        },
+        "date_of_birth": "2019-05-17T00:00:00.000Z",
+        "email": "john.smith@company.com",
+        "name": "John Smith",
+        "phone": 447123456789
+      },
+      "income_information": {
+        "deductions": {
+          "employee_ni": 200,
+          "employee_pension": 300,
+          "income_tax": 500,
+          "total_deductions": 1000
+        },
+        "earnings": {
+          "base_salary": 3000,
+          "bonus": 500,
+          "gross_pay": 3500,
+          "net_pay": 2500
+        },
+        "pay_date": "2019-05-17T00:00:00.000Z",
+        "pay_frequency": "Monthly",
+        "pay_interval_end": "2019-05-17T00:00:00.000Z",
+        "pay_interval_start": "2019-05-17T00:00:00.000Z"
+      }
     }
-]
+  ]
+}
 ```
 
 ## 4. Cleanup: Deleting a User `/users`
@@ -250,4 +175,12 @@ After testing, clean up by deleting the test user and their associated data.
 curl --request DELETE \
   --url https://api.sandbox.goteal.co/users/{user_id} \
   --header 'X-API-KEY: <api-key>'
+```
+
+**Response Example:**
+
+```json
+{
+  "message": "User deleted successfully."
+}
 ```
