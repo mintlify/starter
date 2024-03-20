@@ -64,8 +64,10 @@ To protect your API keys:
 
 Our API uses standard HTTP status codes for feedback:
 
-- `200 OK`: Request succeeded.
-- `401 Unauthorized`: Authentication failed.
-- `429 Too Many Requests`: Rate limit exceeded, etc.
+- `200 OK`: Request successful.
+- `201 Created`: New resource created.
+- `400 Bad Request`: Invalid request format.
+- `401 Unauthorized`: Authentication required.
+- `409 Conflict`: Resource conflict.
 
 
