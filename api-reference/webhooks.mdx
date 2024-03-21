@@ -1,0 +1,58 @@
+---
+title: 'Webhooks'
+description: 'Effortlessly stay updated with real-time notifications via our Webhooks service.'
+--- 
+
+## Overview
+Webhooks instantly inform your application about significant events, such as payroll submissions or updates, without the need for polling.
+
+### Use Cases:
+- Alerting when users submit or create payroll data.
+- Notifying upon successful account linkages.
+- Triggering actions after data updates.
+
+Webhooks are system-wide, not limited to specific users or accounts, enhancing your application's responsiveness.
+
+### Quick Reference:
+- **Webhooks List**: Detailed descriptions of all events you can subscribe to.
+- **Setup Guide**: Instructions for subscribing and managing webhooks.
+
+## Setting Up Webhooks
+
+Create a webhook by sending a POST request. Specify which events to monitor and where to send notifications.
+
+```bash
+curl --request POST \
+  --url https://api.sandbox.goteal.co/webhooks \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+    "events": ["user-payroll-submitted", "user-payroll-created"],
+    "name": "user-payroll-submitted",
+    "secret": "very-secret",
+    "url": "https://webhooks.site"
+  }'
+```
+- **events**: Choose events like `user-payroll-submitted` for targeted notifications.
+- **name**: Label your webhook for easier management.
+- **url**: Your endpoint to receive webhook payloads.
+- **secret**: (Optional) A secret for secure webhook verification.
+
+### Verifying Webhooks
+Use the provided `secret` to validate incoming webhook signatures, ensuring data integrity and authenticity.
+
+## Webhook Management
+
+### Viewing Subscriptions
+List your current webhooks with a simple GET request to our webhook endpoint.
+
+### Updating and Deleting
+Modify webhook details or unsubscribe using the webhook ID in PUT or DELETE requests.
+
+## Best Practices
+
+- **Secure Endpoints**: Ensure your webhook URL is HTTPS-secured to safeguard transmitted data.
+- **Manage Secrets**: Keep your `secret` confidential and use it to verify webhook payloads.
+- **Regular Review**: Periodically check your webhook subscriptions and adjust as needed to match your application's requirements.
+
+Leverage our webhooks to make your application more dynamic and responsive to changes without the overhead of continuous polling.

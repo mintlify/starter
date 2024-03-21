@@ -654,7 +654,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: User deleted successfully.
+                    example: Webhook deleted successfully.
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
 components:

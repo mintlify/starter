@@ -1,0 +1,114 @@
+---
+title: 'Quickstart'
+description: 'Welcome to the comprehensive guide to use Teal API, a pivotal resource for accessing real-time payroll and employment verification data.'
+---
+
+## Overview
+
+Teal is a payroll API platform, streamlining the entire income verification process by connecting you to data sourced from payroll and HR systems or analysing income documents, all with the user consent at the core.
+
+Teal supports you during the underwriting process, increasing both speed and accuracy levels. With this information you can assess the level of affordability of a borrower, by verifying their level of income and their employment status.
+
+
+# Authentication
+
+Authentication is a critical aspect of securing access to our API, ensuring that only authorized users can perform operations. We employ API key authentication, a method chosen for its simplicity and effectiveness in safeguarding our services. Upon registration or on request, users are provided with a unique API key via email, which must be included in all API requests.
+
+## Acquiring an API Key
+
+Upon successful registration or request, an API key is issued to each client application through a secure email. This key is essential for accessing the API and must be safeguarded.
+
+### Key Features:
+
+- **Uniqueness**: Each API key is unique, tied to a client application.
+- **Revocable**: API keys can be revoked and regenerated for security.
+- **Confidentiality**: Keep your API key confidential to prevent unauthorized use.
+
+## Making Authorized Requests
+
+Include the API key in the request headers to make authorized calls to our API.
+
+### Required Headers:
+
+- `Content-Type: application/json`: Indicates the request body is JSON formatted.
+- `X-API-KEY: <api-key>`: Your issued API key.
+
+### Example Request:
+
+```bash
+curl --request GET \
+  --url https://api.sandbox.goteal.co/endpoint \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>'
+```
+
+Authorization via API key is essential for secure access to our API. Include the necessary headers in your requests to utilize our API's features safely.
+
+## Environments
+
+Our API offers two environments to cater to different stages of development and production:
+
+- **Production:** For real-world use. Base URL: `https://api.goteal.co/v1`
+- **Sandbox:** For testing with simulated data. Base URL: `https://api.sandbox.goteal.co/v1`
+
+# Testing Tools and Execution Methods
+
+Our API documentation supports various testing and execution methods to suit different development workflows, emphasizing flexibility and accessibility. We provide examples using cURL commands for their universality, but the principles apply across all execution methods.
+
+
+## Execution Methods:
+
+### 1. Documentation Web Client
+
+- **Interactivity**: Execute API calls directly within the browser through our interactive documentation, ideal for immediate testing without setup.
+- **User-Friendly**: Pre-filled requests in a simple interface make it accessible for newcomers to explore API functionalities quickly.
+
+### 2. Terminal with cURL
+
+- **Flexibility**: cURL commands, used for direct API interactions from the command line, support scripting and task automation.
+- **Compatibility**: With broad OS support, cURL is a reliable choice for endpoint testing, demonstrated by clear, adaptable examples in our documentation.
+
+### 3. Programmatically
+
+- **Integration-Ready**: Implement API calls in your application code for automated testing or development, facilitating continuous integration workflows.
+- **Language Agnostic**: Any programming language capable of making HTTP requests can interact with our API, enabling integration into diverse development environments.
+
+## Technical Considerations:
+
+- **HTTP Methods**: Understand the HTTP methods (GET, POST, DELETE, etc.) our API uses, as they dictate how to interact with each endpoint.
+- **Request Headers**: Pay close attention to required headers, especially `Content-Type` and `Authorization`, as they're crucial for successful API calls.
+- **Error Handling**: Familiarize yourself with our API's error responses to effectively handle and debug issues during development.
+
+In summary, whether you prefer testing APIs directly from our documentation, using command-line tools like cURL, or integrating API calls into your software, our documentation provides the necessary guidance. The provided cURL examples offer a solid foundation for understanding how to craft requests, applicable across different technologies and platforms.
+
+
+
+## Data
+
+After connecting a new account, data is retrieved in stages:
+
+- **Instant Data:** Quickly available post-connection, covering static information that changes infrequently.
+- **Event Data:** Compiled over time, providing a historical view that can extend back several years.
+
+We continuously update and enrich your data as new information becomes available.
+
+
+### Security
+
+To protect your API keys:
+
+- **HTTPS Security**: Always use HTTPS to ensure your API requests are encrypted, protecting your API key and data from eavesdropping.
+- **Key Management**: Treat your API key as a sensitive password—regenerate it periodically and immediately replace it if compromised.
+- **Secure API Key Storage**: Store your API key securely, avoiding exposure in client-side code or publicly accessible areas.
+
+### Handling Responses
+
+Our API uses standard HTTP status codes for feedback:
+
+- `200 OK`: Request successful.
+- `201 Created`: New resource created.
+- `204 No Content`: Successfully processed, no content to return.
+- `400 Bad Request`: Invalid request format.
+- `401 Unauthorized`: Authentication required.
+
+

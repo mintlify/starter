@@ -74,7 +74,7 @@ curl --request POST \
 }
 ```
 
-## 2. Generating a user token `/user-tokens`
+## 3. Generating a user token `/user-tokens`
 
 After creating a webhook, generate a token to authenticate subsequent actions for that user. The token ensures that actions such as account connection and payslip uploads are securely attributed to the correct user.
 
@@ -97,7 +97,7 @@ curl --request POST \
 }
 ```
 
-## 3. Connecting a Payroll Account `/accounts`
+## 4. Connecting a Payroll Account `/accounts`
 
 This simulates the user connecting their payroll account for automatic data retrieval.
 
@@ -125,9 +125,7 @@ curl --request POST \
 }
 ```
 
-## 3. Data Retrieval
-
-### 3.1 Fetching Payroll Data `/payroll`
+## 5. Retrieving Payroll Data `/payroll`
 
 Retrieve the payroll data submitted through the connected account or document upload.
 
@@ -197,7 +195,7 @@ curl --request GET \
 }
 ```
 
-## 4. Cleanup: Deleting a User `/users`
+## 6. Cleanup: Deleting a User `/users`
 
 After testing, clean up by deleting the test user and their associated data.
 
