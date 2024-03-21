@@ -70,52 +70,60 @@ The data is securely exposed via our API. By default, the data is extracted in J
 Example of payroll submission retrieval:
 
 ``````JSON
-
-  "userId": "user-1234",
-  "serverTimestampMs": 1564061013564,
-  "source": "Payroll",
-	"payroll_submission":
-        {
-            "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
-            "identityInformation": {
-                "name": "Jane Doe",
-                "date_of_birth": "1990-04-01",
-                "address": {
-                    "street": "123 Main St",
-                    "county": "Anyshire",
-                    "city": "Anycity",
-                    "post_code": "AB12 3CD",
-                    "country": "Countryland",
-                },
-                "email": "jane.doe@example.com",
-                "phone": "+1234567890",
-                "NI_number": "AB123456C",
-                "employmentInformation": {
-                    "employer_name": "Acme Corp",
-                    "role": "Software Developer",
-                    "type": "Full-Time",
-                    "status": "Active",
-                    "start_date": "2018-06-01",
-                    "leave_date": null
-                },
-                "incomeInformation": {
-                    "pay_date": "2024-02-15",
-                    "pay_interval_start": "2024-02-01",
-                    "pay_interval_end": "2024-02-15",
-                    "pay_frequency": "weekly",
-                    "earnings": {
-                        "gross_pay": 2000,
-                        "net_pay": 1500,
-                        "base_salary": 1900,
-                        "bonus": 100
-                    },
-                    "deductions": {
-                        "income_tax": 300,
-                        "employee_ni": 150,
-                        "employee_pension": 50,
-                        "total_deductions": 500
-                    }
-                }
-            }
-        }
+{
+  "pagination": {
+    "count": 14,
+    "limit": 25,
+    "offset": 75,
+    "total_count": 89
+  },
+  "payroll_submissions": [
+    {
+      "account_id": "95a0e70b-fe02-4f47-aef9-2efff279df71S",
+      "created_at": "2019-05-17T00:00:00.000Z",
+      "employment_information": {
+        "employer_name": "Acme Ltd",
+        "leave_date": "2019-05-17T00:00:00.000Z",
+        "role": "Software Engineer",
+        "start_date": "2019-05-17T00:00:00.000Z",
+        "status": "Active",
+        "type": "Full-time"
+      },
+      "entry_id": "95a0e70b-fe02-4f47-aef9-2efff279df71S1",
+      "id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+      "identity_information": {
+        "NI_number": "AB123456C",
+        "address": {
+          "city": "London",
+          "country": "United Kingdom",
+          "county": "Greater London",
+          "post_code": "SW1A 1AA",
+          "street": "123 Main Street"
+        },
+        "date_of_birth": "2019-05-17T00:00:00.000Z",
+        "email": "john.smith@company.com",
+        "name": "John Smith",
+        "phone": 447123456789
+      },
+      "income_information": {
+        "deductions": {
+          "employee_ni": 200,
+          "employee_pension": 300,
+          "income_tax": 500,
+          "total_deductions": 1000
+        },
+        "earnings": {
+          "base_salary": 3000,
+          "bonus": 500,
+          "gross_pay": 3500,
+          "net_pay": 2500
+        },
+        "pay_date": "2019-05-17T00:00:00.000Z",
+        "pay_frequency": "Monthly",
+        "pay_interval_end": "2019-05-17T00:00:00.000Z",
+        "pay_interval_start": "2019-05-17T00:00:00.000Z"
+      }
+    }
+  ]
+}
 `````
