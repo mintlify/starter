@@ -1,29 +1,29 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Prem",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo.svg",
+    "light": "/logo.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#412824",
+    "light": "#FF5757",
+    "dark": "#412824",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#412824",
+      "to": "#FF5757"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:hello@premai.io"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://app.premai.io"
   },
   "tabs": [
     {
@@ -33,39 +33,33 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
       "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "icon": "discord",
+      "url": "https://discord.com/invite/kpKk6vYVAn"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://blog.premai.io"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "introduction"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Get Started",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "get-started/signup",
+        "get-started/projects",
+        "get-started/lab",
+        "get-started/monitoring",
+        "get-started/repositories",
+        "get-started/launchpad",
+        "get-started/sdk"
       ]
     },
     {
@@ -75,17 +69,52 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "chat-completions",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/chat-completions/post-v1chatcompletions"
+      ]
+    },
+    {
+      "group": "data-points",
+      "pages": [
+        "api-reference/data-points/get-v1data-points",
+        "api-reference/data-points/post-v1data-points",
+        "api-reference/data-points/get-v1data-points-",
+        "api-reference/data-points/put-v1data-points-",
+        "api-reference/data-points/delete-v1data-points-",
+        "api-reference/data-points/patch-v1data-points-"
+      ]
+    },
+    {
+      "group": "embeddings",
+      "pages": [
+        "api-reference/embeddings/post-v1embeddings"
+      ]
+    },
+    {
+      "group": "finetuning",
+      "pages": [
+        "api-reference/finetuning/post-v1finetuning",
+        "api-reference/finetuning/get-v1finetuning"
+      ]
+    },
+    {
+      "group": "models",
+      "pages": [
+        "api-reference/models/get-v1models",
+        "api-reference/models/get-v1models-"
+      ]
+    },
+    {
+      "group": "repository-document",
+      "pages": [
+        "api-reference/repository-document/post-v1repository-document"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/premai_io",
+    "github": "https://github.com/premAI-io",
+    "linkedin": "https://www.linkedin.com/company/premai"
   }
 }

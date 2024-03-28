@@ -1,72 +1,400 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Prem APIs",
+    "version": "1.0.0",
+    "description": "Documentation of API endpoints of Prem"
   },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+    "/v1/chat/completions": {
+      "post": {
+        "operationId": "v1_chat_completions_create",
+        "description": "Creates a model response for the given chat conversation.",
+        "tags": [
+          "chat-completions"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionInput"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionInput"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionInput"
+              }
             }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "OrganizationTokenAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDeniedError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntityError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/data-points/": {
+      "get": {
+        "operationId": "v1_data_points_list",
+        "tags": [
+          "data-points"
+        ],
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Plant"
+                    "$ref": "#/components/schemas/DataPoint"
                   }
                 }
               }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            },
+            "description": ""
           }
         }
       },
       "post": {
-        "description": "Creates a new plant in the store",
+        "operationId": "v1_data_points_create",
+        "tags": [
+          "data-points"
+        ],
         "requestBody": {
-          "description": "Plant to add to the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/InputDataPoint"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataPoint"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataPoint"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InputDataPoint"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/data-points/{id}/": {
+      "get": {
+        "operationId": "v1_data_points_retrieve",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this data point.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "data-points"
+        ],
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataPoint"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "operationId": "v1_data_points_update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this data point.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "data-points"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataPoint"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataPoint"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/InputDataPoint"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InputDataPoint"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "operationId": "v1_data_points_partial_update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this data point.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "data-points"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedDataPoint"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedDataPoint"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedDataPoint"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataPoint"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "operationId": "v1_data_points_destroy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this data point.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "data-points"
+        ],
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/v1/embeddings": {
+      "post": {
+        "operationId": "v1_embeddings_create",
+        "description": "Creates embeddings for the given input.",
+        "tags": [
+          "embeddings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbeddingsInput"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbeddingsInput"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbeddingsInput"
               }
             }
           },
@@ -74,57 +402,445 @@
         },
         "responses": {
           "200": {
-            "description": "plant response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/EmbeddingsResponse"
                 }
               }
-            }
+            },
+            "description": ""
           },
           "400": {
-            "description": "unexpected error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ValidationError"
                 }
               }
-            }
+            },
+            "description": ""
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDeniedError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntityError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "description": ""
           }
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+    "/v1/finetuning": {
+      "post": {
+        "operationId": "v1_finetuning_create",
+        "description": "Creates a finetuning job.",
+        "tags": [
+          "finetuning"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FineTuningInput"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/FineTuningInput"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FineTuningInput"
+              }
             }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "OrganizationTokenAuth": []
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/FineTuningResponse"
                 }
               }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDeniedError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntityError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/finetuning/{job_id}": {
+      "get": {
+        "operationId": "v1_finetuning_retrieve",
+        "description": "Retrieve a finetuning job.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "finetuning"
+        ],
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveFineTuningResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDeniedError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntityError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/models/": {
+      "get": {
+        "operationId": "v1_models_list",
+        "tags": [
+          "models"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Model"
+                  }
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/models/{id}/": {
+      "get": {
+        "operationId": "v1_models_retrieve",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Model.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "models"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/repository/{repository_id}/document": {
+      "post": {
+        "operationId": "v1_repository_document_create",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "repository_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "repository-document"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentInput"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentInput"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentInput"
+              }
             }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "OrganizationTokenAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentOutput"
+                }
+              }
+            },
+            "description": ""
           }
         }
       }
@@ -132,64 +848,1175 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
+      "APIResponseValidationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/APIResponseValidationErrorCodeEnum"
+          }
+        },
         "required": [
-          "name"
+          "code",
+          "message"
+        ]
+      },
+      "APIResponseValidationErrorCodeEnum": {
+        "enum": [
+          "APIResponseValidationError"
         ],
+        "type": "string",
+        "description": "* `APIResponseValidationError` - APIResponseValidationError"
+      },
+      "AuthenticationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/AuthenticationErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "AuthenticationErrorCodeEnum": {
+        "enum": [
+          "AuthenticationError"
+        ],
+        "type": "string",
+        "description": "* `AuthenticationError` - AuthenticationError"
+      },
+      "BlankEnum": {
+        "enum": [
+          ""
+        ]
+      },
+      "CatchAllError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/CatchAllErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "CatchAllErrorCodeEnum": {
+        "enum": [
+          "CatchAllError"
+        ],
+        "type": "string",
+        "description": "* `CatchAllError` - CatchAllError"
+      },
+      "ChatCompletionInput": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "description": "The ID of the project to use."
+          },
+          "session_id": {
+            "type": "string",
+            "description": "The ID of the session to use. It helps to track the chat history."
+          },
+          "repositories": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Enhancement"
+              }
+            ],
+            "description": "Options for Retrieval Augmented Generation (RAG). Will override launched model settings"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "description": "A list of messages comprising the conversation so far."
+          },
+          "model": {
+            "type": "string",
+            "description": "ID of the model to use. See the model endpoint compatibility table for details."
+          },
+          "system_prompt": {
+            "type": "string",
+            "description": "The system prompt to use."
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "format": "double",
+            "maximum": 2,
+            "minimum": 2,
+            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency."
+          },
+          "logit_bias": {
+            "type": "object",
+            "additionalProperties": {},
+            "nullable": true,
+            "description": "JSON object that maps tokens to an associated bias value from -100 to 100."
+          },
+          "max_tokens": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "description": "The maximum number of tokens to generate in the chat completion."
+          },
+          "presence_penalty": {
+            "type": "number",
+            "format": "double",
+            "maximum": 2,
+            "minimum": -2,
+            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far."
+          },
+          "response_format": {
+            "type": "object",
+            "additionalProperties": {},
+            "nullable": true,
+            "description": "An object specifying the format that the model must output."
+          },
+          "seed": {
+            "type": "integer",
+            "nullable": true,
+            "description": "This feature is in Beta. If specified, our system will make a best effort to sample deterministically."
+          },
+          "stop": {
+            "type": "string",
+            "nullable": true,
+            "description": "Up to 4 sequences where the API will stop generating further tokens."
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "If set, partial message deltas will be sent, like in ChatGPT."
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double",
+            "maximum": 2,
+            "minimum": 0,
+            "nullable": true,
+            "description": "What sampling temperature to use, between 0 and 2."
+          },
+          "top_p": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "description": "An alternative to sampling with temperature, called nucleus sampling."
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {}
+            },
+            "description": "A list of tools the model may call. Currently, only functions are supported as a tool."
+          },
+          "user": {
+            "type": "string",
+            "nullable": true,
+            "description": "A unique identifier representing your end-user."
+          }
+        },
+        "required": [
+          "messages",
+          "project_id"
+        ]
+      },
+      "ChatCompletionResponse": {
+        "type": "object",
+        "properties": {
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseChoice"
+            },
+            "description": "A list of chat completion choices. Can be more than one if n is greater than 1."
+          },
+          "created": {
+            "type": "integer",
+            "description": "The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp."
+          },
+          "model": {
+            "type": "string",
+            "description": "The model to generate the completion."
+          },
+          "provider_name": {
+            "type": "string",
+            "description": "The name of the provider that generated the completion."
+          },
+          "provider_id": {
+            "type": "string",
+            "description": "The ID of the provider that generated the completion."
+          },
+          "document_chunks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentChunks"
+            },
+            "description": "Chunks used to improve the completion"
+          },
+          "usage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              }
+            ],
+            "description": "The usage statistics for the completion."
+          },
+          "trace_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The trace ID of the completion."
+          }
+        },
+        "required": [
+          "choices",
+          "created",
+          "model",
+          "provider_id",
+          "provider_name",
+          "trace_id",
+          "usage"
+        ]
+      },
+      "ConflictError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ConflictErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ConflictErrorCodeEnum": {
+        "enum": [
+          "ConflictError"
+        ],
+        "type": "string",
+        "description": "* `ConflictError` - ConflictError"
+      },
+      "DataPoint": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "input": {
+            "type": "string",
+            "nullable": true
+          },
+          "output": {
+            "type": "string",
+            "nullable": true
+          },
+          "positive": {
+            "type": "boolean"
+          },
+          "trace": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "positive",
+          "updated_at"
+        ]
+      },
+      "DocumentChunks": {
+        "type": "object",
+        "properties": {
+          "repository_id": {
+            "type": "integer"
+          },
+          "document_id": {
+            "type": "integer"
+          },
+          "chunk_id": {
+            "type": "integer"
+          },
+          "document_name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "similarity_score": {
+            "type": "number",
+            "format": "double"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "DocumentInput": {
         "type": "object",
         "properties": {
           "name": {
-            "description": "The name of the plant",
-            "type": "string"
+            "type": "string",
+            "maxLength": 255
           },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
+          "content": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "document_type": {
+            "$ref": "#/components/schemas/DocumentTypeEnum"
+          }
+        },
+        "required": [
+          "content",
+          "document_type",
+          "name"
+        ]
+      },
+      "DocumentOutput": {
+        "type": "object",
+        "properties": {
+          "repository_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "document_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "document_type": {
+            "$ref": "#/components/schemas/DocumentTypeEnum"
+          },
+          "status": {
+            "$ref": "#/components/schemas/StatusEnum"
+          },
+          "error": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "chunk_count": {
+            "type": "integer",
+            "readOnly": true,
+            "default": 0
+          }
+        },
+        "required": [
+          "chunk_count",
+          "document_id",
+          "document_type",
+          "error",
+          "name",
+          "repository_id",
+          "status"
+        ]
+      },
+      "DocumentTypeEnum": {
+        "enum": [
+          "text"
+        ],
+        "type": "string",
+        "description": "* `text` - text"
+      },
+      "Embedding": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "description": "The index of the token in the input."
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The embedding for the input."
+          }
+        },
+        "required": [
+          "embedding",
+          "index"
+        ]
+      },
+      "EmbeddingsInput": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "description": "The ID of the project to use."
+          },
+          "model": {
+            "type": "string",
+            "description": "The model to generate the embeddings."
+          },
+          "encoding_format": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EncodingFormatEnum"
+              }
+            ],
+            "default": "float"
+          },
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            ],
+            "description": "Embedding Input"
+          }
+        },
+        "required": [
+          "input",
+          "model",
+          "project_id"
+        ]
+      },
+      "EmbeddingsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Embedding"
+            },
+            "description": "The embeddings for the input."
+          },
+          "model": {
+            "type": "string",
+            "description": "The model to generate the embeddings."
+          },
+          "usage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              }
+            ],
+            "description": "The usage statistics for the completion."
+          },
+          "provider_name": {
+            "type": "string",
+            "description": "The name of the provider that generated the completion."
+          },
+          "provider_id": {
+            "type": "string",
+            "description": "The ID of the provider that generated the completion."
+          }
+        },
+        "required": [
+          "data",
+          "model",
+          "provider_id",
+          "provider_name",
+          "usage"
+        ]
+      },
+      "EncodingFormatEnum": {
+        "enum": [
+          "float",
+          "base64"
+        ],
+        "type": "string",
+        "description": "* `float` - float\n* `base64` - base64"
+      },
+      "Enhancement": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The IDs of the repositories to use."
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 5,
+            "minimum": 1
+          },
+          "similarity_threshold": {
+            "type": "number",
+            "format": "double",
+            "maximum": 1,
+            "minimum": 0
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
+      "FineTuningInput": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "description": "The ID of the project to use."
+          },
+          "model": {
+            "type": "string",
+            "description": "ID of the model to use. See the model endpoint compatibility table for details."
+          },
+          "training_data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FineTuningSample"
+            },
+            "description": "The training file."
+          },
+          "validaton_data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FineTuningSample"
+            },
+            "description": "The training file."
+          },
+          "num_epochs": {
+            "type": "integer",
+            "default": 1,
+            "description": "The number of epochs to train for."
+          }
+        },
+        "required": [
+          "project_id",
+          "training_data"
+        ]
+      },
+      "FineTuningResponse": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "The ID of the fine-tuning job."
+          }
+        },
+        "required": [
+          "job_id"
+        ]
+      },
+      "FineTuningSample": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": "The input text."
+          },
+          "output": {
+            "type": "string",
+            "description": "The output text."
+          }
+        },
+        "required": [
+          "input",
+          "output"
+        ]
+      },
+      "InputDataPoint": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "nullable": true
+          },
+          "output": {
+            "type": "string",
+            "nullable": true
+          },
+          "positive": {
+            "type": "boolean"
+          },
+          "trace": {
+            "type": "string",
+            "nullable": true
+          },
+          "project": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "positive",
+          "project"
+        ]
+      },
+      "InternalServerError": {
+        "oneOf": [
           {
-            "$ref": "#/components/schemas/Plant"
+            "$ref": "#/components/schemas/ProviderInternalServerError"
           },
           {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
+            "$ref": "#/components/schemas/APIResponseValidationError"
+          },
+          {
+            "$ref": "#/components/schemas/ProviderAPIStatusError"
+          },
+          {
+            "$ref": "#/components/schemas/ProviderAPITimeoutError"
+          },
+          {
+            "$ref": "#/components/schemas/ProviderAPIConnectionError"
+          },
+          {
+            "$ref": "#/components/schemas/CatchAllError"
           }
         ]
       },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+      "Message": {
         "type": "object",
         "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoleEnum"
+              }
+            ],
+            "description": "The role of the sender (e.g., 'user' or 'assistant').\n\n* `user` - user\n* `assistant` - assistant"
           },
+          "content": {
+            "type": "string",
+            "description": "The content of the message."
+          }
+        },
+        "required": [
+          "content",
+          "role"
+        ]
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "model_type": {
+            "$ref": "#/components/schemas/ModelTypeEnum"
+          },
+          "model_provider": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ModelProviderEnum"
+              },
+              {
+                "$ref": "#/components/schemas/BlankEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ModelNotFoundError": {
+        "type": "object",
+        "properties": {
           "message": {
             "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ModelNotFoundErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ModelNotFoundErrorCodeEnum": {
+        "enum": [
+          "ModelNotFoundError"
+        ],
+        "type": "string",
+        "description": "* `ModelNotFoundError` - ModelNotFoundError"
+      },
+      "ModelProviderEnum": {
+        "enum": [
+          "openai",
+          "azure",
+          "cohere",
+          "anthropic",
+          "cloudflare",
+          "deepinfra",
+          "lamini",
+          "octoai",
+          "replicate",
+          "together",
+          "fireworksai",
+          "mistralai",
+          "prem",
+          "anyscale",
+          "openrouter",
+          "perplexity",
+          "groq"
+        ],
+        "type": "string",
+        "description": "* `openai` - OpenAI\n* `azure` - Azure OpenAI\n* `cohere` - Cohere\n* `anthropic` - Anthropic\n* `cloudflare` - Cloudflare\n* `deepinfra` - Deep Infra\n* `lamini` - Lamini\n* `octoai` - Octo AI\n* `replicate` - Replicate\n* `together` - Together\n* `fireworksai` - Fireworks AI\n* `mistralai` - Mistral AI\n* `prem` - Prem AI\n* `anyscale` - Anyscale\n* `openrouter` - Open Router\n* `perplexity` - Perplexity\n* `groq` - Groq"
+      },
+      "ModelTypeEnum": {
+        "enum": [
+          "text2text",
+          "text2image",
+          "text2vector"
+        ],
+        "type": "string",
+        "description": "* `text2text` - Text to Text\n* `text2image` - Text to Image\n* `text2vector` - Text to Vector"
+      },
+      "NotFoundError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ProviderNotFoundError"
+          },
+          {
+            "$ref": "#/components/schemas/ModelNotFoundError"
+          }
+        ]
+      },
+      "NullEnum": {
+        "enum": [
+          null
+        ]
+      },
+      "PatchedDataPoint": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "input": {
+            "type": "string",
+            "nullable": true
+          },
+          "output": {
+            "type": "string",
+            "nullable": true
+          },
+          "positive": {
+            "type": "boolean"
+          },
+          "trace": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         }
+      },
+      "PermissionDeniedError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/PermissionDeniedErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "PermissionDeniedErrorCodeEnum": {
+        "enum": [
+          "PermissionDeniedError"
+        ],
+        "type": "string",
+        "description": "* `PermissionDeniedError` - PermissionDeniedError"
+      },
+      "ProviderAPIConnectionError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ProviderAPIConnectionErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ProviderAPIConnectionErrorCodeEnum": {
+        "enum": [
+          "ProviderAPIConnectionError"
+        ],
+        "type": "string",
+        "description": "* `ProviderAPIConnectionError` - ProviderAPIConnectionError"
+      },
+      "ProviderAPIStatusError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ProviderAPIStatusErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ProviderAPIStatusErrorCodeEnum": {
+        "enum": [
+          "ProviderAPIStatusError"
+        ],
+        "type": "string",
+        "description": "* `ProviderAPIStatusError` - ProviderAPIStatusError"
+      },
+      "ProviderAPITimeoutError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ProviderAPITimeoutErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ProviderAPITimeoutErrorCodeEnum": {
+        "enum": [
+          "ProviderAPITimeoutError"
+        ],
+        "type": "string",
+        "description": "* `ProviderAPITimeoutError` - ProviderAPITimeoutError"
+      },
+      "ProviderInternalServerError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ProviderInternalServerErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ProviderInternalServerErrorCodeEnum": {
+        "enum": [
+          "ProviderInternalServerError"
+        ],
+        "type": "string",
+        "description": "* `ProviderInternalServerError` - ProviderInternalServerError"
+      },
+      "ProviderNotFoundError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ProviderNotFoundErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "ProviderNotFoundErrorCodeEnum": {
+        "enum": [
+          "ProviderNotFoundError"
+        ],
+        "type": "string",
+        "description": "* `ProviderNotFoundError` - ProviderNotFoundError"
+      },
+      "RateLimitError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/RateLimitErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "RateLimitErrorCodeEnum": {
+        "enum": [
+          "RateLimitError"
+        ],
+        "type": "string",
+        "description": "* `RateLimitError` - RateLimitError"
+      },
+      "ResponseChoice": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "description": "The index of the choice in the list of choices."
+          },
+          "message": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Message"
+              }
+            ],
+            "description": "The messages in the chat completion."
+          },
+          "finish_reason": {
+            "type": "string",
+            "description": "The reason the chat completion finished, e.g., 'stop' or 'length'."
+          }
+        },
+        "required": [
+          "finish_reason",
+          "index",
+          "message"
+        ]
+      },
+      "RetrieveFineTuningResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the fine-tuning job."
+          },
+          "fine_tuned_model": {
+            "type": "string",
+            "description": "The ID of the fine-tuned model."
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "The Unix timestamp (in seconds) of when the fine-tuning job was created."
+          },
+          "finished_at": {
+            "type": "integer",
+            "description": "The Unix timestamp (in seconds) of when the fine-tuning job was finished."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the fine-tuning job."
+          },
+          "error": {
+            "type": "string",
+            "description": "The error message of the fine-tuning job."
+          },
+          "provider_name": {
+            "type": "string",
+            "description": "The name of the provider that generated the completion."
+          },
+          "provider_id": {
+            "type": "string",
+            "description": "The ID of the provider that generated the completion."
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "The status code of the fine-tuning job."
+          }
+        },
+        "required": [
+          "created_at",
+          "fine_tuned_model",
+          "id",
+          "provider_id",
+          "provider_name",
+          "status",
+          "status_code"
+        ]
+      },
+      "RoleEnum": {
+        "enum": [
+          "user",
+          "assistant"
+        ],
+        "type": "string",
+        "description": "* `user` - user\n* `assistant` - assistant"
+      },
+      "StatusEnum": {
+        "enum": [
+          "PENDING",
+          "UPLOADED",
+          "PARSING",
+          "CHUNKING",
+          "WAITING_FOR_CHUNKS_COMPLETION",
+          "PROCESSING",
+          "COMPLETED",
+          "FAILED"
+        ],
+        "type": "string",
+        "description": "* `PENDING` - Pending\n* `UPLOADED` - Uploaded\n* `PARSING` - Parsing\n* `CHUNKING` - Chunking\n* `WAITING_FOR_CHUNKS_COMPLETION` - Waiting for chunks completion\n* `PROCESSING` - Processing\n* `COMPLETED` - Completed\n* `FAILED` - Failed"
+      },
+      "UnprocessableEntityError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/UnprocessableEntityErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "UnprocessableEntityErrorCodeEnum": {
+        "enum": [
+          "UnprocessableEntityError"
+        ],
+        "type": "string",
+        "description": "* `UnprocessableEntityError` - UnprocessableEntityError"
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "completion_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "prompt_tokens",
+          "total_tokens"
+        ]
+      },
+      "ValidationDetail": {
+        "type": "object",
+        "properties": {
+          "error_messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {}
+            },
+            "description": "Error messages for the field."
+          }
+        },
+        "required": [
+          "error_messages"
+        ]
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A description of the validation error."
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ValidationDetail"
+            },
+            "description": "Detailed information about the validation errors."
+          },
+          "code": {
+            "$ref": "#/components/schemas/ValidationErrorCodeEnum"
+          }
+        },
+        "required": [
+          "code",
+          "details",
+          "message"
+        ]
+      },
+      "ValidationErrorCodeEnum": {
+        "enum": [
+          "ValidationError"
+        ],
+        "type": "string",
+        "description": "* `ValidationError` - ValidationError"
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "OrganizationTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://premai.io",
+      "description": "Production server"
+    }
+  ]
 }
