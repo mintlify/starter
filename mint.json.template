@@ -1,0 +1,84 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Prem",
+  "logo": {
+    "dark": "/logo.svg",
+    "light": "/logo.svg"
+  },
+  "openapi" : "https://app.premai.io/api/schema/",
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#23211F",
+    "light": "#a986c5",
+    "dark": "#23211F",
+    "anchors": {
+      "from": "#23211F",
+      "to": "#a986c5"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:hello@premai.io"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.premai.io"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Community",
+      "icon": "discord",
+      "url": "https://discord.com/invite/kpKk6vYVAn"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://blog.premai.io"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Home",
+      "pages": [
+        "introduction"
+      ]
+    },
+    {
+      "group": "Get Started",
+      "pages": [
+        "get-started/signup",
+        "get-started/projects",
+        "get-started/lab",
+        "get-started/monitoring",
+        "get-started/repositories",
+        "get-started/launchpad",
+        "get-started/sdk"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "website": "https://www.premai.io",
+    "twitter": "https://twitter.com/premai_io",
+    "github": "https://github.com/premAI-io",
+    "linkedin": "https://www.linkedin.com/company/premai"
+  },
+  "analytics": {
+      "plausible": {
+          "domain": "docs.premai.io"
+      }
+  }
+}
