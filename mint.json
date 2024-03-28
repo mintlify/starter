@@ -5,6 +5,7 @@
     "dark": "/logo.svg",
     "light": "/logo.svg"
   },
+  "openapi" : "https://app.premai.io/api/schema/",
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#23211F",
