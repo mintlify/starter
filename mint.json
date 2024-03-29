@@ -5,7 +5,7 @@
     "dark": "/logo.svg",
     "light": "/logo.svg"
   },
-  "openapi" : "https://app.premai.io/api/schema/",
+  "openapi": "https://app.premai.io/api/schema/",
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#23211F",
@@ -120,8 +120,8 @@
     "linkedin": "https://www.linkedin.com/company/premai"
   },
   "analytics": {
-      "plausible": {
-          "domain": "docs.premai.io"
-      }
+    "plausible": {
+      "domain": "docs.premai.io"
+    }
   }
 }
