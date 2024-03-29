@@ -6,6 +6,12 @@
     "light": "/logo.svg"
   },
   "openapi" : "https://app.premai.io/api/schema/",
+  "api": {
+    "baseUrl": "https://app.premai.io",
+    "auth": {
+        "method": "bearer"
+    }
+  },
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#23211F",
