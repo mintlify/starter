@@ -933,41 +933,41 @@ components:
             "$ref": "#/components/schemas/Date"
     Error:
       required:
-      - error
+      - errors
       type: object
       properties:
-        error:
-          type: string
-          description: A message describing the error
-          example: The request is missing the required field `name`
+        errors:
+          type: array
+          description: An array of messages describing the errors
+          example: ["The request is missing the required field `name`"]
     Unauthorized:
       type: object
       properties:
-        error:
+        errors:
           type: string
-          description: A message describing the error
-          example: No X-API-KEY header provided or wrong value
+          description: An array of messages describing the errors
+          example: ["No X-API-KEY header provided or wrong value"]
     UnauthorizedBarer:
       type: object
       properties:
-        error:
-          type: string
-          description: A message describing the error
-          example: "Not Authorization: Bearer <token> provided or wrong value"
+        errors:
+          type: array
+          description: An array of messages describing the errors
+          example: ["Not Authorization: Bearer <token> provided or wrong value"]
     Conflict:
       type: object
       properties:
-        error:
-          type: string
-          description: A msesage describing the conflict error
-          example: This user already exists. [name] and [email] must be a unique combination
+        errors:
+          type: array
+          description: An array of messages describing the conflict errors
+          example: ["This user already exists. [name] and [email] must be a unique combination"]
     NotFound:
       type: object
       properties:
-        error:
+        errors:
           type: string
-          description: A msesage describing the not found error
-          example: The resource with id [8be3bb60-5ab4-4bd2-90e6-3b015691a827] does not exist
+          description: An array of messages describing the not found errors
+          example: ["The resource with id [8be3bb60-5ab4-4bd2-90e6-3b015691a827] does not exist"]
     PayrollSubmission:
       type: object
       required: 
