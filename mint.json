@@ -9,7 +9,7 @@
   "api": {
     "baseUrl": "https://app.premai.io",
     "auth": {
-        "method": "bearer"
+      "method": "bearer"
     }
   },
   "favicon": "/favicon.png",
