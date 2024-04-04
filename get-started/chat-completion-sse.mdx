@@ -64,3 +64,42 @@ For `event: completion`, the `data` field is a JSON object containing a chunk of
       </ResponseField>
   </Expandable>
 </ResponseField>
+
+### Examples
+
+#### Completion Event
+```plaintext
+event: completion
+data: {
+  "id": "<id>",
+  "model": "gpt-3.5",
+  "object": "chat_completion",
+  "created": "2024-04-04T12:00:00Z",
+  "choices": [
+    {
+      "delta": {
+        "content": "Hello, how can I assist you today?",
+        "role": "assistant"
+      },
+      "finish_reason": "complete"
+    }
+  ]
+}
+```
+
+#### Error Event
+```plaintext
+event: error
+data: {
+  "error": "Internal Server Error",
+  "message": "An internal server error occurred while processing the request."
+}
+```
+
+#### Done Event
+```plaintext
+event: done
+data: "[DONE]"
+trace_id: <trace_id>
+document_chunks: ["chunk1", "chunk2", "chunk3"]
+```
