@@ -1,0 +1,66 @@
+---
+title: Streaming Chat
+icon: paper-plane
+description: The [chat completion](/api-reference/chat-completions/post-v1chatcompletions) endpoint provides a way to generate chat completions based on provided input messages. This endpoint supports streaming via Server-Sent Events (SSE), allowing for partial message deltas to be sent back to the client.
+---
+
+## Request
+For details on the parameters for chat completion, refer to the [chat-completion-parameters](/api-reference/chat-completions/post-v1chatcompletions) documentation.
+
+**Note:** When streaming is desired, ensure that the `stream` parameter is set to `true`.
+
+## Response
+
+The response is streamed back to the client using Server-Sent Events (SSE). Each event corresponds to a partial completion message or an error message.
+
+- `event: completion`: Indicates a partial completion message.
+  - `data`: Contains the JSON object representing the partial completion message.
+  
+- `event: error`: Indicates an error occurred.
+  - `data`: Contains the JSON object representing the error message.
+  
+- `event: done`: Indicates the completion of the streaming process.
+  - `data`: Contains `[DONE]`.
+  - `trace_id`: Contains the unique identifier for tracing purposes.
+  - `document_chunks`: Contains the list of document chunks processed during the streaming.
+
+### Data
+For `event: completion`, the `data` field is a JSON object containing a chunk of the completion message.
+
+<ResponseField name="id" type="string" required>
+  The unique identifier of the chunk
+</ResponseField>
+
+<ResponseField name="model" type="string" required>
+  The model associated with the chunk
+</ResponseField>
+
+<ResponseField name="object" type="string" required>
+  The object associated with the chunk
+</ResponseField>
+
+<ResponseField name="created" type="date" required>
+  The creation date of the chunk
+</ResponseField>
+
+<ResponseField name="choices" type="array" required>
+  An array of choices made for the chunk
+  <Expandable title="Choices">
+      <ResponseField type="object">
+        <ResponseField name="delta" type="object" required>
+          The content and role of the choice delta
+          <Expandable title="Delta">
+            <ResponseField name="content" type="string" required>
+              The content of the delta
+            </ResponseField>
+            <ResponseField name="role" type="string" required>
+              The role of the delta
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="finish_reason" type="string" required>
+          The reason for finishing the choice
+        </ResponseField>
+      </ResponseField>
+  </Expandable>
+</ResponseField>

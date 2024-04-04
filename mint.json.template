@@ -66,7 +66,8 @@
         "get-started/monitoring",
         "get-started/repositories",
         "get-started/launchpad",
-        "get-started/sdk"
+        "get-started/sdk",
+        "get-started/chat-completion-sse"
       ]
     },
     {
