@@ -77,12 +77,6 @@
       ]
     },
     {
-      "group": "api",
-      "pages": [
-        "api-reference/api/get-apiprojects-generate-description"
-      ]
-    },
-    {
       "group": "chat-completions",
       "pages": [
         "api-reference/chat-completions/post-v1chatcompletions"
