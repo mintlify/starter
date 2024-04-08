@@ -493,7 +493,7 @@ paths:
                 "$ref": "#/components/schemas/Error"
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
-  "/documents/{file_id}":
+  "/documents/{document_id}":
     get:
       summary: Returns all documents for a user entry
       parameters:
@@ -515,7 +515,13 @@ paths:
           content:
             application/json:
               schema:
-               "$ref": "#/components/schemas/DocumentResponse"
+                allOf:
+                - "$ref": "#/components/schemas/DocumentResponse"
+                - properties:
+                    file_contents:
+                      type: string
+                      description: Base-64 encoded string containing file contents
+                      example: "JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoS..."
         '400':
           "$ref": "#/components/responses/BadRequest"
         '401':
@@ -530,13 +536,6 @@ paths:
             type: string
           required: true
           description: ID of the user to get documents for
-        - name: ordered_by
-          in: query
-          description: The field of the user to order by
-          required: false
-          schema:
-            type: string
-            enum: [file_name, upload_time]
         - name: offset
           in: query
           description: The offset to start at
@@ -569,7 +568,13 @@ paths:
                   documents:
                     type: array
                     items:
-                      "$ref": "#/components/schemas/DocumentResponse"
+                      allOf:
+                      - "$ref": "#/components/schemas/DocumentResponse"
+                      - properties:
+                          file_contents:
+                            type: string
+                            description: Location to download the document
+                            example: "/documents/a9249254-ab10-4a2d-b709-eda95f5ecd59"
         '400':
           description: Unexpected error
           content:
@@ -868,10 +873,6 @@ components:
           example: "Payslip"
         upload_time:
           "$ref": "#/components/schemas/Date"
-        file_contents:
-          type: string
-          description: Base-64 encoded string containing file contents
-          example: "JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoS..."
     PayrollData:
       type: object
       required: [account_id, entry_id, pagination, payroll_submissions]
