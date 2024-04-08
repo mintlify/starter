@@ -197,13 +197,6 @@ paths:
             type: string
           required: true
           description: ID of the user to get accounts for
-        - name: orederd_by
-          in: query
-          description: The field of the user to order by
-          required: false
-          schema:
-            type: string
-            enum: [payroll_provider, created_at]
         - name: offset
           in: query
           description: The offset to start at
@@ -221,8 +214,8 @@ paths:
             type: integer
             format: int32
             minimum: 1
-            maximum: 100
-            default: 20
+            maximum: 1000
+            default: 500
       responses: 
         '200':
           description: Successfully retrieved accounts
