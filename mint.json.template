@@ -13,7 +13,7 @@
     }
   },
   "metadata": {
-    "og:image": "/metadata.jpg"
+    "og:image": "https://static.premai.io/prem-saas-docs/metadata.jpg"
   },
   "favicon": "/favicon.png",
   "colors": {
