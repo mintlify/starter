@@ -6,12 +6,6 @@
     "light": "/logo.svg"
   },
   "openapi" : "https://app.premai.io/api/schema/",
-  "api": {
-    "baseUrl": "https://app.premai.io",
-    "auth": {
-        "method": "bearer"
-    }
-  },
   "metadata": {
     "og:image": "https://static.premai.io/prem-saas-docs/metadata.jpg"
   },
