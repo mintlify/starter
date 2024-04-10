@@ -12,6 +12,9 @@
       "method": "bearer"
     }
   },
+  "metadata": {
+    "og:image": "/metadata.jpg"
+  },
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#23211F",
