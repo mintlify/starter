@@ -498,13 +498,7 @@ paths:
       summary: Returns all documents for a user entry
       parameters:
         - in: path
-          name: user_id
-          schema:
-            type: string
-          required: true
-          description: ID of the user to get documents for
-        - in: path
-          name: file_id
+          name: document_id
           schema:
             type: string
           required: true
@@ -732,7 +726,7 @@ components:
   schemas:
     Date:
       type: string
-      format: date
+      format: date-time
       example: 2019-05-17T00:00:00.000Z
     PaginationWithOrderedBy:
       type: object
@@ -932,6 +926,8 @@ components:
       properties:
         errors:
           type: array
+          items:
+            type: string
           description: An array of messages describing the errors
           example: ["The request is missing the required field `name`"]
     Unauthorized:
@@ -946,6 +942,8 @@ components:
       properties:
         errors:
           type: array
+          items:
+            type: string
           description: An array of messages describing the errors
           example: ["Not Authorization: Bearer <token> provided or wrong value"]
     Conflict:
@@ -953,6 +951,8 @@ components:
       properties:
         errors:
           type: array
+          items:
+            type: string
           description: An array of messages describing the conflict errors
           example: ["This user already exists. [name] and [email] must be a unique combination"]
     NotFound:
