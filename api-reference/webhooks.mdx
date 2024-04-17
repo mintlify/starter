@@ -56,3 +56,70 @@ Modify webhook details or unsubscribe using the webhook ID in PUT or DELETE requ
 - **Regular Review**: Periodically check your webhook subscriptions and adjust as needed to match your application's requirements.
 
 Leverage our webhooks to make your application more dynamic and responsive to changes without the overhead of continuous polling.
+
+
+## Webhook Example
+
+Example of webhook request body configured to include the payload by setting
+```"include_payload": "true"``` in POST ``` /webhooks``` request body.
+
+
+```json
+{
+  "event": "user-payroll-submitted",
+  "user_id": "e9b7676b-f107-429c-8d17-cf3fd1362fd3",
+  "timestamp": "2024-04-17T13:56:03.277Z",
+  "payload": {
+    "entry_id": "cc48a12c-0e98-47aa-b281-f203403470d0",
+    "account_id": "f68961c9-a083-4bfd-a3c6-0ae169b48f35",
+    "payroll_submissions": [
+      {
+        "id": "0187c66e-e7e5-811c-b006-2232f00f426a",
+        "account_id": null,
+        "entry_id": "5801b4eb-1c2e-4caf-b508-70eeab52d8ea",
+        "created_at": "2024-04-17T13:56:03.118Z",
+        "identity_information": {
+          "name": "Jane Doe",
+          "date_of_birth": "1990-04-01",
+          "address": {
+            "street": "123 Main St",
+            "county": "Anyshire",
+            "city": "Anycity",
+            "post_code": "AB12 3CD",
+            "country": "Countryland"
+          },
+          "email": "jane.doe@example.com",
+          "phone": "+1234567890",
+          "NI_number": "AB123456C",
+          "employment_information": {
+            "employer_name": "Acme Corp",
+            "role": "Software Developer",
+            "type": "Full-Time",
+            "status": "Active",
+            "start_date": "2018-06-01",
+            "leave_date": null
+          },
+          "income_information": {
+            "pay_date": "2024-02-15",
+            "pay_interval_start": "2024-02-01",
+            "pay_interval_end": "2024-02-15",
+            "pay_frequency": "weekly",
+            "earnings": {
+              "gross_pay": 2000,
+              "net_pay": 1500,
+              "base_salary": 1900,
+              "bonus": 100
+            },
+            "deductions": {
+              "income_tax": 300,
+              "employee_ni": 150,
+              "employee_pension": 50,
+              "total_deductions": 500
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+```
