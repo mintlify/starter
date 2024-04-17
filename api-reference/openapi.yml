@@ -918,6 +918,15 @@ components:
           description: A secret to sign the body of the webhook as described at "https://docs.goteal.co"
           writeOnly: true # Not included in response objects
           example: very-secret
+        config:
+          type: object
+          description: Configuration properties of the webhook
+          writeOnly: true
+          properties:
+            include_resource:
+              type: boolean
+              description: Whether to include or not the payload of the event in the webhook
+              example: true
     CreatedWebhook:
       allOf:
       - required: [webhook_id]
