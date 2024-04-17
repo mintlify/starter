@@ -1,6 +1,6 @@
 ---
 title: 'Webhooks'
-description: 'Effortlessly stay updated with real-time notifications via our Webhooks service.'
+description: 'Stay updated with real-time notifications via our Webhooks service.'
 --- 
 
 ## Overview
@@ -11,7 +11,7 @@ Webhooks instantly inform your application about significant events, such as pay
 - Notifying upon successful account linkages.
 - Triggering actions after data updates.
 
-Webhooks are system-wide, not limited to specific users or accounts, enhancing your application's responsiveness.
+Webhooks are system-wide meaning subscriptions are not limited to specific users or accounts. For example, if any user updates their payroll with the `user-payroll-submitted` subscription enabled, a webbook will be delivered with the respective user information enclosed.
 
 ### Quick Reference:
 - **Webhooks List**: Detailed descriptions of all events you can subscribe to.
@@ -39,15 +39,37 @@ curl --request POST \
 - **secret**: (Optional) A secret for secure webhook verification.
 
 ### Verifying Webhooks
-Use the provided `secret` to validate incoming webhook signatures, ensuring data integrity and authenticity.
+If the optional `secret` was provided in the webhook subscription, it can be used to validate incoming webhook signatures, ensuring data integrity and authenticity.
+
+To verify if a received webhook event is authentic:
+- Encode the webook payload with the `secret` using `HMAC-SHA512`. You can then check that that the result of this encoding matches the contents in the
+`X-Teal-Signature` header. If it matches then the webhook received is genuine. Example verification:
+
+If your `secret` was `mysecret` and you received the following webhook payload:
+
+```
+            {
+              "event": "user-payroll-submitted",
+              "user_id": "4708334c-70b3-437d-8e46-91ff5c9a8d7d",
+              "timestamp": "2024-04-04T12:00:00.00Z"
+            }
+```
+
+The signature to check against would be:
+
+```
+"X-Teal-Signature" : "a30540779107a19069257432b775b74b16b32214616638fae2e6027a41a3f2dfb08f44daf3862c335d08fb83501fc769f73d49a1cb137f96f31c6a7db412c197"
+```
+
+
 
 ## Webhook Management
 
-### Viewing Subscriptions
-List your current webhooks with a simple GET request to our webhook endpoint.
+### Viewing subscriptions
+List your current webhooks with a simple GET request to our webhook endpoint `GET /webhooks`.
 
-### Updating and Deleting
-Modify webhook details or unsubscribe using the webhook ID in PUT or DELETE requests.
+### Deleting subscriptions
+Unsubscribe using the webhook ID in the request `DELETE /webhooks/{webhook_id}`
 
 ## Best Practices
 
