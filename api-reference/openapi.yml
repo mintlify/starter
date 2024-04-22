@@ -827,6 +827,10 @@ components:
           type: string
           description: The payroll provider to use
           example: quickbooks
+        user_name:
+          type: string
+          description: The login of the user
+          example: john.smith@company.com
         status:
           type: string
           description: Status of account
