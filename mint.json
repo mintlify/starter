@@ -74,6 +74,25 @@
       ]
     },
     {
+      "group": "finetuning-admin",
+      "pages": [
+        "api-reference/finetuning-admin/get-projectsgymadmindatasets",
+        "api-reference/finetuning-admin/post-projectsgymadmindatasets",
+        "api-reference/finetuning-admin/get-projectsgymadmindatasets-",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetunedmodels",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetunedmodels-",
+        "api-reference/finetuning-admin/post-projectsgymadminfinetunedmodelspromote",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetuningjobs",
+        "api-reference/finetuning-admin/post-projectsgymadminfinetuningjobs",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetuningjobs-",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetuningmessages",
+        "api-reference/finetuning-admin/post-projectsgymadminfinetuningmessages",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetuningrequests",
+        "api-reference/finetuning-admin/get-projectsgymadminfinetuningrequests-",
+        "api-reference/finetuning-admin/post-projectsgymadminfinetuningrequestsset_started"
+      ]
+    },
+    {
       "group": "chat-completions",
       "pages": [
         "api-reference/chat-completions/post-v1chatcompletions"
