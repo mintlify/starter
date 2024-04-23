@@ -63,7 +63,6 @@
         "get-started/monitoring",
         "get-started/repositories",
         "get-started/launchpad",
-        "get-started/gym",
         "get-started/sdk",
         "get-started/chat-completion-sse"
       ]
