@@ -1,13 +1,134 @@
 ---
-title: Introduction!
-description: "Unlock the power of Generative AI with Prem's platform, a streamlined suite of tools for seamless integration and innovation."
+title: Quickstart Guide
+
+description: Let's create a Generative AI application in minutes.
 ---
 
+### Why Prem?
+
+**Prem** makes it easy to integrate Generative AI into your applications. It's a platform that combines a simple SDK (in Python and JavaScript) with a straightforward user interface. Prem is an all-in-one suite for assessing LLM performance with built-in evaluation and monitoring tools, simple fine-tuning, RAG without the hassle and deployment.
+
 <img src="/images/cover.png" alt="Prem" />
+## Quickstart
 
-## Getting Started
+<Tabs>
 
-Welcome to the Prem Platform Quick Start Guide! This document will guide you through setting up your account, creating and managing projects, experimenting with AI models, and integrating Prem into your products.
+  <Tab title="Python">
+  ✌️ This guide shows you how to create a Generative AI application with Prem's Python SDK in minutes.
+   
+   1. [Activate your Prem account](https://app.premai.io/accounts/signup/)
+   2. **Sign in** and  generate an API key
+   3. Create a new Project
+   <Info>See that we've set you up with a starter project already. You have a choice to use the starter project or create a new project. <p>- _**For example** you start a new project called “Product Descriptions” to help write unique descriptions for your items. Or you might have a “Customer Support” project, where AI helps answer questions from your customers.
+  You can also make new projects, change them, or delete them if you need to. Think of each project as a test lab for trying out AI in ways that help your business._</p></Info>
+   4. Head over to the **_Lab_** and experiment with various LLMs simultaneously
+   5. After you've experimented with differnt models in the lab, choose the most suitable one for your usecase. Then, go to the launchpad and launch the it directly from the user interface. 
+   6. Now its time to integrate Prem into your application.
+
+```Python
+pip install premai
+```
+
+```Python
+from premai import Prem
+
+client = Prem(
+    api_key=YOUR_API_KEY
+)
+
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Who won the world series in 2020?"},
+]
+model = "gpt-3.5-turbo"
+project_id = PROJECT_ID
+
+# Create completion
+response = client.chat.completions.create(
+    project_id=project_id,
+    messages=messages,
+    model=model,
+    stream=False
+)
+
+print(response.choices)
+
+# Create completion with stream
+response = client.chat.completions.create(
+    project_id=project_id,
+    messages=messages,
+    model=model,
+    stream=True
+)
+
+for chunk in response:
+    if chunk.choices[0].delta["content"]:
+        print(chunk.choices[0].delta["content"], end="")
+
+print(f"\nTrace ID: {response.trace_id}")
+```
+
+  </Tab>
+  <Tab title="Javascript">
+   ✌️ This guide shows you how to create a Generative AI application with Prem's JavaScript SDK in minutes.
+   
+   1. [Activate your Prem account](https://app.premai.io/accounts/signup/)
+   2. **Sign in** and  generate an API key
+   3. Create a new Project
+   <Info>See that we've set you up with a starter project already. You have a choice to use the starter project or create a new project. <p>- _**For example** you start a new project called “Product Descriptions” to help write unique descriptions for your items. Or you might have a “Customer Support” project, where AI helps answer questions from your customers.
+  You can also make new projects, change them, or delete them if you need to. Think of each project as a test lab for trying out AI in ways that help your business._</p></Info>
+   4. Head over to the **_Lab_** and experiment with various LLMs simultaneously
+   5. After you've experimented with differnt models in the lab, choose the most suitable one for your usecase. Then, go to the launchpad and launch the it directly from the user interface. 
+   6. Now its time to integrate Prem into your application.
+
+```JavaScript
+npm install @premai/prem-sdk
+```
+
+```JavaScript
+import Prem from '@premai/prem-sdk';
+
+const client = new Prem({
+  apiKey: "YOUR_API_KEY"
+})
+
+const project_id = PROJECT_ID
+
+const model = "gpt-3.5-turbo"
+const messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Who won the world series in 2020?"},
+]
+
+// Create completion
+
+console.log(responseSync)
+
+// Create completion with stream
+const responseAsync = await client.chat.completions.create({
+  project_id,
+  messages,
+  model,
+  stream: true
+})
+for await (const chunk of responseAsync) {
+  if (chunk.choices[0].delta.content) {
+    process.stdout.write(chunk.choices[0].delta.content)
+  }
+} console.log("\nTrace ID", responseAsync.trace_id)
+```
+
+  </Tab>
+  
+</Tabs>
+
+## Next steps
+
+- Check out the API reference
+- Conect your doucments to the LLMN to enhance its knowledge in one click.
+- Finetune your LLM's in the PremAI Gym.
+
+## Read the guides
 
 <CardGroup cols={3}>
   <Card
@@ -19,6 +140,7 @@ Welcome to the Prem Platform Quick Start Guide! This document will guide you thr
   </Card>
 
 {" "}
+
 <Card title="Projects" icon="folder" href="/get-started/manage-projects">
   Create and manage projects to organize your work.
 </Card>

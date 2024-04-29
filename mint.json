@@ -49,13 +49,13 @@
   ],
   "navigation": [
     {
-      "group": "Home",
+      "group": "Get started",
       "pages": [
         "introduction"
       ]
     },
     {
-      "group": "Get Started",
+      "group": "Guides",
       "pages": [
         "get-started/signup",
         "get-started/projects",
