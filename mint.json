@@ -81,17 +81,6 @@
       ]
     },
     {
-      "group": "data-points",
-      "pages": [
-        "api-reference/data-points/get-v1data-points",
-        "api-reference/data-points/post-v1data-points",
-        "api-reference/data-points/get-v1data-points-",
-        "api-reference/data-points/put-v1data-points-",
-        "api-reference/data-points/delete-v1data-points-",
-        "api-reference/data-points/patch-v1data-points-"
-      ]
-    },
-    {
       "group": "embeddings",
       "pages": [
         "api-reference/embeddings/post-v1embeddings"
@@ -115,6 +104,19 @@
       "group": "repository-document",
       "pages": [
         "api-reference/repository-document/post-v1repository-document"
+      ]
+    },
+    {
+      "group": "feedbacks",
+      "pages": [
+        "api-reference/feedbacks/post-v1set_trace_feedback"
+      ]
+    },
+    {
+      "group": "traces",
+      "pages": [
+        "api-reference/traces/get-v1traces",
+        "api-reference/traces/get-v1traces-"
       ]
     }
   ],
