@@ -42,7 +42,6 @@ curl --request POST \
   "created_at": "2019-05-17T00:00:00.000Z"
 }
 ```
-This will create also a test user data automatically.
 
 ## 2. Create a user `/users`
 
@@ -61,6 +60,8 @@ curl --request POST \
   "email": "john.smith@company.com"
 }'
 ```
+
+The field `email` does not have to be a real email address. It can be the user's identifier in your system.
 
 **Response Example:**
 

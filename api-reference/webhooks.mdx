@@ -42,7 +42,7 @@ curl --request POST \
 If the optional `secret` was provided in the webhook subscription, it can be used to validate incoming webhook signatures, ensuring data integrity and authenticity.
 
 To verify if a received webhook event is authentic:
-- Encode the webook payload with the `secret` using `HMAC-SHA512`. You can then check that that the result of this encoding matches the contents in the
+- Encode the webook payload with the `secret` using `HMAC-SHA512`. You can then check that the result of this encoding matches the contents in the
 `X-Teal-Signature` header. If it matches then the webhook received is genuine. Example verification:
 
 If your `secret` was `mysecret` and you received the following webhook payload:

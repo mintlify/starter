@@ -773,7 +773,7 @@ components:
           type: string
           example: John Smith
         email:
-          description: The email of the user. It doesn't have to be uniqe for the client.
+          description: The email of the user. The field does not have to be a real email address. It can be the user’s identifier in your system.
           type: string
           format: email
           example: john.smith@company.com
