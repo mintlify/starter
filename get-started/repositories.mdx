@@ -2,9 +2,70 @@
 icon: folder-open
 ---
 
-Seamlessly create RAG-based assistants able to interact with your documents. Just upload the documents and we take care of the rest.
+> With **Repositories** you can just upload the documents and we take care of the rest. 
+>
+> This guide will show you how to create **RAG-based** assistants that are able to interact with your documents. 
+
+**RAG** is a powerful technique that combines the strengths of retrieval-based systems and generative models to enable assistants to provide accurate and contextually relevant responses based on the content of your documents.
 
 <img
   src="https://static.premai.io/prem-saas-docs/repositories.gif"
   alt="Overview"
 />
+
+## Before you get started
+
+- Create a collection of documents that you want you'd like your LLM to interact with
+
+
+- Basic understanding of the Prem's APIs and SDKs
+
+<Steps>
+  <Step title="Create A Repository and Upload Your Documents">
+  <Tip>
+    The max file size is: 10MB
+  </Tip>
+    - Use the sidebar to navigate to the **Repositories** page. Click **_New Repository_** to create a new place to store your documents. 
+
+    - Prepare your documents in a format supported by **Prem**, such as **PDF**, **TXT**, or **DOCX**. Ensure that the documents are clean, well-structured, and free of any formatting issues.
+
+    - Upload your documents to a repository using Prem's interface, API or SDK. You can either upload documents individually or in batches. Provide meaningful names or identifiers for your documents to easily retrieve them later.
+
+    - Once the documents are uploaded, Prem will automatically index them to enable fast and efficient retrieval. 
+    
+    <Warning>
+    The indexing process may take some time depending on the size and number of documents.  
+    </Warning>
+    
+  </Step>
+  <Step title="Choose a Model and Configure Retrieval Settings">
+  Once you've uploaded your documents you need to configure the retrieval settings. Head over to the **Lab** and choose a suitable model to test with your documents.
+  
+   You can find the following retrieval settings in the **Lab** or the **Launchpad**:
+{/*Add pic Gif of lab and launchpad side by side */}
+  - **Limit:** Sets the maximum number of top-matching documents to retrieve based on similarity.
+  
+  - **Similarity:** Measures how closely a query matches document embeddings. Higher values indicate greater similarity, ranging from 0 to 1.
+  
+  </Step>
+
+  <Step title ="Fine-tune the model with the Gym">
+  - Fine-tune your selected model in the **Gym** on your specific domain or task. This involves training the model on a subset of your documents and optimizing its parameters for better performance and coherence.
+  - Integrate the fine-tuned model into your pipeline. When a user sends a query, the model will retrieve relevant documents from the repository and then pass them to the generative model to generate a contextually appropriate response.
+  <Warning>
+    You **MUST** add a project description, otherwise you will not be able to start the training.
+  </Warning>
+  </Step>
+  <Step title = "Testing and Evaluation">
+Before deploying your configured model, it's crucial to thoroughly test and evaluate its performance in the **Lab**.
+
+ - **Test Queries:** Prepare a set of test queries that cover different scenarios and edge cases. Send these queries to your assistant and evaluate the quality and relevance of the generated responses.
+
+ - **Iterative Refinement:** Based on the evaluation results, iteratively refine your assistant by adjusting the retrieval settings, fine-tuning the generative model, or improving the document collection.
+  </Step>
+
+  <Step title = "Deployment and Integration">
+  Once you're satisfied with the performance of your models, you can deploy it with the [Launchpad](/get-started/launchpad) and integrate your application with the Prem [SDKs](/get-started/sdk) or [API](/api-reference/introduction).
+  </Step>
+
+</Steps>
