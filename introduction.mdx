@@ -1,16 +1,172 @@
 ---
-title: Introduction
-description: "Unlock the power of Generative AI with Prem's platform, a streamlined suite of tools for seamless integration and innovation."
+title: Quickstart Guide
+
+description: Let's create a Generative AI application in minutes.
 ---
 
-<img
-  src="/images/cover.png"
-  alt="Prem"
-/>
+<img src="/images/cover.png" alt="Prem" />
+## Why Prem?
 
-## Getting Started
+**Prem** is a platform thats packaged with the necessary tools to efforlessly integrate Generative AI into your applications.
 
-Welcome to the Prem Platform Quick Start Guide! This document will guide you through setting up your account, creating and managing projects, experimenting with AI models, and integrating Prem into your products. 
+## With Prem you can:
+
+- **Simultaneously test and monitor LLM's in the [_Prem Lab_](/get-started/lab):** Compare the performance of multiple models and find the best fit for your use case.
+- **Train models in the [_Prem Gym_](/get-started/gym):** Leverage Prem’s ability to autonomously fine-tune models. The Gym is your place to beef up your deployment models by continuously fine-tuning your data in order to improve performance.
+- **Seamlessly create [_RAG-based assistants_](/get-started/repositories):** Prem is capable of interacting with your documents. Just upload the documents, and we’ll take care of the rest.
+- **[_Launch_](/get-started/launchpad) and use the [_Prem Javascript and Python SDKs_](/get-started/sdk):** Integrate your custom AI into you applications with minimal effort.
+
+## Quickstart{" "}
+
+✌️ This guide shows you how to create a Generative AI application with
+Prem's in minutes.
+
+  <Steps titleSize="h3">
+    <Step title="Activate your Prem account.">
+
+[Click here to sign up](https://app.premai.io/accounts/signup/)
+
+</Step>
+<Step title="Sign in and generate an API key.">
+
+![Alt Text](https://static.premai.io/prem-saas-docs/quickstart-guide/apiKeys.gif)
+
+</Step>
+
+<Step title="Create a new project.">
+<Card title="We set up a starter project for you already. You have a choice to use the starter project or create a new project." icon="lightbulb" iconType="duotone" color="#a986c5">
+---
+</Card>
+![GIF of how to create a new project with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/newProject.gif)
+
+</Step>
+
+<Step title="Head over to the Lab and experiment with various LLMs simultaneously.">
+
+![Usage of the Prem Lab](https://static.premai.io/prem-saas-docs/quickstart-guide/premLab.gif)
+
+</Step>
+
+<Step title="After you've experimented with differnt models in the Lab, go to the Launchpad and choose the most suitable model for your usecase.">
+
+![Launch you Generative AI App with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/launchPad.gif)
+
+</Step>
+
+<Step title="Now its time to integrate Prem into your application.">
+## Choose an SDK and install.
+<Tip>
+  Prem also exposes a simple [REST API](/api-reference/introduction) for interacting with the platform. 
+</Tip>
+
+<CodeGroup>
+```Python Python
+pip install premai
+```
+
+```JavaScript JavaScript
+npm install @premai/prem-sdk
+```
+
+</CodeGroup>
+
+## Run your first project.
+
+<CodeGroup>
+
+```Python Python
+from premai import Prem
+
+client = Prem(
+api_key=YOUR_API_KEY
+)
+
+messages = [
+{"role": "system", "content": "You are a helpful assistant."},
+{"role": "user", "content": "Who won the world series in 2020?"},
+]
+model = "gpt-3.5-turbo"
+project_id = PROJECT_ID
+
+# Create completion
+
+response = client.chat.completions.create(
+project_id=project_id,
+messages=messages,
+model=model,
+stream=False
+)
+
+print(response.choices)
+
+# Create completion with stream
+
+response = client.chat.completions.create(
+project_id=project_id,
+messages=messages,
+model=model,
+stream=True
+)
+
+for chunk in response:
+if chunk.choices[0].delta["content"]:
+print(chunk.choices[0].delta["content"], end="")
+
+print(f"\nTrace ID: {response.trace_id}")
+
+````
+
+```JavaScript JavaScript
+import Prem from '@premai/prem-sdk';
+
+const client = new Prem({
+  apiKey: "YOUR_API_KEY"
+})
+
+const project_id = PROJECT_ID
+
+const model = "gpt-3.5-turbo"
+const messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Who won the world series in 2020?"},
+]
+
+// Create completion
+
+
+console.log(responseSync)
+
+// Create completion with stream
+const responseAsync = await client.chat.completions.create({
+  project_id,
+  messages,
+  model,
+  stream: true
+})
+
+for await (const chunk of responseAsync) {
+  if (chunk.choices[0].delta.content) {
+    process.stdout.write(chunk.choices[0].delta.content)
+  }
+}
+
+console.log("\nTrace ID", responseAsync.trace_id)
+```
+</CodeGroup>
+</Step>
+
+</Steps>
+
+
+
+## Next steps
+
+- Continue to test LLMs in the [Lab](/get-started/lab).
+- Check out the [API reference](/api-reference/introduction).
+- [Conect your documents](/get-started/repositories) to the LLM to enhance its knowledge.
+- Finetune your LLM's in the [Gym](/get-started/gym).
+
+## Read the guides
 
 <CardGroup cols={3}>
   <Card
@@ -21,13 +177,11 @@ Welcome to the Prem Platform Quick Start Guide! This document will guide you thr
     Start your journey with Prem by creating an account.
   </Card>
 
-  <Card
-    title="Projects"
-    icon="folder"
-    href="/get-started/manage-projects"
-  >
-    Create and manage projects to organize your work.
-  </Card>
+{" "}
+
+<Card title="Projects" icon="folder" href="/get-started/manage-projects">
+  Create and manage projects to organize your work.
+</Card>
 
   <Card
     title="Lab"
@@ -39,11 +193,7 @@ Welcome to the Prem Platform Quick Start Guide! This document will guide you thr
 </CardGroup>
 
 <CardGroup cols={3}>
-  <Card
-    title="Monitoring"
-    icon="chart-line"
-    href="/get-started/monitoring"
-  >
+  <Card title="Monitoring" icon="chart-line" href="/get-started/monitoring">
     Monitor your AI integration.
   </Card>
   <Card
@@ -53,28 +203,17 @@ Welcome to the Prem Platform Quick Start Guide! This document will guide you thr
   >
     Upload documents to your repositories.
   </Card>
-  <Card
-    title="Launchpad"
-    icon="rocket"
-    href="/get-started/launchpad"
-  >
+  <Card title="Launchpad" icon="rocket" href="/get-started/launchpad">
     Launch your preferred model.
   </Card>
 </CardGroup>
 
 <CardGroup cols={3}>
-  <Card
-      title="Gym"
-      icon="dumbbell"
-      href="/get-started/gym"
-    >
-      Train your own Model.
+  <Card title="Gym" icon="dumbbell" href="/get-started/gym">
+    Train your own Model.
   </Card>
-  <Card
-    title="Prem SDK"
-    icon="plug"
-    href="/get-started/sdk"
-  >
+  <Card title="Prem SDK" icon="plug" href="/get-started/sdk">
     Integrate Prem into your products.
   </Card>
 </CardGroup>
+````
