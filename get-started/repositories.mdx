@@ -31,7 +31,57 @@ icon: folder-open
 {/*GIF of navigating on sidebar*/}
     - Prepare your documents in a format supported by **Prem**, such as **PDF**, **TXT**, or **DOCX**. Ensure that the documents are clean, well-structured, and free of any formatting issues.
 
-    - Upload your documents to a repository using Prem's interface, API or SDK. You can either upload documents individually or in batches. Provide meaningful names or identifiers for your documents to easily retrieve them later.
+    - Upload your documents to a repository using **Prem's** interface, [API](/api-reference/introduction) or [SDK](/get-started/sdk). You can either upload documents individually or in batches. Provide meaningful names or identifiers for your documents to easily retrieve them later.
+<CodeGroup>
+
+```python Python
+from premai import Prem
+
+client = Prem(
+    api_key=YOUR_API_KEY
+)
+
+FILE_CONTENT = "My friend Jack has a beautiful pet, he gave it the name Sparky, [...]"
+
+response = client.repository.document.create(
+	repository_id=REPOSITORY_ID,
+	name="pets_and_their_owners.txt",
+	content=FILE_CONTENT,
+	document_type="text",
+)
+
+print(response)
+# E.g., DocumentOutput(repository_id=4, document_id=14, name="pets_and_their_owners.txt", type="text", status="UPLOADED", chunk_count=0, error=None)
+```
+
+```javascript JavaScript
+import Prem from '@premai/prem-sdk';
+
+const client = new Prem({
+  apiKey: "YOUR_API_KEY"
+})
+
+const project_id = PROJECT_ID
+
+const FILE_CONTENT = "My friend Jack has a beautiful pet, he gave it the name Sparky, [...]"
+
+const response = await client.repository.document.create(
+    REPOSITORY_ID,
+    {
+        name: "pets_and_their_owners.txt",
+        content: FILE_CONTENT,
+        document_type: "text"
+    }
+)
+
+console.log(response)
+// E.g. {repository_id: 4, document_id: 14, name: "pets_and_their_owners.txt", type: "text", status: "UPLOADED", chunk_count: 0, error: null}
+```
+
+
+
+</CodeGroup>
+
 {/*Gif of uploading a document*/}
     - Once the documents are uploaded, Prem will automatically index them to enable fast and efficient retrieval. 
     {/*Image of indexed text*/}
