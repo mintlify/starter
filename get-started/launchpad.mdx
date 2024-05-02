@@ -3,9 +3,51 @@ icon: rocket
 ---
 > After identifying the most suitable model through experiments in the [Lab](/get-started/lab), use the Launchpad to prepare your model for integration.
 >
-> **Prem's** seamless integration allows for easy model switching in your application.
+> The **Launchpad** combines settings from **Params** and **Repositories** to bring you one last step to tweak your models before integrating them. You can always come back and launch any updates you make to your model at any time, allowing for easy model switching in your application.
 
 <img
-  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchpadPage.png"
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchpad.png"
   alt="Overview"
 />
+
+The Launchpad allows you to easily launch and integrate your customized models into your projects using the SDKs. It provides a streamlined and intuitive interface for selecting and deploying models, making it simple to incorporate powerful AI capabilities into your applications.
+
+## Launching a Model
+<Tip>
+You can also access the Launchpad for a specific model you were testing in the **Lab** by clicking the more options icon next to the model of your choice. Your **Params** and **Repositories** will follow.
+</Tip>
+### Model Selection
+In the Launchpad, you will see a list of available  models.
+Browse through the models and select the one that best suits your requirements.
+
+<img
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/modelList.gif"
+  alt="Overview"
+/>
+### Model Configuration
+
+Specify any required parameters or options specific to the chosen model.
+
+Customize the model's behavior according to your needs with the following settings:
+
+- `Temperature` This parameter in language models affects the creativity or diversity of the generated text. You can set the randomness level (0 to 1). Higher values increase randomness, and the results will be more creative, and the model will generate a more diverse output; lower values result in more focused and deterministic output (great for working with repositories).
+- `Max Tokens` Limit for generated tokens in a chat, constrained by the model's context length (value 0 means no limit).
+- `System Prompt` The system prompt sets the initial context and direction for the model's responses. It should be carefully selected to align with the specific topic and desired style of the conversation.
+
+- `Limit` Sets the maximum number of top-matching documents to retrieve based on similarity.
+- `Similarity` Measures how closely a query matches document embeddings. Higher values indicate greater similarity, ranging from 0 to 1.
+
+### Launching the Model
+
+Once you have configured the model, click on the "Launch" button.
+The Launchpad will initiate the model launching process, which may take a few moments depending on the model's size and complexity.
+<img
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchButton.gif"
+  alt="Overview"
+/>
+
+### Integrate with the SDK
+
+Now that your model is launched with it's latest changes, you can easily integrate it into your application with the **SDK**. 
+
+Check out the [SDK Guide](/get-started/sdk) here.

@@ -28,7 +28,11 @@ icon: folder-open
     The max file size is: 10MB
   </Tip>
     - Use the sidebar to navigate to the **Repositories** page. Click **_New Repository_** to create a new place to store your documents. 
-{/*GIF of navigating on sidebar*/}
+
+<img
+  src="https://static.premai.io/prem-saas-docs/repositories-guide/repoSidebar.gif"
+  alt="Overview"
+/>
     - Prepare your documents in a format supported by **Prem**, such as **PDF**, **TXT**, or **DOCX**. Ensure that the documents are clean, well-structured, and free of any formatting issues.
 
     - Upload your documents to a repository using **Prem's** interface, [API](/api-reference/introduction) or [SDK](/get-started/sdk). You can either upload documents individually or in batches. Provide meaningful names or identifiers for your documents to easily retrieve them later.
@@ -82,9 +86,16 @@ console.log(response)
 
 </CodeGroup>
 
-{/*Gif of uploading a document*/}
+<img
+  src="https://static.premai.io/prem-saas-docs/repositories-guide/uploadDocs.gif"
+  alt="Overview"
+/>
     - Once the documents are uploaded, Prem will automatically index them to enable fast and efficient retrieval. 
-    {/*Image of indexed text*/}
+
+   <img
+  src="https://static.premai.io/prem-saas-docs/repositories-guide/indexes.png"
+  alt="Overview"
+/>
     <Warning>
     The indexing process may take some time depending on the size and number of documents.  
     </Warning>
@@ -102,7 +113,7 @@ console.log(response)
   </Step>
 
   <Step title ="Fine-tune the model with the Gym">
-  - Fine-tune your selected model in the **Gym** on your specific domain or task. This involves training the model on a subset of your documents and optimizing its parameters for better performance and coherence.
+  - Fine-tune your selected model in the [Gym](/get-started/gym) on your specific domain or task. This involves training the model on a subset of your documents and optimizing its parameters for better performance and coherence.
   - Integrate the fine-tuned model into your pipeline. When a user sends a query, the model will retrieve relevant documents from the repository and then pass them to the generative model to generate a contextually appropriate response.
   <Warning>
     You **MUST** add a project description, otherwise you will not be able to start the training.
