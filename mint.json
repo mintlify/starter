@@ -75,39 +75,9 @@
       ]
     },
     {
-      "group": "finetuning-admin",
-      "pages": [
-        "api-reference/finetuning-admin/get-projectsgymadmindatasets",
-        "api-reference/finetuning-admin/post-projectsgymadmindatasets",
-        "api-reference/finetuning-admin/get-projectsgymadmindatasets-",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetunedmodels",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetunedmodels-",
-        "api-reference/finetuning-admin/post-projectsgymadminfinetunedmodelspromote",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetuningjobs",
-        "api-reference/finetuning-admin/post-projectsgymadminfinetuningjobs",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetuningjobs-",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetuningmessages",
-        "api-reference/finetuning-admin/post-projectsgymadminfinetuningmessages",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetuningrequests",
-        "api-reference/finetuning-admin/get-projectsgymadminfinetuningrequests-",
-        "api-reference/finetuning-admin/post-projectsgymadminfinetuningrequestsset_started"
-      ]
-    },
-    {
       "group": "chat-completions",
       "pages": [
         "api-reference/chat-completions/post-v1chatcompletions"
-      ]
-    },
-    {
-      "group": "data-points",
-      "pages": [
-        "api-reference/data-points/get-v1data-points",
-        "api-reference/data-points/post-v1data-points",
-        "api-reference/data-points/get-v1data-points-",
-        "api-reference/data-points/put-v1data-points-",
-        "api-reference/data-points/delete-v1data-points-",
-        "api-reference/data-points/patch-v1data-points-"
       ]
     },
     {
@@ -134,6 +104,19 @@
       "group": "repository-document",
       "pages": [
         "api-reference/repository-document/post-v1repository-document"
+      ]
+    },
+    {
+      "group": "feedbacks",
+      "pages": [
+        "api-reference/feedbacks/post-v1set_trace_feedback"
+      ]
+    },
+    {
+      "group": "traces",
+      "pages": [
+        "api-reference/traces/get-v1traces",
+        "api-reference/traces/get-v1traces-"
       ]
     }
   ],
