@@ -5,14 +5,13 @@ title: Prem SDK
 
 ## Installation
 
-You can install the Prem **Python** or **JavaScript SDK** directly from [PyPI](https://pypi.org/project/premai/) or [npm](https://www.npmjs.com/package/@premai/prem-sdk).
+You can install the Prem **Python** or **JavaScript SDKs** directly from [PyPI](https://pypi.org/project/premai/) or [npm](https://www.npmjs.com/package/@premai/prem-sdk).
 
 
 <CodeGroup>
 
 ```bash Python
 pip install premai
-
 ```
 
 ```bash JavaScript
@@ -42,7 +41,6 @@ const client = new Prem({
 })
 
 const project_id = PROJECT_ID
-
 ```
 </CodeGroup>
 
@@ -79,7 +77,6 @@ const responseSync = await client.chat.completions.create({
 })
 
 console.log(responseSync)
-
 ```
   
 </CodeGroup>
@@ -103,7 +100,6 @@ for chunk in response:
         print(chunk.choices[0].delta["content"], end="")
 ```
 ```javascript JavaScript
-
 // Create completion with stream
 const responseAsync = await client.chat.completions.create({
   project_id,
@@ -118,7 +114,6 @@ for await (const chunk of responseAsync) {
 }
 
 console.log("\nTrace ID", responseAsync.trace_id)
-
 ```  
 </CodeGroup>
 
@@ -179,8 +174,6 @@ const response = await client.chat.completions.create({
 })
 
 console.log(response)
-
-
 ```
 </CodeGroup>
 
@@ -249,8 +242,6 @@ console.log(response.choices[0].message.content)
 
 console.log(response.document_chunks)
 // E.g. [{ repository_id=4, document_id=14, chunk_id=15, document_name="pets_and_their_owners.txt", similarity_score=0.67, content="..." }, ...]
-
-
 ```
 </CodeGroup>
 
@@ -289,7 +280,6 @@ const response = await client.repository.document.create(
 
 console.log(response)
 // E.g. {repository_id: 4, document_id: 14, name: "pets_and_their_owners.txt", type: "text", status: "UPLOADED", chunk_count: 0, error: null}
-
 ```  
 </CodeGroup>
 
