@@ -49,15 +49,15 @@
   ],
   "navigation": [
     {
-      "group": "Home",
+      "group": "Get started",
       "pages": [
         "introduction"
       ]
     },
     {
-      "group": "Get Started",
-      "pages": [
-        "get-started/signup",
+      "group": "Guides",
+      "pages": 
+      [
         "get-started/projects",
         "get-started/lab",
         "get-started/monitoring",
