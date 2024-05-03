@@ -56,8 +56,7 @@
     },
     {
       "group": "Guides",
-      "pages": 
-      [
+      "pages": [
         "get-started/projects",
         "get-started/lab",
         "get-started/monitoring",
