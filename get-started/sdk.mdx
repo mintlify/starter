@@ -23,7 +23,7 @@ npm install @premai/prem-sdk
 
 ### Getting Started
 
-To use the Prem Python SDK, you need to obtain an API key from the Prem platform. You can then create a `Prem` instance to make requests to the API.
+To use the **Prem** SDK, you need to obtain an API key. You can then create a `Prem` instance to make requests to the API.
 
 <CodeGroup>
 ```python Python
@@ -48,8 +48,9 @@ const project_id = PROJECT_ID
 
 ## Chat completion
 
-The `chat.completions` module allows you to generate completions based on user input. Here's an example:
+The `chat.completions` module is set to use default launchpad parameters unless otherwise specified. Optional parameters can also be defined as needed.
 
+#### Here's an example:
 <CodeGroup>
 ```python Python
 messages = [
