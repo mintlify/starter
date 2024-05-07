@@ -94,7 +94,8 @@
       "group": "Documents",
       "pages": [
         "api-reference/documents/get",
-        "api-reference/documents/list"
+        "api-reference/documents/list",
+        "api-reference/documents/delete"
       ]
     },
     {
