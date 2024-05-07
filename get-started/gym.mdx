@@ -1,9 +1,99 @@
 ---
 icon: dumbbell
 ---
+The Gym is a powerful feature that allows developers to fine-tune AI models on our platform without needing extensive AI expertise. With The Gym, you can easily improve the performance and accuracy of your AI models by providing feedback based on traces and training your own custom models.
 
-If the model you decided to use in Production is not good enough, you can use the Gym!
+## How It Works 💪
 
-The objective of the Gym is to give you the possibility to train your own model without the need to be an AI expert. Provide feedback from the Traces page and start training your own model.
+- **Data Preparation:** Collect and prepare your training data by chatting with your model. Ensure that your data is representative of the task you want your AI model to perform.
 
-🚧 WiP
+- **Feedback from Traces:** Provide feedback to the AI model based on your [Traces](/get-started/monitoring). The [Traces](/get-started/monitoring) section allows you to analyze the model's performance while identify areas where it needs improvement.
+Assign appropriate feedback labels to guide the model's learning process.
+
+- **Model Training:** Initiate the training process using the provided feedback and training data.
+The Gym utilizes advanced algorithms to fine-tune the AI model based on your feedback and data.
+Monitor the training progress and evaluate the model's performance using relevant metrics.
+
+- **Model Evaluation and Deployment:** Once the training is complete, evaluate the fine-tuned model's performance on a separate validation dataset.
+Assess the model's accuracy, precision, recall, and other relevant metrics to ensure it meets your requirements.
+If satisfied with the model's performance, deploy it to your desired environment for real-world use.
+
+## Getting Started
+
+<Steps>
+    <Step title="Test an AI model in the Lab">
+
+    In order to train your AI model, you must first have a conversation with the model. Each response will be added to your [Traces](/get-started/monitoring) so you can monitor how your model is performing.
+        
+    </Step>
+    <Step title="Provide Feedback">
+        <Tip>
+         In order to fine-tune your model, you are required to submit at least **50** postive feedback responses. 
+         Just click the thumbs up 👍 for postive feedback and thumbs down 👎 for negative feedback.  
+        </Tip>
+
+  <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/postiveFeedback.gif"
+  alt="Playground"
+/>
+<Tip>
+It is suggested that you use the **Traces** sections to submit feedback. 
+
+
+Alterntively, you can also provide feedback from the **Lab** shown below.
+
+</Tip>
+ 
+ <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/labFeedback.gif"
+  alt="Playground"
+/>
+        
+    </Step>
+      <Step title="Initiate the training">
+      Simply click the **_Start fine-tuning_** button to begin fine tuning.
+  <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/initateFinetune.png"
+  alt="Playground"
+/>
+  You'll see whats represented in the image below once you initiate the fine-tuning.
+  <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/tuning.png"
+  alt="Playground"
+/>
+    </Step>
+      <Step title="You'll recieve confirmation emails">
+
+      The first email will confirm that the fine-tuning process has begun.
+          <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/fintuneStartEmail.png"
+  alt="Playground"
+/>
+The second email will confirm that the fine-tuning has been completed.
+
+          <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/finetuneEndEmail.png"
+  alt="Playground"
+/>
+    </Step>
+    <Step title="Try your fine-tuned model in the lab">
+        Now that the fine-tuning is complete, head over to the **Lab** to test it out. You can search for your fine-tuned model the same way you would with any of the pre-trained models available. You can always change the system prompt and fine-tune again until you get your model working the way you want it to.
+
+        <Tip>
+        You can also test out your fine-tuned model indivdually in the chat section of the **Lab**
+
+         <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/finetunedChat.png"
+  alt="Playground"
+/>
+        </Tip>
+    </Step>
+
+    <Step title="Launch your fine-tuned model with the Launchpad">
+        Now that the fine-tuning and testing are complete, navigate to the **Launchpad** to deploy your model so it's ready for integrating into your applications. You will still have the ability to configure the model's params, system prompts and repositories.
+             <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/zoomedfinetunedLaunch.png"
+  alt="Playground"
+/>
+    </Step>
+</Steps>
