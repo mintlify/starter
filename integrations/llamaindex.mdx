@@ -1,6 +1,6 @@
 ---
 title: "LlamaIndex"
-description: "This example goes over how to use LlamaIndex to interact with ChatPrem models."
+description: "This example goes over how to use LlamaIndex to interact with different chat models using `ChatPremAI`"
 ---
 ### Installation and setup
 
@@ -11,13 +11,13 @@ pip install premai llama-index
 ```
 Before proceeding further, please make sure that you have made an account on Prem and already started a project. If not, then here's how you can start for free:
 
-1. Sign in to PremAI, if you are coming for the first time and create your API key here.
+1. Sign in to [PremAI](https://app.premai.io/accounts/login/), if you are coming for the first time and create your API key [here](https://app.premai.io/api_keys/).
 
-2. Go to app.premai.io and this will take you to the project's dashboard.
+2. Go to [app.premai.io](https://app.premai.io) and this will take you to the project's dashboard.
 
 3. Create a project and this will generate a project-id (written as ID). This ID will help you to interact with your deployed application.
 
-4. Head over to LaunchPad (the one with 🚀 icon). And there deploy your model of choice. Your default model will be gpt-4. You can also set and fix different generation paramters (like: max-tokens, temperature etc) and also pre-set your system prompt.
+4. Head over to LaunchPad (the one with 🚀 icon). And there deploy your model of choice. Your default model will be `gpt-4`. You can also set and fix different generation paramters (like: max-tokens, temperature etc) and also pre-set your system prompt.
 
 Congratulations on creating your first deployed application on Prem 🎉 Now we can use llama-index to interact with our application.
 
@@ -99,11 +99,13 @@ for response_delta in streamed_response:
     print(response_delta.delta, end="")
 ```
 
-I'm here to assist you with writing tasks, but I don't have personal experiences or attend school. However, I can help you brainstorm ideas, outline your essay, or provide information on various school-related topics. Just let me know how I can assist you further!
+>Result:
+>
+>I'm here to assist you with writing tasks, but I don't have personal experiences or attend school. However, I can help you brainstorm ideas, outline your essay, or provide information on various school-related topics. Just let me know how I can assist you further!
 
 This will stream tokens one after the other. Similar to `complete` method, we have `stream_complete` method which does streaming of tokens for completion.
 
-Like this:
+**Like this:**
 
 ```python
 # This will stream tokens one by one
@@ -166,9 +168,9 @@ Dimension of embeddings: 3072
 ```python
 query_result[:5]
 ```
-Result:
-
-[-0.02129288576543331,
+>Result:
+>
+>[-0.02129288576543331,
  0.0008162345038726926,
  -0.004556538071483374,
  0.02918623760342598,

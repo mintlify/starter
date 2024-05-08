@@ -1,10 +1,9 @@
 ---
 title: "LangChain"
-description: "This example goes over how to use LangChain to interact with different chat models with `ChatPremAI`"
+description: "This example goes over how to use LangChain to interact with different chat models using `ChatPremAI`"
 ---
 
 
-## ChatPremAI
 
 
 ### Installation and setup
@@ -114,7 +113,7 @@ for chunk in chat.stream(
     sys.stdout.flush()
 ```
 ----
-## Embedding
+### Embedding
 
 In this section, we are going to discuss how we can get access to different embedding models using `PremEmbeddings`. Let's start by doing some imports and defining our embedding object
 
@@ -138,7 +137,7 @@ if os.environ.get("PREMAI_API_KEY") is None:
 model = "text-embedding-3-large"
 embedder = PremEmbeddings(project_id=8, model=model)
 ```
-## Setup PremAIEmbeddings instance in LangChain
+### Setup PremAIEmbeddings instance in LangChain
 We have defined our embedding model. We support a lot of embedding models. Here is a table that shows the number of embedding models we support. 
 
 
