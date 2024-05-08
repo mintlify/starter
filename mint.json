@@ -93,13 +93,6 @@
       ]
     },
     {
-      "group": "finetuning",
-      "pages": [
-        "api-reference/finetuning/post-v1finetuning",
-        "api-reference/finetuning/get-v1finetuning"
-      ]
-    },
-    {
       "group": "models",
       "pages": [
         "api-reference/models/get-v1models",
