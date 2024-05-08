@@ -8,7 +8,7 @@ description: "This example goes over how to use LangChain to interact with diffe
 
 ### Installation and setup
 
-We start by installing langchain and premai-sdk. You can type the following command to install:
+We start by installing `langchain` and `premai-sdk`. You can type the following command to install:
 
 ```bash
 pip install premai langchain
@@ -36,9 +36,9 @@ from langchain_community.chat_models import ChatPremAI
 Once we import our required modules, let's set up our client. For now, let's assume that our `project_id` is 8. But make sure you use your project-id, otherwise, it will throw an error.
 
 To use langchain with prem, you do not need to pass any model name or set any parameters with our chat client. All of those will use the default model name and parameters of the LaunchPad model. 
-
-`NOTE:` If you change the `model_name` or any other parameter like `temperature` while setting the client, it will override existing default configurations. 
-
+<Note>
+If you change the `model` or any other parameter like `temperature` while setting the client, it will override existing default configurations. 
+</Note>
 ```python
 import os
 import getpass
