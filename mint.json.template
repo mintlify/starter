@@ -69,6 +69,13 @@
       ]
     },
     {
+      "group": "Integrations",
+      "pages": [
+        "integrations/llamaindex",
+        "integrations/langchain"
+      ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"
