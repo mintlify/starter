@@ -64,7 +64,8 @@
         "get-started/launchpad",
         "get-started/gym",
         "get-started/sdk",
-        "get-started/chat-completion-sse"
+        "get-started/chat-completion-sse",
+        "get-started/credits"
       ]
     },
     {
