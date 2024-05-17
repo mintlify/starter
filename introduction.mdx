@@ -33,11 +33,13 @@ description: Let's create a Generative AI application in minutes.
 </Step>
 
 <Step title="Create a new project.">
-<Card title="We set up a starter project for you already. You have a choice to use the starter project or create a new project." icon="lightbulb" iconType="duotone" color="#a986c5">
----
-</Card>
+<Note>We set up a starter project for you already. You can either use the starter project provided or create a new project from scratch. It's up to you.</Note>
 ![GIF of how to create a new project with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/newProject.gif)
-
+<Tip>Make sure to take note of your Project ID. You'll need it to use the SDK. You can find your **Project ID** on the Project page under each project's title or on the Set Up page.</Tip>
+ <img
+  src="https://static.premai.io/prem-saas-docs/quickstart-guide/projectID.png"
+  alt="Playground"
+/>
 </Step>
 
 <Step title="Head over to the Lab and experiment with various LLMs simultaneously.">
@@ -73,85 +75,56 @@ npm install @premai/prem-sdk
 
 <CodeGroup>
 
-```Python Python
+```python Python
 from premai import Prem
 
-client = Prem(
-api_key=YOUR_API_KEY
-)
+client = Prem(api_key=YOUR_API_KEY)
 
-messages = [
-{"role": "system", "content": "You are a helpful assistant."},
-{"role": "user", "content": "Who won the world series in 2020?"},
-]
-model = "gpt-3.5-turbo"
 project_id = PROJECT_ID
 
-# Create completion
+system_prompt = "You're a helpful assistant"
+
+messages = [
+    {"role": "user", "content": "Who won the world series in 2020?"},
+]
 
 response = client.chat.completions.create(
-project_id=project_id,
-messages=messages,
-model=model,
-stream=False
+    project_id=project_id,
+    system_prompt=system_prompt,
+    messages=messages,
 )
 
 print(response.choices)
 
-# Create completion with stream
+```
 
-response = client.chat.completions.create(
-project_id=project_id,
-messages=messages,
-model=model,
-stream=True
-)
-
-for chunk in response:
-if chunk.choices[0].delta["content"]:
-print(chunk.choices[0].delta["content"], end="")
-
-print(f"\nTrace ID: {response.trace_id}")
-
-````
-
-```JavaScript JavaScript
-import Prem from '@premai/prem-sdk';
+```javaScript JavaScript
+import Prem from "@premai/prem-sdk";
 
 const client = new Prem({
-  apiKey: "YOUR_API_KEY"
-})
+  apiKey: API_KEY,
+});
 
-const project_id = PROJECT_ID
+const project_id = PROJECT_ID;
 
-const model = "gpt-3.5-turbo"
+const system_prompt = "You're a helpful assistant";
 const messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "Who won the world series in 2020?"},
-]
+  { role: "user", content: "Who won the World Series in 2020?" },
+];
 
-// Create completion
+async function chatCompletion() {
+  const responseSync = await client.chat.completions.create({
+    project_id,
+    system_prompt,
+    messages,
+  });
 
-
-console.log(responseSync)
-
-// Create completion with stream
-const responseAsync = await client.chat.completions.create({
-  project_id,
-  messages,
-  model,
-  stream: true
-})
-
-for await (const chunk of responseAsync) {
-  if (chunk.choices[0].delta.content) {
-    process.stdout.write(chunk.choices[0].delta.content)
-  }
+  console.log(responseSync);
 }
-
-console.log("\nTrace ID", responseAsync.trace_id)
 ```
+
 </CodeGroup>
+
 </Step>
 
 </Steps>
@@ -215,4 +188,4 @@ console.log("\nTrace ID", responseAsync.trace_id)
     Integrate Prem into your products.
   </Card>
 </CardGroup>
-````
+
