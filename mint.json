@@ -72,7 +72,9 @@
       "group": "Integrations",
       "pages": [
         "integrations/llamaindex",
-        "integrations/langchain"
+        "integrations/langchain",
+        "integrations/dspy",
+        "integrations/embedchain"
       ]
     },
     {
