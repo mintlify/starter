@@ -3,7 +3,9 @@ title: "LangChain"
 description: "This example goes over how to use LangChain to interact with different chat models using `ChatPremAI`"
 ---
 
+### LangChain
 
+[LangChain](https://github.com/langchain-ai/langchain) is a framework for developing applications powered by large language models (LLMs), simplifying every stage of the LLM application lifecycle. It provides open-source building blocks for development, LangSmith for monitoring and optimizing production chains, and LangServe for turning chains into deployable APIs.
 
 
 ### Installation and setup
@@ -14,17 +16,7 @@ We start by installing `langchain` and `premai-sdk`. You can type the following 
 pip install premai langchain
 ```
 
-Before proceeding further, please make sure that you have made an account on PremAI and already started a project. If not, then here's how you can start for free:
-
-1. Sign in to [PremAI](https://app.premai.io/accounts/login/), if you are coming for the first time and create your API key [here](https://app.premai.io/api_keys/).
-
-2. Go to [app.premai.io](https://app.premai.io) and this will take you to the project's dashboard. 
-
-3. Create a project and this will generate a project-id (written as ID). This ID will help you to interact with your deployed application. 
-
-4. Head over to LaunchPad (the one with 🚀 icon). And there deploy your model of choice. Your default model will be `gpt-4`. You can also set and fix different generation parameters (like max-tokens, temperature, etc) and also pre-set your system prompt. 
-
-Congratulations on creating your first deployed application on PremAI 🎉 Now we can use langchain to interact with our application. 
+Before proceeding further, please make sure that you have made an account on PremAI and already started a project. If not, refer to the [quick start](https://docs.premai.io/introduction) guide to getting started with the PremAI platform, create your first project and grab your API key.
 
 ```python
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -84,7 +76,7 @@ chat.invoke(
 
 ### Important notes:
 
-Before proceeding further, please note that the current version of ChatPrem does not support parameters: [n](https://platform.openai.com/docs/api-reference/chat/create#chat-create-n) and [stop](https://platform.openai.com/docs/api-reference/chat/create#chat-create-stop) are not supported. 
+Before proceeding further, please note that the current version of ChatPrem does not support parameters: [n](https://platform.openai.com/docs/api-reference/chat/create#chat-create-n) and [stop](https://platform.openai.com/docs/api-reference/chat/create#chat-create-stop).  
 
 We will provide support for those two above parameters in later versions. 
 
