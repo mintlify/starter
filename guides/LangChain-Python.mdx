@@ -1,0 +1,38 @@
+To track the interactions with LangChain, use the LangChainTracer.
+
+import Prerequisites from "/snippets/prerequests.mdx";
+
+<Prerequisites />
+
+Usage:
+Wrap your LangChain interactions with `LangChainTracer`.
+
+```python
+import langwatch.langchain
+from langchain.llms import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+
+# Create your LangChain
+model = ChatOpenAI()
+prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+chain = prompt | model
+
+# Use the tracer context manager
+with langwatch.langchain.LangChainTracer(
+  metadata={
+    "user_id": "optional-user-123",
+    "thread_id": "optional-thread-456",
+  }
+) as langWatchCallback:
+    # Invoke LangChain with LangWatch callbacks
+    result = chain.invoke(
+        {"topic": "bears"},
+        config={"callbacks": [langWatchCallback]}
+    )
+```
+
+Each step in LangChain (`chain`) that invokes an LLM call will be traced as an individual span within a trace.
+
+import Metadata from "/snippets/metadata.mdx";
+
+<Metadata />

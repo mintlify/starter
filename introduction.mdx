@@ -1,71 +1,49 @@
 ---
 title: Introduction
-description: "Welcome to LangWatch Doc."
+description: "Welcome to LangWatch. Here we offer tools for the detailed observation and analysis of Large Language Models (LLMs). Our platform is designed for developers and data scientists who need to keep a close watch on the performance and behavior of their LLMs, ensuring their applications run smoothly and effectively."
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.svg"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.svg"
-  alt="Hero Dark"
-/>
-
-## Setting up
-
-The first step to world-class documentation is setting up your editing environments.
-
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
+<CardGroup cols={1}>
+  <Card title="LLMs Tracing and Monitoring" icon="chart-simple">
+    Track every step of your LLM execution to monitor in real time what is being
+    generated and how users are using it
   </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
+  <Card title="Easy integration with any LLM" icon="code">
+    Integrate with any LLM Model like OpenAI, Anthropic, A21 and so on or LLM
+    frameworks like LangChain and Llama Index
+  </Card>
+  <Card title="Alerts and Debugging" icon="bell">
+    Add automated security and hallucination checks to verify the output of your
+    LLM, be alerted and check all traces and prompts to debug on what is wrong
   </Card>
 </CardGroup>
 
-## Make it yours
+### What is LangWatch?
 
-Update your docs to your brand and add valuable content for the best user conversion.
+LangWatch provides a set of tools tailored to enhance the visibility into the operation of LLMs. Currently, it supports OpenAI and LangChain integrations, with the goal of providing you with a transparent and controlled environment for your LLMs' interactions and outputs.
 
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
-</CardGroup>
+<img className="block" src="/images/screenshot-messages.png" alt="LangWatch" />
+
+## Core Concepts
+
+To make the most out of LangWatch, you'll need to be acquainted with several key concepts:
+
+- **Span**: Spans are the individual operations or calls made to the LLM during a trace. In LangChain, for instance, each step in the chain is considered a span. Spans could include the generation of a response, summarization, or any transformation executed by the LLM.
+
+- **Trace**: A trace, or message, represents the complete lifecycle of a single user interaction with your LLM, initial input and final output. Within this trace, you may find multiple 'spans', each representing a step in the conversation or a transformation performed by the LLM.
+
+- **Thread**: This refers to a series of related traces that together form a conversation or a session. Threads help in grouping interactions, making it easier to analyze the flow and context of conversations with the LLM.
+
+- **User**: Users are the end-users interacting with your LLM. By sending us user identifiers along with traces, LangWatch enables you to perform per-user analysis and obtain insights on individual user behaviors.
+
+Read more on [concepts](./concepts).
+
+## Supported LLMs
+
+LangWatch's current integrations with OpenAI and LangChain are just the beginning. We're working to support more models and languages, aiming to offer a robust, expandable tool for a variety of LLM applications.
+
+In this documentation, you'll find guides and examples on integrating LangWatch with your LLMs, understanding the output and data provided, and leveraging our tools to improve the functionality of your AI applications.
+
+If you come across terms or processes that seem unclear, or if you're looking for how LangWatch applies to your specific context, we encourage you to contact us. Our goal is to provide a transparent, efficient, and effective experience that empowers you to achieve more with your LLMs.
+
+Let's dive into the details of how LangWatch works and how you can integrate it into your LLM workflows.

@@ -1,91 +1,97 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "LangWatch",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#ed8926",
+    "light": "#f2a65a",
+    "dark": "#ed8926",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#ed8926",
+      "to": "#ed8926"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@langwatch.ai"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Application",
+    "url": "https://app.langwatch.ai"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
+
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Open Dashboard",
+      "icon": "link",
+      "url": "https://app.langwatch.ai"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "github",
+      "icon": "github",
+      "url": "https://github.com/langwatch/langwatch"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
+      "pages": ["introduction", "concepts", "quickstart", "troubleshooting"]
+    },
+
+    {
+      "group": "Integration Guides",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "guides/overview",
+        {
+          "group": "Guides",
+          "pages": [
+            "guides/Open-AI-Python",
+            "guides/Azure-Open-AI-Python",
+            "guides/LangChain-Python",
+            "guides/custom-Python",
+            "guides/capturing-additional-spans-and-metadata",
+            "guides/REST-API"
+          ]
+        }
       ]
     },
     {
-      "group": "Essentials",
+      "group": "RAGs",
+
+      "pages": ["rags/overview", "rags/RAGs-Context-Tracking"]
+    },
+    {
+      "group": "Guardrails",
+      "pages": ["guardrails/overview", "guardrails/setting-up-Guardrails"]
+    },
+    {
+      "group": "User Events",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "user-events/overview",
+        {
+          "group": "Events",
+          "pages": [
+            "user-events/thumbs-up-down",
+            "user-events/waited-to-finish",
+            "user-events/selected-text",
+            "user-events/custom"
+          ]
+        }
       ]
     },
     {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
+      "group": "Other Features",
+      "pages": ["features/batch-evaluations", "features/embedded-analytics"]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "github": "https://github.com/langwatch/langwatch",
+    "linkedin": "https://www.linkedin.com/company/langwatch/"
   }
 }
