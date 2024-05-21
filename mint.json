@@ -25,6 +25,12 @@
     "name": "Application",
     "url": "https://app.langwatch.ai"
   },
+  "tabs": [
+    {
+      "name": "LangEvals",
+      "url": "langevals"
+    }
+  ],
 
   "anchors": [
     {
@@ -88,6 +94,47 @@
     {
       "group": "Other Features",
       "pages": ["features/batch-evaluations", "features/embedded-analytics"]
+    },
+    {
+      "group": "Documentation",
+      "pages": [
+        "langevals/documentation/introduction",
+        "langevals/documentation/quickstart",
+        "langevals/documentation/batch-evaluation",
+        "langevals/documentation/evaluators",
+        "langevals/documentation/unit-tests",
+        "langevals/documentation/API-example",
+        {
+          "group": "Modular Architecture",
+          "pages": [
+            "langevals/documentation/modular-architecture/contributing"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "API Endpoints",
+      "pages": [
+        "langevals/api-reference/endpoint/language-detection",
+        "langevals/api-reference/endpoint/openai-moderation",
+        "langevals/api-reference/endpoint/pii-detection",
+        "langevals/api-reference/endpoint/content-safety",
+        "langevals/api-reference/endpoint/jailbreak-detection",
+        "langevals/api-reference/endpoint/competitor-detection-llm",
+        "langevals/api-reference/endpoint/competitor-blocklist",
+        "langevals/api-reference/endpoint/off-topic-detection",
+        "langevals/api-reference/endpoint/answer-relevancy",
+        "langevals/api-reference/endpoint/context-precision",
+        "langevals/api-reference/endpoint/context-recall",
+        "langevals/api-reference/endpoint/context-relevancy",
+        "langevals/api-reference/endpoint/context-utilization",
+        "langevals/api-reference/endpoint/faithfulness",
+        "langevals/api-reference/endpoint/llm-boolean-evaluator",
+        "langevals/api-reference/endpoint/llm-score-evaluator",
+        "langevals/api-reference/endpoint/llm-basic-evaluator",
+        "langevals/api-reference/endpoint/llm-similarity-evaluator",
+        "langevals/api-reference/endpoint/llama-guard"
+      ]
     }
   ],
   "footerSocials": {

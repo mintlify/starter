@@ -1,0 +1,52 @@
+LangEvals provides 20 versatile evaluators that are grouped according to their use cases.
+Each evaluator is a purposeful piece of software that can be explored on this page. For in-depth overview of every evaluator follow to its dedicated page.
+
+## General
+
+<AccordionGroup>
+  <Accordion title="Safety">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Azure Jailbreak Detection](/evaluators/azure-jailbreak-detection) | This evaluator checks for jailbreak-attempt in the input using Azure's Content Safety API. |
+    | [Azure Content Safety](/evaluators/azure-content-safety) | This evaluator detects potentially unsafe content in text, including hate speech, self-harm, sexual content, and violence. It allows customization of the severity threshold and the specific categories to check. |
+    | [Google Cloud DLP PII Detection](/evaluators/google-cloud-dlp-pii-detection) | Google DLP PII detects personally identifiable information in text, including phone numbers, email addresses, and social security numbers. It allows customization of the detection threshold and the specific types of PII to check. |
+    | [Amazon Comprehend PII Detection](/evaluators/amazon-comprehend-pii-detection) | Amazon Comprehend PII detects personally identifiable information in text, including phone numbers, email addresses, and social security numbers. It allows customization of the detection threshold and the specific types of PII to check. |
+    | [Llama Guard](/evaluators/llama-guard) | This evaluator is a special version of Llama trained strictly for acting as a guardrail, following customizable guidelines. It can work both as a safety evaluator and as policy enforcement. |
+    | [OpenAI Moderation](/evaluators/openai-moderation) | This evaluator uses OpenAI's moderation API to detect potentially harmful content in text, including harassment, hate speech, self-harm, sexual content, and violence. |
+  </Accordion>
+  <Accordion title="Policy">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Competitor LLM check](/evaluators/competitor-llm-check) | This evaluator use an LLM-as-judge to check if the conversation is related to competitors, without having to name them explicitly |
+    | [Off Topic Evaluator](/evaluators/off-topic-evaluator) | This evaluator checks if the user message is concerning one of the allowed topics of the chatbot |
+    | [Competitor Blocklist](/evaluators/competitor-blocklist) | This evaluator checks if any of the specified competitors was mentioned |
+  </Accordion>
+  <Accordion title="Custom">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Semantic Similarity Evaluator](/evaluators/semantic-similarity-evaluator) | Allows you to check for semantic similarity or dissimilarity between input and output and a target value, so you can avoid sentences that you don't want to be present without having to match on the exact text. |
+    | [Custom Basic Evaluator](/evaluators/custom-basic-evaluator) | Allows you to check for simple text matches or regex evaluation. |
+    | [Custom LLM Boolean Evaluator](/evaluators/custom-llm-boolean-evaluator) | Use an LLM as a judge with a custom prompt to do a true/false boolean evaluation of the message. |
+    | [Custom LLM Score Evaluator](/evaluators/custom-llm-score-evaluator) | Use an LLM as a judge with custom prompt to do a numeric score evaluation of the message. |
+  </Accordion>
+  <Accordion title="Other">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Example Evaluator](/evaluators/example-evaluator) | This evaluator serves as a boilerplate for creating new evaluators. |
+  </Accordion>
+  <Accordion title="Quality">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Lingua Language Detection](/evaluators/lingua-language-detection) | This evaluator detects the language of the input and output text to check for example if the generated answer is in the same language as the prompt, or if it's in a specific expected language. |
+  </Accordion>
+  <Accordion title="Rag">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Ragas Context Recall](/evaluators/ragas-context-recall) | This evaluator measures the extent to which the retrieved context aligns with the annotated answer, treated as the ground truth. Higher values indicate better performance. |
+    | [Ragas Faithfulness](/evaluators/ragas-faithfulness) | This evaluator assesses the extent to which the generated answer is consistent with the provided context. Higher scores indicate better faithfulness to the context. |
+    | [Ragas Context Utilization](/evaluators/ragas-context-utilization) | This metric evaluates whether all of the output relevant items present in the contexts are ranked higher or not. Higher scores indicate better utilization. |
+    | [Ragas Context Relevancy](/evaluators/ragas-context-relevancy) | This metric gauges the relevancy of the retrieved context, calculated based on both the question and contexts. The values fall within the range of (0, 1), with higher values indicating better relevancy. |
+    | [Ragas Context Precision](/evaluators/ragas-context-precision) | This metric evaluates whether all of the ground-truth relevant items present in the contexts are ranked higher or not. Higher scores indicate better precision. |
+    | [Ragas Answer Relevancy](/evaluators/ragas-answer-relevancy) | This evaluator focuses on assessing how pertinent the generated answer is to the given prompt. Higher scores indicate better relevancy. |
+  </Accordion>
+</AccordionGroup>
