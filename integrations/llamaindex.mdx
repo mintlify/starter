@@ -124,21 +124,12 @@ from llama_index.embeddings.premai import PremAIEmbeddings
 ```
 ## Setup PremAIEmbeddings instance in LlamaIndex
 
-Once we imported our required modules, let's setup our client. For now let's assume that our `project_id` is `8`. But make sure you use your project-id, otherwise it will throw error. In case of embeddings you also have to additionally pass `model`. 
+We have defined our embedding model. We support a lot of embedding models. 
+You can find all the list of supported embedding models [here](https://docs.premai.io/get-started/supported-models). 
 
-Here are the list of available models on PremAI:
+To change the model, you simply need to copy the name from `Model` column and you will have the access your embedding model. 
 
-| Provider    | Slug                                     | Context Tokens |
-|-------------|------------------------------------------|----------------|
-| cohere      | embed-english-v3.0                       | N/A            |
-| openai      | text-embedding-3-small                   | 8191           |
-| openai      | text-embedding-3-large                   | 8191           |
-| openai      | text-embedding-ada-002                   | 8191           |
-| replicate   | replicate/all-mpnet-base-v2              | N/A            |
-| together    | togethercomputer/Llama-2-7B-32K-Instruct | N/A            |
-| mistralai   | mistral-embed                            | 4096           |
-
-To change the model, you simply need to copy the `slug` and access your embedding model.
+Now let's start using our embedding model with a single query followed by multiple queries (which is also called as a document)
 
 ```python
 import os
