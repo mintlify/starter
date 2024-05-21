@@ -1,7 +1,12 @@
 ---
 title: "LlamaIndex"
-description: "This example goes over how to use LlamaIndex to interact with different chat models using `ChatPremAI`"
+description: "This example explains how to access different LLMs and Embedding Models in Llamaindex through PremAI SDK."
 ---
+
+### LlamaIndex 
+
+[LlamaIndex](https://github.com/run-llama/llama_index) is a framework for building context-augmented LLM applications by applying LLMs to private or domain-specific data. It supports use cases like question-answering chatbots, document understanding and extraction, and autonomous agents for research and actions. LlamaIndex provides tools for data ingestion, processing, and implementing complex query workflows that combine data access with LLM prompting.
+
 ### Installation and setup
 
 We start by installing `llama-index` and `premai-sdk`. You can type the following command to install:
@@ -9,24 +14,15 @@ We start by installing `llama-index` and `premai-sdk`. You can type the followin
 ```bash
 pip install premai llama-index
 ```
-Before proceeding further, please make sure that you have made an account on PremAI and already started a project. If not, then here's how you can start for free:
 
-1. Sign in to [PremAI](https://app.premai.io/accounts/login/), if you are coming for the first time and create your API key [here](https://app.premai.io/api_keys/).
-
-2. Go to [app.premai.io](https://app.premai.io) and this will take you to the project's dashboard.
-
-3. Create a project and this will generate a project-id (written as ID). This ID will help you to interact with your deployed application.
-
-4. Head over to LaunchPad (the one with 🚀 icon). And there deploy your model of choice. Your default model will be `gpt-4`. You can also set and fix different generation paramters (like: max-tokens, temperature etc) and also pre-set your system prompt.
-
-Congratulations on creating your first deployed application on Prem 🎉 Now we can use llama-index to interact with our application.
+Before proceeding further, please make sure that you have made an account on PremAI and already started a project. If not, refer to the [quick start](https://docs.premai.io/introduction) guide to getting started with the PremAI platform, create your first project and grab your API key.
 
 ```python
 from llama_index.llms.premai import PremAI
 from llama_index.core.llms import ChatMessage
 ```
 
-## Setup ChatPrem instance in LlamaIndex
+## Setup PremAI instance in LlamaIndex
 
 Once we imported our required modules, let's setup our client. For now let's assume that our `project_id` is `8`. But make sure you use your project-id, otherwise it will throw error.
 
