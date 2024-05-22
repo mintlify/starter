@@ -140,5 +140,8 @@
   "footerSocials": {
     "github": "https://github.com/langwatch/langwatch",
     "linkedin": "https://www.linkedin.com/company/langwatch/"
+  },
+  "modeToggle": {
+    "default": "light"
   }
 }
