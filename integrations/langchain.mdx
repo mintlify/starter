@@ -138,20 +138,13 @@ model = "text-embedding-3-large"
 embedder = PremEmbeddings(project_id=8, model=model)
 ```
 ### Setup PremAIEmbeddings instance in LangChain
-We have defined our embedding model. We support a lot of embedding models. Here is a table that shows the number of embedding models we support. 
 
+We have defined our embedding model. We support a lot of embedding models. 
+You can find all the list of supported embedding models [here](https://docs.premai.io/get-started/supported-models). 
 
-| Provider    | Slug                                     | Context Tokens |
-|-------------|------------------------------------------|----------------|
-| cohere      | embed-english-v3.0                       | N/A            |
-| openai      | text-embedding-3-small                   | 8191           |
-| openai      | text-embedding-3-large                   | 8191           |
-| openai      | text-embedding-ada-002                   | 8191           |
-| replicate   | replicate/all-mpnet-base-v2              | N/A            |
-| together    | togethercomputer/Llama-2-7B-32K-Instruct | N/A            |
-| mistralai   | mistral-embed                            | 4096           |
+To change the model, you simply need to copy the name from `Model` column and you will have the access your embedding model. 
 
-To change the model, you simply need to copy the `slug` and access your embedding model. Now let's start using our embedding model with a single query followed by multiple queries (which is also called as a document)
+Now let's start using our embedding model with a single query followed by multiple queries (which is also called as a document)
 
 ```python
 query = "Hello, this is a test query"
