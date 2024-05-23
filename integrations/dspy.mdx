@@ -1,0 +1,64 @@
+---
+
+title: "DsPY"
+
+description: "This example explains how to use DsPY by Stanford NLP to interact with different chat models."
+
+---
+
+[DSPy by Stanford NLP](https://github.com/stanfordnlp/dspy) is a framework designed to optimize language model (LM) prompts and weights, simplifying the process of building complex systems with LMs by automating and unifying techniques for prompting, fine-tuning, and reasoning. It provides composable and declarative modules in Pythonic syntax and includes an automatic compiler to instruct LMs on executing declarative steps.
+
+## Installation and Setup
+
+We start by installing `dspy` and `premai-sdk`. Use the following commands to install them:
+
+```bash
+pip install dspy premai
+```
+
+Before proceeding further, please make sure that you have made an account on PremAI and already created a project. If not, please refer to the [quick start](https://docs.premai.io/introduction) guide to get started with the PremAI platform. Create your first project and grab your API key.
+
+
+```python
+from dspy import PremAI
+```
+
+### Setup PremAI instance with DsPY
+
+Once we have imported our required modules, let's set up our dspy-premai client. For now, let's assume that our `project_id` is 123. However, be sure to use your actual project ID; otherwise, it will throw an error.
+
+To use dspy with prem, you do not need to pass any model name or set any parameters with our chat-client. By default it will use the model name and parameters used in the [LaunchPad](https://docs.premai.io/get-started/launchpad).
+
+<Note>
+ If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.   
+</Note>
+
+```python
+import os
+import getpass
+
+if "PREMAI_API_KEY" not in os.environ:
+    os.environ["PREMAI_API_KEY"] = getpass.getpass("PremAI API Key:")
+```
+
+## Chat Completions
+
+Here is a quick example of how to get a response from the model:
+
+```python
+llm = PremAI(project_id=123, api_key="your-premai-api-key")
+print(llm("What is a large language model?"))
+```
+
+You can also change the generation parameters while calling the model. Here's how you can do that:
+
+```python
+print(llm(
+    "What is a large language model?", 
+    temperature=0.7, max_tokens=20
+))
+```
+
+<Note>
+Please note that the current version of ChatPremAI does not support parameters: [n](https://platform.openai.com/docs/api-reference/chat/create#chat-create-n) and [stop](https://platform.openai.com/docs/api-reference/chat/create#chat-create-stop).   
+</Note>
