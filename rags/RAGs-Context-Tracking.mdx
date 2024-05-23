@@ -11,7 +11,6 @@ To track the RAG context, simply add `with langwatch.capture_rag` around the LLM
 
 ```python
 with langwatch.openai.OpenAIChatCompletionTracer(client):
-  # highlight-start
   with langwatch.capture_rag(
       input="What is the capital of France?",
       contexts=[
@@ -27,7 +26,6 @@ with langwatch.openai.OpenAIChatCompletionTracer(client):
           },
       ],
   ):
-  # highlight-end
       response = client.chat.completions.create(
           model="gpt-3.5-turbo",
           messages=[
@@ -48,7 +46,6 @@ from langwatch.types import RAGChunk
 
   with langwatch.langchain.LangChainTracer() as langWatchCallback:
     retriever_tool = create_retriever_tool(
-        # highlight-start
         langwatch.langchain.capture_rag_from_retriever(
             retriever,
             lambda document: RAGChunk(
@@ -56,7 +53,6 @@ from langwatch.types import RAGChunk
                 content=document.page_content
             ),
         ),
-        # highlight-end
         "langwatch_search",
         "Search for information about LangWatch. For any questions about LangWatch, use this tool if you didn't already",
     )
@@ -86,7 +82,6 @@ import langwatch.langchain
 from langwatch.types import RAGChunk
 
   with langwatch.langchain.LangChainTracer() as langWatchCallback:
-    # highlight-start
     wrapped_tool = langwatch.langchain.capture_rag_from_tool(
         my_custom_tool, lambda response: [
           RAGChunk(
@@ -98,7 +93,6 @@ from langwatch.types import RAGChunk
     )
 
     tools = [wrapped_tool] # use the new wrapped tool in your agent instead of the original one
-    # highlight-end
     model = ChatOpenAI(streaming=True)
     prompt = ChatPromptTemplate.from_messages(
         [
@@ -128,7 +122,6 @@ curl -X POST "https://app.langwatch.ai/api/collector" \\
 {
   "trace_id": "trace-123",
   "spans": [
-    # highlight-start
     {
       "type": "rag",
       "name": null,
@@ -155,11 +148,9 @@ curl -X POST "https://app.langwatch.ai/api/collector" \\
         },
       ]
     },
-    # highlight-end
     {
       "type": "llm",
       "span_id": "span-456",
-      # highlight-next-line
       "parent_id": "span-123",
       "vendor": "openai",
       "model": "gpt-4",
