@@ -6,11 +6,9 @@ description: "This example explains how to use DsPY by Stanford NLP to interact 
 
 ---
 
-### Stanford DsPY 
+[DSPy by Stanford NLP](https://github.com/stanfordnlp/dspy) is a framework designed to optimize language model (LM) prompts and weights, simplifying the process of building complex systems with LMs by automating and unifying techniques for prompting, fine-tuning, and reasoning. It provides composable and declarative modules in Pythonic syntax and includes an automatic compiler to instruct LMs on executing declarative steps.
 
-[DSPy by Stanford NLP](https://github.com/stanfordnlp/dspy) is a framework designed to optimize language model (LM) prompts and weights, simplifying the process of building complex systems with LMs by automating and unifying techniques for prompting, fine-tuning, and reasoning. It provides composable and declarative modules in Pythonic syntax and includes an automatic compiler to instruct LMs on executing declarative steps. Qdrant can be integrated as a retrieval mechanism within the DSPy flow.
-
-### Installation and Setup
+## Installation and Setup
 
 We start by installing `dspy` and `premai-sdk`. Use the following commands to install them:
 
@@ -18,7 +16,8 @@ We start by installing `dspy` and `premai-sdk`. Use the following commands to in
 pip install dspy premai
 ```
 
-Before proceeding, please ensure that you have created an account on PremAI and started a project. If not, refer to the [quick start](https://docs.premai.io/introduction) guide to get started with the PremAI platform, create your first project, and obtain your API key.
+Before proceeding further, please make sure that you have made an account on PremAI and already created a project. If not, please refer to the [quick start](https://docs.premai.io/introduction) guide to get started with the PremAI platform. Create your first project and grab your API key.
+
 
 ```python
 from dspy import PremAI
@@ -28,10 +27,10 @@ from dspy import PremAI
 
 Once we have imported our required modules, let's set up our dspy-premai client. For now, let's assume that our `project_id` is 123. However, be sure to use your actual project ID; otherwise, it will throw an error.
 
-To use dspy with PremAI, you do not need to pass any `model` parameter or model name. It will use the default model and parameters deployed from the [LaunchPad](https://docs.premai.io/get-started/launchpad).
+To use dspy with prem, you do not need to pass any model name or set any parameters with our chat-client. By default it will use the model name and parameters used in the [LaunchPad](https://docs.premai.io/get-started/launchpad).
 
 <Note>
-**Note**: If you change the `model` or any other parameter like `temperature` while setting up the client, it will override the existing default configurations. You can do this during experimentation, but it is not recommended for production use.
+ If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.   
 </Note>
 
 ```python
@@ -42,7 +41,7 @@ if "PREMAI_API_KEY" not in os.environ:
     os.environ["PREMAI_API_KEY"] = getpass.getpass("PremAI API Key:")
 ```
 
-### Calling the model
+## Chat Completions
 
 Here is a quick example of how to get a response from the model:
 
@@ -60,7 +59,6 @@ print(llm(
 ))
 ```
 
-### Important Notes
-
-Before proceeding further, please note that the current version of premai-sdk does not support the parameters [n](https://platform.openai.com/docs/api-reference/chat/create#chat-create-n) and [stop](https://platform.openai.com/docs/api-reference/chat/create#chat-create-stop). Support for these parameters will be provided in future versions.
-
+<Note>
+Please note that the current version of ChatPremAI does not support parameters: [n](https://platform.openai.com/docs/api-reference/chat/create#chat-create-n) and [stop](https://platform.openai.com/docs/api-reference/chat/create#chat-create-stop).   
+</Note>
