@@ -65,6 +65,7 @@
         "get-started/gym",
         "get-started/sdk",
         "get-started/chat-completion-sse",
+        "get-started/supported-models",
         "get-started/credits"
       ]
     },
@@ -72,7 +73,9 @@
       "group": "Integrations",
       "pages": [
         "integrations/llamaindex",
-        "integrations/langchain"
+        "integrations/langchain",
+        "integrations/dspy",
+        "integrations/embedchain"
       ]
     },
     {

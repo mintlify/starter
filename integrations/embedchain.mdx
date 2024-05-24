@@ -1,0 +1,75 @@
+---
+
+title: "Embedchain"
+
+description: "This example explains how to connect different LLMs and Embedding Models in Embedchain through PremAI SDK."
+
+---
+
+
+[Embedchain](https://github.com/embedchain/embedchain) is an Open Source Framework that makes it easy to create and deploy personalized AI apps. At its core, Embedchain follows the design principle of being “Conventional but Configurable” to serve both software engineers and machine learning engineers.
+
+## Installation and Setup
+
+We start by installing `embedchain` and `premai-sdk`. Use the following commands to install them:
+
+```bash
+pip install embedchain premai
+```
+
+Before proceeding further, please make sure that you have made an account on PremAI and already created a project. If not, please refer to the [quick start](https://docs.premai.io/introduction) guide to get started with the PremAI platform. Create your first project and grab your API key.
+
+## Using Embedchain with PremAI
+
+For now, let's assume that we want to integrate our `project_id` is 123. However, in your case, please make sure to use your actual project ID; otherwise, it will throw an error.
+
+To use embedchain with prem, you do not need to pass any model name or set any parameters with our chat-client. By default it will use the model name and parameters used in the [LaunchPad](https://docs.premai.io/get-started/launchpad).
+
+```python
+import os
+import getpass
+
+if "PREMAI_API_KEY" not in os.environ:
+    os.environ["PREMAI_API_KEY"] = getpass.getpass("PremAI API Key:")
+```
+
+In Embedchain, we start by defining our embedchain `App` and instantiate our LLM and embedding model through a config. This Config can come from a `.yaml` file or you can define it using a Python dictionary. Here is an example of a Config:
+
+```python
+config = {
+    "app": {"config": {"id": "my-app"}},
+    "llm": {
+        "provider": "premai",
+        "config": {
+            "project_id": 123,
+            "local": False,
+            "top_p": 0.5,
+            "max_tokens": 1000,
+            "temperature": 0.1,
+        },
+    },
+    "embedder": {
+        "provider": "premai",
+        "config": {"model": "text-embedding-3-large", "project_id": 123, "vector_dimension": 512},
+    },
+}
+```
+
+<Note>
+ If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.   
+</Note>
+
+## Running our embedchain application
+
+Once we have our config, let's add a sample document source to embed and ask questions from it:
+
+```python
+app = App.from_config(config=config)
+app.add("https://en.wikipedia.org/wiki/OpenAI")
+response = app.query("What is OpenAI?")
+print(response)
+```
+
+<Note>
+Please note that the current version of ChatPremAI does not support parameters: [n](https://platform.openai.com/docs/api-reference/chat/create#chat-create-n) and [stop](https://platform.openai.com/docs/api-reference/chat/create#chat-create-stop).   
+</Note>

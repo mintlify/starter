@@ -1,39 +1,33 @@
 ---
 title: "LlamaIndex"
-description: "This example goes over how to use LlamaIndex to interact with different chat models using `ChatPremAI`"
+description: "This example explains how to access different LLMs and Embedding Models in Llamaindex through PremAI SDK."
 ---
-### Installation and setup
+
+[LlamaIndex](https://github.com/run-llama/llama_index) is a framework for building context-augmented LLM applications by applying LLMs to private or domain-specific data. It supports use cases like question-answering chatbots, document understanding and information extraction. LlamaIndex provides tools for data ingestion, processing, and implementing complex query workflows that combine data access with LLM prompting.
+
+## Installation and setup
 
 We start by installing `llama-index` and `premai-sdk`. You can type the following command to install:
 
 ```bash
 pip install premai llama-index
 ```
-Before proceeding further, please make sure that you have made an account on PremAI and already started a project. If not, then here's how you can start for free:
 
-1. Sign in to [PremAI](https://app.premai.io/accounts/login/), if you are coming for the first time and create your API key [here](https://app.premai.io/api_keys/).
-
-2. Go to [app.premai.io](https://app.premai.io) and this will take you to the project's dashboard.
-
-3. Create a project and this will generate a project-id (written as ID). This ID will help you to interact with your deployed application.
-
-4. Head over to LaunchPad (the one with 🚀 icon). And there deploy your model of choice. Your default model will be `gpt-4`. You can also set and fix different generation paramters (like: max-tokens, temperature etc) and also pre-set your system prompt.
-
-Congratulations on creating your first deployed application on Prem 🎉 Now we can use llama-index to interact with our application.
+Before proceeding further, please make sure that you have made an account on PremAI and already created a project. If not, please refer to the [quick start](https://docs.premai.io/introduction) guide to get started with the PremAI platform. Create your first project and grab your API key.
 
 ```python
 from llama_index.llms.premai import PremAI
 from llama_index.core.llms import ChatMessage
 ```
 
-## Setup ChatPrem instance in LlamaIndex
+### Setup PremAI client with LlamaIndex
 
 Once we imported our required modules, let's setup our client. For now let's assume that our `project_id` is `8`. But make sure you use your project-id, otherwise it will throw error.
 
-In order to use llama-index with PremAI, you do not need to pass any model name or set any parameters with our chat-client. All of those will use the default model name and paramters of the LaunchPad model.
+In order to use llama-index with PremAI, you do not need to pass any model name or set any parameters with our chat-client. By default it will use the model name and parameters used in the [LaunchPad](https://docs.premai.io/get-started/launchpad).
 
 <Note>
- If you change the `model` or any other parameter like `temperature` while setting the client, it will override existing default configurations.   
+ If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.   
 </Note>
 
 ```python
@@ -45,9 +39,9 @@ if os.environ.get("PREMAI_API_KEY") is None:
 
 prem_chat = PremAI(project_id=8)
 ```
-## Calling the Model
+## Chat Completions
 
-Now you are all set. We can now start with interacting with our application. Let's start by building simple chat request and responses using llama-index
+Now you are all set. We can now start with interacting with our application. Let's start by building simple chat request and responses using llama-index. 
 
 ```python
 messages = [
@@ -57,7 +51,7 @@ messages = [
     ),
 ]
 ```
-Please note that: You can provide system prompt here too, like this:
+Please note that: You can provide system prompt in `ChatMessage` like this:
 
 ```python
 messages = [
@@ -66,14 +60,17 @@ messages = [
     ChatMessage(role="user", content="Where do you live, write an essay in 500 words"),
 ]
 ```
-On the other hand you can also instantiate your object with system prompt like this:
+Additionally, you can also instantiate your client with system prompt like this:
 
 ```python
 chat = PremAI(project_id=8, system_prompt="Act like nemo fish")
 ```
+
+<Note>
 In both of the scenarios, you are going to override your system prompt that was fixed while deploying the application from the platform. And, specifically in this case, if you override system prompt while instantiating the **PremAI** class then system message in `ChatMessage` won't provide any affect.
 
-So if you want to override system prompt for any experimental cases, either you need to provide that while instantiating the class or while writing `ChatMessage` with a role `system`.
+So if you want to override system prompt for any experimental cases, either you need to provide that while instantiating the client or while writing it in `ChatMessage` with a role `system`.
+</Note>
 
 Now let's call the model
 
@@ -90,7 +87,7 @@ completion = prem_chat.complete("Paul Graham is ")
 
 ## Streaming
 
-In this section, let's see how we can stream tokens using llama-index and PremAI. It is very similar to above methos. Here's how you do it.
+In this section, let's see how we can stream tokens using llama-index and PremAI. It is very similar to above methods. Here's how you do it.
 
 ```python
 streamed_response = prem_chat.stream_chat(messages)
@@ -99,13 +96,7 @@ for response_delta in streamed_response:
     print(response_delta.delta, end="")
 ```
 
->Result:
->
->I'm here to assist you with writing tasks, but I don't have personal experiences or attend school. However, I can help you brainstorm ideas, outline your essay, or provide information on various school-related topics. Just let me know how I can assist you further!
-
 This will stream tokens one after the other. Similar to `complete` method, we have `stream_complete` method which does streaming of tokens for completion.
-
-**Like this:**
 
 ```python
 # This will stream tokens one by one
@@ -117,28 +108,14 @@ for response_delta in streamed_response:
 ```
 ------
 ## Embeddings
-In this section we are going to dicuss how we can get access to different embedding model using `PremEmbeddings` with llama-index
+In this section we are going to dicuss how we can get access to different embedding model using `PremAIEmbeddings` with llama-index
 
 ```python
 from llama_index.embeddings.premai import PremAIEmbeddings
-```
-## Setup PremAIEmbeddings instance in LlamaIndex
+``` 
 
-Once we imported our required modules, let's setup our client. For now let's assume that our `project_id` is `8`. But make sure you use your project-id, otherwise it will throw error. In case of embeddings you also have to additionally pass `model`. 
+We support lots of state of the art embedding models. You can view our list of supported LLMs and embedding models [here](https://docs.premai.io/get-started/supported-models). For now let's go for `text-embedding-3-large` model for this example. 
 
-Here are the list of available models on PremAI:
-
-| Provider    | Slug                                     | Context Tokens |
-|-------------|------------------------------------------|----------------|
-| cohere      | embed-english-v3.0                       | N/A            |
-| openai      | text-embedding-3-small                   | 8191           |
-| openai      | text-embedding-3-large                   | 8191           |
-| openai      | text-embedding-ada-002                   | 8191           |
-| replicate   | replicate/all-mpnet-base-v2              | N/A            |
-| together    | togethercomputer/Llama-2-7B-32K-Instruct | N/A            |
-| mistralai   | mistral-embed                            | 4096           |
-
-To change the model, you simply need to copy the `slug` and access your embedding model.
 
 ```python
 import os
@@ -151,24 +128,28 @@ prem_embedding = PremAIEmbeddings(
     project_id=8, model_name="text-embedding-3-large"
 )
 ```
-## Calling the Embedding Model
 
-Now you are all set. Now let's start using our embedding model with a single query followed by multiple queries (which is also called as a document)
+<Note>
+Setting `model_name` argument in mandatory for PremAIEmbeddings unlike chat. 
+</Note>
+
+
+### Calling the Embedding Model
+
+Now we are all set. Now let's start using our embedding model with a single query followed by multiple queries (which is also called as a document)
 
 ```python
 query = "Hello, this is a test query"
 query_result = prem_embedding.get_text_embedding(query)
-```
 
-```python
 print(f"Dimension of embeddings: {len(query_result)}")
 ```
-Dimension of embeddings: 3072
+
+> Dimension of embeddings: 3072
 
 ```python
-query_result[:5]
+print(query_result[:5])
 ```
->Result:
 >
 >[-0.02129288576543331,
  0.0008162345038726926,
