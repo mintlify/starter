@@ -113,6 +113,12 @@
       ]
     },
     {
+      "group": "Tutorials",
+      "pages": [
+        "langevals/tutorials/extensive-unit-testing"
+      ]
+    },
+    {
       "group": "API Endpoints",
       "pages": [
         "langevals/api-reference/endpoint/language-detection",

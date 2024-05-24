@@ -1,27 +1,23 @@
-LangEvals is built by developers who believe that software should be tested, and LLM-powered applications are not an exception.
-Our evaluations can be easily combined with PyTest and extensively cover the edge cases, providing a bigger picture to the reviewer.
+Welcome to the Extensive Unit Testing tutorial. This guide will explain how to create a comprehensive test suite for your LLM application using LangEvals.
 
+## Use Case
+Our example use case will focus on the [**Entity Extraction**](https://en.wikipedia.org/wiki/Named-entity_recognition) task. Imagine you have a list of addresses in unstructured text format, and you want to use an LLM to transform it into a spreadsheet. There are many questions you might have, such as which model to choose, how to determine the best model, and how often the model fails to produce the expected results.
 
-## Evaluate different models
-Sometimes it is hard to make the decision which model is better in your particular case. 
-You can easily save your time by combining LangEvals with [Instructor](https://github.com/jxnl/instructor) and [LiteLLM](https://github.com/BerriAI/litellm).
+## Prepare the Data
+The first step is to model our data using a Pydantic schema. This helps validate and structure the data, making it easier to serialize entries into JSON strings later.
 ```python 
-from itertools import product
-import pytest
-import pandas as pd
-
-import instructor
-
-from litellm import completion
 from pydantic import BaseModel
-
 
 class Address(BaseModel):
     number: int
     street_name: str
     city: str
     country: str
+```
 
+Once we have modeled our data format, we can create a small dataset with three examples.
+```python 
+import pandas as pd
 
 entries = pd.DataFrame(
     {
@@ -49,6 +45,18 @@ entries = pd.DataFrame(
         ],
     }
 )
+```
+In this example `entries` is a [Pandas DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) object with two columns: input and expected_output. The expected_output column contains the expected results, which we will use to compare with the model’s responses during evaluation.
+## Evaluate different models
+Now we can start our tests. Let’s compare different models. We define an array with the models we’re interested in and create a litellm client to perform the API calls to these models. Next, we create a test function and annotate it with `@pytest`.
+
+Our test function calls the LLM with `entry.input` and compares the response with `entry.expected_output`.
+
+```python 
+from itertools import product
+import pytest
+import instructor
+from litellm import completion
 
 models = ["gpt-3.5-turbo", "gpt-4-turbo", "groq/llama3-70b-8192"]
 
@@ -69,3 +77,157 @@ def test_extracts_the_right_address(entry, model):
     assert address.model_dump_json() == entry.expected_output
 
 ```
+In this test we leverage `@pytest.mark.parametrize` to run the same test function with different parameters. Using itertools.product, we pair each model with each entry, resulting in 9 different test cases.
+
+Wow, right? Now you can see how each model performs on a larger scale.
+<AccordionGroup>
+<Accordion title="Example Test Otput">
+At the example test output we can see that `groq/llama3-70b-8192` underperforms on this particular task.
+```bash
+..F..F..F                                                                                    [100%]
+============================================= FAILURES =============================================
+___________________ test_extracts_the_right_address[entry2-groq/llama3-70b-8192] ___________________
+
+entry = Pandas(Index=0, input='Please send the package to 123 Main St, Springfield.', expected_output='{"number":123,"street_name":"Main St","city":"Springfield","country":"USA"}')
+model = 'groq/llama3-70b-8192'
+
+    @pytest.mark.parametrize("entry, model", product(entries.itertuples(), models))
+    def test_extracts_the_right_address(entry, model):
+        address = client.chat.completions.create(
+            model=model,
+            response_model=Address,
+            messages=[
+                {"role": "user", "content": entry.input},
+            ],
+            temperature=0.0,
+        )
+    
+>       assert address.model_dump_json() == entry.expected_output
+E       assert '{"number":12..."country":""}' == '{"number":12...untry":"USA"}'
+E         
+E         Skipping 60 identical leading characters in diff, use -v to show
+E         - country":"USA"}
+E         ?           ---
+E         + country":""}
+...
+FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry2-groq/llama3-70b-8192] - assert '{"number":12..."country":""}' == '{"number":12...untry":"USA"}'
+FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry5-groq/llama3-70b-8192] - assert '{"number":56..."country":""}' == '{"number":56...ry":"France"}'
+FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry8-groq/llama3-70b-8192] - assert '{"number":90..."country":""}' == '{"number":90...ry":"Brazil"}'
+```
+</Accordion>
+</AccordionGroup>
+
+## Evaluate with a Pass Rate 
+LLMs are probabilistic by nature, meaning the results of the same test with the same input can vary. However, you can set a `pass_rate` threshold to make the test suite pass even if some tests fail.
+```python
+@pytest.mark.parametrize("entry, model", product(entries.itertuples(), models))
+@pytest.mark.pass_rate(0.6)
+def test_extracts_the_right_address(entry, model):
+    address = client.chat.completions.create(
+        model=model,
+        response_model=Address,
+        messages=[
+            {"role": "user", "content": entry.input},
+        ],
+        temperature=0.0,
+    )
+
+    assert address.model_dump_json() == entry.expected_output
+```
+In this example we added the second `@pytest` decorator that allows the test result to be a PASS even if only 60% of the tests are successful. For instance, if the LLM sometimes returns “United States” instead of “USA”, we can still consider it a pass if it meets our acceptable level of uncertainty.
+<AccordionGroup>
+<Accordion title="Example Test Otput">
+In this example, 3 test runs failed (same as in the previous output), marked with `x`. Despite the failures, the overall test suite passes because the `pass_rate` is set to 0.6, and 6 out of 9 tests passed.
+```bash
+..x..x..x                                                                                    [100%]
+========================================= warnings summary =========================================
+.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:1285
+  /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:1285: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: anyio
+    self._mark_plugins_for_rewrite(hook)
+
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry0-gpt-3.5-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry1-gpt-4-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry2-groq/llama3-70b-8192]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry3-gpt-3.5-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry4-gpt-4-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry5-groq/llama3-70b-8192]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry6-gpt-3.5-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry7-gpt-4-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry8-groq/llama3-70b-8192]
+  /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/instructor/process_response.py:222: DeprecationWarning: FUNCTIONS is deprecated and will be removed in future versions
+    if mode == Mode.FUNCTIONS:
+
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry0-gpt-3.5-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry1-gpt-4-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry2-groq/llama3-70b-8192]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry3-gpt-3.5-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry4-gpt-4-turbo]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry5-groq/llama3-70b-8192]
+t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry6-gpt-3.5-turbo]
+...
+	[<TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/runner.py:341>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/flaky/flaky_pytest_plugin.py:146>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_hooks.py:513>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_manager.py:120>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:139>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:122>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/threadexception.py:87>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/threadexception.py:63>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:122>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/unraisableexception.py:90>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/unraisableexception.py:65>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:122>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/logging.py:850>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/logging.py:833>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:122>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/capture.py:878>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:122>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/skipping.py:257>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:103>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/runner.py:183>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/runner.py:173>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/python.py:1632>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_hooks.py:513>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_manager.py:120>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:139>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/pluggy/_callers.py:103>, <TracebackEntry /Users/zhenyabudnyk/DevProjects/langwatch-saas/langevals/notebooks/.venv/lib/python3.12/site-packages/_pytest/python.py:162>, <TracebackEntry /var/folders/pj/64p7tp0s5rbc57h_h3qdws4c0000gn/T/ipykernel_12166/4222739897.py:64>]
+
+===End Flaky Test Report===
+6 passed, 3 xfailed, 19 warnings in 12.66s
+```
+</Accordion>
+</AccordionGroup>
+
+## Evaluate with Flaky
+
+[Flaky](https://github.com/box/flaky) is a special PyTest extension designed for testing software systems that depend on non-deterministic tools such as network communication or AI/ML algorithms.
+
+```python 
+@pytest.mark.parametrize("entry, model", product(entries.itertuples(), models))
+@pytest.mark.flaky(max_runs=3)
+def test_extracts_the_right_address(entry, model):
+    address = client.chat.completions.create(
+        model=model,
+        response_model=Address,
+        messages=[
+            {"role": "user", "content": entry.input},
+        ],
+        temperature=0.0,
+    )
+
+    assert address.model_dump_json() == entry.expected_output
+    ```
+In this case, each combination of entry and model that fails during its test will be retried up to 2 more times before being marked as a failure. You can also specify the minimum number of passes required before marking the test as a PASS using - `@pytest.mark.flaky(max_runs=3, min_passes=2)`.
+
+<AccordionGroup>
+<Accordion title="Example Test Otput">
+Notice the total testing runtime at the bottom of the snippet. It took 34.99 seconds to run these tests with retries compared to 10-12 seconds in the previous versions.
+```bash
+..F..F..                                                                                     [100%] [100%]F [100%]
+============================================= FAILURES =============================================
+___________________ test_extracts_the_right_address[entry2-groq/llama3-70b-8192] ___________________
+
+entry = Pandas(Index=0, input='Please send the package to 123 Main St, Springfield.', expected_output='{"number":123,"street_name":"Main St","city":"Springfield","country":"USA"}')
+model = 'groq/llama3-70b-8192'
+
+    @pytest.mark.parametrize("entry, model", product(entries.itertuples(), models))
+    @pytest.mark.flaky(max_runs=3)
+    def test_extracts_the_right_address(entry, model):
+        address = client.chat.completions.create(
+            model=model,
+            response_model=Address,
+            messages=[
+                {"role": "user", "content": entry.input},
+            ],
+            temperature=0.0,
+        )
+    
+>       assert address.model_dump_json() == entry.expected_output
+E       assert '{"number":12..."country":""}' == '{"number":12...untry":"USA"}'
+E         
+E         Skipping 60 identical leading characters in diff, use -v to show
+E         - country":"USA"}
+E         ?           ---
+...
+FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry2-groq/llama3-70b-8192] - assert '{"number":12..."country":""}' == '{"number":12...untry":"USA"}'
+FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry5-groq/llama3-70b-8192] - assert '{"number":56..."country":""}' == '{"number":56...ry":"France"}'
+FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry8-groq/llama3-70b-8192] - assert '{"number":90..."country":""}' == '{"number":90...ry":"Brazil"}'
+3 failed, 6 passed, 35 warnings in 34.99s
+```
+</Accordion>
+</AccordionGroup>
