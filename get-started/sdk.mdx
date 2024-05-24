@@ -123,14 +123,13 @@ console.log("\nTrace ID", responseAsync.trace_id)
 
 By default, the `chat.completions` module uses the default launchpad parameters. You can also specify the following optional parameters:
 
+- `session_id`: A unique identifier to maintain session context, useful for tracking conversations or data across multiple requests.
+- `repositories`: Options for Retrieval Augmented Generation (RAG). Will override launched model settings. (More about that on next section)
 - `model`: The model to use for completion. If omitted, the default launchpad model will be used.
 - `system_prompt`: The system prompt to use for completion. If omitted, the default launchpad system prompt will be used.
-- `session_id`: A unique identifier to maintain session context, useful for tracking conversations or data across multiple requests.
-- `temperature`: The temperature to use for completion. If omitted, the default launchpad temperature will be used.
 - `max_tokens`: The maximum number of tokens to generate for completion. If omitted, the default launchpad max tokens will be used.
-- `top_p`: The nucleus sampling probability to use for completion. If omitted, the default launchpad top p will be used.
-- `frequency_penalty`: The frequency penalty to use for completion. If omitted, the default launchpad frequency penalty will be used.
-- `presence_penalty`: The presence penalty to use for completion. If omitted, the default launchpad presence penalty will be used.
+- `stream`: If set, partial message deltas will be sent, like in ChatGPT.
+- `temperature`: The temperature to use for completion. If omitted, the default launchpad temperature will be used.
 
 Example:
 
