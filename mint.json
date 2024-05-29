@@ -92,6 +92,10 @@
       ]
     },
     {
+      "group": "DSPy Visualization",
+      "pages": ["dspy-visualization/quickstart", "dspy-visualization/custom-optimizer"]
+    },
+    {
       "group": "Other Features",
       "pages": ["features/batch-evaluations", "features/embedded-analytics"]
     },
@@ -106,17 +110,13 @@
         "langevals/documentation/API-example",
         {
           "group": "Modular Architecture",
-          "pages": [
-            "langevals/documentation/modular-architecture/contributing"
-          ]
+          "pages": ["langevals/documentation/modular-architecture/contributing"]
         }
       ]
     },
     {
       "group": "Tutorials",
-      "pages": [
-        "langevals/tutorials/extensive-unit-testing"
-      ]
+      "pages": ["langevals/tutorials/extensive-unit-testing"]
     },
     {
       "group": "API Endpoints",
