@@ -103,7 +103,8 @@
       "pages": [
         "features/batch-evaluations",
         "features/embedded-analytics",
-        "features/triggers"
+        "features/triggers",
+        "features/datasets"
       ]
     },
     {

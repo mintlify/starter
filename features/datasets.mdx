@@ -1,0 +1,66 @@
+---
+title: Datasets
+---
+
+## Create datasets
+
+LangWatch offers you the possibility to create datasets on your LLM messages. These datasets can be used to train your own models or to do further analysis on the data.
+We offer the possibility to create datasets with the following data types;
+
+- **Input**: The message input string.
+- **Expected Output**: The gold-standard expected output for the given input,
+  useful for output-comparison metrics
+- **Contexts**: The contexts provided if your are doing RAG, useful
+  for RAG-metric evaluations
+- **[Spans](/concepts#spans)**: A JSON with all the spans contained in the message
+  trace, that is, all the steps in your pipeline, for
+  more complex evaluations
+- **LLM Input**: The input the LLM received, in LLM chat history json
+  format
+- **Expected LLM Output**: The gold-standard expected output for the given input,
+  in LLM chat history json format.
+
+#### Usage
+
+To create a dataset, simply go to the datasets page and click the "Create New Dataset" button. You will be able to select the type of dataset you want as well as the columns you want to include.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-add.png"
+  alt="LangWatch"
+/>
+
+There are a couple ways to add data to a dataset;
+
+- **Manually**: You can add data on a per message basis.
+- **Group selection**: You can fill the dataset by selecting a group of messages.
+- **CSV Upload**: You can fill the dataset by uploading a CSV file.
+
+### Manually
+
+To add data manually, click the "Add to Dataset" button on the messages page after selecting a message. You will then be able to choose the dataset type and preview the data that will be added.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-single.png"
+  alt="LangWatch"
+/>
+
+### Group selection
+
+To add data by selecting a group, simply click the "Add to Dataset" button after choosing the desired messages in the table view. You'll then be able to select the type of dataset you wish to add to and preview the data that will be included.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-group.png"
+  alt="LangWatch"
+/>
+### CSV Upload
+
+To add data by CSV upload, go to your datasets page and select the dataset you want to update. Click the "Upload CSV" button and upload your CSV file. You can then map the columns from your CSV file to the appropriate fields in the dataset based on the dataset type.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-csv.png"
+  alt="LangWatch"
+/>
