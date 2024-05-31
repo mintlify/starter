@@ -93,11 +93,18 @@
     },
     {
       "group": "DSPy Visualization",
-      "pages": ["dspy-visualization/quickstart", "dspy-visualization/custom-optimizer"]
+      "pages": [
+        "dspy-visualization/quickstart",
+        "dspy-visualization/custom-optimizer"
+      ]
     },
     {
       "group": "Other Features",
-      "pages": ["features/batch-evaluations", "features/embedded-analytics"]
+      "pages": [
+        "features/batch-evaluations",
+        "features/embedded-analytics",
+        "features/triggers"
+      ]
     },
     {
       "group": "Documentation",
