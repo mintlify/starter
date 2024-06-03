@@ -1,3 +1,7 @@
+---
+title: "RAGs Context Tracking"
+---
+
 Retrieval Augmented Generation (RAGs) is a common way to augment the generation of your LLM by retrieving a set of documents based on the user query and giving it to the LLM to use as context for answering, either by using a vector database, getting responses from an API, or integrated agent files and memory.
 
 It can be challenging, however, to build a good quality RAG pipeline, making sure the right data was retrieved, preventing the LLM from hallucinating, monitor which documents are the most used and keep iterating to improve it, this is where integrating with LangWatch can help, by integrating your RAG you unlock a series of Guardrails, Measurements and Analytics for RAGs LangWatch.
@@ -6,7 +10,7 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-<Tab title="Python">
+<Tab title="Python (General)">
 To track the RAG context, simply add `with langwatch.capture_rag` around the LLM call:
 
 ```python
@@ -35,7 +39,7 @@ with langwatch.openai.OpenAIChatCompletionTracer(client):
 ```
 
 </Tab>
-<Tab title="LangChain">
+<Tab title="Python (LangChain)">
 When using LangChain, generally your RAG happens by calling a [`Retriever`](https://python.langchain.com/v0.1/docs/modules/data_connection/retrievers/).
 
 We provide a utility `langwatch.langchain.capture_rag_from_retriever` to capture the documents found by the retriever and convert it into a LangWatch compatible format for tracking. For that you need to pass the retriever as first argument, and then a function to map each document to a `RAGChunk`, like in the example below:
@@ -110,6 +114,11 @@ from langwatch.types import RAGChunk
     ))
 ```
 
+</Tab>
+<Tab title="TypeScript">
+import TypeScriptRAG from "/snippets/typescript-rag.mdx";
+
+<TypeScriptRAG />
 </Tab>
 <Tab title="REST API">
 To track the RAG context when using the REST API, add a new span of type `rag`, you may also refer the LLM generation as the child of it:

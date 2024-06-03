@@ -1,3 +1,8 @@
+---
+title: Capturing Additional Spans and Metadata on Python
+sidebarTitle: Adding Spans and Metadata
+---
+
 By using LangWatch integrations, all the calls to LLMs should be automatically captured, and by using the RAG context tracking, you can pass in also the context. However, sometimes it might be useful to add a new piece of metadata that you only figure out in the middle of your LLM pipeline, for example, tagging it with a new label. You can do that by exposing the tracer in the context manager, and appending new metadata. For example, for the OpenAI tracer:
 
 ```python

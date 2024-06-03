@@ -46,43 +46,36 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [
-        "introduction",
-        "concepts",
-        "quickstart",
-        "troubleshooting"
-      ]
+      "pages": ["introduction", "concepts", "quickstart", "troubleshooting"]
     },
     {
       "group": "Integration Guides",
       "pages": [
-        "guides/overview",
+        "integration/overview",
         {
-          "group": "Guides",
+          "group": "Python",
           "pages": [
-            "guides/Open-AI-Python",
-            "guides/Azure-Open-AI-Python",
-            "guides/LangChain-Python",
-            "guides/custom-Python",
-            "guides/capturing-additional-spans-and-metadata",
-            "guides/REST-API"
+            "integration/python/open-ai",
+            "integration/python/azure-open-ai",
+            "integration/python/langchain",
+            "integration/python/custom",
+            "integration/python/capturing-additional-spans-and-metadata"
           ]
-        }
+        },
+        {
+          "group": "TypeScript",
+          "pages": ["integration/typescript/guide"]
+        },
+        "integration/rest-api"
       ]
     },
     {
       "group": "RAGs",
-      "pages": [
-        "rags/overview",
-        "rags/RAGs-Context-Tracking"
-      ]
+      "pages": ["rags/overview", "rags/rags-context-tracking"]
     },
     {
       "group": "Guardrails",
-      "pages": [
-        "guardrails/overview",
-        "guardrails/setting-up-Guardrails"
-      ]
+      "pages": ["guardrails/overview", "guardrails/setting-up-Guardrails"]
     },
     {
       "group": "User Events",
@@ -126,9 +119,7 @@
         "langevals/documentation/API-example",
         {
           "group": "Modular Architecture",
-          "pages": [
-            "langevals/documentation/modular-architecture/contributing"
-          ]
+          "pages": ["langevals/documentation/modular-architecture/contributing"]
         }
       ]
     },
