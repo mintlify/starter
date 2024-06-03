@@ -1,7 +1,5 @@
 Welcome to the Extensive Unit Testing tutorial. This guide will explain how to create a comprehensive test suite for your LLM application using LangEvals.
-
-## Use Case
-Our example use case will focus on the [**Entity Extraction**](https://en.wikipedia.org/wiki/Named-entity_recognition) task. Imagine you have a list of addresses in unstructured text format, and you want to use an LLM to transform it into a spreadsheet. There are many questions you might have, such as which model to choose, how to determine the best model, and how often the model fails to produce the expected results.
+Our first example use case will focus on the [**Entity Extraction**](https://en.wikipedia.org/wiki/Named-entity_recognition) task. Imagine you have a list of addresses in unstructured text format, and you want to use an LLM to transform it into a spreadsheet. There are many questions you might have, such as which model to choose, how to determine the best model, and how often the model fails to produce the expected results.
 
 ## Prepare the Data
 The first step is to model our data using a Pydantic schema. This helps validate and structure the data, making it easier to serialize entries into JSON strings later.
@@ -231,3 +229,138 @@ FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[en
 ```
 </Accordion>
 </AccordionGroup>
+
+## LLM-as-a-Judge and `expect`
+
+Lets take another use-case - generation of recipes. As the task becomes more nuanced it is also harder to properly evaluate the quality of LLM's response. 
+LLM-as-a-Judge approach comes in hand in such situations. For example, you can use `CustomLLMBooleanEvaluator` to check if the generated recipes are all vegetarian.
+
+```python
+from langevals import expect
+import litellm
+import pandas as pd
+import pytest
+
+entries = pd.DataFrame(
+    {
+        "input": [
+            "Generate me a recipe for a quick breakfast with bacon",
+            "Generate me a recipe for a lunch using lentils",
+            "Generate me a recipe for a vegetarian dessert",
+        ],
+    }
+)
+
+@pytest.mark.parametrize("entry", entries.itertuples())
+@pytest.mark.flaky(max_runs=3)
+@pytest.mark.pass_rate(0.8)
+def test_generate_tweet_recipes(entry):
+    response: ModelResponse = litellm.completion(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a tweet-size recipe generator, just recipe name and ingredients, no yapping.",
+            },
+            {"role": "user", "content": entry.input},
+        ],
+        temperature=0.0,
+    )  # type: ignore
+    recipe = response.choices[0].message.content  # type: ignore
+
+    vegetarian_checker = CustomLLMBooleanEvaluator(
+        settings=CustomLLMBooleanSettings(
+            prompt="Is the recipe vegetarian?",
+        )
+    )
+
+    expect(input=entry.input, output=recipe).to_pass(vegetarian_checker)
+    ```
+
+    Pay attention how we use the `expect` at the end of our test. This is a special assertion utility function that simplifies the
+    evaluation run and prints a nice output with the detailed explanation in case of failures. 
+    The `expect` utility interface is modeled after Jest assertions, so you can expect a somewhat similar API if you are expericed with Jest.
+
+<AccordionGroup>
+<Accordion title="Example Nice Expect Otput">
+```bash
+FAILED tests/test_llm_as_judge.py::test_llm_as_judge[entry0] - AssertionError: Custom LLM Boolean Evaluator to_pass FAILED - The recipe for a quick breakfast with bacon includes bacon strips, making it a non-vegetarian recipe.
+```
+</Accordion>
+</AccordionGroup>
+
+## Other Evaluators
+Just like `CustomLLMBooleanEvaluator`, you can use any other evaluator available from LangEvals to prevent regression on a variety of cases, 
+for example, here we check that the LLM answers are always in english, regardless of the language used in the question, we also measure how relevant the answers are to the question:
+```python
+import litellm
+from litellm import ModelResponse
+from langevals_lingua.language_detection import (
+    LinguaLanguageDetectionEvaluator,
+    LinguaLanguageDetectionSettings,
+    LinguaLanguageDetectionEvaluator,
+)
+from langevals_ragas.answer_relevancy import RagasAnswerRelevancyEvaluator
+from langevals import expect
+import pytest
+entries = pd.DataFrame(
+    {
+        "input": [
+            "What's the connection between 'breaking the ice' and the Titanic's first voyage?",
+            "Comment la bataille de Verdun a-t-elle influencé la cuisine française?",
+            "¿Puede el musgo participar en la purificación del aire en espacios cerrados?",
+        ],
+    }
+)
+
+
+@pytest.mark.parametrize("entry", entries.itertuples())
+@pytest.mark.flaky(max_runs=3)
+@pytest.mark.pass_rate(0.8)
+def test_language_and_relevancy(entry):
+    response: ModelResponse = litellm.completion(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "You reply questions only in english, no matter tha language the question was asked",
+            },
+            {"role": "user", "content": entry.input},
+        ],
+        temperature=0.0,
+    )  # type: ignore
+    recipe = response.choices[0].message.content  # type: ignore
+
+    language_checker = LinguaLanguageDetectionEvaluator(
+        settings=LinguaLanguageDetectionSettings(
+            check_for="output_matches_language",
+            expected_language="EN",
+        )
+    )
+    answer_relevancy_checker = RagasAnswerRelevancyEvaluator()
+
+    expect(input=entry.input, output=recipe).to_pass(language_checker)
+    expect(input=entry.input, output=recipe).score(
+        answer_relevancy_checker
+    ).to_be_greater_than(0.8)
+```
+In this example we are now not only validating a boolean assertion, 
+but also making sure that 80% of our samples keep an answer relevancy score above 0.8 from the Ragas Answer Relevancy Evaluator.
+
+<AccordionGroup>
+<Accordion title="Example Nice Expect Otput">
+```bash
+===Flaky Test Report===
+
+test_language_and_relevancy[entry0] passed 1 out of the required 1 times. Success!
+test_language_and_relevancy[entry1] passed 1 out of the required 1 times. Success!
+test_language_and_relevancy[entry2] passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+```
+</Accordion>
+</AccordionGroup>
+
+
+
+
