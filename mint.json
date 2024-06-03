@@ -31,7 +31,6 @@
       "url": "langevals"
     }
   ],
-
   "anchors": [
     {
       "name": "Open Dashboard",
@@ -47,9 +46,13 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "concepts", "quickstart", "troubleshooting"]
+      "pages": [
+        "introduction",
+        "concepts",
+        "quickstart",
+        "troubleshooting"
+      ]
     },
-
     {
       "group": "Integration Guides",
       "pages": [
@@ -69,12 +72,17 @@
     },
     {
       "group": "RAGs",
-
-      "pages": ["rags/overview", "rags/RAGs-Context-Tracking"]
+      "pages": [
+        "rags/overview",
+        "rags/RAGs-Context-Tracking"
+      ]
     },
     {
       "group": "Guardrails",
-      "pages": ["guardrails/overview", "guardrails/setting-up-Guardrails"]
+      "pages": [
+        "guardrails/overview",
+        "guardrails/setting-up-Guardrails"
+      ]
     },
     {
       "group": "User Events",
@@ -118,13 +126,18 @@
         "langevals/documentation/API-example",
         {
           "group": "Modular Architecture",
-          "pages": ["langevals/documentation/modular-architecture/contributing"]
+          "pages": [
+            "langevals/documentation/modular-architecture/contributing"
+          ]
         }
       ]
     },
     {
       "group": "Tutorials",
-      "pages": ["langevals/tutorials/extensive-unit-testing"]
+      "pages": [
+        "langevals/tutorials/extensive-unit-testing",
+        "langevals/tutorials/RAG-evaluation"
+      ]
     },
     {
       "group": "API Endpoints",
