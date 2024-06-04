@@ -93,6 +93,59 @@ span.end({
 });
 ```
 </Tab>
+<Tab title="Azure">
+```typescript
+import { AzureOpenAI } from "openai";
+
+// Model to be used and messages that will be sent to the LLM
+const model = "gpt-4-turbo-2024-04-09"
+const messages : OpenAI.Chat.ChatCompletionMessageParam[] = [
+  { role: "system", content: "You are a helpful assistant." },
+  {
+    role: "user",
+    content: "Write a tweet-size vegetarian lasagna recipe for 4 people.",
+  },
+]
+```
+
+Then, start the LLM span from the trace, giving it the model and input messages:
+
+```typescript
+const span = trace.startLLMSpan({
+  name: "llm",
+  model: model,
+  input: {
+    type: "chat_messages",
+    value: messages
+  },
+});
+```
+
+This will capture the LLM input and register the time the call started. Now, continue with the LLM call normally, using the same parameters:
+
+```typescript
+const openai = new AzureOpenAI({
+  apiKey: process.env.AZURE_OPENAI_API_KEY,
+  apiVersion: "2024-02-01",
+  endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+});
+const chatCompletion = await openai.chat.completions.create({
+  messages: messages,
+  model: model,
+});
+```
+
+Finally, after the OpenAI call is done, end the span to capture the output and register the finish timestamp:
+
+```typescript
+span.end({
+  outputs: chatCompletion.choices.map((choice) => ({
+    type: "chat_messages",
+    value: [choice.message],
+  })),
+});
+```
+</Tab>
 <Tab title="Vercel AI SDK">
 ```typescript
 import { openai } from "@ai-sdk/openai";
