@@ -167,6 +167,7 @@ import TypeScriptRAG from "/snippets/typescript-rag.mdx";
 You can also use generic spans to capture any type of operation, its inputs and outputs, for example for a function call:
 
 ```typescript
+// before the function starts
 const span = trace.startSpan({
   name: "weather_function",
   input: {
@@ -177,8 +178,7 @@ const span = trace.startSpan({
   },
 });
 
-weather_function("Tokyo")
-
+// ...after the function ends
 span.end({
   outputs: [
     {
@@ -208,3 +208,17 @@ span.end()
 ```
 
 Both LLM and RAG spans can also be nested like any arbritary span.
+
+## Capturing Exceptions
+
+To capture also when your code throws an exception, you can simply wrap your code around a try/catch, and update or end the span with the exception:
+
+```typescript
+try {
+  throw new Error("unexpected error");
+} catch (error) {
+  span.end({
+    error: error,
+  });
+}
+```
