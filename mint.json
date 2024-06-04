@@ -18,12 +18,16 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@langwatch.ai"
+      "url": "/troubleshooting#email-support"
+    },
+    {
+      "name": "Dashboard",
+      "url": "https://app.langwatch.ai"
     }
   ],
   "topbarCtaButton": {
-    "name": "Application",
-    "url": "https://app.langwatch.ai"
+    "type": "github",
+    "url": "https://github.com/langwatch/langwatch"
   },
   "tabs": [
     {
