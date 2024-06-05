@@ -105,6 +105,12 @@
       ]
     },
     {
+      "group": "repositories",
+      "pages": [
+        "api-reference/repositories/post-v1repositories"
+      ]
+    },
+    {
       "group": "repository-document",
       "pages": [
         "api-reference/repository-document/post-v1repository-document"
