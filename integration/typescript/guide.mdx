@@ -82,7 +82,7 @@ const chatCompletion = await openai.chat.completions.create({
 });
 ```
 
-Finally, after the OpenAI call is done, end the span to capture the output and register the finish timestamp:
+Finally, after the OpenAI call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation:
 
 ```typescript
 span.end({
@@ -139,7 +139,7 @@ const chatCompletion = await openai.chat.completions.create({
 });
 ```
 
-Finally, after the OpenAI call is done, end the span to capture the output and register the finish timestamp:
+Finally, after the OpenAI call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation:
 
 ```typescript
 span.end({
@@ -194,7 +194,7 @@ const response = await generateText({
 });
 ```
 
-Finally, after the Vercel AI SDK call is done, end the span to capture the output and register the finish timestamp:
+Finally, after the Vercel AI SDK call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation:
 
 ```typescript
 span.end({
