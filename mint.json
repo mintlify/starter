@@ -51,6 +51,7 @@
     {
       "group": "Get started",
       "pages": [
+        "get-started/why-prem",
         "introduction"
       ]
     },
@@ -77,6 +78,12 @@
         "integrations/dspy",
         "integrations/embedchain",
         "integrations/qdrant"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        "resources/faq"
       ]
     },
     {
