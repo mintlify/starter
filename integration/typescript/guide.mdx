@@ -90,6 +90,10 @@ span.end({
     type: "chat_messages",
     value: [choice.message],
   })),
+  metrics: {
+    promptTokens: chatCompletion.usage?.prompt_tokens,
+    completionTokens: chatCompletion.usage?.completion_tokens,
+  },
 });
 ```
 </Tab>
@@ -143,6 +147,10 @@ span.end({
     type: "chat_messages",
     value: [choice.message],
   })),
+  metrics: {
+    promptTokens: chatCompletion.usage?.prompt_tokens,
+    completionTokens: chatCompletion.usage?.completion_tokens,
+  },
 });
 ```
 </Tab>
@@ -196,6 +204,10 @@ span.end({
       value: convertFromVercelAIMessages(response.responseMessages),
     },
   ],
+  metrics: {
+    promptTokens: response.usage?.promptTokens,
+    completionTokens: response.usage?.completionTokens,
+  },
 });
 ```
 </Tab>
