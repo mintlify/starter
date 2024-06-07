@@ -109,7 +109,8 @@
         "features/batch-evaluations",
         "features/embedded-analytics",
         "features/triggers",
-        "features/datasets"
+        "features/datasets",
+        "features/annotations"
       ]
     },
     {
