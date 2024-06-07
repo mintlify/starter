@@ -79,7 +79,7 @@
     },
     {
       "group": "Guardrails",
-      "pages": ["guardrails/overview", "guardrails/setting-up-Guardrails"]
+      "pages": ["guardrails/overview", "guardrails/setting-up-guardrails"]
     },
     {
       "group": "User Events",

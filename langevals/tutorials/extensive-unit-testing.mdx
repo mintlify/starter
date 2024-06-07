@@ -3,7 +3,7 @@ Our first example use case will focus on the [**Entity Extraction**](https://en.
 
 ## Prepare the Data
 The first step is to model our data using a Pydantic schema. This helps validate and structure the data, making it easier to serialize entries into JSON strings later.
-```python 
+```python
 from pydantic import BaseModel
 
 class Address(BaseModel):
@@ -14,7 +14,7 @@ class Address(BaseModel):
 ```
 
 Once we have modeled our data format, we can create a small dataset with three examples.
-```python 
+```python
 import pandas as pd
 
 entries = pd.DataFrame(
@@ -50,7 +50,7 @@ Now we can start our tests. Let’s compare different models. We define an array
 
 Our test function calls the LLM with `entry.input` and compares the response with `entry.expected_output`.
 
-```python 
+```python
 from itertools import product
 import pytest
 import instructor
@@ -79,7 +79,7 @@ In this test we leverage `@pytest.mark.parametrize` to run the same test functio
 
 Wow, right? Now you can see how each model performs on a larger scale.
 <AccordionGroup>
-<Accordion title="Example Test Otput">
+<Accordion title="Example Test Output">
 At the example test output we can see that `groq/llama3-70b-8192` underperforms on this particular task.
 ```bash
 ..F..F..F                                                                                    [100%]
@@ -99,10 +99,10 @@ model = 'groq/llama3-70b-8192'
             ],
             temperature=0.0,
         )
-    
+
 >       assert address.model_dump_json() == entry.expected_output
 E       assert '{"number":12..."country":""}' == '{"number":12...untry":"USA"}'
-E         
+E
 E         Skipping 60 identical leading characters in diff, use -v to show
 E         - country":"USA"}
 E         ?           ---
@@ -115,7 +115,7 @@ FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[en
 </Accordion>
 </AccordionGroup>
 
-## Evaluate with a Pass Rate 
+## Evaluate with a Pass Rate
 LLMs are probabilistic by nature, meaning the results of the same test with the same input can vary. However, you can set a `pass_rate` threshold to make the test suite pass even if some tests fail.
 ```python
 @pytest.mark.parametrize("entry, model", product(entries.itertuples(), models))
@@ -134,7 +134,7 @@ def test_extracts_the_right_address(entry, model):
 ```
 In this example we added the second `@pytest` decorator that allows the test result to be a PASS even if only 60% of the tests are successful. For instance, if the LLM sometimes returns “United States” instead of “USA”, we can still consider it a pass if it meets our acceptable level of uncertainty.
 <AccordionGroup>
-<Accordion title="Example Test Otput">
+<Accordion title="Example Test Output">
 In this example, 3 test runs failed (same as in the previous output), marked with `x`. Despite the failures, the overall test suite passes because the `pass_rate` is set to 0.6, and 6 out of 9 tests passed.
 ```bash
 ..x..x..x                                                                                    [100%]
@@ -175,7 +175,7 @@ t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[entry6-gp
 
 [Flaky](https://github.com/box/flaky) is a special PyTest extension designed for testing software systems that depend on non-deterministic tools such as network communication or AI/ML algorithms.
 
-```python 
+```python
 @pytest.mark.parametrize("entry, model", product(entries.itertuples(), models))
 @pytest.mark.flaky(max_runs=3)
 def test_extracts_the_right_address(entry, model):
@@ -193,7 +193,7 @@ def test_extracts_the_right_address(entry, model):
 In this case, each combination of entry and model that fails during its test will be retried up to 2 more times before being marked as a failure. You can also specify the minimum number of passes required before marking the test as a PASS using - `@pytest.mark.flaky(max_runs=3, min_passes=2)`.
 
 <AccordionGroup>
-<Accordion title="Example Test Otput">
+<Accordion title="Example Test Output">
 Notice the total testing runtime at the bottom of the snippet. It took 34.99 seconds to run these tests with retries compared to 10-12 seconds in the previous versions.
 ```bash
 ..F..F..                                                                                     [100%] [100%]F [100%]
@@ -214,10 +214,10 @@ model = 'groq/llama3-70b-8192'
             ],
             temperature=0.0,
         )
-    
+
 >       assert address.model_dump_json() == entry.expected_output
 E       assert '{"number":12..."country":""}' == '{"number":12...untry":"USA"}'
-E         
+E
 E         Skipping 60 identical leading characters in diff, use -v to show
 E         - country":"USA"}
 E         ?           ---
@@ -232,7 +232,7 @@ FAILED t_25254c19b35c4a58a520690924724e02.py::test_extracts_the_right_address[en
 
 ## LLM-as-a-Judge and `expect`
 
-Lets take another use-case - generation of recipes. As the task becomes more nuanced it is also harder to properly evaluate the quality of LLM's response. 
+Lets take another use-case - generation of recipes. As the task becomes more nuanced it is also harder to properly evaluate the quality of LLM's response.
 LLM-as-a-Judge approach comes in hand in such situations. For example, you can use `CustomLLMBooleanEvaluator` to check if the generated recipes are all vegetarian.
 
 ```python
@@ -278,11 +278,11 @@ def test_generate_tweet_recipes(entry):
     ```
 
     Pay attention how we use the `expect` at the end of our test. This is a special assertion utility function that simplifies the
-    evaluation run and prints a nice output with the detailed explanation in case of failures. 
+    evaluation run and prints a nice output with the detailed explanation in case of failures.
     The `expect` utility interface is modeled after Jest assertions, so you can expect a somewhat similar API if you are expericed with Jest.
 
 <AccordionGroup>
-<Accordion title="Example Nice Expect Otput">
+<Accordion title="Example Nice Expect Output">
 ```bash
 FAILED tests/test_llm_as_judge.py::test_llm_as_judge[entry0] - AssertionError: Custom LLM Boolean Evaluator to_pass FAILED - The recipe for a quick breakfast with bacon includes bacon strips, making it a non-vegetarian recipe.
 ```
@@ -290,7 +290,7 @@ FAILED tests/test_llm_as_judge.py::test_llm_as_judge[entry0] - AssertionError: C
 </AccordionGroup>
 
 ## Other Evaluators
-Just like `CustomLLMBooleanEvaluator`, you can use any other evaluator available from LangEvals to prevent regression on a variety of cases, 
+Just like `CustomLLMBooleanEvaluator`, you can use any other evaluator available from LangEvals to prevent regression on a variety of cases,
 for example, here we check that the LLM answers are always in english, regardless of the language used in the question, we also measure how relevant the answers are to the question:
 ```python
 import litellm
@@ -344,11 +344,11 @@ def test_language_and_relevancy(entry):
         answer_relevancy_checker
     ).to_be_greater_than(0.8)
 ```
-In this example we are now not only validating a boolean assertion, 
+In this example we are now not only validating a boolean assertion,
 but also making sure that 80% of our samples keep an answer relevancy score above 0.8 from the Ragas Answer Relevancy Evaluator.
 
 <AccordionGroup>
-<Accordion title="Example Nice Expect Otput">
+<Accordion title="Example Nice Expect Output">
 ```bash
 ===Flaky Test Report===
 
