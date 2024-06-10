@@ -100,7 +100,8 @@
       "group": "DSPy Visualization",
       "pages": [
         "dspy-visualization/quickstart",
-        "dspy-visualization/custom-optimizer"
+        "dspy-visualization/custom-optimizer",
+        "dspy-visualization/rag-visualization"
       ]
     },
     {

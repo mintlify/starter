@@ -1,0 +1,99 @@
+---
+title: "RAG visualization"
+---
+Hey here!
+
+In this tutorial we will explain how LangWatch can help observing optimization of RAG application with [DSPy](dspy-docs.vercel.app).
+
+## DSPy RAG Module
+As an example of RAG application we will use the sample app that is provided in the official documentation of DSPy library, 
+you can read more by following this link - [RAG tutorial](https://dspy-docs.vercel.app/docs/tutorials/rag).
+
+By following the tutorial, you can download the dataset of wiki abstracts that will be used for RAG optimization.
+
+```python
+import dspy
+
+turbo = dspy.OpenAI(model='gpt-3.5-turbo')
+colbertv2_wiki17_abstracts = dspy.ColBERTv2(url='http://20.102.90.50:2017/wiki17_abstracts')
+
+dspy.settings.configure(lm=turbo, rm=colbertv2_wiki17_abstracts)
+
+from dspy.datasets import HotPotQA
+
+# Load the dataset.
+dataset = HotPotQA(train_seed=1, train_size=20, eval_seed=2023, dev_size=50, test_size=0)
+
+# Tell DSPy that the 'question' field is the input. Any other fields are labels and/or metadata.
+trainset = [x.with_inputs('question') for x in dataset.train]
+devset = [x.with_inputs('question') for x in dataset.dev]
+
+len(trainset), len(devset)
+```
+
+Next step - to define the RAG module itself. 
+You can explain the task and what the expected outputs mean in this context that an LLM can optimize it later.
+
+```python
+class GenerateAnswer(dspy.Signature):
+    """Answer questions with short factoid answers."""
+
+    context = dspy.InputField(desc="may contain relevant facts")
+    question = dspy.InputField()
+    answer = dspy.OutputField(desc="often between 1 and 5 words")
+
+
+class RAG(dspy.Module):
+    def __init__(self, num_passages=3):
+        super().__init__()
+
+        self.retrieve = dspy.Retrieve(k=num_passages)
+        self.generate_answer = dspy.ChainOfThought(GenerateAnswer)
+    
+    def forward(self, question):
+        context = self.retrieve(question).passages
+        prediction = self.generate_answer(context=context, question=question)
+        return dspy.Prediction(context=context, answer=prediction.answer)
+```
+Finally, you can connect with LangWatch. After running this program - you will get a link that will give you access to
+an `api_key` in the browser. Paste the API key into a VSC popup and press enter - **now you are connected with LangWatch**.
+
+```python 
+import langwatch
+
+langwatch.endpoint = "https://app.langwatch.ai"
+langwatch.login()
+```
+
+Last step is to actually run the prompt optitmizer. In this example we will use `BootstrapFewShot` that will 
+bootstrap our prompt with the best examples.
+```python
+from dspy.teleprompt import BootstrapFewShot
+from dspy import evaluate
+from dotenv import load_dotenv
+load_dotenv()
+
+# Validation logic: check that the predicted answer is correct.
+# Also check that the retrieved context does actually contain that answer.
+def validate_context_and_answer(example, pred, trace=None):
+    answer_EM = evaluate.answer_exact_match(example, pred)
+    answer_PM = evaluate.answer_passage_match(example, pred)
+    return answer_EM and answer_PM
+
+# Set up a basic teleprompter, which will compile our RAG program.
+teleprompter = BootstrapFewShot(metric=validate_context_and_answer)
+
+langwatch.dspy.init(experiment="rag-dspy-tutorial", optimizer=teleprompter)
+
+# Compile!
+compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
+```
+
+The result of optimization can be found on your LangWatch dashboard. 
+<img className="block" src="/images/screenshot-rag-dspy-tutorial.png" alt="DSPy Experiment Dashboard" />
+
+
+You can see what LLM calls have been done during the optimization at the bottom of the page.
+<img className="block" src="/images/screenshot-dspy-llm-calls.png" alt="DSPy LLM calls" />
+
+
