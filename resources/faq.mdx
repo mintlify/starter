@@ -1,0 +1,51 @@
+---
+title: FAQ
+---
+1. Is Prem free to use?
+    - Yes, Prem is free, and for premium features, you can choose between different pricing tiers.
+2. What models are available to use with Prem? (Put a table/list of models available and also link the benchmarking blog)
+    
+    
+    | Available models|
+    | --- |
+    | claude-3-opus |
+    | claude-3-haiku |
+    | claude-3-sonnet |
+    | codellama-70b-instruct |
+    | mixtral-8x7b-instruct-v0.1 |
+    | mistral-7b-instruct-v0.1 |
+    | gemma-7b-it |
+    | gpt-4-eu |
+    | gpt-3.5-turbo-eu |
+    | mistral-large |
+    | command-r |
+    | command-r-plus |
+    | llama-3-8b-fast |
+    | llama-3-70b-fast |
+    | mixtral-8x7b-fast |
+    | gemma-7b-it-fast |
+    | mistral-small |
+    | gpt-3.5-turbo |
+    | gpt-4-turbo |
+    | gpt-4o |
+    | stripedhyena-nous-7b |
+    | mythalion-13b |
+    | llama-3-70b-instruct |
+    | llama-3-8b-instruct |
+    | mythomax-l2-13b |
+    | remm-slerp-l2-13b |
+    | yi-34-chat |
+    | zephyr-7b-beta |
+    | chronos-hermes-13b |
+    | mixtral-8x22b |
+    | dolphin-mixtral-8x7b |
+    | rwkv-5-world-3b |
+    | gemini-pro |
+3. Is there an API that I can use if I am not using Python or Javascript?
+    - Yes, our API is language-agnostic, which means you can use it with any programming language that supports making HTTP requests. While our  documentation provides examples in Python and JavaScript SDKs, you can easily adapt these examples to work with your preferred programming language, such as GO, Java, Rust, or PHP. As long as your chosen language has a built-in way to send HTTP requests and parse JSON responses, you can integrate our API into your projects seamlessly.
+4. How does the fine tuning work? Do I need to be an experienced ML engineer?
+    - To start fine-tuning, you must experiment with your models in the Lab. After you've had enough conversations, you can head over to the Traces page and mark 50 positive feedbacks in order for the Gym to be prepared to fine-tune. Auto-fine-tuning will come soon.
+5. How do I migrate projects between organizations?
+    - At present, we do not offer assistance for migrating projects between organizations. While you can replicate this process manually by utilizing the SDK to read and write runs. the most efficient approach would be to create a new project within your organization and proceed from there.
+6. When should I use the Gym to fine tune?
+    - You should fine-tune a language model when you need it to understand and generate text specific to your use case, such as legal or medical language, or a unique writing style. Fine-tuning can improve the model's performance and efficiency, especially when you have limited data. However, if your application doesn't require specialized language or you have a large, diverse dataset, you may not need to fine-tune.
