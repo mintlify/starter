@@ -77,10 +77,14 @@ from langchain.chains import MapReduceDocumentsChain, ReduceDocumentsChain
 
 # Set all the settings here 
 premai_api_key = st.secrets.premai_api_key
-premai_project_id = 4071
+premai_project_id = 123456
 os.environ["PREMAI_API_KEY"] = premai_api_key
 prem_client = ChatPremAI(project_id=premai_project_id)
 ```
+
+<Note>
+Both `premai_project_id` is a dummy id. So in your case please ensure you have a valid project_id. You can know more about project_id [here](/get-started/projects.mdx).
+</Note>
 
 ## Understanding Map Reduce Summarization 
 
