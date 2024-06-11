@@ -22,22 +22,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-We write a simple `requirements.txt` file with all the dependencies shown below and then installing all of them.
-
-```txt
-streamlit 
-premai
-langchain
-langchain-community
-BeautifulSoup4
-tiktoken
-transformers
-```
-
-Now install them from `requirements.txt`
-```
-pip install -r requirements.txt
-```
+Up next, we need to install some dependencies. You can checkout all the dependencies [in this requirements file](https://github.com/premAI-io/cookbook/url-summarizer/requirements.txt). You can install it from here. 
 
 Now create one folder name `.streamlit`. Inside that folder, create a file named `secrets.toml`. Inside `secrets.toml` add your `PREMAI_API_KEY` as shown here:
 
