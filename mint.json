@@ -115,6 +115,23 @@
       ]
     },
     {
+      "group": "API Endpoints",
+      "pages": [
+        {
+          "group": "Annotations",
+          "pages": [
+            "api-reference/annotations/overview",
+            "api-reference/annotations/get-annotation",
+            "api-reference/annotations/get-single-annotation",
+            "api-reference/annotations/delete-annotation",
+            "api-reference/annotations/patch-annotation",
+            "api-reference/annotations/get-all-annotations-trace",
+            "api-reference/annotations/create-annotation-trace"
+          ]
+        }
+      ]
+    },
+    {
       "group": "Documentation",
       "pages": [
         "langevals/documentation/introduction",

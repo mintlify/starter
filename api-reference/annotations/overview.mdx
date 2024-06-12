@@ -1,0 +1,26 @@
+---
+title: 'Overview'
+description: 'Annotations are used to annotate traces with additional information'
+---
+
+## Intro
+
+With the Annotations API, you can annotate traces with additional information. This is useful if you want to add additional information to a trace, such as a comment or a thumbs up/down reaction.
+
+## Authentication
+
+To make a call to the Annotations API, you will need to pass through your LangWatch API key in the header as `X-Auth-Token`. Your API key can be found on the setup page under settings.
+
+
+#### Allowed Methods
+
+- `GET /annotations` - Get a list of annotations
+- `GET /annotations/:id` - Get a single annotation
+- `DELETE /annotations/:id` - Delete a single annotation
+- `PATCH /annotations/:id` - Update a single annotation
+- `GET /annotations/trace/:id` - Get the annotations for a single trace
+- `POST /annotations/trace/:id` - Create an annotation for a single trace
+
+
+
+
