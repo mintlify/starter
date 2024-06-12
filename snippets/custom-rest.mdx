@@ -44,19 +44,17 @@ curl -X POST "$ENDPOINT" \
           }
         ]
       },
-      "outputs": [
-        {
-          "type": "chat_messages",
-          "value": [
-              {
-                  "role": "assistant",
-                  "content": "Output from the LLM",
-                  "function_call": null,
-                  "tool_calls": []
-              }
-          ]
-        }
-      ],
+      "output": {
+        "type": "chat_messages",
+        "value": [
+            {
+                "role": "assistant",
+                "content": "Output from the LLM",
+                "function_call": null,
+                "tool_calls": []
+            }
+        ]
+      },
       "params": {
         "temperature": 0.7,
         "stream": false

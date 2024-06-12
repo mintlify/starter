@@ -18,7 +18,7 @@ import Prerequisites from "/snippets/prerequests-ts.mdx";
 
 - Each message triggering your LLM pipeline as a whole is captured with a [Trace](/concepts#traces).
 - A [Trace](/concepts#traces) contains multiple [Spans](/concepts#spans), which are the steps inside your pipeline.
-  - This can be an LLM call, a database query for a RAG retrieval, or a simple function transformation.
+  - A span can be an LLM call, a database query for a RAG retrieval, or a simple function transformation.
   - Different types of [Spans](/concepts#spans) capture different parameters.
   - [Spans](/concepts#spans) can be nested to capture the pipeline structure.
 - [Traces](/concepts#traces) can be grouped together on LangWatch Dashboard by having the same [`thread_id`](/concepts#threads) in their metadata, making the individual messages become part of a conversation.
@@ -86,10 +86,10 @@ Finally, after the OpenAI call is done, end the span to get the finish timestamp
 
 ```typescript
 span.end({
-  outputs: chatCompletion.choices.map((choice) => ({
+  output: {
     type: "chat_messages",
-    value: [choice.message],
-  })),
+    value: [chatCompletion.choices[0]!.message],
+  },
   metrics: {
     promptTokens: chatCompletion.usage?.prompt_tokens,
     completionTokens: chatCompletion.usage?.completion_tokens,
@@ -143,10 +143,10 @@ Finally, after the OpenAI call is done, end the span to get the finish timestamp
 
 ```typescript
 span.end({
-  outputs: chatCompletion.choices.map((choice) => ({
+  output: {
     type: "chat_messages",
-    value: [choice.message],
-  })),
+    value: [chatCompletion.choices[0]!.message],
+  },
   metrics: {
     promptTokens: chatCompletion.usage?.prompt_tokens,
     completionTokens: chatCompletion.usage?.completion_tokens,
@@ -198,12 +198,10 @@ Finally, after the Vercel AI SDK call is done, end the span to get the finish ti
 
 ```typescript
 span.end({
-  outputs: [
-    {
-      type: "chat_messages",
-      value: convertFromVercelAIMessages(response.responseMessages),
-    },
-  ],
+  output: {
+    type: "chat_messages",
+    value: convertFromVercelAIMessages(response.responseMessages),
+  },
   metrics: {
     promptTokens: response.usage?.promptTokens,
     completionTokens: response.usage?.completionTokens,
@@ -245,14 +243,12 @@ const span = trace.startSpan({
 
 // ...after the function ends
 span.end({
-  outputs: [
-    {
-      type: "json",
-      value: {
-        weather: "sunny",
-      },
+  output: {
+    type: "json",
+    value: {
+      weather: "sunny",
     },
-  ],
+  },
 });
 ```
 
