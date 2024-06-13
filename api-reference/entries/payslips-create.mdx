@@ -12,9 +12,9 @@ curl --request POST \
   --url https://api.sandbox.goteal.co/entries/payslips \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: multipart/form-data' \
-  --form 'payslip=@"/local/file/system/path/to/payslip/Payslip1.pdf"'
-  --form 'payslip=@"/local/file/system/path/to/payslip/Payslip2.pdf"'
-  --form 'payslip=@"/local/file/system/path/to/payslip/Payslip3.pdf"'
+  --form 'payslip123456=@"/local/file/file1-payslip.pdf"'
+  --form 'payslip2=@"/local/file/John-Smith-payslip18.pdf.pdf"'
+  --form 'payslip98765=@"/local/file/Payslip3.pdf"'
 ```
 
 ```python Python
@@ -130,4 +130,65 @@ HttpResponse<String> response = Unirest.post("https://api.sandbox.goteal.co/entr
 ```
 
 </RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "account_id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+  "entry_id": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+  "payroll_submissions": [
+    {
+      "id": "95a0e70b-fe02-4f47-aef9-2efff279df71",
+      "account_id": "674744df-9626-47ef-ae2b-4a491be136b5",
+      "entry_id": "be770ba4-1362-46cd-8c1c-2330ce3a8b69",
+      "created_at": "2019-05-17T00:00:00.000Z",
+      "document_external_id": "payslip123456",
+      "document_filename": "file1-payslip.pdf",
+      "identity_information": {
+        "name": "John Smith",
+        "date_of_birth": "2019-05-17T00:00:00.000Z",
+        "address": {
+          "street": "123 Main Street",
+          "county": "Greater London",
+          "city": "London",
+          "post_code": "SW1A 1AA",
+          "country": "United Kingdom"
+        },
+        "email": "john.smith@company.com",
+        "phone": 447123456789,
+        "NI_number": "AB123456C"
+      },
+      "employment_information": {
+        "employer_name": "Acme Ltd",
+        "role": "Software Engineer",
+        "type": "Full-time",
+        "status": "Active",
+        "start_date": "2019-05-17T00:00:00.000Z",
+        "leave_date": "2019-05-17T00:00:00.000Z"
+      },
+      "income_information": {
+        "pay_date": "2023-05-27T00:00:00.000Z",
+        "pay_interval_start": "2023-05-01T00:00:00.000Z",
+        "pay_interval_end": "2023-05-31T00:00:00.000Z",
+        "pay_frequency": "Monthly",
+        "earnings": {
+          "gross_pay": 3500,
+          "net_pay": 2500,
+          "base_salary": 3000,
+          "bonus": 500
+        },
+        "deductions": {
+          "income_tax": 500,
+          "employee_ni": 200,
+          "employee_pension": 300,
+          "total_deductions": 1000
+        }
+      }
+    }
+  ]
+}
+```
+
+</ResponseExample>
 

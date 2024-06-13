@@ -13,6 +13,8 @@ security:
 - ApiKeyAuth: []
 paths:
   "/users":
+    description: A User represents the borrowers and end-users that
+                 give consented access and/or upload their payslips to our API.
     post:
       summary: Creates a user.
       requestBody:
@@ -85,6 +87,8 @@ paths:
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
   "/users/{user_id}":
+    description: A User represents the borrowers and end-users that give
+                 consented access and/or upload their payslips to our API.
     get:
       summary: Creates a user.
       parameters:
@@ -152,6 +156,8 @@ paths:
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
   "/accounts":
+    description: Account are the payroll and HR platform accesses that users link to Teal,
+                 providing a stream of income and employment data
     post:
       summary: Creates an account for the user e.g. a Xero account
       requestBody:
@@ -235,6 +241,8 @@ paths:
         '401':
           "$ref": "#/components/responses/UnauthorizedApiKey"
   "/accounts/{account_id}":
+    description: Account are the payroll and HR platform accesses that users link to Teal,
+                 providing a stream of income and employment data
     delete:
       summary: Deletes an account for the user (e.g. a Xero account)
       parameters:
@@ -360,6 +368,14 @@ paths:
         '404':
           "$ref": "#/components/responses/ResourceNotFound"
   "/entries/connections":
+    description: For an account, a call to the `/entries/connections` endpoint will query the
+                 connection for data. This endpoint is for adhoc data retrieval for an account;
+                 Teal will also collect the payroll data for users via the WebUI as soon
+                 as a valid connection is established. This endpoint can be applied to any 
+                 account, it does not matter if it was established via your own call to 
+                 `POST /accounts` or via the Teal WebUI. Note that any new data retrieved via 
+                 `/entries/connections` is persisted on Teal's storage and can be retrieved using 
+                 the `/payroll/{user_id}` endpoint. 
     post:
       summary: Connects a user account to a payroll provider
       security:
@@ -391,6 +407,13 @@ paths:
   "/entries/payslips":
     post:
       summary: Fetches payslips for a user account
+      description: Uploads payslips as a multipart form data http request.
+                   Every payslip must be a searchable and readable PDF file.
+                   Scanned images as pdf files are not supported.
+                   If a file part header `external_document_id` is provided it
+                   will be returned as `document_external_id` in the respective
+                   payroll submission. If the header is not provided, the form
+                   field name for the file part will be used instead.
       security:
         - BearerAuth: []
       requestBody:
@@ -889,6 +912,14 @@ components:
           type: string
           description: Name of the file
           example: payslip1.pdf
+        document_external_id:
+          type: string
+          description: A string coming from the parameters of the 
+                       uploaded payslip1.pdf either the form field name
+                       or `external_document_id` header for the file part.
+                       It might not be unique and depends
+                       on what's passed when uploading.
+          example: payslip123456
         type:
           type: string
           description: The type of document
@@ -1018,16 +1049,34 @@ components:
           type: string
           format: uuid
           description: The id of the account
-          example: 95a0e70b-fe02-4f47-aef9-2efff279df71S
+          example: 674744df-9626-47ef-ae2b-4a491be136b5
         entry_id:
           type: string
           format: uuid
           description: The id of the entry
-          example: 95a0e70b-fe02-4f47-aef9-2efff279df71S1
+          example: be770ba4-1362-46cd-8c1c-2330ce3a8b69
         created_at:
           "$ref": "#/components/schemas/Date"
           description: The date the payroll was submitted
           example: 2019-05-17T00:00:00.000Z
+        document_external_id:
+          type: string
+          description: A string coming from the parameters of the 
+                       uploaded payslip1.pdf either the form field name
+                       or `external_document_id` header for the file part.
+                       It might not be unique and depends
+                       on what's passed when uploading.
+                       If the payroll submission doesn't originate from 
+                       a payslip this will be null.
+          example: payslip123456
+        document_filename:
+          type: string
+          description: If the payroll submission originates from a payslip
+                       this will be the file name of the uploaded payslip.
+                       It will be duplicate if same file names are uploaded
+                      If the payroll submission doesn't originate from 
+                      a payslip this will be null.
+          example: file1-payslip.pdf
         identity_information:
           $ref: '#/components/schemas/IdentityInformation'
         employment_information:
