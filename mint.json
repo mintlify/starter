@@ -59,11 +59,8 @@
         {
           "group": "Python",
           "pages": [
-            "integration/python/open-ai",
-            "integration/python/azure-open-ai",
-            "integration/python/langchain",
-            "integration/python/custom",
-            "integration/python/capturing-additional-spans-and-metadata"
+            "integration/python/guide",
+            "integration/python/reference"
           ]
         },
         {
