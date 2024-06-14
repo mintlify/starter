@@ -492,7 +492,28 @@ paths:
           schema:
             type: string
             format: uuid
-        
+        - name: document_external_id
+          in: query
+          description: The document_external_id to fileter on
+          required: false
+          schema:
+            type: string
+        - name: created_after
+          in: query
+          description: Filter out payroll dated before the given date
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2019-05-17T00:00:00.000Z
+        - name: created_before
+          in: query
+          description: Filter out payroll dated after the given date
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2019-05-17T00:00:00.000Z
       responses:
         '200':
           description: Plant response
