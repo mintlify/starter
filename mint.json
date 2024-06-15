@@ -56,7 +56,6 @@
       "group": "Integration Guides",
       "pages": [
         "integration/overview",
-        "concepts",
         {
           "group": "Python",
           "pages": ["integration/python/guide", "integration/python/reference"]
@@ -65,7 +64,8 @@
           "group": "TypeScript",
           "pages": ["integration/typescript/guide"]
         },
-        "integration/rest-api"
+        "integration/rest-api",
+        "concepts"
       ]
     },
     {
@@ -100,13 +100,13 @@
       ]
     },
     {
-      "group": "Other Features",
+      "group": "More Features",
       "pages": [
-        "features/batch-evaluations",
-        "features/embedded-analytics",
         "features/triggers",
+        "features/annotations",
         "features/datasets",
-        "features/annotations"
+        "features/batch-evaluations",
+        "features/embedded-analytics"
       ]
     },
     {

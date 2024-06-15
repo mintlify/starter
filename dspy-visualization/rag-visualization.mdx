@@ -2,10 +2,12 @@
 title: "RAG visualization"
 ---
 
-In this tutorial we will explain how LangWatch can help observing optimization of RAG application with [DSPy](dspy-docs.vercel.app).
+[<img align="center" src="https://colab.research.google.com/assets/colab-badge.svg" />](https://colab.research.google.com/github/langwatch/langevals/blob/main/notebooks/tutorials/dspy_rag.ipynb)
+
+In this tutorial we will explain how LangWatch can help observing optimization of RAG application with [DSPy](https://dspy-docs.vercel.app).
 
 ## DSPy RAG Module
-As an example of RAG application we will use the sample app that is provided in the official documentation of DSPy library, 
+As an example of RAG application we will use the sample app that is provided in the official documentation of DSPy library,
 you can read more by following this link - [RAG tutorial](https://dspy-docs.vercel.app/docs/tutorials/rag).
 
 Firstly, lets access the dataset of wiki abstracts that will be used for example RAG optimization.
@@ -30,7 +32,7 @@ devset = [x.with_inputs('question') for x in dataset.dev]
 len(trainset), len(devset)
 ```
 
-Next step - to define the RAG module itself. 
+Next step - to define the RAG module itself.
 You can explain the task and what the expected outputs mean in this context that an LLM can optimize these commands later.
 
 ```python
@@ -48,7 +50,7 @@ class RAG(dspy.Module):
 
         self.retrieve = dspy.Retrieve(k=num_passages)
         self.generate_answer = dspy.ChainOfThought(GenerateAnswer)
-    
+
     def forward(self, question):
         context = self.retrieve(question).passages
         prediction = self.generate_answer(context=context, question=question)
@@ -57,14 +59,14 @@ class RAG(dspy.Module):
 Finally, you can connect to LangWatch. After running this code snippet - you will get a link that will give you access to
 an `api_key` in the browser. Paste the API key into your code editor popup and press enter - **now you are connected to LangWatch**.
 
-```python 
+```python
 import langwatch
 
 langwatch.endpoint = "https://app.langwatch.ai"
 langwatch.login()
 ```
 
-Last step is to actually run the prompt optitmizer. In this example `BootstrapFewShot` is used and it will 
+Last step is to actually run the prompt optitmizer. In this example `BootstrapFewShot` is used and it will
 bootstrap our prompt with the best demos from our dataset.
 
 ```python
