@@ -18,7 +18,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "/troubleshooting#email-support"
+      "url": "/support#email-support"
     },
     {
       "name": "Dashboard",
@@ -49,19 +49,17 @@
   ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": ["introduction", "concepts", "quickstart", "troubleshooting"]
+      "group": "",
+      "pages": ["introduction"]
     },
     {
       "group": "Integration Guides",
       "pages": [
         "integration/overview",
+        "concepts",
         {
           "group": "Python",
-          "pages": [
-            "integration/python/guide",
-            "integration/python/reference"
-          ]
+          "pages": ["integration/python/guide", "integration/python/reference"]
         },
         {
           "group": "TypeScript",
@@ -132,7 +130,6 @@
       "group": "Documentation",
       "pages": [
         "langevals/documentation/introduction",
-        "langevals/documentation/quickstart",
         "langevals/documentation/batch-evaluation",
         "langevals/documentation/evaluators",
         "langevals/documentation/unit-tests",
@@ -173,6 +170,10 @@
         "langevals/api-reference/endpoint/llm-similarity-evaluator",
         "langevals/api-reference/endpoint/llama-guard"
       ]
+    },
+    {
+      "group": "",
+      "pages": ["support"]
     }
   ],
   "footerSocials": {
