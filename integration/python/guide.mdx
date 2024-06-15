@@ -145,6 +145,8 @@ def main():
     ...
 ```
 
+Check out the [reference](./reference#trace) to see all the available trace properties.
+
 ## Capturing a RAG span
 
 RAG is a combination of a retrieval and a generation step, LangWatch provides a special span type for RAG that captures both steps separately which allows to capture the `contexts` being used by the LLM on your pipeline.
@@ -204,6 +206,8 @@ def llm_call():
     langwatch.get_current_span().update(model="my-custom-model")
     ...
 ```
+
+Check out the [reference](./reference#span) to see all the available span properties.
 
 ## Synchronizing your message IDs with LangWatch traces
 
