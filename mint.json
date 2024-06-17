@@ -87,6 +87,12 @@
       ]
     },
     {
+      "group": "cookbook",
+      "pages": [
+        "cookbook/URL-Topic-Summarizer"
+      ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"

@@ -1,0 +1,264 @@
+Welcome to Prem AI cookbook section. In this example, we will build a simple URL Summarizer tool step by step using [LangChain Prem AI](https://python.langchain.com/v0.2/docs/integrations/chat/premai/). Prem SDK can be used with LangChain for extended developement. This example shows one of the way on how we can extend developement with Prem AI. 
+
+To give a nice visualization, we use streamlit and here is how the final app would look like:
+
+<img
+  src="/images/cookbook/url-summarizer-app.png"
+  alt="Playground"
+/>
+
+So without further adue, let's get started. You can find the full code [here](https://github.com/premAI-io/cookbook/url-summarizer).
+
+<Note>
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). 
+</Note>
+
+## Setting up the project 
+
+Let's start by creating a virtual environment and installing some dependencies
+
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Up next, we need to install some dependencies. You can checkout all the dependencies [in this requirements file](https://github.com/premAI-io/cookbook/url-summarizer/requirements.txt). You can install it from here. 
+
+Now create one folder name `.streamlit`. Inside that folder, create a file named `secrets.toml`. Inside `secrets.toml` add your `PREMAI_API_KEY` as shown here:
+
+```toml
+premai_api_key = "xxxx-xxxx-xxxx"
+```
+
+So now our folder structure looks something like this:
+
+```bash
+.
+├── .streamlit
+│   ├── config.toml
+│   └── secrets.toml.template
+├── app.py
+```
+
+Inside `app.py` we import our required libraries as shown below:
+
+```python
+import os 
+import json 
+import streamlit as st 
+from urllib.parse import urlparse
+from langchain_community.chat_models.premai import ChatPremAI
+
+# langchain related imports
+
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.chat_models.premai import ChatPremAI
+
+from langchain.chains.llm import LLMChain
+from langchain_core.prompts import PromptTemplate
+from langchain_text_splitters import CharacterTextSplitter
+from langchain.chains.combine_documents.stuff import StuffDocumentsChain
+from langchain.chains import MapReduceDocumentsChain, ReduceDocumentsChain
+
+# Set all the settings here 
+premai_api_key = st.secrets.premai_api_key
+premai_project_id = 123456
+os.environ["PREMAI_API_KEY"] = premai_api_key
+prem_client = ChatPremAI(project_id=premai_project_id)
+```
+
+<Note>
+Both `premai_project_id` is a dummy id. So in your case please ensure you have a valid project_id. You can know more about project_id [here](/get-started/projects.mdx).
+</Note>
+
+## Understanding Map Reduce Summarization 
+
+In this cookbook tutorial we are going to implement Map Reduce Summarization chain from LangChain. So first it is important to understand how does this chain operates on high level. After this, we implement this using Prem AI and LangChain. 
+
+### Map Reduce 
+
+The original concept comes from the famous Map-Reduce programming model which is a part of [Hadoop framework from Apache](https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html). Primarily Map Reduce is used to simplify very large dataset processing across many machines in a cluster. The model consists of two main steps:
+
+**Map:** This step takes an input dataset and converts it into a set of key-value pairs. Each input element is processed independently, producing intermediate key-value pairs.
+
+**Reduce:** This step takes the intermediate key-value pairs produced by the Map step, groups them by key, and processes each group to produce the final output.
+
+You can take a deep dive to the original working [here](https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf). 
+
+### Map Reduce method in Summarization
+
+<img
+  src="/images/cookbook/map-reduce-summarization.png"
+  alt="Playground"
+/>
+
+Map Reduce summarization method is used for long length documents, which potentially exceeds the token limit of the language model. It does the following:
+
+**Map step:** The Map step first chunks the documents into smaller chunks and then applies the summarization pipeline [(LLMChain)](https://api.python.langchain.com/en/latest/chains/langchain.chains.llm.LLMChain.html#langchain.chains.llm.LLMChain) into each of the chunks 
+
+**Reduce Step:** Once all the chunks (parts of documents are summarized) we combine all those summarized chunks and then call the LLM once again to summarize that which gives us the final summarization.
+
+## Code walkthrough
+
+Now let's dive into the coding our summarization chain. 
+
+### Prompt Templates
+
+We start off by defining our prompt templates. We need to define two templates. The first one `map_template` would instruct the LLM to take all the docs (here the chunks of the documents extracted from the URL) and identify the main theme, extract useful information etc. In the second template `reduce_template`, we say to summarize the doc (which will be combined chunks summarization) to a single summary which gives some good insight to the reader. 
+
+```python
+map_template = """
+The following is a set of documents
+{docs}
+Based on this list of docs, please identify the main themes and extract 
+informations from them which are highly valuable. So the main point should
+be the theme/topic and subpoints should be the information extracts of the
+documents which are very invaluable. 
+Helpful Answer:
+"""
+
+reduce_template = """
+The following is set of summaries:
+{docs}
+Take this and then make a very good summary with a very human like way so that
+people can use this summary to decide whether to use that resource to finally read
+or not. Do not give them the decision, give them enough insights or summary
+that will help them. Include the following sub headings
+
+1. What is this is about
+2. Main key takeaways 
+3. Things to note additionally
+Helpful Answer:
+"""
+```
+
+### Writing the summarization pipeline
+
+Now we write our summarization pipeline. This can be done with the following steps:
+
+1. First load the langchain `WebBaseLoader` and load the document from the given url. Additionally we also load the [CharacterTextSplitter](https://python.langchain.com/v0.2/docs/how_to/character_text_splitter/) to split the documents into chunks. 
+2. Initialize the `map_template` and `reduce_template` from the above templates. 
+3. Initialize the `map_chain` and `reduce_chain` from langchain `LLMChain` which will be using a LLM (in our case it will be ChatPremAI client) and the corresponding template. 
+4. We define a `combined_document_chain` which combines all the summarized chunks (stacking each of them one after the other) using the [StuffDocumentsChain](https://python.langchain.com/v0.2/docs/tutorials/summarization/#stuff)
+5. Then a `reduce_document_chain` which takes those combined documents and runs the reduce (i.e. another summarization) on that stuffed documents. 
+6. Finally a map reduce chain which combines all the above chains into a single chain. 
+7. Run the chain and return the result 
+
+```python
+def summarize_url(url: str, llm: ChatPremAI) -> dict:
+    
+    # Step 1: Load the WebBasedLoader and CharacterTextSplitter to load and split documents 
+    loader = WebBaseLoader(url)
+    docs = loader.load()
+    text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
+        chunk_size=1000, chunk_overlap=0
+    )
+    split_docs = text_splitter.split_documents(docs)
+
+    # Step 2: Get the prompts from prompt templates
+    map_prompt = PromptTemplate.from_template(template=map_template)
+    reduce_prompt = PromptTemplate.from_template(template=reduce_template)
+
+    # Step 3: Make the map and reduce LLM chains
+    map_chain = LLMChain(llm=llm, prompt=map_prompt)
+    reduce_chain = LLMChain(llm=llm, prompt=reduce_prompt)
+
+    # Step 4: Define `combined_document_chain` which combines all the summarized chunks 
+    combined_documents_chain = StuffDocumentsChain(
+        llm_chain=reduce_chain, document_variable_name="docs"
+    )
+    
+    # Step 5: Define `reduce_document_chain`
+    reduce_documents_chain = ReduceDocumentsChain(
+        combine_documents_chain=combined_documents_chain,
+        collapse_documents_chain=combined_documents_chain,
+        token_max=4000
+    )
+
+    # Step 6: Define the final map-reduce-chain which combines all of the above and run in one single pipeline
+    map_reduce_chain = MapReduceDocumentsChain(
+        llm_chain=map_chain,
+        reduce_documents_chain=reduce_documents_chain,
+        document_variable_name="docs",
+        return_intermediate_steps=True,
+    )
+
+    # Step 7: Run the chain and get the results back
+    result = map_reduce_chain.invoke(split_docs)
+    return result
+```
+
+Phew, that was a lot, congratulations if you made till here. Now we code our frontend interface using Streamlit. 
+
+## Writing the frontend using Streamlit
+
+Please note: We are only going to focus on the main summarizing component of the application. In the actual code, some more styling is applied to make the app look better. 
+
+### Define the summarization component
+
+Let's write a simple helper function that uses this `summarize_url` function and creates a expandable card like container which contain the summary of the URL. 
+
+```python
+
+# Additional function to check if the url is valid or not 
+def is_valid_url(url: str):
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except ValueError:
+        return False 
+
+def summarize_component(urls: list[str], client: ChatPremAI):
+    # Track which URLs got summarised and which are not
+    passed, failed = [], []
+
+    # Use a loader which will load untill all provided links are summarized. 
+    with st.spinner("Please wait while we summarize the content"):
+        for url in urls:
+            if not is_valid_url(url):
+                failed.append(url)
+            else:
+                # Use the function 
+                results = summarize_url(url, llm=client)
+                if results:
+                    passed.append({
+                        "url": url,
+                        "document": results["input_documents"],
+                        "intermediate": results["intermediate_steps"],
+                        "summary": results["output_text"]
+                    })
+
+                    # Create an expander which will contain the summarized content of the URL
+                    with st.expander(label=f"URL: {url}"):
+                        st.write(results["output_text"])
+                else:
+                    failed.append(url)
+        
+        if len(failed) > 0:
+            st.json(json.dumps(failed)) 
+    return passed, failed 
+```
+
+Finally let's use the function with the main running code. We create a form which has a text-area where we dump all the urls. Our code first checks the URL. For all successfull runs, it creates a card which when expanded contains the summary and also return a json which tells which all links are not summarized / not valid (if any). 
+
+```python 
+with st.form("Dump all URLs here"):
+    input_urls = st.text_area(
+        label="urls",
+        height=300,
+        placeholder="Should be comma seperated valid urls"
+    )
+    button = st.form_submit_button("Submit")
+    if button:
+        urls = [url.strip() for url in input_urls.split(",")]
+        _, _ = summarize_component(urls=urls, client=prem_client)
+```
+
+We intentionally used `_` because there is no use of this returned list of summaries. However we can extend this by uploading all the summary aling with documents (collected from `passed`) to Prem Repositories. We will show that in our next tutorial. 
+
+Congratulations you have created your first application using Prem AI. To run this application you just need to run the following command:
+
+```bash
+streamlit run app.py
+```
+You can checkout more tutorials in our cookbook as well as their full [source code](https://github.com/premAI-io/cookbook/).
