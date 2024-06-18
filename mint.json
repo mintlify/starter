@@ -91,7 +91,7 @@
     {
       "group": "cookbook",
       "pages": [
-        "cookbook/chat-with-pdf"
+        "cookbook/chat-with-pdf",
         "cookbook/URL-Topic-Summarizer"
       ]
     },
