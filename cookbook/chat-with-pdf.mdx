@@ -1,0 +1,192 @@
+Welcome to the Prem AI cookbook section. In this first example, we will step by step build a simple chat with a PDF application (~ 100 lines of code) using the [Prem AI SDK](/get-started/sdk.mdx) and [Streamlit](https://streamlit.io/). The best part is that you don't even need to understand complex mechanisms like RAG or Retrieval Augmented Generations to make this app. So, without further ado, let's get started. You can find the [full code here](https://github.com/premAI-io/cookbook/chat-with-pdf).
+
+<img
+  src="images/cookbook/chat with pdf.jpeg"
+  alt="Playground"
+/>
+## Setup
+
+<Note>
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally you also need to have atlest one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
+</Note>
+
+Let's start by creating a virtual environment and installing prem sdk and streamlit. 
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -U streamlit premai
+```
+
+Now create one folder name `.streamlit`. Inside that folder, create a file named `secrets.toml`. Inside `secrets.toml` add your `PREMAI_API_KEY` as shown here:
+
+```toml
+premai_api_key = "xxxx-xxxx-xxxx"
+```
+
+So now our folder structure looks something like this:
+
+```bash
+.
+├── .streamlit
+│   ├── config.toml
+│   └── secrets.toml.template
+├── app.py
+```
+
+Inside `app.py` we import some basic libraries along with `premai` and initialise some constants:
+
+```python
+import time 
+import json 
+import premai 
+import streamlit as st 
+
+premai_api_key = st.secrets.premai_api_key
+premai_project_id = 123456 
+premai_repository_id = 123456
+prem_client = premai.Prem(api_key=premai_api_key)
+
+```
+
+<Note>
+Both `premai_project_id` and `premai_repository_id` are dummy ids. So in your case please ensure you have a valid project_id and repository_id. You can know more about project_id [here](/get-started/projects.mdx) and repository_id [here](/get-started/repositories.mdx).
+</Note>
+
+## Uploading documents to Prem repositories
+
+The workflow is simple, we start by uploading some documents and then sending it to Prem repositories to automatically index it using our internal state of the art RAG technology. 
+
+Let's write some code which do the following:
+
+1. First upload some PDF documents using streamlit `file_uploader`. 
+2. Save each files in a temporary diectory.
+3. Use prem-sdk to upload those temporarily saved files to Prem repositories.
+
+First, let's write a helper function to save an uploaded document using streamlit. 
+
+```python
+def temp_save_uploaded_file(uploadedfile):
+    if not os.path.isdir(".tempdir"):
+        os.makedirs(".tempdir")
+    
+    save_path = os.path.join(".tempdir", uploadedfile.name)
+    try:
+        with open(save_path, "wb") as f:
+            f.write(uploadedfile.getbuffer())
+        return  save_path
+    except Exception:
+        st.sidebar.toast("Failed to upload the file. Try again", icon="❌")
+        return None  
+```
+
+Now let's make the file uploader object through which we save those files and upload it to repositories. 
+
+```python
+with st.sidebar:
+    uploaded_files = st.file_uploader(
+        label="Upload PDF files",
+        accept_multiple_files=True,
+        type=[".pdf"]
+    )
+
+    for file in uploaded_files:
+        file_path = utils.temp_save_uploaded_file(
+            uploadedfile=file
+        )
+        try:
+            _ = prem_client.repository.document.create(
+                repository_id=premai_repository_id,
+                file=file_path
+            )
+        except Exception as e:
+            st.toast(f"Error with file: {file.name}", icon="❌")
+    st.toast(body=f"Uploaded files", icon="🚀")
+```
+
+## Writing the chat function
+
+Streamlit has a concept of [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) which share variables in between a session. So to maintain the history of the chat, we either create a new session or print out the history of chats and retrieved documents in the current session. 
+
+```python
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+```
+
+Now we write our main function that will help us to do chat with the documents. We start of by defining our repositories. We will use this repositories to retrieve context from relevant documents and add it to our LLM. 
+
+```python
+repositories = dict(
+    ids=[premai_repository_id], 
+    similarity_threshold=0.25, 
+    limit=5
+)
+```
+
+Let's define the workflow from here:
+
+1. We take the prompt from the user and display it using streamlit and add it to the streamlit session_state object. 
+
+2. We start with our assistant block, where we first get our response from Prem SDK and then stream the response in streamlit untill the streaming is finished. 
+
+3. Finally we also show the retreievd chunks of documents used to generate the answer, so that it helps in some interpretibility. 
+
+With our workflow defined, let's code it out. 
+
+```python 
+# Get the prompt from the user 
+if prompt := st.chat_input("Please write your query"):
+    user_content = {"role": "user", "content": prompt}
+    st.session_state.messages.append(user_content)
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    
+    # start the assistant block
+    with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        full_response = ""
+
+        while not full_response:
+            with st.spinner("Thinking ...."):
+                try:
+                    # get the response from LLM using prem sdk 
+                    # also get the retrieved chunks 
+                    response = prem_client.chat.completions.create(
+                        project_id=premai_project_id,
+                        messages=[user_content],
+                        repositories=repositories,
+                        stream=False
+                    )
+                    response_content = response.choices[0].message.content
+                    response_doc_chunks = response.document_chunks
+                except Exception:
+                    response_content = "Failed to respond"
+                    response_doc_chunks = []
+                
+            fr = ""
+            full_response = str(response_content)
+            
+            # Stream the response here in streamlit 
+            for i in full_response:
+                time.sleep(0.01)
+                fr += i
+                message_placeholder.write(fr + "▌")
+            message_placeholder.write(f"{full_response}")
+            utils.see_repos(retrieved_docs=response_doc_chunks)
+        
+        # Append the history in the sessionstate object
+        st.session_state.messages.append(
+            {"role": "assistant", "content": full_response}
+        )
+```
+
+Congratulations you have created your first application using Prem AI. To run this application you just need to run the following command:
+
+```bash
+streamlit run app.py
+```
+You can checkout more tutorials in our cookbook as well as their full [source code](https://github.com/premAI-io/cookbook/). 
