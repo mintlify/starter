@@ -1,0 +1,137 @@
+---
+icon: notebook
+---
+
+Writing Prompt Templates can be super messy. Prompt templates are long, hard to manage, and must be continuously tweaked to improve and keep the same throughout the application. 
+
+With **Prem**, writing and managing prompts can be super easy. The **_Templates_** tab inside the [launchpad](/get-started/launchpad.mdx) helps you write as many prompts you need and use it inside the SDK to make your application running using those prompts. 
+
+✌️ This guide shows you how to create a prompt template and use it using Prem SDK.
+
+<Steps titleSize="h3">
+
+<Step title="Go the Templates section of Launchpad">
+    Inside the Templates section, hit the ➕ button to create a new prompt template.
+    <img src="images/prompt-template/prompt-tab.png" alt="Prem" />
+</Step>
+
+
+<Step title="Design your prompt template">
+    Designing a new template is easy. Add a name to the prompt template and provide the contents of the template. A prompt template contains several variables that are passed dynamically during runtime. You can enter your variable name inside `${}`. Here is an example: 
+
+    <CodeGroup>
+    ```txt Text 
+    You will be given a document, and you need to extract essential information 
+    from the document and return it as a JSON. The JSON should have the following keys:
+
+    1. name: should extract the name of a person
+    2. place: should extract the name of a place or which sounds like a place
+    3. date-time: should extract some date-time like text or which sound 
+    like someday in a week or time. 
+
+    Here is an example of how it should look like:
+
+    Input document: "Alice told me a big fish is in our nearby pond. 
+    We should go catch some fish with Alice and Ron this Sunday." 
+
+    Output: 
+
+    {
+        "name" : ["Alice", "Ron"]
+        "place":  ["nearby pond"]
+        "date-time": ["Sunday"]
+    }
+    If you do not find any entity for some key, leave it a blank list. 
+    Here is your document ${doc}
+    ```
+    </CodeGroup>
+
+    In the application it should look like this: 
+    <img src="images/prompt-template/new-template.png" alt="Prem" />
+    Hit the ➕ create button and your prompt template is created. 
+</Step>
+
+<Step title="Using the prompt template with Prem SDK">
+Once we create a prompt template, we can see all our list of prompt templates.
+<img src="images/prompt-template/list-templates.png" alt="Prem" />
+
+Now, you need to copy the template ID to use it. The template ID appears just below the name of the prompt template. Here, in case you missed it. 
+<img src="images/prompt-template/template-id.png" alt="Prem" />
+
+Once copied we can use it in our SDK. 
+
+<CodeGroup>
+
+```python Python
+import os 
+from premai import Prem 
+
+client = Prem(
+    api_key=os.environ.get("PREMAI_API_KEY")
+)
+
+# Change the project and template ID when using from your account. 
+project_id = 1234 
+template_id = "12069ce8-xxxx-xxx-xxx-xxx"
+
+msg = """
+I am playing in a garden on a fine sunday
+evening. I then went to my friend Tara's place
+and then went for movies in the city center mall. 
+"""
+
+# Provide the template variables here:
+messages = [
+    {
+        "role": "user",
+        "template_id": template_id,
+        "params": {
+            "doc": msg
+        }
+    }
+]
+
+response = client.chat.completions.create(
+    project_id=project_id,
+    messages=messages,
+)
+print(response.choices[0].message.content)
+```
+
+```typescript TypeScript
+import Prem from '@premai/prem-sdk';
+
+const client = new Prem({
+    apiKey: "PREMAI_API_KEY"
+})
+
+const project_id = 4071;
+const template_id = "78069ce8-ba83-4058-af31-fadaf316afeb"
+
+const msg = `I am playing in a garden on a fine sunday
+evening. I then went to my friend Tara's place
+and then went for movies in the city center mall.`;
+
+const messages = [
+    {
+        "role": "user",
+        "template_id": template_id,
+        "params": {
+            "doc": msg
+        }
+    }
+]
+
+const responseSync = await client.chat.completions.create({
+    project_id,
+    messages
+})
+
+console.log(responseSync.choices[0].message["content"])
+```
+</CodeGroup>
+
+</Step>
+</Steps>
+
+That's it. Thats how easy it is to create and manage prompt templates in Prem. 

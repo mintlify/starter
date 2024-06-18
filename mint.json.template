@@ -68,6 +68,7 @@
         "get-started/sdk",
         "get-started/autopilot",
         "get-started/chat-completion-sse",
+        "get-started/prem-templates",
         "get-started/supported-models", 
         "get-started/credits"
       ]
