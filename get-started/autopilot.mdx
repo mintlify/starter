@@ -1,0 +1,46 @@
+---
+icon: star
+---
+
+Prem AutoPilot is one of our flagship feature which provides the following feature:
+
+1. Automatically chooses the best model which suits the task. 
+2. Automatically enhances the system prompt once a baseline system prompt is provided in the [launchpad](/get-started/launchpad.mdx).
+3. Automatically enhances the prompt template. However this feature needs you to have prompt templates defined in the [Prem Templates section](/get-started/prem-templates). Prompt templates will be enhanced only when they are called through the SDK. From your side you just need to know how to define [templates](/get-started/prem-templates) and use it in [prem-sdk](/get-started/sdk.mdx).
+
+<Warning>
+Prem AutoPilot is only available in Pro and Business Plans. Where the second and third enhancements in AutoPilot is only available in the Business Plan. You can know more about different plans [in out credits section](/get-started/credits.mdx). 
+</Warning>
+
+## Quickstart 
+
+Here is a quick guide on how you should get started with the AutoPilot feature. 
+
+  <Steps>
+    <Step title="Go to Launchpad and switch to AutoPilot">
+
+![Alt Text](https://static.premai.io/prem-saas-docs/autopilot-guide/autopilotView.gif)
+
+</Step>
+
+<Step title="Try out how AutoPilot works in chat">
+
+![Alt Text](https://static.premai.io/prem-saas-docs/autopilot-guide/autopilotLaunchpad.gif)
+</Step>
+
+<Step title="Try out on SDK and see traces generated from AutoPilot">
+
+Here, your [code to generate output](/get-started/sdk.mdx) from the model remains the same. However you can explicitely activate autopilot by providing `autopilot` in `model` argument of the sdk. 
+
+Once AutoPilot generates result, you can track those from traces like this: 
+
+<img
+  src="images/autopilot_trace.png"
+  alt="Overview"
+/>
+
+</Step>
+
+</Steps>
+
+That's how easy it is to switch from your current model to AutoPilot and get the best possible combination of results. 

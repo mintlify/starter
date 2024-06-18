@@ -65,6 +65,7 @@
         "get-started/launchpad",
         "get-started/gym",
         "get-started/sdk",
+        "get-started/autopilot",
         "get-started/chat-completion-sse",
         "get-started/supported-models",
         "get-started/credits"
