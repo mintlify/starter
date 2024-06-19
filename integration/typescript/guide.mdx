@@ -50,11 +50,12 @@ trace.update({
 ```
 
 ## Capture an LLM Span
-
-To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM. First, extract the inputs you are going to use for your LLM:
-
 <Tabs>
 <Tab title="OpenAI">
+To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
+
 ```typescript
 import { OpenAI } from "openai";
 
@@ -108,6 +109,10 @@ span.end({
 ```
 </Tab>
 <Tab title="Azure">
+To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
+
 ```typescript
 import { AzureOpenAI } from "openai";
 
@@ -165,6 +170,10 @@ span.end({
 ```
 </Tab>
 <Tab title="Vercel AI SDK">
+To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
+
 ```typescript
 import { openai } from "@ai-sdk/openai";
 import { generateText, type CoreMessage } from "ai";
@@ -219,9 +228,38 @@ span.end({
 });
 ```
 </Tab>
-</Tabs>
+<Tab title="LangChain.js">
+To capture your LLM calls and all other chain steps, LangWatch provides a callback hook for LangChain.js that automatically tracks everything for you.
 
-The full trace with all ended spans will be sent automatically to LangWatch in the background on periodic intervals. After capturing your first LLM Span, go to [LangWatch Dashboard](https://app.langwatch.com), your message should be there!
+First, define your chain as you would normally do:
+
+```typescript
+import { StringOutputParser } from '@langchain/core/output_parsers'
+import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { ChatOpenAI } from '@langchain/openai'
+
+const prompt = ChatPromptTemplate.fromMessages([
+  ['system', 'Translate the following from English into Italian'],
+  ['human', '{input}']
+])
+const model = new ChatOpenAI({ model: 'gpt-3.5-turbo' })
+const outputParser = new StringOutputParser()
+
+const chain = prompt.pipe(model).pipe(outputParser)
+```
+
+Now, when calling your chain either with `invoke` or `stream`, pass in `trace.getLangChainCallback()` as one of the callbacks:
+
+```typescript
+const stream = await chain.stream(
+  { input: message },
+  { callbacks: [trace.getLangChainCallback()] }
+)
+```
+
+That's it! The full trace with all spans for each chain step will be sent automatically to LangWatch in the background on periodic intervals. After capturing your first LLM Span, go to [LangWatch Dashboard](https://app.langwatch.com), your message should be there!
+</Tab>
+</Tabs>
 
 <Note>
 On short-live environments like Lambdas or Serverless Functions, be sure to call <br /> `await trace.sendSpans();` to wait for all pending requests to be sent before the runtime is destroyed.
