@@ -93,7 +93,8 @@
       "group": "cookbook",
       "pages": [
         "cookbook/chat-with-pdf", 
-        "cookbook/url-content-summarizer"
+        "cookbook/url-content-summarizer",
+        "cookbook/text-2-sql"
       ]
     },
     {
