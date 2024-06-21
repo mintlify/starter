@@ -89,7 +89,7 @@
       ]
     },
     {
-      "group": "cookbook",
+      "group": "Cookbook",
       "pages": [
         "cookbook/chat-with-pdf",
         "cookbook/url-content-summarizer",
