@@ -6,18 +6,18 @@ In this cookbook, we will explore how we can use [PremAI SDK](/get-started/sdk.m
 
 1. Write simple prompts using `dspy.Signature` to give instructions to the LLM. 
 2. Use `dspy.Module` to write a simple Text2SQL pipeline. 
-3. Use `dspy.teleprompt` to automatically optimize the prompt for better result
+3. Use `dspy.teleprompt` to automatically optimize the prompt for better results.
 4. Use `dspy.Evaluate` to evaluate the results. 
 
 <Note>
-For those unfamiliar with DSPy, DSPy is a LLM orchestration tool whose API is very similar to [PyTorch](https://pytorch.org/). The main focus of DSPy is to help developers write clean and modular code rather than writing very big prompts. You can learn more about it in their [documentation](https://dspy-docs.vercel.app/) or a quick brush up in our [documentation](/integrations/dspy.mdx). If you are new here, no problem. We have described what each part of the code does. All you need to be familiar is with Python. 
+For those unfamiliar with DSPy, it is an LLM orchestration tool whose API is very similar to [PyTorch](https://pytorch.org/). The main focus of DSPy is to help developers write clean and modular code, rather than writing very big prompts. You can learn more about it in their [documentation](https://dspy-docs.vercel.app/) or get a quick overview in our [documentation](/integrations/dspy.mdx). If you are new here, no problem. We have described what each part of the code does. All you need to be familiar with is Python.
 </Note>
 
 ### Objective
 
-The objective of this tutorial is to introduce you to DSPy and how to use it with Prem SDK. Finally, in the later part of the tutorial, we will also show you how to use Prem Platform to debug and see what DSPy has been optimizing and how it can be improved further. 
+The objective of this tutorial is to introduce you to DSPy and show you how to use it with the Prem SDK. Finally, in the later part of the tutorial, we will demonstrate how to use the Prem Platform to debug, see what DSPy has been optimizing, and how it can be further improved.
 
-Before getting started, we create a new virtual environment and install all our required packages from this [requirements.txt](https://github.com/premAI-io/cookbook/text-2-sql/requirements.txt) file. Once done let's import the required packages.
+Before getting started, we need to create a new virtual environment and install all our required packages from this [requirements.txt](https://github.com/premAI-io/cookbook/text-2-sql/requirements.txt) file. Once that's done, let's import the required packages.
 
 <CodeGroup>
 ```python Python
@@ -27,8 +27,7 @@ from dspy.evaluate import Evaluate
 from dspy.datasets import DataLoader
 ```
 </CodeGroup>
-
-First, we define some constants and instantiate [DSPy PremAI LM](https://dspy-docs.vercel.app/api/language_model_clients/PremAI). We will be using CodeLLama as our base LLM to generate SQL Queries. Here is how our launchpad looks like:
+First, we define some constants and instantiate [DSPy PremAI LM](https://dspy-docs.vercel.app/api/language_model_clients/PremAI). We will be using CodeLLama as our base LLM to generate SQL queries. Here is how our launchpad looks:
 
 <img
   src="/images/cookbook/launch1.png"
@@ -36,10 +35,9 @@ First, we define some constants and instantiate [DSPy PremAI LM](https://dspy-do
 />
 
 <Warning>
-If you are not familier with setting up a project on Prem, we recommend to take a quick look on [this guide](https://docs.premai.io/introduction). It is super intuitive and you can even get started for free. 
+If you are not familiar with setting up a project on Prem, we recommend taking a quick look at [this guide](https://docs.premai.io/introduction). It is super intuitive, and you can even get started for free.
 </Warning>
-
-Prem AI offers a variety of models (see the [list](https://docs.premai.io/get-started/supported-models) here), so you can experiment with all the models. We did some initial experiments in [Prem Playground](https://app.premai.io/s/97e27016-3265-42e9-8358-68340a4d3ed7) and what we saw was CodeLlama was performing consistently better than other models like Claude 3, GPT-4o and Mistral. So for this cookbook experiment we are using Code Llama Instruct 70B by Meta AI. 
+Prem AI offers a variety of models (see the list [here](https://docs.premai.io/get-started/supported-models)) , so you can experiment with all the models. We conducted some initial experiments in [Prem Playground](https://app.premai.io/s/97e27016-3265-42e9-8358-68340a4d3ed7), and we found that CodeLlama was performing consistently better than other models like Claude 3, GPT-4, and Mistral. Therefore, for this cookbook experiment, we are using Code Llama Instruct 70B by Meta AI.
 
 <CodeGroup>
 ```python Python
@@ -62,7 +60,7 @@ We used the following system prompt.
 You are an expert in SQL. You can understand and write complex SQL queries. You will be given some plain text as a questions and you are required to generate SQL query from that. Do not generate anything else. 
 ```
 
-Additionally we set the temperature to be 0.1 and max_tokens to 500. You can copy these configurations to your experiment to reproduce or get started with your own implementation.
+Additionally, we set the temperature to 0.1 and the max_tokens to 500. You can copy these configurations to your experiment to reproduce the results or get started with your own implementation.
 
 Now, we instantiate our `lm` object and test it before moving forward. 
 
@@ -79,7 +77,7 @@ lm("hello")
 
 ### Loading Datasets
 
-We start by loading a dataset. We are going to use the [gretelai/synthetic_text_to_sql](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset for our example. We are also going to split the dataset into validation and test splits. The code below shows how we load and split the dataset using DSPy. 
+We start by loading a dataset. We are going to use the [gretelai/synthetic_text_to_sql](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset for our example. We will also split the dataset into validation and test splits. The code below shows how we load and split the dataset using DSPy. 
 
 <CodeGroup>
 ```python Python
@@ -103,7 +101,7 @@ testset = data_loader.from_huggingface(
 ```
 </CodeGroup>
 
-We sample a very small amount of data because we are not going to do any kind of fine-tuning here. DSPy will optimize our prompt by tweaking it in several ways (for example, adding optimal few-shot examples). However, DSPy also provides options for fine-tuning the weights as well, but that is out of the scope of this tutorial. 
+We sampled a very small amount of data because we are not going to do any kind of fine-tuning here. DSPy will optimize our prompt by tweaking it in several ways (for example, by adding optimal few-shot examples). However, DSPy also provides options for fine-tuning the weights as well, but that is outside the scope of this tutorial.
 
 <CodeGroup>
 ```python Python
@@ -150,25 +148,24 @@ SELECT COUNT(*) as total_events FROM defense_diplomacy WHERE YEAR(event_date) = 
 
 ### Creating a DSPy Signature
 
-Most LLM orchestration frameworks, like langchain and llama-index, tell you to prompt the language models explicitly. Eventually, we need to tweak or optimize the prompt to seek better results. However, writing and managing big prompts can be super messy.
+Most LLM orchestration frameworks, like LangChain and LLaMA-Index, advise you to prompt the language models explicitly. Eventually, we need to tweak or optimize the prompts to achieve better results. However, writing and managing large prompts can be quite messy.
 
-The whole point of DSPy is to shift the whole prompting process to a more programmatic paradigm. Signature in DSPy lets you specify how the language model's input and output behaviour should be. 
+The main purpose of DSPy is to shift the entire prompting process to a more programmatic paradigm. Signatures in DSPy allow you to specify how the language model's input and output behavior should be.
 
 <Note>
 The Field names inside a Signature have a semantic significance. This means each field that represents a role (for example: `question` or `answer` or `sql_query`) defines that prompt variable and what the variable is about. More explained below in an example. 
 
-For this example, we will try to understand class-based DsPy Signatures. You can learn more about Signatures in the [official documentation](https://dspy-docs.vercel.app/docs/building-blocks/signatures). 
+For this example, we will try to understand class-based DSPy Signatures. You can learn more about Signatures in the [official documentation](https://dspy-docs.vercel.app/docs/building-blocks/signatures). 
 </Note>
 
-#### Class-based DsPY Signatures 
+#### Class-based DSPy Signatures 
+You define a class in class-based signatures where:
 
-You define a class in class-based signatures, where:
+- The class docstring is used to express the nature of the overall task.
 
-- The class docstring is used to express the nature of the overall task. 
+- You can provide different input and output variables using `InputField` and `OutputField`, which also describe the nature of those variables.
 
-- Provide different input and output variables using `InputField` and `OutputField`, which also describe the nature of those variables. 
-
-Here is a simple example of how we define a simple class-based DsPY Signatures. 
+Here is a simple example of how we define a simple class-based DsPY signature.
 
 <CodeGroup>
 ```python Python 
@@ -197,7 +194,7 @@ Prediction(
 )
 ```
 
-To inspect how the actual prompt was passed, you can check using `lm.inspect` method. Here is how it looks like for the `Emotion` class. 
+To inspect how the actual prompt was passed, you can check using the `lm.inspect` method. Here is how it looks like for the `Emotion` class. 
 
 ```python Python 
 lm.inspect_history(n=1)
@@ -205,8 +202,7 @@ lm.inspect_history(n=1)
 ```
 **Output:**
 
-The output here, shows the actual prompt that DSPy passed from the 
-signature object to our LLM. 
+The output here shows the actual prompt that DSPy passed from the signature object to our LLM
 
 ```
 Classify emotion among sandness, joy, love, anger, fear, surprise.
@@ -271,7 +267,7 @@ class Text2SQLSignature(dspy.Signature):
     sql = dspy.OutputField(desc="SQL Query")
 ```
 
-Now, let's generate a single sample with the signature we just wrote. Please note that the signature is just a blueprint of what we want to achieve. You are not required to tweak the prompt anymore. It is the job of DSPy to do optimization to make the best prompt. 
+Now, let's generate a single sample with the signature we just wrote. Please note that the signature is just a blueprint of what we want to achieve. You are not required to tweak the prompt anymore. It is the job of DSPy to d the optimization to make the best prompt. 
 
 ```python Python
 generate_sql_from_query = dspy.Predict(signature=Text2SQLSignature)
@@ -298,7 +294,7 @@ WHERE event_date BETWEEN '2021-01-01' AND '2021-12-31';
 
 ### DSPy Module
 
-Now we know how Signatures work in DSPy. Multiple signatures or a prompting technique could work as a function. You can compose those techniques into a single module or a program. 
+Now we know how signatures work in DSPy. Multiple signatures or a prompting technique could work as a function. You can compose those techniques into a single module or a program. 
 
 If you come from a deep learning background, then you have heard about `torch.nn.Module`, which helps to compose multiple layers to a single program. 
 
@@ -317,7 +313,7 @@ class Text2SQLProgram(dspy.Module):
         )
 ```
 
-Now you might wonder why we are doing the same thing but now wrapping inside another class? The reason is that you might have multiple such signatures. Each signature might have different purposes. You can chain each of them individually to come up with a single output. However, that is out of the scope of the current tutorial. Now, let's run this module for a sanity check.
+You might wonder why we are doing the same thing but now wrapping it inside another class. The reason is that you might have multiple such signatures, each with a different purpose. You can chain each of them individually to come up with a single output. However, that is outside the scope of the current tutorial. Now, let's run this module for a sanity check.
 
 ```python Python
 text2sql = Text2SQLProgram(signature=Text2SQLSignature)
@@ -342,15 +338,15 @@ FROM defense_diplomacy
 WHERE EXTRACT(YEAR FROM event_date) = 2021;
 ```
 
-Awesome, now that things are working, let's make a simple metrics in which we can quantify how well the SQL queries are being generated. 
+Awesome, now that things are working, let's create simple metrics to quantify how well the SQL queries are being generated.
 
 ### Metrics in DSPy
 
-A metric is a function that quantifies in some way how a ground truth is related to the prediction and how good the predicted output is. A simple example is accuracy. So, in our case, a very simple metric could be a direct string match on whether our predicted SQL string is identical with the actual SQL string. Let's make a custom metric where we:
+A metric is a function that quantifies in some way how ground truth is related to the prediction and how good the predicted output is. A simple example is accuracy. So, in our case, a very simple metric could be a direct string match on whether our predicted SQL string is identical to the actual SQL string. Let's create a custom metric where we:
 
-1. First normalise the SQL String. (This means removing all the ``` and "\n" characters and make them identical). 
-2. Compare both the strings and return 0 if not matched and 1 for viceversa.
-3. Run the above two steps for all validation examples to see an average score. 
+1. First, normalize the SQL string. (This means removing all the ``` and "\n" characters to make them identical).
+2. Compare both strings and return 0 if they do not match and 1 if they do.
+3. Run the above two steps for all validation examples to calculate an average score.
 
 ```python Python
 import re 
@@ -406,13 +402,13 @@ Score:  9 / 25
 
 ### Optimizing a DSPy program
 
-An optimizer in DSPy optimizes the overall prompt workflow by tuning the prompt and/or the LM weights to maximize the target metrics, such as accuracy. 
+An optimizer in DSPy optimizes the overall prompt workflow by tuning the prompt and/or the LM weights to maximize the target metrics, such as accuracy.
 
 Optimizers take three things in the input:
 
-1. **The DSPy Program**: This may be a single module (e.g., dspy. Predict) or a complex multi-module program. We have already defined this in the above cells.
+1. **The DSPy Program**: This may be a single module (e.g., dspy.Predict) or a complex multi-module program. We have already defined this in the above cells.
 
-2. **Metric Function:** This is the function that evaluates the program and assigns a score in the end. We have already defined this in the above cell.
+2. **Metric Function:** This is the function that evaluates the program and assigns a score at the end. We have already defined this in the above cell.
 
 3. **Few training inputs:** This may be very small (i.e., only 5 or 10 examples) and incomplete (only inputs to your program, without any labels).
 
@@ -432,7 +428,7 @@ optimized_text2sql = optimizer.compile(
 )
 ```
 
-Awesome, finally we use the `dspy.Evaluate` to evaluate our overall system. Here is how we do it. 
+Awesome, finally we use the `dspy.Evaluate` to evaluate our overall system. Here is how we do it:
 
 ```python Python
 evaluate = Evaluate(
@@ -451,13 +447,11 @@ evaluate(optimized_text2sql)
 ```
 Average Metric: 11 / 25  (44.0): 100%|██████████| 25/25 [00:22<00:00,  1.09it/s]
 ```
-
-There are several more types of optimizers, and all of them follow the same flow. So you can simply plug in and out each of them to test which works best. You can learn more about different DSPy optimizers [here](https://dspy-docs.vercel.app/docs/building-blocks/optimizers). 
-
+There are several other types of optimizers, and all of them follow the same flow. This allows you to easily plug each one in and out to test which works best. You can learn more about different DSPy optimizers [here](https://dspy-docs.vercel.app/docs/building-blocks/optimizers). 
 
 ### Conclusion
 
-In this tutorial, we cooked a straightforward example on how we can generate SQL from Text. 44 % is a fair accuracy for starting out. In this example, we used CodeLLama. However we can use different models and see which works best for us. 
+In this tutorial, we created a straightforward example of how to generate SQL from text. Forty-four percent is a fair accuracy for starting out. In this example, we used CodeLlama. However, we can use different models and see which works best for us.
 
 Additionally when you use Prem, you can actually see all the traces and runs of the model being captured in the [traces section](https://docs.premai.io/get-started/monitoring). Inside Traces, you can monitor each LLM run and see how DSPy optimized your prompt. Here is an example of our case:
 

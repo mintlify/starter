@@ -1,4 +1,4 @@
-Welcome to the Prem AI cookbook section. In this first example, we will step by step build a simple chat with a PDF application (~ 100 lines of code) using the [Prem AI SDK](/get-started/sdk.mdx) and [Streamlit](https://streamlit.io/). The best part is that you don't even need to understand complex mechanisms like RAG or Retrieval Augmented Generations to make this app. So, without further ado, let's get started. You can find the [full code here](https://github.com/premAI-io/cookbook/chat-with-pdf).
+Welcome to the Prem AI cookbook section. In this first example, we will step by step build a simple chat with a PDF application (~ 100 lines of code) using the [Prem AI SDK](/get-started/sdk.mdx) and [Streamlit](https://streamlit.io/). The best part is that you don't even need to understand complex mechanisms like RAG (Retrieval Augmented Generation) to make this app. So, without further ado, let's get started. You can find the [full code here](https://github.com/premAI-io/cookbook/chat-with-pdf).
 
 <img
   src="/images/cookbook/chat with pdf.jpeg"
@@ -7,10 +7,10 @@ Welcome to the Prem AI cookbook section. In this first example, we will step by 
 ## Setup
 
 <Note>
-Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally you also need to have atlest one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
 </Note>
 
-Let's start by creating a virtual environment and installing prem sdk and streamlit. 
+Let's start by creating a virtual environment and installing Prem SDK and Streamlit. 
 
 ```bash
 python3 -m venv venv
@@ -55,9 +55,9 @@ Both `premai_project_id` and `premai_repository_id` are dummy ids. So in your ca
 
 ## Uploading documents to Prem repositories
 
-The workflow is simple, we start by uploading some documents and then sending it to Prem repositories to automatically index it using our internal state of the art RAG technology. 
+The workflow is simple: we start by uploading some documents to a repository on-prem. Once uploaded, the repository will automatically index them using our internal state-of-the-art RAG technology
 
-Let's write some code which do the following:
+Let's write some code that will do the following:
 
 1. First upload some PDF documents using streamlit `file_uploader`. 
 2. Save each files in a temporary diectory.
@@ -106,7 +106,7 @@ with st.sidebar:
 
 ## Writing the chat function
 
-Streamlit has a concept of [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) which share variables in between a session. So to maintain the history of the chat, we either create a new session or print out the history of chats and retrieved documents in the current session. 
+Streamlit has a concept of [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) which shares variables within a session. To maintain the history of the chat, we can either create a new session or display the history of chats and retrieved documents in the current session. 
 
 ```python
 if "messages" not in st.session_state:
@@ -117,7 +117,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 ```
 
-Now we write our main function that will help us to do chat with the documents. We start of by defining our repositories. We will use this repositories to retrieve context from relevant documents and add it to our LLM. 
+Now we will write our main function that will help us chat with the documents. We start off by defining our repositories. We will use these repositories to retrieve context from relevant documents and add it to our LLM
 
 ```python
 repositories = dict(
@@ -129,11 +129,12 @@ repositories = dict(
 
 Let's define the workflow from here:
 
-1. We take the prompt from the user and display it using streamlit and add it to the streamlit session_state object. 
+1. We take the prompt from the user, display it using Streamlit, and add it to the Streamlit [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) object.
 
-2. We start with our assistant block, where we first get our response from Prem SDK and then stream the response in streamlit untill the streaming is finished. 
+2. Next, start with our assistant block, where we first get our response from Prem SDK and then stream the response in Streamlit until the streaming is finished.
 
-3. Finally we also show the retreievd chunks of documents used to generate the answer, so that it helps in some interpretibility. 
+3. Finally, we also show the retrieved chunks of documents used to generate the answer, so that it helps with some interpretability.
+ 
 
 With our workflow defined, let's code it out. 
 
