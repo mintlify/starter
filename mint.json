@@ -50,7 +50,7 @@
   "navigation": [
     {
       "group": "",
-      "pages": ["introduction"]
+      "pages": ["introduction", "self-hosting"]
     },
     {
       "group": "Integration Guides",
