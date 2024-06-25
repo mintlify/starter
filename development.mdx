@@ -4,59 +4,92 @@ description: 'Learn how to preview changes locally'
 ---
 
 <Info>
-  **Prerequisite** You should have installed Node.js (version 18.10.0 or
-  higher).
+
+**Prerequisite**: Please install Node.js (version 19 or higher) before proceeding.
+
 </Info>
 
-Step 1. Install Mintlify on your OS:
+Follow these steps to install and run Mintlify on your operating system:
+
+**Step 1**: Install Mintlify:
 
 <CodeGroup>
 
-```bash npm
-npm i -g mintlify
-```
+  ```bash npm
+  npm i -g mintlify
+  ```
 
-```bash yarn
-yarn global add mintlify
-```
+  ```bash yarn
+  yarn global add mintlify
+  ```
+
+  ```bash pnpm
+  pnpm add -g mintlify
+  ```
 
 </CodeGroup>
 
-Step 2. Go to the docs are located (where you can find `mint.json`) and run the following command:
+**Step 2**: Navigate to the docs directory (where the `mint.json` file is located) and execute the following command:
 
 ```bash
 mintlify dev
 ```
 
+Alternatively, if you do not want to install Mintlify globally you can use a run script available:
+
+<CodeGroup>
+
+  ```bash npm
+  npx mintlify dev
+  ```
+
+  ```bash yarn
+  yarn dlx mintlify dev
+  ```
+
+  ```bash pnpm
+  pnpm dlx mintlify dev
+  ```
+
+</CodeGroup>
+
+<Warning>
+  Yarn's "dlx" run script requires yarn version >2. See [here](https://yarnpkg.com/cli/dlx) for more information.
+</Warning>
+
 The documentation website is now available at `http://localhost:3000`.
 
 ### Custom Ports
 
-Mintlify uses port 3000 by default. You can use the `--port` flag to customize the port Mintlify runs on. For example, use this command to run in port 3333:
+By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. To run Mintlify on port 3333, for instance, use this command:
 
 ```bash
 mintlify dev --port 3333
 ```
 
-You will see an error like this if you try to run Mintlify in a port that's already taken:
+If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
 
 ```md
-Error: listen EADDRINUSE: address already in use :::3000
+Port 3000 is already in use. Trying 3001 instead.
 ```
 
 ## Mintlify Versions
 
-Each CLI is linked to a specific version of Mintlify. Please update the CLI if your local website looks different than production.
+Please note that each CLI release is associated with a specific version of Mintlify. If your local website doesn't align with the production version, please update the CLI:
 
 <CodeGroup>
 
-```bash npm
-npm i -g mintlify@latest
-```
+  ```bash npm
+  npm i -g mintlify@latest
+  ```
 
-```bash yarn
-yarn global upgrade mintlify
-```
+  ```bash yarn
+  yarn global upgrade mintlify
+  ```
+
+  ```bash pnpm
+  pnpm up --global
+  ```
 
 </CodeGroup>
 
@@ -73,9 +106,11 @@ You should see the following if the deploy successfully went through:
   <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
 </Frame>
 
-## Troubleshooting
+## Code Formatting
 
-Here's how to solve some common problems when working with the CLI.
+We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
+
+## Troubleshooting
 
 <AccordionGroup>
   <Accordion title="Mintlify is not loading">
