@@ -1,0 +1,322 @@
+---
+title: Chat with SQL Tables
+---
+
+In this cookbook, we are going to make a simple chat application using [Prem AI llama-index](https://docs.llamaindex.ai/en/stable/examples/llm/premai/) to ask questions in natural language to a table from a database. We also create a simple webapp using streamlit which looks like this:
+
+<img
+  src="/images/cookbook/chat-with-sql.jpeg"
+  alt="Playground"
+/>
+
+### Objective
+
+The objective of the tutorial is to get you familiar with the integrations of llama-index with PremAI. We will give you a basic understanding on how to connect data sources (like SQL database) using llama-index and then use PremAI LLMs and Embeddings to index the data and fetch meaningful results from it. 
+
+### Getting Started
+
+Before getting started, we need to create a new virtual environment and install all our required packages from this [requirements.txt](https://github.com/premAI-io/cookbook/chat-with-sql/requirements.txt) file. 
+
+<Warning>
+If you are not familiar with setting up a project on Prem, we recommend taking a quick look at [this guide](https://docs.premai.io/introduction). It is super intuitive, and you can even get started for free.
+</Warning>
+
+Prem AI offers variety of models comprising of LLMs and Embedding models. You can check out all the available models under this [section](https://docs.premai.io/get-started/supported-models).
+
+Our file structure of this project will comprise of these two main files: `db_utils.py` and `main.py`. In the `db_utils.py` file we are going to write all the utility functions to connect llama-index with our SQL database and the table of our choice. The `main.py` file contains the streamlit code to provide a nice frontend. 
+
+### Ingesting movies data into SQL table `Optional` 
+
+In this section we are going to create a sample SQL table using Postgres DB. We set it up locally and use this [Netflix movies dataset](https://www.kaggle.com/datasets/rahulvyasm/netflix-movies-and-tv-shows) from kaggle. We download the dataset (which a single CSV file). We load the dataset using pandas, and then parse each row of the dataframe and insert it to our table.
+
+**Please note** that you are not required to follow the steps written in this section if you already have a database and some tables. However if you are still interested to do the same and reproduce the results then kindly head over to this [Jupyter Notebook](https://github.com/premAI-io/cookbook/chat-with-sql/notebook.ipynb), where we wrote all the details regarding how to do this process on Postgres DB using SQLAlchemy.
+
+### Connecting SQL table using llama-index and PremAI
+
+We are specifically going to understand some functions inside [db_utils.py file](https://github.com/premAI-io/cookbook/chat-with-sql/db_utils.py).  Lets see the schematics to understand what is happening under the hood. 
+
+<img
+  src="/images/cookbook/chat-with-sql-simple.png"
+  alt="Playground"
+/>
+
+In the above figure we can see that, the user first sends a query to the LLM. The whole process is orchestrated using llama-index, where at initializes it connects with the database using `SQLDatabase` and then builds the query engine using `NLSQLTableQueryEngine`. This engine basically is prompted to generate proper SQL from the table schema and the contents of the table. 
+
+<Note>
+This workflow show above does not use any embedding based retrieving techniques. It just provides an awesome abstraction for text2sql workflow once connected with some sort of database from SQLAlchemy.
+</Note>
+
+So now once we pass the user query, it goes to the engine, gets the SQL code and then use that to execute inside the table and then gives back the result to the LLM and that LLM then formats the result for better readibility. Let's code the approach.
+
+
+```python Python
+from sqlalchemy import MetaData, create_engine
+
+from llama_index.core import SQLDatabase
+from llama_index.core.query_engine import NLSQLTableQueryEngine
+
+def setup_index_before_chat(db_config: dict, table: str, ):
+    # Fetch all the credential before connecting to the DB
+    username = db_config["username"]
+    host = db_config["host"]
+    password = db_config["password"]
+    port = db_config["port"]
+    database = db_config["database"]
+
+    # connect to the database 
+    engine = create_engine(
+        f"postgresql://{username}:{password}@{host}:{port}/{database}"
+    )
+
+    # connect that database to llama-index and get the text2sql engine
+    sql_database = SQLDatabase(engine=engine, include_tables=[table])
+    query_engine = NLSQLTableQueryEngine(
+        sql_database=sql_database,
+    )
+    return query_engine
+```
+
+Since this function is very specific to the table we choose, so let's write a helper function to fetch all the table names inside our database. 
+
+```python Python
+from typing import Union
+
+def get_all_tables_from_db(db_config: dict) -> Union[list, None]:
+    metadata = MetaData()
+    username = db_config["username"]
+    host = db_config["host"]
+    password = db_config["password"]
+    port = db_config["port"]
+    database = db_config["database"]
+
+    try:
+        engine = create_engine(
+            f"postgresql://{username}:{password}@{host}:{port}/{database}"
+        )
+        metadata.reflect(bind=engine)
+        table_names = metadata.tables.keys()
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    return table_names
+```
+
+
+### Writing a simple frontend using streamlit
+
+Now let's write a simple frontend using streamlit to apply a chat interface on top of this approach (use [main.py](https://github.com/premAI-io/cookbook/chat-with-sql/main.py) file to see/edit the changes). Please make an additional `.streamlit` folder. Inside that folder, create a file named `secrets.toml`. Inside this toml file, save all the db specific credentials. Here is an example:
+
+```toml toml
+premai_api_key = "xxxx-xxxx-xxxx"
+premai_project_id = "xxxx"
+username = "xxxxx"
+password = "xxxxx"
+host = "localhost"
+port = "5432"  
+database = "xxxxx"
+```
+
+Now we start off by importing all the packages and setting up our database, llm and an additional embedding model (the section below shows more on how to use embedding based method).
+
+```python Python
+import time
+import streamlit as st
+from llama_index.core import Settings
+from llama_index.llms.premai import PremAI
+from llama_index.embeddings.premai import PremAIEmbeddings
+from db_utils import get_all_tables_from_db, setup_index_before_chat
+
+# ---- PremAI configuration ----
+premai_api_key = st.secrets.premai_api_key
+premai_project_id = st.secrets.premai_project_id
+embedding_model_name = "text-embedding-3-large"
+
+# ---- Database configuration ----
+username = st.secrets.username
+password = st.secrets.password
+host = st.secrets.host
+port = st.secrets.port
+dbname = st.secrets.database
+
+db_config = {
+    "username": username,
+    "password": password,
+    "host": host,
+    "port": port,
+    "database": dbname,
+}
+
+# ---- Define the LLM and Embedding model using Prem ----
+llm = PremAI(
+    project_id=premai_project_id, premai_api_key=premai_api_key, temperature=0.1
+)
+embedding_model = PremAIEmbeddings(
+    project_id=premai_project_id,
+    premai_api_key=premai_api_key,
+    model_name=embedding_model_name,
+)
+
+Settings.llm = llm
+Settings.embed_model = embedding_model
+```
+
+Upnext, we write a simple sidebar to choose which table we want to choose to chat with. And this where, we will require our helper function: `get_all_tables_from_db`. 
+
+```python Python
+with st.sidebar:
+    options = st.selectbox(label="Select your database", options=all_tables)
+    if options is None:
+        st.error("No table found")
+    else:
+        use_all_tables = st.checkbox("Use all tables")
+        st.success(f"You will be chatting with Table: {options}")
+```
+Once we get the table of interest from the user, we then connect that table using our `setup_index_before_chat` function. 
+
+```python Python
+if options is None:
+    st.error(
+        "Please set up the SQL DB Engine connection properly. No Tables found."
+    )
+
+else:
+    query_engine = setup_index_before_chat(db_config=db_config, table=options)
+```
+
+
+Finally, we write the [same boilerplate chat code](/cookbook/chat-with-pdf.mdx#writing-the-chat-function) with [Streamlit Chat](https://docs.streamlit.io/develop/api-reference/chat/st.chat_input). The steps are simple:
+
+1. Get the prompt from the user, save it to streamlit session to capture history and show the prompt in the chat UI. 
+2. Once got the prompt, pass it to the `query_engine` and get the result. 
+3. Stream the result along with show the metadata (which includes the SQL query that was written to fetch the results for debug purposes).
+
+Without further adue, let's finish our implementation.
+
+```python Python
+if options is None:
+    st.error(
+        "Please set up the SQL DB Engine connection properly. No Tables found."
+    )
+
+else:
+    query_engine = setup_index(
+        db_config=db_config, table=options, use_all=use_all_tables
+    )
+
+    # Print all the previous messages from the user or assistant
+    # if exists 
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Get the prompt from the user and save it to streamlit session
+    if prompt := st.chat_input("Please write your query"):
+        user_content = {"role": "user", "content": prompt}
+        st.session_state.messages.append(user_content)
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Call the query_engine and get the response and the metadata
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+
+            while not full_response:
+                with st.spinner("Thinking ...."):
+                    try:
+                        response = query_engine.query(prompt)
+                        response_str, response_meta = (
+                            response.response,
+                            response,
+                        )
+                    except Exception:
+                        response_str = "Failed to respond"
+                        response_meta = []
+
+                # Stream the results
+                fr = ""
+                full_response = str(response_str)
+                for i in full_response:
+                    time.sleep(0.01)
+                    fr += i
+                    message_placeholder.write(fr + "▌")
+                message_placeholder.write(f"{full_response}")
+                with st.expander(label="See what was run inside the model"):
+                    st.write(response_meta)
+
+            # Save the assistant's previous message to streamlit session.
+            st.session_state.messages.append(
+                {"role": "assistant", "content": full_response}
+            )
+```
+
+Congratulations, if you made it this far. This almost concludes our recipe on how we can use Prem AI and llama-index to connect SQL and do semantic operations like question answering with it (using Text2SQL method). You can find the full code [here](https://github.com/premAI-io/cookbook/chat-with-sql). 
+
+We also have an additional section on how we can also use embedding based reteieval methods to index multiple tables and chat with them. You can have a look if you are further interested.
+
+### Using embedding based method to chat with multiple SQL Tables `Optional`
+
+In this section we are going to write an additional function to replace the existing `setup_index_before_chat` with a more advanced one. Here, we are going to introduce how we can index multiple tables and chat with them using llama-index and Prem AI. 
+
+The workflow almost remains the same but with some little bit of changes. 
+
+1. We first connect to our database. 
+2. After this we gather all the tables and initialize a `VectorStoreIndex` which essentially maps and performs an indexing to all the available table schemas. Here our embedding model is used to get the embeddings of schema and all the metadata related to the tables. 
+3. When we pass an user query, it goes to the in-memory vector index to fetch all the nearest embeddings. 
+4. Finally it decode the embeddings, put it into the LLM context to get the SQL.
+5. This SQL is being run inside the database to fetch proper results and then fed to an another LLM to a better human readible format. 
+
+Here is the schematic diagram to understand in more details. 
+
+<img
+  src="/images/cookbook/chat-with-sql-complex.png"
+  alt="Playground"
+/>
+
+Let's code this approach.
+
+```python Python 
+from llama_index.core import SQLDatabase
+from llama_index.core.indices.struct_store import SQLTableRetrieverQueryEngine
+from llama_index.core.objects import (
+    SQLTableNodeMapping,
+    ObjectIndex,
+    SQLTableSchema
+)
+from llama_index.core import VectorStoreIndex
+
+
+def setup_index_before_chat_use_embedding(db_config: dict):
+    username = db_config["username"]
+    host = db_config["host"]
+    password = db_config["password"]
+    port = db_config["port"]
+    database = db_config["database"]
+    engine = create_engine(
+        f"postgresql://{username}:{password}@{host}:{port}/{database}"
+    )
+
+    sql_database = SQLDatabase(engine=engine)
+    table_node_mapping = SQLTableNodeMapping(sql_database)
+    table_schema_objs = []
+
+    all_table_names = get_all_tables_from_db(db_config)
+    for table_name in all_table_names:
+        table_schema_objs.append(SQLTableSchema(table_name=table_name))
+    
+    object_index = ObjectIndex.from_objects(
+        table_schema_objs,
+        table_node_mapping,
+        VectorStoreIndex,
+    )
+    query_engine = SQLTableRetrieverQueryEngine(
+        sql_database,
+        object_index.as_retriever(similarity_top_k=1),
+    )
+    return query_engine
+```
+
+Awesome, now all we need to do is replace the `setup_index_before_chat` with `setup_index_before_chat_use_embedding` function inside `main.py` and then we are now able to chat with multiple tables. You can check out the [full source code](https://github.com/premAI-io/cookbook/chat-with-sql) to run and reproduce the results and extend it to your SQL based Generative AI workflows. 
