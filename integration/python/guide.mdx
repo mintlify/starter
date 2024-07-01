@@ -156,7 +156,7 @@ import langwatch
 
 @langwatch.trace()
 def main():
-    langwatch.get_current_trace().update(user_id="user_id", thread_id="thread_id")
+    langwatch.get_current_trace().update(metadata={"user_id": "user_id", "thread_id": "thread_id"})
     ...
 ```
 
