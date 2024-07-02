@@ -2,35 +2,48 @@
 title: Paper search and QnA on ArXiv papers 
 ---
 
-Welcome to our fifth recipe of PremAI cookbook. In this recipe, we are going to implement a custom [Retrieval Augmented Generation (RAG)](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) pipeline using PremAI, [Qdrant](https://qdrant.tech/) and [DSPy](https://dspy-docs.vercel.app/). 
+Welcome to the Prem AI cookbook section. In this recipe, we are going to implement a custom [Retrieval Augmented Generation (RAG)](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) pipeline that can answer questions and search through ML-related arXiv paper. We are going to use PremAI, [Qdrant](https://qdrant.tech/) and [DSPy](https://dspy-docs.vercel.app/) for this recipe. 
 
-Those who are not familiar with [Qdrant](https://qdrant.tech/), it is an amazing open-source vector database and similarity search engine. Qdrant can also be hosted locally. If you are not familiar with DSPy, checkout our [introductory recipe on using DSPy](https://docs.premai.io/cookbook/text-2-sql). We have lot of introductory concepts there. You can also check out [DSPy documentation](https://dspy-docs.vercel.app/) for more information. 
+<Card icon="lightbulb">
+For those who need to become more familiar with [**Qdrant**](https://qdrant.tech/), it is an excellent open-source vector database and similarity search engine. You can also host Qdrant locally. 
 
-We also create a simple webapp using streamlit which looks like this:
+If you are not familiar with DSPy, check out our [**introductory recipe on using DSPy**](https://docs.premai.io/cookbook/text-2-sql). We have covered many introductory concepts there. You can also check out [**DSPy documentation**](https://dspy-docs.vercel.app/) for more information. 
+</Card>
+
+To give a nice visualization, we use Streamlit, and here is how the final app would look:
+
 
 <img
   src="/images/cookbook/arxiv paper search.jpeg"
   alt="Playground"
 />
 
- You can find the [full code here](https://github.com/premAI-io/cookbook/arxiv-ml-qna).
 
-### Objective
+So without further ado, let’s get started. You can find the [full source code here](https://github.com/premAI-io/cookbook/arxiv-ml-qna).
 
-The objective of this tutorial is simple. We are going to build a simple RAG pipeline using the above mentioned tools to search through relevant papers in arXiv and answer user questions correctly citing those answers. So high level here are the steps:
+## Objective
 
-1. Download a sample dataset from HuggingFace for our experiment. We are going to use [ML-ArXiv-Papers](https://huggingface.co/datasets/CShorten/ML-ArXiv-Papers) which contains a huge subset of Machine Learning paper. This dataset contains the title of the paper and the abstract.
+This recipe aims to show developers and users how to get started with Prem's Generative AI Platform and build different use cases around it. We will build a simple RAG pipeline using the abovementioned tools to search through relevant ML-related papers in arXiv and answer user questions correctly by citing those answers. So high level, here are the steps:
 
-2. Once download, we do some preprocessing (which includes converting the data into proper formats, and converting the dataset into smaller batches)
-3. After this, we get the embeddings using Prem Embeddings and initializing a Qdrant Collection to store those embedding and it's corresponding data.
-4. After this we connect this Qdrant collection instance to DSPy and build a simple RAG Module.
-5. Finally we test this with some sample questions.
+1. Download a sample dataset from HuggingFace for our experiment. We will use [ML-ArXiv-Papers](https://huggingface.co/datasets/CShorten/ML-ArXiv-Papers), which contains a vast subset of Machine Learning papers. This dataset includes the title of the paper and the abstract.
 
-Sounds interesting right? So without furthur adue let's start by installing and importing all the important packages. 
+2. Once downloaded, we do some preprocessing (which includes converting the data into proper formats and converting the dataset into smaller batches)
+3. We get the embeddings using Prem Embeddings and initialize a [Qdrant Collection](https://qdrant.tech/documentation/concepts/collections/) to store those embeddings and their corresponding data.
+4. After this, we connect the Qdrant collection with DSPy and build a simple RAG Module.
+5. Finally, we test this with some sample questions.
 
-### Getting Started
+Sounds interesting, right? Let's start by installing and importing all the essential packages. 
 
-Before getting started, we need to create a new virtual environment and install all our required packages from this [requirements.txt](https://github.com/premAI-io/cookbook/arxiv-ml-qna/requirements.txt) file. To install Qdrant engine, you need to have [docker](https://www.docker.com/) installed. You can build and run the Qdrant's official docker image using the following command:
+## Setting up the project 
+
+Let's start by creating a virtual environment and installing dependencies.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Up next, we need to install some dependencies. You can check out all the dependencies in the [requirements.txt](https://github.com/premAI-io/cookbook/arxiv-ml-qna/requirements.txt) file. To install the Qdrant engine, you need to have [docker](https://www.docker.com/) installed. You can build and run Qdrant's official docker image using the following command:
 
 ```bash
 docker run -p 6333:6333 -p 6334:6334 \
@@ -71,9 +84,11 @@ from dspy.retrieve.qdrant_rm import QdrantRM
 from dsp.modules.sentence_vectorizer import PremAIVectorizer
 ```
 
-We also define some constants which includes, [PremAI project ID](https://docs.premai.io/get-started/projects), the embedding model we are going to use, name of the huggingface dataset, name of Qdrant collection (can be any arbitary name) and the Qdrant server url in which we are going to access the DB. 
+We define some constants, which include [PremAI project ID](https://docs.premai.io/get-started/projects), the embedding model we are going to use, the name of the huggingface dataset, the name of the Qdrant collection (which can be any arbitrarily named name), and the Qdrant server URL in which we are going to access the DB. 
 
-Prem AI offers a variety of models (which includes SOTA LLMs and Embedding models. See the list [here](https://docs.premai.io/get-started/supported-models)), so you can experiment with all the models.
+<Card icon="lightbulb" href="/get-started/supported-models">
+Prem AI offers a variety of models (which includes SOTA LLMs and Embedding models. See the list [**here**](https://docs.premai.io/get-started/supported-models)), so you can experiment with all the models.
+</Card>
 
 ```python Python
 PROJECT_ID           = 1234
@@ -87,9 +102,9 @@ DATASET_NAME         = "CShorten/ML-ArXiv-Papers"
 The project id we used is a dummy ID, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
 </Note>
 
-### Loading dataset from HF and preprocessing it
+## Loading dataset from HF and preprocessing it
 
-In our very first step, we need to download the dataset. The dataset is composed of a `title` and an `abstract` column which covers the title and the abstract of the paper. We are going to fetch those columns. We are also going to take a smaller subset (let's say 1000 rows) just for the sake of this tutorial and convert it into a dictionary in the following format:
+In our very first step, we need to download the dataset. The dataset comprises a `title` and an `abstract` column that covers the title and abstract of the paper. We are going to fetch those columns. We are also going to take a smaller subset (let's say 1000 rows) just for the sake of this tutorial and convert it into a dictionary in the following format:
 
 ```json JSON
 [
@@ -97,12 +112,14 @@ In our very first step, we need to download the dataset. The dataset is composed
 ]
 ```
 
-After this we are going to write a simple function which uses Prem Vectorizer from DSPy to convert a text or list of texts to it's embedding. Prem Vectorizer internally uses [Prem SDK](https://docs.premai.io/get-started/sdk) to extract embeddings from text, and at the same time being compatible with the DSPy ecosystem. 
+After this, we are going to write a simple function that uses Prem Vectorizer from DSPy to convert a text or list of texts to its embedding. Prem Vectorizer internally uses [Prem SDK](https://docs.premai.io/get-started/sdk) to extract embeddings from text and is compatible with the DSPy ecosystem. 
 
 ```python Python
 dataset = load_dataset(DATASET_NAME)["train"]
 dataset
 ```
+**Output**
+
 ```
 >>> Dataset({
     features: ['Unnamed: 0.1', 'Unnamed: 0', 'title', 'abstract'],
@@ -110,7 +127,7 @@ dataset
 })
 ```
 
-As we can see that inside the features, we have two columns named Unnamed, so we are going to remove them first and also take a subset of the rows (in our case we take 1000 rows). Finally, we convert this into a dict.
+As we can see that inside the features, we have two columns named "Unnamed", so we are going to remove them first and also take a subset of the rows (in our case we take 1000 rows). Finally, we convert this into a dict.
 
 ```python Python
 dataset_dict = (
@@ -119,12 +136,11 @@ dataset_dict = (
            .to_dict()
 )
 ```
-Right now this dict is not in the list format which is shown above. It is in this format:
+Right now this dict is not in the list of dictionary format, shown above. It is in this format:
 
 ```json
 {
     "title": ["title-paper-1", "title-paper-2", "..."],
-        
     "abstract": ["abstract-paper-1", "abstract-paper-2", "..."]
 }
 ```
@@ -138,7 +154,6 @@ dataset = [
 ]
 
 import json
-
 print(json.dumps(dataset[0], indent=4))
 ```
 
@@ -152,10 +167,9 @@ print(json.dumps(dataset[0], indent=4))
 ```
 </Accordion>
 
+## Creating embeddings of the dataset
 
-### Creating embeddings of the dataset
-
-We write a simple function to get embedding from the text. It is super simple, we first initialize premai vectorizer and then use that to get the embedding. By default premai vectorizer returns a `numpy.ndarray`, we convert into a list (a list of list), which becomes easier for us to upload it to Qdrant.
+We write a simple function to get embedding from the text. It is super simple; we initialize the premai vectorizer and then use it to get the embedding. By default, the premai vectorizer returns a `numpy.ndarray`, which we convert into a list (a list of the list), which becomes easier for us to upload to Qdrant.
 
 ```python Python
 # we assume your have PREMAI_API_KEY in the environment variable. 
@@ -175,17 +189,17 @@ def get_embeddings(
     return embeddings.tolist()
 ```
 
-### Making mini batches, getting embeddings and uploading it to Qdrant
+## Uploading mini-batches of embeddings to DSPy
 
-Qdrant some times [gives time out error](https://github.com/qdrant/qdrant-client/issues/394) when number of embeddings to upload are huge. So to prevent this issue, we are going to do the following:
+Qdrant sometimes [gives an requests timed out error](https://github.com/qdrant/qdrant-client/issues/394) when the number of embeddings to upload is huge. So, to prevent this issue, we are going to do the following:
 
-1. Create mini batches of the dataset
+1. Create mini-batches of the dataset
    
-2. Get the embeddings for all the abstract in that mini batch
-3. Iterate over the docs and it's corresponding embeddings and we create [Qdrant Points](https://qdrant.tech/documentation/concepts/points/). In short, a Qdrant Point acts like a central entity which is mostly a vector and Qdrant can do all sorts of operations on it.
-4. Finally upload this point to our [Qdrant collection](https://qdrant.tech/documentation/concepts/collections/). A collection is a structure in Qdrant where we keep set of points (vectors) among which we can do operations like search. 
+2. Get the embeddings for all the abstracts in that mini-batch
+3. Iterate over the docs and their corresponding embeddings, and we create [Qdrant Points](https://qdrant.tech/documentation/concepts/points/). In short, a Qdrant Point acts like a central entity, mostly a vector, and Qdrant can do all sorts of operations on it.
+4. Finally, upload the point to our [Qdrant collection](https://qdrant.tech/documentation/concepts/collections/). A collection is a structure in Qdrant where we keep a set of points (vectors) among which we can do operations like search. 
 
-But before doing all the steps mentioned above, we need to initialize a the qdrant client and make a collection. Since we are using `mistral-embed` the embedding size is `1024`. This can vary when use different embedding models.
+But before doing all the steps mentioned above, we need to initialize the qdrant client and make a collection. Since we use `mistral-embed`, the embedding size is `1024`. This can vary when using different embedding models.
 
 ```python Python
 qdrant_client = QdrantClient(url=QDRANT_SERVER_URL)
@@ -224,11 +238,11 @@ for batch in tqdm(document_batches, total=len(document_batches)):
 print("All Uploaded")
 ```
 
-Congratulations, if you have made here this far. Now in the later part of this tutorial, we are going to use this collection with DSPy and use PremAI LLMs to make a simple RAG module. If you are not familiar with RAG, check out our [introductory tutorial on DSPy](https://docs.premai.io/cookbook/text-2-sql).
+Congratulations if you have made it this far. In the later part of this tutorial, we will use this collection with DSPy and PremAI LLMs to create a simple RAG module. If you are unfamiliar with DSPy, check out our [introductory tutorial on DSPy](https://docs.premai.io/cookbook/text-2-sql).
 
-### Using DSPy and PremAI to use Qdrant Collection to build our RAG pipeline
+## Building our RAG pipeline using DSPy, PremAI and Qdrant
 
-Here, we are going to first start with initializing our [DSPy-PremAI](https://dspy-docs.vercel.app/api/language_model_clients/PremAI) as our LLM and use DSPy-Qdrant as our retriever. This retriever does all the heavy lifting of doing nearest neighbour search for us and return the top-k matched documents which we will pass as our context to our LLM to answer our question.
+We are going to start by initializing our [DSPy-PremAI object](https://dspy-docs.vercel.app/api/language_model_clients/PremAI) as our LLM and using DSPy-Qdrant as our retriever. This retriever does all the heavy lifting of doing a nearest neighbour search for us and returns the top-k matched documents, which we will pass as our context to our LLM to answer our question.
 
 ```python Python
 PROJECT_ID = 1234
@@ -260,23 +274,21 @@ print(topK_passages)
 ```
 
 <Accordion title="Output">
-```txt
+
 Top 3 passages for question: Principal Component Analysis 
  
-
-["  In many physical, statistical, biological and other investigations it is\ndesirable to approximate a system of points by objects of lower dimension\nand/or complexity. For this purpose, Karl Pearson invented principal component\nanalysis in 1901 and found 'lines and planes of closest fit to system of\npoints'. The famous k-means algorithm solves the approximation problem too, but\nby finite sets instead of lines and planes. This chapter gives a brief\npractical introduction into the methods of construction of general principal\nobjects, i.e. objects embedded in the 'middle' of the multidimensional data\nset. As a basis, the unifying framework of mean squared distance approximation\nof finite datasets is selected. Principal graphs and manifolds are constructed\nas generalisations of principal components and k-means principal points. For\nthis purpose, the family of expectation/maximisation algorithms with nearest\ngeneralisations is presented. Construction of principal graphs with controlled\ncomplexity is based on the graph grammar approach.\n", "  In this paper, we study the application of sparse principal component\nanalysis (PCA) to clustering and feature selection problems. Sparse PCA seeks\nsparse factors, or linear combinations of the data variables, explaining a\nmaximum amount of variance in the data while having only a limited number of\nnonzero coefficients. PCA is often used as a simple clustering technique and\nsparse factors allow us here to interpret the clusters in terms of a reduced\nset of variables. We begin with a brief introduction and motivation on sparse\nPCA and detail our implementation of the algorithm in d'Aspremont et al.\n(2005). We then apply these results to some classic clustering and feature\nselection problems arising in biology.\n", '  We present three generalisations of Kernel Principal Components Analysis\n(KPCA) which incorporate knowledge of the class labels of a subset of the data\npoints. The first, MV-KPCA, penalises within class variances similar to Fisher\ndiscriminant analysis. The second, LSKPCA is a hybrid of least squares\nregression and kernel PCA. The final LR-KPCA is an iteratively reweighted\nversion of the previous which achieves a sigmoid loss function on the labeled\npoints. We provide a theoretical risk bound as well as illustrative experiments\non real and toy data sets.\n']
-```
+----
+'["  In many physical, statistical, biological and other investigations it is\ndesirable to approximate a system of points by objects of lower dimension\nand/or complexity. For this purpose, Karl Pearson invented principal component\nanalysis in 1901 and found 'lines and planes of closest fit to system of\npoints'. The famous k-means algorithm solves the approximation problem too, but\nby finite sets instead of lines and planes. This chapter gives a brief\npractical introduction into the methods of construction of general principal\nobjects, i.e. objects embedded in the 'middle' of the multidimensional data\nset. As a basis, the unifying framework of mean squared distance approximation\nof finite datasets is selected. Principal graphs and manifolds are constructed\nas generalisations of principal components and k-means principal points. For\nthis purpose, the family of expectation/maximisation algorithms with nearest\ngeneralisations is presented. Construction of principal graphs with controlled\ncomplexity is based on the graph grammar approach.\n", "  In this paper, we study the application of sparse principal component\nanalysis (PCA) to clustering and feature selection problems. Sparse PCA seeks\nsparse factors, or linear combinations of the data variables, explaining a\nmaximum amount of variance in the data while having only a limited number of\nnonzero coefficients. PCA is often used as a simple clustering technique and\nsparse factors allow us here to interpret the clusters in terms of a reduced\nset of variables. We begin with a brief introduction and motivation on sparse\nPCA and detail our implementation of the algorithm in d'Aspremont et al.\n(2005). We then apply these results to some classic clustering and feature\nselection problems arising in biology.\n", '  We present three generalisations of Kernel Principal Components Analysis\n(KPCA) which incorporate knowledge of the class labels of a subset of the data\npoints. The first, MV-KPCA, penalises within class variances similar to Fisher\ndiscriminant analysis. The second, LSKPCA is a hybrid of least squares\nregression and kernel PCA. The final LR-KPCA is an iteratively reweighted\nversion of the previous which achieves a sigmoid loss function on the labeled\npoints. We provide a theoretical risk bound as well as illustrative experiments\non real and toy data sets.\n']'
 
 </Accordion>
 
 Seems like we are getting some good relevant answers. Now let's jump right in to make our simple RAG pipeline using DSPy.
 
-### Defining DSPy Signature and the RAG Module
+## Define a DSPy Signature and the RAG Module
 
-The very first building block of our RAG pipeline is to build a DSPy Signature. In short the signature explains the input and output fields without making you write big and messy prompts. You can also think of this as a prompt blueprint. Once you have created this blueprint, DSPy internally tries to optimize the prompt during the time of optimization (we will come to that later). 
+The very first building block of our RAG pipeline is to build a [DSPy Signature](https://dspy-docs.vercel.app/docs/building-blocks/signatures). In short, a signature explains the input and output fields without making you write big and messy prompts. You can also think of this as a prompt blueprint. Once you have created this blueprint, DSPy internally tries to optimize the prompt during optimization (we will come to that later). 
 
 In our case, we should have the following parameters:
-
 
 1. `context`: This will be an `InputField` which will contain all the retrieved passages.
 2. `question`: This will be another `InputField` which will contain user query
@@ -291,14 +303,13 @@ class GenerateAnswer(dspy.Signature):
     answer = dspy.OutputField(desc="Answer in one or two lines")
 ```
 
-After this we are going to define the overall RAG pipeline inside a single class which are also called [Modules in DSPy](https://dspy-docs.vercel.app/docs/building-blocks/modules). Generally Modules in DSPy represents:
+After this, we will define the overall RAG pipeline inside a single class, also called [Modules in DSPy](https://dspy-docs.vercel.app/docs/building-blocks/modules). Generally, Modules in DSPy represent:
 
-1. Ways of running some prompting technique like [Chain of Thought](https://arxiv.org/abs/2201.11903) or [ReAct](https://arxiv.org/abs/2210.03629). We are going to use ReAct for our case.
-2. Building a workflow, which has multiple steps.
-3. You can even attach / chain multiple modules togather to form a single module. This gives us the power of better modularity as well help us to do cleaner implementations when defining LLM orchestration pipelines.
+1. Ways of running some prompting techniques like [Chain of Thought](https://arxiv.org/abs/2201.11903) or [ReAct](https://arxiv.org/abs/2210.03629). We are going to use ReAct for our case.
+2. Building a workflow, which constitutes multiple composible steps.
+3. You can even attach / chain multiple modules to form a single module. This gives us the power of better modularity and helps us implement cleaner when defining LLM orchestration pipelines.
 
-
-Now, let's implement our RAG module. 
+Now, let's implement our RAG module.
 
 ```python Python
 class RAG(dspy.Module):
@@ -312,9 +323,9 @@ class RAG(dspy.Module):
         return dspy.Prediction(context=context, answer=prediction.answer)
 
 ```
-As you can see in the above code, we first define our retriever and then bind our signature with `ChainOfThought` Module which will take this blueprint to generate better prompt but containing the same input and output fields mentioned while we defined our base signature. 
 
-In the forward step (i.e. when we will call the RAG module object), we will first retrieve all the contexts from the retriever and then use this context to generate the answer from our signature. After this we will return the predictions in a good format which contains the context and the answer, so that we can see what all abstracts got retrieved. 
+As you can see in the above code, we first define our retriever and then bind our signature with the `ChainOfThought` Module, which will take this blueprint to generate a better prompt but containing the same input and output fields mentioned while we define our base signature. 
+In the forward step (i.e., when we call the RAG module object), we will first retrieve all the contexts from the retriever and then use this context to generate the answer from our signature. After this, we will return the predictions in a good format containing the context and the answer so that we can see what abstracts were retrieved. 
 
 ### Testing our DSPy pipeline with an example prompt
 
@@ -325,19 +336,23 @@ query = "What are some latest research done on manifolds and graphs"
 rag_pipeline = RAG()
 prediction = rag_pipeline(query)
 
+print("LLM's answer:")
 print(prediction.answer)
+print("----------------")
+
+print("Contexts retrieved and inserted to LLM:")
+print(prediction.context)
 ```
 
 <Accordion title="Output (LLM answer)">
+
+LLM's answer:
+
 The recent research on manifolds and graphs includes the analysis of the behavior of graph Laplacians at points near or on the boundary of a manifold, the minimax rate of convergence for estimating a manifold given a noisy sample, and the development of multi-manifold learning algorithms such as M-Isomap and D-C Isomap.
 
-</Accordion>
+Contexts retrieved and inserted to LLM:
 
-```python Python
-print(prediction.context)
-```
-<Accordion title="Output (Context send to LLM)">
-```JSON
+```json
 [
     "In manifold learning, algorithms based on graph Laplacians constructed from\ndata have received considerable attention both in practical applications and\ntheoretical analysis. In particular, the convergence of graph Laplacians\nobtained from sampled data to certain continuous operators has become an active\nresearch topic recently. Most of the existing work has been done under the\nassumption that the data is sampled from a manifold without boundary or that\nthe functions of interests are evaluated at a point away from the boundary.\nHowever, the question of boundary behavior is of considerable practical and\ntheoretical interest. In this paper we provide an analysis of the behavior of\ngraph Laplacians at a point near or on the boundary, discuss their convergence\nrates and their implications and provide some numerical results. It turns out\nthat while points near the boundary occupy only a small part of the total\nvolume of a manifold, the behavior of graph Laplacian there has different\nscaling properties from its behavior elsewhere on the manifold, with global\neffects on the whole manifold, an observation with potentially important\nimplications for the general problem of learning on manifolds.\n",
 
@@ -352,11 +367,13 @@ You can even return more metadata like paper title, paper link (which would be n
 
 Congratulations, now you know how to make a basic RAG pipeline using PremAI, DSPy and Qdrant. 
 
-### Creating the streamlit web app `Optional`
+## Creating the streamlit web app `Optional`
 
 In this section we are going to show you how to create a simple streamlit app as shown above. You can find the [full code here](https://github.com/premAI-io/cookbook/arxiv-ml-qna).
 
+<Card icon="lightbulb">
 Although we are not doing full explaination of this code, since we are using a boiler plate code which was used in [Chat With PDF](/cookbook/chat-with-pdf.mdx), [Chat with SQL Tables](/cookbook/chat-with-sql.mdx). So you can refer those recipes to see an extended explaination of the streamlit boilerplate for doing chat.
+</Card>
 
 We initially start with writning a code to to get the overall pipeline. Here it is how that looks like:
 
@@ -450,8 +467,12 @@ def get_all_collections(client: QdrantClient):
 
 Now we build our streamlit side bar to select the collection from the available Qdrant Collections.
 
-<Accordion title="Streamlit side bar">
+<Accordion title="Streamlit boiler plat chat code">
 ```python Python
+import streamlit as st
+
+# ---- Sidebar ---- #
+
 with st.sidebar:
     all_collections = get_all_collections(client=qdrant_client)
     selected_collection = st.selectbox(label="Select your collection", options=all_collections)
@@ -471,14 +492,7 @@ if selected_collection is None:
 else:
     pipeline = setup_retriever_and_llm(collection_name=selected_collection)
     chat(pipeline=pipeline)
-```
-</Accordion>
 
-Finally we write our chat function. This chat function will use our RAG module to do the retrieval and augment the LLM generations with the contexts retrieved.
-
-<Accordion title="Chat function">
-```python
-import streamlit as st
 
 def chat(pipeline):
     if "messages" not in st.session_state:

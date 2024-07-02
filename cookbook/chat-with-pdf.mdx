@@ -1,19 +1,29 @@
 ---
 title: Chat with PDF
 ---
-Welcome to the Prem AI cookbook section. In this first example, we will step by step build a simple chat with a PDF application (~ 100 lines of code) using the [Prem AI SDK](/get-started/sdk.mdx) and [Streamlit](https://streamlit.io/). The best part is that you don't even need to understand complex mechanisms like RAG (Retrieval Augmented Generation) to make this app. So, without further ado, let's get started. You can find the [full code here](https://github.com/premAI-io/cookbook/chat-with-pdf).
+Welcome to the Prem AI cookbook section. In this recipe, we will step by step build a simple chat with a PDF application (~ 100 lines of code) using [Prem AI SDK](/get-started/sdk.mdx) and [Streamlit](https://streamlit.io/). The best part is that you don't need to understand complex mechanisms like RAG (Retrieval Augmented Generation) to make this app. So, without further ado, let's get started. You can find the [complete code here](https://github.com/premAI-io/cookbook/chat-with-pdf).
 
 <img
   src="/images/cookbook/chat with pdf.jpeg"
   alt="Playground"
 />
-## Setup
+
+## Objective
+
+This recipe aims to show developers and users how to get started with Prem's Generative AI Platform. The overall tutorial is going to be done in four simple steps:
+
+1. Setting up all the required packages. 
+2. Introducing Prem repositories and how to upload documents (like PDF) into repositories. 
+3. Writing a simple Streamlit chat function that will take user prompts, get the context from Prem repositories and then pass it to the LLM to provide us accurate results.
+
+After completing this tutorial, you will be familiar with Prem SDK and some of its terms. You can check out our other recipes, which cover more intermediate and advanced GenAI use cases. 
+
+## Setting up the project 
+Let's start by creating a virtual environment and installing Prem SDK and Streamlit.
 
 <Note>
-Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
-</Note>
-
-Let's start by creating a virtual environment and installing Prem SDK and Streamlit. 
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). As a last requirement, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories). 
+</Note> 
 
 ```bash
 python3 -m venv venv
@@ -21,7 +31,7 @@ source venv/bin/activate
 pip install -U streamlit premai
 ```
 
-Now create one folder name `.streamlit`. Inside that folder, create a file named `secrets.toml`. Inside `secrets.toml` add your `PREMAI_API_KEY` as shown here:
+Now, create one folder named `.streamlit`. Inside that folder, create a file called `secrets.toml`. Inside `secrets.toml` add your `PREMAI_API_KEY` as shown here:
 
 ```toml
 premai_api_key = "xxxx-xxxx-xxxx"
@@ -37,7 +47,7 @@ So now our folder structure looks something like this:
 ├── app.py
 ```
 
-Inside `app.py` we import some basic libraries along with `premai` and initialise some constants:
+Inside `app.py`, we import some basic libraries along with `premai` and initialise some constants:
 
 ```python
 import time 
@@ -53,20 +63,22 @@ prem_client = premai.Prem(api_key=premai_api_key)
 ```
 
 <Note>
-Both `premai_project_id` and `premai_repository_id` are dummy ids. So in your case please ensure you have a valid project_id and repository_id. You can know more about project_id [here](/get-started/projects.mdx) and repository_id [here](/get-started/repositories.mdx).
+Both `premai_project_id` and `premai_repository_id` are dummy ids. So, in your case, please ensure you have a valid project_id and repository_id. You can know more about project_id [here](/get-started/projects.mdx) and repository_id [here](/get-started/repositories.mdx).
 </Note>
 
 ## Uploading documents to Prem repositories
 
-The workflow is simple: we start by uploading some documents to a repository on-prem. Once uploaded, the repository will automatically index them using our internal state-of-the-art RAG technology
+RAG is a powerful technique that combines the strengths of retrieval-based systems and generative models to enable assistants to provide accurate and contextually relevant responses based on the content of your documents.
+
+With Prem Repositories, you can upload any kind of document (like .txt, .pdf, etc.), and we take care of the rest. Our recipe's workflow is simple: We start by uploading some documents to a repository on-prem. Once uploaded, the repository will automatically index them using our internal state-of-the-art RAG technology. You can learn more about [Prem repositories here](/get-started/repositories.mdx).
 
 Let's write some code that will do the following:
 
-1. First upload some PDF documents using streamlit `file_uploader`. 
-2. Save each files in a temporary diectory.
-3. Use prem-sdk to upload those temporarily saved files to Prem repositories.
+1. First, upload some PDF documents using streamlit `file_uploader`. 
+2. Save each file in a temporary directory.
+3. Use prem-SDK to upload those temporarily saved files to Prem repositories.
 
-First, let's write a helper function to save an uploaded document using streamlit. 
+First, write a helper function to save an uploaded document using streamlit. 
 
 ```python
 def temp_save_uploaded_file(uploadedfile):
@@ -120,7 +132,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 ```
 
-Now we will write our main function that will help us chat with the documents. We start off by defining our repositories. We will use these repositories to retrieve context from relevant documents and add it to our LLM
+Now, we will write our main function to help us chat with the documents. We start by defining our repositories. We will use these repositories to retrieve context from relevant documents and add it to our LLM.
 
 ```python
 repositories = dict(
@@ -132,11 +144,11 @@ repositories = dict(
 
 Let's define the workflow from here:
 
-1. We take the prompt from the user, display it using Streamlit, and add it to the Streamlit [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) object.
+1. We take the user's prompt, display it using Streamlit, and add it to the Streamlit [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) object.
 
-2. Next, start with our assistant block, where we first get our response from Prem SDK and then stream the response in Streamlit until the streaming is finished.
+2. Next, start with our assistant block, where we get our response from Prem SDK and then stream the response in Streamlit until the streaming is finished.
 
-3. Finally, we also show the retrieved chunks of documents used to generate the answer, so that it helps with some interpretability.
+3. Finally, we also show the chunks of documents retrieved to generate the answer, which helps with some interpretability.
  
 
 With our workflow defined, let's code it out. 
@@ -193,4 +205,4 @@ Congratulations you have created your first application using Prem AI. To run th
 ```bash
 streamlit run app.py
 ```
-You can checkout more tutorials in our cookbook as well as their full [source code](https://github.com/premAI-io/cookbook/). 
+You can check out more tutorials in our cookbook, as well as their full [source code](https://github.com/premAI-io/cookbook/). 
