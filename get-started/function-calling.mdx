@@ -1,0 +1,492 @@
+---
+icon: function
+title: Function Calling
+---
+
+To understand function calling, you should have an understanding of Prem SDK. If not, please [check that out first](/get-started/sdk.mdx).
+
+Function calling allows models to connect with external tools, which is a great way to give hallucination-free precise answers. Functions can be any user-defined function or API call, etc. Prem SDK supports function calling for only a few model providers. Here is the list of models that supports function calling:
+
+| Model Name             | Tier |
+|------------------------|------|
+| gpt-4o                 | High |
+| gpt-3.5-turbo          | High |
+| gpt-4-turbo            | High |
+| gpt-4                  | High |
+| mistral-small-latest   | High |
+| claude-3.5-sonnet      | High |
+| claude-3-haiku         | High |
+| claude-3-opus          | High |
+| claude-3-sonnet        | High |
+
+<Note>
+If you are not familiar with Tier, check out our [credits page](/get-started/credits.mdx).
+</Note>
+
+## Setup prem client 
+We first instantiate our prem client.
+<CodeGroup>
+```python Python
+import os 
+
+premai_api_key = os.environ.get("PREMAI_API_KEY")
+project_id = 1234
+client = Prem(api_key=premai_api_key)
+```
+</CodeGroup>
+
+<Card icon="lightbulb">
+Make sure you have an account at [**Prem AI Platform**](https://app.premai.io) and a valid [**project id and an API Key**](https://docs.premai.io/introduction). The `project_id` used here is a dummy id. 
+</Card>
+
+## Define functions 
+
+Let's start with defining some simple functions. In our example, we will define simple arithmetic functions like `addition` and `division`. At the end of this example, we will show you why you need to define simple arithmetic functions when dealing with something related to LLMs and crunching numbers. 
+
+<CodeGroup>
+```python Python
+def addition(a, b):
+    return a + b
+
+def division(a, b):
+    return a / b
+```
+</CodeGroup>
+
+## Testing LLMs without using external functions
+
+We first test an LLM's arithmetic capability without providing any external tool. This will help us understand the significance of using tools. 
+
+<CodeGroup>
+```python Python
+messages = [{
+    "role": "user",
+    "content": "What is 9297838399297827278289292 divided by 26181927361 plus 16238137181"
+}]
+
+model_name = "gpt-4o"
+response = client.chat.completions.create(
+    model=model_name,
+    messages=messages,
+    project_id=project_id
+)
+```
+</CodeGroup>
+
+
+We intentionally used such big numbers and here is what we got as result:
+
+<Accordion title="Output without using tools">
+To solve the expression \( \frac{9297838399297827278289292}{26181927361} + 16238137181 \):
+
+1. First, perform the division:
+\[ \frac{9297838399297827278289292}{26181927361} \approx 355172013094.0 \]
+
+2. Then, add the result to 16238137181:
+\[ 355172013094.0 + 16238137181 = 371410150275.0 \]
+
+So, the result is approximately \( 371410150275.0 \).
+</Accordion>
+
+The LLM answered as `371410150275.0`, but the answer was `355140529450725.56`. They do not match, and hence, we get an impression of the LLM hallucinating when the number gets too large. Let's do the same thing, but we will use function calling this time. 
+
+## Using function calls
+
+The whole point of using function/tool calls is that we do not want LLM to guess answers. Instead, we want it to get the information with the help of external tools and then use its expressive power to give a better and more complete answer. So, the objective becomes LLM's capability to understand the functions given to it and when to call what. 
+
+### Define the set of tools for the LLM. 
+
+We first define all the tools that the LLM needs to choose from that set of tools when given a user's query. 
+
+<CodeGroup>
+```python Python 
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "addition",
+            "description": "Adds two numbers",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "a": {
+                        "type": "integer",
+                        "description": "The first number"
+                    },
+                    "b": {
+                        "type": "integer",
+                        "description": "The second number"
+                    }
+                },
+                "required": ["a", "b"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "division",
+            "description": "Divides two numbers",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "a": {
+                        "type": "integer",
+                        "description": "The first number"
+                    },
+                    "b": {
+                        "type": "integer",
+                        "description": "The second number"
+                    }
+                },
+                "required": ["a", "b"]
+            }
+        }
+    },
+]
+```
+</CodeGroup>
+
+If you look carefully, each element in the above list is a dictionary, which has the type of the tool (which is a `function` here). Then, we define the properties of the function, like `name`, `description`, `parameters` (which are function arguments), their type (whether the parameter is an integer or a string or some object), and all the required parameters of the function. 
+
+### Feeding the tools to the LLM
+
+The overall tool calling of an LLM can be divided into two phases (which use two explicit LLM calls) as follows:
+
+1. In the first pass, we pass our query along with the tools (as shown above), and we get a JSON response back, which gives us the information about what functions the LLM calls sequentially. 
+
+2. In the second pass, we parse all the functions LLM needs to call, and we call it and get the results with the arguments that the LLM gave us and get our result. We gather the results to feed them into the LLM. 
+
+After this, we get our final result from the LLM, which will always be more precise and have fewer chances of hallucination than when a function call is not used.
+
+We start with our first pass, which is when we pass the tools to our LLM. 
+
+<CodeGroup>
+```python Python
+messages = [{
+    "role": "user",
+    "content": "What is 9297838399297827278289292 divided by 26181927361 plus 16238137181"
+}]
+
+response = client.chat.completions.create(
+    project_id=project_id,
+    model=model_name,
+    messages=messages,
+    tools=tools
+)
+
+print(response.to_dict())
+```
+</CodeGroup>
+
+Here is the result from the first pass.
+
+<Accordion title="Output">
+```JSON
+{
+    "id": "chatcmpl-9hEtHowNHx27a2CvPKZe8zZ5Hitq0",
+    "status_code": 200,
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "tool_calls": [
+                    {
+                        "id": "call_AujfDfmSAO4c4AFABl5X1bIC",
+                        "function": {
+                            "arguments": {
+                                "a": 9297838399297827278289292,
+                                "b": 26181927361
+                            },
+                            "name": "division"
+                        },
+                        "type": "function"
+                    },
+                    {
+                        "id": "call_PLMzMWveUnRsynBGidjEGRA9",
+                        "function": {
+                            "arguments": {
+                                "a": 26181927361,
+                                "b": 16238137181
+                            },
+                            "name": "addition"
+                        },
+                        "type": "function"
+                    }
+                ],
+                "role": "assistant",
+                "content": null
+            },
+            "finish_reason": "tool_calls"
+        }
+    ],
+    "created": 1720092371,
+    "model": "gpt-4o-2024-05-13",
+    "provider_name": "OpenAI",
+    "provider_id": "openai",
+    "usage": {
+        "prompt_tokens": 123,
+        "total_tokens": 192,
+        "completion_tokens": 69
+    },
+    "trace_id": "cc6d6a92-d6db-4b35-b61c-b47621c56677",
+    "document_chunks": []
+}
+```
+</Accordion>
+
+If you see, the LLM followed the [BODMAS](https://thirdspacelearning.com/blog/what-is-bodmas/#:~:text=The%20Bodmas%20rule%20follows%20the,in%20the%20order%20of%20BODMAS.) rule in math, where it called the `division` operation first and then `addition`. 
+
+Now we parse this output and then call the functions (as mentioned by the LLM) on by one and gather our results. 
+
+### Calling and gathering the functions response
+
+We first define a simple map between name of the function and the function object. 
+
+<CodeGroup>
+```python Python
+available_function = {
+    "addition": addition,
+    "division": division
+}
+```
+</CodeGroup>
+
+After this, we write a helper function that does the following:
+
+1. First, take all the intermediate results (sequence of tools called by the LLM, shown above) inside a text prompt and then append that prompt inside the `messages` list with the `role` of `assistant`.
+2. Parse each tool in `tool_calls` and then call the function, get the result, take all three values, and fit them into our prompt.
+3. Finally, append this prompt as the role `user` in our existing `messages` list.
+
+<CodeGroup>
+```python Python 
+from premai.models.chat_completion_response import ChatCompletionResponse
+
+intermediate_tool_result_template = """
+{json}
+"""
+
+single_tool_prompt_template = """
+tool id: {tool_id}
+function_name: {function_name}
+function_response: {function_response}
+"""
+
+def insert_tool_messages(
+        messages: list, 
+        response: ChatCompletionResponse, 
+        function_name_dict: dict
+):
+    full_toolcall_prompt_template = "Here are the functions that you called and the response from the functions"
+    response_dict = response.choices[0].message
+    assistant_template = intermediate_tool_result_template.format(
+        json=response_dict
+    )
+    messages.append({
+        "role":"assistant", "content": assistant_template
+    })
+
+    full_prompt = ""
+    for tool_call in response_dict["tool_calls"]:
+        function_name = tool_call["function"]["name"]
+        function_to_call = function_name_dict[function_name]
+        function_params = tool_call["function"]["arguments"]
+        function_response = function_to_call(**function_params)
+        full_prompt += single_tool_prompt_template.format(
+            tool_id=tool_call["id"],
+            function_name=function_name,
+            function_response=function_response
+        )
+    
+    full_toolcall_prompt_template += full_prompt
+    messages.append({"role":"user", "content": full_toolcall_prompt_template})
+    return messages
+```
+</CodeGroup>
+
+Let's use this function to get our updated `messages` that we can use it in our second pass. 
+
+<CodeGroup>
+```python Python 
+available_function = {
+    "addition": addition,
+    "division": division
+}
+
+messages = insert_tool_messages(
+    messages=messages,
+    response=response,
+    function_name_dict=available_function
+)
+
+# Let's print the messages to see what we got
+
+for message in messages:
+    print("Role: ", message["role"])
+    print("Content: ", message["content"])
+    print()
+```
+</CodeGroup>
+ 
+Here is what our meessages look like, before we pass it to our LLM in the second time:
+
+<Accordion title="Output">
+```mdx
+Role:  user
+Content:  What is 9297838399297827278289292 divided by 26181927361 plus 16238137181
+
+Role:  assistant
+Content:  
+Message(role=<MessageRoleEnum.ASSISTANT: 'assistant'>, content=None, template_id=<premai.types.Unset object at 0x7e75953a9ed0>, params=<premai.types.Unset object at 0x7e75953a9ed0>, additional_properties={'tool_calls': [{'id': 'call_XBOKz4ZUQwRoS5HbfEI67rvu', 'function': {'arguments': {'a': 9297838399297827278289292, 'b': 26181927361}, 'name': 'division'}, 'type': 'function'}, {'id': 'call_HYUjruLFv8pSd1BvnILAVnr8', 'function': {'arguments': {'a': 0, 'b': 16238137181}, 'name': 'addition'}, 'type': 'function'}]})
+
+
+Role:  user
+Content:  Here is the function that you called and the response from the function
+tool id: call_XBOKz4ZUQwRoS5HbfEI67rvu
+function_name: division
+function_response: 355124291313544.56
+
+tool id: call_HYUjruLFv8pSd1BvnILAVnr8
+function_name: addition
+function_response: 16238137181
+```
+</Accordion>
+
+
+Now, we pass this to our LLM:
+
+<CodeGroup>
+```python Python 
+response = client.chat.completions.create(
+    project_id=project_id,
+    model=model_name,
+    messages=messages
+)
+
+print(response.choices[0].message.content)
+```
+</CodeGroup>
+
+And here is our final result:
+
+<Accordion title="Output">
+The result of dividing 9297838399297827278289292 by 26181927361 is approximately 355124291313544.56. Adding 16238137181 to this result gives:
+
+\[ 355124291313544.56 + 16238137181 = 355140529450725.56 \]
+
+So, the final result is approximately 355140529450725.56.
+</Accordion>
+
+And this time, our LLM gives the correct answer which is: `355140529450725.56`
+
+## Summary
+
+So that is how you do function calling using Prem. You can re-use this helper function: `insert_tool_messages` so that your toolcalling workflow becomes easier. Here is your final code:
+
+<Accordion title="Final Code">
+<CodeGroup>
+```python Python
+import os
+import json
+from premai import Prem 
+from dotenv import load_dotenv
+
+premai_api_key = os.environ.get("PREMAI_API_KEY")
+project_id = 1234
+model_name = "mistral-small-latest"
+
+client = Prem(api_key=premai_api_key)
+
+# Define your functions here
+
+def addition(a, b):
+    return a + b
+
+
+def division(a, b):
+    return a / b
+
+# Define tools here
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "addition",
+            "description": "Adds two numbers",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "a": {
+                        "type": "integer",
+                        "description": "The first number"
+                    },
+                    "b": {
+                        "type": "integer",
+                        "description": "The second number"
+                    }
+                },
+                "required": ["a", "b"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "division",
+            "description": "Divides two numbers",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "a": {
+                        "type": "integer",
+                        "description": "The first number"
+                    },
+                    "b": {
+                        "type": "integer",
+                        "description": "The second number"
+                    }
+                },
+                "required": ["a", "b"]
+            }
+        }
+    },
+]
+
+# First pass 
+messages = [{
+    "role": "user",
+    "content": "What is 9297838399297827278289292 divided by 26181927361 plus 16238137181"
+}]
+
+response = client.chat.completions.create(
+    project_id=project_id,
+    model=model_name,
+    messages=messages,
+    tools=tools
+)
+
+# Second pass 
+available_function = {
+    "addition": addition,
+    "division": division
+}
+
+messages = insert_tool_messages(
+    messages=messages,
+    response=response,
+    function_name_dict=available_function
+)
+
+response = client.chat.completions.create(
+    project_id=project_id,
+    model=model_name,
+    messages=messages
+)
+
+print(response.choices[0].message.content)
+```
+</CodeGroup>
+</Accordion>
+
+Congratulations on completion of tool calling. Now you can replace this function/tools with the function/tools of your choice. 

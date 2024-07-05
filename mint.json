@@ -65,6 +65,7 @@
         "get-started/launchpad",
         "get-started/gym",
         "get-started/sdk",
+        "get-started/function-calling",
         "get-started/autopilot",
         "get-started/chat-completion-sse",
         "get-started/prem-templates",
