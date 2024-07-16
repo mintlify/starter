@@ -294,8 +294,52 @@
           }
         }
       }
+    },
+    "/trace/{id}/share": {
+      "post": {
+        "description": "Returns a public path for a trace",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of trace to share",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public path created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "Annotation": {

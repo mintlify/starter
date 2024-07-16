@@ -124,6 +124,13 @@
             "api-reference/annotations/get-all-annotations-trace",
             "api-reference/annotations/create-annotation-trace"
           ]
+        },
+        {
+          "group": "Traces",
+          "pages": [
+            "api-reference/traces/overview",
+            "api-reference/traces/create-public-trace-path"
+          ]
         }
       ]
     },
