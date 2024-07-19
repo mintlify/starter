@@ -295,6 +295,49 @@
         }
       }
     },
+    "/trace/{id}": {
+      "get": {
+        "description": "Returns single trace details based on the ID supplied",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of trace to share",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trace details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/trace/{id}/share": {
       "post": {
         "description": "Returns a public path for a trace",
@@ -339,7 +382,6 @@
       }
     }
   },
-
   "components": {
     "schemas": {
       "Annotation": {
