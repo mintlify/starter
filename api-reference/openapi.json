@@ -1,16 +1,12 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
     "title": "LangWatch API",
-    "description": "The LangWatch API is a RESTful API that allows you to interact with LangWatch programmatically.",
-    "license": {
-      "name": "MIT"
-    },
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://app.langwatch.ai/api"
+      "url": "https://app.langwatch.ai"
     }
   ],
   "security": [
