@@ -123,6 +123,30 @@ That's enough to have your LiteLLM calls collected and visible on LangWatch dash
 
 ![LiteLLM Spans](/images/integration/litellm.png)
 </Tab>
+<Tab title="DSPy">
+[DSPy](https://github.com/stanfordnlp/dspy) is the LLM framework that automatically optimizes prompts, you can use LangWatch both for [visualizing](/dspy-visualization/quickstart) the
+optimization process, and for tracking the calls during inference as this guide shows.
+
+To track DSPy programs, you can use the `autotrack_dspy()` function to automatically capture DSPy modules forward pass, retrievers and LLM calls for the current trace.
+
+```python
+import langwatch
+import dspy
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().autotrack_dspy()
+
+    program = MyDspyProgram()
+    response = program(
+        ...
+    )
+```
+
+That's enough to have your DSPy traces collected and visible on LangWatch dashboard:
+
+![DSPy Spans](/images/integration/dspy.png)
+</Tab>
 <Tab title="LangChain">
 For LangChain, you can automatically capture every step of your chain as a span by getting a LangChain callback for the current trace with `get_langchain_callback()`.
 
