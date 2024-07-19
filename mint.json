@@ -114,6 +114,14 @@
       "group": "API Endpoints",
       "pages": [
         {
+          "group": "Traces",
+          "pages": [
+            "api-reference/traces/overview",
+            "api-reference/traces/get-trace-details",
+            "api-reference/traces/create-public-trace-path"
+          ]
+        },
+        {
           "group": "Annotations",
           "pages": [
             "api-reference/annotations/overview",
@@ -123,13 +131,6 @@
             "api-reference/annotations/patch-annotation",
             "api-reference/annotations/get-all-annotations-trace",
             "api-reference/annotations/create-annotation-trace"
-          ]
-        },
-        {
-          "group": "Traces",
-          "pages": [
-            "api-reference/traces/overview",
-            "api-reference/traces/create-public-trace-path"
           ]
         }
       ]
@@ -174,7 +175,7 @@
         "langevals/api-reference/endpoint/ragas-context-relevancy",
         "langevals/api-reference/endpoint/ragas-context-utilization",
         "langevals/api-reference/endpoint/ragas-faithfulness",
-         "langevals/api-reference/endpoint/haystack-faithfulness",
+        "langevals/api-reference/endpoint/haystack-faithfulness",
         "langevals/api-reference/endpoint/llm-boolean-evaluator",
         "langevals/api-reference/endpoint/llm-score-evaluator",
         "langevals/api-reference/endpoint/llm-basic-evaluator",
