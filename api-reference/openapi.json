@@ -19,7 +19,7 @@
     }
   ],
   "paths": {
-    "/annotations": {
+    "/api/annotations": {
       "get": {
         "description": "Returns all annotations for project",
         "responses": {
@@ -49,7 +49,7 @@
         }
       }
     },
-    "/annotations/trace/{id}": {
+    "/api/annotations/trace/{id}": {
       "get": {
         "description": "Returns all annotations for single trace",
         "parameters": [
@@ -148,7 +148,7 @@
         }
       }
     },
-    "/annotations/{id}": {
+    "/api/annotations/{id}": {
       "get": {
         "description": "Returns a single annotation based on the ID supplied",
         "parameters": [
@@ -295,7 +295,7 @@
         }
       }
     },
-    "/trace/{id}": {
+    "/api/trace/{id}": {
       "get": {
         "description": "Returns single trace details based on the ID supplied",
         "parameters": [
@@ -685,7 +685,7 @@
         }
       }
     },
-    "/trace/{id}/share": {
+    "/api/trace/{id}/share": {
       "post": {
         "description": "Returns a public path for a trace",
         "parameters": [
