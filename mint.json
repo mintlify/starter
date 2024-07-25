@@ -64,6 +64,7 @@
           "group": "TypeScript",
           "pages": ["integration/typescript/guide"]
         },
+        "integration/langflow",
         "integration/flowise",
         "integration/rest-api",
         "concepts"

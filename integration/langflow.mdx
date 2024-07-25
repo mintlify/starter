@@ -1,0 +1,35 @@
+---
+title: Langflow Integration
+---
+
+[Langflow](https://www.langflow.org/) is a low-code tool for building LLM pipelines. If you are using Langflow, you can easily enable LangWatch from their UI for analytics, evaluations and much more.
+
+<Steps>
+<Step title="Obtain your API Key">
+[Create your LangWatch account](https://app.langwatch.com/) and project to obtain your API Key from the dashboard
+</Step>
+<Step title="Environment Variables">
+Add the following key to Langflow .env file:
+```bash
+LANGWATCH_API_KEY="your-api-key"
+```
+Or export in in your terminal:
+```bash
+export LANGWATCH_API_KEY="your-api-key"
+```
+</Step>
+<Step title="Restart Langflow">
+Restart Langflow using `langflow run --env-file .env`
+</Step>
+<Step title="Test the integration">
+Run a message through your Langflow project and check the LangWatch dashboard for monitoring and observability.
+
+![Langflow project](/images/integration/langflow/langflow-1.png)
+
+That's it! You should now see your Langflow component traces on the LangWatch dashboard.
+
+![LangWatch results](/images/integration/langflow/langflow-2.png)
+</Step>
+</Steps>
+
+For more information, check out [Langflow docs](https://docs.langflow.org/).
