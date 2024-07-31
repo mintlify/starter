@@ -4,7 +4,9 @@ title: "How to Choose Your Evaluator Guide"
 On this page, you can find an elaborate explanation on how to choose the right evaluator depending on the issue that you want to mitigate. Try answering the questions in the proposed order, and you will be able to find yourself with interesting conclusions.
 
 ## RAG Quality
-<img className="block" src="images/how-to-choose-ragas.png" alt="How to choose RAGAS evaluator" />
+<img className="block" src="./images/how-to-choose-ragas.png" alt="How to choose RAGAS evaluator" />
+
+![How to choose RAGAS evaluator](/images/how-to-choose-ragas.png)
 Assuming that you have an unsatisfying response by an LLM, you can follow this schema for finding a weak spot in your system. With proper LangWatch integration into your software, you can keep track of both retrieved contexts and the generated responses. Those pieces are crucial for evaluating your RAG system.
 
 The first thing to check is if the generated answer is faithful to the retrieved contexts. If not, your way to go is a **Faithfulness** evaluator that will fail on every generated answer that is not true to the contexts. This is an important evaluator because it shows if your RAG actually works, and if your LLM is actually using the retrieved context to produce the answer. If this evaluation is failing, it can signalize a bug where the contexts are not being properly used while generating the response.
@@ -18,7 +20,7 @@ At the same time, if there are no better contexts available, we need to check if
 Finally, if you are sure that the amount of retrieved context is fine but the hallucination still persists, maybe you have to ask yourself if a real human was able to respond correctly to your question. At this point you either need to switch the model and improve your prompt or spend more time building a better knowledge base.
 
 ## Security
-<img className="block" src="images/how-to-choose-safeguards.jpg" alt="How to choose safeguards" />
+<img className="block" src="./images/how-to-choose-safeguards.jpg" alt="How to choose safeguards" />
 In case you have no security measures on your chatbot taken, start from the top. 
 The first important security check to implement is the PII evaluation. 
 If you do not want to share any personal data of your users with any third parties, you can use the PII Detection evaluator. 
@@ -59,7 +61,7 @@ Assume that your chatbot is not safeguarded! Follow the steps below to determine
 
 
 ## Enterprise Readiness
-<img className="block" src="images/how-to-choose-enterprise.jpg" alt="How to choose enterprise readiness" />
+<img className="block" src="./images/how-to-choose-enterprise.jpg" alt="How to choose enterprise readiness" />
 Many businesses try to meet their goals with the help of chatbots. However, there are many aspects that should be taken care of to make sure these goals can be reached in a coordinated way.
 
 ### Guide to Ensuring Your Chatbot is Enterprise Ready
