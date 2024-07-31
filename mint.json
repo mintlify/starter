@@ -144,6 +144,7 @@
         "langevals/documentation/evaluators",
         "langevals/documentation/unit-tests",
         "langevals/documentation/API-example",
+        "langevals/how-to-choose-your-evaluator",
         {
           "group": "Modular Architecture",
           "pages": ["langevals/documentation/modular-architecture/contributing"]
