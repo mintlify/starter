@@ -723,6 +723,49 @@
           }
         }
       }
+    },
+    "/api/trace/{id}/unshare": {
+      "post": {
+        "description": "Deletes a public path for a trace",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of trace to unshare",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public path deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

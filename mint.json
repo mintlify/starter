@@ -119,7 +119,8 @@
           "pages": [
             "api-reference/traces/overview",
             "api-reference/traces/get-trace-details",
-            "api-reference/traces/create-public-trace-path"
+            "api-reference/traces/create-public-trace-path",
+            "api-reference/traces/delete-public-trace-path"
           ]
         },
         {
