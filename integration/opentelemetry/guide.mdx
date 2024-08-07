@@ -71,6 +71,48 @@ Currently, there are different open initiatives for LLM instrumentation librarie
 
         <OpenInferenceMetadata />
       </Tab>
+      <Tab title="DSPy">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-dspy
+        ```
+
+        Then, instrument your DSPy calls:
+
+        ```python
+        from openinference.instrumentation.dspy import DSPyInstrumentor
+
+        DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your DSPy calls in the LangWatch dashboard:
+
+        ![OpenInference DSPy Spans](/images/integration/opentelemetry/openinference-dspy.png)
+
+        <OpenInferenceMetadata />
+      </Tab>
+      <Tab title="Haystack">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-haystack
+        ```
+
+        Then, instrument your Haystack calls:
+
+        ```python
+        from openinference.instrumentation.haystack import HaystackInstrumentor
+
+        HaystackInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your Haystack calls in the LangWatch dashboard:
+
+        ![OpenInference Haystack Spans](/images/integration/opentelemetry/openinference-haystack.png)
+
+        <OpenInferenceMetadata />
+      </Tab>
       <Tab title="LangChain">
         Installation:
 
@@ -89,6 +131,27 @@ Currently, there are different open initiatives for LLM instrumentation librarie
         That's it! You can now see the traces for your LangChain calls in the LangWatch dashboard:
 
         ![OpenInference LangChain Spans](/images/integration/opentelemetry/openinference-langchain.png)
+
+        <OpenInferenceMetadata />
+      </Tab>
+      <Tab title="CrewAI">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-crewai openinference-instrumentation-langchain
+        ```
+
+        Then, instrument your LangChain calls. CrewAI uses LangChain under the hood, so we instrument both:
+
+        ```python
+        from openinference.instrumentation.crewai import CrewAIInstrumentor
+        from openinference.instrumentation.langchain import LangChainInstrumentor
+
+        CrewAIInstrumentor().instrument(tracer_provider=trace_provider)
+        LangChainInstrumentor().instrument(tracer_provider=trace_provider)
+        ```
+
+        That's it! You can now see the traces for your CrewAI calls in the LangWatch dashboard.
 
         <OpenInferenceMetadata />
       </Tab>
@@ -116,6 +179,25 @@ Currently, there are different open initiatives for LLM instrumentation librarie
 
         ![OpenLLMetry OpenAI Spans](/images/integration/opentelemetry/openllmetry-openai.png)
       </Tab>
+      <Tab title="Anthropic">
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-anthropic
+        ```
+
+        Then, instrument your Anthropic calls:
+
+        ```python
+        from opentelemetry.instrumentation.anthropic import AnthropicInstrumentor
+
+        AnthropicInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your Anthropic calls in the LangWatch dashboard:
+
+        ![OpenLLMetry Anthropic Spans](/images/integration/opentelemetry/openllmetry-anthropic.png)
+      </Tab>
       <Tab title="LangChain">
         Installation:
 
@@ -134,6 +216,23 @@ Currently, there are different open initiatives for LLM instrumentation librarie
         That's it! You can now see the traces for your LangChain calls in the LangWatch dashboard:
 
         ![OpenLLMetry LangChain Spans](/images/integration/opentelemetry/openllmetry-langchain.png)
+      </Tab>
+      <Tab title="LlamaIndex">
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-llamaindex
+        ```
+
+        Then, instrument your LlamaIndex calls:
+
+        ```python
+        from opentelemetry.instrumentation.llamaindex import LlamaIndexInstrumentor
+
+        LlamaIndexInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your LlamaIndex calls in the LangWatch dashboard.
       </Tab>
     </Tabs>
   </Tab>
