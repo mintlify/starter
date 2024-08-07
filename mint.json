@@ -64,6 +64,10 @@
           "group": "TypeScript",
           "pages": ["integration/typescript/guide"]
         },
+        {
+          "group": "OpenTelemetry",
+          "pages": ["integration/opentelemetry/guide"]
+        },
         "integration/langflow",
         "integration/flowise",
         "integration/rest-api",

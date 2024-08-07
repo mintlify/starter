@@ -1,0 +1,141 @@
+---
+title: OpenTelemetry Integration Guide
+sidebarTitle: Guide
+---
+
+import OpenInferenceMetadata from "/snippets/openinference-metadata.mdx";
+
+OpenTelemetry is a standard protocol for tracing, and LangWatch is fully compatible with OpenTelemetry, you can use any OpenTelemetry compatible library to capture your LLM traces and send them to LangWatch.
+
+This guide demonstrates the OpenTelemetry integration using Python, but the same principles apply to integration with OpenTelemetry instrumentation in other languages.
+
+#### Prerequisites
+
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+
+#### Installation
+
+```bash
+pip install opentelemetry
+```
+
+#### Configuration
+
+Set up LangWatch as the OpenTelemetry exporter endpoint:
+
+```python
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+
+# Set up OpenTelemetry trace provider with LangWatch as the endpoint
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(
+    SimpleSpanProcessor(
+        OTLPSpanExporter(
+            endpoint="https://app.langwatch.ai/api/otel/v1/traces",
+            headers={"Authorization": "Bearer " + os.environ["LANGWATCH_API_KEY"]},
+        )
+    )
+)
+# Optionally, you can also print the spans to the console.
+tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+```
+
+## Capturing LLM Traces
+
+Currently, there are different open initiatives for LLM instrumentation libraries, here we show some examples on how to capture LLM traces with a couple of them.
+
+<Tabs>
+  <Tab title="OpenInference (Python)">
+    <Tabs>
+      <Tab title="OpenAI">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-openai
+        ```
+
+        Then, instrument your OpenAI calls:
+
+        ```python
+        from openinference.instrumentation.openai import OpenAIInstrumentor
+
+        OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your OpenAI calls in the LangWatch dashboard:
+
+        ![OpenInference OpenAI Spans](/images/integration/opentelemetry/openinference-openai.png)
+
+        <OpenInferenceMetadata />
+      </Tab>
+      <Tab title="LangChain">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-langchain
+        ```
+
+        Then, instrument your LangChain calls:
+
+        ```python
+        from openinference.instrumentation.langchain import LangChainInstrumentor
+
+        LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your LangChain calls in the LangWatch dashboard:
+
+        ![OpenInference LangChain Spans](/images/integration/opentelemetry/openinference-langchain.png)
+
+        <OpenInferenceMetadata />
+      </Tab>
+    </Tabs>
+  </Tab>
+
+  <Tab title="OpenLLMetry (Python)">
+    <Tabs>
+      <Tab title="OpenAI">
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-openai
+        ```
+
+        Then, instrument your OpenAI calls:
+
+        ```python
+        from opentelemetry.instrumentation.openai import OpenAIInstrumentor
+
+        OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your OpenAI calls in the LangWatch dashboard:
+
+        ![OpenLLMetry OpenAI Spans](/images/integration/opentelemetry/openllmetry-openai.png)
+      </Tab>
+      <Tab title="LangChain">
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-langchain
+        ```
+
+        Then, instrument your LangChain calls:
+
+        ```python
+        from opentelemetry.instrumentation.langchain import LangchainInstrumentor
+
+        LangchainInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your LangChain calls in the LangWatch dashboard:
+
+        ![OpenLLMetry LangChain Spans](/images/integration/opentelemetry/openllmetry-langchain.png)
+      </Tab>
+    </Tabs>
+  </Tab>
+</Tabs>
+
