@@ -191,7 +191,7 @@ import langwatch
 
 @langwatch.trace()
 def main():
-    langwatch.get_current_trace().update(labels="production")
+    langwatch.get_current_trace().update(metadata={"labels": ["production"]})
     ...
 ```
 
