@@ -259,6 +259,15 @@ def llm_call():
 
 Check out the [reference](./reference#span) to see all the available span properties.
 
+## Capturing custom evaluation results
+
+[LangWatch Evaluators](/evaluations/overview) can run automatically on your traces, but if you have an in-house custom evaluator, you can also capture the evaluation
+results of your custom evaluator on the current trace by using the `.add_evaluation` method:
+
+import PythonCustomEvaluation from "/snippets/python-custom-evaluation.mdx"
+
+<PythonCustomEvaluation />
+
 ## Synchronizing your message IDs with LangWatch traces
 
 If you store the messages in a database on your side as well, you set the `trace_id` of the current trace to the same one of the message on your side, this way your system will be in sync with LangWatch traces, making it easier to investigate later on.
