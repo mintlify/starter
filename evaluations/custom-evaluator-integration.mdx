@@ -1,0 +1,40 @@
+---
+title: Custom Evaluator Integration
+---
+
+If you have a custom evaluator built in-house which run on your own code, either during the LLM pipeline or after, you can still capture the evaluation results
+and connect it back to the trace to visualize it together with the other LangWatch evaluators.
+
+## REST API Specification
+
+### Endpoint
+
+`POST /api/collector`
+
+### Headers
+
+- `X-Auth-Token`: Your LangWatch API key.
+
+### Request Body
+
+```javascript
+{
+  "trace_id": "id of the message the evaluation was run on",
+  "evaluations": [{
+    "evaluation_id": "evaluation-id-123", // optional unique id for identifying the evaluation, if not provided, a random id will be generated
+    "name": "custom evaluation", // required
+    "passed": true, // optional
+    "score": 0.5, // optional
+    "label": "category_detected", // optional
+    "details": "explanation of the evaluation results", // optional
+    "error": { // optional to capture error details in case evaluation had an error
+      "message": "error message",
+      "stacktrace": [],
+    },
+    "timestamps": { // optional
+      "created_at": "1723411698506", // unix timestamp in milliseconds
+      "updated_at": "1723411698506" // unix timestamp in milliseconds
+    }
+  }]
+}
+```

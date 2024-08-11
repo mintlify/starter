@@ -607,11 +607,11 @@
                             "type": "string",
                             "example": "check_VCagriZHNWICSOM09dXjM"
                           },
-                          "evaluation_name": {
+                          "name": {
                             "type": "string",
                             "example": "Ragas Answer Relevancy"
                           },
-                          "evaluation_type": {
+                          "type": {
                             "type": "string",
                             "example": "ragas/answer_relevancy"
                           },

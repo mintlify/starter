@@ -71,12 +71,13 @@
         "integration/langflow",
         "integration/flowise",
         "integration/rest-api",
+        "integration/rags-context-tracking",
         "concepts"
       ]
     },
     {
-      "group": "RAGs",
-      "pages": ["rags/overview", "rags/rags-context-tracking"]
+      "group": "Evaluations",
+      "pages": ["evaluations/overview", "evaluations/custom-evaluator-integration"]
     },
     {
       "group": "Guardrails",
