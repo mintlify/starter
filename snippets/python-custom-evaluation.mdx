@@ -1,0 +1,15 @@
+```python
+import langwatch
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().add_evaluation(
+        name="custom evaluation", # required
+        passed=True,
+        score=0.5,
+        label="category_detected",
+        details="explanation of the evaluation results",
+    )
+```
+
+The evaluation `name` is required and must be a string. The other fields are optional, but at least one of `passed`, `score` or `label` must be provided.

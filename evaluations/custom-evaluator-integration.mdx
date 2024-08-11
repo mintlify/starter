@@ -5,6 +5,18 @@ title: Custom Evaluator Integration
 If you have a custom evaluator built in-house which run on your own code, either during the LLM pipeline or after, you can still capture the evaluation results
 and connect it back to the trace to visualize it together with the other LangWatch evaluators.
 
+import PythonCustomEvaluation from "/snippets/python-custom-evaluation.mdx"
+
+<Tabs>
+<Tab title="Python">
+
+You can capture the evaluation results of your custom evaluator on the current trace by using the `.add_evaluation` method:
+
+<PythonCustomEvaluation />
+
+</Tab>
+<Tab title="REST API">
+
 ## REST API Specification
 
 ### Endpoint
@@ -38,3 +50,5 @@ and connect it back to the trace to visualize it together with the other LangWat
   }]
 }
 ```
+</Tab>
+</Tabs>
