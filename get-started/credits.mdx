@@ -3,20 +3,19 @@ icon: coins
 ---
  <Card title = "How credits work:" icon="coins" iconType="duotone" color="#ca8b04">**Prem** credits provide a convenient way to pay for API usage and allow you to scale your consumption based on your needs. By managing your credits effectively, you can build and deploy your models created with **Prem** while controlling your costs.</Card>
 
- 
-## Free Plan:
+## Credit calculation
 
-Get started with Prem for free! Experience core features without any commitment.
+Our calculations are based on per 1M token usage. This token usage is based on the model tier you are using. 
+You can check out [all the available models and it's tiers here](/get-started/supported-models.mdx).
 
-**$0/300 Credits monthly**
+In summary here is how we do our calculations:
 
-**Equivalent to:**
+- `Low tier:` $ 0.54 per 1 million tokens for the low tier Prem models.
+- `Medium Tier:` $ 9.25 per 1 million tokens for the medium tier Prem models.
+- `High Tier:` $ 67.5 per 1 million tokens for the high tier Prem models.
 
-- **500 Requests** from **Low Tier** Models 
-- **50 Requests** from **Medium Tier** Models
-<Warning>
-High Tier Models are not available in **Free Plan**
-</Warning> 
+The prices are subject to change and are provided here for reference purposes only.
+
 
 <Note>
 Update (August 1st 2024): We are updating our pricing terms. Please see the details below. Previously our
@@ -25,27 +24,17 @@ usage. So for existing users, it might look like, we have lowered the credits bu
 more tokens. 
 </Note>
 
-## Pro Plan: 
+ 
+| Plan            | Cost             | Credits per Month            |
+|-----------------|------------------|------------------------------|
+| Free Plan       | $0               | 300 Credits                  |
+| Pro Plan        | $20              | 1,000 Credits (Previously: 2,000 credits) |
+| Business Plan   | $200             | 10,000 Credits (Previously: 20,000 credits) |
 
-**$20/1,000 Credits monthly** (Previously: 2,000 credits)
 
-**Equivalent to:**
-
-- **2,000 Requests** from **Low Tier** Models
-- **200 Requests** from **Medium Tier** Models  
-- **20 Requests** from **High Tier** Models
-
-## Business Plan: 
-
-**$200/10,000 Credits monthly** (Previously: 2,0000 credits)
-
-**Equivalent to:**
-
-- **20,000** Requests from **Low Tier** Models
-- **2,000** Requests from **Medium Tier** Models 
-- **200** Requests from **High Tier** Models
-
-<Note>For usage above billing plan credits, we will be releasing a custom-based pricing model before the end of the month.</Note>
+<Warning>
+High Tier Models are not available in **Free Plan**
+</Warning> 
 
 ## Enterprise plan:
 
