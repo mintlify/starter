@@ -1168,8 +1168,13 @@ components:
           example: Full-time
         status:
           type: string
-          description: The status of the employment
-          example: Active
+          description: >
+            The status of the employment. Status `active` will be used when the user is employed in the company, 
+            alternatively `inactive` will be used when the user is not employed in the company anymore.
+          enum:
+            - active
+            - inactive
+          example: active
         start_date:
           "$ref": "#/components/schemas/Date"
         leave_date:
