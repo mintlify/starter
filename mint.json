@@ -72,12 +72,16 @@
         "integration/flowise",
         "integration/rest-api",
         "integration/rags-context-tracking",
-        "concepts"
+        "concepts",
+        "integration/cookbooks"
       ]
     },
     {
       "group": "Evaluations",
-      "pages": ["evaluations/overview", "evaluations/custom-evaluator-integration"]
+      "pages": [
+        "evaluations/overview",
+        "evaluations/custom-evaluator-integration"
+      ]
     },
     {
       "group": "Guardrails",
