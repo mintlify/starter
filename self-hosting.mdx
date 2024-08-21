@@ -2,177 +2,48 @@
 title: Self-Hosting
 ---
 
-LangWatch is open-source and can be run locally or self-hosted using docker.
+LangWatch offers a fully self-hosted version of the platform for companies that require strict data control and compliance.
 
-{/* 1. Copy the `langwatch/.env.example` file to `langwatch/.env`
+<img src="/images/onprem-logo.png" alt="LangWatch On Prem" width="400px" style={{marginTop: "50px"}} />
 
-2. Run `docker compose up --build` and open LangWatch at http://localhost:3000 */}
+## Enterprise OnPrem Solution
 
+For organizations that require the data to never leave their own infrastructure, we offer a managed on-premise service.
 
-## Quickstart
+By providing our team temporary access to an isolated area of your infrastructure, we can install LangWatch on your premises to get you up and running in no time.
 
-You can have LangWatch fully running locally with 3 easy steps.
+<img src="/images/onprem-clouds.png" alt="On Prem Clouds" width="200px" />
 
-<Steps>
-<Step title="Clone the repository">
-First, clone LangWatch repository:
+### Key Features
 
-```bash
-git clone https://github.com/langwatch/langwatch.git
-```
-</Step>
-<Step title="Create the .env file">
-Copy `langwatch/.env.example` to `langwatch/.env`, you can customize it later on.
-</Step>
-<Step title="Run the application">
-```bash
-docker compose up --build
-```
+- Self-hosted on your AWS, Google Cloud, or Azure instances
+- Full control over your data
+- Feature parity with the SaaS version
+- Scalable to enterprise needs
+- Hosted in preferred region (e.g. eu-central-1 for GDPR compliance)
+- Installation and maintenance service
+- Dedicated support agent to help you optimize your deployment
+- Purchase and billing option through AWS Marketplace to facilitate procurement
 
-Open LangWatch at http://localhost:3000
-</Step>
-</Steps>
+### Setup
 
-## Pointing to your instance
+Please schedule a free consultation with our team to get started on the On-Prem setup:
 
-Now that your have your own instance of LangWatch running, in order to send the messages to it,
-you need to set your LangWatch endpoint on your LLM application:
+<div style={{fontSize: "18px", marginBottom: "56px"}}>
+[Schedule a Call](https://get.langwatch.ai/request-a-demo)
+</div>
 
-<Tabs>
-<Tab title="Python">
-```python
-import langwatch
+## Local Testing Environment
 
-langwatch.endpoint = "http://localhost:3000"
-```
-</Tab>
-<Tab title="TypeScript">
-```typescript
-import { LangWatch } from 'langwatch'
+For testing purposes, we provide a docker-compose setup for a local testing environment that can be installed on your local machine. This allows you to test LangWatch for sensitive data without having to install it on your production environment.
 
-const langwatch = new LangWatch({
-  endpoint: "http://localhost:3000"
-})
-```
-</Tab>
-<Tab title="Environment Variable">
-```bash
-LANGWATCH_ENDPOINT="http://localhost:3000"
-```
-</Tab>
-</Tabs>
+**Note:** This setup is not scalable for production workloads. For production deployments, please consider our [Cloud](https://app.langwatch.ai) or [Enterprise On-Premises solution](#enterprise-on-premises-solution).
 
-Check out the [integration guides](/integration/overview) for more information on integration.
+### Setup
 
-## Architecture
+At this moment, we are looking for feedback from our users on the docker-compose setup and understanding your use case.
+Please schedule a call with our team to get a docker-compose setup for your local machine:
 
-To understand how all the different pieces of the LangWatch platform connect together, here is an outline of the architecture:
-
-![LangWatch Architecture](./images/langwatch-architecture.png)
-
-In short, the main LangWatch application is the one talking to the databases and the two other python services: LangEvals and
-LangWatch NLP. Those services can make calls to LLMs and other APIs.
-
-When you start up docker compose for running LangWatch, all those six components are started. When hosting in your own
-infrastructure, be sure to have each of them running and properly connected before setting the correct env vars and starting
-the main application.
-
-Here is a brief explaination of each one:
-
-#### LangWatch
-
-LangWatch is the main application, it's a NextJS application that servers both the frontend and backend of the platform.
-
-When building for production, you can use the `Dockerfile.prod` file at the root of the repository to build the docker image.
-
-#### Postgres
-
-Postgres is the primary database, used for example for storing user, projects, saved datasets and settings. Since this is not where
-most of the heavy work is, any Postgres or Postgres-compatible database like AWS RDS should work.
-
-#### ElasticSearch
-
-ElasticSearch powers LangWatch capability to scale to hundreds of millions of messages for observability. It stores the messages,
-metrics, spans, events, evaluation results, doing search, filtering and analytics.
-
-We recommend using [Elastic Cloud](https://cloud.elastic.co/) for a managed ElasticSearch service.
-
-#### Redis
-
-Redis is used for LangWatch queues, for processing and retrying messages and evaluations in the background. Any Redis or Redis-compatible
-service like AWS ElastiCache for Redis should work.
-
-#### LangEvals
-
-[LangEvals](https://github.com/langwatch/langevals) is the platform that powers LangWatch evaluators and guardrails, a Python service
-that connects with other APIs and LLMs for running evaluations.
-
-A [docker image](https://hub.docker.com/r/langwatch/langevals) is readily available from dockerhub for running LangEvals service.
-
-#### LangWatch NLP
-
-LangWatch NLP is the python backend service that proxies the playground LLM calls, processes sentiment analysis and runs the topic clustering algorithm.
-
-The dockerfile to build this service is inside the `langwatch_nlp/` folder on the main LangWatch repository.
-
-
-## Environment Variables
-
-The default env vars already gets you up and running with the platform, but to make sure all features of LangWatch work properly,
-set up the environment variables as shown on the [.env.example](https://github.com/langwatch/langwatch/blob/main/langwatch/.env.example) file.
-
-#### Basic Configuration
-
-| Env Var | Description |
-| -------- | ----------- |
-| NODE_ENV | Define the environment you are running in, you can change this to production for a production deployment |
-| BASE_HOST | Define the base host for the application, this is the hostname and port of the application |
-| DEBUG | This is a comma separated list of the namespaces of the messages you want to print following npm `debug` library standard |
-
-#### Authentication
-
-| Env Var | Description |
-| -------- | ----------- |
-| NEXTAUTH_PROVIDER | LangWatch uses next-auth for authentication, either `email` or `auth0` |
-| NEXTAUTH_SECRET | This is the key used to encrypt cookie keys, be sure to change it before deploying to production |
-| AUTH0_CLIENT_ID | Client ID in case you choose to configure auth0 as the authentication provider |
-| AUTH0_CLIENT_SECRET | Client secret in case you choose to configure auth0 as the authentication provider |
-| AUTH0_ISSUER | Issuer in case you choose to configure auth0 as the authentication provider |
-
-#### Services and Infrastructure
-
-| Env Var | Description |
-| -------- | ----------- |
-| DATABASE_URL | Postgres connection string for primary data storage |
-| ELASTICSEARCH_NODE_URL | ElasticSearch connection string for observability data |
-| REDIS_URL | Redis connection string for queue processing |
-| LANGWATCH_NLP_SERVICE | LangWatch NLP service endpoint |
-| LANGEVALS_ENDPOINT | LangEvals service endpoint |
-| GOOGLE_APPLICATION_CREDENTIALS | Google credentials with access to DLP services, used for automatically redacting PII in traces and spans |
-| SENDGRID_API_KEY | Sendgrid API key for sending emails |
-
-#### Model Providers
-
-| Env Var | Description |
-| -------- | ----------- |
-| OPENAI_API_KEY | OpenAI API key for embeddings and GPT-class LLMs |
-| AZURE_OPENAI_ENDPOINT | Azure OpenAI endpoint for embeddings and GPT-class LLMs |
-| AZURE_OPENAI_API_KEY | Azure OpenAI API key for embeddings and GPT-class LLMs |
-| GOOGLE_APPLICATION_CREDENTIALS | Google Cloud credentials for Gemini-class LLMs |
-| VERTEXAI_PROJECT | Google VertexAI project for Gemini-class LLMs |
-| VERTEXAI_LOCATION | Google VertexAI location for Gemini-class LLMs |
-| ANTHROPIC_API_KEY | Anthropic API key for Claude-class LLMs |
-| GROQ_API_KEY | Groq API key for Llama 3, Mixtral and other open-source LLMs with top inference speed
-
-
-## Support
-
-If you need more support on the next steps for the production self-hosting installation on your cloud provider, reach out to us.
-
-#### Email Support
-
-If you are prefer direct assistance from our team with the self-hosting installation, you can reach out to our support team via email at support@langwatch.ai.
-
-#### Discord Channel
-
-You can also join our [Discord](https://discord.gg/kT4PhDS2gH) channel and ask questions directly for the community and the core team.
+<div style={{fontSize: "18px", marginBottom: "56px"}}>
+[Schedule a Call](https://get.langwatch.ai/request-a-demo)
+</div>
