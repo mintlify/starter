@@ -1,9 +1,11 @@
 ```python
 import langwatch
 
-@langwatch.trace()
-def main():
-    langwatch.get_current_trace().add_evaluation(
+@langwatch.span(type="evaluation")
+def evaluation_step():
+    ... # your custom evaluation logic
+
+    langwatch.get_current_span().add_evaluation(
         name="custom evaluation", # required
         passed=True,
         score=0.5,
