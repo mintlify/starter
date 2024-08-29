@@ -6,6 +6,7 @@ If you have a custom evaluator built in-house which run on your own code, either
 and connect it back to the trace to visualize it together with the other LangWatch evaluators.
 
 import PythonCustomEvaluation from "/snippets/python-custom-evaluation.mdx"
+import TypeScriptCustomEvaluation from "/snippets/typescript-custom-evaluation.mdx"
 
 <Tabs>
 <Tab title="Python">
@@ -13,6 +14,13 @@ import PythonCustomEvaluation from "/snippets/python-custom-evaluation.mdx"
 You can capture the evaluation results of your custom evaluator on the current trace or span by using the `.add_evaluation` method:
 
 <PythonCustomEvaluation />
+
+</Tab>
+<Tab title="TypeScript">
+
+You can capture the evaluation results of your custom evaluator on the current trace or span by using the `.addEvaluation` method:
+
+<TypeScriptCustomEvaluation />
 
 </Tab>
 <Tab title="REST API">

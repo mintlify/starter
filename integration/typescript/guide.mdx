@@ -331,3 +331,12 @@ try {
   });
 }
 ```
+
+## Capturing custom evaluation results
+
+[LangWatch Evaluators](/evaluations/overview) can run automatically on your traces, but if you have an in-house custom evaluator, you can also capture the evaluation
+results of your custom evaluator on the current trace or span by using the `.addEvaluation` method:
+
+import TypeScriptCustomEvaluation from "/snippets/typescript-custom-evaluation.mdx"
+
+<TypeScriptCustomEvaluation />
