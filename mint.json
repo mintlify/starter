@@ -100,6 +100,18 @@
       ]
     },
     {
+      "group": "premsql",
+      "pages": [
+        "premsql/introduction",
+        "premsql/datasets",
+        "premsql/generators",
+        "premsql/evaluators",
+        "premsql/error_dataset",
+        "premsql/tuner",
+        "premsql/pipelines"
+      ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"
