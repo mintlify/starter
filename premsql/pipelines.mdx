@@ -1,0 +1,158 @@
+---
+title: PremSQL Pipelines
+description: End-to-end workflows that integrate generation, execution, and further processing for tasks like database Q&A.
+---
+
+
+`premsql` pipelines allow you to combine independent components to create end-to-end workflows tailored to your needs. By using pipelines, you can leverage existing tools and build custom solutions on top of them. Some examples of what you can achieve with pipelines include:
+
+- **Simple text-to-SQL generation pipeline** (demonstrated in this tutorial)
+- **RAG (Retrieval-Augmented Generation) for Databases**
+- **Database analysis using premsql**
+- **Custom evaluation pipelines for your existing text-to-SQL models or agents**
+- **Agentic pipelines based on Databases**
+
+Pipelines provide a Natural Language interface between your questions and databases, allowing you to get answers in various forms, such as dataframes, SQL statements, or analyses based on your questions.
+
+In this tutorial, we will use the `simple_pipeline` by premsql. While this example is straightforward, more sophisticated pipelines including RAG and agents are planned for future releases. You can also create your custom pipelines using premsql's flexible framework.
+
+## Prerequisites
+
+Before diving in, ensure you have a basic understanding of the following premsql components:
+
+1. [premsql datasets](/premsql/datasets)
+2. [premsql generators](/premsql/generators)
+3. [premsql evaluators](/premsql/evaluation)
+
+Let's start by importing the necessary packages.
+
+```python
+from premsql.pipelines.simple import SimpleText2SQLAgent
+from premsql.generators.huggingface import Text2SQLGeneratorHF
+from langchain_community.utilities.sql_database import SQLDatabase
+from premsql.utils import convert_sqlite_path_to_dsn
+```
+
+## Setting Up the Pipeline
+
+Pipelines act as a natural language interface between your databases, where you ask a question, and the pipeline returns the result. The result can be:
+
+1. A dataframe containing the data you need
+2. The SQL query used to generate the result
+3. An analysis based on the question and the data
+
+To create a pipeline, you need a database connection and a generator model. In this example, we will use [Langchain's SQLDatabase](https://python.langchain.com/v0.2/docs/integrations/tools/sql_database/) for database connection. If you have a SQLite database, you can simply point to the `.sqlite` file.
+
+We will use the [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) model from Hugging Face, which is fully local.
+
+```python
+dsn_or_db_path = convert_sqlite_path_to_dsn(
+  "../data/bird/test/test_databases/california_schools/california_schools.sqlite"   
+)
+db = SQLDatabase.from_uri(dsn_or_db_path)
+
+agent = SimpleText2SQLAgent(
+    dsn_or_db_path=db,
+    generator=Text2SQLGeneratorHF(
+        model_or_name_or_path="premai-io/prem-1B-SQL",
+        experiment_name="test_nli",
+        device="cuda:0",
+        type="test"
+    ),
+)
+```
+
+## Querying the Database
+
+Now, you can query the database using natural language, and the pipeline will return:
+
+1. **table**: The resultant table from the query.
+2. **error**: Any errors encountered during the query.
+3. **sql**: The SQL statement used.
+
+Here's an example of querying the database:
+
+```python
+response = agent.query(
+    question="please list the phone numbers of the direct charter-funded schools that are opened after 2000/1/1",
+)
+
+response["table"]
+```
+
+### Raw Response
+
+Below is the raw response of the query:
+
+```python
+print(response)
+```
+
+The pipeline uses [execution-guided decoding](/examples/generators.ipynb), which attempts to execute the SQL query multiple times (up to 5 retries) until it finds a valid query that runs without errors.
+
+## More Examples
+
+You can further explore querying with different questions:
+
+```python
+agent.query(
+    question="Among the schools with the SAT test takers of over 500, please list the schools that are magnet schools or offer a magnet program.",
+    additional_knowledge="Magnet schools or offer a magnet program means that Magnet = 1"
+)["table"]
+```
+
+Another query example:
+
+```python
+agent.query("list all the distinct CDSCode")['table']
+```
+
+And another:
+
+```python
+agent.query("what are the unique districts in schools and sorted")['table']
+```
+
+## Handling Errors and Inconsistencies
+
+Since we are using a relatively small model, it can sometimes generate incorrect responses, which may lead to errors. However, the pipeline still returns a dataframe to maintain consistency in the response format.
+
+```python
+response = agent.query("what is the max high grade")
+print(response)
+```
+
+### Correcting SQL Errors with GPT
+
+If the model fails to generate the correct SQL response, premsql can automatically correct it using a method called `correct_with_gpt`. This feature runs internally to maximize the chances of generating error-free SQL queries.
+
+To use this, you need a [premai-io](https://premai.io) account. You can get started [here](https://docs.premai.io) to create a new project and obtain a `project_id` and API key.
+
+Here's how you can set it up:
+
+```python
+premai_api_key = "Fqxxxxx-xxxxxx-xxxxx-xxxx"  # Replace this with your API key
+premai_project_id = 1234  # Replace this with your project ID
+
+agent_with_corrector = SimpleText2SQLAgent(
+    dsn_or_db_path=db,
+    generator=Text2SQLGeneratorHF(
+        model_or_name_or_path="premai-io/prem-1B-SQL",
+        experiment_name="test_nli",
+        device="cuda:0",
+        type="test"
+    ),
+    premai_api_key=premai_api_key,
+    premai_project_id=premai_project_id
+)
+```
+
+When you ask the same question now, the corrected response is generated with the help of GPT, ensuring the SQL is accurate.
+
+```python
+agent_with_corrector.query("what is the max high grade")["table"]
+```
+
+## Future Plans
+
+Currently, local LLMs (Large Language Models) for text-to-SQL lack strong autonomous capabilities. This limitation sometimes necessitates reliance on closed-source models for error corrections. In upcoming versions, premsql aims to introduce fully local, autonomous, and reliable text-to-SQL pipelines, eliminating this dependency and enhancing the overall capabilities of local models.

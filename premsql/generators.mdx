@@ -1,0 +1,117 @@
+---
+title: PremSQL Generators
+description: Models that generate SQL queries from user input and a specified database source.
+---
+
+Premsql generators are responsible for converting natural language questions into SQL queries. Think of these as modular inference APIs specific to text-to-SQL. You can integrate various third-party APIs, models, or custom pipelines. 
+
+In this guide, we'll explore how to utilize both Hugging Face and PremAI providers to work with local and hosted models. Finally, we'll demonstrate how to create custom generators. Let’s get started by importing the necessary packages.
+
+```python 
+from premsql.generators.huggingface import Text2SQLGeneratorHF
+from premsql.generators.premai import Text2SQLGeneratorPremAI
+from premsql.datasets import Text2SQLDataset
+```
+
+## How Generators Work
+
+Premsql generators offer two main generation strategies:
+
+1. **Simple Generation:** Generates SQL from a prompt that includes the table schema, user question, few-shot examples, etc.
+2. **Execution-Guided Decoding:** Enhances performance by executing the generated SQL on the DB. If an error occurs, the generator uses the error message to self-correct and retries until it succeeds or reaches the maximum trials.
+
+Let’s begin with simple generation using the BirdBench dev dataset.
+
+```python
+dataset = Text2SQLDataset(
+    dataset_name="bird",
+    split="test",
+    database_folder_name="test_databases",
+    json_file_name="test.json",
+    dataset_folder="/root/anindya/Submission/text2sql/data",
+).setup_dataset(
+    num_rows=10,
+    num_fewshot=3,
+)
+
+dataset[0]
+```
+
+### Data Preparation for Generators
+
+The input for generators is a `data_blob`, which contains:
+- **prompt**: The prompt to be passed to the model.
+- **db_path**: The database path.
+
+Ensure your prompt includes the table schema. Now, let's define our generator using the [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) model.
+
+
+```python 
+generator = Text2SQLGeneratorHF(
+    model_or_name_or_path="premai-io/prem-1B-SQL",
+    experiment_name="test_generators",
+    device="cuda:0",
+    type="test"
+)
+```
+
+### Using HuggingFace Transformers
+
+`Text2SQLGeneratorHF` utilizes Hugging Face Transformers. When you instantiate the class with an `experiment_name`, it creates a folder `./experiments/<experiment_name>` to store results, eliminating the need for repeated generations.
+
+Let’s generate a response using a sample datapoint.
+
+
+```python 
+
+sample = dataset[0]
+response = generator.generate(
+    data_blob={
+        "prompt": sample["prompt"],
+    },
+    temperature=0.1,
+    max_new_tokens=256
+)
+```
+
+The `generate` method runs a single inference without saving results. To generate and save multiple responses:
+
+```python 
+response = generator.generate_and_save(
+    dataset=dataset
+    temperature=0.1,
+    max_new_tokens=256
+)
+```
+Results are saved in the `experiment_path` as `predict.json`. On subsequent runs, the cached results are reused unless `force=True` is specified.
+
+```python 
+response = generator.generate_and_save(
+    dataset=dataset
+    temperature=0.1,
+    max_new_tokens=256,
+    force=True
+)
+```
+
+### Execution-Guided Decoding
+
+This strategy executes the generated SQL against the DB and, if it fails, uses the error message for correction, repeating until it gets a valid result or the retries run out.
+
+To use this, you'll need an executor like `SQLiteExecutor`. Here's how to use it with `generate_and_save`:
+
+```python 
+from premsql.evaluator import SQLiteExecutor
+
+executor = SQLiteExecutor()
+response = generator.generate_and_save(
+    dataset=dataset
+    temperature=0.1,
+    max_new_tokens=256,
+    force=True,
+    executor=executor,
+    max_retries=5  # optional, default is 5
+)
+```
+
+This approach employs execution-guided decoding, enhancing the reliability of the generated SQL by iterative correction.

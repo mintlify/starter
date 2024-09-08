@@ -1,0 +1,115 @@
+---
+title: PremSQL Introduction
+---
+
+Welcome to the PremSQL library, a powerful tool for building self-hosted, end-to-end Text-to-SQL pipelines. PremSQL offers a modular design where each component functions independently, enabling you to create fully customized workflows.
+
+<Card title="PremSQL GitHub" icon="link" href="https://github.com/premAI-io/premsql/tree/main">
+  Star the project to stay updated with our rapid development for the best local Text-to-SQL solution.
+</Card>
+
+<img src="images/premsql/architecture.png" alt="Architecture" />
+
+### Core Components
+
+All the components works indepedently and aims to achieve a single task.It is recommended to check out each of the components sequentially to get an overall idea and how to use them to the fullest. 
+
+<CardGroup cols={2}>
+  <Card title="Datasets" icon="square-1" href="/premsql/datasets">
+
+    Pre-processed datasets hosted on HuggingFace for Text-to-SQL tasks. Useful for evaluation, fine-tuning, and creating custom datasets. [Learn more](/premsql/datasets.mdx).
+  </Card>
+  <Card title="Generators" icon="square-2" href="/premsql/generators">
+    Models that generate SQL queries from user input and a specified database source. [Learn more](/premsql/generators.mdx).
+  </Card>
+  <Card title="Executors" icon="square-3" href="/premsql/evaluators">
+    Connects to databases and executes generated SQL queries to fetch results. [Learn more](/premsql/evaluators.mdx).
+  </Card>
+  <Card title="Evaluators" icon="square-4" href="/premsql/evaluators">
+    Evaluates Text-to-SQL models using metrics like execution accuracy and Valid Efficiency Score (VES). [Learn more](/premsql/evaluators.mdx).
+  </Card>
+  <Card title="Error Handling" icon="square-6" href="/premsql/error_dataset">
+   Helps to make error handling prompts and datasets for error free inference and fine-tuning datasets for enforcing self correction property. .
+  </Card>
+  <Card title="Tuner" icon="square-5" href="/premsql/tuner">
+    Fine-tunes open-source models on Text-to-SQL datasets with custom evaluation methods to ensure optimal training performance. [Learn more](/premsql/tuner.mdx).
+  </Card>
+  <Card title="Pipelines" icon="square-6" href="/premsql/pipelines">
+    End-to-end workflows that integrate generation, execution, and further processing for tasks like database Q&A. [Learn more](/premsql/pipelines.mdx).
+  </Card>
+</CardGroup>
+
+## Why PremSQL? The Vision 
+
+PremSQL focuses on creating local Text-to-SQL workflows. Many times, you don't want to share data with third-party systems, but still need to build generative AI solutions for productivity and innovation. PremSQL is designed to solve this by keeping your data local.
+
+**Use Cases:**
+- Database Q&A
+- RAG with database integration
+- SQL autocompletion
+- AI-powered, self-hosted data analysis
+- Autonomous agentic pipelines with database access
+
+### How is it different from LangChain, Llama-Index, or DSPy? 
+
+While these libraries excel in building general AI workflows, they often come with a steep learning curve for customization. PremSQL simplifies this, providing full control over your data and a smooth integration with existing LangChain, Llama-Index, or DSPy workflows.
+
+## Getting Started
+
+Install PremSQL with:
+```bash
+pip install -U premsql
+```
+
+Here's a quick starter code to chat with a sample database:
+
+```python
+from premsql.pipelines.simple import SimpleText2SQLAgent
+from premsql.generators.huggingface import Text2SQLGeneratorHF
+from premsql.evaluator import SQLiteExecutor
+
+dsn_or_db_path = "./data/db/california_schools.sqlite"
+
+agent = SimpleText2SQLAgent(
+    dsn_or_db_path=dsn_or_db_path,
+    generator=Text2SQLGeneratorHF(
+        model_or_name_or_path="premai-io/prem-1B-SQL",
+        experiment_name="simple_pipeline",
+        device="cuda:0",
+        type="test"
+    ),
+)
+
+question = "please list the phone numbers of the direct charter-funded schools that are opened after 2000/1/1"
+
+response = agent.query(question)
+response["table"]
+```
+
+<Accordion title="Output">
+```
+	Phone
+0	None
+1	(209) 229-4700
+2	(209) 253-1208
+3	(209) 365-4060
+4	(209) 368-4934
+...	...
+716	(951) 672-2400
+717	(951) 678-5217
+718	(951) 824-1358
+719	(951) 926-6776
+720	(970) 258-0518
+```
+</Accordion>
+
+Explore more detailed tutorials and learn about PremSQL’s offerings and future plans below.
+
+
+## Roadmap
+
+PremSQL’s first release is just the beginning, and your feedback is crucial for enhancing our components. We're excited to announce upcoming features, including a synthesizer that will significantly reduce annotation time by generating synthetic datasets. Beyond this, we're focused on improving the developer experience with our existing components. 
+
+Currently, database executions and SQL generations are not parallelizable, but future updates will bring significant performance improvements for generators and executors. While we currently offer robust support for SQLite databases, our LangChain Executors also connect with other database types, and you can easily create custom connectors. In our upcoming versions, we plan to introduce major connectors for additional databases to expand our compatibility.
+
+Stay tuned and follow our [GitHub repository](https://github.com/premAI-io/premsql) for the latest updates and improvements!

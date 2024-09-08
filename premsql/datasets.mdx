@@ -1,0 +1,309 @@
+---
+title: PremSQL Datasets
+description: Learn how to use and customize premsql datasets for Text-to-SQL tasks, including working with available datasets, creating your own, and extending functionalities.
+---
+
+## Introduction
+
+`premsql` provides a simple API to use various pre-processed datasets for Text-to-SQL tasks. Text-to-SQL is complex as it requires data dependencies on databases and tables. The `premsql` datasets help streamline this by providing easy access to datasets and enabling you to create your own datasets with private databases.
+
+## Available Datasets
+
+Currently, the following datasets are readily available:
+
+1. [BirdBench Dataset](https://huggingface.co/datasets/premai-io/birdbench)
+2. [Spider Unified Datasets](https://huggingface.co/datasets/premai-io/spider)
+3. [Domains Dataset](https://huggingface.co/datasets/premai-io/domains)
+4. [Gretel AI Dataset](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql)
+
+Let's see how to use these datasets with `premsql`.
+
+## Loading Datasets
+
+To get started, you'll use the `Text2SQLDataset` class from the `premsql` package. Here's an example using the BirdBench dataset:
+
+```python
+from premsql.datasets import Text2SQLDataset
+from premsql.utils import print_data
+
+# Load the BirdBench dataset
+bird_dataset = Text2SQLDataset(
+    dataset_name='bird', split="train", force_download=False,
+    dataset_folder="/root/anindya/text2sql/data"
+)
+```
+
+### Accessing Raw Data
+
+The dataset object provides two key methods:
+
+1. `raw_dataset`: Returns a dictionary with raw data from the JSON file.
+2. `filters_available`: Lists the filters available for the dataset.
+
+Example:
+
+```python
+raw_bird_training_dataset = bird_dataset.raw_dataset
+print(raw_bird_training_dataset[0])
+```
+
+### Available Filters
+
+You can view the available filters for the dataset:
+
+```python
+print(bird_dataset.filters_available)
+```
+
+## Setting Up the Dataset
+
+To load the processed dataset, use the `setup_dataset` method. This will process and return the dataset object. The method has several optional parameters:
+
+- `filter_by`: Filters the dataset based on the provided filter.
+- `num_rows`: Limits the number of rows to return.
+- `num_fewshot`: Defines how many few-shot examples to include in the prompt.
+- `model_name_or_path`: Applies the model-specific prompt template and tokenizes the dataset if provided.
+- `prompt_template`: Custom prompt template; defaults are available in the `premsql` prompts module.
+
+Example:
+
+```python
+# Set up the BirdBench dataset
+bird_dataset = bird_dataset.setup_dataset(
+    model_name_or_path="premai-io/prem-1B-SQL",
+    num_fewshot=3,
+    num_rows=3
+)
+
+print_data(bird_dataset[0])
+```
+
+### Preview Without Tokenization
+
+Tokenization can be computationally heavy. To preview the dataset without tokenizing, set `model_name_or_path` to `None`.
+
+```python
+bird_dataset_without_tokenization = Text2SQLDataset(
+    dataset_name='bird', split="train", force_download=False,
+    dataset_folder="../data"
+).setup_dataset(
+    model_name_or_path=None, num_fewshot=3, num_rows=3
+)
+
+print_data(bird_dataset_without_tokenization[0])
+```
+
+## Filtering Datasets
+
+You can filter datasets based on available criteria, such as `db_id` or `difficulty`.
+
+Example of filtering by difficulty:
+
+```python
+bird_validation = Text2SQLDataset(
+    dataset_name='bird', split="validation", force_download=False,
+    dataset_folder="../data"
+).setup_dataset(
+    model_name_or_path=None,
+    num_fewshot=3,
+    num_rows=100,
+    filter_by=("difficulty", "simple")
+)
+
+# Count the number of simple difficulty examples
+simple_count = len([example for example in bird_validation if example["difficulty"] == "simple"])
+print(simple_count)
+```
+
+## Using Other Available Datasets
+
+Here’s how you can load other datasets like Spider, Domains, and Gretel AI.
+
+```python
+# Loading Spider Dataset
+spider_dataset = Text2SQLDataset(
+    dataset_name="spider",
+    split="train",
+    dataset_folder="../data",
+).setup_dataset(
+    num_fewshot=3,
+    num_rows=3,
+    model_name_or_path="premai-io/prem-1B-SQL",
+)
+
+# Loading Domains Dataset
+domains = Text2SQLDataset(
+    dataset_name="domains",
+    split="train",
+    dataset_folder="../data",
+).setup_dataset(
+    num_fewshot=3,
+    num_rows=3,
+    model_name_or_path="premai-io/prem-1B-SQL",
+)
+
+# Loading Gretel AI Dataset (Synthetic)
+gretel_dataset = Text2SQLDataset(
+    dataset_name="gretel",
+    split="train",
+    dataset_folder="../data",
+).setup_dataset(
+    num_fewshot=3,
+    num_rows=3,
+    model_name_or_path="premai-io/prem-1B-SQL",
+)
+
+print_data(gretel_dataset[0]["raw"])
+```
+
+## Dataset Merging
+
+`premsql` datasets support merging, allowing you to pack multiple datasets together for combined use. This is useful when training on multiple datasets.
+
+```python
+# Merge datasets
+merged_dataset = [*bird_dataset, *spider_dataset, *domains, *gretel_dataset]
+print(f"Length of merged dataset: {len(merged_dataset)}")
+
+print_data(merged_dataset[0])
+```
+
+## Understanding Prompts in Premsql
+
+Here's how a prompt looks when wrapped around a model’s prompt template:
+
+```python
+print(gretel_dataset[0]["raw"]["prompt"])
+```
+
+## Creating Your Own Dataset
+
+To create your dataset, organize your files in the following structure:
+
+```
+├── databases
+│   ├── california_schools
+│       ├── california_schools.sqlite
+├── train.json  
+├── validation.json # Optional 
+```
+
+Each sub-folder in `databases` should contain a `.sqlite` file matching the sub-folder name. Your `train` or `validation` JSON file should contain a list of dictionaries with these required keys:
+
+- `db_id`: Corresponds to the folder and `.sqlite` file name.
+- `question`: User question.
+- `SQL`: The ground truth SQL query.
+
+Example entry:
+
+```json
+{
+  "question_id": 0,
+  "db_id": "california_schools",
+  "question": "What is the highest eligible free rate for K-12 students in the schools in Alameda County?",
+  "evidence": "Eligible free rate for K-12 = `Free Meal Count (K-12)` / `Enrollment (K-12)`",
+  "SQL": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1",
+  "difficulty": "simple"
+}
+```
+
+You can load your dataset using:
+
+```python
+from premsql.datasets import StandardDataset
+
+dataset = StandardDataset(
+    split="validation",
+    dataset_path="../data/bird/validation",
+    database_folder_name="dev_databases",
+    json_file_name="validation.json",
+)
+```
+
+Here's an improved and more readable version of the section on customizing Text-to-SQL datasets in `premsql`, with grammar corrections and clearer explanations:
+
+
+## Advanced Customization for Text-to-SQL Datasets
+
+So far, all the examples shown are tailored to `.sqlite` databases. However, you might encounter scenarios where:
+
+1. You are working with different databases, such as PostgreSQL or other cloud-based database instances.
+2. You want to implement custom logic before generating prompts.
+3. You need to extend the utility of `premsql` to fit specific requirements.
+
+This section will guide you through achieving these customizations.
+
+**Note:** For scenario 1, you could also migrate a subset of your dataset to SQLite format. This allows you to annotate the dataset in SQLite and follow the standard approach to create a Text2SQL-compatible dataset for fine-tuning and inference.
+
+If you require full customization beyond this, you can achieve it in three steps. A detailed tutorial will be available in future releases, but here's a concise overview of the process:
+
+### Step 1: Define a Custom Dataset Instance
+
+A dataset instance manages operations on individual data points. To create a custom dataset instance, extend the `premsql.datasets.base.Text2SQLBaseInstance` class. Below is a blueprint of how to define your custom instance:
+
+```python
+from premsql.datasets.base import Text2SQLBaseInstance
+
+class CustomDataInstance(Text2SQLBaseInstance):
+    def __init__(self, dataset: list[dict]) -> None:
+        super().__init__(dataset=dataset)
+
+    def schema_prompt(self, db_path: str) -> str:
+        # Define your custom schema prompt logic here.
+        # Fetch the schema from your database and format it as needed.
+        # For SQLite databases, you could use:
+        # SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}'
+        # For other databases, adapt the query accordingly.
+        return "Custom schema prompt logic here."
+```
+
+In addition to `schema_prompt`, this class also includes other methods like `additional_prompt` and `apply_prompt`. These methods have default implementations that are database-agnostic, but you can customize them as needed.
+
+### Step 2: Define a Custom Dataset Class
+
+Once you have your custom instance defined, you can create a custom dataset class by extending the `premsql.datasets.base.Text2SQLBaseDataset` class. This class handles the overall dataset setup and management. Here's an example:
+
+```python
+from premsql.datasets.base import Text2SQLBaseDataset
+from typing import Optional, Union
+from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
+
+class CustomText2SQLDataset(Text2SQLBaseDataset):
+    def __init__(
+        self,
+        split: str,
+        dataset_folder: Optional[Union[str, Path]] = "./data",
+        hf_token: Optional[str] = None,
+        force_download: Optional[bool] = False,
+    ):
+        # Define your custom initialization logic here
+        super().__init__(split=split, dataset_folder=dataset_folder)
+        # Additional custom initialization if needed
+
+    def setup_dataset(
+        self,
+        filter_by: Optional[tuple] = None,
+        num_rows: Optional[int] = None,
+        num_fewshot: Optional[int] = None,
+        model_name_or_path: Optional[str] = None,
+        prompt_template: Optional[str] = None,
+    ):
+        logger.info("Setting up the custom Text2SQL dataset.")
+        # Custom setup logic can be added here if needed
+        return super().setup_dataset(
+            filter_by=filter_by,
+            num_rows=num_rows,
+            num_fewshot=num_fewshot,
+            model_name_or_path=model_name_or_path,
+            prompt_template=prompt_template,
+        )
+```
+
+In the `__init__` method, you can define any specific initialization logic needed for your dataset. Similarly, the `setup_dataset` method can be modified to include any custom setup steps or logic.
+
+### Summary
+
+By following these steps, you can extend `premsql` to support different databases, implement custom preprocessing logic, or tailor the dataset setup to your specific needs. For a complete understanding, review the `Text2SQLBaseDataset` and `Text2SQLBaseInstance` classes in the `premsql` source code. We will be releasing a detailed tutorial soon on how to create datasets for different types of databases beyond SQLite.
