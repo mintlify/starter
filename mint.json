@@ -50,8 +50,7 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "development"
+        "developers"
       ]
     },
     {
@@ -71,7 +70,7 @@
           "group": "Outbound Calls",
           "pages": [
             "use-cases/outbound/sales",
-            "use-cases/outbound/appointment-reminder"
+            "use-cases/outbound/appointment-reminders"
           ]
         }
       ]
@@ -80,7 +79,18 @@
       "group": "Building Agents",
       "pages": [
         "build/overview",
-        "build/agent-builder",
+        {
+          "group": "Agent Builder",
+          "pages": [
+            "build/agent-builder/overview",
+            "build/agent-builder/configuration",
+            "build/agent-builder/nodes",
+            "build/agent-builder/training-and-rules",
+            "build/agent-builder/variables"
+          ],
+          "icon": "diagram-nested",
+          "iconType": "light"
+        },
         "build/genius",
         "build/automations"
       ]
@@ -89,24 +99,41 @@
       "group": "Deploying Agents",
       "pages": [
         "deploy/overview",
-        "deploy/buying-numbers",
-        "deploy/sip"
+        {
+          "group": "Phone Numbers",
+          "pages": [
+            "deploy/phone-numbers/overview",
+            "deploy/phone-numbers/caller-id"
+          ],
+          "icon": "phone",
+          "iconType": "light"
+        },
+        "deploy/sip",
+        "deploy/batch-jobs",
+        "deploy/sms"
       ]
     },
     {
-      "group": "Concepts",
+      "group": "Platform",
       "pages": [
-        "concepts/teams"
+        {
+          "group": "Teams",
+          "pages": [
+            "platform/teams/overview",
+            "platform/teams/verification"
+          ],
+          "icon": "users",
+          "iconType": "light"
+        },
+        "platform/contacts",
+        "platform/library",
+        "platform/settings"
       ]
     },
     {
-      "group": "Navigation",
+      "group": "Resources",
       "pages": [
-        "navigation/overview",
-        "navigation/contacts",
-        "navigation/library",
-        "navigation/reports",
-        "navigation/settings"
+        "faq"
       ]
     },
     {
