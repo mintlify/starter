@@ -1,51 +1,48 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Thoughtly Docs",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/icon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#32CB08",
+    "light": "#72FA4C",
+    "dark": "#424242",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#32CB08",
+      "to": "#72FA4C"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@thought.ly"
     }
   ],
+  "feedback": {
+    "thumbsRating": true
+  },
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://app.thought.ly"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Integrations",
+      "icon": "link",
+      "url": "integrations"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "name": "API Reference",
+      "icon": "square-terminal",
+      "url": "api-reference"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Book a Demo",
+      "icon": "calendar",
+      "url": "https://fns.thought.ly/lead/email?demo=true"
     }
   ],
   "navigation": [
@@ -58,14 +55,95 @@
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Use Cases",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        {
+          "group": "Inbound Calls",
+          "pages": [
+            "use-cases/inbound/customer-service",
+            "use-cases/inbound/receptionist",
+            "use-cases/inbound/sales",
+            "use-cases/inbound/preliminary-intake",
+            "use-cases/inbound/appointment-scheduling"
+          ]
+        },
+        {
+          "group": "Outbound Calls",
+          "pages": [
+            "use-cases/outbound/sales",
+            "use-cases/outbound/appointment-reminder"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Building Agents",
+      "pages": [
+        "build/overview",
+        "build/agent-builder",
+        "build/genius",
+        "build/automations"
+      ]
+    },
+    {
+      "group": "Deploying Agents",
+      "pages": [
+        "deploy/overview",
+        "deploy/buying-numbers",
+        "deploy/sip"
+      ]
+    },
+    {
+      "group": "Concepts",
+      "pages": [
+        "concepts/teams"
+      ]
+    },
+    {
+      "group": "Navigation",
+      "pages": [
+        "navigation/overview",
+        "navigation/contacts",
+        "navigation/library",
+        "navigation/reports",
+        "navigation/settings"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "integrations/introduction"
+      ]
+    },
+    {
+      "group": "CRMs",
+      "pages": [
+        "integrations/crm/salesforce",
+        "integrations/crm/hubspot",
+        "integrations/crm/zoho",
+        "integrations/crm/attio",
+        "integrations/crm/highlevel"
+      ]
+    },
+    {
+      "group": "Scheduling",
+      "pages": [
+        "integrations/scheduling/calendly",
+        "integrations/scheduling/acuity",
+        "integrations/scheduling/cal-com"
+      ]
+    },
+    {
+      "group": "Productivity",
+      "pages": [
+        "integrations/productivity/google-sheets",
+        "integrations/productivity/airtable"
+      ]
+    },
+    {
+      "group": "AI",
+      "pages": [
+        "integrations/ai/thoughtly"
       ]
     },
     {
@@ -84,8 +162,11 @@
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "x": "https://twitter.com/thoughtlyai",
+    "linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
+    "instagram": "https://www.instagram.com/thoughtly.ai/"
+  },
+  "integrations": {
+    "intercom": "uii3kkuk"
   }
 }
