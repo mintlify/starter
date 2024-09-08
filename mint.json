@@ -85,10 +85,21 @@
             "build/agent-builder/overview",
             "build/agent-builder/configuration",
             "build/agent-builder/nodes",
+            "build/agent-builder/outcomes",
             "build/agent-builder/training-and-rules",
             "build/agent-builder/variables"
           ],
           "icon": "diagram-nested",
+          "iconType": "light"
+        },
+        {
+          "group": "Automations",
+          "pages": [
+            "build/automations/overview",
+            "build/automations/triggers",
+            "build/automations/actions"
+          ],
+          "icon": "code-branch",
           "iconType": "light"
         },
         "build/genius",
@@ -133,7 +144,9 @@
     {
       "group": "Resources",
       "pages": [
-        "faq"
+        "resources/faq",
+        "resources/training-videos",
+        "resources/glossary"
       ]
     },
     {

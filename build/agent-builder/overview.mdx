@@ -2,3 +2,45 @@
 title: Overview
 description: Thoughtly's easy-to-use, no-code interface for building Voice Agents
 ---
+
+![editor](/images/hero/editor.png)
+
+## Introduction
+
+Thoughtly's Agent Builder was developed as the fist-of-its-kind no-code interface for building Voice Agents. Before, building a Voice Agent required a team of developers, and no-code tools were limited to simple chatbots that required advanced technical prompting.
+
+In this guide, we'll show you how the Thoughtly Agent Builder works, and how you can use it to build your own Voice Agents in minutes.
+
+## Creating a New Agent
+
+Start by heading to the [Agents](https://app.thought.ly/agents) page in the Thoughtly dashboard. This is where you'll find all of your Voice Agents, and where you can create new ones. Click the **Create** button to get started.
+
+Next, you'll be prompted to give your Agent a name and description. This is how you'll internally identify your Agent in the platform, so make sure to choose a name that makes sense to you.
+
+<Frame caption="Creating a new Voice Agent on Thoughtly">
+	<img width="400" src="/images/ui/create-agent-modal.jpeg" alt="create voice agent modal" style={{ "borderRadius": 10 }}/>
+</Frame>
+
+You can choose whether to start with a blank slate, import a script, or use a template. For this example, we'll start with a blank slate.
+
+{/* TODO https://linear.app/thoughtly/issue/DOCS-1/chat-to-create */}
+
+## The Agent Builder
+
+The Agent Builder is where you'll spend most of your time building your Voice Agent. It's a visual interface that allows you to create a conversation flow, add nodes, and connect them together.
+
+<Frame caption="The Thoughtly Agent Builder">
+	<img src="/images/ui/agent-builder.png" alt="Thoughtly agent builder" style={{ "borderRadius": 10 }}/>
+</Frame>
+
+The Thoughtly Agent Builder is based on the logic of a [decision tree](/resources/glossary#decision-tree) (also referred to as a flowchart). Each [node](/build/agent-builder/nodes) represents a step in the conversation, and you can connect them together to create your Voice Agent's flow.
+
+When the conversation begins, the Agent will start at the **Start** node. From there, it will move to the next node based on the user's input and the logic you've defined using [outcomes](/build/agent-builder/outcomes).
+
+## Configure your Voice Agent
+
+Now that you have a blank canvas to build your Voice Agent, let's start by configuring the Agent's settings.
+
+<Card title="Agent Configuration" icon="gear" href="/build/agent-builder/configuration" horizontal="true">
+	Ready to start configure your first Voice Agent? Continue ->
+</Card>
