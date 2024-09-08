@@ -5,6 +5,7 @@
     "dark": "/logo/logo.svg",
     "light": "/logo/logo.svg"
   },
+  "theme": "venus",
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#0D9373",
@@ -40,6 +41,10 @@
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Release Notes",
+      "url": "release-notes"
     }
   ],
   "navigation": [
@@ -48,8 +53,16 @@
       "pages": ["home"]
     },
     {
-      "group": "Guides",
-      "pages": ["guides/test"]
+      "group": "Get Started",
+      "pages": ["guides/overview", "guides/quickstart"]
+    },
+    {
+      "group": "Release Notes",
+      "pages": [
+        "release-notes/overview",
+        "release-notes/app",
+        "release-notes/api"
+      ]
     },
     {
       "group": "API Documentation",
