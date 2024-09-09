@@ -118,6 +118,13 @@ print_data(bird_dataset[0])
 </Accordion>
 
 
+<Note>
+The difference between `loading` and `setting up` a dataset is, in loading, we generally
+download the dataset or load the raw dataset from some folder. Setting up a dataset means 
+processing the dataset (which includes inserting schemas, few shot prompts, adding customization, filtering etc)
+based on user's requirements. 
+</Note>
+
 ### Preview Without Tokenization
 
 Tokenization sometimes can be computationally heavy. To preview the dataset without tokenizing, set `model_name_or_path` to `None`.

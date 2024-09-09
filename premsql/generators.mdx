@@ -169,6 +169,12 @@ response = generator.generate_and_save_results(
 This approach employs execution-guided decoding, 
 enhancing the reliability of the generated SQL by iterative correction.
 
+<Note>
+Please note that Text2SQLGeneratorHF is only limited for causal models. So Sequence to Sequence 
+models are not supported in first hand. However you can still use them by creating a custom generator or directly
+feeding the model object while initializing the generator. 
+</Note>
+
 ## More Supported Generators
 
 Other than huggingface models, we also support Prem AI and Open AI APIs. Here is how you can use them:
