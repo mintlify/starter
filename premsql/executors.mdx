@@ -1,0 +1,111 @@
+---
+title: Executors
+description: Connects to databases and executes generated SQL queries to fetch results.
+---
+
+An executor executes the generated SQL queries against 
+the database and fetches the results. 
+It is a crucial component in the Text-to-SQL pipeline, as 
+it ensures that the generated SQL queries are valid and 
+return the expected results.
+
+PremSQL supports a native executor for SQLite databases and also supports [LangChain's SQLDatabase](https://python.langchain.com/v0.2/docs/integrations/tools/sql_database/)
+as an executor. You can also create custom executors for other database. Let's start by importing the required libraries:
+
+```python
+from premsql.executors import SQLiteExecutor
+
+# Instantiate the executor
+executor = SQLiteExecutor()
+
+# Set a sample dataset path 
+db_path = "./data/db/california_schools.sqlite"
+sql = 'SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1'
+
+# execute the SQL
+result = executor.execute_sql(
+    sql=sql,
+    dsn_or_db_path=db_path
+)
+
+print(result)
+```
+
+<Accordion title="Output">
+```python
+{'result': [('Brief Encounter',)], 'error': None, 'execution_time': 0.03717160224914551}
+```
+</Accordion>
+
+The `execute_sql` method returns a dictionary with the following keys
+
+- `result`: The result of the SQL query execution.
+- `error`: Any error that occurred during the execution.
+- `execution_time`: The time taken to execute the SQL query.
+
+You can also use other methods like:
+
+- `match_sqls()` to match the generated SQL with the ground truth SQL.
+- `iterated_execution()` to execute the SQL iteratively and comparing with the ground truth to see the execution time ratio.
+
+
+Similarly lets use the LangChain's SQLDatabase as an executor:
+
+```python
+from premsql.executors import ExecutorUsingLangChain
+
+executor = ExecutorUsingLangChain()
+executor.execute_sql(
+    sql=sql,
+    dsn_or_db_path=db_path
+)
+```
+
+<Accordion title="Output">
+```python
+{'result': "[('Brief Encounter',)]",
+ 'error': None,
+ 'execution_time': 0.028678178787231445
+}
+```
+</Accordion>
+
+## Creating Custom Executors
+
+You can create custom executors by inheriting from the `BaseExecutor` class and implementing the `execute_sql` method. Here's an example of a custom executor for a PostgreSQL database:
+
+```python
+import pg8000
+import time
+from premsql.executors.base import BaseExecutor
+
+class PostgreSQLExecutor(BaseExecutor):
+    def execute_sql(self, sql: str, dsn_or_db_path: str) -> dict:
+        # Connect to the database using pg8000
+        conn = pg8000.connect(dsn=dsn_or_db_path)
+        cursor = conn.cursor()
+
+        start_time = time.time()
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            error = None
+        except Exception as e:
+            result = None
+            error = str(e)
+
+        end_time = time.time()
+        cursor.close()
+        conn.close()
+
+        result = {
+            "result": result,
+            "error": error,
+            "execution_time": end_time - start_time,
+        }
+        return result
+```
+
+Awesome now that we understand what executors are and how they work,
+let's understand how to evaluate the generated SQL queries using the `Text2SQLEvaluator` in the next section.
+
