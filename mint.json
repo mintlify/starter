@@ -40,6 +40,11 @@
       "url": "api-reference"
     },
     {
+      "name": "Changelog",
+      "icon": "book",
+      "url": "https://feedback.thought.ly/changelog"
+    },
+    {
       "name": "Book a Demo",
       "icon": "calendar",
       "url": "https://fns.thought.ly/lead/email?demo=true"
@@ -211,6 +216,10 @@
   "analytics": {
     "ga4": {
       "measurementId": "G-4JRQ329JCS"
+    },
+    "posthog": {
+      "apiKey": "phc_1rmhDrcylqNFKJpFQwDuBV3P4wFYFnZBr8CMY31jLpX",
+      "apiHost": "https://us.i.posthog.com"
     }
   }
 }
