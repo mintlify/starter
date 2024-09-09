@@ -1,5 +1,5 @@
 ---
-title: PremSQL Generators
+title: Generators
 description: Models that generate SQL queries from user input and a specified database source.
 ---
 
@@ -8,42 +8,39 @@ Premsql generators are responsible for converting natural language questions int
 In this guide, we'll explore how to utilize both Hugging Face and PremAI providers to work with local and hosted models. Finally, we'll demonstrate how to create custom generators. Let’s get started by importing the necessary packages.
 
 ```python 
-from premsql.generators.huggingface import Text2SQLGeneratorHF
-from premsql.generators.premai import Text2SQLGeneratorPremAI
+from premsql.generators import Text2SQLGeneratorHF
 from premsql.datasets import Text2SQLDataset
 ```
 
+Let's load a sample dataset:
+
+```python
+bird_dataset = Text2SQLDataset(
+    dataset_name='bird', split="train", force_download=False,
+    dataset_folder="/path/to/dataset"
+)
+```
+<Card>
+If you are not familiar with datasets, then you can checkout out
+[**Datasets**](/premsql/datasets) guide.
+</Card>
+
 ## How Generators Work
 
-Premsql generators offer two main generation strategies:
+PremSql generators offer two main generation strategies:
 
 1. **Simple Generation:** Generates SQL from a prompt that includes the table schema, user question, few-shot examples, etc.
 2. **Execution-Guided Decoding:** Enhances performance by executing the generated SQL on the DB. If an error occurs, the generator uses the error message to self-correct and retries until it succeeds or reaches the maximum trials.
 
-Let’s begin with simple generation using the BirdBench dev dataset.
 
-```python
-dataset = Text2SQLDataset(
-    dataset_name="bird",
-    split="test",
-    database_folder_name="test_databases",
-    json_file_name="test.json",
-    dataset_folder="/root/anindya/Submission/text2sql/data",
-).setup_dataset(
-    num_rows=10,
-    num_fewshot=3,
-)
+### Input and Output for Generators
 
-dataset[0]
-```
-
-### Data Preparation for Generators
-
-The input for generators is a `data_blob`, which contains:
+The input for generators is a `data_blob`, which should contains:
 - **prompt**: The prompt to be passed to the model.
 - **db_path**: The database path.
 
-Ensure your prompt includes the table schema. Now, let's define our generator using the [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) model.
+The prompt should be contain the tabel schemas and also all the required 
+instructions to generate the SQL query. The output is a SQL query. Let's define our generator using the [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) model available on HuggingFace.
 
 
 ```python 
@@ -55,12 +52,39 @@ generator = Text2SQLGeneratorHF(
 )
 ```
 
-### Using HuggingFace Transformers
+**Arguments:**
+- **model_or_name_or_path**: Union[str, transformers.PreTrainedModel]
+    The model name or path to be used for the text-to-SQL generation. It can be a 
+    string specifying the model path or a pre-loaded model object.
 
-`Text2SQLGeneratorHF` utilizes Hugging Face Transformers. When you instantiate the class with an `experiment_name`, it creates a folder `./experiments/<experiment_name>` to store results, eliminating the need for repeated generations.
+- **experiment_name**: str
+    The name of the experiment. It will create a folder with this name in the 
+    `./experiments` directory to store the outputs.
 
-Let’s generate a response using a sample datapoint.
+- **type**: str
+    The type of experiment. This can be either `train` or `test`. Based on that it will create an 
+    experiment folder. So suppose your name is expeiment is: "test_generators" then it will create a folder 
+    `./experiments/test_generators_test` or `./experiments/test_generators_train` based on the type.
 
+- **experiment_folder**: Optional[str], default=None
+    The folder where experiment outputs. By default, it will be created in the `./experiments` 
+    directory.
+
+- **hf_token**: Optional[str], default=None
+    Hugging Face token for loading private models from the Hugging Face Hub.
+
+- **device**: Optional[str], default=None
+    The device on which the model will be loaded ('cpu', 'cuda', etc.). 
+    If None, it defaults to the available CUDA device if present, otherwise 'cpu'.
+
+- **kwargs**: dict
+    Additional arguments passed to the model or any other configurations.
+
+
+## Using HuggingFace Transformers
+
+`Text2SQLGeneratorHF` utilizes Hugging Face Transformers. You can use any model from the 
+Hugging Face model hub. Now let's generate answer for a single data point. 
 
 ```python 
 
@@ -72,18 +96,40 @@ response = generator.generate(
     temperature=0.1,
     max_new_tokens=256
 )
+print(response)
 ```
+<Accordion title="Output">
+SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1;
+</Accordion>
 
-The `generate` method runs a single inference without saving results. To generate and save multiple responses:
+**Arguments:**
+
+- **data_blob**: `dict`
+    The data blob containing the prompt and other required information.
+- **temperature**: `Optional[float]`, default=0.0
+    The temperature value for sampling. Higher values increase diversity.
+- **max_new_tokens**: `Optional[int]`, default=256
+    The maximum number of tokens to generate.
+- **postprocess**: `Optional[bool]`, default=True
+    Whether to postprocess the generated SQL query.
+- **kwargs**: `dict`
+    Additional arguments passed to the model or any other configurations.
+
+The `generate` method runs a single inference without saving results. 
+To generate and save multiple responses inside the `experiment_path`, use the `generate_and_save` method.
 
 ```python 
-response = generator.generate_and_save(
-    dataset=dataset
+responses = generator.generate_and_save_results(
+    dataset=bird_dataset,
     temperature=0.1,
     max_new_tokens=256
 )
+
+print(responses)
+
 ```
-Results are saved in the `experiment_path` as `predict.json`. On subsequent runs, the cached results are reused unless `force=True` is specified.
+Results are saved in the `experiment_path` as `predict.json`. 
+On subsequent runs, the cached results are reused unless `force=True` is specified.
 
 ```python 
 response = generator.generate_and_save(
@@ -93,25 +139,124 @@ response = generator.generate_and_save(
     force=True
 )
 ```
+Now this will force the generator to generate the SQL queries again and save them in the `predict.json` file.
 
-### Execution-Guided Decoding
+
+## Execution-Guided Decoding
 
 This strategy executes the generated SQL against the DB and, if it fails, uses the error message for correction, repeating until it gets a valid result or the retries run out.
 
-To use this, you'll need an executor like `SQLiteExecutor`. Here's how to use it with `generate_and_save`:
+<img src="images/premsql/execution_guided_decoding.png" alt="Execution Guided Decoding" />
+
+
+To use this, you'll need an executor like `SQLiteExecutor`. You can use any other executors as well.
+Here's how to use it with `generate_and_save` method:
 
 ```python 
-from premsql.evaluator import SQLiteExecutor
+from premsql.executors import SQLiteExecutor
 
 executor = SQLiteExecutor()
-response = generator.generate_and_save(
-    dataset=dataset
+response = generator.generate_and_save_results(
+    dataset=bird_dataset,
     temperature=0.1,
     max_new_tokens=256,
     force=True,
     executor=executor,
-    max_retries=5  # optional, default is 5
+    max_retries=5 # this is optional (default is already set to 5)
 )
 ```
 
-This approach employs execution-guided decoding, enhancing the reliability of the generated SQL by iterative correction.
+This approach employs execution-guided decoding, 
+enhancing the reliability of the generated SQL by iterative correction.
+
+
+## Custom Generators
+
+You can also create custom generators by extending the `Text2SQLGenerator` class. This will 
+allow you to define your own generation strategies, models, and other configurations but 
+still use the same API as the built-in generators. Here is an example on how you can do that. 
+
+To define custom generator, you need to define four methods (mandatory):
+
+1. `load_client`: Load the model and other configurations. This method acts like property
+    and should return the model object.
+
+2. `load_tokenizer`: Load the tokenizer for the model. This method acts like property
+    and should return the tokenizer object. In case your generator is not using any tokenizer, just return None.
+
+3. `generate`: Generate the SQL query from the prompt. This method should return the SQL query. So what ever 
+    logic is needed to run the model should be dumped here, such that the output is a single SQL query.
+
+4.  `model_name_or_path`: Here you need to return a string which will tell either the name of the model used or
+    the path to load the model. 
+
+
+Now let's see how you can load a custom generator. Let's use open ai for this. 
+
+```python 
+from typing import Optional 
+import os
+from openai import OpenAI 
+from premsql.generators.base import Text2SQLGeneratorBase
+
+class Text2SQLGeneratorOpenAI(Text2SQLGeneratorBase):
+    def __init__(
+        self,
+        model_name: str,
+        experiment_name: str, 
+        type: str,
+        experiment_folder: Optional[str]=None,
+        openai_api_key: Optional[str]=None,
+    ):
+        self._api_key = openai_api_key or os.environ.get("OPENAI_API_KEY")
+        self.model_name = model_name 
+        super().__init__(
+            experiment_folder=experiment_folder,
+            experiment_name=experiment_name,
+            type=type,
+        )
+    
+    # Define your openai client 
+    @property
+    def load_client(self):
+        client = OpenAI(api_key=self._api_key)
+        return client  
+
+    # Define the tokenizer
+    @property
+    def load_tokenizer(self):
+        pass 
+
+    # Define the model name and path
+    @property
+    def model_name_or_path(self):
+        return self.model_name
+    
+    # Write the generate function
+    def generate(
+        self,
+        data_blob: dict,
+        temperature: Optional[float] = 0.0,
+        max_new_tokens: Optional[int] = 256,
+        postprocess: Optional[bool] = True,
+        **kwargs
+    ) -> str:
+        prompt = data_blob["prompt"]
+        max_tokens = max_new_tokens
+        generation_config = {
+            **kwargs,
+            **{"temperature": temperature, "max_tokens": max_tokens},
+        }
+        completion = self.client.client.chat.completions.create(
+            model=self.model_name,
+            messages=[{
+                "role": "user",
+                "content": prompt
+            }],
+            **generation_config
+        ).choices[0].message
+        return self.postprocess(output_string=completion) if postprocess else completion
+```
+
+Thats it, thats how you write a custom generator. Now you can use this generator in the same way as you use the built-in generators. 
+
