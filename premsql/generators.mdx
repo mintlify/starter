@@ -169,6 +169,63 @@ response = generator.generate_and_save_results(
 This approach employs execution-guided decoding, 
 enhancing the reliability of the generated SQL by iterative correction.
 
+## More Supported Generators
+
+Other than huggingface models, we also support Prem AI and Open AI APIs. Here is how you can use them:
+
+### Prem AI Generators
+
+Prem AI SDK provides all the best LLMs out there in a very reasonable price. You can use them in the same way as you use the Hugging Face Generators. 
+
+<Note>
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
+</Note> 
+
+```python
+from premsql.generators import Text2SQLGeneratorPremAI
+
+client = Text2SQLGeneratorPremAI(
+    project_id=4071,
+    model_name="gpt-4o",
+    experiment_name="testing_prem_sdk",
+    type="test",
+    premai_api_key="xxx-xxx-xxx-xxx" # Get your  API key at https://app.premai.io
+)
+
+response = client.generate_and_save_results(
+    dataset=bird_dataset,
+    temperature=0.1,
+    max_new_tokens=256,
+    force=True,
+    executor=executor,
+    max_retries=5 # this is optional (default is already set to 5)
+)
+
+```
+
+### Open AI Generators
+
+It has a very similar interface like the above:
+
+```python
+from premsql.generators import Text2SQLGeneratorOpenAI
+
+client = Text2SQLGeneratorOpenAI(
+    model_name="gpt-4o",
+    experiment_name="testing_openai",
+    type="test",
+    openai_api_key="xxxx-xxx-xxxx-xxx"
+)
+
+response = client.generate_and_save_results(
+    dataset=bird_dataset,
+    temperature=0.1,
+    max_new_tokens=256,
+    force=True,
+    executor=executor,
+    max_retries=5 # this is optional (default is already set to 5)
+)
+```
 
 ## Custom Generators
 
