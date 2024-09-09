@@ -26,12 +26,18 @@ To get started, you'll use the `Text2SQLDataset` class from the `premsql` packag
 from premsql.datasets import Text2SQLDataset
 from premsql.utils import print_data
 
-# Load the BirdBench dataset
 bird_dataset = Text2SQLDataset(
     dataset_name='bird', split="train", force_download=False,
-    dataset_folder="/root/anindya/text2sql/data"
+    dataset_folder="/path/to/your/data" # change this to the path where you want to store the dataset
 )
 ```
+
+<Card icon="link" href="https://bird-bench.github.io/">
+BirdBench is one of the very popular and recent Text to SQL Benchmarking dataset. It comes with around 9K train and 1534 validation data
+composing of complex and diverse queries around real world datasets. They also have a private test data which they use to test different
+Text to SQL models and approaches by the community. 
+</Card>
+
 
 ### Accessing Raw Data
 
@@ -47,6 +53,16 @@ raw_bird_training_dataset = bird_dataset.raw_dataset
 print(raw_bird_training_dataset[0])
 ```
 
+<Accordion title="Output">
+```python
+{'db_id': 'movie_platform',
+ 'question': 'Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.',
+ 'evidence': 'released in the year 1945 refers to movie_release_year = 1945;',
+ 'SQL': 'SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1'
+}
+```
+</Accordion>
+
 ### Available Filters
 
 You can view the available filters for the dataset:
@@ -54,6 +70,15 @@ You can view the available filters for the dataset:
 ```python
 print(bird_dataset.filters_available)
 ```
+
+<Accordion title="Output">
+```python
+['db_id']
+```
+</Accordion>
+
+Filters are those keys in the dataset that can be used to filter the dataset based on specific criteria. In our case of BirdBench, we can only
+filter by `db_id`. PremSQL automatically detects which filters are available for a dataset and provides them as a list.
 
 ## Setting Up the Dataset
 
@@ -78,9 +103,24 @@ bird_dataset = bird_dataset.setup_dataset(
 print_data(bird_dataset[0])
 ```
 
+<Accordion title="Output">
+```python
+{'input_ids': tensor([32013, 32013,  2042,  ...,   207,    16, 32021]),
+ 'labels': tensor([ -100,  -100,  -100,  ...,   207,    16, 32021]),
+ 'raw': {'db_id': 'movie_platform',
+  'question': 'Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.',
+  'evidence': 'released in the year 1945 refers to movie_release_year = 1945;',
+  'SQL': 'SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1',
+  'db_path': '/root/anindya/text2sql/data/bird/train/train_databases/movie_platform/movie_platform.sqlite',
+  'prompt': '<｜begin▁of▁sentence｜>You are an AI programming assistant, utilizing the Deepseek Coder model, develo....tles released in year 1945. Sort the listing by the descending order of movie popularity.\n\n# SQL: \n\n'}
+}
+```
+</Accordion>
+
+
 ### Preview Without Tokenization
 
-Tokenization can be computationally heavy. To preview the dataset without tokenizing, set `model_name_or_path` to `None`.
+Tokenization sometimes can be computationally heavy. To preview the dataset without tokenizing, set `model_name_or_path` to `None`.
 
 ```python
 bird_dataset_without_tokenization = Text2SQLDataset(
@@ -93,8 +133,27 @@ bird_dataset_without_tokenization = Text2SQLDataset(
 print_data(bird_dataset_without_tokenization[0])
 ```
 
+<Accordion title="Output">
+```
+2024-09-09 04:27:12,344 - [BIRD-DATASET] - INFO - Loaded Bird Dataset
+2024-09-09 04:27:12,345 - [BIRD-DATASET] - INFO - Setting up Bird Dataset
+Applying prompt: 100%|██████████| 3/3 [00:00<00:00, 1908.24it/s]
+```
+```python
+{'db_id': 'movie_platform',
+ 'question': 'Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.',
+ 'evidence': 'released in the year 1945 refers to movie_release_year = 1945;',
+ 'SQL': 'SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1',
+ 'db_path': '/root/anindya/text2sql/data/bird/train/train_databases/movie_platform/movie_platform.sqlite',
+ 'prompt': '\n# Follow these instruction:\nYou will be given schemas of tables of a database. Your job is to write....itles released in year 1945. Sort the listing by the descending order of movie popularity.\n\n# SQL: \n'
+}
+```
+</Accordion>
+
+
 ## Filtering Datasets
 
+We are now loading the BirdBench validation dataset. And as you can see there are two types of filters available. These are: `db_id` or `difficulty`
 You can filter datasets based on available criteria, such as `db_id` or `difficulty`.
 
 Example of filtering by difficulty:
@@ -115,9 +174,27 @@ simple_count = len([example for example in bird_validation if example["difficult
 print(simple_count)
 ```
 
+<Accordion title="Output">
+```
+2024-09-09 04:27:20,270 - [BIRD-DATASET] - INFO - Loaded Bird Dataset
+2024-09-09 04:27:20,271 - [BIRD-DATASET] - INFO - Setting up Bird Dataset
+Applying prompt: 100%|██████████| 100/100 [00:00<00:00, 2101.37it/s]
+
+100
+```
+</Accordion>
+
 ## Using Other Available Datasets
 
-Here’s how you can load other datasets like Spider, Domains, and Gretel AI.
+As mentioned earlier, PremSQL provides access to some best readily available open source datasets like:
+
+1. [BirdBench Dataset](https://huggingface.co/datasets/premai-io/birdbench)
+2. [Spider Unified Datasets](https://huggingface.co/datasets/premai-io/spider)
+3. [Domains Dataset](https://huggingface.co/datasets/premai-io/domains)
+4. [Gretel AI Dataset](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql)
+
+Let's load and see how the other datasets looks like:
+
 
 ```python
 # Loading Spider Dataset
@@ -156,19 +233,66 @@ gretel_dataset = Text2SQLDataset(
 print_data(gretel_dataset[0]["raw"])
 ```
 
+<Accordion title="Output">
+```python
+{
+    'id': 5097,
+    'question': 'What is the total volume of timber sold by each salesperson, sorted by salesperson?',
+    'schema': "CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT); INSERT INTO salesperson (salesperson_id, name, region) VALUES (1, 'John Doe', 'North'), (2, 'Jane Smith', 'South'); CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE); INSERT INTO timber_sales (sales_id, salesperson_id, volume, sale_date) VALUES (1, 1, 120, '2021-01-01'), (2, 1, 150, '2021-02-01'), (3, 2, 180, '2021-01-01');",
+    'SQL': 'SELECT salesperson_id, name, SUM(volume) as total_volume FROM timber_sales JOIN salesperson ON timber_sales.salesperson_id = salesperson.salesperson_id GROUP BY salesperson_id, name ORDER BY total_volume DESC;',
+    'context': "CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT); INSERT INTO salesperson (salesperson_id, name, region) VALUES (1, 'John Doe', 'North'), (2, 'Jane Smith', 'South'); CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE); INSERT INTO timber_sales (sales_id, salesperson_id, volume, sale_date) VALUES (1, 1, 120, '2021-01-01'), (2, 1, 150, '2021-02-01'), (3, 2, 180, '2021-01-01');",
+    'task_type': 'analytics and reporting',
+    'complexity': 'single join',
+    'db_id': 'forestry',
+    'db_path': None,
+    'prompt': '<｜begin▁of▁sentence｜>You are an AI programming assistant, utilizing the Deepseek Coder model, develo....tion: What is the total volume of timber sold by each salesperson, sorted by salesperson?\n\n# SQL: \n\n'
+ }
+```
+</Accordion>
+
+
 ## Dataset Merging
 
-`premsql` datasets support merging, allowing you to pack multiple datasets together for combined use. This is useful when training on multiple datasets.
+`premsql` datasets support merging, allowing you to pack multiple datasets together for combined use. 
+This is useful when training on multiple datasets or you want to do validation on a combination of datasets.
 
 ```python
 # Merge datasets
 merged_dataset = [*bird_dataset, *spider_dataset, *domains, *gretel_dataset]
+
+print(f"Length of bird dataset: {len(bird_dataset)}")
+print(f"Length of spider dataset: {len(spider_dataset)}")
+print(f"Length of domains dataset: {len(domains)}")
+print(f"Length of gretel dataset: {len(gretel_dataset)}")
 print(f"Length of merged dataset: {len(merged_dataset)}")
 
 print_data(merged_dataset[0])
 ```
 
-## Understanding Prompts in Premsql
+<Accordion title="Output">
+```
+Length of bird dataset: 3
+Length of spider dataset: 3
+Length of domains dataset: 3
+Length of gretel dataset: 3
+Length of merged dataset: 12
+```
+```python
+{
+    'input_ids': tensor([32013, 32013,  2042,  ...,   207,    16, 32021]),
+    'labels': tensor([ -100,  -100,  -100,  ...,   207,    16, 32021]),
+    'raw': {'db_id': 'movie_platform',
+    'question': 'Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.',
+    'evidence': 'released in the year 1945 refers to movie_release_year = 1945;',
+    'SQL': 'SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1',
+    'db_path': '/root/anindya/text2sql/data/bird/train/train_databases/movie_platform/movie_platform.sqlite',
+    'prompt': '<｜begin▁of▁sentence｜>You are an AI programming assistant, utilizing the Deepseek Coder model, develo....tles released in year 1945. Sort the listing by the descending order of movie popularity.\n\n# SQL: \n\n'}
+}
+```
+</Accordion>
+
+
+## Understanding Prompts in PremSQL
 
 Here's how a prompt looks when wrapped around a model’s prompt template:
 
@@ -176,9 +300,46 @@ Here's how a prompt looks when wrapped around a model’s prompt template:
 print(gretel_dataset[0]["raw"]["prompt"])
 ```
 
+<Accordion title="Output">
+```
+<｜begin▁of▁sentence｜>You are an AI programming assistant, utilizing the Deepseek Coder model, developed by Deepseek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer
+### Instruction:
+
+# Follow these instruction:
+You will be given schemas of tables of a database. Your job is to write correct
+error free SQL query based on the question asked. Please make sure:
+
+1. Do not add ``` at start / end of the query. It should be a single line query in a  single line (string format)
+2. Make sure the column names are correct and exists in the table
+3. For column names which has a space with it, make sure you have put `` in that column name
+4. Think step by step and always check schema and question and the column names before writing the
+query. 
+
+# Database and Table Schema:
+CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT); INSERT INTO salesperson (salesperson_id, name, region) VALUES (1, 'John Doe', 'North'), (2, 'Jane Smith', 'South'); CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE); INSERT INTO timber_sales (sales_id, salesperson_id, volume, sale_date) VALUES (1, 1, 120, '2021-01-01'), (2, 1, 150, '2021-02-01'), (3, 2, 180, '2021-01-01');
+
+# Here are some Examples on how to generate SQL statements and use column names:
+
+Question: What is the total volume of timber sold by each salesperson, sorted by salesperson?
+SQL: SELECT salesperson_id, name, SUM(volume) as total_volume FROM timber_sales JOIN salesperson ON timber_sales.salesperson_id = salesperson.salesperson_id GROUP BY salesperson_id, name ORDER BY total_volume DESC;
+
+
+# Question: What is the total volume of timber sold by each salesperson, sorted by salesperson?
+
+# SQL: 
+```
+</Accordion>
+
+This prompts are made dynamically as long as the raw dataset contains the necessary keys: `db_id`, `question` and `SQL` (all case sensitives) and 
+the dataset is structured in the standardization followed by PremSQL. Let's understand more about the standardization and how you can create your own dataset.
+
+
 ## Creating Your Own Dataset
 
-To create your dataset, organize your files in the following structure:
+If you have some annotations for your Text to SQL task on your private data then you can create your own dataset.When it comes to tasks like Text to SQL, we face a lot of dependencies with databases at every step. For example, to make a dataset for Text to SQL, 
+you need a module that can connect to databases, fetch the schemas, and apply them to the prompt. That's why we have introduced a more standard approach to providing inputs, which is used all across PremSQL. 
+If you use it for your private databases, then you can extend and customize it for your data and your use case.
+However, you strictly need to organize your files in the following structure:
 
 ```
 ├── databases
@@ -212,16 +373,20 @@ You can load your dataset using:
 ```python
 from premsql.datasets import StandardDataset
 
-dataset = StandardDataset(
-    split="validation",
-    dataset_path="../data/bird/validation",
-    database_folder_name="dev_databases",
+validation_dataset = StandardDataset(
+    split="validation",    # it can be either train / validation / test depending on your dataset and the name of the json file
+    dataset_path="/path/to/the/folder/containing/the/files/",
+    database_folder_name="databases", # The same name of the folder 
     json_file_name="validation.json",
 )
+
+train_dataset = StandardDataset(
+    split="train",    # it can be either train / validation / test depending on your dataset and the name of the json file
+    dataset_path="/path/to/the/folder/containing/the/files/",
+    database_folder_name="databases", # The same name of the folder 
+    json_file_name="train.json",
+)
 ```
-
-Here's an improved and more readable version of the section on customizing Text-to-SQL datasets in `premsql`, with grammar corrections and clearer explanations:
-
 
 ## Advanced Customization for Text-to-SQL Datasets
 
