@@ -1,5 +1,87 @@
 ---
 title: Nodes
+description: Learn about the different type of Nodes you can use when building your Voice Agent
 ---
 
 ![title](/images/hero/nodes.png)
+
+## What is a Node?
+
+A **Node** is a building block of your Voice Agent's conversation flow. Each Node represents a step in the conversation, and you can connect them together to create your Voice Agent's flow.
+
+When the conversation begins, the Agent will start at the [Start Node](#start-node). From there, it will move to the next Node based on the user's input and the logic you've defined using [Outcomes](/build/agent-builder/outcomes).
+
+In this section, we'll cover the different types of Nodes you can use when building your Voice Agent.
+
+## Anatomy of a Node
+
+Each Node has a few key components. While each Node is unique, they all share the following attributes:
+
+1. **[Type](#types-of-nodes)**: The type of Node (e.g., Start, Speak, Transfer, etc.)
+2. **[Outcomes](/build/agent-builder/outcomes)**: The possible paths the conversation can take from this Node
+3. **Content or Action**: The message to be stated or action the Node will perform
+4. **[Variables](/build/agent-builder/variables)**: The data the Node will collect or use during the conversation
+5. **[Rules](/build/agent-builder/rules)**: Guidelines your Voice Agent must follow when on this Node
+
+<Info>No need to skip ahead: after Nodes, we'll cover Outcomes, Variables, and Rules.</Info>
+
+## Types of Nodes
+
+There are several types of Nodes you can use when building your Voice Agent. Currently, Thoughtly supports the following Node types:
+
+### Start Node
+
+The **Start** Node is where the conversation begins. When the call is initiated, the Agent will start at the Start Node and move to the next Node based on the logic you've defined using Outcomes.
+
+### Speak Node
+
+![Speak Node](/images/ui/speak-node.png)
+
+The **Speak** Node is used to play a message to the caller. This message can be text-to-speech or an audio file. Speak Nodes are commonly used to greet the caller, provide information, or ask a question.
+
+### Transfer Node
+
+The **Transfer** Node is used to transfer the call to another phone number. This can be a human agent, another Voice Agent, or an external system. Transfer Nodes are commonly used to route calls to the right department or person.
+
+#### Phone Transfer
+
+Configure the Transfer Node to transfer the call to a phone number. This can be a human agent, another Voice Agent, or an external system.
+
+#### Agent Transfer
+
+Configure the Transfer Node to transfer the call to another Voice Agent. This can be used to create a multi-step conversation flow or to hand off the call to another Agent.
+
+#### SIP Transfer
+
+Configure the Transfer Node to transfer the call to a SIP address. This can be used to connect your Voice Agent to your existing phone system.
+
+### SMS Node
+
+The **SMS** Node is used to send an SMS message to the caller. This message can be a text-to-speech message or a pre-recorded audio file. SMS Nodes are commonly used to send appointment reminders, follow-up messages, or confirmations.
+
+#### Static SMS
+
+Configure the SMS Node to send a static text message to the caller. This can be used to provide a link for data collection, share additional information, confirm an appointment, and more.
+
+#### Conversational SMS
+
+Continue the current conversation over SMS. When a customer responds to one of these SMS messages, the conversation will continue just like it would over the phone. Learn more about [Conversational SMS](/deploy/sms).
+
+### Integration Node
+
+The **Integration** Node is used to connect your Voice Agent to external systems. This can include CRMs, databases, APIs, and more. Integration Nodes are commonly used to look up customer information, update records, or perform other tasks.
+
+### End Node
+
+The **End** Node is where the conversation ends. When the Agent reaches the End Node, they will read the final message, then hang up the call. End Nodes are commonly used to thank the caller, provide next steps, or confirm the call has ended.
+
+After an End Node, [Automations](/build/automations/overview) take over, allowing you to perform actions after the call has ended.
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Outcomes"
+	icon="split"
+	href="/build/agent-builder/outcomes"
+	description="Learn how to use Outcomes to define the logic of your Voice Agent's conversation flow"
+/>

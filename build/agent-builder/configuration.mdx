@@ -15,16 +15,53 @@ Here, you can change the name of your Agent, choose the [type of conversation](/
 	<img width="300" src="/images/ui/agent-settings.png" alt="Thoughtly agent settings" style={{ "borderRadius": 10 }}/>
 </Frame>
 
+## Genius
+
+Genius is Thoughtly's in-house [RAG](/resources/glossary#rag-retrieval-augmented-generation) system that provides your Voice Agent with access to a vast amount of knowledge you provide. By enabling Genius, your Voice Agent will be able to answer a wide range of questions and provide detailed information to callers.
+
+To enable Genius, you'll first need to [create a Genius instance](/build/genius) and then select it from the dropdown in the Agent Settings. Be sure to check out the [Genius documentation](/build/genius) for more information on how to use this powerful tool.
+
+<Warning>Genius is not used to provide prompts or instructions to your Voice Agent. Instead, it is used to provide detailed, unstructured information to callers. For special prompting or instructions, use the [Custom Prompt](#custom-prompt) setting.</Warning>
+
 ## Presence Settings
 
 Under the Presence tab, you can configure the personality of your Voice Agent. You can choose from a variety of personalities, such as friendly, professional, assertive, and more. You can also adjust the tone of your Agent's voice to match the personality you've selected.
 
-<Frame caption="Thoughtly Agent Presence Settings">
-	<img width="300" src="/images/ui/personality-settings.png" alt="Thoughtly agent presence settings" style={{ "borderRadius": 10 }}/>
-</Frame>
+### Background Audio
+
+Provide additional realism to your Voice Agent by adding background audio. This audio will play ambiently in the background throughout the duration of the call, providing a more immersive experience for your callers. Background audio can be disabled by selecting "None" from the dropdown.
+
+To hear a sample of the background audio, click the play button next to the dropdown.
+
+- **Call Center**: subtle phone ringing, agent typing, and office ambiance
+- **City Street**: cars passing, people talking, and footsteps
+- **Coffee Shop**: quiet chatter, coffee brewing, and dishes clinking
+- **Car Interior**: engine running, turn signal clicking, and highway noise
+- **New York City Subway**: train rumbling, announcements, chatter, and footsteps
+
+### Interim Audio
+
+Interim audio is a short audio clip that plays while the Voice Agent is processing a response. This audio can be used to reassure the caller that the Agent is still there and working on their request. Interim audio can be disabled by selecting "None" from the dropdown.
+
+- **Keyboard Typing**: simulate the sound of your Voice Agent typing on a keyboard
+
+## Personality
+
+Configure how your Voice Agent will interact with callers. By changing personality settings, you can adjust how your Voice Agent will respond to responses that do not directly follow the [happy path](/resources/glossary#happy-path), such as objection handling during a sales call.
+
+- **Assertiveness**: how direct and confident your Voice Agent is
+- **Humor**: how funny and light-hearted your Voice Agent is
 
 ## Advanced Settings
+
+Under the Advanced tab, you can configure additional settings for your Voice Agent.
 
 ### Custom Prompt
 
 If you want to provide a custom prompt for your Voice Agent, you can do so here. This is the message that will be played when the conversation starts.
+
+<br/>
+
+<Card title="Nodes" icon="diagram-nested" href="/build/agent-builder/nodes" horizontal="true">
+	Next, learn about the different type of Nodes you can use when building your Voice Agent ->
+</Card>

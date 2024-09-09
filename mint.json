@@ -86,8 +86,8 @@
             "build/agent-builder/configuration",
             "build/agent-builder/nodes",
             "build/agent-builder/outcomes",
-            "build/agent-builder/training-and-rules",
-            "build/agent-builder/variables"
+            "build/agent-builder/variables",
+            "build/agent-builder/training-and-rules"
           ],
           "icon": "diagram-nested",
           "iconType": "light"
@@ -102,8 +102,7 @@
           "icon": "code-branch",
           "iconType": "light"
         },
-        "build/genius",
-        "build/automations"
+        "build/genius"
       ]
     },
     {
