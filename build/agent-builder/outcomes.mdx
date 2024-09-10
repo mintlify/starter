@@ -1,0 +1,51 @@
+---
+title: Outcomes
+description: Define the logic of your Voice Agent's conversation flow
+---
+
+![title](/images/ui/node-with-outcomes.png)
+
+## What are Outcomes?
+
+An **Outcome** is a decision point in your Voice Agent's conversation flow. Outcomes are used to define the logic of your conversation and informs your Voice Agent how to proceed based on the caller's responses.
+
+When building your Voice Agent, you can use Outcomes to:
+
+- **Branch the conversation**: Create different paths based on the caller's responses
+- **Handle objections**: Respond to common objections or questions from the caller
+- **End the conversation**: Close the call based on specific criteria
+- **Transfer the call**: Route the call to a human agent or another department
+- **Trigger an integration**: Send data to an external system or API
+
+## Creating an Outcome
+
+To create an Outcome, select a [Node](/build/agent-builder/nodes) in the conversation flow and scroll down to the Outcomes section. Here is where you can manage the Outcomes for the selected Node.
+
+When creating an Outcome, it's important to think about the most concise and clear way to inform your Voice Agent how to proceed. Outcomes are written in plain English (or your selected [language](/resources/faq#what-languages-does-thoughtly-support)) and should be easy to understand.
+
+For example, imagine you create a [Speak Node](/build/agent-builder/nodes#speak-node) that asks the caller for their favorite color. Just like the image below, you would create multiple Outcomes with the selected color as the condition. If the caller says "blue," the Agent will proceed to [Node A](/build/agent-builder/nodes) connected to the "blue" Outcome, and so on.
+
+![outcomes](/images/ui/outcomes.png)
+
+<Warning>You should *not* create an Outcome with text like "If the caller says 'blue,' proceed to Node A" or "The caller responded with the color blue." These are unnecessary and can confuse your Voice Agent when processing the conversation in real-time.</Warning>
+
+## Branching
+
+Branching is a common use case for Outcomes. By creating multiple Outcomes with different conditions, you can create a decision tree that guides the conversation based on the caller's responses.
+
+Keeping with our "favorite color" example, the image below shows how you can create multiple Outcomes for different colors.
+
+- **Blue**: The Voice Agent says they love the color blue, waits for input, asks if the caller wants to mention anything else, then ends the call after reading the [End Node](/build/agent-builder/nodes#end-node) message.
+- **Red**: The Voice Agent says they don't like the color red, waits for caller input, then ends the call after reading the [End Node](/build/agent-builder/nodes#end-node) message.
+- **Green**: The Voice Agent says the caller won the contest (let's go!), waits for input, then transfers the call to a human agent.
+
+![branching](/images/gifs/branching.gif)
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Variables"
+	icon="brackets-curly"
+	href="/build/agent-builder/variables"
+	description="Learn how to use Variables to store and retrieve information during a call ->"
+/>

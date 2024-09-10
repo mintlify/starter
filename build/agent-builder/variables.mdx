@@ -3,11 +3,92 @@ title: Variables
 description: Learn how to use Variables to store and retrieve information during a call
 ---
 
+![title](/images/hero/variables.png)
+
+## What is a Variable?
+
+A **Variable** is a piece of data that can be stored and retrieved during a call. Variables are used to keep track of information, such as the caller's name, phone number, or a AI-generated value.
+
+## Reference a Variable
+
+To reference a Variable in your Voice Agent, you can use `{{variable_name}}` in the text of a [Node](/build/agent-builder/nodes) and your Voice Agent will replace it with the value of the Variable during the call.
+
+On [Speak Nodes](/build/agent-builder/nodes#speak-node), the content of the Variable will be spoken to the caller. On [Integration Nodes](/build/agent-builder/nodes#integration-node), the content of the Variable will be sent to the Integration.
+
+![Variable](/images/ui/variables.png)
+
+## Types of Variables
+
+When building your Voice Agent, there are a few types of Variables:
+
+### System Variables
+
+System Variables are predefined by Thoughtly and are used to store information about the call, such as the caller's phone number or the current time. System Variables are read-only and cannot be modified during a call.
+
+#### Participants
+
+Participants are the parties involved in the call. There are two participants in a phone call:
+
+- **From**: The party that initiated the call
+- **To**: The party that received the call
+
+| Variable | Description                           | <Tooltip tip="Some variables are not always available. For example, state and zip would not be accessible if the party is not from the United States.">Default</Tooltip> |
+| -------- | ------------------------------------- | ------------ |
+| `{{system.participant.from.phone}}` | The phone number of the party that initiated the call | ✅ |
+| `{{system.participant.from.country}}` | The country of the party that initiated the call | ✅ |
+| `{{system.participant.from.state}}` | The state of the party that initiated the call | ❌ |
+| `{{system.participant.from.city}}` | The city of the party that initiated the call | ❌ |
+| `{{system.participant.from.zip}}` | The ZIP code of the party that initiated the call | ❌ |
+| `{{system.participant.to.phone}}` | The phone number of the party that received the call | ✅ |
+| `{{system.participant.to.country}}` | The country of the party that received the call | ✅ |
+| `{{system.participant.to.state}}` | The state of the party that received the call | ❌ |
+| `{{system.participant.to.city}}` | The city of the party that received the call | ❌ |
+| `{{system.participant.to.zip}}` | The ZIP code of the party that received the call | ❌ |
+
+
+#### Call
+
+Call Variables store information about the call itself, such as the call ID, direction, and duration.
+
+
+| Variable | Description                           |
+| -------- | ------------------------------------- |
+| `{{system.call.id}}` | The unique identifier of the call |
+| `{{system.call.direction}}` | The direction of the call (`inbound` or `outbound`) |
+| `{{system.call.created_at}}` | The date and time when the call was created (in UTC) |
+| `{{system.call.duration}}` | The duration of the call at the time the variable is accessed |
+
+
+#### Other
+
+Other System Variables include:
+
+| Variable | Description                           |
+| -------- | ------------------------------------- |
+| `{{system.time}}` | The current time at the time the variable is accessed (in UTC) |
+
+
+### Magic Variables
+
+Creating a Magic Variable can be a powerful way to parse information in real-time. During a call, a Magic Variable will be generated based on all of the information provided by the caller up to that point.
+
+You can use Magic Variables to submit information to an [Integration Node](/build/agent-builder/nodes#integration-node) or to create a dynamic response based on the caller's input.
+
+{/* #### Creating a Magic Variable */}
+
+<Note>This feature is not yet available. Please check back soon for updates.</Note>
+
+### Integration Variables
+
+Integration Variables are created by an [Integration Node](/build/agent-builder/nodes#integration-node) and are used to store information returned by an external system.
+
+{/* https://linear.app/thoughtly/issue/DOCS-3/magic-variables */}
+
 import { NextSection } from '/snippets/next-section.mdx'
 
 <NextSection
 	title="Training & Rules"
 	icon="brain-circuit"
-	href="/build/agent-builder/training"
+	href="/build/agent-builder/training-and-rules"
 	description="Learn how to train your Voice Agent and define the rules of the conversation"
 />

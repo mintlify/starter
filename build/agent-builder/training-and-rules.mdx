@@ -3,3 +3,44 @@ title: Training and Rules
 ---
 
 ![title](/images/hero/training.png)
+
+## Training your Voice Agent
+
+Just like a human, your Voice Agent needs to be trained to understand how you want it to respond to callers. If you handed a human a script and asked them to read it, they would have no problem reading the script verbatim. However, what happens when the caller deviates from the [happy path](/resources/glossary#happy-path)? Similarly, your Voice Agent needs to be trained to handle these deviations.
+
+The byproduct of training your Voice Agent are Rules. [Rules](#rules) are the plain-English instructions you give your Voice Agent to handle different scenarios for a given [Node](/build/agent-builder/nodes).
+
+### Training
+
+Training your Voice Agent is as easy as chatting with it. To begin, click on the **Train** button in the top right corner of the [Agent Builder](/build/agent-builder) and start chatting with your Voice Agent.
+
+![Train Button](/images/gifs/training-button.gif)
+
+Once the chat window opens, you can start chatting with your Voice Agent. Respond as if you are a caller and your Voice Agent will respond in the same way as it would during a call. As you chat with your Voice Agent, try to think of all the different ways a caller might respond to your Voice Agent.
+
+When you come across a response that your Voice Agent doesn't handle correctly, you can provide feedback to your Voice Agent by clicking on the <Icon icon="square-exclamation" iconType="light" /> Exclamation icon. This will open a feedback form where you can provide details about what went wrong.
+
+![Traning](/images/gifs/training.gif)
+
+In the above example, notice how the first response from the Voice Agent asks *"how's the weather in your neck of the woods?"* After instructing the Voice Agent to not say that, the next time the Voice Agent makes it to Node #2, it asks the question in a different way.
+
+Training is a powerful way to teach your Voice Agent how to handle different scenarios. Just like a human, the more you train your Voice Agent, the better it will be at handling different scenarios.
+
+### Rules
+
+After a few training sessions, you will start to notice that your Voice Agent is getting better at handling different scenarios. This is because you are creating Rules for your Voice Agent to follow.
+
+Each time you provide feedback during Training, the feedback you provide is stored as a Rule on the Node where the feedback was given. During the training session, you'll notice a Node number in the chat message. This Node number corresponds to the Node where the feedback was given.
+
+![Rules](/images/ui/rules.png)
+
+By clicking "Manage Rules," you can view all the Rules that have been created for a given Node. You can also create new Rules by clicking the "Create Rule" button.
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Genius"
+	icon="atom-simple"
+	href="/build/agent-builder/genius"
+	description="Provide your Voice Agents with knowledge about your business ->"
+/>

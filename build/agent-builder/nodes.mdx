@@ -25,39 +25,70 @@ Each Node has a few key components. While each Node is unique, they all share th
 
 <Info>No need to skip ahead: after Nodes, we'll cover Outcomes, Variables, and Rules.</Info>
 
+## Connecting Nodes
+
+Every Node has a set of [Outcomes](/build/agent-builder/outcomes) that define the possible paths the conversation can take. When connecting Nodes, you'll link the Outcomes of one Node to the next Node in the conversation flow.
+
+Hover your mouse over the Outcome you'd like to connect, then click and drag the line to the next Node. This will create a connection between the two Nodes.
+
+![Connecting Nodes](/images/gifs/connecting-nodes.gif)
+
+## Disconnecting Nodes
+
+To disconnect two Nodes, click on the line connecting them. This will highlight the connection between them. Now, click the "backspace" or "delete" key on your keyboard to remove the connection.
+
+![Disconnecting Nodes](/images/gifs/disconnecting-nodes.gif)
+
 ## Types of Nodes
 
 There are several types of Nodes you can use when building your Voice Agent. Currently, Thoughtly supports the following Node types:
 
-### Start Node
+### <Icon icon="play" iconType="solid" /> Start Node
 
 The **Start** Node is where the conversation begins. When the call is initiated, the Agent will start at the Start Node and move to the next Node based on the logic you've defined using Outcomes.
 
-### Speak Node
+### <Icon icon="waveform" iconType="solid" /> Speak Node
 
 ![Speak Node](/images/ui/speak-node.png)
 
 The **Speak** Node is used to play a message to the caller. This message can be text-to-speech or an audio file. Speak Nodes are commonly used to greet the caller, provide information, or ask a question.
 
-### Transfer Node
+### <Icon icon="arrows-left-right" iconType="solid" /> Transfer Node
+
+{/** https://linear.app/thoughtly/issue/DOCS-2/node-graphics */}
 
 The **Transfer** Node is used to transfer the call to another phone number. This can be a human agent, another Voice Agent, or an external system. Transfer Nodes are commonly used to route calls to the right department or person.
 
 #### Phone Transfer
 
-Configure the Transfer Node to transfer the call to a phone number. This can be a human agent, another Voice Agent, or an external system.
+Configure the Transfer Node to transfer the call to a phone number. Enter the phone number you'd like to transfer the call to, and the Agent will connect the caller to that number when the Transfer Node is reached.
+
+![Phone Transfer](/images/ui/phone-transfer.png)
 
 #### Agent Transfer
 
 Configure the Transfer Node to transfer the call to another Voice Agent. This can be used to create a multi-step conversation flow or to hand off the call to another Agent.
 
+Typical use cases for Agent Transfer include:
+
+- **Language routing**: Transfer the call to a Voice Agent that is configured to speak the caller's preferred language. Learn about supported languages [here](/resources/faq#what-languages-does-thoughtly-support).
+- **Specialized departments**: Transfer the call to a Voice Agent that is trained to handle a specific type of call, such as technical support or billing inquiries.
+
+![Agent Transfer](/images/ui/agent-transfer.png)
+
 #### SIP Transfer
 
 Configure the Transfer Node to transfer the call to a SIP address. This can be used to connect your Voice Agent to your existing phone system.
 
-### SMS Node
+<Note>This is an early access feature. If you're interested in using SIP Transfer, please reach out to our team.</Note>
 
-The **SMS** Node is used to send an SMS message to the caller. This message can be a text-to-speech message or a pre-recorded audio file. SMS Nodes are commonly used to send appointment reminders, follow-up messages, or confirmations.
+### <Icon icon="messages" iconType="solid" /> SMS Node
+
+{/** https://linear.app/thoughtly/issue/DOCS-2/node-graphics */}
+
+The [SMS](/deploy/sms) Node is used to send an SMS message to the caller. SMS Nodes are commonly used to send links for data collection during the call, continue a conversation if a caller can't talk, or follow up with customers after the call has ended.
+
+<Note>To send SMS messages, your account will need to have an approved [Business Verification](/platform/teams/verification) status.</Note>
 
 #### Static SMS
 
@@ -67,15 +98,47 @@ Configure the SMS Node to send a static text message to the caller. This can be 
 
 Continue the current conversation over SMS. When a customer responds to one of these SMS messages, the conversation will continue just like it would over the phone. Learn more about [Conversational SMS](/deploy/sms).
 
-### Integration Node
+### <Icon icon="link" iconType="solid" /> Integration Node
+
+{/** https://linear.app/thoughtly/issue/DOCS-2/node-graphics */}
 
 The **Integration** Node is used to connect your Voice Agent to external systems. This can include CRMs, databases, APIs, and more. Integration Nodes are commonly used to look up customer information, update records, or perform other tasks.
 
-### End Node
+You can view all available Integrations in the [Integrations](/integrations) section of the Thoughtly platform.
+
+#### Webhooks
+
+Configure the Integration Node to make an HTTP request to an external system. This can be used to look up customer information, update records, or perform other tasks in a system that Thoughtly doesn't natively support.
+
+![Webhook Integration](/images/hero/api-node.png)
+
+### <Icon icon="clock" iconType="solid" /> Delay Node
+
+{/** https://linear.app/thoughtly/issue/DOCS-2/node-graphics */}
+
+The **Delay** Node is used to pause the Voice Agent's workflow for a configurable amount of time. While a Delay Node is active, the Voice Agent will "small talk" with the caller, keeping them engaged until the delay is complete. Small talk is always related to the conversation topic you have defined.
+
+Delay Nodes are great for a few different use cases:
+
+- **Wait for a human agent**: Place the caller in a hold queue by using a [webhook](#webhooks) to your Call Center software. Based on the estimated wait time, you can use the Delay Node to keep the caller engaged. Once the human agent is available, the Delay Node will end so you can [transfer the call](#transfer-node) to the agent.
+- **Wait for external input**: If you need to wait for an extended period of time, such as waiting for a caller to provide information via a link in an SMS message, you can use the Delay Node to keep the caller engaged until they are ready to continue the conversation. Check the status of the external input using a [webhook](#webhooks) or [Integration Node](#integration-node), then proceed once the input is received.
+
+<Note>This is an early access feature. If you're interested in using Delay Nodes, please reach out to our team.</Note>
+
+### <Icon icon="stop" iconType="solid" /> End Node
+
+{/** https://linear.app/thoughtly/issue/DOCS-2/node-graphics */}
 
 The **End** Node is where the conversation ends. When the Agent reaches the End Node, they will read the final message, then hang up the call. End Nodes are commonly used to thank the caller, provide next steps, or confirm the call has ended.
 
 After an End Node, [Automations](/build/automations/overview) take over, allowing you to perform actions after the call has ended.
+
+## Warnings and Errors
+
+When building your Voice Agent, your Nodes may show warnings or errors. These messages are designed to help you build a more effective and efficient conversation flow. Here's what each message means:
+
+- **Warning**: A warning message indicates that there is a potential issue with the Node. While the Node will still work, you may want to review the warning message to ensure the Node is functioning as expected.
+- **Error**: An error message indicates that there is an issue with the Node that needs to be resolved before the conversation can continue. Errors must be fixed before you can publish your Voice Agent. This most often occurs when a Node is completely disconnected from the conversation flow.
 
 import { NextSection } from '/snippets/next-section.mdx'
 
@@ -83,5 +146,5 @@ import { NextSection } from '/snippets/next-section.mdx'
 	title="Outcomes"
 	icon="split"
 	href="/build/agent-builder/outcomes"
-	description="Learn how to use Outcomes to define the logic of your Voice Agent's conversation flow"
+	description="Learn how to use Outcomes to define the logic of your Voice Agent's conversation flow ->"
 />

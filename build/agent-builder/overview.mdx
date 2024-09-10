@@ -33,9 +33,17 @@ The Agent Builder is where you'll spend most of your time building your Voice Ag
 	<img src="/images/ui/agent-builder.png" alt="Thoughtly agent builder" style={{ "borderRadius": 10 }}/>
 </Frame>
 
-The Thoughtly Agent Builder is based on the logic of a [decision tree](/resources/glossary#decision-tree) (also referred to as a flowchart). Each [node](/build/agent-builder/nodes) represents a step in the conversation, and you can connect them together to create your Voice Agent's flow.
+The Thoughtly Agent Builder is based on the logic of a [decision tree](/resources/glossary#decision-tree) (also referred to as a flowchart). Each [Node](/build/agent-builder/nodes) represents a step in the conversation, and you can connect them together to create your Voice Agent's flow.
 
-When the conversation begins, the Agent will start at the **Start** node. From there, it will move to the next node based on the user's input and the logic you've defined using [outcomes](/build/agent-builder/outcomes).
+When the conversation begins, the Agent will start at the [Start Node](/build/agent-builder/nodes#start-node). From there, it will move to the next node based on the user's input and the logic you've defined using [Outcomes](/build/agent-builder/outcomes).
+
+### Why a decision tree?
+
+A decision tree is a simple and intuitive way to represent a conversation. It's easy to understand and visualize, but also lends itself well to triggering unique actions at different points in the coversation.
+
+Since you can specifically instruct your Voice Agent for every possible scenario, you can do things like [small talk with the caller while waiting for a human agent](/build/agent-builder/nodes#delay-node), [transfer a call under certain conditions](/build/agent-builder/outcomes#branching), and [use variables output by an integration](/build/agent-builder/variables#integration-variables) to refer to data from external systems in real-time.
+
+In Voice Agent development, a decision tree is by far the most powerful, intuitive, and flexible way to build a conversation. Without it, you'd be limited to simple chatbots that can't handle complex scenarios.
 
 ## Configure your Voice Agent
 
