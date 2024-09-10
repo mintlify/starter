@@ -5,7 +5,7 @@
     "dark": "/logo.svg",
     "light": "/logo.svg"
   },
-  "openapi" : "https://app.premai.io/api/schema/",
+  "openapi": "https://app.premai.io/api/schema/",
   "metadata": {
     "og:image": "https://static.premai.io/prem-saas-docs/metadata.jpg"
   },
@@ -57,8 +57,7 @@
     },
     {
       "group": "Guides",
-      "pages": 
-      [
+      "pages": [
         "get-started/projects",
         "get-started/lab",
         "get-started/monitoring",
@@ -70,7 +69,7 @@
         "get-started/autopilot",
         "get-started/chat-completion-sse",
         "get-started/prem-templates",
-        "get-started/supported-models", 
+        "get-started/supported-models",
         "get-started/credits"
       ]
     },
@@ -79,8 +78,8 @@
       "pages": [
         "integrations/llamaindex",
         "integrations/langchain",
-        "integrations/dspy", 
-        "integrations/embedchain", 
+        "integrations/dspy",
+        "integrations/embedchain",
         "integrations/qdrant"
       ]
     },
@@ -93,7 +92,7 @@
     {
       "group": "Cookbook",
       "pages": [
-        "cookbook/chat-with-pdf", 
+        "cookbook/chat-with-pdf",
         "cookbook/url-content-summarizer",
         "cookbook/text-2-sql",
         "cookbook/chat-with-sql",
@@ -101,9 +100,65 @@
       ]
     },
     {
+      "group": "premsql",
+      "pages": [
+        "premsql/introduction",
+        "premsql/datasets",
+        "premsql/generators",
+        "premsql/evaluators",
+        "premsql/error_dataset",
+        "premsql/tuner",
+        "premsql/pipelines"
+      ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "chat-completions",
+      "pages": [
+        "api-reference/chat-completions/post-v1chatcompletions"
+      ]
+    },
+    {
+      "group": "embeddings",
+      "pages": [
+        "api-reference/embeddings/post-v1embeddings"
+      ]
+    },
+    {
+      "group": "models",
+      "pages": [
+        "api-reference/models/get-v1models",
+        "api-reference/models/get-v1models-"
+      ]
+    },
+    {
+      "group": "repositories",
+      "pages": [
+        "api-reference/repositories/post-v1repositories"
+      ]
+    },
+    {
+      "group": "repository-document",
+      "pages": [
+        "api-reference/repository-document/post-v1repository-document"
+      ]
+    },
+    {
+      "group": "feedbacks",
+      "pages": [
+        "api-reference/feedbacks/post-v1set_trace_feedback"
+      ]
+    },
+    {
+      "group": "traces",
+      "pages": [
+        "api-reference/traces/get-v1traces",
+        "api-reference/traces/get-v1traces-"
       ]
     }
   ],
@@ -114,8 +169,8 @@
     "linkedin": "https://www.linkedin.com/company/premai"
   },
   "analytics": {
-      "plausible": {
-          "domain": "docs.premai.io"
-      }
+    "plausible": {
+      "domain": "docs.premai.io"
+    }
   }
 }
