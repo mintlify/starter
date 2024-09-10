@@ -146,8 +146,10 @@ Now this will force the generator to generate the SQL queries again and save the
 
 This strategy executes the generated SQL against the DB and, if it fails, uses the error message for correction, repeating until it gets a valid result or the retries run out.
 
-<img src="images/premsql/execution_guided_decoding.png" alt="Execution Guided Decoding" />
-
+<img
+  src="/images/premsql/execution_guided_decoding.png"
+  alt="Playground"
+/>
 
 To use this, you'll need an executor like `SQLiteExecutor`. You can use any other executors as well.
 Here's how to use it with `generate_and_save` method:
