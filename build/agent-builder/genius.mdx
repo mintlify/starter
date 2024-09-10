@@ -1,6 +1,8 @@
 ---
 title: Genius
 description: Provide your Voice Agents with unstructured knowledge
+icon: atom-simple
+iconType: light
 ---
 
 ![title](/images/hero/genius.png)
@@ -9,7 +11,53 @@ description: Provide your Voice Agents with unstructured knowledge
 
 Genius is Thoughtly's in-house [RAG](/resources/glossary#rag-retrieval-augmented-generation) system that provides your Voice Agent with access to a vast amount of knowledge you provide. By enabling Genius, your Voice Agent will be able to answer a wide range of questions and provide detailed information to callers.
 
+You can think of Genius as a vast library of information, or a database, that your Voice Agent can access at any time. This information can be anything from product details, company policies, or even the history of your business.
+
 <Warning>Genius is not used to provide prompts or instructions to your Voice Agent. Instead, it is used to provide detailed, unstructured information to callers. For special prompting or instructions, use the [Custom Prompt](#custom-prompt) setting.</Warning>
+
+## Creating a Genius
+
+To create a Genius, click on the **Genius** tab on the left sidebar. From here, you can create a new Genius by clicking the **Create a new Genius** button.
+
+Now that you've created a Genius, you can start adding information to it. Each Voice Agent can be connected to one Genius at a time.
+
+## Adding a Data Source
+
+To add data to your Genius, click on the **Add Data Source** button. From here, you can add a new data source. Available data sources include:
+
+- **Text**: Add unstructured text data to your Genius.
+- **Audio**: Add audio data to your Genius, such as recorded calls to train your Voice Agent.
+- **PDF**: Add PDF documents to your Genius, such as sales brochures or product manuals.
+- **URL**: Add a URL to your Genius to scrape information from a website. Keep in mind that this only provides the text from the page you provide, not the entire website.
+
+![Add Data Sources](/images/gifs/genius-data-sources.gif)
+
+## Updating a Data Source
+
+To update a Data Source, click on the three dots next to the Data Source you want to update. From here, you can click **View** to see the data, then click **Edit** to make changes.
+
+![Updating a Data Source](/images/gifs/genius-update-data-source.gif)
+
+## Deleting a Data Source
+
+To delete a Data Source, click on the three dots next to the Data Source you want to delete. From here, click **Delete** to remove the data source.
+
+![Deleting a Data Source](/images/gifs/genius-delete-data-source.gif)
+
+## Connecting a Voice Agent
+
+To connect a Voice Agent to a Genius, head to the [Agent Builder](/build/agent-builder/overview.mdx) and click on the **Genius** tab. From here, you can select the Genius you want to connect to your Voice Agent.
+
+![Connect a Voice Agent](/images/gifs/genius-connect-to-agent.gif)
+
+## Tips for Building a Powerful Genius
+
+Whenever a Voice Agent is preparing to respond to a caller, it will first check the Genius for information. Here are some tips to help you build a powerful Genius:
+
+- **Keep it up-to-date**: Make sure your Genius is always up-to-date with the latest information. For example, if you upload old call recordings where an agent mentions outdated information, your Voice Agent may provide incorrect information to callers.
+- **Use Q&A format**: When adding information to your Genius, try to use a question-and-answer format. This will help your Voice Agent find the right information faster based on the caller's question.
+- **Use diverse data sources**: Don't just rely on one type of data source. Use a mix of text, audio, PDF, and URL data sources to provide a wide range of information to your Voice Agent.
+- **Keep it simple**: While you can add a vast amount of information to your Genius, try to keep it simple. The more information you add, the less likely your Voice Agent will be able to find the right information quickly.
 
 import { NextSection } from '/snippets/next-section.mdx'
 

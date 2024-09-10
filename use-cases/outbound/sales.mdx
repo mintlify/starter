@@ -1,8 +1,55 @@
 ---
-title: Outbound Sales
-description: 'Enable your Agents to make outbound calls to customers and prospects.'
+title: Sales
+description: Follow-up with leads, qualify them, and set appointments for your sales team
+icon: money-bill
+iconType: light
 ---
+
+{/** https://linear.app/thoughtly/issue/DOCS-4/use-case-build-videos */}
+
+<Frame caption="Building a Customer Service Voice Agent">
+    <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/KzHVSHHe8ss"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style={{ borderRadius: 10 }}
+    ></iframe>
+</Frame>
+
+## Introduction
+
+Let's face it: your CRM is full of leads that your sales team hasn't had time to follow up with. How many new deals could you close if you could just get in touch with those leads? How much revenue is slipping through the cracks because your sales team is too busy to make those calls?
+
+That's where Thoughtly comes in. With Thoughtly, you can build a Voice Agent that will follow up with your leads, qualify them, and set appointments for your sales team. Your Voice Agent is trained to handle objections just like your top-performing sales reps.
+
+**The best part? Your Voice Agent never gets tired, never gets sick, and never takes a day off. They just work– 24/7.**
 
 import ColdCallingWarning from '/snippets/cold-calling-warning.mdx';
 
 <ColdCallingWarning/>
+
+### Use Case Example
+
+In this example, we're going to build a Voice Agent sequence that follows up with leads that haven't been contacted in the last 6 months. For this scenario, we'll be using [Salesforce](/integrations/crm/salesforce) as our CRM and [Cal.com](/integrations/scheduling/cal-com) to schedule appointments.
+
+By the end of this guide, you'll have a fully-functional Voice Agent that will:
+
+<Steps>
+	<Step title="Call old leads">
+		Follow up with leads that haven't been contacted in the last 6 months, qualify them, and set appointments for your sales team. Your Voice Agent will update Salesforce with the results of each call, such as whether the lead is qualified or not.
+	</Step>
+	<Step title="If no answer, send a text">
+		If your Voice Agent can't reach a lead by phone, they'll send a [Conversational SMS](/deploy/sms) to the lead's phone number. If the lead responds, your Voice Agent will interact with them just like they would over the phone.
+	</Step>
+	<Step title="Wait two weeks, then call again">
+		If your Voice Agent still doesn't hear back from the lead, they'll wait two weeks and try calling again.
+	</Step>
+</Steps>
+
+## Getting Started
+
+<Info>Guide in progress. Check back soon for updates!</Info>
