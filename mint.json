@@ -214,6 +214,42 @@
       "pages": [
         "integrations/ai/thoughtly"
       ]
+    },
+    {
+      "group": "job",
+      "pages": [
+        "api/job/create-job"
+      ]
+    },
+    {
+      "group": "contact",
+      "pages": [
+        "api/contact/create-contact",
+        "api/contact/get-contacts",
+        "api/contact/delete-contact",
+        "api/contact/call-a-contact"
+      ]
+    },
+    {
+      "group": "interview",
+      "pages": [
+        "api/interview/get-interviews",
+        "api/interview/get-interview-responses"
+      ]
+    },
+    {
+      "group": "user",
+      "pages": [
+        "api/user/get-user-details"
+      ]
+    },
+    {
+      "group": "webhooks",
+      "pages": [
+        "api/webhooks/subscribe-to-webhook",
+        "api/webhooks/unsubscribe-from-webhook",
+        "api/webhooks/get-currently-active-webhooks"
+      ]
     }
   ],
   "footerSocials": {
