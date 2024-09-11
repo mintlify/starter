@@ -1,0 +1,21 @@
+export const IntegrationCard = ({
+	name,
+	domain,
+	href,
+}) => (
+	<Card horizontal="true" href={href}>
+		<div style={{
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+		}}>
+			<img
+				src={`https://logo.clearbit.com/${domain}`}
+				className='w-8 rounded-md'
+			/>
+			<div className='font-bold ml-3 text-lg'>
+				{name}
+			</div>
+		</div>
+	</Card>
+);

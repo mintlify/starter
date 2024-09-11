@@ -1,0 +1,3802 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Thoughtly API",
+		"version": "1.0.0",
+		"contact": {
+			"name": "Thoughtly Support",
+			"email": "support@thought.ly",
+			"url": "https://thought.ly"
+		}
+	},
+	"servers": [
+		{
+			"url": "https://api.thought.ly",
+			"description": "Production server"
+		}
+	],
+	"paths": {
+		"/job/create_job_by_contacts": {
+			"post": {
+				"summary": "Create Job",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"created": {
+														"type": "string"
+													},
+													"updated": {
+														"type": "string"
+													},
+													"version": {
+														"type": "integer"
+													},
+													"team_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"name": {
+																"type": "string"
+															},
+															"name_pronunciation": {
+																"type": "string"
+															},
+															"stripe_customer_id": {
+																"type": "string"
+															},
+															"stripe_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"logo_url": {
+																"type": "string"
+															},
+															"icon_url": {
+																"type": "string"
+															},
+															"business_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"twilio_account_sid": {
+																"type": "string"
+															},
+															"twilio_account_secret": {
+																"type": "string"
+															},
+															"twilio_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"contact_views": {
+																"type": "object",
+																"additionalProperties": true
+															}
+														}
+													},
+													"interview_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"team_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"caller_id_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"team_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	},
+																	"phone_number": {
+																		"type": "string"
+																	},
+																	"twilio_sid": {
+																		"type": "string"
+																	}
+																}
+															},
+															"genius_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"team_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	},
+																	"name": {
+																		"type": "string"
+																	}
+																}
+															},
+															"folder_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"team": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	}
+																}
+															},
+															"type": {
+																"type": "string",
+																"enum": [
+																	"GENERAL",
+																	"POLITICAL_POLLING",
+																	"SALES",
+																	"CANDIDATE_SCREENING",
+																	"MARKET_RESEARCH",
+																	"PRODUCT_REVIEW",
+																	"VIRTUAL_RECEPTIONIST",
+																	"CUSTOMER_SERVICE",
+																	"CUSTOM"
+																]
+															},
+															"title": {
+																"type": "string"
+															},
+															"ai_name": {
+																"type": "string"
+															},
+															"lang": {
+																"type": "string"
+															},
+															"error_id": {
+																"type": "string"
+															},
+															"note_to_subject": {
+																"type": "string"
+															},
+															"notifications": {
+																"type": "string"
+															},
+															"status": {
+																"type": "string",
+																"enum": [
+																	"ACTIVE",
+																	"ARCHIVED"
+																]
+															},
+															"response_tags": {
+																"type": "string"
+															},
+															"presence_interim_audio": {
+																"type": "string"
+															},
+															"presence_background_audio": {
+																"type": "string"
+															},
+															"personality_customization": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"should_record": {
+																"type": "string"
+															},
+															"should_leave_voicemail": {
+																"type": "string"
+															},
+															"voicemail_message": {
+																"type": "string"
+															},
+															"advanced_settings": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"metrics": {
+																"type": "object",
+																"additionalProperties": true
+															}
+														}
+													},
+													"type": {
+														"type": "string",
+														"enum": [
+															"CONTACTS",
+															"SMS",
+															"RESPONSES",
+															"GENERAL"
+														]
+													},
+													"rdd_config": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"status": {
+														"type": "string",
+														"enum": [
+															"NOT_STARTED",
+															"IN_PROGRESS",
+															"CANCELED",
+															"COMPLETE"
+														]
+													},
+													"note": {
+														"type": "string"
+													},
+													"logs": {
+														"type": "object",
+														"additionalProperties": true
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"job"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"interview_id": {
+										"type": "string"
+									},
+									"contact_ids": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"phone_numbers": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"country_code": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"interview_id"
+								],
+								"additionalProperties": false
+							}
+						}
+					}
+				}
+			}
+		},
+		"/contact/create": {
+			"post": {
+				"summary": "Create contact",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string"
+												},
+												"created": {
+													"type": "string"
+												},
+												"updated": {
+													"type": "string"
+												},
+												"version": {
+													"type": "integer"
+												},
+												"team_id": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"created": {
+															"type": "string"
+														},
+														"updated": {
+															"type": "string"
+														},
+														"version": {
+															"type": "integer"
+														},
+														"name": {
+															"type": "string"
+														},
+														"name_pronunciation": {
+															"type": "string"
+														},
+														"stripe_customer_id": {
+															"type": "string"
+														},
+														"stripe_metadata": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"logo_url": {
+															"type": "string"
+														},
+														"icon_url": {
+															"type": "string"
+														},
+														"business_metadata": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"twilio_account_sid": {
+															"type": "string"
+														},
+														"twilio_account_secret": {
+															"type": "string"
+														},
+														"twilio_metadata": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"contact_views": {
+															"type": "object",
+															"additionalProperties": true
+														}
+													}
+												},
+												"status": {
+													"type": "string",
+													"enum": [
+														"ACTIVE",
+														"INACTIVE",
+														"DNC"
+													]
+												},
+												"name": {
+													"type": "string"
+												},
+												"caller_type": {
+													"type": "string"
+												},
+												"phone_number": {
+													"type": "string"
+												},
+												"email": {
+													"type": "string"
+												},
+												"attributes": {
+													"type": "object",
+													"additionalProperties": true
+												},
+												"lead_source": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"contact"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"phone_number": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"country_code": {
+										"type": "string"
+									},
+									"tags": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"attributes": {
+										"type": "object",
+										"additionalProperties": true
+									}
+								},
+								"required": [
+									"phone_number"
+								],
+								"additionalProperties": false
+							}
+						}
+					}
+				}
+			}
+		},
+		"/contact": {
+			"get": {
+				"summary": "Get contacts",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "object"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"contact"
+				],
+				"parameters": [
+					{
+						"name": "search",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "phone_numbers_only",
+						"in": "query",
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"name": "tags",
+						"in": "query",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"style": "form",
+						"explode": true
+					},
+					{
+						"name": "excluded_tags",
+						"in": "query",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"style": "form",
+						"explode": true
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDirection",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"asc",
+								"desc"
+							]
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 0
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"maximum": 50,
+							"default": 20
+						}
+					}
+				]
+			}
+		},
+		"/contact/{id}": {
+			"delete": {
+				"summary": "Delete contact",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"contact"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/contact/call": {
+			"post": {
+				"summary": "Call a contact",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string"
+												},
+												"created": {
+													"type": "string"
+												},
+												"updated": {
+													"type": "string"
+												},
+												"version": {
+													"type": "integer"
+												},
+												"team_id": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"created": {
+															"type": "string"
+														},
+														"updated": {
+															"type": "string"
+														},
+														"version": {
+															"type": "integer"
+														},
+														"name": {
+															"type": "string"
+														},
+														"name_pronunciation": {
+															"type": "string"
+														},
+														"stripe_customer_id": {
+															"type": "string"
+														},
+														"stripe_metadata": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"logo_url": {
+															"type": "string"
+														},
+														"icon_url": {
+															"type": "string"
+														},
+														"business_metadata": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"twilio_account_sid": {
+															"type": "string"
+														},
+														"twilio_account_secret": {
+															"type": "string"
+														},
+														"twilio_metadata": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"contact_views": {
+															"type": "object",
+															"additionalProperties": true
+														}
+													}
+												},
+												"type": {
+													"type": "string",
+													"enum": [
+														"PHONE_CALL",
+														"BROWSER_CALL",
+														"BROWSER_TEXT",
+														"AGENT_TRANSFER",
+														"SMS",
+														"INBOUND_CALL",
+														"WIDGET"
+													]
+												},
+												"status": {
+													"type": "string",
+													"enum": [
+														"NOT_STARTED",
+														"IN_PROGRESS",
+														"ENDED",
+														"NO_ANSWER",
+														"LEFT_VOICEMAIL",
+														"TRANSFERRED",
+														"FAILED",
+														"VIOLATION"
+													]
+												},
+												"start_time": {
+													"type": "string"
+												},
+												"end_time": {
+													"type": "string"
+												},
+												"duration_ms": {
+													"type": "integer"
+												},
+												"conversation_history": {
+													"type": "object",
+													"additionalProperties": true
+												},
+												"error_id": {
+													"type": "string"
+												},
+												"ai_name": {
+													"type": "string"
+												},
+												"twilio_sid": {
+													"type": "string"
+												},
+												"phone_number": {
+													"type": "string"
+												},
+												"recording_url": {
+													"type": "string"
+												},
+												"summary_data": {
+													"type": "object",
+													"additionalProperties": true
+												},
+												"metadata": {
+													"type": "object",
+													"additionalProperties": true
+												},
+												"triggered_metadata": {
+													"type": "object",
+													"additionalProperties": true
+												},
+												"call_failure_reason": {
+													"type": "string"
+												},
+												"interview": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"created": {
+															"type": "string"
+														},
+														"updated": {
+															"type": "string"
+														},
+														"version": {
+															"type": "integer"
+														},
+														"team_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"name": {
+																	"type": "string"
+																},
+																"name_pronunciation": {
+																	"type": "string"
+																},
+																"stripe_customer_id": {
+																	"type": "string"
+																},
+																"stripe_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"logo_url": {
+																	"type": "string"
+																},
+																"icon_url": {
+																	"type": "string"
+																},
+																"business_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"twilio_account_sid": {
+																	"type": "string"
+																},
+																"twilio_account_secret": {
+																	"type": "string"
+																},
+																"twilio_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"contact_views": {
+																	"type": "object",
+																	"additionalProperties": true
+																}
+															}
+														},
+														"caller_id_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"team_id": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"name": {
+																			"type": "string"
+																		},
+																		"name_pronunciation": {
+																			"type": "string"
+																		},
+																		"stripe_customer_id": {
+																			"type": "string"
+																		},
+																		"stripe_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"logo_url": {
+																			"type": "string"
+																		},
+																		"icon_url": {
+																			"type": "string"
+																		},
+																		"business_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"twilio_account_sid": {
+																			"type": "string"
+																		},
+																		"twilio_account_secret": {
+																			"type": "string"
+																		},
+																		"twilio_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"contact_views": {
+																			"type": "object",
+																			"additionalProperties": true
+																		}
+																	}
+																},
+																"phone_number": {
+																	"type": "string"
+																},
+																"twilio_sid": {
+																	"type": "string"
+																}
+															}
+														},
+														"genius_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"team_id": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"name": {
+																			"type": "string"
+																		},
+																		"name_pronunciation": {
+																			"type": "string"
+																		},
+																		"stripe_customer_id": {
+																			"type": "string"
+																		},
+																		"stripe_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"logo_url": {
+																			"type": "string"
+																		},
+																		"icon_url": {
+																			"type": "string"
+																		},
+																		"business_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"twilio_account_sid": {
+																			"type": "string"
+																		},
+																		"twilio_account_secret": {
+																			"type": "string"
+																		},
+																		"twilio_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"contact_views": {
+																			"type": "object",
+																			"additionalProperties": true
+																		}
+																	}
+																},
+																"name": {
+																	"type": "string"
+																}
+															}
+														},
+														"folder_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"name": {
+																	"type": "string"
+																},
+																"team": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"name": {
+																			"type": "string"
+																		},
+																		"name_pronunciation": {
+																			"type": "string"
+																		},
+																		"stripe_customer_id": {
+																			"type": "string"
+																		},
+																		"stripe_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"logo_url": {
+																			"type": "string"
+																		},
+																		"icon_url": {
+																			"type": "string"
+																		},
+																		"business_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"twilio_account_sid": {
+																			"type": "string"
+																		},
+																		"twilio_account_secret": {
+																			"type": "string"
+																		},
+																		"twilio_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"contact_views": {
+																			"type": "object",
+																			"additionalProperties": true
+																		}
+																	}
+																}
+															}
+														},
+														"type": {
+															"type": "string",
+															"enum": [
+																"GENERAL",
+																"POLITICAL_POLLING",
+																"SALES",
+																"CANDIDATE_SCREENING",
+																"MARKET_RESEARCH",
+																"PRODUCT_REVIEW",
+																"VIRTUAL_RECEPTIONIST",
+																"CUSTOMER_SERVICE",
+																"CUSTOM"
+															]
+														},
+														"title": {
+															"type": "string"
+														},
+														"ai_name": {
+															"type": "string"
+														},
+														"lang": {
+															"type": "string"
+														},
+														"error_id": {
+															"type": "string"
+														},
+														"note_to_subject": {
+															"type": "string"
+														},
+														"notifications": {
+															"type": "string"
+														},
+														"status": {
+															"type": "string",
+															"enum": [
+																"ACTIVE",
+																"ARCHIVED"
+															]
+														},
+														"response_tags": {
+															"type": "string"
+														},
+														"presence_interim_audio": {
+															"type": "string"
+														},
+														"presence_background_audio": {
+															"type": "string"
+														},
+														"personality_customization": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"should_record": {
+															"type": "string"
+														},
+														"should_leave_voicemail": {
+															"type": "string"
+														},
+														"voicemail_message": {
+															"type": "string"
+														},
+														"advanced_settings": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"metrics": {
+															"type": "object",
+															"additionalProperties": true
+														}
+													}
+												},
+												"contact": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"created": {
+															"type": "string"
+														},
+														"updated": {
+															"type": "string"
+														},
+														"version": {
+															"type": "integer"
+														},
+														"team_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"name": {
+																	"type": "string"
+																},
+																"name_pronunciation": {
+																	"type": "string"
+																},
+																"stripe_customer_id": {
+																	"type": "string"
+																},
+																"stripe_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"logo_url": {
+																	"type": "string"
+																},
+																"icon_url": {
+																	"type": "string"
+																},
+																"business_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"twilio_account_sid": {
+																	"type": "string"
+																},
+																"twilio_account_secret": {
+																	"type": "string"
+																},
+																"twilio_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"contact_views": {
+																	"type": "object",
+																	"additionalProperties": true
+																}
+															}
+														},
+														"status": {
+															"type": "string",
+															"enum": [
+																"ACTIVE",
+																"INACTIVE",
+																"DNC"
+															]
+														},
+														"name": {
+															"type": "string"
+														},
+														"caller_type": {
+															"type": "string"
+														},
+														"phone_number": {
+															"type": "string"
+														},
+														"email": {
+															"type": "string"
+														},
+														"attributes": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"lead_source": {
+															"type": "string"
+														}
+													}
+												},
+												"job": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"created": {
+															"type": "string"
+														},
+														"updated": {
+															"type": "string"
+														},
+														"version": {
+															"type": "integer"
+														},
+														"team_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"name": {
+																	"type": "string"
+																},
+																"name_pronunciation": {
+																	"type": "string"
+																},
+																"stripe_customer_id": {
+																	"type": "string"
+																},
+																"stripe_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"logo_url": {
+																	"type": "string"
+																},
+																"icon_url": {
+																	"type": "string"
+																},
+																"business_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"twilio_account_sid": {
+																	"type": "string"
+																},
+																"twilio_account_secret": {
+																	"type": "string"
+																},
+																"twilio_metadata": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"contact_views": {
+																	"type": "object",
+																	"additionalProperties": true
+																}
+															}
+														},
+														"interview_id": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string"
+																},
+																"created": {
+																	"type": "string"
+																},
+																"updated": {
+																	"type": "string"
+																},
+																"version": {
+																	"type": "integer"
+																},
+																"team_id": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"name": {
+																			"type": "string"
+																		},
+																		"name_pronunciation": {
+																			"type": "string"
+																		},
+																		"stripe_customer_id": {
+																			"type": "string"
+																		},
+																		"stripe_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"logo_url": {
+																			"type": "string"
+																		},
+																		"icon_url": {
+																			"type": "string"
+																		},
+																		"business_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"twilio_account_sid": {
+																			"type": "string"
+																		},
+																		"twilio_account_secret": {
+																			"type": "string"
+																		},
+																		"twilio_metadata": {
+																			"type": "object",
+																			"additionalProperties": true
+																		},
+																		"contact_views": {
+																			"type": "object",
+																			"additionalProperties": true
+																		}
+																	}
+																},
+																"caller_id_id": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"team_id": {
+																			"type": "object",
+																			"properties": {
+																				"id": {
+																					"type": "string"
+																				},
+																				"created": {
+																					"type": "string"
+																				},
+																				"updated": {
+																					"type": "string"
+																				},
+																				"version": {
+																					"type": "integer"
+																				},
+																				"name": {
+																					"type": "string"
+																				},
+																				"name_pronunciation": {
+																					"type": "string"
+																				},
+																				"stripe_customer_id": {
+																					"type": "string"
+																				},
+																				"stripe_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"logo_url": {
+																					"type": "string"
+																				},
+																				"icon_url": {
+																					"type": "string"
+																				},
+																				"business_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"twilio_account_sid": {
+																					"type": "string"
+																				},
+																				"twilio_account_secret": {
+																					"type": "string"
+																				},
+																				"twilio_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"contact_views": {
+																					"type": "object",
+																					"additionalProperties": true
+																				}
+																			}
+																		},
+																		"phone_number": {
+																			"type": "string"
+																		},
+																		"twilio_sid": {
+																			"type": "string"
+																		}
+																	}
+																},
+																"genius_id": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"team_id": {
+																			"type": "object",
+																			"properties": {
+																				"id": {
+																					"type": "string"
+																				},
+																				"created": {
+																					"type": "string"
+																				},
+																				"updated": {
+																					"type": "string"
+																				},
+																				"version": {
+																					"type": "integer"
+																				},
+																				"name": {
+																					"type": "string"
+																				},
+																				"name_pronunciation": {
+																					"type": "string"
+																				},
+																				"stripe_customer_id": {
+																					"type": "string"
+																				},
+																				"stripe_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"logo_url": {
+																					"type": "string"
+																				},
+																				"icon_url": {
+																					"type": "string"
+																				},
+																				"business_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"twilio_account_sid": {
+																					"type": "string"
+																				},
+																				"twilio_account_secret": {
+																					"type": "string"
+																				},
+																				"twilio_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"contact_views": {
+																					"type": "object",
+																					"additionalProperties": true
+																				}
+																			}
+																		},
+																		"name": {
+																			"type": "string"
+																		}
+																	}
+																},
+																"folder_id": {
+																	"type": "object",
+																	"properties": {
+																		"id": {
+																			"type": "string"
+																		},
+																		"created": {
+																			"type": "string"
+																		},
+																		"updated": {
+																			"type": "string"
+																		},
+																		"version": {
+																			"type": "integer"
+																		},
+																		"name": {
+																			"type": "string"
+																		},
+																		"team": {
+																			"type": "object",
+																			"properties": {
+																				"id": {
+																					"type": "string"
+																				},
+																				"created": {
+																					"type": "string"
+																				},
+																				"updated": {
+																					"type": "string"
+																				},
+																				"version": {
+																					"type": "integer"
+																				},
+																				"name": {
+																					"type": "string"
+																				},
+																				"name_pronunciation": {
+																					"type": "string"
+																				},
+																				"stripe_customer_id": {
+																					"type": "string"
+																				},
+																				"stripe_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"logo_url": {
+																					"type": "string"
+																				},
+																				"icon_url": {
+																					"type": "string"
+																				},
+																				"business_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"twilio_account_sid": {
+																					"type": "string"
+																				},
+																				"twilio_account_secret": {
+																					"type": "string"
+																				},
+																				"twilio_metadata": {
+																					"type": "object",
+																					"additionalProperties": true
+																				},
+																				"contact_views": {
+																					"type": "object",
+																					"additionalProperties": true
+																				}
+																			}
+																		}
+																	}
+																},
+																"type": {
+																	"type": "string",
+																	"enum": [
+																		"GENERAL",
+																		"POLITICAL_POLLING",
+																		"SALES",
+																		"CANDIDATE_SCREENING",
+																		"MARKET_RESEARCH",
+																		"PRODUCT_REVIEW",
+																		"VIRTUAL_RECEPTIONIST",
+																		"CUSTOMER_SERVICE",
+																		"CUSTOM"
+																	]
+																},
+																"title": {
+																	"type": "string"
+																},
+																"ai_name": {
+																	"type": "string"
+																},
+																"lang": {
+																	"type": "string"
+																},
+																"error_id": {
+																	"type": "string"
+																},
+																"note_to_subject": {
+																	"type": "string"
+																},
+																"notifications": {
+																	"type": "string"
+																},
+																"status": {
+																	"type": "string",
+																	"enum": [
+																		"ACTIVE",
+																		"ARCHIVED"
+																	]
+																},
+																"response_tags": {
+																	"type": "string"
+																},
+																"presence_interim_audio": {
+																	"type": "string"
+																},
+																"presence_background_audio": {
+																	"type": "string"
+																},
+																"personality_customization": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"should_record": {
+																	"type": "string"
+																},
+																"should_leave_voicemail": {
+																	"type": "string"
+																},
+																"voicemail_message": {
+																	"type": "string"
+																},
+																"advanced_settings": {
+																	"type": "object",
+																	"additionalProperties": true
+																},
+																"metrics": {
+																	"type": "object",
+																	"additionalProperties": true
+																}
+															}
+														},
+														"type": {
+															"type": "string",
+															"enum": [
+																"CONTACTS",
+																"SMS",
+																"RESPONSES",
+																"GENERAL"
+															]
+														},
+														"rdd_config": {
+															"type": "object",
+															"additionalProperties": true
+														},
+														"status": {
+															"type": "string",
+															"enum": [
+																"NOT_STARTED",
+																"IN_PROGRESS",
+																"CANCELED",
+																"COMPLETE"
+															]
+														},
+														"note": {
+															"type": "string"
+														},
+														"logs": {
+															"type": "object",
+															"additionalProperties": true
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"contact"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"contact_id": {
+										"type": "string"
+									},
+									"interview_id": {
+										"type": "string"
+									},
+									"metadata": {
+										"type": "object",
+										"properties": {
+											"additional_data_1": {
+												"type": "string"
+											}
+										},
+										"nullable": true
+									}
+								},
+								"required": [
+									"contact_id",
+									"interview_id"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/interview": {
+			"get": {
+				"summary": "Get interviews",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"created": {
+														"type": "string"
+													},
+													"updated": {
+														"type": "string"
+													},
+													"version": {
+														"type": "integer"
+													},
+													"team_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"name": {
+																"type": "string"
+															},
+															"name_pronunciation": {
+																"type": "string"
+															},
+															"stripe_customer_id": {
+																"type": "string"
+															},
+															"stripe_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"logo_url": {
+																"type": "string"
+															},
+															"icon_url": {
+																"type": "string"
+															},
+															"business_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"twilio_account_sid": {
+																"type": "string"
+															},
+															"twilio_account_secret": {
+																"type": "string"
+															},
+															"twilio_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"contact_views": {
+																"type": "object",
+																"additionalProperties": true
+															}
+														}
+													},
+													"caller_id_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"team_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"phone_number": {
+																"type": "string"
+															},
+															"twilio_sid": {
+																"type": "string"
+															}
+														}
+													},
+													"genius_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"team_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"name": {
+																"type": "string"
+															}
+														}
+													},
+													"folder_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"name": {
+																"type": "string"
+															},
+															"team": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															}
+														}
+													},
+													"type": {
+														"type": "string",
+														"enum": [
+															"GENERAL",
+															"POLITICAL_POLLING",
+															"SALES",
+															"CANDIDATE_SCREENING",
+															"MARKET_RESEARCH",
+															"PRODUCT_REVIEW",
+															"VIRTUAL_RECEPTIONIST",
+															"CUSTOMER_SERVICE",
+															"CUSTOM"
+														]
+													},
+													"title": {
+														"type": "string"
+													},
+													"ai_name": {
+														"type": "string"
+													},
+													"lang": {
+														"type": "string"
+													},
+													"error_id": {
+														"type": "string"
+													},
+													"note_to_subject": {
+														"type": "string"
+													},
+													"notifications": {
+														"type": "string"
+													},
+													"status": {
+														"type": "string",
+														"enum": [
+															"ACTIVE",
+															"ARCHIVED"
+														]
+													},
+													"response_tags": {
+														"type": "string"
+													},
+													"presence_interim_audio": {
+														"type": "string"
+													},
+													"presence_background_audio": {
+														"type": "string"
+													},
+													"personality_customization": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"should_record": {
+														"type": "string"
+													},
+													"should_leave_voicemail": {
+														"type": "string"
+													},
+													"voicemail_message": {
+														"type": "string"
+													},
+													"advanced_settings": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"metrics": {
+														"type": "object",
+														"additionalProperties": true
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"interview"
+				],
+				"parameters": [
+					{
+						"name": "search",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "status",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"ACTIVE",
+								"ARCHIVED"
+							]
+						}
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"title_asc",
+								"title_desc",
+								"created_asc",
+								"created_desc"
+							]
+						}
+					},
+					{
+						"name": "all_interviews",
+						"in": "query",
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 0
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"maximum": 50,
+							"default": 20
+						}
+					}
+				]
+			}
+		},
+		"/interview/{interview_id}/responses": {
+			"get": {
+				"summary": "Get interview responses",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"created": {
+														"type": "string"
+													},
+													"updated": {
+														"type": "string"
+													},
+													"version": {
+														"type": "integer"
+													},
+													"team_id": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"name": {
+																"type": "string"
+															},
+															"name_pronunciation": {
+																"type": "string"
+															},
+															"stripe_customer_id": {
+																"type": "string"
+															},
+															"stripe_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"logo_url": {
+																"type": "string"
+															},
+															"icon_url": {
+																"type": "string"
+															},
+															"business_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"twilio_account_sid": {
+																"type": "string"
+															},
+															"twilio_account_secret": {
+																"type": "string"
+															},
+															"twilio_metadata": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"contact_views": {
+																"type": "object",
+																"additionalProperties": true
+															}
+														}
+													},
+													"type": {
+														"type": "string",
+														"enum": [
+															"PHONE_CALL",
+															"BROWSER_CALL",
+															"BROWSER_TEXT",
+															"AGENT_TRANSFER",
+															"SMS",
+															"INBOUND_CALL",
+															"WIDGET"
+														]
+													},
+													"status": {
+														"type": "string",
+														"enum": [
+															"NOT_STARTED",
+															"IN_PROGRESS",
+															"ENDED",
+															"NO_ANSWER",
+															"LEFT_VOICEMAIL",
+															"TRANSFERRED",
+															"FAILED",
+															"VIOLATION"
+														]
+													},
+													"start_time": {
+														"type": "string"
+													},
+													"end_time": {
+														"type": "string"
+													},
+													"duration_ms": {
+														"type": "integer"
+													},
+													"conversation_history": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"error_id": {
+														"type": "string"
+													},
+													"ai_name": {
+														"type": "string"
+													},
+													"twilio_sid": {
+														"type": "string"
+													},
+													"phone_number": {
+														"type": "string"
+													},
+													"recording_url": {
+														"type": "string"
+													},
+													"summary_data": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"metadata": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"triggered_metadata": {
+														"type": "object",
+														"additionalProperties": true
+													},
+													"call_failure_reason": {
+														"type": "string"
+													},
+													"interview": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"team_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"caller_id_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"team_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	},
+																	"phone_number": {
+																		"type": "string"
+																	},
+																	"twilio_sid": {
+																		"type": "string"
+																	}
+																}
+															},
+															"genius_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"team_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	},
+																	"name": {
+																		"type": "string"
+																	}
+																}
+															},
+															"folder_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"team": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	}
+																}
+															},
+															"type": {
+																"type": "string",
+																"enum": [
+																	"GENERAL",
+																	"POLITICAL_POLLING",
+																	"SALES",
+																	"CANDIDATE_SCREENING",
+																	"MARKET_RESEARCH",
+																	"PRODUCT_REVIEW",
+																	"VIRTUAL_RECEPTIONIST",
+																	"CUSTOMER_SERVICE",
+																	"CUSTOM"
+																]
+															},
+															"title": {
+																"type": "string"
+															},
+															"ai_name": {
+																"type": "string"
+															},
+															"lang": {
+																"type": "string"
+															},
+															"error_id": {
+																"type": "string"
+															},
+															"note_to_subject": {
+																"type": "string"
+															},
+															"notifications": {
+																"type": "string"
+															},
+															"status": {
+																"type": "string",
+																"enum": [
+																	"ACTIVE",
+																	"ARCHIVED"
+																]
+															},
+															"response_tags": {
+																"type": "string"
+															},
+															"presence_interim_audio": {
+																"type": "string"
+															},
+															"presence_background_audio": {
+																"type": "string"
+															},
+															"personality_customization": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"should_record": {
+																"type": "string"
+															},
+															"should_leave_voicemail": {
+																"type": "string"
+															},
+															"voicemail_message": {
+																"type": "string"
+															},
+															"advanced_settings": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"metrics": {
+																"type": "object",
+																"additionalProperties": true
+															}
+														}
+													},
+													"contact": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"team_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"status": {
+																"type": "string",
+																"enum": [
+																	"ACTIVE",
+																	"INACTIVE",
+																	"DNC"
+																]
+															},
+															"name": {
+																"type": "string"
+															},
+															"caller_type": {
+																"type": "string"
+															},
+															"phone_number": {
+																"type": "string"
+															},
+															"email": {
+																"type": "string"
+															},
+															"attributes": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"lead_source": {
+																"type": "string"
+															}
+														}
+													},
+													"job": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"created": {
+																"type": "string"
+															},
+															"updated": {
+																"type": "string"
+															},
+															"version": {
+																"type": "integer"
+															},
+															"team_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"name": {
+																		"type": "string"
+																	},
+																	"name_pronunciation": {
+																		"type": "string"
+																	},
+																	"stripe_customer_id": {
+																		"type": "string"
+																	},
+																	"stripe_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"logo_url": {
+																		"type": "string"
+																	},
+																	"icon_url": {
+																		"type": "string"
+																	},
+																	"business_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"twilio_account_sid": {
+																		"type": "string"
+																	},
+																	"twilio_account_secret": {
+																		"type": "string"
+																	},
+																	"twilio_metadata": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"contact_views": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"interview_id": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string"
+																	},
+																	"created": {
+																		"type": "string"
+																	},
+																	"updated": {
+																		"type": "string"
+																	},
+																	"version": {
+																		"type": "integer"
+																	},
+																	"team_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"name_pronunciation": {
+																				"type": "string"
+																			},
+																			"stripe_customer_id": {
+																				"type": "string"
+																			},
+																			"stripe_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"logo_url": {
+																				"type": "string"
+																			},
+																			"icon_url": {
+																				"type": "string"
+																			},
+																			"business_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"twilio_account_sid": {
+																				"type": "string"
+																			},
+																			"twilio_account_secret": {
+																				"type": "string"
+																			},
+																			"twilio_metadata": {
+																				"type": "object",
+																				"additionalProperties": true
+																			},
+																			"contact_views": {
+																				"type": "object",
+																				"additionalProperties": true
+																			}
+																		}
+																	},
+																	"caller_id_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"team_id": {
+																				"type": "object",
+																				"properties": {
+																					"id": {
+																						"type": "string"
+																					},
+																					"created": {
+																						"type": "string"
+																					},
+																					"updated": {
+																						"type": "string"
+																					},
+																					"version": {
+																						"type": "integer"
+																					},
+																					"name": {
+																						"type": "string"
+																					},
+																					"name_pronunciation": {
+																						"type": "string"
+																					},
+																					"stripe_customer_id": {
+																						"type": "string"
+																					},
+																					"stripe_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"logo_url": {
+																						"type": "string"
+																					},
+																					"icon_url": {
+																						"type": "string"
+																					},
+																					"business_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"twilio_account_sid": {
+																						"type": "string"
+																					},
+																					"twilio_account_secret": {
+																						"type": "string"
+																					},
+																					"twilio_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"contact_views": {
+																						"type": "object",
+																						"additionalProperties": true
+																					}
+																				}
+																			},
+																			"phone_number": {
+																				"type": "string"
+																			},
+																			"twilio_sid": {
+																				"type": "string"
+																			}
+																		}
+																	},
+																	"genius_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"team_id": {
+																				"type": "object",
+																				"properties": {
+																					"id": {
+																						"type": "string"
+																					},
+																					"created": {
+																						"type": "string"
+																					},
+																					"updated": {
+																						"type": "string"
+																					},
+																					"version": {
+																						"type": "integer"
+																					},
+																					"name": {
+																						"type": "string"
+																					},
+																					"name_pronunciation": {
+																						"type": "string"
+																					},
+																					"stripe_customer_id": {
+																						"type": "string"
+																					},
+																					"stripe_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"logo_url": {
+																						"type": "string"
+																					},
+																					"icon_url": {
+																						"type": "string"
+																					},
+																					"business_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"twilio_account_sid": {
+																						"type": "string"
+																					},
+																					"twilio_account_secret": {
+																						"type": "string"
+																					},
+																					"twilio_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"contact_views": {
+																						"type": "object",
+																						"additionalProperties": true
+																					}
+																				}
+																			},
+																			"name": {
+																				"type": "string"
+																			}
+																		}
+																	},
+																	"folder_id": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string"
+																			},
+																			"created": {
+																				"type": "string"
+																			},
+																			"updated": {
+																				"type": "string"
+																			},
+																			"version": {
+																				"type": "integer"
+																			},
+																			"name": {
+																				"type": "string"
+																			},
+																			"team": {
+																				"type": "object",
+																				"properties": {
+																					"id": {
+																						"type": "string"
+																					},
+																					"created": {
+																						"type": "string"
+																					},
+																					"updated": {
+																						"type": "string"
+																					},
+																					"version": {
+																						"type": "integer"
+																					},
+																					"name": {
+																						"type": "string"
+																					},
+																					"name_pronunciation": {
+																						"type": "string"
+																					},
+																					"stripe_customer_id": {
+																						"type": "string"
+																					},
+																					"stripe_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"logo_url": {
+																						"type": "string"
+																					},
+																					"icon_url": {
+																						"type": "string"
+																					},
+																					"business_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"twilio_account_sid": {
+																						"type": "string"
+																					},
+																					"twilio_account_secret": {
+																						"type": "string"
+																					},
+																					"twilio_metadata": {
+																						"type": "object",
+																						"additionalProperties": true
+																					},
+																					"contact_views": {
+																						"type": "object",
+																						"additionalProperties": true
+																					}
+																				}
+																			}
+																		}
+																	},
+																	"type": {
+																		"type": "string",
+																		"enum": [
+																			"GENERAL",
+																			"POLITICAL_POLLING",
+																			"SALES",
+																			"CANDIDATE_SCREENING",
+																			"MARKET_RESEARCH",
+																			"PRODUCT_REVIEW",
+																			"VIRTUAL_RECEPTIONIST",
+																			"CUSTOMER_SERVICE",
+																			"CUSTOM"
+																		]
+																	},
+																	"title": {
+																		"type": "string"
+																	},
+																	"ai_name": {
+																		"type": "string"
+																	},
+																	"lang": {
+																		"type": "string"
+																	},
+																	"error_id": {
+																		"type": "string"
+																	},
+																	"note_to_subject": {
+																		"type": "string"
+																	},
+																	"notifications": {
+																		"type": "string"
+																	},
+																	"status": {
+																		"type": "string",
+																		"enum": [
+																			"ACTIVE",
+																			"ARCHIVED"
+																		]
+																	},
+																	"response_tags": {
+																		"type": "string"
+																	},
+																	"presence_interim_audio": {
+																		"type": "string"
+																	},
+																	"presence_background_audio": {
+																		"type": "string"
+																	},
+																	"personality_customization": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"should_record": {
+																		"type": "string"
+																	},
+																	"should_leave_voicemail": {
+																		"type": "string"
+																	},
+																	"voicemail_message": {
+																		"type": "string"
+																	},
+																	"advanced_settings": {
+																		"type": "object",
+																		"additionalProperties": true
+																	},
+																	"metrics": {
+																		"type": "object",
+																		"additionalProperties": true
+																	}
+																}
+															},
+															"type": {
+																"type": "string",
+																"enum": [
+																	"CONTACTS",
+																	"SMS",
+																	"RESPONSES",
+																	"GENERAL"
+																]
+															},
+															"rdd_config": {
+																"type": "object",
+																"additionalProperties": true
+															},
+															"status": {
+																"type": "string",
+																"enum": [
+																	"NOT_STARTED",
+																	"IN_PROGRESS",
+																	"CANCELED",
+																	"COMPLETE"
+																]
+															},
+															"note": {
+																"type": "string"
+															},
+															"logs": {
+																"type": "object",
+																"additionalProperties": true
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"interview"
+				],
+				"parameters": [
+					{
+						"name": "interview_id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "search",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "response_tags",
+						"in": "query",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"style": "form",
+						"explode": true
+					},
+					{
+						"name": "status",
+						"in": "query",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"style": "form",
+						"explode": true
+					},
+					{
+						"name": "job_id",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 0
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"maximum": 50,
+							"default": 20
+						}
+					}
+				]
+			}
+		},
+		"/user": {
+			"get": {
+				"summary": "Get user details",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string"
+												},
+												"created": {
+													"type": "string"
+												},
+												"updated": {
+													"type": "string"
+												},
+												"version": {
+													"type": "integer"
+												},
+												"email": {
+													"type": "string"
+												},
+												"phone_number": {
+													"type": "string"
+												},
+												"first_name": {
+													"type": "string"
+												},
+												"last_name": {
+													"type": "string"
+												},
+												"avatar": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"user"
+				]
+			}
+		},
+		"/webhooks/subscribe": {
+			"post": {
+				"summary": "Subscribe to webhook",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"webhooks"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": [
+									"type",
+									"url"
+								],
+								"properties": {
+									"type": {
+										"type": "string",
+										"enum": [
+											"NEW_RESPONSE",
+											"PHONE_TRANSFER"
+										],
+										"description": "The type of webhook event to subscribe to.",
+										"example": "NEW_RESPONSE"
+									},
+									"data": {
+										"type": "string",
+										"nullable": true,
+										"description": "Additional data for the webhook event."
+									},
+									"url": {
+										"type": "string",
+										"format": "uri",
+										"description": "The callback URL to which the webhook should send the event."
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/webhooks/unsubscribe": {
+			"delete": {
+				"summary": "Unsubscribe from webhook",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"webhooks"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"enum": [
+											"NEW_RESPONSE",
+											"PHONE_TRANSFER",
+											"FOLDER_NEW_RESPONSE",
+											"FOLDER_PHONE_TRANSFER",
+											"ACTION_FAILED"
+										]
+									},
+									"data": {
+										"type": "string"
+									},
+									"url": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"type",
+									"url"
+								],
+								"additionalProperties": false
+							}
+						}
+					}
+				}
+			}
+		},
+		"/webhooks": {
+			"get": {
+				"summary": "Get currently active webhooks",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "object",
+											"nullable": true
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"webhooks"
+				]
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"ApiKeyAuth": {
+				"type": "apiKey",
+				"in": "header",
+				"name": "x-api-token"
+			}
+		}
+	},
+	"security": [
+		{
+			"ApiKeyAuth": []
+		}
+	]
+}
