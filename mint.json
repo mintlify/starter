@@ -2,10 +2,10 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Thoughtly Docs",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/images/logo/dark.svg",
+    "light": "/images/logo/light.svg"
   },
-  "favicon": "/logo/icon.svg",
+  "favicon": "/images/logo/icon.svg",
   "colors": {
     "primary": "#32CB08",
     "light": "#72FA4C",
@@ -25,7 +25,7 @@
     "thumbsRating": true
   },
   "topbarCtaButton": {
-    "name": "Dashboard",
+    "name": "Get Started",
     "url": "https://app.thought.ly"
   },
   "anchors": [
@@ -118,7 +118,8 @@
         {
           "group": "Phone Numbers",
           "pages": [
-            "deploy/phone-numbers/overview",
+            "deploy/phone-numbers/buying-phone-numbers",
+            "deploy/phone-numbers/forwarding",
             "deploy/phone-numbers/caller-id"
           ],
           "icon": "phone",
@@ -143,6 +144,7 @@
         },
         "platform/contacts",
         "platform/library",
+        "platform/billing",
         "platform/settings"
       ]
     },
@@ -179,10 +181,22 @@
       ]
     },
     {
+      "group": "Ticketing",
+      "pages": [
+        "integrations/ticketing/zendesk"
+      ]
+    },
+    {
       "group": "Productivity",
       "pages": [
         "integrations/productivity/google-sheets",
         "integrations/productivity/airtable"
+      ]
+    },
+    {
+      "group": "E-Commerce",
+      "pages": [
+        "integrations/e-commerce/shopify"
       ]
     },
     {

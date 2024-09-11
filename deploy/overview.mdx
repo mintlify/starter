@@ -1,0 +1,56 @@
+---
+title: Overview
+description: Deploy your Voice Agents and start making calls
+---
+
+![title](/images/hero/overview-page.png)
+
+## Deploying your first Voice Agent
+
+Now that you've [built your Voice Agent](/build/agent-builder/overview), it's time to deploy it and start making calls. Inbound deployment is quite different from outbound deployment, so we'll cover both here.
+
+Simply put, inbound calls can be easily handled by connecting a phone number, while outbound calls often require the use of [Automations](/build/automations/overview) to trigger the call.
+
+## Inbound Deployment
+
+Inbound deployment is the process of connecting a phone number to your Voice Agent so that it can receive calls. You can either buy a new phone number from Thoughtly or forward calls from your existing phone number to your Voice Agent.
+
+### Methods
+
+Below are the three methods for inbound deployment. Choose the one that best fits your needs and read the corresponding documentation to get started:
+
+1. **[Buying phone numbers](/deploy/phone-numbers/buying-phone-numbers)**: Purchase a new phone number from Thoughtly and connect it to your Voice Agent. This is the easiest way to get started– all you have to do is share your new phone number with customers.
+2. **[Forwarding existing numbers](/deploy/phone-numbers/forwarding)**: Forward calls from your existing phone number to your Voice Agent. This is useful if you already have a phone number that you'd like to use.
+3. **[SIP](/deploy/sip)**: Connect your Voice Agent to your existing phone system using SIP. This is useful if you have an existing phone system that you'd like to integrate with Thoughtly. Typically useful for enterprise customers.
+
+## Outbound Deployment
+
+Outbound deployment is the process of making calls from your Voice Agent. You can use Automations to trigger outbound calls based on certain conditions, such as a new lead being added to your CRM.
+
+### Recommended Prerequisites
+
+Before you deploy your Voice Agent, we recommend that you complete the following steps:
+
+1. **Voicemail Drops**: If you plan on making outbound calls, you may want to set up [Voicemail Drops](/build/agent-builder/configuration#voicemail-drops) to leave a message if the call goes unanswered.
+2. **Business Verification**: To ensure compliance with carriers and that your phone numbers are not marked as spam, you'll need to [verify your business](/platform/teams/verification). Thoughtly only allows a certain number of calls to be made before verification is required.
+3. **Automations**: If you plan on making outbound calls, you'll need to set up [Automations](/build/automations/overview) to trigger those calls. Make sure to read the [Automations documentation](/build/automations/overview) to get started.
+4. **Phone Numbers**: If you plan on making outbound calls, you'll need to have a phone number connected to your Voice Agent. You can either [buy a new phone number](/deploy/phone-numbers/buying-phone-numbers) or use an existing one.
+
+## SMS
+
+In addition to making and receiving calls, your Voice Agents can also send and receive SMS messages. This can be a powerful tool for customer engagement, especially when used in conjunction with your Voice Agent on phone calls.
+
+Typically, SMS messages are best leveraged during a call using the [SMS node](/build/agent-builder/nodes#sms-node). You can send a text message during the call to share a link, collect information, or provide additional context.
+
+SMS can also be used to follow up with customers after the call has ended, or if the call was missed, by using [Automations](/build/automations/overview).
+
+Learn how to [send SMS messages](/deploy/sms/sending-sms) from your Voice Agent.
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Buying phone numbers"
+	icon="phone-plus"
+	href="/deploy/phone-numbers/buying-phone-numbers"
+	description="Ready to start making calls? Connect a phone number ->"
+/>

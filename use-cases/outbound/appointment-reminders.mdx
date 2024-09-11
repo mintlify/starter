@@ -19,3 +19,30 @@ iconType: light
         style={{ borderRadius: 10 }}
     ></iframe>
 </Frame>
+
+<Icon icon="clock" iconType="light" /> Estimated time: 20 minutes
+
+## Introduction
+
+Prior to a scheduled appointment, it's common for customers to forget or need to reschedule. By building a Voice Agent that can call customers to confirm or reschedule upcoming appointments, you can reduce no-shows and improve customer satisfaction.
+
+The best part? Your Voice Agent can reschedule appointments in real-time and even send a follow-up SMS to confirm the new appointment time. No more IVR systems that say *"press 1 to confirm"* leading to high drop-off. Your Voice Agent can handle the entire process from start to finish.
+
+### Use Case Example
+
+In this example, we're going to build a Voice Agent sequence that checks for upcoming appointments. For this scenario, [Cal.com](/integrations/scheduling/cal-com) to schedule appointments.
+
+By the end of this guide, you'll have a fully-functional Voice Agent that will:
+
+<Steps>
+	<Step title="Check for upcoming appointments">
+		Every day at noon, your Voice Agent will check for tomorrow's appointments. For any appointments that are scheduled, your Voice Agent will call the customer to confirm the appointment and reschedule if needed.
+	</Step>
+	<Step title="If no answer, send a text">
+		If your Voice Agent can't reach a lead by phone, they'll send a [Conversational SMS](/deploy/sms) to the customer's phone number. If the lead responds, your Voice Agent will interact with them just like they would over the phone.
+	</Step>
+</Steps>
+
+## Getting Started
+
+<Info>Guide in progress. Check back soon for updates!</Info>
