@@ -56,8 +56,8 @@
     },
     {
       "name": "API Reference",
-      "url": "/api",
-      "openapi": "/api/openapi.json"
+      "url": "/api-reference",
+      "openapi": "/api-reference/openapi.json"
     }
   ],
   "navigation": [
