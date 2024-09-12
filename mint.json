@@ -100,12 +100,11 @@
       ]
     },
     {
-      "group": "PremSQL",
+      "group": "premsql",
       "pages": [
         "premsql/introduction",
         "premsql/datasets",
         "premsql/generators",
-        "premsql/executors",
         "premsql/evaluators",
         "premsql/error_dataset",
         "premsql/tuner",
@@ -116,6 +115,50 @@
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "chat-completions",
+      "pages": [
+        "api-reference/chat-completions/post-v1chatcompletions"
+      ]
+    },
+    {
+      "group": "embeddings",
+      "pages": [
+        "api-reference/embeddings/post-v1embeddings"
+      ]
+    },
+    {
+      "group": "models",
+      "pages": [
+        "api-reference/models/get-v1models",
+        "api-reference/models/get-v1models-"
+      ]
+    },
+    {
+      "group": "repositories",
+      "pages": [
+        "api-reference/repositories/post-v1repositories"
+      ]
+    },
+    {
+      "group": "repository-document",
+      "pages": [
+        "api-reference/repository-document/post-v1repository-document"
+      ]
+    },
+    {
+      "group": "feedbacks",
+      "pages": [
+        "api-reference/feedbacks/post-v1set_trace_feedback"
+      ]
+    },
+    {
+      "group": "traces",
+      "pages": [
+        "api-reference/traces/get-v1traces",
+        "api-reference/traces/get-v1traces-"
       ]
     },
     {
