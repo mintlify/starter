@@ -215,6 +215,13 @@
       "pages": [
         "integrations/ai/thoughtly"
       ]
+    },
+    {
+      "group": "Automation Platforms",
+      "pages": [
+        "integrations/automations/zapier",
+        "integrations/automations/make"
+      ]
     }
   ],
   "footerSocials": {
