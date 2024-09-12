@@ -143,6 +143,7 @@
     {
       "group": "Platform",
       "pages": [
+        "platform/overview",
         {
           "group": "Teams",
           "pages": [
