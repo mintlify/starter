@@ -197,6 +197,38 @@ def main():
 
 Check out the [reference](./reference#trace) to see all the available trace properties.
 
+## Changing the Message Input and Output
+
+By default, the main input and output of the trace displayed on LangWatch is captured from the arguments and return value of
+the top-level decorated function and heuristics try to extract the human-readable message from it automatically.
+
+However, sometimes more complex structures are used and the messages might not end up very human-readable on LangWatch, for example:
+
+![Raw Input and Output](/images/integration/message-raw-input-output.png)
+
+To make the messages really easy to read in the list and through the whole conversation, you can manually set what
+should the input and output of the trace be, by calling `.update(input=...)` and `.update(output=...)` on the current trace:
+
+```python
+import langwatch
+
+@langwatch.trace()
+def main(inputs):
+    # Update the input of the trace with the user message or any other human-readable text
+    langwatch.get_current_trace().update(input=inputs.question)
+
+    ...
+
+    # Then, before returning, update the output of the trace with final response
+    langwatch.get_current_trace().update(output=response)
+
+    return response
+```
+
+This will make the messages on LangWatch look like this:
+
+![Custom Input and Output](/images/integration/message-custom-input-output.png)
+
 ## Capturing a RAG span
 
 RAG is a combination of a retrieval and a generation step, LangWatch provides a special span type for RAG that captures both steps separately which allows to capture the `contexts` being used by the LLM on your pipeline.
