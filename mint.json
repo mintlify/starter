@@ -228,7 +228,8 @@
   "footerSocials": {
     "x": "https://twitter.com/thoughtlyai",
     "linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
-    "instagram": "https://www.instagram.com/thoughtly.ai/"
+    "instagram": "https://www.instagram.com/thoughtly.ai/",
+    "slack": "https://thought.ly/slack"
   },
   "integrations": {
     "intercom": "uii3kkuk"
