@@ -177,14 +177,85 @@ console.log(response)
 ```
 </CodeGroup>
 
+## Repositories
+Repositories act as storage for documents, organized to facilitate efficient information retrieval. Manipulating repository content is straightforward. Using PremSDK you can create new repositories and upload documents to existing
+repositories. 
+
+### Repository creation
+To create a repository, you can use the `create` method provided by the `repository` API. Here's an example of how to create a repository:
+
+<CodeGroup>
+```python Python
+response = client.repositories.create(
+    name="test-repository",
+    organization="your-org-name",
+    description="This is a test repository"
+)
+
+print(response)
+```
+```javascript JavaScript
+const response = await client.repositories.create({
+    name: "test-repository",
+    organization: "your-org-name",
+    description: "This is a test repository"
+}) 
+```
+</CodeGroup>
+
+This will return a response containing the repository ID, name, organization, and description.
+
+<Accordion
+  title="Response output"
+>
+```
+Repository(id=1, name='test-repository', organization='your-org-name', description='This is a test repository', additional_properties={})
+```
+</Accordion>
+
+### Document creation
+To add a document to a repository, you can use the `repositories.create` method. Here's an example of how to create and upload a document:
+
+<CodeGroup>
+```python Python
+response = client.repository.document.create(
+    repository_id=3,
+    file="./testfile.txt" # This could be a .txt, .pdf, .docx file.
+)
+
+print(response)
+```
+
+```javascript JavaScript
+const response = await client.repository.document.create({
+    repository_id: 3,
+    file: "./testfile.txt" // This could be a .txt, .pdf, .docx file.
+})
+```  
+</CodeGroup>
+
+This will return a response containing the document ID, name, repository ID, and other details. Here is how the output looks like:
+
+<Accordion
+  title="Response output"
+>
+```
+DocumentOutput(repository_id=3, document_id=1, name='testfile', document_type=<DocumentTypeEnum.TXT: 'txt'>, status=<StatusEnum.UPLOADED: 'UPLOADED'>, error=None, chunk_count=0, additional_properties={})
+```
+</Accordion>
+
+This will upload the documents and the changes will be reflected on the application. 
 
 
+## Chat Completion with Retrieval Augmented Generation (RAG)
 
-## Enhanced Chat Completion with Retrieval Augmented Generation (RAG)
+If you have created and linked repositories in the launchpad or created through the SDK and want to utilize it to enhance your chat completions by leveraging contextual data from specified `repositories`. 
 
-Enhance your chat completions by leveraging contextual data from specified `repositories`. A `repository` is a collection of `documents`, each containing information that can be utilized by the RAG system to provide enriched and context-aware responses.
+Just to recall, A `repository` is a collection of `documents`, each containing information that can be utilized by the RAG system to provide enriched and context-aware responses.
 
-**If you've linked your repositories in the launchpad, relax—you're all set for effortless chat completions!** The system automatically uses those parameters by default, ensuring a seamless and easy experience. However, if you wish to customize the process, you can specify the `repositories` parameter to fit your exact needs. Just define:
+**If you've linked your repositories in the launchpad, relax—you're all set for effortless chat completions!** The system automatically uses those parameters by default, ensuring a seamless and easy experience. 
+
+However, if you wish to customize the process, you can specify the `repositories` parameter to fit your exact needs. Just define:
 
 -   `ids`: Your selected repository IDs.
 -   `similarity_threshold`: The least similarity score for content relevance.
@@ -245,48 +316,4 @@ console.log(response.document_chunks)
 ```
 </CodeGroup>
 
-
-## Repositories
-Repositories act as storage for documents, organized to facilitate efficient information retrieval. Manipulating repository content is straightforward.
-### Document creation
-To add a document to a repository, you can use the `create` method provided by the `document` API. Here's an example of how to create and upload a document:
-
-
-<CodeGroup>
-```python Python
-FILE_CONTENT = "My friend Jack has a beautiful pet, he gave it the name Sparky, [...]"
-
-response = client.repository.document.create(
-	repository_id=REPOSITORY_ID,
-	name="pets_and_their_owners.txt",
-	content=FILE_CONTENT,
-	document_type="text",
-)
-
-print(response)
-# E.g., DocumentOutput(repository_id=4, document_id=14, name="pets_and_their_owners.txt", type="text", status="UPLOADED", chunk_count=0, error=None)
-```
-```javascript JavaScript
-const FILE_CONTENT = "My friend Jack has a beautiful pet, he gave it the name Sparky, [...]"
-
-const response = await client.repository.document.create(
-    REPOSITORY_ID,
-    {
-        name: "pets_and_their_owners.txt",
-        content: FILE_CONTENT,
-        document_type: "text"
-    }
-)
-
-console.log(response)
-// E.g. {repository_id: 4, document_id: 14, name: "pets_and_their_owners.txt", type: "text", status: "UPLOADED", chunk_count: 0, error: null}
-```  
-</CodeGroup>
-
-
-
-After uploading, the document state is reflected in fields such as:
-
--   `status`: Shows `UPLOADED` initially, changes once processed (e.g., `PROCESSING`).
--   `chunk_count`: Number of data chunks; starts at 0 and increases post-processing.
--   `error`: Non-null if an error arose during processing.
+Now we are ready to take a look into how we can do Function Calling using PremSDK in the next section. 
