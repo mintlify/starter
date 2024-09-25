@@ -2,9 +2,7 @@
 icon: folder-open
 ---
 
-With **Repositories** you can just upload the documents and we take care of the rest. 
-
-### This guide will show you how to create **RAG-based** assistants that are able to interact with your documents. 
+With **Repositories** you can just upload the documents and we take care of the rest. This guide will show you how to create **RAG-based** assistants that are able to interact with your documents. 
 
 <img
   src="https://static.premai.io/prem-saas-docs/repositories-guide/repositoriesDocumentPage.png"
@@ -34,56 +32,7 @@ With **Repositories** you can just upload the documents and we take care of the 
 />
     - Prepare your documents in a format supported by **Prem**, such as **PDF**, **TXT**, or **DOCX**. Ensure that the documents are clean, well-structured, and free of any formatting issues.
 
-    - Upload your documents to a repository using **Prem's** interface, [API](/api-reference/introduction) or [SDK](/get-started/sdk). You can either upload documents individually or in batches. Make sure to provide meaningful names or identifiers for your documents.
-<CodeGroup>
-
-```python Python
-from premai import Prem
-
-client = Prem(
-    api_key=YOUR_API_KEY
-)
-
-FILE_CONTENT = "My friend Jack has a beautiful pet, he gave it the name Sparky, [...]"
-
-response = client.repository.document.create(
-	repository_id=REPOSITORY_ID,
-	name="pets_and_their_owners.txt",
-	content=FILE_CONTENT,
-	document_type="text",
-)
-
-print(response)
-# E.g., DocumentOutput(repository_id=4, document_id=14, name="pets_and_their_owners.txt", type="text", status="UPLOADED", chunk_count=0, error=None)
-```
-
-```javascript JavaScript
-import Prem from '@premai/prem-sdk';
-
-const client = new Prem({
-  apiKey: "YOUR_API_KEY"
-})
-
-const project_id = PROJECT_ID
-
-const FILE_CONTENT = "My friend Jack has a beautiful pet, he gave it the name Sparky, [...]"
-
-const response = await client.repository.document.create(
-    REPOSITORY_ID,
-    {
-        name: "pets_and_their_owners.txt",
-        content: FILE_CONTENT,
-        document_type: "text"
-    }
-)
-
-console.log(response)
-// E.g. {repository_id: 4, document_id: 14, name: "pets_and_their_owners.txt", type: "text", status: "UPLOADED", chunk_count: 0, error: null}
-```
-
-
-
-</CodeGroup>
+    - Upload your documents to a repository using **Prem's** interface, [API](/api-reference/introduction) or using [PremSDK](/get-started/sdk#repositories). You can either upload documents individually or in batches. Make sure to provide meaningful names or identifiers for your documents.
 
 <img
   src="https://static.premai.io/prem-saas-docs/repositories-guide/uploadDocs.gif"
