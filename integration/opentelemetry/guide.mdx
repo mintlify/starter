@@ -147,8 +147,8 @@ Currently, there are different open initiatives for LLM instrumentation librarie
         from openinference.instrumentation.crewai import CrewAIInstrumentor
         from openinference.instrumentation.langchain import LangChainInstrumentor
 
-        CrewAIInstrumentor().instrument(tracer_provider=trace_provider)
-        LangChainInstrumentor().instrument(tracer_provider=trace_provider)
+        CrewAIInstrumentor().instrument(tracer_provider=tracer_provider)
+        LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
         ```
 
         That's it! You can now see the traces for your CrewAI calls in the LangWatch dashboard.
