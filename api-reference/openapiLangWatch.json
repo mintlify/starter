@@ -681,6 +681,35 @@
         }
       }
     },
+    "/api/trace/search": {
+      "post": {
+        "summary": "Search traces",
+        "description": "Search for traces based on given criteria",
+        "tags": ["Traces"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/trace/{id}/share": {
       "post": {
         "description": "Returns a public path for a trace",
@@ -822,6 +851,231 @@
           },
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "SearchRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pageSize": {
+            "type": "integer",
+            "example": 1000
+          },
+          "pageOffset": {
+            "type": "integer",
+            "example": 1
+          },
+          "filters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "traces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Trace"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "Trace": {
+        "type": "object",
+        "properties": {
+          "trace_id": {
+            "type": "string"
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "timestamps": {
+            "$ref": "#/components/schemas/Timestamps"
+          },
+          "input": {
+            "$ref": "#/components/schemas/Input"
+          },
+          "output": {
+            "$ref": "#/components/schemas/Output"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "indexing_md5s": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "evaluations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Evaluation"
+            }
+          },
+          "contexts": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "Timestamps": {
+        "type": "object",
+        "properties": {
+          "inserted_at": {
+            "type": "integer"
+          },
+          "started_at": {
+            "type": "integer"
+          },
+          "updated_at": {
+            "type": "integer"
+          }
+        }
+      },
+      "Input": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "satisfaction_score": {
+            "type": "number"
+          }
+        }
+      },
+      "Output": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "sdk_language": {
+            "type": "string"
+          },
+          "sdk_version": {
+            "type": "string"
+          }
+        }
+      },
+      "Metrics": {
+        "type": "object",
+        "properties": {
+          "tokens_estimated": {
+            "type": "boolean"
+          },
+          "completion_tokens": {
+            "type": "integer"
+          },
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "total_cost": {
+            "type": "number"
+          },
+          "total_time_ms": {
+            "type": "integer"
+          },
+          "first_token_ms": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "Evaluation": {
+        "type": "object",
+        "properties": {
+          "evaluation_id": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "timestamps": {
+            "$ref": "#/components/schemas/EvaluationTimestamps"
+          },
+          "evaluator_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "EvaluationTimestamps": {
+        "type": "object",
+        "properties": {
+          "finished_at": {
+            "type": "integer"
+          },
+          "updated_at": {
+            "type": "integer"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "currentPageOffset": {
+            "type": "integer",
+            "example": 1
+          },
+          "nextPageOffset": {
+            "type": "integer",
+            "example": 1000
+          },
+          "totalHits": {
+            "type": "integer",
+            "example": 1254
           }
         }
       }
