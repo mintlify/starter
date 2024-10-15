@@ -1,4 +1,5 @@
 import openapi_client
+import random
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -36,26 +37,29 @@ def create_bearer_client(api_host, token):
         # Create an instance of the API class
         return openapi_client.DefaultApi(api_client)
 
-def create_user(api_instance: openapi_client.DefaultApi, client_name):
+def create_user(api_instance: openapi_client.DefaultApi, client_name, index):
+    first_names=('John','Andy','Joe','Dave','Sam','Hannah','Charlotte')
+    last_names=('Johnson','Smith','Williams','Brown','Church')
 
-    name = "John Smith"
-    email = f"jonsmith@{client_name}.com"
+    name = random.choice(first_names)+" "+random.choice(last_names)
+    email = f"{name.lower().replace(' ', '')}{index}@{client_name}.com"
 
     try:
         # Deletes an account for the user (e.g. a Xero account)
         api_response = api_instance.users_post(User(name=name, email=email))
 
-        return api_response.user_id
+        return api_response.user_id, email
     except ApiException as e:
         print("Exception when calling creater user: %s\n" % e)
         raise
 
 
-def create_account(api_instance: openapi_client.DefaultApi, user_id):
-    payroll_provider = "sage"
+def create_account(api_instance: openapi_client.DefaultApi, user_id, user_name):
+    payroll_provider = "adp"
     try:
         request = AccountsPostRequest(user_id=user_id, 
-                                      payroll_provider=payroll_provider)
+                                      payroll_provider=payroll_provider, 
+                                      user_name=user_name)
         api_response = api_instance.accounts_post(accounts_post_request=request)
 
         return api_response.account_id
@@ -86,24 +90,28 @@ def create_user_token(api_instance: openapi_client.DefaultApi, user_id):
         raise
 
 
-host = "http://host.docker.internal:8080" # host machine
+host = "http://host.docker.internal:8080/api" # host machine
 #host = "https://api.sandbox.goteal.co"
 client_api_key = ""
 client_name = ""
 
 api_instance = create_api_client(client_api_key, host)
 
-user_id = create_user(api_instance, client_name)
-account_id = create_account(api_instance, user_id)
+for x in range(15):
+    print("User {}".format(x))
+    user_id, user_name = create_user(api_instance, client_name, x)
+    account_id = create_account(api_instance, user_id, user_name)
 
-user_token = create_user_token(api_instance, user_id)
-bearer_client = create_bearer_client(host, user_token)
+    user_token = create_user_token(api_instance, user_id)
+    bearer_client = create_bearer_client(host, user_token)
 
-entry_id = create_entry_for_account(bearer_client, account_id, user_token)
+    entry_one_id = create_entry_for_account(bearer_client, account_id, user_token)
+    entry_two_id = create_entry_for_account(bearer_client, account_id, user_token)
 
-identifiers = f"""
-user_id = {user_id}
-account_id = {account_id}
-entry_id = {entry_id}
-"""
-print(identifiers)
+    identifiers = f"""
+    user_id = {user_id}
+    account_id = {account_id}
+    entry_one_id = {entry_one_id}
+    entry_two_id = {entry_two_id}
+    """
+    print(identifiers)
