@@ -106,6 +106,15 @@
         "api-reference/webhooks/list",
         "api-reference/webhooks/delete"
       ]
+    },
+    {
+      "group": "Members",
+      "pages": [
+        "api-reference/members/create",
+        "api-reference/members/get",
+        "api-reference/members/list",
+        "api-reference/members/delete"
+      ]
     }
   ],
   "footerSocials": {
