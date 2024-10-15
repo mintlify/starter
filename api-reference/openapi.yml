@@ -769,7 +769,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Member"
+              "$ref": "#/components/schemas/InviteMemberRequest"
       responses:
         "201":
           description: Created
@@ -1122,22 +1122,22 @@ components:
               "$ref": "#/components/schemas/Date"
     Member:
       type: object
-      required: [name, email, status]
+      required: [email, role, status, mfa_status:]
       properties:
-        name:
+        email:
           type: string
-          description: Names of the Member
-          example: John Smith
+          format: email
+          example: john.smith@goteal.co
         role:
           type: string
           description: The Role of the Member
           items:
             type: string
           example: "Owner"
-        email:
+        name:
           type: string
-          format: email
-          example: john.smith@goteal.co
+          description: Names of the Member
+          example: John Smith
         status:
           type: string
           description: the status of the Member
@@ -1153,13 +1153,27 @@ components:
               "external_provider",
             ]
           readOnly: true
-          example:
+          example: "unconfirmed"
         mfa_status:
           type: string
           description: the status of the Member
           enum: ["sms", "email", "disabled"]
           readOnly: true
-          example:
+          example: "sms"
+    InviteMemberRequest:
+      type: object
+      required: [email, role]
+      properties:
+        email:
+          type: string
+          format: email
+          example: john.smith@goteal.co
+        role:
+          type: string
+          description: The Role of the Member
+          items:
+            type: string
+          example: "Owner"
     Error:
       required:
         - errors
