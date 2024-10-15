@@ -859,12 +859,16 @@ components:
       - "$ref": "#/components/schemas/User"
     UserToken:
       type: object
-      required: [token, created_at]
+      required: [token, webapp_link, created_at]
       properties:
         token:
           type: string
           description: The token to be used in subsequent requests
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTVhMGU3MGItZmUwMi00ZjQ3LWFlZjktMmVmZmYyNzlkZjcxIiwiaWF0IjoxNTE2MjM5MDIyfQ.4S5J
+        webapp_link:
+          type: string
+          description: URL of the teal webapp with short version of token. Ignore if not utilising webapp.
+          example: https://api.sandbox.goteal.co/r/ZwgQkNEMZ4QDkQ
         created_at:
             "$ref": "#/components/schemas/Date"
     Accounts:
