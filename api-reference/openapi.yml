@@ -1122,7 +1122,7 @@ components:
               "$ref": "#/components/schemas/Date"
     Member:
       type: object
-      required: [email, role, status, mfa_status:]
+      required: [email, role, status, mfa_status]
       properties:
         email:
           type: string
