@@ -5,7 +5,7 @@ info:
   description: A full flagged payroll api provided by Teal
   version: 1.0.0
 servers:
-  - url: https://api.sandbox.goteal.co
+  - url: https://api.staging.goteal.co
     description: Sandbox server for experiments
   - url: https://api.goteal.co/v1
     description: Production server
@@ -821,6 +821,25 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         "401":
           "$ref": "#/components/responses/UnauthorizedApiKey"
+  "/members/signin":
+    post:
+      summary: Sign in a member
+      security: []  # This declares that no authorization is required for this endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberSignInRequest"
+      responses:
+        "200":
+          description: Successful signin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemberSignInResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
   "/members/{member_id}":
     get:
       summary: Returns a Member.
@@ -1185,6 +1204,65 @@ components:
             type: string
           description: An array of messages describing the errors
           example: ["The request is missing the required field `name`"]
+    MemberSignInRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: The username of the member
+          example: john.doe@example.com
+        password:
+          type: string
+          description: The password of the member
+          format: password
+          example: mySecurePassword123
+    MemberSignInResponse:
+      type: object
+      required:
+        - jwt
+        - member
+      properties:
+        jwt:
+          type: string
+          description: JSON Web Token for authentication
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        member:
+          $ref: '#/components/schemas/MemberResponse'
+    MemberResponse:
+      type: object
+      required:
+        - id
+        - email
+        - mfa_status
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the member
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        email:
+          type: string
+          format: email
+          description: Email address of the member
+          example: "john.doe@example.com"
+        role:
+          type: string
+          description: Role of the member
+          example: "Admin"
+        name:
+          type: string
+          description: Name of the member
+          example: "John Doe"
+        status:
+          type: string
+          description: Status of the member
+          example: "active"
+        mfa_status:
+          type: string
+          description: Multi-factor authentication status of the member
+          example: "sms"
     Unauthorized:
       type: object
       properties:

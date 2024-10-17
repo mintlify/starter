@@ -113,7 +113,8 @@
         "api-reference/members/create",
         "api-reference/members/get",
         "api-reference/members/list",
-        "api-reference/members/delete"
+        "api-reference/members/delete",
+        "api-reference/members/signin"
       ]
     }
   ],
