@@ -11,6 +11,7 @@ servers:
     description: Production server
 security:
   - ApiKeyAuth: []
+  - MemberBearerAuth: []
 paths:
   "/users":
     description: A User represents the borrowers and end-users that
@@ -1189,10 +1190,11 @@ components:
           example: john.smith@goteal.co
         role:
           type: string
+          enum: [FullMember]
           description: The Role of the Member
           items:
             type: string
-          example: "Owner"
+          example: FullMember
     Error:
       required:
         - errors
@@ -1507,6 +1509,10 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY
+    MemberBearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token for authentication. The token should be the one returned by the "/members/signin"
     BearerAuth:
       type: http
       scheme: bearer
