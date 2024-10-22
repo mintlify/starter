@@ -153,6 +153,7 @@
           "icon": "users",
           "iconType": "light"
         },
+        "platform/voices",
         "platform/contacts",
         "platform/library",
         "platform/billing",
