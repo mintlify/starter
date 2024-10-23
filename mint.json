@@ -43,6 +43,11 @@
       "name": "Book a Demo",
       "icon": "calendar",
       "url": "https://fns.thought.ly/lead/email?demo=true"
+    },
+    {
+      "name": "Join our Slack",
+      "icon": "slack",
+      "url": "https://thought.ly/slack"
     }
   ],
   "tabs": [
@@ -166,7 +171,8 @@
         "resources/faq",
         "resources/support",
         "resources/training-videos",
-        "resources/glossary"
+        "resources/glossary",
+        "resources/partners"
       ]
     },
     {
