@@ -13,14 +13,30 @@ import { PartnerCard } from '/snippets/partner-card.mdx'
 	<PartnerCard
 		name="Lucid AI Solutions"
 		href="https://lucidaisolutions.com"
-		logoUrl="/images/partners/lucid-ai.jpg"
 		description="General Sales Agents"
+		image={(
+			<img
+				src={"/images/partners/lucid-ai.jpg"}
+				style={{
+					borderRadius: '10px',
+					maxHeight: '125px',
+				}}
+			/>
+		)}
 	/>
 	<PartnerCard
 		name="Fairfax Partners"
 		href="https://fairfaxpartners.ca"
-		logoUrl="/images/partners/fairfax-partners.jpg"
 		description="Investor Relations and Corporate Communications"
+		image={(
+			<img
+				src={"/images/partners/fairfax-partners.jpg"}
+				style={{
+					borderRadius: '10px',
+					maxHeight: '125px',
+				}}
+			/>
+		)}
 	/>
 </CardGroup>
 
