@@ -1,8 +1,8 @@
 export const PartnerCard = ({
 	name,
+	logoUrl,
 	description,
 	href,
-	image,
 }) => (
 	<a
 		href={href}
@@ -34,7 +34,13 @@ export const PartnerCard = ({
 				justifyContent: 'center',
 				alignItems: 'center',
 			}}>
-				{image}
+				<img
+					src={logoUrl}
+					style={{
+						borderRadius: '10px',
+						maxHeight: '125px',
+					}}
+				/>
 			</div>
 			<div 
 				className='font-bold text-lg text-center'
