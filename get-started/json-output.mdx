@@ -1,0 +1,152 @@
+---
+icon: brackets-curly
+title: Structured Output
+---
+
+Structured output allows you to always format responses according to a specific input JSON schema. As of now, the following models support structured output under PremSDK:
+
+1. `gpt-4o`
+2. `gpt-4o-mini`
+
+To invoke function calling, you need to define a JSON schema and pass that schema inside the `response_format` argument. Here is an example to get started with structured output using PremAI SDK.
+
+<Note>
+To understand structured output, you should have an understanding of the Prem SDK. If not, please [check that out first](/get-started/sdk.mdx).
+</Note>
+
+<CodeGroup>
+```python python 
+from premai import Prem 
+
+# Change the project_id and api_key
+project_id = 12345
+client = Prem(api_key="xxx-xxx-xxx-xxx")
+
+messages = [
+    {"role": "user", "content": "Who won the world series in 2020?"},
+]
+
+# Create completion
+response = client.chat.completions.create(
+    project_id=project_id,
+    messages=messages,
+    model='gpt-4o',
+    response_format={
+        "type": "json_schema",
+        "json_schema": {
+            "name": "math_reasoning",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "steps": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "explanation": {"type": "string"},
+                                "output": {"type": "string"}
+                            },
+                            "required": ["explanation", "output"],
+                            "additionalProperties": False
+                        }
+                    },
+                    "final_answer": {"type": "string"}
+                },
+                "required": ["steps", "final_answer"],
+                "additionalProperties": False
+            },
+            "strict": True
+        }
+    }   
+)
+
+print(response.choices[0])
+```
+
+```javascript javascript
+import Prem from '@premai/prem-sdk';
+
+const client = new Prem({
+  apiKey: "xxx-xxx-xxx-xxx"  // Replace with your actual API key
+});
+
+const project_id = 12345;
+
+const messages = [
+  { role: "user", content: "Who won the world series in 2020?" },
+];
+
+// Create completion
+const response = await client.chat.completions.create({
+  project_id,
+  messages,
+  model: 'gpt-4o',
+  response_format: {
+    type: "json_schema",
+    json_schema: {
+      name: "math_reasoning",
+      schema: {
+        type: "object",
+        properties: {
+          steps: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                explanation: { type: "string" },
+                output: { type: "string" }
+              },
+              required: ["explanation", "output"],
+              additionalProperties: false
+            }
+          },
+          final_answer: { type: "string" }
+        },
+        required: ["steps", "final_answer"],
+        additionalProperties: false
+      },
+      strict: true
+    }
+  }
+});
+
+console.log(response.choices[0]);
+```
+
+</CodeGroup>
+
+<br></br>
+
+<Accordion title="Output">
+```Json
+ResponseChoice(
+    index=0,
+    message=Message(
+        role=<MessageRoleEnum.ASSISTANT: 'assistant'>,
+        content='{"steps":[{"explanation":"The World Series in Major League Baseball is the annual championship 
+series between the champions of the American League (AL) and the National League (NL). Every year, teams from these
+two leagues compete to win the prestigious title.","output":"The World Series is a championship series in Major 
+League Baseball."},{"explanation":"To find the winner, we can check records or historical data from the 2020 MLB 
+season. The 2020 World Series was significant due to its occurrence during the COVID-19 pandemic, which affected 
+the season.","output":"The 2020 MLB season was affected by the COVID-19 pandemic."},{"explanation":"The 2020 MLB 
+World Series took place later in the year than usual, from October 20 to October 27.","output":"The 2020 World 
+Series was held from October 20 to October 27."},{"explanation":"The two teams competing in the 2020 World Series 
+were the Los Angeles Dodgers from the National League and the Tampa Bay Rays from the American 
+League.","output":"The Los Angeles Dodgers and the Tampa Bay Rays competed in the 2020 World 
+Series."},{"explanation":"The Los Angeles Dodgers have been prominent in the National League and have participated 
+in multiple World Series over the past decade.","output":"The Dodgers have been a consistently competitive team in 
+recent years."},{"explanation":"The Los Angeles Dodgers won the 2020 World Series by defeating the Tampa Bay Rays 4
+games to 2 in the best-of-seven series.","output":"The Dodgers defeated the Rays 4-2 to win the 
+series."}],"final_answer":"The Los Angeles Dodgers won the World Series in 2020."}',
+        template_id=<premai.types.Unset object at 0x7c294ffdabf0>,
+        params=<premai.types.Unset object at 0x7c294ffdabf0>,
+        additional_properties={'tool_calls': None}
+    ),
+    finish_reason='stop',
+    tool_calls=<premai.types.Unset object at 0x7c294ffdabf0>,
+    additional_properties={}
+)
+```
+</Accordion>
+
+Structured Output is still on early phases. We are going to bring more improvements in near future starting from supporting structured outputs on other LLMs and support for pydantic and Zod in our SDK. 
