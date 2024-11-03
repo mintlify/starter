@@ -1,256 +1,256 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "Thoughtly Docs",
-  "logo": {
-    "dark": "/images/logo/dark.svg",
-    "light": "/images/logo/light.svg"
-  },
-  "favicon": "/images/logo/icon.svg",
-  "colors": {
-    "primary": "#32CB08",
-    "light": "#72FA4C",
-    "dark": "#424242",
-    "anchors": {
-      "from": "#32CB08",
-      "to": "#72FA4C"
-    }
-  },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:support@thought.ly"
-    }
-  ],
-  "feedback": {
-    "thumbsRating": true
-  },
-  "topbarCtaButton": {
-    "name": "Get Started",
-    "url": "https://app.thought.ly"
-  },
-  "anchors": [
-    {
-      "name": "Dashboard",
-      "icon": "browser",
-      "url": "https://app.thought.ly"
-    },
-    {
-      "name": "Changelog",
-      "icon": "book",
-      "url": "https://feedback.thought.ly/changelog"
-    },
-    {
-      "name": "Book a Demo",
-      "icon": "calendar",
-      "url": "https://fns.thought.ly/lead/email?demo=true"
-    },
-    {
-      "name": "Join our Slack",
-      "icon": "slack",
-      "url": "https://thought.ly/slack"
-    }
-  ],
-  "tabs": [
-    {
-      "name": "Documentation",
-      "url": "/"
-    },
-    {
-      "name": "Integrations",
-      "url": "/integrations"
-    },
-    {
-      "name": "API Reference",
-      "url": "/api-reference",
-      "openapi": "/api-reference/openapi.json"
-    }
-  ],
-  "navigation": [
-    {
-      "group": "Get Started",
-      "pages": [
-        "introduction",
-        "developers"
-      ]
-    },
-    {
-      "group": "Use Cases",
-      "pages": [
-        {
-          "group": "Inbound Calls",
-          "pages": [
-            "use-cases/inbound/customer-service",
-            "use-cases/inbound/receptionist",
-            "use-cases/inbound/sales",
-            "use-cases/inbound/preliminary-intake",
-            "use-cases/inbound/appointment-scheduling"
-          ]
-        },
-        {
-          "group": "Outbound Calls",
-          "pages": [
-            "use-cases/outbound/sales",
-            "use-cases/outbound/appointment-reminders"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Building Agents",
-      "pages": [
-        "build/overview",
-        {
-          "group": "Agent Builder",
-          "pages": [
-            "build/agent-builder/overview",
-            "build/agent-builder/configuration",
-            "build/agent-builder/nodes",
-            "build/agent-builder/outcomes",
-            "build/agent-builder/variables",
-            "build/agent-builder/training-and-rules",
-            "build/agent-builder/genius"
-          ],
-          "icon": "diagram-nested",
-          "iconType": "light"
-        },
-        {
-          "group": "Automations",
-          "pages": [
-            "build/automations/overview",
-            "build/automations/triggers",
-            "build/automations/actions"
-          ],
-          "icon": "code-branch",
-          "iconType": "light"
-        },
-        "build/troubleshooting"
-      ]
-    },
-    {
-      "group": "Deploying Agents",
-      "pages": [
-        "deploy/overview",
-        {
-          "group": "Phone Numbers",
-          "pages": [
-            "deploy/phone-numbers/buying-phone-numbers",
-            "deploy/phone-numbers/forwarding",
-            "deploy/phone-numbers/caller-id"
-          ],
-          "icon": "phone",
-          "iconType": "light"
-        },
-        "deploy/sip",
-        "deploy/batch-jobs",
-        "deploy/sms"
-      ]
-    },
-    {
-      "group": "Platform",
-      "pages": [
-        "platform/overview",
-        {
-          "group": "Teams",
-          "pages": [
-            "platform/teams/overview",
-            "platform/teams/verification"
-          ],
-          "icon": "users",
-          "iconType": "light"
-        },
-        "platform/voices",
-        "platform/contacts",
-        "platform/library",
-        "platform/billing",
-        "platform/settings"
-      ]
-    },
-    {
-      "group": "Resources",
-      "pages": [
-        "resources/faq",
-        "resources/support",
-        "resources/training-videos",
-        "resources/glossary",
-        "resources/partners"
-      ]
-    },
-    {
-      "group": "Integrations",
-      "pages": [
-        "integrations/introduction"
-      ]
-    },
-    {
-      "group": "CRMs",
-      "pages": [
-        "integrations/crm/salesforce",
-        "integrations/crm/hubspot",
-        "integrations/crm/zoho",
-        "integrations/crm/attio",
-        "integrations/crm/highlevel"
-      ]
-    },
-    {
-      "group": "Scheduling",
-      "pages": [
-        "integrations/scheduling/calendly",
-        "integrations/scheduling/acuity",
-        "integrations/scheduling/cal-com"
-      ]
-    },
-    {
-      "group": "Ticketing",
-      "pages": [
-        "integrations/ticketing/zendesk"
-      ]
-    },
-    {
-      "group": "Productivity",
-      "pages": [
-        "integrations/productivity/google-sheets",
-        "integrations/productivity/airtable"
-      ]
-    },
-    {
-      "group": "E-Commerce",
-      "pages": [
-        "integrations/e-commerce/shopify"
-      ]
-    },
-    {
-      "group": "AI",
-      "pages": [
-        "integrations/ai/thoughtly"
-      ]
-    },
-    {
-      "group": "Automation Platforms",
-      "pages": [
-        "integrations/automations/zapier",
-        "integrations/automations/make"
-      ]
-    }
-  ],
-  "footerSocials": {
-    "x": "https://twitter.com/thoughtlyai",
-    "linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
-    "instagram": "https://www.instagram.com/thoughtly.ai/",
-    "slack": "https://thought.ly/slack"
-  },
-  "integrations": {
-    "intercom": "uii3kkuk"
-  },
-  "analytics": {
-    "ga4": {
-      "measurementId": "G-4JRQ329JCS"
-    },
-    "posthog": {
-      "apiKey": "phc_1rmhDrcylqNFKJpFQwDuBV3P4wFYFnZBr8CMY31jLpX",
-      "apiHost": "https://us.i.posthog.com"
-    }
-  },
-  "api": {
-    "baseUrl": "https://api.thought.ly"
-  }
+	"$schema": "https://mintlify.com/schema.json",
+	"name": "Thoughtly Docs",
+	"logo": {
+		"dark": "/images/logo/dark.svg",
+		"light": "/images/logo/light.svg"
+	},
+	"favicon": "/images/logo/icon.svg",
+	"colors": {
+		"primary": "#32CB08",
+		"light": "#72FA4C",
+		"dark": "#424242",
+		"anchors": {
+			"from": "#32CB08",
+			"to": "#72FA4C"
+		}
+	},
+	"topbarLinks": [
+		{
+			"name": "Partners",
+			"url": "/resources/partners"
+		},
+		{
+			"name": "Changelog",
+			"url": "/resources/changelog"
+		}
+	],
+	"feedback": {
+		"thumbsRating": true
+	},
+	"topbarCtaButton": {
+		"name": "Get Started",
+		"url": "https://app.thought.ly"
+	},
+	"anchors": [
+		{
+			"name": "Dashboard",
+			"icon": "browser",
+			"url": "https://app.thought.ly"
+		},
+		{
+			"name": "Join our Slack",
+			"icon": "slack",
+			"url": "https://thought.ly/slack"
+		},
+		{
+			"name": "Book a Demo",
+			"icon": "calendar",
+			"url": "https://fns.thought.ly/lead/email?demo=true"
+		}
+	],
+	"tabs": [
+		{
+			"name": "Documentation",
+			"url": "/"
+		},
+		{
+			"name": "Integrations",
+			"url": "/integrations"
+		},
+		{
+			"name": "API Reference",
+			"url": "/api-reference",
+			"openapi": "/api-reference/openapi.json"
+		}
+	],
+	"navigation": [
+		{
+			"group": "Get Started",
+			"pages": [
+				"introduction",
+				"developers"
+			]
+		},
+		{
+			"group": "Use Cases",
+			"pages": [
+				{
+					"group": "Inbound Calls",
+					"pages": [
+						"use-cases/inbound/customer-service",
+						"use-cases/inbound/receptionist",
+						"use-cases/inbound/sales",
+						"use-cases/inbound/preliminary-intake",
+						"use-cases/inbound/appointment-scheduling"
+					]
+				},
+				{
+					"group": "Outbound Calls",
+					"pages": [
+						"use-cases/outbound/sales",
+						"use-cases/outbound/appointment-reminders"
+					]
+				}
+			]
+		},
+		{
+			"group": "Building Agents",
+			"pages": [
+				"build/overview",
+				{
+					"group": "Agent Builder",
+					"pages": [
+						"build/agent-builder/overview",
+						"build/agent-builder/configuration",
+						"build/agent-builder/nodes",
+						"build/agent-builder/outcomes",
+						"build/agent-builder/variables",
+						"build/agent-builder/training-and-rules",
+						"build/agent-builder/genius"
+					],
+					"icon": "diagram-nested",
+					"iconType": "light"
+				},
+				{
+					"group": "Automations",
+					"pages": [
+						"build/automations/overview",
+						"build/automations/triggers",
+						"build/automations/actions"
+					],
+					"icon": "code-branch",
+					"iconType": "light"
+				},
+				"build/troubleshooting"
+			]
+		},
+		{
+			"group": "Deploying Agents",
+			"pages": [
+				"deploy/overview",
+				{
+					"group": "Phone Numbers",
+					"pages": [
+						"deploy/phone-numbers/buying-phone-numbers",
+						"deploy/phone-numbers/forwarding",
+						"deploy/phone-numbers/caller-id"
+					],
+					"icon": "phone",
+					"iconType": "light"
+				},
+				"deploy/sip",
+				"deploy/batch-jobs",
+				"deploy/sms"
+			]
+		},
+		{
+			"group": "Platform",
+			"pages": [
+				"platform/overview",
+				{
+					"group": "Teams",
+					"pages": [
+						"platform/teams/overview",
+						"platform/teams/verification"
+					],
+					"icon": "users",
+					"iconType": "light"
+				},
+				"platform/voices",
+				"platform/contacts",
+				"platform/library",
+				"platform/billing",
+				"platform/settings"
+			]
+		},
+		{
+			"group": "Resources",
+			"pages": [
+				"resources/faq",
+				"resources/support",
+				"resources/training-videos",
+				"resources/glossary",
+				"resources/partners",
+				"resources/changelog"
+			]
+		},
+		{
+			"group": "Integrations",
+			"pages": [
+				"integrations/introduction"
+			]
+		},
+		{
+			"group": "CRMs",
+			"pages": [
+				"integrations/crm/salesforce",
+				"integrations/crm/hubspot",
+				"integrations/crm/zoho",
+				"integrations/crm/attio",
+				"integrations/crm/highlevel"
+			]
+		},
+		{
+			"group": "Scheduling",
+			"pages": [
+				"integrations/scheduling/calendly",
+				"integrations/scheduling/acuity",
+				"integrations/scheduling/cal-com"
+			]
+		},
+		{
+			"group": "Ticketing",
+			"pages": [
+				"integrations/ticketing/zendesk"
+			]
+		},
+		{
+			"group": "Productivity",
+			"pages": [
+				"integrations/productivity/google-sheets",
+				"integrations/productivity/airtable"
+			]
+		},
+		{
+			"group": "E-Commerce",
+			"pages": [
+				"integrations/e-commerce/shopify"
+			]
+		},
+		{
+			"group": "AI",
+			"pages": [
+				"integrations/ai/thoughtly"
+			]
+		},
+		{
+			"group": "Automation Platforms",
+			"pages": [
+				"integrations/automations/zapier",
+				"integrations/automations/make"
+			]
+		}
+	],
+	"footerSocials": {
+		"x": "https://twitter.com/thoughtlyai",
+		"linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
+		"instagram": "https://www.instagram.com/thoughtly.ai/",
+		"slack": "https://thought.ly/slack"
+	},
+	"integrations": {
+		"intercom": "uii3kkuk"
+	},
+	"analytics": {
+		"ga4": {
+			"measurementId": "G-4JRQ329JCS"
+		},
+		"posthog": {
+			"apiKey": "phc_1rmhDrcylqNFKJpFQwDuBV3P4wFYFnZBr8CMY31jLpX",
+			"apiHost": "https://us.i.posthog.com"
+		}
+	},
+	"api": {
+		"baseUrl": "https://api.thought.ly"
+	}
 }
