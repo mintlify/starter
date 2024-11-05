@@ -53,9 +53,7 @@
     }
   ],
     "feedback": {
-     "thumbsRating": true,
-     "raiseIssue": true,
-     "suggestEdit": true
+     "thumbsRating": true
     },
   "navigation": [
     {
