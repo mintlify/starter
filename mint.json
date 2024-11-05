@@ -73,12 +73,10 @@
         "get-started/repositories",
         "get-started/launchpad",
         "get-started/gym",
-        "get-started/sdk",
         "get-started/json-output",
         "get-started/function-calling",
         "get-started/chat-completion-sse",
-        "get-started/prem-templates",
-        "get-started/supported-models"
+        "get-started/prompt-templates"
       ]
     },
     {
