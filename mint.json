@@ -18,11 +18,11 @@
 	"topbarLinks": [
 		{
 			"name": "Partners",
-			"url": "/resources/partners"
+			"url": "/company/partners"
 		},
 		{
 			"name": "Changelog",
-			"url": "/resources/changelog"
+			"url": "/company/changelog"
 		}
 	],
 	"feedback": {
