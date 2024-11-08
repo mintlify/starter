@@ -168,11 +168,25 @@
 			"group": "Resources",
 			"pages": [
 				"resources/faq",
-				"resources/support",
 				"resources/training-videos",
 				"resources/glossary",
-				"resources/partners",
-				"resources/changelog"
+				{
+					"group": "Whitepapers",
+					"pages": [
+						"resources/whitepapers/overview",
+						"resources/whitepapers/conversational-ai"
+					],
+					"icon": "file",
+					"iconType": "light"
+				}
+			]
+		},
+		{
+			"group": "Company",
+			"pages": [
+				"company/support",
+				"company/partners",
+				"company/changelog"
 			]
 		},
 		{
