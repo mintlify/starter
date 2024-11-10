@@ -2,51 +2,140 @@
 title: Introduction
 ---
 
-Welcome to the PremSQL library, a powerful tool for building self-hosted, end-to-end Text-to-SQL pipelines. PremSQL offers a modular design where each component functions independently, enabling you to create fully customized workflows.
+Welcome to the PremSQL library, a powerful tool for building self-hosted, end-to-end Text-to-SQL pipelines. PremSQL offers a modular design where each component functions independently, enabling you to create fully customized workflows. Watch a Quick Demo of our latest PremSQL Agent Server and Playground
+
+<iframe 
+  width="750" 
+  height="550" 
+  src="https://www.youtube.com/embed/kRwM1-y7Cvk?si=RXQbAfDGKnF64UNB&autoplay=1&loop=1&playlist=kRwM1-y7Cvk" 
+  title="YouTube video player" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerpolicy="strict-origin-when-cross-origin" 
+  allowfullscreen
+></iframe>
+
+### Core Components
+
+All the components work independently and aim to achieve a single task. It is recommended to check out each of the components sequentially to get an overall idea and how to use them to the fullest. However it is not strictly mandatory. Since each components work independently, so you can only look into the component which satisfies your need for a quick start and come back later for more indepth look. 
 
 <Card title="PremSQL GitHub" icon="link" href="https://github.com/premAI-io/premsql/tree/main">
   Star the project to stay updated with our rapid development for the best local Text-to-SQL solution.
 </Card>
+
+<CardGroup cols={2}>
+  <Card title="PremSQL Datasets" icon="square-1" href="/premsql/datasets">
+    Pre-processed datasets hosted on HuggingFace for Text-to-SQL tasks. Useful for evaluation, fine-tuning, and creating custom datasets.
+  </Card>
+  <Card title="PremSQL Generators" icon="square-2" href="/premsql/generators">
+    Models that generate SQL queries from user input and a specified database source.
+  </Card>
+  <Card title="PremSQL Executors" icon="square-3" href="/premsql/executors">
+    Connects to databases and executes generated SQL queries to fetch results.
+  </Card>
+  <Card title="PremSQL Evaluators" icon="square-4" href="/premsql/evaluators">
+    Evaluates Text-to-SQL models using metrics like execution accuracy and Valid Efficiency Score (VES).
+  </Card>
+  <Card title="PremSQL Error Handling" icon="square-5" href="/premsql/error_dataset">
+    Helps to make error handling prompts and datasets for error free inference and fine-tuning datasets for enforcing self correction property.
+  </Card>
+  <Card title="PremSQL Tuner" icon="square-6" href="/premsql/tuner">
+    Fine-tunes open-source models on Text-to-SQL datasets with custom evaluation methods to ensure optimal training performance.
+  </Card>
+  <Card title="PremSQL Agents" icon="square-7" href="/premsql/agents">
+    End-to-end agentic workflows for querying, analyzing and plotting charts on databases using natural language. Supports customizable implementations for specialized use cases.
+  </Card>
+  <Card title="PremSQL Playground" icon="square-8" href="/premsql/playground">
+    A ChatGPT-like interface specialized for database interactions. Deploy PremSQL agents with customized configurations for an interactive experience.
+  </Card>
+</CardGroup>
+
+
+
+## News
+
+- [Sep 10th 2024] First release of PremSQL
+- [Sep 10th 2024] First release of [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) (fully local Text to SQL model)
+- [Oct 30th 2024] [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) crossed 5K + downloads. 
+- [Nov 5th 2024]  Release of PremSQL Playground, Agents and AgentServer. 
+
+
+## Getting Started
+
+Install PremSQL with:
+```bash
+pip install -U premsql
+```
 
 <img
   src="/images/premsql/architecture.png"
   alt="Playground"
 />
 
-## News
-
-- [Sep 10th 2024] First release of PremSQL
-- [Sep 10th 2024] First release of [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) (fully local Text to SQL model)
 
 
-### Core Components
+Here's a quick example using PremSQL's agent capabilities to chat with a sample database:
 
-All the components works indepedently and aims to achieve a single task.It is recommended to check out each of the components sequentially to get an overall idea and how to use them to the fullest. 
+```python start_agent.py
+from premsql.agents import BaseLineAgent
+from premsql.generators import Text2SQLGeneratorHF
+from premsql.executors import ExecutorUsingLangChain
+from premsql.agents.tools import SimpleMatplotlibTool
 
-<CardGroup cols={2}>
-  <Card title="PremSQL Datasets" icon="square-1" href="/premsql/datasets">
+# Add a DB URI for SQLite or MySQL or Postgres. 
+dsn_or_db_path = "sqlite:///path/to/data/db.sqlite"
 
-    Pre-processed datasets hosted on HuggingFace for Text-to-SQL tasks. Useful for evaluation, fine-tuning, and creating custom datasets. [Learn more](/premsql/datasets.mdx).
-  </Card>
-  <Card title="PremSQL Generators" icon="square-2" href="/premsql/generators">
-    Models that generate SQL queries from user input and a specified database source. [Learn more](/premsql/generators.mdx).
-  </Card>
-  <Card title="PremSQL Executors" icon="square-3" href="/premsql/executors">
-    Connects to databases and executes generated SQL queries to fetch results. [Learn more](/premsql/evaluators.mdx).
-  </Card>
-  <Card title="PremSQL Evaluators" icon="square-4" href="/premsql/evaluators">
-    Evaluates Text-to-SQL models using metrics like execution accuracy and Valid Efficiency Score (VES). [Learn more](/premsql/evaluators.mdx).
-  </Card>
-  <Card title="PremSQL Error Handling" icon="square-5" href="/premsql/error_dataset">
-   Helps to make error handling prompts and datasets for error free inference and fine-tuning datasets for enforcing self correction property. .
-  </Card>
-  <Card title="PremSQL Tuner" icon="square-5" href="/premsql/tuner">
-    Fine-tunes open-source models on Text-to-SQL datasets with custom evaluation methods to ensure optimal training performance. [Learn more](/premsql/tuner.mdx).
-  </Card>
-  <Card title="PremSQL Pipelines" icon="square-7" href="/premsql/pipelines">
-    End-to-end workflows that integrate generation, execution, and further processing for tasks like database Q&A. [Learn more](/premsql/pipelines.mdx).
-  </Card>
-</CardGroup>
+# We are using HuggingFace. Make sure you have enough vRAM. However we support other inference engines like:
+# HuggingFace, PremAI, MLX, OpenAI. You can also make your own inference engine. Ollama support coming soon. 
+
+agent = BaseLineAgent(
+    session_name="quick_start",
+    db_connection_uri=dsn_or_db_path,
+    specialized_model1=Text2SQLGeneratorHF(
+        model_or_name_or_path="premai-io/prem-1B-SQL",
+        experiment_name="text2sql_worker",
+        device="cuda:0",
+        type="test"
+    ),
+    specialized_model2=Text2SQLGeneratorHF(
+        model_or_name_or_path="meta-llama/Llama-2-7b-chat-hf",
+        experiment_name="analysis_worker",
+        device="cuda:0",
+        type="test"
+    ),
+    executor=ExecutorUsingLangChain(),
+    plot_tool=SimpleMatplotlibTool()
+)
+
+# Query the database
+response = agent("/query show me the phone numbers of direct charter-funded schools opened after 2000/1/1")
+
+# Analyze the results
+analysis = agent("/analyse what patterns do you see in the data?")
+
+# Create a visualization
+plot = agent("/plot create a bar chart showing school counts by year")
+```
+
+Or, Launch AgentServer from the same agent:
+
+```python
+# After you defined your agent (as shown above), just add these additional lines:
+
+agent_server = AgentServer(agent=agent, port={port})
+agent_server.launch()
+```
+Now write this command in the CLI:
+
+```bash
+python start_agent.py
+```
+
+On an another terminal, launch the server using this command:
+
+```bash
+premsql launch all
+```
 
 ## Why PremSQL? The Vision 
 
@@ -63,77 +152,6 @@ PremSQL focuses on creating local Text-to-SQL workflows. Many times, you don't w
 
 While these libraries excel in building general AI workflows, they often come with a steep learning curve for customization. PremSQL simplifies this, providing full control over your data and a smooth integration with existing LangChain, Llama-Index, or DSPy workflows.
 
-## Getting Started
-
-Install PremSQL with:
-```bash
-pip install -U premsql
-```
-
-Here's a quick starter code to chat with a sample database:
-
-```python
-from premsql.pipelines import SimpleText2SQLAgent
-from premsql.generators import Text2SQLGeneratorHF
-from premsql.executors import SQLiteExecutor
-
-dsn_or_db_path = "./data/db/california_schools.sqlite"
-
-agent = SimpleText2SQLAgent(
-    dsn_or_db_path=dsn_or_db_path,
-    generator=Text2SQLGeneratorHF(
-        model_or_name_or_path="premai-io/prem-1B-SQL",
-        experiment_name="simple_pipeline",
-        device="cuda:0",
-        type="test"
-    ),
-)
-
-question = "please list the phone numbers of the direct charter-funded schools that are opened after 2000/1/1"
-
-response = agent.query(question)
-response["table"]
-```
-
-<Accordion title="Output">
-```
-	Phone
-0	None
-1	(209) 229-4700
-2	(209) 253-1208
-3	(209) 365-4060
-4	(209) 368-4934
-...	...
-716	(951) 672-2400
-717	(951) 678-5217
-718	(951) 824-1358
-719	(951) 926-6776
-720	(970) 258-0518
-```
-</Accordion>
-
-Explore more detailed tutorials and learn about PremSQL’s offerings and future plans below.
-
-
-## Roadmap
-
-We are excited to announce the successful rollout of the first release of the **PremSQL** library. Alongside the release, we are committed to continuously improving the existing documentation to enhance the overall developer experience.
-
-
-- **Synthesizer Component**:  
-  A significant feature of PremSQL is the synthesizer component, designed to generate synthetic datasets from private data. This capability allows for fine-tuning smaller language models, enabling fully private text-to-SQL workflows that safeguard sensitive data.
-
-- **Agentic Pipelines with Function-Calling Features**:  
-  Future releases will incorporate advanced agentic methods with new features, including graph plotting capabilities, natural language analysis, and other enhancements to increase the system's versatility and power.
-
-- **Training Better Small Language Models**:  
-  We are actively training small language models tailored specifically to PremSQL’s unique requirements. These models will be continually refined and optimized, ensuring they become more efficient and effective in handling designated tasks.
-
-- **Optimization of Generators and Executors**:  
-  Efforts are underway to optimize existing components, such as generators and executors, to enhance their robustness. Planned improvements include parallel processing, significantly speeding up generation and execution times, making the overall system more efficient.
-
-- **Stability and UI Enhancements**:  
-  As we move forward, we aim to include comprehensive stability tests for the entire library. A simple UI will also be rolled out to further improve user interaction and accessibility.
 
 We invite you to join us in our open-source initiative! Your contributions, feedback, and issue submissions are invaluable in helping us grow. For more details on how to contribute, please refer to our [contributing guidelines](https://github.com/premAI-io/premsql).
 
