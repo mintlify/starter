@@ -44,7 +44,7 @@ Before procedding, we discuss some terminology conventions we use for PremSQL Ag
 - **Workers**: Workers are the LLMs / SLMs which is instructed / designed to do some task.
 - **Tools**: Tools are the deterministic / programmable functions (which does not contain models in general) that helps the worker either to provide contexts or helps to execute some task.
 
-PremSQL comes with a `baseline` agent. In other words, Baseline means the minimal agentic implementation that can do all the following tasks. However using the premsql library you can make task specific Database RAG agents or extend the existing ones (but only to either query / plot / analyse over databases).
+PremSQL comes with a `baseline` agent. In other words, Baseline means the minimal agentic implementation that can do all the following tasks. However using the premsql library you can make task specific Database RAG agents or extend the existing ones.
 
 ## BaseLine Agent
 
@@ -67,13 +67,17 @@ analyser_plotter_followup_worker = Text2SQLGeneratorMLX(
 )
 ```
 
-Since PremSQL is a local first open source library. So in this documentation, we are going to use Apple MLX as our inference engine. We also support other inference engines like PremAI, HuggingFace, OpenAI (Ollama coming soon). We are going to use the following two models for using our baseline agents:
+Since PremSQL is a local first open source library. So in this documentation, we are going to use Apple MLX as our inference engine. We also support other inference engines like PremAI, HuggingFace, OpenAI, Ollama. We are going to use the following two models for using our baseline agents:
 
 - **[Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL)**: This is a 1.3B parameter model, fully fine-tuned from DeepSeek coder 1.3B specialized to perform Text to SQL tasks. This will be used for our text to SQL worker.
 
 - **[LLama-3.2-1B](https://huggingface.co/meta-llama/Llama-3.2-1B)**: For all the other tasks: `analyse` / `plot` and `followup`, we are going to use this model.
 
-However you can also use `Text2SQLGeneratorHF` / `Text2SQLGeneratorOpenAI` or `Text2SQLGeneratorPremAI` to use other open or closed source models as well. Now, let's proceed with instantiating our BaseLine agent.
+However you can also use `Text2SQLGeneratorHF` / `Text2SQLGeneratorOpenAI` or `Text2SQLGeneratorPremAI` / `Text2SQLGeneratorOllama` to use other open or closed source models as well. Now, let's proceed with instantiating our BaseLine agent.
+
+<Tip>
+Check out our [introduction page](/premsql/introduction.mdx) where we have used Ollama to do the same thing. 
+</Tip>
 
 ```Python
 # You can also use Postgres, MySQL database as well.
@@ -120,7 +124,9 @@ baseline = BaseLineAgent(
 <Accordion
   title="Note about route_worker_kwargs"
 >
-The convention which was used to design PremSQL agents is: under the agent name directory (here: baseline), you will have a sub dir named `workers` where you will define workers of all the routes (`/query`, `/analyse`, `/plot` and `/followup`). Each and every worker of the agent is a class with some __init__ level arguments and some runtime arguments (defined under the method `run`). And the final agent (defined in main.py) also contain some init level arguments and some runtime arguments. Inside the init of the agents we initialize the other agents and in runtime, we run those agents. Most of the runtime or init level arguments are fixed by the user However those can be changed inside `route_worker_kwargs`. Here is an example:
+The `route_worker_kwargs` parameter lets you customize how different parts of the agent behave. Think of it as a control panel for fine-tuning each worker's settings.
+
+Here's a simple example:
 
 ```Python
 agent = BaseLineAgent(
@@ -147,7 +153,20 @@ agent = BaseLineAgent(
 )
 ```
 
-So now, our Text to SQL worker will run with a temperature of 0.1 and only generate 256 tokens. Where as, analysis worker will be doing chunkwise analysis and will run on a different temperature and maximum generation tokens. You will learn about each of the worker and their different supported arguments in details in the next section. A more detailed and indepth about how Agents and workers in PremSQL is designed and the design spec is discussed inside [For Developers](/premsql/for_devs.mdx) dection. 
+**What's happening here?**
+- For analysis tasks (`/analyse`):
+  - Breaks down large datasets into chunks of 40 rows for better handling
+  - Uses a slightly higher temperature (0.18) to allow for more creative analysis
+  - Allows longer responses (600 tokens) since analysis often needs more explanation
+
+- For SQL queries (`/query`):
+  - Uses a lower temperature (0.1) to keep SQL generation precise and consistent
+  - Limits response length (256 tokens) since SQL queries are typically shorter
+
+This flexibility allows you to optimize each worker for its specific task, rather than using one-size-fits-all settings.
+
+You'll learn more about each worker's specific settings in the following sections. For advanced customization details, check out the [For Developers](/premsql/playground.mdx) section.
+
 </Accordion>
 
 
@@ -158,7 +177,7 @@ Here is simply how you can run the agent:
 
 ```python
 output = agent(question="/query show me all the rows in votes")
-# If you want to see the dataframe
+# If you want to see the pandas dataframe
 output.show_output_dataframe()
 ```
 
