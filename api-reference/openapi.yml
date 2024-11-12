@@ -438,7 +438,19 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PayrollData"
+                allOf:
+                  - "$ref": "#/components/schemas/PayrollData"
+                  - properties:
+                      payslip_errors:
+                        description: List of errors for payslips that passed valdiation but failed to upload
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            error:
+                              type: string
+                            file_name:
+                              type: string
         "400":
           "$ref": "#/components/responses/BadRequest"
         "401":
