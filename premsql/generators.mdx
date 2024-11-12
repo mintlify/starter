@@ -181,7 +181,7 @@ feeding the model object while initializing the generator.
 
 Other than huggingface models, we also support Prem AI and Open AI APIs. Here is how you can use them:
 
-### Prem AI Generators
+### Prem AI Generator
 
 Prem AI SDK provides all the best LLMs out there in a very reasonable price. You can use them in the same way as you use the Hugging Face Generators. 
 
@@ -193,25 +193,64 @@ Before getting started, make sure you have an account at [Prem AI Platform](http
 from premsql.generators import Text2SQLGeneratorPremAI
 
 client = Text2SQLGeneratorPremAI(
-    project_id=4071,
+    project_id=12234,  # Get your project ID at app.premai.io
     model_name="gpt-4o",
     experiment_name="testing_prem_sdk",
     type="test",
     premai_api_key="xxx-xxx-xxx-xxx" # Get your  API key at https://app.premai.io
 )
-
-response = client.generate_and_save_results(
-    dataset=bird_dataset,
-    temperature=0.1,
-    max_new_tokens=256,
-    force=True,
-    executor=executor,
-    max_retries=5 # this is optional (default is already set to 5)
-)
-
 ```
 
-### Open AI Generators
+### Apple MLX Generator
+
+<Note>
+Please note that this generator only supports Apple Silicon devices only. 
+</Note>
+
+To use this generator, make sure the library `mlx` is installed. If not you can install it by:
+
+```bash
+pip install mlx mlx-lm
+```
+
+Here's how you can use Apple MLX as your generation backend for PremSQL.
+
+```python 
+from premsql.generators import Text2SQLGeneratorMLX
+client = Text2SQLGeneratorMLX(
+    model_name_or_path="premai-io/prem-1B-SQL",
+    experiment_name="testing_mlx",
+    type="test",
+)
+```
+
+### Ollama Generator
+
+For using Ollama integration, [first install Ollama](https://ollama.com/download), then install the Python client:
+
+```bash
+pip install ollama
+```
+
+Now you can go to the [Ollama models page](https://ollama.com/library) and choose the model of you choice and run/pull it. For example, we are going to use [Prem-1B-SQL](https://ollama.com/anindya/prem1b-sql-ollama-fp116) and run it using this command:
+
+```bash
+ollama pull anindya/prem1b-sql-ollama-fp116
+```
+
+Now you can use our Ollama generator using PremSQL using this few lines of code:
+
+```python
+from premsql.generators import Text2SQLGeneratorOllama
+client = Text2SQLGeneratorMLX(
+    model_name_or_path="anindya/prem1b-sql-ollama-fp116",
+    experiment_name="testing_ollama",
+    type="test",
+)
+```
+
+
+### Open AI Generator
 
 It has a very similar interface like the above:
 
@@ -223,15 +262,6 @@ client = Text2SQLGeneratorOpenAI(
     experiment_name="testing_openai",
     type="test",
     openai_api_key="xxxx-xxx-xxxx-xxx"
-)
-
-response = client.generate_and_save_results(
-    dataset=bird_dataset,
-    temperature=0.1,
-    max_new_tokens=256,
-    force=True,
-    executor=executor,
-    max_retries=5 # this is optional (default is already set to 5)
 )
 ```
 
