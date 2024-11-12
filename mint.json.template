@@ -26,7 +26,7 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
+    "name": "Use Prem",
     "url": "https://app.premai.io"
   },
   "tabs": [
@@ -39,19 +39,27 @@
     {
       "name": "Community",
       "icon": "discord",
-      "url": "https://discord.com/invite/kpKk6vYVAn"
+      "url": "https://discord.gg/D4K6VQxAgA"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
       "url": "https://blog.premai.io"
+    },
+    {
+      "name": "Models' Status",
+      "icon": "signal",
+      "url": "https://models.premai.io/"
     }
   ],
+    "feedback": {
+    "thumbsRating": true
+  },
   "navigation": [
     {
       "group": "Get started",
       "pages": [
-        "get-started/why-prem",
+        "get-started/overview",
         "introduction"
       ]
     },
@@ -64,13 +72,10 @@
         "get-started/repositories",
         "get-started/launchpad",
         "get-started/gym",
-        "get-started/sdk",
+        "get-started/json-output",
         "get-started/function-calling",
-        "get-started/autopilot",
         "get-started/chat-completion-sse",
-        "get-started/prem-templates",
-        "get-started/supported-models",
-        "get-started/credits"
+        "get-started/prompt-templates"
       ]
     },
     {
@@ -83,20 +88,38 @@
         "integrations/qdrant"
       ]
     },
-    {
-      "group": "Resources",
+{
+      "group": "Build with Prem",
       "pages": [
-        "resources/faq"
+        {
+          "group": "Cookbook",
+          "pages": [
+            "cookbook/chat-with-pdf",
+            "cookbook/url-content-summarizer",
+            "cookbook/text-2-sql",
+            "cookbook/chat-with-sql",
+            "cookbook/arxiv-ml-qna"
+          ]
+        },
+        {
+          "group": "premsql",
+          "pages": [
+            "premsql/introduction",
+            "premsql/datasets",
+            "premsql/generators",
+            "premsql/evaluators",
+            "premsql/error_dataset",
+            "premsql/tuner",
+            "premsql/pipelines"
+          ]
+        }
       ]
     },
-    {
-      "group": "Cookbook",
+     {
+      "group": "Resources",
       "pages": [
-        "cookbook/chat-with-pdf",
-        "cookbook/url-content-summarizer",
-        "cookbook/text-2-sql",
-        "cookbook/chat-with-sql",
-        "cookbook/arxiv-ml-qna"
+        "resources/faq",
+        "release-notes/release-notes"
       ]
     },
     {
