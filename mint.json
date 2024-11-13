@@ -111,7 +111,8 @@
             "premsql/evaluators",
             "premsql/error_dataset",
             "premsql/tuner",
-            "premsql/pipelines"
+            "premsql/agents",
+            "premsql/playground"
           ]
         }
       ]

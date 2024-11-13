@@ -106,7 +106,7 @@ gertelai_dataset = GretelAIDataset(split="train", dataset_folder="./data").setup
 
 #### Error Dataset
 
-Finally, we load an error dataset, which is essential for handling edge cases and improving model robustness. More information on error datasets can be found [here](/examples/error_dataset.ipynb).
+Finally, we load an error dataset, which is essential for handling edge cases and improving model robustness. More information on error datasets can be found [here](/premsql/error_dataset.mdx).
 
 ```python
 existing_error_dataset = ErrorDatasetGenerator.from_existing(
@@ -132,7 +132,7 @@ merged_dataset = [
 
 To validate the fine-tuning process, we initialize the BirdBench validation dataset. Validation for Text-to-SQL differs from typical LLM validation, as it involves executing generated SQL queries against a database and comparing results with ground truth tables.
 
-The premsql module provides a custom [callback](premsql/tuner/callback.py) to facilitate this evaluation process. Simply define your validation datasets, and the callback handles the rest.
+The premsql module provides a custom [callback](https://github.com/premAI-io/premsql/blob/main/premsql/tuner/callback.py) to facilitate this evaluation process. Simply define your validation datasets, and the callback handles the rest.
 
 ```python
 bird_dev = Text2SQLDataset(dataset_name="bird", split="validation", dataset_folder=path).setup_dataset(
@@ -164,7 +164,7 @@ Use the `train` function of the tuner class to start the fine-tuning process. Yo
 - `evaluation_dataset`: The dataset used for validation; set to `None` if no evaluation is required.
 - `eval_steps`: Number of steps between evaluations.
 - `max_seq_length`: Maximum sequence length permissible by the model.
-- `executor`: Use an [executor](/examples/evaluation.ipynb) if you have defined an evaluation dataset.
+- `executor`: Use an [executor](/premsql/evaluators.mdx) if you have defined an evaluation dataset.
 - `filter_eval_results_by`: Filters evaluation results based on specified criteria (e.g., difficulty).
 
 You can also pass additional parameters compatible with [transformers TrainingArguments](https://huggingface.co/docs/transformers/v4.44.2/en/main_classes/trainer#transformers.TrainingArguments) using `**kwargs`, which will override any default settings.

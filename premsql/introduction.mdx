@@ -2,139 +2,365 @@
 title: Introduction
 ---
 
-Welcome to the PremSQL library, a powerful tool for building self-hosted, end-to-end Text-to-SQL pipelines. PremSQL offers a modular design where each component functions independently, enabling you to create fully customized workflows.
+Welcome to the PremSQL library, a powerful tool for building self-hosted, end-to-end autonomous data analysis pipelines powered by Text to SQL. PremSQL offers a modular design where each component functions independently, enabling you to create fully customized workflows. Watch our Quick Demo of the latest PremSQL Agent Server and Playground:
 
-<Card title="PremSQL GitHub" icon="link" href="https://github.com/premAI-io/premsql/tree/main">
-  Star the project to stay updated with our rapid development for the best local Text-to-SQL solution.
-</Card>
+<iframe 
+  width="760" 
+  height="570" 
+  src="https://www.youtube.com/embed/kRwM1-y7Cvk?si=RXQbAfDGKnF64UNB&autoplay=1&loop=1&playlist=kRwM1-y7Cvk" 
+  title="YouTube video player" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerpolicy="strict-origin-when-cross-origin" 
+  allowfullscreen
+></iframe>
+
+### Core Components
 
 <img
   src="/images/premsql/architecture.png"
   alt="Playground"
 />
 
+Each component works independently and is designed to accomplish a specific task. While we recommend exploring the components sequentially to gain a comprehensive understanding, it's not mandatory. Since components operate independently, you can focus on those that meet your immediate needs and return later for a deeper dive into others.
+
+<Card title="PremSQL GitHub" icon="link" href="https://github.com/premAI-io/premsql/tree/main">
+  Star the project to stay updated with our rapid development of the best local Text-to-SQL solution.
+</Card>
+
 ## News
 
-- [Sep 10th 2024] First release of PremSQL
-- [Sep 10th 2024] First release of [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) (fully local Text to SQL model)
+- [Sep 10th 2024] Initial release of PremSQL
+- [Sep 10th 2024] Launch of [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) (fully local Text to SQL model)
+- [Oct 30th 2024] [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) surpassed 5K+ downloads
+- [Nov 5th 2024] Release of PremSQL Playground, Agents, and AgentServer
+- [Nov 10th 2024] Release of [Prem-1B-SQL Ollama model](https://ollama.com/anindya/prem1b-sql-ollama-fp116) with Ollama support
 
+## Installation
 
-### Core Components
+Start by creating a virtual environment and installing PremSQL:
 
-All the components works indepedently and aims to achieve a single task.It is recommended to check out each of the components sequentially to get an overall idea and how to use them to the fullest. 
-
-<CardGroup cols={2}>
-  <Card title="PremSQL Datasets" icon="square-1" href="/premsql/datasets">
-
-    Pre-processed datasets hosted on HuggingFace for Text-to-SQL tasks. Useful for evaluation, fine-tuning, and creating custom datasets. [Learn more](/premsql/datasets.mdx).
-  </Card>
-  <Card title="PremSQL Generators" icon="square-2" href="/premsql/generators">
-    Models that generate SQL queries from user input and a specified database source. [Learn more](/premsql/generators.mdx).
-  </Card>
-  <Card title="PremSQL Executors" icon="square-3" href="/premsql/executors">
-    Connects to databases and executes generated SQL queries to fetch results. [Learn more](/premsql/evaluators.mdx).
-  </Card>
-  <Card title="PremSQL Evaluators" icon="square-4" href="/premsql/evaluators">
-    Evaluates Text-to-SQL models using metrics like execution accuracy and Valid Efficiency Score (VES). [Learn more](/premsql/evaluators.mdx).
-  </Card>
-  <Card title="PremSQL Error Handling" icon="square-5" href="/premsql/error_dataset">
-   Helps to make error handling prompts and datasets for error free inference and fine-tuning datasets for enforcing self correction property. .
-  </Card>
-  <Card title="PremSQL Tuner" icon="square-5" href="/premsql/tuner">
-    Fine-tunes open-source models on Text-to-SQL datasets with custom evaluation methods to ensure optimal training performance. [Learn more](/premsql/tuner.mdx).
-  </Card>
-  <Card title="PremSQL Pipelines" icon="square-7" href="/premsql/pipelines">
-    End-to-end workflows that integrate generation, execution, and further processing for tasks like database Q&A. [Learn more](/premsql/pipelines.mdx).
-  </Card>
-</CardGroup>
-
-## Why PremSQL? The Vision 
-
-PremSQL focuses on creating local Text-to-SQL workflows. Many times, you don't want to share data with third-party systems, but still need to build generative AI solutions for productivity and innovation. PremSQL is designed to solve this by keeping your data local.
-
-**Use Cases:**
-- Database Q&A
-- RAG with database integration
-- SQL autocompletion
-- AI-powered, self-hosted data analysis
-- Autonomous agentic pipelines with database access
-
-### How is it different from LangChain, Llama-Index, or DSPy? 
-
-While these libraries excel in building general AI workflows, they often come with a steep learning curve for customization. PremSQL simplifies this, providing full control over your data and a smooth integration with existing LangChain, Llama-Index, or DSPy workflows.
-
-## Getting Started
-
-Install PremSQL with:
-```bash
+<CodeGroup>
+```bash linux or mac
+python -m venv .venv
+source .venv/bin/activate
 pip install -U premsql
 ```
 
-Here's a quick starter code to chat with a sample database:
-
-```python
-from premsql.pipelines import SimpleText2SQLAgent
-from premsql.generators import Text2SQLGeneratorHF
-from premsql.executors import SQLiteExecutor
-
-dsn_or_db_path = "./data/db/california_schools.sqlite"
-
-agent = SimpleText2SQLAgent(
-    dsn_or_db_path=dsn_or_db_path,
-    generator=Text2SQLGeneratorHF(
-        model_or_name_or_path="premai-io/prem-1B-SQL",
-        experiment_name="simple_pipeline",
-        device="cuda:0",
-        type="test"
-    ),
-)
-
-question = "please list the phone numbers of the direct charter-funded schools that are opened after 2000/1/1"
-
-response = agent.query(question)
-response["table"]
+```bash windows
+python -m venv .venv
+.venv\Scripts\activate
+pip install -U premsql
 ```
+</CodeGroup>
 
-<Accordion title="Output">
-```
-	Phone
-0	None
-1	(209) 229-4700
-2	(209) 253-1208
-3	(209) 365-4060
-4	(209) 368-4934
-...	...
-716	(951) 672-2400
-717	(951) 678-5217
-718	(951) 824-1358
-719	(951) 926-6776
-720	(970) 258-0518
-```
-</Accordion>
+> Note: We currently recommend using Python virtualenv instead of conda, as some users have reported compatibility issues with conda environments.
 
-Explore more detailed tutorials and learn about PremSQL’s offerings and future plans below.
+<Card title="Note" icon="pencil">
+  The latest PremSQL update doesn't include pre-installed dependencies to accommodate backend variations and maintain a lighter package. Choose your preferred backend:
+
+  For Hugging Face Transformers:
+  ```
+  pip install torch transformers
+  ```
+
+  For Apple MLX backend:
+  ```
+  pip install mlx mlx-lm
+  ```
+
+  For Ollama integration, first <u>**[install Ollama](https://ollama.com/download)**</u>, then install the Python client:
+  ```
+  pip install ollama
+  ```
+</Card>
+
+PremSQL is designed to be versatile and hackable, with a simple code structure and decoupled components. Here are the main ways to use it:
+
+- Use PremSQL's pre-built [Agent UI](/premsql/playground.mdx) with our baseline agent to analyze CSVs, databases, or Kaggle datasets (as demonstrated in the demo video)
+
+- Leverage PremSQL as a Python library to:
+  - Support [custom database connections](/premsql/executors.mdx)
+  - [Fine-tune your own text to SQL model](/premsql/tuner.mdx)
+  - [Build custom datasets](/premsql/datasets.mdx)
+  - [Create new agents from scratch](/premsql/agents.mdx)
+
+- Run the PremSQL backend API server and integrate it with your preferred programming language
+
+## Quick Start
+
+Let's explore how to use PremSQL's latest baseline agent with Ollama. We've chosen Ollama for this guide because it's easy to set up, requires minimal computational resources, and runs everything locally at no cost. However, you can also use Apple MLX, Hugging Face Transformers, or other supported backends.
+
+<Steps titleSize="h3">
+    <Step title="PremSQL installation with Ollama and model downloads">
+    First, ensure PremSQL is installed with the Ollama client. If you haven't done so, follow the installation instructions above. We'll use two models: `Prem-1B-SQL` and `Llama3.2 1B`. Download both models using these commands:
+
+    ```bash
+    ollama run anindya/prem1b-sql-ollama-fp116
+    ollama run llama3.2:1b
+    ```
+
+    <Accordion title="Optional optimization">
+      By default, Ollama runs one model at a time. To optimize PremSQL agent performance with multiple models, configure these environment variables:
+
+      <CodeGroup>
+      ```bash linux, mac
+      export OLLAMA_NUM_PARALLEL=3
+      export OLLAMA_MAX_LOADED_MODELS=3
+      ```
+      ```bash windows (in powershell)
+      [System.Environment]::SetEnvironmentVariable('OLLAMA_NUM_PARALLEL', '3', 'User')
+      [System.Environment]::SetEnvironmentVariable('OLLAMA_MAX_LOADED_MODELS', '3', 'User')
+      ```
+      </CodeGroup>
+      Remember to restart Ollama after making these changes.
+    </Accordion>
+  </Step>
+    <Step title="Launch PremSQL Server and Agent UI">
+    PremSQL includes a CLI tool for managing the backend API server and Agent UI. Running `premsql` in your terminal displays:
+
+    ```bash
+    Usage: premsql [OPTIONS] COMMAND [ARGS]...
+      PremSQL CLI to manage API servers and Streamlit app
+    Options:
+      --version  Show the version and exit.
+      --help     Show this message and exit.
+    Commands:
+      launch  Launch PremSQL services
+      stop    Stop all PremSQL services
+    ```
+    This confirms that PremSQL is installed correctly. Verify you have version `0.1.11` or higher. Launch both the backend API server and playground with:
+
+    ```bash linux, windows and mac
+    premsql launch all
+    ```
+
+    On first run, it will execute database migrations before starting the server and Streamlit agent UI. A successful launch looks like this:
+
+    ![starter](/images/premsql/starter_playground.png)
+
+    You can now use pre-built datasets, import CSVs, or import from Kaggle. Let's try analyzing [this student performance dataset from Kaggle](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams).
+
+  </Step> 
+  <Step title="Import a dataset from Kaggle">
+    To import a Kaggle dataset into PremSQL, ensure it contains only CSV files (multiple files are supported). Simply copy the dataset ID (in this case, `spscientist/students-performance-in-exams`) and paste it into the `Upload csvs or use Kaggle` field in the PremSQL navigation. After submission, you'll see:
+
+    ![import_from_kaggle](/images/premsql/import_from_kaggle.png)
+
+    You'll now see a starter code template specific to your chosen backend.
+  </Step>
+
+  <Step title="Start a PremSQL analysis session">
+  For this demo, we'll use the Ollama starter code. Create a new file anywhere and add this code:
+
+  ```python starter_server.py
+  from premsql.playground import AgentServer
+  from premsql.agents import BaseLineAgent
+  from premsql.generators import Text2SQLGeneratorOllama
+  from premsql.agents.tools import SimpleMatplotlibTool
+  from premsql.executors import ExecutorUsingLangChain
+
+  text2sql_model = Text2SQLGeneratorOllama(
+      model_name="anindya/prem1b-sql-ollama-fp116",
+      experiment_name="ollama",
+      type="test"
+  )
+
+  analyser_plotter_model = Text2SQLGeneratorOllama(
+      model_name="llama3.2:1b",
+      experiment_name="ollama",
+      type="test"
+  )
+
+  db_connection_uri = "sqlite:////Users/anindya/Library/Caches/premsql/kaggle/student.sqlite"
+  baseline = BaseLineAgent(
+      session_name="student",                     # Required unique session name
+      db_connection_uri=db_connection_uri,        # Target database connection
+      specialized_model1=text2sql_model,          # Text to SQL model
+      specialized_model2=analyser_plotter_model,  # Secondary analysis model
+      executor=ExecutorUsingLangChain(),         # Database executor
+      auto_filter_tables=False,                  # Table filtering option
+      plot_tool=SimpleMatplotlibTool()           # Visualization tool
+  )
+
+  agent_server = AgentServer(agent=baseline, port=8162)
+  agent_server.launch()
+  ```
+  Run this code in your terminal within your PremSQL environment:
+  ```bash
+  python starter_server.py
+  ```
+
+  You should see FastAPI server output similar to:
+
+  ```bash
+  2024-11-10 14:11:51,874 - [GENERATOR] - INFO - Experiment folder found in: /Users/anindya/Library/Caches/premsql/experiments/test/ollama
+  2024-11-10 14:11:51,879 - [GENERATOR] - INFO - Experiment folder found in: /Users/anindya/Library/Caches/premsql/experiments/test/ollama
+  2024-11-10 14:11:51,884 - [PIPELINE-MEMORY] - INFO - /Users/anindya/test_apps/premsql/premsql_pipeline_memory.db
+  2024-11-10 14:11:51,904 - [FASTAPI-INFERENCE-SERVICE] - INFO - Starting server on port 8162
+  INFO:     Started server process [55Here's Part 2 of the document:
+
+````mdx:premsql/introduction.mdx
+  <Step title="Launch PremSQL Server and Agent UI">
+    PremSQL includes a CLI tool for managing the backend API server and Agent UI. Running `premsql` in your terminal displays:
+
+    ```bash
+    Usage: premsql [OPTIONS] COMMAND [ARGS]...
+      PremSQL CLI to manage API servers and Streamlit app
+    Options:
+      --version  Show the version and exit.
+      --help     Show this message and exit.
+    Commands:
+      launch  Launch PremSQL services
+      stop    Stop all PremSQL services
+    ```
+    This confirms that PremSQL is installed correctly. Verify you have version `0.1.11` or higher. Launch both the backend API server and playground with:
+
+    ```bash linux, windows and mac
+    premsql launch all
+    ```
+
+    On first run, it will execute database migrations before starting the server and Streamlit agent UI. A successful launch looks like this:
+
+    ![starter](/images/premsql/starter_playground.png)
+
+    You can now use pre-built datasets, import CSVs, or import from Kaggle. Let's try analyzing [this student performance dataset from Kaggle](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams).
+
+  </Step> 
+  <Step title="Import a dataset from Kaggle">
+    To import a Kaggle dataset into PremSQL, ensure it contains only CSV files (multiple files are supported). Simply copy the dataset ID (in this case, `spscientist/students-performance-in-exams`) and paste it into the `Upload csvs or use Kaggle` field in the PremSQL navigation. After submission, you'll see:
+
+    ![import_from_kaggle](/images/premsql/import_from_kaggle.png)
+
+    You'll now see a starter code template specific to your chosen backend.
+  </Step>
+
+  <Step title="Start a PremSQL analysis session">
+  For this demo, we'll use the Ollama starter code. Create a new file anywhere and add this code:
+
+  ```python starter_server.py
+  from premsql.playground import AgentServer
+  from premsql.agents import BaseLineAgent
+  from premsql.generators import Text2SQLGeneratorOllama
+  from premsql.agents.tools import SimpleMatplotlibTool
+  from premsql.executors import ExecutorUsingLangChain
+
+  text2sql_model = Text2SQLGeneratorOllama(
+      model_name="anindya/prem1b-sql-ollama-fp116",
+      experiment_name="ollama",
+      type="test"
+  )
+
+  analyser_plotter_model = Text2SQLGeneratorOllama(
+      model_name="llama3.2:1b",
+      experiment_name="ollama",
+      type="test"
+  )
+
+  db_connection_uri = "sqlite:////Users/anindya/Library/Caches/premsql/kaggle/student.sqlite"
+  baseline = BaseLineAgent(
+      session_name="student",                     # Required unique session name
+      db_connection_uri=db_connection_uri,        # Target database connection
+      specialized_model1=text2sql_model,          # Text to SQL model
+      specialized_model2=analyser_plotter_model,  # Secondary analysis model
+      executor=ExecutorUsingLangChain(),         # Database executor
+      auto_filter_tables=False,                  # Table filtering option
+      plot_tool=SimpleMatplotlibTool()           # Visualization tool
+  )
+
+  agent_server = AgentServer(agent=baseline, port=8162)
+  agent_server.launch()
+  ```
+  Run this code in your terminal within your PremSQL environment:
+  ```bash
+  python starter_server.py
+  ```
+
+  You should see FastAPI server output similar to:
+
+  ```bash
+  2024-11-10 14:11:51,874 - [GENERATOR] - INFO - Experiment folder found in: /Users/anindya/Library/Caches/premsql/experiments/test/ollama
+  2024-11-10 14:11:51,879 - [GENERATOR] - INFO - Experiment folder found in: /Users/anindya/Library/Caches/premsql/experiments/test/ollama
+  2024-11-10 14:11:51,884 - [PIPELINE-MEMORY] - INFO - /Users/anindya/test_apps/premsql/premsql_pipeline_memory.db
+  2024-11-10 14:11:51,904 - [FASTAPI-INFERENCE-SERVICE] - INFO - Starting server on port 8162
+  INFO:     Started server process [55869]
+  INFO:     Waiting for application startup.
+  2024-11-10 14:11:51,908 - [FASTAPI-INFERENCE-SERVICE] - INFO - Starting up the application
+  INFO:     Application startup complete.
+  INFO:     Uvicorn running on http://localhost:8162 (Press CTRL+C to quit)
+  INFO:     ::1:62209 - "GET /session_info HTTP/1.1" 200 OK
+  ```
+
+  Copy the localhost URL (`http://localhost:8162`) and paste it here:
+  ![localhost](/images/premsql/new_session.png)
+
+  <Card title="Note" icon="pencil">
+    This is a starter implementation using our baseline agent. You can create custom agents with different functionalities (within data analysis scope) by extending this code. The snippet above demonstrates our baseline implementation for Autonomous Analysis agents.
+  </Card>
+  </Step>
+
+    <Step>
+    You're all set! You can now perform various analyses as demonstrated in this video:
+    <iframe 
+      width="750" 
+      height="550" 
+      src="https://www.youtube.com/embed/kRwM1-y7Cvk?si=kf1H39h-Exs0CoGo&amp;start=70" 
+      title="YouTube video player" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" 
+      allowfullscreen>
+    </iframe>
+  </Step>
+</Steps>
+
+That's how simple it is! From here, explore the many features PremSQL offers:
+
+<CardGroup cols={2}>
+  <Card title="PremSQL Datasets" icon="square-1" href="/premsql/datasets">
+    Pre-processed datasets hosted on HuggingFace for Text-to-SQL tasks. Ideal for evaluation, fine-tuning, and creating custom datasets.
+  </Card>
+  <Card title="PremSQL Generators" icon="square-2" href="/premsql/generators">
+    Models that transform natural language input into SQL queries based on your database schema.
+  </Card>
+  <Card title="PremSQL Executors" icon="square-3" href="/premsql/executors">
+    Connects to databases and executes generated SQL queries to fetch results.
+  </Card>
+  <Card title="PremSQL Evaluators" icon="square-4" href="/premsql/evaluators">
+    Evaluates Text-to-SQL models using metrics like execution accuracy and Valid Efficiency Score (VES).
+  </Card>
+  <Card title="PremSQL Error Handling" icon="square-5" href="/premsql/error_dataset">
+    Creates error handling prompts and datasets to enhance inference reliability and self-correction capabilities.
+  </Card>
+  <Card title="PremSQL Tuner" icon="square-6" href="/premsql/tuner">
+    Fine-tunes open-source models on Text-to-SQL datasets with custom evaluation methods for optimal performance.
+  </Card>
+  <Card title="PremSQL Agents" icon="square-7" href="/premsql/agents">
+    End-to-end agentic workflows for querying, analyzing, and visualizing database insights using natural language. Supports custom implementations for specialized use cases.
+  </Card>
+  <Card title="PremSQL Playground" icon="square-8" href="/premsql/playground">
+    A ChatGPT-like interface specialized for database interactions. Deploy PremSQL agents with customized configurations for an interactive experience.
+  </Card>
+</CardGroup>
 
 
-## Roadmap
+## Why PremSQL? The Vision 
 
-We are excited to announce the successful rollout of the first release of the **PremSQL** library. Alongside the release, we are committed to continuously improving the existing documentation to enhance the overall developer experience.
+PremSQL is focused on creating local Text-to-SQL workflows. In many scenarios, organizations need to maintain data privacy while leveraging generative AI solutions for productivity and innovation. PremSQL addresses this need by keeping your data entirely local.
 
+**Key Use Cases:**
+- Interactive database querying and analysis
+- RAG systems with database integration
+- Intelligent SQL autocompletion
+- Self-hosted AI-powered data analysis
+- Autonomous agentic pipelines with secure database access
 
-- **Synthesizer Component**:  
-  A significant feature of PremSQL is the synthesizer component, designed to generate synthetic datasets from private data. This capability allows for fine-tuning smaller language models, enabling fully private text-to-SQL workflows that safeguard sensitive data.
+## How is it different?
 
-- **Agentic Pipelines with Function-Calling Features**:  
-  Future releases will incorporate advanced agentic methods with new features, including graph plotting capabilities, natural language analysis, and other enhancements to increase the system's versatility and power.
+While many libraries excel at building general AI workflows, they often present a steep learning curve for customization. PremSQL simplifies this process, giving you complete control over your data while seamlessly integrating with existing LangChain, Llama-Index, or DSPy workflows.
 
-- **Training Better Small Language Models**:  
-  We are actively training small language models tailored specifically to PremSQL’s unique requirements. These models will be continually refined and optimized, ensuring they become more efficient and effective in handling designated tasks.
+## Join Our Community
 
-- **Optimization of Generators and Executors**:  
-  Efforts are underway to optimize existing components, such as generators and executors, to enhance their robustness. Planned improvements include parallel processing, significantly speeding up generation and execution times, making the overall system more efficient.
+We invite you to participate in our open-source initiative! Your contributions, feedback, and issue reports are crucial to our growth. For more information on how to contribute, please check our [contributing guidelines](https://github.com/premAI-io/premsql).
 
-- **Stability and UI Enhancements**:  
-  As we move forward, we aim to include comprehensive stability tests for the entire library. A simple UI will also be rolled out to further improve user interaction and accessibility.
+Stay connected and follow our [GitHub repository](https://github.com/premAI-io/premsql) for the latest updates and improvements!
 
-We invite you to join us in our open-source initiative! Your contributions, feedback, and issue submissions are invaluable in helping us grow. For more details on how to contribute, please refer to our [contributing guidelines](https://github.com/premAI-io/premsql).
-
-Stay tuned and follow our [GitHub repository](https://github.com/premAI-io/premsql) for the latest updates and improvements!
