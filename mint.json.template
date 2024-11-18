@@ -71,13 +71,20 @@
         "get-started/monitoring",
         "get-started/repositories",
         "get-started/launchpad",
-        "get-started/gym",
+        "get-started/gym"
+      ]
+    },
+    {
+      "group": "Features",
+      "pages": [
         "get-started/json-output",
         "get-started/function-calling",
         "get-started/chat-completion-sse",
         "get-started/prompt-templates"
       ]
-    },
+    }
+  ]
+}
     {
       "group": "Integrations",
       "pages": [
