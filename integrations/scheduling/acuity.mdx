@@ -1,3 +1,35 @@
 ---
 title: Acuity
 ---
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Acuity"
+    actions={[
+        {
+            "name": "Create Appointment",
+			"description": "This action creates an appointment in Acuity. You can specify the appointment type, date, time, and other details."
+		},
+		{
+			"name": "Update Appointment",
+			description: "This action updates an existing appointment in Acuity.",
+		},
+		{
+			"name": "Cancel Appointment",
+			description: "This action cancels an appointment in Acuity.",
+		},
+		{
+			"name": "Reschedule Appointment",
+			description: "This action reschedules an appointment in Acuity.",
+		},
+		{
+			"name": "Get Available Times",
+			description: "This action retrieves the available times for a specific service in Acuity.",
+		},
+		{
+			"name": "Get Available Dates",
+			description: "This action retrieves the available dates for a specific service in Acuity.",
+		}
+    ]}
+/>

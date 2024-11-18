@@ -5,6 +5,118 @@ description: Setup workflows to trigger your Voice Agents or perform actions aft
 
 ## Introduction
 
-Automations are the workflows that trigger your Voice Agents or perform actions after a call. By setting up Automations, you can connect your Voice Agents to your CRM, calendar, or other systems to be instructed on when to make a call or perform an action.
+Automations are the workflows that trigger your Voice Agents, run actions prior to connecting a call, or perform actions after a call. By setting up Automations, you can connect your Voice Agents to any CRM, calendar, or other software within minutes.
 
-<Note>This feature is not yet available. Please check back soon for updates.</Note>
+Unlike the [generative](/resources/whitepapers/conversational-ai) and "human-like" nature of Voice Agents, Automations are fully deterministic, meaning you can rely on them to run exactly as you've set them up.
+
+## What can Automations do?
+
+The power of a Thoughtly Voice Agent comes from its ability to connect to other software and systems. Automations are the key to unlocking this power, allowing you to do a number of advanced tasks.
+
+Here are just a few examples:
+
+<CardGroup cols={1}>
+    <Card
+        title="Call Lead on New CRM Entry"
+        icon="database"
+    >
+		Automations can turn your CRM into a powerful "brain" that powers your Voice Agents, allowing them to access and update customer records in real-time.
+		<br/>
+		When a new lead is added to your CRM, you can trigger an Automation to trigger your Voice Agents to make a call, who can then reach out to the lead and update the CRM with the outcome.
+    </Card>
+    <Card
+        title="Fetch Data on Inbound Call"
+        icon="table"
+    >
+		Using the [Inbound Call](/build/automations/triggers#inbound-call) trigger, when a call comes in, you can trigger an Automation to retrieve data from your CRM, Google Sheets, or other software. Once the data is retrieved, you can connect the call to your Voice Agents with all the information they need to have a productive conversation.
+		<br/>
+		This allows your Voice Agents to have all the information they need to have a productive conversation with the caller, whether it's real-time stock prices, customer purchase history, or current inventory levels.
+    </Card>
+	<Card
+        title="Daily Calls to New Leads"
+        icon="clock"
+    >
+		Using the [Recurring Schedule](/build/automations/triggers#recurring-schedule) trigger, you can set up an Automation to run at a specific time every day, week, or month. There are endless possibilities for what you can do with this, from sending out appointment reminders, making calls to new leads during business hours, or just checking in with customers on a regular basis.
+		<br/>
+		When used in conjunction with other Actions, you can create complex workflows that run automatically, without any manual intervention.
+    </Card>
+	<Card
+        title="Call Lead after Form Submission"
+        icon="arrow-pointer"
+    >
+		Automations can be triggered by a wide variety of events, including form submissions. Using available [Integration Triggers](/build/automations/triggers#integration-triggers) that connect to form software like Typeform, Google Forms, Meta Ads, GoHighLevel Forms, or JotForm, you can trigger an Automation to call a lead immediately after they submit a form.
+		<br/>
+		This allows you to reach out to leads while they're still engaged, increasing the likelihood of a successful conversation.
+    </Card>
+</CardGroup>
+
+## Anatomy of an Automation
+
+There are two major components to how Automations work:
+
+1. **[Triggers](/build/automations/actions)**: These are the events that start the Automation. For example, a trigger could be a new lead being added to your CRM, or a call being completed.
+
+2. **[Actions](/build/automations/triggers)**: These are the tasks that the Automation performs. For example, an action could be to make a call, send an SMS, or update a record in your CRM.
+
+3. **[Variables](#variables)**: Variables are used to store and manipulate data within an Automation. They can be created by any step within an Automation, and can be used in subsequent steps to pass data between different Actions.
+
+When you create an Automation, you'll first select a Trigger, then add one or more Actions. Once the Automation is activated, Thoughtly will continuously monitor for the Trigger event, then run the subsequent Actions when the event occurs.
+
+## Building your first Automation
+
+To create a new Automation, navigate to the [Automations](https://app.thought.ly/automation) section of the Thoughtly platform via the sidebar on the left side of every page. From there, you can create a new Automation, or view and edit existing Automations.
+
+![Thoughtly Automations](/images/ui/automations/get-started.png)
+
+When a new Automation is created, you'll first be prompted to select a [Trigger](/build/automations/triggers). This is what will start the Automation. For example, you could select the "Inbound Call" trigger to run an Automation every time a call is received, or the "New Lead" trigger to run an Automation every time a new lead is added to your CRM.
+
+After selecting a Trigger, you'll be prompted to add one or more [Actions](/build/automations/actions). These are the tasks that the Automation will perform. For example, you could add an action to make a call, send an SMS, or update a record in your CRM.
+
+## Variables
+
+While building an Automation, you can use variables to store and manipulate data. Variables can be created by any step within an Automation, and can be used in subsequent steps to pass data between different Actions.
+
+### Creating a Variable
+
+Automation Variables can be created by any step within an Automation. Variables are pre-defined key-value pairs that you'd expect to access when using the software or service being integrated. For example, when integrating with a CRM, you might expect to access the lead's name, email, and phone number.
+
+To find what variables are available for a given step, whether the step is a Trigger or an Action, you can click on the "Output" tab on the right side of the step. This will show you all the variables that are available for that step, and you can use them in subsequent steps.
+
+![Automation Step Outputs](/images/ui/automations/outputs.png)
+
+Some variables are parents of other variables, meaning they contain multiple child variables. For example, a "Lead" variable might contain the child variables "Name", "Email", and "Phone Number". By clicking the right arrow next to a parent variable, you can see all the child variables that are available.
+
+### AI-Generated Variables
+
+Many times, you'll want to create a variable that is generated by an AI model. For example, you might want to create a variable that contains the caller's email address, or keywords that were mentioned based on the call transcript.
+
+To do this, you can use the [Extract Fields](/build/automations/actions#extract-fields) action. This action allows you to extract fields from a text string, such as a call transcript, and store them in variables. You can then use these variables in subsequent steps to pass data between different Actions.
+
+### Using a Variable
+
+Variables created by an upstream step can be used in subsequent steps. To use a variable in a step, you can simply click on the `fx` icon in the input field, then select the variable you'd like to use. Once you find the variable you'd like to use, hover over it and click on the "+" icon to insert it into the input field.
+
+![Automation Variable Input](/images/ui/automations/variable-input.png)
+
+When the Automation runs, Thoughtly will replace the variable with the actual value that it contains. This allows you to pass data between different steps in an Automation, making it easy to create complex workflows that rely on data from multiple sources.
+
+## Activating an Automation
+
+By default, Automations are created in a "draft" state, meaning they won't run until you activate them. To activate an Automation, simply click the "Activate" button in the top right corner of the Automation editor.
+
+Once the Automation is activated, it will run every time the Trigger event occurs. Thoughtly will continuously monitor for the Trigger event, then run the subsequent Actions when the event occurs.
+
+![Activate Automation](/images/ui/automations/activate.png)
+
+## Next steps
+
+To learn more about the different Triggers available in Thoughtly, continue to the [Triggers](/build/automations/triggers) section.
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Triggers"
+	icon="bullseye"
+	href="/build/automations/triggers"
+	description="Learn more about the different Triggers available in Thoughtly ->"
+/>

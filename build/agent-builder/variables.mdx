@@ -69,16 +69,9 @@ Other System Variables include:
 | -------- | ------------------------------------- |
 | `{{system.time}}` | The current time at the time the variable is accessed (in UTC) |
 
+### Metadata
 
-### Magic Variables
-
-Creating a Magic Variable can be a powerful way to parse information in real-time. During a call, a Magic Variable will be generated based on all of the information provided by the caller up to that point.
-
-You can use Magic Variables to submit information to an [Integration Node](/build/agent-builder/nodes#integration-node) or to create a dynamic response based on the caller's input.
-
-{/* #### Creating a Magic Variable */}
-
-<Note>This feature is not yet available. Please check back soon for updates.</Note>
+Metadata Variables are passed to your Voice Agent via [Automations](/build/automations/overview) or by using our [API](/developers). Any data that you pass via Metadata will be available as a Variable in your Voice Agent and can be accessed using `{{metadata.variable_name}}`.
 
 ### Integration Variables
 

@@ -5,4 +5,181 @@ icon: plug
 iconType: light
 ---
 
-<Note>This feature is not yet available. Please check back soon for updates.</Note>
+## Introduction
+
+Actions are the tasks that an Automation performs after a trigger is initiated. After a trigger is initiated, Thoughtly will run the actions in the Automation in sequence. This allows you to automate tasks before, during, and after calls, without any manual intervention.
+
+## Integration Actions
+
+In addition to the default Actions, Thoughtly also supports Integration Actions that connect to third-party software. These Actions allow you to perform tasks in other software as part of your Automation or Voice Agent.
+
+Thoughtly supports a wide range of Integration Actions. Some of the most popular integrations and their Actions include:
+
+- [**Calendly**](/integrations/scheduling/calendly): Schedule a meeting with a lead.
+- [**Google Sheets**](/integrations/productivity/google-sheets): Update a Google Sheet with call data.
+- [**GoHighLevel**](/integrations/crm/highlevel): Update a lead in GoHighLevel.
+- [**Salesforce**](/integrations/crm/salesforce): Update a lead in Salesforce.
+- [**Trello**](/integrations/productivity/trello): Create a Trello card for a new lead.
+
+View all supported [Integrations](/integrations).
+
+## Default Actions
+
+Thoughtly comes with a set of default Actions that you can use in your Automations. These are useful for common tasks that you may want to perform, such as making a call, sending an SMS, or delaying an Automation for a specific amount of time.
+
+### Webhook
+
+The Webhook action allows you to send data to a URL when the Action is triggered. This is useful for integrating with third-party software that doesn't have a direct integration with Thoughtly. By using Webhook Actions, Thoughtly can integrate with any software that supports HTTP requests.
+
+![Webhook](/images/ui/automations/action-webhook.png)
+
+To use the Webhook Action, you'll need to provide the URL of the endpoint you want to send data to, as well as the data you want to send. This data can be static or dynamic, depending on your needs. To submit dynamic data, you can use [variables](/build/automations/overview#variables) from the Automation.
+
+The **Method** dropdown allows you to specify the HTTP method to use when sending the request. The most common methods are `GET` and `POST`, but other methods are supported as well.
+
+The **Headers** section allows you to specify any headers that should be included in the request. This is useful for APIs that require authentication or other headers to be included in the request. If authentication is required, you can provide any required values in the "Headers" section. This is useful for APIs that require an API key or other authentication method.
+
+The **Body** section allows you to specify the data you want to send to the endpoint. This can be in JSON format, form data, or any other format that the endpoint expects.
+
+### Call Phone Number
+
+The Call Phone Number action allows you to initiate a call from one of your Voice Agents to a phone number when the Action is triggered. Select the Voice Agent that should be used to make the call, then enter the phone number you want to call.
+
+![Call Phone Number](/images/ui/automations/action-call-phone-number.png)
+
+By passing in [**Metadata**](/build/agent-builder/variables#metadata) from previous steps in the Automation, you can provide additional context to your Voice Agent. This can include information about the caller, the reason for the call, or any other relevant data.
+
+Other configuration options include **Max Attempts**, which allows you to specify how many times the call should be attempted before failing, and **Time Delay**, which allows you to specify how long to wait between attempts.
+
+### Connect Inbound Call
+
+The Connect Inbound Call action allows you to connect an inbound call to one of your Voice Agents when the Action is triggered. This is only available for connecting calls that were initiated by the [Inbound Call](/build/automations/triggers#inbound-call) trigger.
+
+### Extract Fields
+
+The Extract Fields action allows you to extract data from a text string using regular expressions. This is useful for parsing data from a transcript, email, or other text-based data source. The extracted data is stored in variables, which can be used in subsequent steps in the Automation.
+
+![Extract Fields](/images/ui/automations/action-extract-fields.png)
+
+To use the Extract Fields action, you'll need to provide the text you want to extract data from. Often times this will be the call transcript or another text-based data source. Learn more about [using variables](/build/automations/overview#using-a-variable) in Thoughtly Automations.
+
+After providing the Input Data, you can add as many **Fields** as you need to extract. Fields have a few configuration options:
+
+- **Name**: The name of the variable that will store the extracted data. This will be used in subsequent steps of the Automation.
+	- **Data Key**: The Field Name will be transformed into a Data Key, which is a unique identifier for the variable. This is useful for referencing the variable in other steps.
+- **Description**: A description of the field that will be provided to the AI model. This is useful for providing context about the data you're trying to extract and should be as descriptive as possible.
+- **Type**: The type of data that the field represents. Many options are supported, such as `Text`, `Number`, `Date`, `Email`, `Phone Number`, and more.
+- **Custom Instructions**: Custom instructions that will be provided to the AI model. This is useful for providing additional context about how the data should be extracted.
+
+---
+
+### Utility
+
+Utility actions are used to perform common tasks that are useful in a wide variety of Automations. These actions won't interact with third-party software, but can be used to manipulate data, control the flow of the Automation, or perform other useful tasks.
+
+#### Delay
+
+The Delay action allows you to pause the Automation workflow for a specified amount of time. This is useful for creating time-based Automations, such as sending a follow-up email a few hours after a call, or sending a reminder SMS a day before a meeting.
+
+![Delay](/images/ui/automations/action-delay.png)
+
+Delay actions can be configured to wait for a specific amount of time, either in seconds, minutes, hours, or days. Provide the amount of time you want to delay, then select the unit of time from the dropdown.
+
+#### Loop
+
+Sometimes, integrations will return a list of items that you want to process one at a time. For example, [running a SOQL query in Salesforce](/integrations/crm/salesforce) might return a list of leads that you want to call one at a time. The Loop action allows you to iterate over a list of items and perform the same set of actions on each item.
+
+![Loop](/images/ui/automations/action-loop.png)
+
+To use the Loop action, you'll need to provide the list of items you want to iterate over. This can be a list of variables, a list of items from a previous step in the Automation, or a static list of items. You can then add one or more actions to perform on each item in the list.
+
+You can also set a **Limit** on the number of items to process. This is useful for limiting the number of items processed in a single run of the Automation.
+
+#### Get Website Content
+
+The Get Website Content action allows you to fetch the content of a website URL. This is useful for scraping data from websites, such as extracting contact information, product details, or other information. Typically, you'll use this action in conjunction with either the [Extract Fields](#extract-fields) or [Genius](#genius) actions to provide additional context to your Voice Agent in real-time.
+
+The Get Website Content action requires you to provide the URL of the website you want to fetch content from.
+
+---
+
+### Conditionals
+
+Conditionals are used to control the flow of an Automation based on certain conditions. This allows you to create complex workflows that adapt to different situations, without requiring manual intervention.
+
+#### Filter
+
+The Filter action allows you to only continue the Automation if a certain condition is met. This is useful for creating branching workflows that adapt to different situations. For example, you could use a Filter action to only continue the Automation if a lead has a certain attribute, or if a call transcript contains specific keywords.
+
+![Filter](/images/ui/automations/action-filter.png)
+
+In the above example, the Filter action is checking if the provided email address does not match a specific address. If the condition is met, the Automation will continue to the next step. If the condition is not met, meaning that the email *does* match, the Automation will stop.
+
+#### Switch
+
+The Switch action allows you to create branching workflows based on multiple conditions. This is useful for creating complex Automations that adapt to different situations. You can use the Switch action to check multiple conditions and perform different actions based on the results.
+
+![Switch](/images/ui/automations/action-switch.png)
+
+#### If / Else
+
+The If / Else action allows you to create branching workflows based on certain conditions. This is useful for creating complex Automations that adapt to different situations. Similar to the Switch action, you can use the If / Else action to check a condition and perform different actions based on the result.
+
+---
+
+### Contacts
+
+The Contacts actions allow you to interact with contacts in your [Thoughtly CRM](/platform/contacts). This is useful for updating contact information, adding tags, or performing other tasks related to your contacts.
+
+#### Create Contact
+
+The Create Contact action allows you to create a new contact in your Thoughtly CRM. This is useful for adding new leads to your CRM, or updating contact information based on data from a call or other source.
+
+#### Call Contact
+
+The Call Contact action allows you to initiate a call to a contact in your Thoughtly CRM using one of your Voice Agents. This is useful for following up with leads, checking in with customers, or performing other tasks related to your contacts.
+
+#### Add Tags to Contact
+
+The Add Tags to Contact action allows you to add tags to a contact in your Thoughtly CRM. This is useful for categorizing contacts, segmenting your CRM, or performing other tasks related to your contacts.
+
+#### Add Attributes to Contact
+
+The Add Attributes to Contact action allows you to add attributes to a contact in your Thoughtly CRM. This is useful for storing additional information about your contacts, such as their interests, preferences, or other data.
+
+---
+
+### Genius
+
+The Genius actions allow you to interact with the Thoughtly [Genius](/build/agent-builder/genius) database. Providing dynamic information to your Voice Agents in real-time, Genius actions can be used to fetch data from a variety of sources, such as websites, APIs, or databases.
+
+#### Add Source to Genius
+
+The Add Source to Genius action allows you to add a new source to the Thoughtly Genius database. After fetching content from a website, integration, or API Action, you can use this action to store the content in Genius for future use.
+
+#### Edit Genius Source
+
+The Edit Genius Source action allows you to update an existing source in the Thoughtly Genius database. This is useful for keeping your Genius database up-to-date with the latest information from your integrations.
+
+#### Delete Genius Source
+
+The Delete Genius Source action allows you to remove a source from the Thoughtly Genius database. This is useful for cleaning up old or outdated sources that are no longer needed.
+
+#### Get Genius Source Content
+
+The Get Genius Source Content action allows you to fetch the content of a source in the Thoughtly Genius database. This is useful for providing dynamic information to your Voice Agents in real-time, such as contact information, product details, or other information.
+
+---
+
+## Next steps
+
+Now that you understand how Actions work on Thoughtly, you can view some common [Use Cases](/introduction#use-cases) for Automations. When paired with your Voice Agent, Automations are a powerful tool for automating entire call center workflows.
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Use Cases"
+	icon="lightbulb"
+	href="/introduction#use-cases"
+	description="Check out some common Automation examples ->"
+/>

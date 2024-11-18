@@ -1,3 +1,27 @@
 ---
 title: Salesforce
 ---
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Salesforce"
+    actions={[
+        {
+            "name": "Execute SOQL Query",
+			"description": "This action executes a SOQL query in Salesforce. SOQL (Salesforce Object Query Language) is used to search your organization’s Salesforce data for specific information."
+		},
+		{
+			"name": "Create Object",
+			description: "This action creates an object in Salesforce. An object is a table that stores data in Salesforce, such as a contact, account, or opportunity."
+		},
+		{
+			"name": "Update Object",
+			description: "This action updates an object in Salesforce."
+		},
+		{
+			"name": "Delete Object",
+			description: "This action deletes an object in Salesforce."
+		}
+    ]}
+/>

@@ -11,7 +11,9 @@ When you first found Thoughtly, you likely had a specific use case in mind. From
 
 <Steps>
 	<Step title="Pre-Call Triggers">
-		For outbound calling, <a href="/build/automations/triggers">Triggers</a> are what initiate the call itself. Using <a href="/build/automations">Automations</a>, your Voice Agent can connect to your CRM, calendar, or other systems to be instructed on when to make a call. For example, <a href="/use-cases/outbound/sales">a call can be made every time a new lead is added to your CRM.</a>
+		For **outbound** calling, <a href="/build/automations/triggers">Triggers</a> are what initiate the call itself. **Inbound** calls work in a similar manner, leveraging the [Inbound Call](/build/automations/triggers#inbound-call) trigger to run [Actions](/build/automations/actions) prior to connecting a call to your Voice Agent.
+		
+		Using <a href="/build/automations">Automations</a>, your Voice Agent can connect to your CRM, calendar, or other systems to be instructed on when to make a call. For example, <a href="/use-cases/outbound/sales">a call can be made every time a new lead is added to your CRM.</a>
 	</Step>
 	<Step title="Agent Call">
 		There are three main components to the call itself: <a href="/build/agent-builder/overview">Call Scripting</a>, <a href="/build/agent-builder/genius">Genius Knowledge</a>, and <a href="/build/agent-builder/nodes">Mid-Call Actions</a>. Provide the script as the Voice Agent's ["happy path,"](/resources/glossary#happy-path) use Knowledge to answer questions that may arise, and use Actions to connect other software, transfer calls, and perform other tasks.

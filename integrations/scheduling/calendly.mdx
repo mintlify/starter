@@ -14,3 +14,19 @@ title: Calendly
         style={{ borderRadius: 10 }}
     ></iframe>
 </Frame>
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Calendly"
+    actions={[
+        {
+            "name": "Get Available Times",
+            "description": "This action retrieves the available times for a specific calendar in Calendly."
+		},
+        {
+            "name": "Schedule Appointment",
+            "description": "This action schedules an appointment in Calendly given a specific time and date."
+        }
+    ]}
+/>

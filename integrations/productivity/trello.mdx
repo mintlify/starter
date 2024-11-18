@@ -1,0 +1,25 @@
+---
+title: Trello
+---
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Trello"
+	triggers={[
+		{
+			"name": "On Card Moved to List",
+			"description": "This trigger fires when a card is moved to a specified list in Trello."
+		}
+	]}
+    actions={[
+        {
+            "name": "Create Card",
+			"description": "This action creates a new card in Trello."
+		},
+		{
+			"name": "Update Card",
+			description: "This action updates an existing card in Trello.",
+		}
+    ]}
+/>

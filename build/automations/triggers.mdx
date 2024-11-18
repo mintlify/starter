@@ -1,8 +1,83 @@
 ---
 title: Triggers
 description: Initiate workflows based on specific events
-icon: bolt-lightning
+icon: bullseye
 iconType: light
 ---
 
-<Note>This feature is not yet available. Please check back soon for updates.</Note>
+![Thoughtly Automation Triggers](/images/ui/automations/triggers.png)
+
+## Introduction
+
+Triggers are the events that start an Automation. After you turn on an Automation, Thoughtly will monitor for the event you've selected, then run the Automation when the event occurs. This will cause all of the [Actions](/build/automations/actions) in the Automation to run in sequence.
+
+## Integration Triggers
+
+In addition to the default Triggers, Thoughtly also supports Integration Triggers that connect to third-party software. These Triggers allow you to start an Automation based on an event that occurs in another software application.
+
+Thoughtly supports a wide range of Integration Triggers. Some of the most popular integrations and their Triggers include:
+
+- [**Typeform**](/integrations/productivity/typeform): Start an Automation when a new form is submitted.
+- [**Salesforce**](/integrations/crm/salesforce): Start an Automation when a new lead is added to Salesforce.
+- [**HubSpot**](/integrations/crm/hubspot): Start an Automation when a new lead is added to HubSpot.
+- [**GoHighLevel**](/integrations/crm/highlevel): Start an Automation when a new lead is added to GoHighLevel.
+- [**Zendesk**](/integrations/ticketing/zendesk): Start an Automation when a new ticket is created in Zendesk.
+
+View all supported [Integrations](/integrations).
+
+## Default Triggers
+
+Thoughtly comes with a set of default Triggers that you can use to start your Automations. These are available to all users and can be used in any Automation you create.
+
+### On Call Completed
+
+Using the On Call Completed trigger, you can start an Automation every time one of your Voice Agents ends a call. This allows you to run Actions after a call ends, such as updating a record in your CRM, sending an SMS, or scheduling another call.
+
+<CardGroup cols={2}>
+	<Card title="Trigger">
+		<br/>	
+		![On Call Completed](/images/ui/automations/trigger-on-call-completed.png)
+	</Card>
+	<Card title="Outputs">
+		<br/>
+		![On Call Completed Variables](/images/ui/automations/trigger-on-call-completed-output.png)
+	</Card>
+</CardGroup>
+
+The On Call Completed trigger outputs variables that can be used in subsequent Actions. Some of the most useful variables include:
+
+- `dutation_ms`: The duration of the call in milliseconds. This can be used to calculate the cost of the call for billing purposes.
+- `recording_url`: The URL of the call recording. This can be used to store the recording in your CRM or other software.
+- `phone_number`: The phone number of the caller. This can be used to save the caller in your CRM or other software.
+- `transcript`: The transcript of the call. This can be used to analyze the conversation for keywords or sentiment.
+
+### Inbound Call
+
+Using the Inbound Call trigger, you can start an Automation every time a call comes in. This allows you to retrieve data from your CRM, Google Sheets, or other software, then connect the call to your Voice Agents with all the information they need to have a productive conversation.
+
+![Inbound Call](/images/ui/automations/trigger-inbound-call.png)
+
+Keep in mind that, while the Automation is running, the caller will hear a standard dial tone until the Automation is complete. The more complex the Automation, the longer the caller will be on hold.
+
+After retrieving data or running other Actions, you can connect the call to your Voice Agents using the "Connect Call" Action. If you gathered data from other steps in the Automation, you can pass that data to your Voice Agent by using [Metadata](/build/agent-builder/variables#metadata).
+
+![Connect Inbound Call](/images/ui/automations/connect-inbound-call.png)
+
+### Recurring Schedule
+
+![Recurring Schedule](/images/ui/automations/trigger-recurring-schedule.png)
+
+The Recurring Schedule trigger allows you to set up an Automation to run at a specific time every day, week, or month. This can be used for sending out appointment reminders, making calls to new leads during business hours, or just checking in with customers on a regular basis.
+
+## Next steps
+
+Now that you understand how Triggers work in Thoughtly, you can learn more about the different [Actions](/build/automations/actions) that are available. Actions are the tasks that the Automation performs, such as making a call, sending an SMS, or updating a record in your CRM.
+
+import { NextSection } from '/snippets/next-section.mdx'
+
+<NextSection
+	title="Actions"
+	icon="plug"
+	href="/build/automations/actions"
+	description="Learn more about the different Actions available in Thoughtly ->"
+/>

@@ -1,0 +1,37 @@
+---
+title: Keap
+---
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Keap"
+	triggers={[
+		{
+			"name": "On Contact Created",
+			"description": "This trigger fires when a new contact is created in Keap."
+		}
+	]}
+    actions={[
+        {
+            "name": "Create Contact",
+			"description": "This action creates a new contact in Keap."
+		},
+		{
+			"name": "List Contacts",
+			"description": "This action lists all contacts in Keap."
+		},
+		{
+			"name": "Retrieve Contact",
+			"description": "This action retrieves a contact in Keap."
+		},
+		{
+			"name": "Update Contact",
+			"description": "This action updates a contact in Keap."
+		},
+		{
+			"name": "Delete Contact",
+			"description": "This action deletes a contact in Keap."
+		}
+    ]}
+/>
