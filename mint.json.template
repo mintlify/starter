@@ -91,7 +91,6 @@
         "integrations/llamaindex",
         "integrations/langchain",
         "integrations/dspy",
-        "integrations/embedchain",
         "integrations/qdrant"
       ]
     },
