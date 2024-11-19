@@ -1,0 +1,81 @@
+---
+title: "How to Consume"
+description: "Learn how to interact with the TRUF Network using SDKs and API endpoints."
+---
+
+# How to Consume
+
+The TRUF Network provides multiple ways to consume its data. Developers can integrate with the network using SDKs, direct API calls, or predefined API endpoints. Here's how to get started:
+
+## 1. SDKs
+
+The TRUF Network offers SDKs for various programming languages, simplifying integration with its services.
+
+- **Installation**:
+  To get started, install the SDK for your language. For example, in Go:
+```bash
+  go get github.com/truflation/tsn-sdk
+```
+
+- **Usage**:
+Use the SDK to interact with the network. Example in Go:
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"github.com/golang-sql/civil"
+	"github.com/kwilteam/kwil-db/core/crypto"
+	"github.com/kwilteam/kwil-db/core/crypto/auth"
+	"github.com/truflation/tsn-sdk/core/tsnclient"
+	"github.com/truflation/tsn-sdk/core/types"
+	"github.com/truflation/tsn-sdk/core/util"
+)
+
+func main() {
+	ctx := context.Background()
+
+	// Create TSN client
+	pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
+	signer := &auth.EthPersonalSigner{Key: *pk}
+	tsnClient, err := tsnclient.NewClient(ctx, "<https://tsn-provider-url.com>", tsnclient.WithSigner(signer))
+	if err != nil {
+		panic(err)
+	}
+
+	// Load an existing stream
+	streamId := util.GenerateStreamId("your-stream-name")
+	// if we intend to use streams from another provider, we create locators using the provider's address
+	streamLocator := tsnClient.OwnStreamLocator(streamId)
+	stream, err := tsnClient.LoadPrimitiveStream(streamLocator)
+	if err != nil {
+		panic(err)
+	}
+
+	// Read data from the stream
+	dateFrom, _ := civil.ParseDate("2023-01-01")
+	dateTo, _ := civil.ParseDate("2023-01-31")
+	records, err := stream.GetRecord(ctx, types.GetRecordInput{
+		DateFrom: &dateFrom,
+		DateTo:   &dateTo,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	for _, record := range records {
+		fmt.Println(record.DateValue, record.Value.String())
+	}
+}
+```
+
+For more details, refer to the [SDK Documentation](https://github.com/truflation/tsn-sdk).
+
+## 2. API Endpoints
+
+The API Endpoints are currently under rapid development. Stay tuned for updates and refer to this section as new endpoints are introduced.
+
+## 3. API Calls
+
+The ability to make direct API calls will be available soon. Stay tuned for detailed documentation, including example requests and responses.
