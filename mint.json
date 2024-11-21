@@ -116,7 +116,6 @@
         "features/triggers",
         "features/annotations",
         "features/datasets",
-        "features/batch-evaluations",
         "features/embedded-analytics"
       ]
     },
@@ -151,7 +150,6 @@
       "group": "Documentation",
       "pages": [
         "langevals/documentation/introduction",
-        "langevals/documentation/batch-evaluation",
         "langevals/documentation/evaluators",
         "langevals/documentation/unit-tests",
         "langevals/documentation/API-example",
