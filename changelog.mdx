@@ -1,0 +1,80 @@
+---
+title: "Changelog"
+description: "Summary of changes made to the TRUF Network project."
+---
+
+**TRUF Network Changelog Summary**
+
+**v1.1.11** (Released on November 19, 2024)
+- **Testing Enhancements:** Implemented tests for composed contracts with start dates.
+- **Performance Improvements:** Increased KGW read timeout and synchronized contracts with dynamic weights.
+- **Documentation Updates:** Added SDK section to the documentation.
+- **Bug Fixes:** Resolved issues related to KGW CORS configuration, Docker build failures, and architecture mismatches in KGW binaries.
+- **Logging Enhancements:** Adopted structured logging for better traceability.
+- **Consensus Updates:** Updated Kwil to enhance consensus mechanisms.
+
+**v1.1.10** (Released on October 9, 2024)
+- **State Synchronization:** Enabled StateSync on TSN servers and introduced snapshot options for new node synchronization.
+- **Build Optimizations:** Disabled CGO in releases and adjusted gateway configurations for improved stability.
+- **Testing Enhancements:** Added system contract and common contract logic tests.
+- **Observability Improvements:** Integrated journald and Docker logs with Vector, and connected logs/metrics to Grafana Cloud.
+- **Documentation Updates:** Included a status page in the README.
+
+**v1.1.9** (Released on September 17, 2024)
+- **Bug Fixes:** Addressed issues with array element assignments, duplicate date handling in contracts, and test failures.
+- **State Synchronization:** Added StateSync functionality to enhance network reliability.
+
+**v1.1.8** (Released on September 10, 2024)
+- **Benchmarking Tools:** Introduced a comprehensive benchmark suite with binary and result integration.
+- **Build Enhancements:** Compiled benchmark test binaries and implemented launch templates for benchmarking.
+- **Contract Optimizations:** Improved contract performance and added relevant tests.
+- **Deployment Fixes:** Resolved issues causing testnet downtime.
+
+**v1.1.7** (Released on August 22, 2024)
+- **Domain Support:** Updated configurations to support new domains alongside existing ones.
+- **Documentation Updates:** Revised staging URLs in the README and removed outdated domain configurations.
+
+**v1.1.6** (Released on August 15, 2024)
+- **Metrics Integration:** Enabled local gateway metrics and integrated observability tools.
+- **Build Enhancements:** Utilized TSN-operator genesis files and adjusted release packages naming conventions.
+- **Continuous Integration:** Released TSN binaries via GitHub releases and implemented deployment stacks with predefined configurations.
+
+**v1.1.5** (Released on August 7, 2024)
+- **Code Refactoring:** Refined index change retrieval processes.
+- **Documentation Updates:** Clarified system contract terminology.
+- **Bug Fixes:** Addressed issues related to metadata insertion and database timeouts.
+- **Build Enhancements:** Restored node configurations and replaced in-built database ID generators.
+
+**v1.1.4** (Released on July 23, 2024)
+- **Build Updates:** Upgraded Kwil-DB to the preview version and resolved deployment issues affecting multiple nodes.
+- **System Contract Fixes:** Addressed timeouts and ensured correct external addresses for TSN nodes.
+
+**v1.1.3** (Released on July 17, 2024)
+- **Access Control Fixes:** Resolved issues with reading from private composed streams and direct stream calls.
+- **Deployment Enhancements:** Improved resilience of TSN-DB Docker services and addressed consensus errors.
+- **Build Updates:** Aligned with stable main versions and fixed build failures due to missing imports.
+
+**v1.1.2** (Released on July 6, 2024)
+- **Query Enhancements:** Improved data fetching for composed streams and addressed timeout issues.
+- **Metrics Integration:** Enabled local viewing of TSN metrics.
+- **Bug Fixes:** Corrected output values and ensured graceful deployment failure handling.
+- **Documentation Updates:** Provided examples for using the indexer to obtain TSN metrics.
+
+**v1.1.0** (Released on June 27, 2024)
+- **Permission Controls:** Introduced composition permissions and wallet write access.
+- **System Contracts:** Deployed system contracts and exposed them for data providers.
+- **Documentation Updates:** Removed outdated information from the README.
+- **Performance Improvements:** Enhanced query efficiency and upgraded node sizes.
+
+**v1.0.0** (Released on June 12, 2024)
+- **Continuous Integration:** Implemented acceptance tests and created Dockerfiles for streamlined deployments.
+- **Staging Environment:** Provided a staging server with automated deployment on main branch pushes.
+- **Whitelist Extensions:** Added whitelist parameters to primitive schemas and setup configurations.
+- **Gateway Directives:** Integrated gateway directives and improved build caching mechanisms.
+- **Terminology Updates:** Established common terminology and applied it across the TSN project.
+- **Contract Enhancements:** Deployed system contracts, initialized stream contracts, and implemented metadata handling.
+- **Access Controls:** Managed stream read access and ownership transfers.
+- **Taxonomy Definitions:** Defined and described taxonomies for composed streams.
+- **Query Optimizations:** Enhanced query mechanisms for dates with available past data.
+- **Documentation Updates:** Added common terminology documents and updated pull request templates.
+- **Continuous Integration:** Ensured compliance with Conventional Commits specifications.

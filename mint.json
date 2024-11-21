@@ -34,6 +34,10 @@
 		{
 			"group": "Node Operator",
 			"pages": ["node-operator-guide","node-upgrade","troubleshooting-channels","incentive-system"]
+		},
+		{
+			"group": "Developer",
+			"pages": ["developer-guide","sdks","changelog"]
 		}
 	],
 	"footerSocials": {}

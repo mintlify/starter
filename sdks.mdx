@@ -1,0 +1,119 @@
+---
+title: "TRUF Network SDKs"
+description: "Learn how to interact with the TRUF Network using SDKs."
+---
+
+The TRUF Network offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
+
+**Go SDK**
+
+The Go SDK provides tools to publish, compose, and consume economic data streams within the TRUF Network. It supports operations on primitive streams and composed streams.
+
+*Installation:*
+
+Ensure you have Go 1.20 or later installed. To install the SDK, run:
+
+```bash
+go get github.com/truflation/tsn-sdk
+```
+
+*Example Usage:*
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "github.com/golang-sql/civil"
+    "github.com/kwilteam/kwil-db/core/crypto"
+    "github.com/kwilteam/kwil-db/core/crypto/auth"
+    "github.com/truflation/tsn-sdk/core/tsnclient"
+    "github.com/truflation/tsn-sdk/core/types"
+    "github.com/truflation/tsn-sdk/core/util"
+)
+
+func main() {
+    ctx := context.Background()
+
+    // Create TSN client
+    pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
+    signer := &auth.EthPersonalSigner{Key: *pk}
+    tsnClient, err := tsnclient.NewClient(ctx, "<https://tsn-provider-url.com>", tsnclient.WithSigner(signer))
+    if err != nil {
+        panic(err)
+    }
+
+    // Load an existing stream
+    streamId := util.GenerateStreamId("your-stream-name")
+    streamLocator := tsnClient.OwnStreamLocator(streamId)
+    stream, err := tsnClient.LoadPrimitiveStream(streamLocator)
+    if err != nil {
+        panic(err)
+    }
+
+    // Read data from the stream
+    dateFrom, _ := civil.ParseDate("2023-01-01")
+    dateTo, _ := civil.ParseDate("2023-01-31")
+    records, err := stream.GetRecord(ctx, types.GetRecordInput{
+        DateFrom: &dateFrom,
+        DateTo:   &dateTo,
+    })
+    if err != nil {
+        panic(err)
+    }
+
+    for _, record := range records {
+        fmt.Println(record.DateValue, record.Value.String())
+    }
+}
+```
+
+For comprehensive examples and usage patterns, refer to the test files in the SDK repository.
+
+**TypeScript/JavaScript SDK**
+
+The TypeScript/JavaScript SDK offers similar capabilities as the Go SDK, with implementations tailored for both Node.js and browser environments.
+
+*Installation:*
+
+Ensure you have Node.js 18 or later installed. To install the SDK, run:
+
+```bash
+npm install @truflation/tsn-sdk-js
+```
+
+*Example Usage:*
+
+```javascript
+import { NodeTSNClient, StreamId } from "@truflation/tsn-sdk-js";
+
+// Initialize client
+const client = new NodeTSNClient({
+    privateKey: "<your-private-key-hex>",
+    providerUrl: "<https://tsn-provider-url.com>",
+});
+
+// Load an existing stream
+const streamId = StreamId.fromName("your-stream-name");
+const stream = await client.loadPrimitiveStream(streamId);
+
+// Read data from the stream
+const records = await stream.getRecord({
+    dateFrom: "2023-01-01",
+    dateTo: "2023-01-31",
+});
+
+records.forEach(record => {
+    console.log(record.dateValue, record.value.toString());
+});
+```
+
+For detailed examples and usage patterns, refer to the test files in the SDK repository.
+
+**Additional Resources**
+
+- [Truflation Whitepaper](https://whitepaper.truflation.com/)
+- [TSN-SDK Documentation](https://github.com/truflation/tsn-sdk)
+
+For support or questions, please open an issue in the respective SDK repository or contact our support team.
