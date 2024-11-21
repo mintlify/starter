@@ -30,6 +30,10 @@
 		{
 			"group": "Consumer",
 			"pages": ["about-truf-network","authentication-authorization","data-types","how-to-consume","billing"]
+		},
+		{
+			"group": "Node Operator",
+			"pages": ["node-operator-guide","node-upgrade","troubleshooting-channels","incentive-system"]
 		}
 	],
 	"footerSocials": {}
