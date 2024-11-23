@@ -38,6 +38,10 @@
 		{
 			"group": "Developer",
 			"pages": ["developer-guide","sdks","changelog"]
+		},
+		{
+			"group": "Bounties",
+			"pages": ["bounties-overview","data-consumer-guide", "data-provider-guide"]
 		}
 	],
 	"footerSocials": {}
