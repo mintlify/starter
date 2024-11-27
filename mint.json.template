@@ -128,8 +128,13 @@
      {
       "group": "Resources",
       "pages": [
-        "resources/faq",
-        "release-notes/release-notes
+        "resources/faq"
+      ]
+    },
+    {
+      "group": "Release Notes",
+      "pages": [
+        "release-notes/release-notes"
       ]
     },
     {
