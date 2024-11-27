@@ -53,7 +53,17 @@
       "pages": ["introduction", "self-hosting"]
     },
     {
-      "group": "Integration Guides",
+      "group": "Optimization Studio",
+      "pages": [
+        "optimization-studio/overview",
+        "optimization-studio/llm-nodes",
+        "optimization-studio/datasets",
+        "optimization-studio/evaluating",
+        "optimization-studio/optimizing"
+      ]
+    },
+    {
+      "group": "Monitoring Integration",
       "pages": [
         "integration/overview",
         {
