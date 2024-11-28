@@ -57,14 +57,15 @@
     }
   ],
     "feedback": {
-    "thumbsRating": true
-  },
+     "thumbsRating": true
+    },
   "navigation": [
     {
       "group": "Get started",
       "pages": [
         "get-started/overview",
-        "introduction"
+        "introduction",
+        "get-started/sdk"
       ]
     },
     {
@@ -75,20 +76,13 @@
         "get-started/monitoring",
         "get-started/repositories",
         "get-started/launchpad",
-        "get-started/gym"
-      ]
-    },
-    {
-      "group": "Features",
-      "pages": [
+        "get-started/gym",
         "get-started/json-output",
         "get-started/function-calling",
         "get-started/chat-completion-sse",
         "get-started/prompt-templates"
       ]
-    }
-  ]
-},
+    },
     {
       "group": "Integrations",
       "pages": [
@@ -98,7 +92,7 @@
         "integrations/qdrant"
       ]
     },
-{
+    {
       "group": "Build with Prem",
       "pages": [
         {
@@ -121,12 +115,13 @@
             "premsql/evaluators",
             "premsql/error_dataset",
             "premsql/tuner",
-            "premsql/pipelines"
+            "premsql/agents",
+            "premsql/playground"
           ]
         }
       ]
     },
-     {
+    {
       "group": "Resources",
       "pages": [
         "resources/faq"
@@ -142,50 +137,6 @@
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "chat-completions",
-      "pages": [
-        "api-reference/chat-completions/post-v1chatcompletions"
-      ]
-    },
-    {
-      "group": "embeddings",
-      "pages": [
-        "api-reference/embeddings/post-v1embeddings"
-      ]
-    },
-    {
-      "group": "models",
-      "pages": [
-        "api-reference/models/get-v1models",
-        "api-reference/models/get-v1models-"
-      ]
-    },
-    {
-      "group": "repositories",
-      "pages": [
-        "api-reference/repositories/post-v1repositories"
-      ]
-    },
-    {
-      "group": "repository-document",
-      "pages": [
-        "api-reference/repository-document/post-v1repository-document"
-      ]
-    },
-    {
-      "group": "feedbacks",
-      "pages": [
-        "api-reference/feedbacks/post-v1set_trace_feedback"
-      ]
-    },
-    {
-      "group": "traces",
-      "pages": [
-        "api-reference/traces/get-v1traces",
-        "api-reference/traces/get-v1traces-"
       ]
     }
   ],
