@@ -5,7 +5,15 @@ description: "Learn how to interact with the TRUF Network using SDKs."
 
 The TRUF Network offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
 
-**Go SDK**
+---
+
+### What is a `streamID`?
+
+A `streamID` is an identifier used in the TRUF Network (TN) to identify the deployed contract. It is a unique string generated from a descriptive name, such as an English name, to ensure easy reference and management of data streams.
+
+---
+
+### Go SDK
 
 The Go SDK provides tools to publish, compose, and consume economic data streams within the TRUF Network. It supports operations on primitive streams and composed streams.
 
@@ -39,7 +47,7 @@ func main() {
     // Create TSN client
     pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
     signer := &auth.EthPersonalSigner{Key: *pk}
-    tsnClient, err := tsnclient.NewClient(ctx, "<https://tsn-provider-url.com>", tsnclient.WithSigner(signer))
+    tsnClient, err := tsnclient.NewClient(ctx, "https://staging.tsn.truflation.com", tsnclient.WithSigner(signer))
     if err != nil {
         panic(err)
     }
@@ -71,7 +79,9 @@ func main() {
 
 For comprehensive examples and usage patterns, refer to the test files in the SDK repository.
 
-**TypeScript/JavaScript SDK**
+---
+
+### TypeScript/JavaScript SDK
 
 The TypeScript/JavaScript SDK offers similar capabilities as the Go SDK, with implementations tailored for both Node.js and browser environments.
 
@@ -91,7 +101,7 @@ import { NodeTSNClient, StreamId } from "@trufnetwork/truf-node-sdk-js";
 // Initialize client
 const client = new NodeTSNClient({
     privateKey: "<your-private-key-hex>",
-    providerUrl: "<https://tsn-provider-url.com>",
+    providerUrl: "https://staging.tsn.truflation.com",
 });
 
 // Load an existing stream
@@ -111,7 +121,9 @@ records.forEach(record => {
 
 For detailed examples and usage patterns, refer to the test files in the SDK repository.
 
-**Additional Resources**
+---
+
+### Additional Resources
 
 - [Truflation Whitepaper](https://whitepaper.truflation.com/)
 - [TSN-SDK Documentation](https://github.com/trufnetwork/truf-node-sdk-go)

@@ -1,0 +1,101 @@
+---
+title: Adapter Writing Guide
+description: This guide provides a step-by-step approach to creating adapters for the Truf Network (TN). Adapters facilitate the ingestion of data from various sources into TN, leveraging the SDK and Prefect for efficient data management.
+---
+
+> **Note**: While adapters use a Python Framework, it's also possible to push data from other languages like Go or JavaScript. Refer to the respective SDKs for more information:
+> - [Golang SDK](https://github.com/trufnetwork/truf-node-sdk-go)
+> - [JavaScript SDK](https://github.com/trufnetwork/truf-node-sdk-js)
+
+## Prerequisites
+
+- **Programming Knowledge**: Proficiency in Python.
+- **Tools**:
+  - [Docker](https://www.docker.com/get-started)
+  - [Prefect](https://www.prefect.io)
+  - Access to a TN Node (local or remote)
+- **Environment Setup**: Clone the [trufnetwork/adapters](https://github.com/trufnetwork/adapters) repository.
+
+## Setting Up the Development Environment
+
+1. **Clone the Repository**:
+```bash
+git clone https://github.com/trufnetwork/adapters.git
+cd adapters
+```
+
+2. **Configure Environment Variables**:
+- Duplicate the `.env.example` file and rename it to `.env`.
+- Update the environment variables in the `.env` file as needed.
+
+3. **Launch Services with Docker Compose**:
+```bash
+docker compose up -d
+```
+This command initializes the necessary services in the background.
+
+## Understanding Reusable Tasks
+
+The repository offers several reusable tasks to facilitate data ingestion into TSN:
+
+- **Reading Data**:
+- `task_read_repo_csv_file`: Reads a CSV file from a GitHub repository.
+- `task_read_gsheet`: Retrieves data from a Google Sheet.
+
+- **TSN Operations**:
+- `task_insert_tsn_records`: Inserts records into TSN.
+- `task_get_all_tsn_records`: Fetches all records from TSN.
+- `task_deploy_primitive_if_needed`: Deploys a primitive if it doesn't already exist.
+
+- **Data Manipulation**:
+- `task_reconcile_data`: Reconciles data between sources.
+- `task_normalize_source`: Standardizes source data.
+- `task_filter_by_source_id`: Filters data based on a source ID.
+- `task_prepare_records_for_tsn`: Prepares records for insertion into TSN.
+
+## Developing a Custom Adapter (Python Example)
+
+1. **Define the Data Source**:
+Identify the source and format of the data you intend to ingest.
+
+2. **Create a Prefect Flow**:
+Develop a Prefect flow to manage the data ingestion process. For example:
+
+```python
+from prefect import flow
+from tsn_adapters.tasks.github import task_read_repo_csv_file
+from tsn_adapters.tasks.tsn import task_insert_tsn_records
+
+@flow
+def custom_adapter_flow():
+    # Read data from the source
+    data = task_read_repo_csv_file('repo_name', 'path/to/file.csv')
+    # Insert data into TSN
+    task_insert_tsn_records('stream_id', data)
+```
+
+3. **Execute the Flow**:
+Run the flow to perform the data ingestion.
+
+```bash
+python path/to/your_flow.py
+```
+
+## Examples
+
+### Ingesting Data from Google Sheets
+
+The repository includes examples demonstrating data ingestion from Google Sheets:
+
+- **Direct Method**: Specify the sheet ID and source ID directly.
+- **Dynamic Method**: Retrieve the sheet ID and source ID from a CSV file in a GitHub repository.
+
+Refer to the [examples directory](https://github.com/trufnetwork/adapters/tree/main/src/examples) for detailed implementations.
+
+## Additional Resources
+
+- [Adapters Repository](https://github.com/trufnetwork/adapters)
+- [Python SDK Documentation](https://github.com/truflation/tsn-sdk-py)
+- [Golang SDK](https://github.com/trufnetwork/truf-node-sdk-go)
+- [JavaScript SDK](https://github.com/trufnetwork/sdk-js)
+- [Prefect Documentation](https://docs.prefect.io)

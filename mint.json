@@ -41,7 +41,7 @@
 		},
 		{
 			"group": "Bounties",
-			"pages": ["bounties-overview","data-consumer-guide", "data-provider-guide"]
+			"pages": ["bounties-overview","data-consumer-guide", "data-provider-guide", "writing-adapters"]
 		}
 	],
 	"footerSocials": {}
