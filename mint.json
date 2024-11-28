@@ -56,9 +56,9 @@
       "url": "https://models.premai.io/"
     }
   ],
-    "feedback": {
-     "thumbsRating": true
-    },
+  "feedback": {
+    "thumbsRating": true
+  },
   "navigation": [
     {
       "group": "Get started",
@@ -140,47 +140,15 @@
       ]
     },
     {
-      "group": "chat-completions",
-      "pages": [
-        "api-reference/chat-completions/post-v1chatcompletions"
-      ]
-    },
-    {
-      "group": "embeddings",
-      "pages": [
-        "api-reference/embeddings/post-v1embeddings"
-      ]
-    },
-    {
-      "group": "models",
-      "pages": [
-        "api-reference/models/get-v1models",
-        "api-reference/models/get-v1models-"
-      ]
-    },
-    {
       "group": "repositories",
       "pages": [
-        "api-reference/repositories/post-v1repositories"
+        "api-reference/repositories/post-apirepositoriesrepositories"
       ]
     },
     {
       "group": "repository-document",
       "pages": [
-        "api-reference/repository-document/post-v1repository-document"
-      ]
-    },
-    {
-      "group": "feedbacks",
-      "pages": [
-        "api-reference/feedbacks/post-v1set_trace_feedback"
-      ]
-    },
-    {
-      "group": "traces",
-      "pages": [
-        "api-reference/traces/get-v1traces",
-        "api-reference/traces/get-v1traces-"
+        "api-reference/repository-document/post-apirepositoriesrepository-document"
       ]
     },
     {
@@ -200,18 +168,6 @@
       "pages": [
         "api-reference/models/get-v1models",
         "api-reference/models/get-v1models-"
-      ]
-    },
-    {
-      "group": "repositories",
-      "pages": [
-        "api-reference/repositories/post-v1repositories"
-      ]
-    },
-    {
-      "group": "repository-document",
-      "pages": [
-        "api-reference/repository-document/post-v1repository-document"
       ]
     },
     {

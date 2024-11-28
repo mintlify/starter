@@ -56,9 +56,9 @@
       "url": "https://models.premai.io/"
     }
   ],
-    "feedback": {
-     "thumbsRating": true
-    },
+  "feedback": {
+    "thumbsRating": true
+  },
   "navigation": [
     {
       "group": "Get started",
