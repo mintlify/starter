@@ -12,7 +12,7 @@ The TRUF Network offers SDKs for various programming languages, simplifying inte
 - **Installation**:
   To get started, install the SDK for your language. For example, in Go:
 ```bash
-  go get github.com/trufnetwork/truf-node-sdk-go
+  go get github.com/trufnetwork/sdk-go
 ```
 
 - **Usage**:
@@ -26,9 +26,9 @@ import (
 	"github.com/golang-sql/civil"
 	"github.com/kwilteam/kwil-db/core/crypto"
 	"github.com/kwilteam/kwil-db/core/crypto/auth"
-	"github.com/trufnetwork/truf-node-sdk-go/core/tsnclient"
-	"github.com/trufnetwork/truf-node-sdk-go/core/types"
-	"github.com/trufnetwork/truf-node-sdk-go/core/util"
+	"github.com/trufnetwork/sdk-go/core/tsnclient"
+	"github.com/trufnetwork/sdk-go/core/types"
+	"github.com/trufnetwork/sdk-go/core/util"
 )
 
 func main() {
@@ -37,7 +37,7 @@ func main() {
 	// Create TSN client
 	pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
 	signer := &auth.EthPersonalSigner{Key: *pk}
-	tsnClient, err := tsnclient.NewClient(ctx, "<https://tsn-provider-url.com>", tsnclient.WithSigner(signer))
+	tsnClient, err := tsnclient.NewClient(ctx, "https://staging.tsn.truflation.com", tsnclient.WithSigner(signer))
 	if err != nil {
 		panic(err)
 	}
@@ -68,12 +68,4 @@ func main() {
 }
 ```
 
-For more details, refer to the [SDK Documentation](https://github.com/trufnetwork/truf-node-sdk-go).
-
-## 2. API Endpoints
-
-The API Endpoints are currently under rapid development. Stay tuned for updates and refer to this section as new endpoints are introduced.
-
-## 3. API Calls
-
-The ability to make direct API calls will be available soon. Stay tuned for detailed documentation, including example requests and responses.
+For more details, refer to the [SDK Documentation](https://github.com/trufnetwork/sdk-go).
