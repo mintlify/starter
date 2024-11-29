@@ -53,7 +53,7 @@
     {
       "name": "Models' Status",
       "icon": "signal",
-      "url": "https://models.premai.io/"
+      "url": "https://app.premai.io/providers/"
     }
   ],
   "feedback": {
