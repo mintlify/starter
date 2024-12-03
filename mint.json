@@ -89,7 +89,8 @@
 					"group": "Outbound Calls",
 					"pages": [
 						"use-cases/outbound/sales",
-						"use-cases/outbound/appointment-reminders"
+						"use-cases/outbound/appointment-reminders",
+						"use-cases/outbound/business-data-collection"
 					]
 				}
 			]

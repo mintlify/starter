@@ -1,0 +1,46 @@
+---
+title: Business Data Collection
+description: Call businesses to collect operational data for your company
+icon: database
+iconType: light
+---
+
+<Frame caption="Building a Data Collection Voice Agent">
+    <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/KzHVSHHe8ss"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style={{ borderRadius: 10 }}
+    ></iframe>
+</Frame>
+
+<Icon icon="clock" iconType="light" /> Estimated time: 20 minutes
+
+## Introduction
+
+Data is what drives your business forward. Sometimes, the data you need may not be easily accessible, and you have to just pick up the phone and ask for it yourself. By building a Voice Agent that can call businesses to collect operational data on your behalf, you can automate and standardize a process that would otherwise be time-consuming and error-prone.
+
+### Use Case Example
+
+Imagine you've created Thoughtly Maps, and you need to collect data on local businesses to populate your map. You have a spreadsheet that contains the names of businesses, their addresses, and their phone numbers. However, you're missing some information, such as the hours of operation, the types of services they offer, and the price range.
+
+In this example, we're going to build a Voice Agent sequence that fills in empty columns on a spreadsheet. For this scenario, we'll use [Google Sheets](/integrations/productivity/google-sheets) to store the data.
+
+By the end of this guide, you'll have a fully-functional Voice Agent that will:
+
+<Steps>
+	<Step title="Watch for new rows">
+		Your Voice Agent will monitor your spreadsheet for any new rows that are created. When a new row is detected, your Voice Agent will call the business associated with that row.
+	</Step>
+	<Step title="Collect missing information">
+		Your Voice Agent will ask the business for the missing information based on empty columns in the spreadsheet. The business will provide the information, and your Voice Agent will update the spreadsheet accordingly.
+	</Step>
+</Steps>
+
+## Getting Started
+
+<Info>Guide in progress. Check back soon for updates!</Info>
