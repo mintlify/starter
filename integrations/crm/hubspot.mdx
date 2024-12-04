@@ -6,6 +6,12 @@ import { IntegrationPage } from '/snippets/integration-page.mdx'
 
 <IntegrationPage
     name="HubSpot"
+	triggers={[
+		{
+			"name": "Contact Created",
+			"description": "Triggers when a new lead is created in HubSpot."
+		},
+	]}
     actions={[
         {
             "name": "Create Contact",
