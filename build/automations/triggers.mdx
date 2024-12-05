@@ -51,6 +51,16 @@ The On Call Completed trigger outputs variables that can be used in subsequent A
 - `phone_number`: The phone number of the caller. This can be used to save the caller in your CRM or other software.
 - `transcript`: The transcript of the call. This can be used to analyze the conversation for keywords or sentiment.
 
+### Webhook
+
+The Webhook trigger allows you to start an Automation when a webhook is received. This can be used to integrate with third-party software that supports webhooks, such as [Zapier](/integrations/automations/zapier), [Make](/integrations/automations/make), or your own custom software.
+
+![Webhook](/images/ui/automations/trigger-webhook.png)
+
+To use the Webhook trigger, you'll need to copy the URL provided by the trigger and paste it into the software that will be sending the webhook. Once you click "Refresh" in the Thoughtly UI, the trigger will check for any new webhook payloads that have been sent.
+
+You can use these payloads to pass data to your Voice Agents using [Metadata](/build/agent-builder/variables#metadata), or other Actions in the Automation using [Variables](/build/automations/overview#variables).
+
 ### Inbound Call
 
 Using the Inbound Call trigger, you can start an Automation every time a call comes in. This allows you to retrieve data from your CRM, Google Sheets, or other software, then connect the call to your Voice Agents with all the information they need to have a productive conversation.

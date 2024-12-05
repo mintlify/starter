@@ -23,6 +23,10 @@ On [Speak Nodes](/build/agent-builder/nodes#speak-node), the content of the Vari
 
 When building your Voice Agent, there are a few types of Variables:
 
+### Metadata
+
+Metadata Variables are passed to your Voice Agent via [Automations](/build/automations/overview) or by using our [API](/developers). Any data that you pass via Metadata will be available as a Variable in your Voice Agent and can be accessed using `{{variable_name}}`.
+
 ### System Variables
 
 System Variables are predefined by Thoughtly and are used to store information about the call, such as the caller's phone number or the current time. System Variables are read-only and cannot be modified during a call.
@@ -68,10 +72,6 @@ Other System Variables include:
 | Variable | Description                           |
 | -------- | ------------------------------------- |
 | `{{system.time}}` | The current time at the time the variable is accessed (in UTC) |
-
-### Metadata
-
-Metadata Variables are passed to your Voice Agent via [Automations](/build/automations/overview) or by using our [API](/developers). Any data that you pass via Metadata will be available as a Variable in your Voice Agent and can be accessed using `{{metadata.variable_name}}`.
 
 ### Integration Variables
 

@@ -204,7 +204,8 @@
 				"integrations/crm/zoho",
 				"integrations/crm/attio",
 				"integrations/crm/highlevel",
-				"integrations/crm/keap"
+				"integrations/crm/keap",
+				"integrations/crm/pipedrive"
 			]
 		},
 		{
@@ -212,7 +213,8 @@
 			"pages": [
 				"integrations/scheduling/calendly",
 				"integrations/scheduling/acuity",
-				"integrations/scheduling/cal-com"
+				"integrations/scheduling/cal-com",
+				"integrations/scheduling/mindbody"
 			]
 		},
 		{

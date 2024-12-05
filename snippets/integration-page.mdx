@@ -2,10 +2,18 @@ export const IntegrationPage = ({
 	actions,
 	triggers,
 	name,
+	domain,
 }) => (
 	<div>
-
-		<h3>Overview</h3>
+		<div className="flex flex-row items-center h-10 pb-4">
+			<img
+				src={`https://logo.clearbit.com/${domain}`}
+				className='w-5 rounded-md mr-2 h-5'
+			/>
+			<div className="text-xl">
+				Integrate with <span className='font-bold'>{name}</span>
+			</div>
+		</div>
 
 		By integrating Thoughtly with {name}, you can automate tasks and workflows before, during, and after calls. To integrate with {name}, head to the <a href="https://app.thought.ly/integration" target="_blank">Integrations</a> page and follow the instructions.
 
