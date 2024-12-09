@@ -112,6 +112,7 @@
             "premsql/introduction",
             "premsql/datasets",
             "premsql/generators",
+            "premsql/executors",
             "premsql/evaluators",
             "premsql/error_dataset",
             "premsql/tuner",
