@@ -5,9 +5,9 @@ info:
   description: A full flagged payroll api provided by Teal
   version: 1.0.0
 servers:
-  - url: https://api.staging.goteal.co
+  - url: https://api.sandbox.goteal.co
     description: Sandbox server for experiments
-  - url: https://api.goteal.co/v1
+  - url: https://api.goteal.co
     description: Production server
 security:
   - ApiKeyAuth: []
