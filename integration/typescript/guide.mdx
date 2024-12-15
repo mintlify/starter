@@ -24,7 +24,7 @@ import Prerequisites from "/snippets/prerequests-ts.mdx";
 <Prerequisites />
 
 
-## Capturing Messages
+## Basic Concepts
 
 - Each message triggering your LLM pipeline as a whole is captured with a [Trace](/concepts#traces).
 - A [Trace](/concepts#traces) contains multiple [Spans](/concepts#spans), which are the steps inside your pipeline.
@@ -35,24 +35,130 @@ import Prerequisites from "/snippets/prerequests-ts.mdx";
   - It is also recommended to provide the [`user_id`](/concepts#user-id) metadata to track user analytics.
 
 
-## Create a Trace
+## Integration
+
+<Tabs>
+<Tab title="Vercel AI SDK">
+The Vercel AI SDK supports tracing via Next.js OpenTelemetry integration. By using the `LangWatchExporter`, you can automatically collect those traces to LangWatch.
+
+First, you need to install the necessary dependencies:
+
+```bash
+npm install @vercel/otel langwatch @opentelemetry/api-logs @opentelemetry/instrumentation @opentelemetry/sdk-logs
+```
+
+Then, you need to enable the `instrumentationHook` in your `next.config.js` file if you haven't already:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    instrumentationHook: true,
+  },
+};
+
+module.exports = nextConfig;
+```
+
+Next, you need to create a file named `instrumentation.ts` (or `.js`) in the __root directory__ of the project (or inside `src` folder if using one), with `LangWatchExporter` as the traceExporter:
 
 ```typescript
-// Trace creation
-const trace = langwatch.getTrace({
-  metadata: { threadId: "mythread-123", userId: "myuser-123" },
-});
+import { registerOTel } from '@vercel/otel'
+import { LangWatchExporter } from 'langwatch'
 
-// Example of updating the metadata to add labels to the trace if needed
-trace.update({
-  metadata: { labels: ["customer-support"] },
+export function register() {
+  registerOTel({
+    serviceName: 'next-app',
+    traceExporter: new LangWatchExporter()
+  })
+}
+```
+
+(Read more about Next.js OpenTelemetry configuration [on the official guide](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry#manual-opentelemetry-configuration))
+
+Finally, enable `experimental_telemetry` tracking on the AI SDK calls you want to trace:
+
+```typescript
+const result = await generateText({
+  model: openai('gpt-4o-mini'),
+  prompt: 'Explain why a chicken would make a terrible astronaut, be creative and humorous about it.',
+  experimental_telemetry: {
+    isEnabled: true,
+    // optional metadata
+    metadata: {
+      userId: "myuser-123",
+      threadId: "mythread-123",
+    },
+  },
 });
 ```
 
-## Capture an LLM Span
-<Tabs>
+That's it! Your messages will now be visible on LangWatch:
+
+![Vercel AI SDK](/images/integration/vercel-ai-sdk.png)
+
+## Example Project
+
+You can find a full example project with a more complex pipeline and Vercel AI SDK and LangWatch integration [on our GitHub](https://github.com/langwatch/langwatch/blob/main/typescript-sdk/example/lib/chat/vercel-ai.tsx).
+
+## Manual Integration
+
+The docs from here below are for manual integration, in case you are not using the Vercel AI SDK OpenTelemetry integration,
+you can manually start a trace to capture your messages:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+```typescript
+const span = trace.startLLMSpan({
+  name: "llm",
+  model: model,
+  input: {
+    type: "chat_messages",
+    value: messages
+  },
+});
+```
+
+This will capture the LLM input and register the time the call started. Once the LLM call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation, e.g.:
+
+```typescript
+span.end({
+  output: {
+    type: "chat_messages",
+    value: [chatCompletion.choices[0]!.message],
+  },
+  metrics: {
+    promptTokens: chatCompletion.usage?.prompt_tokens,
+    completionTokens: chatCompletion.usage?.completion_tokens,
+  },
+});
+```
+
+</Tab>
 <Tab title="OpenAI">
-To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+Start by initializing LangWatch client and creating a new trace to capture your messages:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then to capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
 
 First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
 
@@ -109,7 +215,19 @@ span.end({
 ```
 </Tab>
 <Tab title="Azure">
-To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+Start by initializing LangWatch client and creating a new trace to capture your messages:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then to capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
 
 First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
 
@@ -169,67 +287,20 @@ span.end({
 });
 ```
 </Tab>
-<Tab title="Vercel AI SDK">
-To capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
-
-First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
-
-```typescript
-import { openai } from "@ai-sdk/openai";
-import { generateText, type CoreMessage } from "ai";
-
-// Model to be used and messages that will be sent to the LLM
-const model = openai("gpt-4o");
-const messages: CoreMessage[] = [
-  { role: "system", content: "You are a helpful assistant." },
-  {
-    role: "user",
-    content: "Write a tweet-size vegetarian lasagna recipe for 4 people.",
-  },
-];
-```
-
-Then, start the LLM span from the trace, giving it the model and input messages, use the `convertFromVercelAIMessages` utility to convert the input messages from Vercel AI SDK to the format expected by LangWatch:
-
-```typescript
-import { convertFromVercelAIMessages } from "langwatch";
-
-const span = trace.startLLMSpan({
-  name: "llm",
-  model: model.modelId,
-  input: {
-    type: "chat_messages",
-    value: convertFromVercelAIMessages(messages),
-  },
-});
-```
-
-This will capture the LLM input and register the time the call started. Now, continue with the LLM call normally, using the same parameters:
-
-```typescript
-const response = await generateText({
-  model: model,
-  messages: messages,
-});
-```
-
-Finally, after the Vercel AI SDK call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation:
-
-```typescript
-span.end({
-  output: {
-    type: "chat_messages",
-    value: convertFromVercelAIMessages(response.responseMessages),
-  },
-  metrics: {
-    promptTokens: response.usage?.promptTokens,
-    completionTokens: response.usage?.completionTokens,
-  },
-});
-```
-</Tab>
 <Tab title="LangChain.js">
-To capture your LLM calls and all other chain steps, LangWatch provides a callback hook for LangChain.js that automatically tracks everything for you.
+Start by initializing LangWatch client and creating a new trace to capture your chain:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then, to capture your LLM calls and all other chain steps, LangWatch provides a callback hook for LangChain.js that automatically tracks everything for you.
 
 First, define your chain as you would normally do:
 
