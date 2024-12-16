@@ -229,7 +229,8 @@
 				"integrations/productivity/google-sheets",
 				"integrations/productivity/airtable",
 				"integrations/productivity/typeform",
-				"integrations/productivity/trello"
+				"integrations/productivity/trello",
+				"integrations/productivity/smartsheet"
 			]
 		},
 		{
