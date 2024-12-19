@@ -265,10 +265,6 @@
 	"analytics": {
 		"ga4": {
 			"measurementId": "G-4JRQ329JCS"
-		},
-		"posthog": {
-			"apiKey": "phc_1rmhDrcylqNFKJpFQwDuBV3P4wFYFnZBr8CMY31jLpX",
-			"apiHost": "https://us.i.posthog.com"
 		}
 	},
 	"api": {
