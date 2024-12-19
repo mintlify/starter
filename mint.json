@@ -29,19 +29,35 @@
 		},
 		{
 			"group": "Consumer",
-			"pages": ["about-truf-network","authentication-authorization","data-types","how-to-consume","billing"]
+			"pages": [
+				"about-truf-network",
+				"authentication-authorization",
+				"data-types",
+				"how-to-consume",
+				"billing"
+			]
 		},
 		{
 			"group": "Node Operator",
-			"pages": ["node-operator-guide","node-upgrade","troubleshooting-channels","incentive-system"]
+			"pages": [
+				"node-operator-guide",
+				"node-upgrade",
+				"troubleshooting-channels",
+				"incentive-system"
+			]
 		},
 		{
 			"group": "Developer",
-			"pages": ["developer-guide","sdks","changelog"]
+			"pages": ["developer-guide", "sdks", "changelog"]
 		},
 		{
 			"group": "Bounties",
-			"pages": ["bounties-overview","data-consumer-guide", "data-provider-guide", "writing-adapters"]
+			"pages": [
+				"bounties-overview",
+				"data-consumer-guide",
+				"data-provider-guide",
+				"writing-adapters"
+			]
 		},
 		{
 			"group": "Bug Report",
@@ -49,7 +65,7 @@
 		},
 		{
 			"group": "Others",
-			"pages": ["terms-of-service", "privacy-policy"]
+			"pages": ["ecosystem-partners", "terms-of-service", "privacy-policy"]
 		}
 	],
 	"footerSocials": {}
