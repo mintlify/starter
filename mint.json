@@ -65,7 +65,7 @@
 		},
 		{
 			"group": "Others",
-			"pages": ["terms-of-service", "privacy-policy"]
+			"pages": ["ecosystem-partners", "terms-of-service", "privacy-policy"]
 		}
 	],
 	"footerSocials": {}
