@@ -1,9 +1,9 @@
 {
 	"$schema": "https://mintlify.com/schema.json",
-	"name": "TRUF Network",
+	"name": "truf.network",
 	"logo": {
-		"dark": "/logo/dark.svg",
-		"light": "/logo/light.svg"
+		"dark": "/logo/logo-dark.svg",
+		"light": "/logo/logo-light.svg"
 	},
 	"favicon": "/favicon.svg",
 	"colors": {

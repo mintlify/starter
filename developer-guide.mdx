@@ -1,9 +1,9 @@
 ---
 title: "Setup Local Development"
-description: "Set up a local development environment for the TRUF Network."
+description: "Set up a local development environment for the truf.network."
 ---
 
-To set up a local development environment for the TRUF Network, follow these steps:
+To set up a local development environment for the truf.network, follow these steps:
 
 **Prerequisites**
 
@@ -19,7 +19,7 @@ Ensure the following tools are installed on your system:
 
 You can build and run the TRUF-Node using Docker Compose or manually.
 
-*Using Docker Compose (Recommended)*
+_Using Docker Compose (Recommended)_
 
 1. Clone the TSN repository:
 
@@ -36,7 +36,7 @@ task compose
 
 This command builds and starts the TRUF-Node in Docker containers with pre-seeded data.
 
-*Manual Build and Run*
+_Manual Build and Run_
 
 1. **Build the Binary**:
 
@@ -73,8 +73,8 @@ kwil-cli configure
 Provide the following values when prompted:
 
 - **Kwil RPC URL**: `http://localhost:8484`
-- **Kwil Chain ID**: *(leave blank)*
-- **Private Key**: *(any Ethereum private key)*
+- **Kwil Chain ID**: _(leave blank)_
+- **Private Key**: _(any Ethereum private key)_
 
 For testing purposes, you can use the private key `0000000000000000000000000000000000000000000000000000000000000001`.
 
@@ -116,7 +116,7 @@ task get-genesis
 
 The system contract stores accepted streams by TSN governance and serves as an entry point for queries.
 
-*Fetching Records via System Contract*
+_Fetching Records via System Contract_
 
 To fetch records:
 

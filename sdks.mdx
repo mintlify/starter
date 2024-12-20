@@ -1,23 +1,23 @@
 ---
-title: "TRUF Network SDKs"
-description: "Learn how to interact with the TRUF Network using SDKs."
+title: "truf.network SDKs"
+description: "Learn how to interact with the truf.network using SDKs."
 ---
 
-The TRUF Network offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
+The truf.network offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
 
 ---
 
 ### What is a `streamID`?
 
-A `streamID` is an identifier used in the TRUF Network (TN) to identify the deployed contract. It is a unique string generated from a descriptive name, such as an English name, to ensure easy reference and management of data streams.
+A `streamID` is an identifier used in the truf.network (TN) to identify the deployed contract. It is a unique string generated from a descriptive name, such as an English name, to ensure easy reference and management of data streams.
 
 ---
 
 ### Go SDK
 
-The Go SDK provides tools to publish, compose, and consume economic data streams within the TRUF Network. It supports operations on primitive streams and composed streams.
+The Go SDK provides tools to publish, compose, and consume economic data streams within the truf.network. It supports operations on primitive streams and composed streams.
 
-*Installation:*
+_Installation:_
 
 Ensure you have Go 1.20 or later installed. To install the SDK, run:
 
@@ -25,7 +25,7 @@ Ensure you have Go 1.20 or later installed. To install the SDK, run:
 go get github.com/trufnetwork/sdk-go
 ```
 
-*Example Usage:*
+_Example Usage:_
 
 ```go
 package main
@@ -85,7 +85,7 @@ For comprehensive examples and usage patterns, refer to the test files in the SD
 
 The TypeScript/JavaScript SDK offers similar capabilities as the Go SDK, with implementations tailored for both Node.js and browser environments.
 
-*Installation:*
+_Installation:_
 
 Ensure you have Node.js 18 or later installed. To install the SDK, run:
 
@@ -93,15 +93,15 @@ Ensure you have Node.js 18 or later installed. To install the SDK, run:
 npm install @trufnetwork/truf-node-sdk-js
 ```
 
-*Example Usage:*
+_Example Usage:_
 
 ```javascript
 import { NodeTSNClient, StreamId } from "@trufnetwork/truf-node-sdk-js";
 
 // Initialize client
 const client = new NodeTSNClient({
-    privateKey: "<your-private-key-hex>",
-    providerUrl: "https://staging.tsn.truflation.com",
+	privateKey: "<your-private-key-hex>",
+	providerUrl: "https://staging.tsn.truflation.com",
 });
 
 // Load an existing stream
@@ -110,12 +110,12 @@ const stream = await client.loadPrimitiveStream(streamId);
 
 // Read data from the stream
 const records = await stream.getRecord({
-    dateFrom: "2023-01-01",
-    dateTo: "2023-01-31",
+	dateFrom: "2023-01-01",
+	dateTo: "2023-01-31",
 });
 
-records.forEach(record => {
-    console.log(record.dateValue, record.value.toString());
+records.forEach((record) => {
+	console.log(record.dateValue, record.value.toString());
 });
 ```
 

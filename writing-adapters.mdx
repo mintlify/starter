@@ -1,9 +1,10 @@
 ---
 title: Adapter Writing Guide
-description: This guide provides a step-by-step approach to creating adapters for the Truf Network (TN). Adapters facilitate the ingestion of data from various sources into TN, leveraging the SDK and Prefect for efficient data management.
+description: This guide provides a step-by-step approach to creating adapters for the truf.network (TN). Adapters facilitate the ingestion of data from various sources into TN, leveraging the SDK and Prefect for efficient data management.
 ---
 
 > **Note**: While adapters use a Python Framework, it's also possible to push data from other languages like Go or JavaScript. Refer to the respective SDKs for more information:
+>
 > - [Golang SDK](https://github.com/trufnetwork/truf-node-sdk-go)
 > - [JavaScript SDK](https://github.com/trufnetwork/truf-node-sdk-js)
 
@@ -19,19 +20,23 @@ description: This guide provides a step-by-step approach to creating adapters fo
 ## Setting Up the Development Environment
 
 1. **Clone the Repository**:
+
 ```bash
 git clone https://github.com/trufnetwork/adapters.git
 cd adapters
 ```
 
 2. **Configure Environment Variables**:
+
 - Duplicate the `.env.example` file and rename it to `.env`.
 - Update the environment variables in the `.env` file as needed.
 
 3. **Launch Services with Docker Compose**:
+
 ```bash
 docker compose up -d
 ```
+
 This command initializes the necessary services in the background.
 
 ## Understanding Reusable Tasks
@@ -56,10 +61,10 @@ The repository offers several reusable tasks to facilitate data ingestion into T
 ## Developing a Custom Adapter (Python Example)
 
 1. **Define the Data Source**:
-Identify the source and format of the data you intend to ingest.
+   Identify the source and format of the data you intend to ingest.
 
 2. **Create a Prefect Flow**:
-Develop a Prefect flow to manage the data ingestion process. For example:
+   Develop a Prefect flow to manage the data ingestion process. For example:
 
 ```python
 from prefect import flow
@@ -75,7 +80,7 @@ def custom_adapter_flow():
 ```
 
 3. **Execute the Flow**:
-Run the flow to perform the data ingestion.
+   Run the flow to perform the data ingestion.
 
 ```bash
 python path/to/your_flow.py
