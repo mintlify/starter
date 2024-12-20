@@ -30,23 +30,23 @@
 	},
 	"topbarCtaButton": {
 		"name": "Get Started",
-		"url": "https://app.thought.ly"
+		"url": "https://app.thoughtly.com"
 	},
 	"anchors": [
 		{
 			"name": "Dashboard",
 			"icon": "browser",
-			"url": "https://app.thought.ly"
+			"url": "https://app.thoughtly.com"
 		},
 		{
 			"name": "Join our Slack",
 			"icon": "slack",
-			"url": "https://thought.ly/slack"
+			"url": "https://thoughtly.com/slack"
 		},
 		{
 			"name": "Book a Demo",
 			"icon": "calendar",
-			"url": "https://fns.thought.ly/lead/email?demo=true"
+			"url": "https://fns.thoughtly.com/lead/email?demo=true"
 		}
 	],
 	"tabs": [
@@ -257,7 +257,7 @@
 		"x": "https://twitter.com/thoughtlyai",
 		"linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
 		"instagram": "https://www.instagram.com/thoughtly.ai/",
-		"slack": "https://thought.ly/slack"
+		"slack": "https://thoughtly.com/slack"
 	},
 	"integrations": {
 		"intercom": "uii3kkuk"
@@ -268,6 +268,6 @@
 		}
 	},
 	"api": {
-		"baseUrl": "https://api.thought.ly"
+		"baseUrl": "https://api.thoughtly.com"
 	}
 }
