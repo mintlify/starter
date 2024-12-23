@@ -34,7 +34,8 @@
 				"authentication-authorization",
 				"data-types",
 				"how-to-consume",
-				"billing"
+				"billing",
+				"get-truf-token"
 			]
 		},
 		{
