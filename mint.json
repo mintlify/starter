@@ -34,8 +34,14 @@
 				"authentication-authorization",
 				"data-types",
 				"how-to-consume",
-				"billing",
-				"get-truf-token"
+				"billing"
+			]
+		},
+		{
+			"group": "TRUF Token",
+			"pages": [
+				"get-truf-token",
+				"truf-token-migration"
 			]
 		},
 		{
