@@ -3,7 +3,8 @@
 	"name": "truf.network",
 	"logo": {
 		"dark": "/logo/logo-dark.svg",
-		"light": "/logo/logo-light.svg"
+		"light": "/logo/logo-light.svg",
+		"href": "https://truf.network"
 	},
 	"favicon": "/favicon.svg",
 	"colors": {
@@ -38,10 +39,12 @@
 			]
 		},
 		{
-			"group": "TRUF Token",
+			"group": "Token & Governance",
 			"pages": [
 				"get-truf-token",
-				"truf-token-migration"
+				"truf-token-migration",
+				"governance",
+				"bridge"
 			]
 		},
 		{
