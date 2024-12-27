@@ -47,7 +47,11 @@ First, you need to install the necessary dependencies:
 npm install @vercel/otel langwatch @opentelemetry/api-logs @opentelemetry/instrumentation @opentelemetry/sdk-logs
 ```
 
-Then, you need to enable the `instrumentationHook` in your `next.config.js` file if you haven't already:
+Then, set up the OpenTelemetry for your application, follow one of the tabs below depending whether you are using AI SDK with Next.js or on Node.js:
+
+<Tabs>
+<Tab title="Next.js">
+You need to enable the `instrumentationHook` in your `next.config.js` file if you haven't already:
 
 ```javascript
 /** @type {import('next').NextConfig} */
@@ -92,6 +96,24 @@ const result = await generateText({
   },
 });
 ```
+</Tab>
+<Tab title="Node.js">
+For Node.js, start by following the official OpenTelemetry guide:
+
+- [OpenTelemetry Node.js Getting Started](https://opentelemetry.io/docs/languages/js/getting-started/nodejs/)
+
+Once you have set up OpenTelemetry, you can use the `LangWatchExporter` to automatically send your traces to LangWatch:
+
+```typescript
+import { LangWatchExporter } from 'langwatch'
+
+const sdk = new NodeSDK({
+  traceExporter: new LangWatchExporter(),
+  // ...
+});
+```
+</Tab>
+</Tabs>
 
 That's it! Your messages will now be visible on LangWatch:
 
@@ -119,12 +141,14 @@ const trace = langwatch.getTrace({
 Then, you can start an LLM span inside the trace with the input about to be sent to the LLM.
 
 ```typescript
+import { convertFromVercelAIMessages } from 'langwatch'
+
 const span = trace.startLLMSpan({
   name: "llm",
   model: model,
   input: {
     type: "chat_messages",
-    value: messages
+    value: convertFromVercelAIMessages(messages)
   },
 });
 ```
@@ -135,7 +159,7 @@ This will capture the LLM input and register the time the call started. Once the
 span.end({
   output: {
     type: "chat_messages",
-    value: [chatCompletion.choices[0]!.message],
+    value: convertFromVercelAIMessages(output), // assuming output is Message[]
   },
   metrics: {
     promptTokens: chatCompletion.usage?.prompt_tokens,
