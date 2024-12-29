@@ -73,7 +73,9 @@ import { LangWatchExporter } from 'langwatch'
 export function register() {
   registerOTel({
     serviceName: 'next-app',
-    traceExporter: new LangWatchExporter()
+    traceExporter: new LangWatchExporter({
+      apiKey: process.env.LANGWATCH_API_KEY
+    })
   })
 }
 ```
@@ -108,7 +110,9 @@ Once you have set up OpenTelemetry, you can use the `LangWatchExporter` to autom
 import { LangWatchExporter } from 'langwatch'
 
 const sdk = new NodeSDK({
-  traceExporter: new LangWatchExporter(),
+  traceExporter: new LangWatchExporter({
+    apiKey: process.env.LANGWATCH_API_KEY
+  }),
   // ...
 });
 ```
