@@ -25,8 +25,8 @@
 	"anchors": [],
 	"navigation": [
 		{
-			"group": "Get Started",
-			"pages": ["home"]
+			"group": "Whitepaper Overview",
+			"pages": ["home","abstract","introduction-overview"]
 		},
 		{
 			"group": "Consumer",
