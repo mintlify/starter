@@ -50,17 +50,16 @@
 			]
 		},
 		{
-			"group": "Node Operator",
+			"group": "Developer & Node Operator",
 			"pages": [
+				"developer-guide",
 				"node-operator-guide",
+				"sdks",
 				"node-upgrade",
+				"incentive-system",
 				"troubleshooting-channels",
-				"incentive-system"
+				"changelog"
 			]
-		},
-		{
-			"group": "Developer",
-			"pages": ["developer-guide", "sdks", "changelog"]
 		},
 		{
 			"group": "Bounties",
