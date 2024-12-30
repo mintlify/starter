@@ -43,6 +43,7 @@
 			"pages": [
 				"get-truf-token",
 				"truf-token-migration",
+				"tokenomics",
 				"governance",
 				"bridge"
 			]
