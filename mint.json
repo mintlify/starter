@@ -44,6 +44,7 @@
 				"get-truf-token",
 				"truf-token-migration",
 				"tokenomics",
+				"staking",
 				"governance",
 				"bridge"
 			]
