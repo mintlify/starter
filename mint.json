@@ -21,11 +21,24 @@
 		"name": "Github",
 		"url": "https://github.com/truf-network/"
 	},
-	"tabs": [],
+	"tabs": [
+		{
+			"name": "Whitepaper",
+			"url": "/"
+		},
+		{
+			"name": "Token & Governance",
+			"url": "/token-governance"
+		},
+		{
+			"name": "Developer & Node Operator",
+			"url": "/developer-node-operator"
+		}
+	],
 	"anchors": [],
 	"navigation": [
 		{
-			"group": "Whitepaper Overview",
+			"group": "Overview",
 			"pages": ["home","abstract","introduction-overview"]
 		},
 		{
@@ -41,24 +54,24 @@
 		{
 			"group": "Token & Governance",
 			"pages": [
-				"get-truf-token",
-				"truf-token-migration",
-				"tokenomics",
-				"staking",
-				"governance",
-				"bridge"
+				"/token-governance/get-truf-token",
+				"/token-governance/truf-token-migration",
+				"/token-governance/tokenomics",
+				"/token-governance/staking",
+				"/token-governance/governance",
+				"/token-governance/bridge"
 			]
 		},
 		{
 			"group": "Developer & Node Operator",
 			"pages": [
-				"developer-guide",
-				"node-operator-guide",
-				"sdks",
-				"node-upgrade",
-				"incentive-system",
-				"troubleshooting-channels",
-				"changelog"
+				"/developer-node-operator/developer-guide",
+				"/developer-node-operator/node-operator-guide",
+				"/developer-node-operator/sdks",
+				"/developer-node-operator/node-upgrade",
+				"/developer-node-operator/incentive-system",
+				"/developer-node-operator/troubleshooting-channels",
+				"/developer-node-operator/changelog"
 			]
 		},
 		{
