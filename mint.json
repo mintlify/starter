@@ -23,30 +23,34 @@
 	},
 	"tabs": [
 		{
-			"name": "Developer & Node Operator",
-			"url": "/developer-node-operator"
+			"name": "Ecosystem",
+			"url": "/ecosystem"
 		},
 		{
-			"name": "Token & Governance",
+			"name": "Token, Staking & Governance",
 			"url": "/token-governance"
-		},
-		{
-			"name": "Whitepaper",
-			"url": "/"
 		},
 		{
 			"name": "Bounties & Security",
 			"url": "/bounties-security"
+		},
+		{
+			"name": "Whitepaper",
+			"url": "/whitepaper"
+		},
+		{
+			"name": "Changelog",
+			"url": "/changelog"
 		}
 	],
 	"anchors": [
 		{
 			"name": "Quickstart",
-			"url": "/"
+			"url": "https://docs.truf.network/home"
 		},
 		{
 			"name": "Report a Bug",
-			"url": "https://github.com/trufnetwork/node/discussions/categories/bug-reports"
+			"url": "https://docs.truf.network/bounties-security/bug-report"
 		},
 		{
 			"name": "Community",
@@ -55,20 +59,51 @@
 	],
 	"navigation": [
 		{
-			"group": "Overview",
-			"pages": ["home", "abstract", "introduction-overview"]
+			"group": "Get Started",
+			"pages": [
+				"home",
+				"sdks"
+			]
 		},
 		{
-			"group": "Developer & Node Operator",
+			"group": "Consuming Streams",
 			"pages": [
-				"/developer-node-operator/developer-guide",
-				"/developer-node-operator/node-operator-guide",
-				"/developer-node-operator/sdks",
-				"/developer-node-operator/node-upgrade",
-				"/developer-node-operator/incentive-system",
-				"/developer-node-operator/troubleshooting-channels",
-				"/developer-node-operator/changelog"
+				"how-to-consume"
 			]
+		},
+		{
+			"group": "Creating Streams and Indexes",
+			"pages": [
+				"developer-guide",
+				"writing-adapters"
+			]
+		},
+		{
+			"group": "Running a Node",
+			"pages": [
+				"node-operator-guide",
+				"node-upgrade"
+			]
+		},
+		{
+			"group": "Incentives",
+			"pages": [
+				"incentive-system"
+			]
+		},
+		{
+			"group": "Troubleshooting",
+			"pages": [
+				"troubleshooting-channels"
+			]
+		},
+		{
+			"group": "Resources",
+			"pages": ["media-kit"]
+		},
+		{
+			"group": "Ecosystem Partners",
+			"pages": ["ecosystem/ecosystem-partners"]
 		},
 		{
 			"group": "Token & Governance",
@@ -82,33 +117,31 @@
 			]
 		},
 		{
-			"group": "Consumer",
-			"pages": [
-				"about-truf-network",
-				"authentication-authorization",
-				"data-types",
-				"how-to-consume",
-				"billing"
-			]
-		},
-		{
 			"group": "Bounties & Security",
 			"pages": [
 				"/bounties-security/bounties-overview",
 				"/bounties-security/data-consumer-guide",
 				"/bounties-security/data-provider-guide",
-				"/bounties-security/writing-adapters",
 				"/bounties-security/security-audits",
 				"/bounties-security/bug-report"
 			]
 		},
 		{
-			"group": "Resources",
-			"pages": ["media-kit"]
+			"group": "Whitepaper",
+			"pages": [
+				"/whitepaper/abstract",
+				"/whitepaper/introduction-overview",
+				"/whitepaper/about-truf-network",
+				"/whitepaper/authentication-authorization",
+				"/whitepaper/data-types",
+				"/whitepaper/billing",
+				"whitepaper/terms-of-service",
+				"whitepaper/privacy-policy"
+			]
 		},
 		{
-			"group": "Others",
-			"pages": ["ecosystem-partners", "terms-of-service", "privacy-policy"]
+			"group": "Changelog",
+			"pages": ["/changelog/changelog"]
 		}
 	],
 	"footerSocials": {}
