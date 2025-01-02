@@ -43,7 +43,7 @@
 	"navigation": [
 		{
 			"group": "Overview",
-			"pages": ["home","abstract","introduction-overview"]
+			"pages": ["home", "abstract", "introduction-overview"]
 		},
 		{
 			"group": "Developer & Node Operator",
@@ -91,6 +91,10 @@
 		{
 			"group": "Bug Report",
 			"pages": ["bug-report"]
+		},
+		{
+			"group": "Resources",
+			"pages": ["media-kit"]
 		},
 		{
 			"group": "Others",
