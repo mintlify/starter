@@ -23,16 +23,20 @@
 	},
 	"tabs": [
 		{
-			"name": "Whitepaper",
-			"url": "/"
+			"name": "Developer & Node Operator",
+			"url": "/developer-node-operator"
 		},
 		{
 			"name": "Token & Governance",
 			"url": "/token-governance"
 		},
 		{
-			"name": "Developer & Node Operator",
-			"url": "/developer-node-operator"
+			"name": "Whitepaper",
+			"url": "/"
+		},
+		{
+			"name": "Bounties & Security",
+			"url": "/bounties-security"
 		}
 	],
 	"anchors": [],
@@ -40,27 +44,6 @@
 		{
 			"group": "Overview",
 			"pages": ["home","abstract","introduction-overview"]
-		},
-		{
-			"group": "Consumer",
-			"pages": [
-				"about-truf-network",
-				"authentication-authorization",
-				"data-types",
-				"how-to-consume",
-				"billing"
-			]
-		},
-		{
-			"group": "Token & Governance",
-			"pages": [
-				"/token-governance/get-truf-token",
-				"/token-governance/truf-token-migration",
-				"/token-governance/tokenomics",
-				"/token-governance/staking",
-				"/token-governance/governance",
-				"/token-governance/bridge"
-			]
 		},
 		{
 			"group": "Developer & Node Operator",
@@ -75,12 +58,34 @@
 			]
 		},
 		{
-			"group": "Bounties",
+			"group": "Token & Governance",
 			"pages": [
-				"bounties-overview",
-				"data-consumer-guide",
-				"data-provider-guide",
-				"writing-adapters"
+				"/token-governance/get-truf-token",
+				"/token-governance/truf-token-migration",
+				"/token-governance/tokenomics",
+				"/token-governance/staking",
+				"/token-governance/governance",
+				"/token-governance/bridge"
+			]
+		},
+		{
+			"group": "Consumer",
+			"pages": [
+				"about-truf-network",
+				"authentication-authorization",
+				"data-types",
+				"how-to-consume",
+				"billing"
+			]
+		},
+		{
+			"group": "Bounties & Security",
+			"pages": [
+				"/bounties-security/bounties-overview",
+				"/bounties-security/data-consumer-guide",
+				"/bounties-security/data-provider-guide",
+				"/bounties-security/writing-adapters",
+				"/bounties-security/security-audits"
 			]
 		},
 		{
