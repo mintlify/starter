@@ -39,7 +39,20 @@
 			"url": "/bounties-security"
 		}
 	],
-	"anchors": [],
+	"anchors": [
+		{
+			"name": "Quickstart",
+			"url": "/"
+		},
+		{
+			"name": "Report a Bug",
+			"url": "https://github.com/trufnetwork/node/discussions/categories/bug-reports"
+		},
+		{
+			"name": "Community",
+			"url": "https://discord.com/invite/5AMCBYxfW4"
+		}
+	],
 	"navigation": [
 		{
 			"group": "Overview",
@@ -85,12 +98,9 @@
 				"/bounties-security/data-consumer-guide",
 				"/bounties-security/data-provider-guide",
 				"/bounties-security/writing-adapters",
-				"/bounties-security/security-audits"
+				"/bounties-security/security-audits",
+				"/bounties-security/bug-report"
 			]
-		},
-		{
-			"group": "Bug Report",
-			"pages": ["bug-report"]
 		},
 		{
 			"group": "Resources",
