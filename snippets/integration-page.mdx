@@ -3,11 +3,12 @@ export const IntegrationPage = ({
 	triggers,
 	name,
 	domain,
+	logoOverride,
 }) => (
 	<div>
 		<div className="flex flex-row items-center h-10 pb-4">
 			<img
-				src={`https://logo.clearbit.com/${domain}`}
+				src={logoOverride || `https://logo.clearbit.com/${domain}`}
 				className='w-5 rounded-md mr-2 h-5'
 			/>
 			<div className="text-xl">

@@ -218,6 +218,12 @@
 			]
 		},
 		{
+			"group": "Communication",
+			"pages": [
+				"integrations/communication/gmail"
+			]
+		},
+		{
 			"group": "Ticketing",
 			"pages": [
 				"integrations/ticketing/zendesk"
