@@ -463,3 +463,21 @@ curl --request DELETE \
   "message": "User deleted successfully."
 }
 ```
+
+## Sandbox credentials
+
+Some of our providers use an authorisation flow know as OAuth2. This allows the the end user to be redirected to their
+payroll provider login screen, where they can grant consent to share their data. Below is an example login page:
+
+<img
+  src="/images/oauth2-example-login.png"
+  alt="OAuth2 Login"
+/>
+
+The user will be redirected back to teal after authorising.
+
+To test the providers that have the OAuth2 flow available, you can use the following credentials.
+
+| provider    | username        | password         |
+| ----------- | --------------- | ---------------- |
+| `freeagent` | arun@goteal.co  | mPxD9Tt3hBV5j39  |
