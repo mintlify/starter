@@ -7,6 +7,12 @@ import { IntegrationPage } from '/snippets/integration-page.mdx'
 <IntegrationPage
     name="Salesforce"
 	domain="salesforce.com"
+	triggers={[
+		{
+			"name": "New Object",
+			"description": "This trigger fires when a new object is created in Salesforce. An object is a table that stores data in Salesforce, such as a contact, account, or opportunity."
+		}
+	]}
     actions={[
         {
             "name": "Execute SOQL Query",
@@ -23,6 +29,6 @@ import { IntegrationPage } from '/snippets/integration-page.mdx'
 		{
 			"name": "Delete Object",
 			description: "This action deletes an object in Salesforce."
-		}
+		},
     ]}
 />

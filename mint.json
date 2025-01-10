@@ -220,7 +220,8 @@
 		{
 			"group": "Communication",
 			"pages": [
-				"integrations/communication/gmail"
+				"integrations/communication/gmail",
+				"integrations/communication/slack"
 			]
 		},
 		{
