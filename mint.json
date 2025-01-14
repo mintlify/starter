@@ -41,7 +41,8 @@
       "pages": [
         "introduction",
         "data",
-        "sandbox"
+        "sandbox",
+        "recurring-checks"
       ]
     },
     {
@@ -57,6 +58,7 @@
         "api-reference/users/create",
         "api-reference/users/get",
         "api-reference/users/list",
+        "api-reference/users/list-recurring",
         "api-reference/users/delete"
       ]
     },

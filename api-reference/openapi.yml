@@ -134,6 +134,54 @@ paths:
           "$ref": "#/components/responses/UnauthorizedApiKey"
         "404":
           "$ref": "#/components/responses/ResourceNotFound"
+  "/users/recurring":
+    description: List users that are either eligible or ineliegible for recurring paroll checks
+    get:
+      parameters:
+        - name: recurring_enabled
+          in: query
+          description: Filter on users that are eligible for recurring checks, and those that are not
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: offset
+          in: query
+          description: The offset to start at
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 0
+        - name: limit
+          in: query
+          description: The number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 500
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/PaginationWithOrderedBy"
+                  users:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/CreatedUser"
+        "400":
+          "$ref": "#/components/responses/BadRequest"
+        "401":
+          "$ref": "#/components/responses/UnauthorizedApiKey"
   "/user-tokens":
     post:
       summary: Generate a link token for authentication in subsequent steps to a unique user ID.
