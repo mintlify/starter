@@ -1,0 +1,38 @@
+---
+title: "TRUF.network Components"
+description: "Explore the components that make up the TRUF.network ecosystem."
+---
+
+The TRUF.network has four core components. At the core, these components represent the various modular pieces of the TRUF.network:
+1. Adapters
+2. Data Streams
+3. Index
+4. Events Context
+
+## Adapters
+
+Adapters represent modular on-chain program components that execute deterministic operations and provide interfaces to other components within TRUF.network. Adapters, analogous to Smart Contracts, can aggregate events from storage to write the event context or to serve a response to a query. Adapters can also receive, verify, and parse new incoming data before committing to TRUF.network’s storage, for subsequent aggregation. These Adapters are always connected to storage with accessibility to new events being recorded to the TRUF.network but they are not subscribed to all event types and must be configured to read events from categories relevant to their purpose. Adapters may involve SQL-based schema management, meaning that the database schema must be configured to support the right data type and format. Since Adapters are modular, they can also perform joint computation or communicate with other Adapters to extend the TRUF.network’s functionality such as analytics, data encryption, multi-party computation, creating Indexes, and more.
+
+For the TRUF.network to start accepting data from a specific external source of information, a suitable Adapter has to be used. One that understands the parameterised data schema, format and any error messages emitted by the external source, should on-chain error management be utilized. External sources can be protected by multiple layers of authentication, authorization, handshakes, and signatures. TRUF.network acknowledges the privacy requirements involved in accessing gated data and opts for data acquisition to perform off-chain while incorporating methods of data verification inside the Adapter program logic.
+
+Adapters are deterministic programs with one or several configured entry points and a set of executable operations optimized for data processing. Their role is to consume the information received from the networking layer, run predetermined logic over it, and, based on the output, generate a data report called an event. Before these events are collected and ready to be sent further, they are digitally signed by all TRUF.network nodes. Once signed by all nodes, the final multi-signed event is saved in a local database that syncs across other TRUF.network nodes. This event log is also referred to as the Events Context.
+
+## Data Streams
+
+The TRUF.network is designed to constantly broadcast processed data into streams for external consumers. Data Streams update and become available for consumption when at least ⅔ of nodes are synced and the finalized state of their SQL databases are replicated identically.
+
+Creating a Data Stream (like inflation price, or price of Bitcoin) that can be consumed outside of the TRUF.network, requires an Adapter. Once the Adapter is deployed, it will automatically utilize data from the past, whether from the genesis of the TRUF.network or a specifically dated checkpoint and all newly ingested and finalized data relevant to its storage pointers. Further, data insertions into the database are required to fit a predetermined format that distinguishes between storage and the event context that creates the Stream itself. Every node in TRUF.network operates a database facilitating the storage mechanisms outlined. However, since the nodes are part of the same network and running the same adapters, aggregated events and post-processed data are synced with each other. This approach enables the nodes to perform fewer queries and optimizes for finality.
+
+TRUF.network considers simplification in data analysis for the development of new models that empower the network and community. Operating a Node enables a locally managed Data Stream, meaning that through standard ETL (Extract-Transform-Load) mechanisms, aggregated data and events configured within an Adapter can be simultaneously sent into a 3rd party data warehouse (e.g. Clickhouse). This data engineering stack ensures cost-effective querying and analysis of the data within TRUF.network and is comparable to the operation of an indexer within the context of a monolithic EVM blockchain.
+
+## Index
+
+The current Data Streams and Adapters architecture enables us to consume other Data Streams as building blocks, perform joint computations, and create new data sets all within the context of the TRUF.network. In traditional finance, this aggregated data is called an Index [3]. Indexes keep track of the performance of underlying assets in a standardized way. For example, the TRUF.network can build the Consumer Price Index related to a certain country by combining the data about the Value of a Basket (Housing, Food, Apparel, Medical Care, Transportation, etc.) over a certain period.  The decentralized data feeds can be more robust than traditional feeds that are reliant on one centralized source of information.
+
+## Events Context
+
+Events that were already processed and signed by the TRUF.network Adapters are forwarded and registered to persistent storage referred to as the Events Context. The Events Context is a decentralized and persistent data store with a strict schema that acts as a ledger for records processed by the TRUF.network Adapters. The events are stored in the sequence they were received and can’t be deleted or altered, guaranteeing data integrity. The main benefit of the Events Context is that it forms a structured data set that represents the TRUF.network’s state of valuation across various categories, establishing a standard through which Adapters call upon data for subsequent computation and processing. Further, it allows for the TRUF.network to be completely rebuilt within the context of a foreign database for query and analysis.
+
+![TN Components](/images/tn-components.png)
+
+Image: The flow of processes between disparate systems as it pertains to the Events Context. While this diagram distinguishes the Events Context from the TRUF.network, the TRUF.network will embed and facilitate the Events Context for the foreseeable future.
