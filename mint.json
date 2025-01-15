@@ -99,7 +99,10 @@
 		},
 		{
 			"group": "Resources",
-			"pages": ["media-kit"]
+			"pages": [
+				"faq",
+				"media-kit"
+			]
 		},
 		{
 			"group": "Ecosystem Partners",
