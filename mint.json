@@ -66,12 +66,6 @@
 			]
 		},
 		{
-			"group": "Consuming Streams",
-			"pages": [
-				"how-to-consume"
-			]
-		},
-		{
 			"group": "Creating Streams and Indexes",
 			"pages": [
 				"developer-guide",
@@ -137,7 +131,8 @@
 				"/whitepaper/about-truf-network",
 				"/whitepaper/consensus-mechanism",
 				"/whitepaper/tn-components",
-				"/whitepaper/references",
+				"/whitepaper/consuming-data",
+        "/whitepaper/references",
 				"/whitepaper/authentication-authorization",
 				"/whitepaper/data-types",
 				"/whitepaper/billing",
