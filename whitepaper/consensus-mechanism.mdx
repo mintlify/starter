@@ -1,0 +1,12 @@
+---
+title: "Consensus Mechanism"
+description: "Understand the consensus mechanism used by the TRUF.network to validate transactions and secure the network."
+---
+
+At the core, all TRUF.network full nodes form a Byzantine Fault Tolerant (BFT) Replicated State Machine capable of SQL-based data composability, real-time and batch data ingestion, real-time data distribution, and extensibility through computational components embedded into the blockchain used for requirements such as verifying proofs associated to data on ingestion and to process and compose data on distribution. In short, TRUF.network is an application-specific blockchain, also referred to as an app-chain.
+
+The BFT consensus algorithm is responsible for finalizing the state of the decentralized node network guaranteeing data and compute replication and fault-tolerance such that the network can continue operating even if up to ⅓ of nodes fail arbitrarily or by malicious intent. Data Providers engage client software to prove real-world data authenticity and integrity before submission to the network where proofs are verified and data quality control is facilitated.
+
+![TRUF Consensus Mechanism](/images/consensus-mechanism.png)
+
+Prioritizing operational efficiency and data security, TRUF.network’s consensus protocol achieves a streamlined decision-making process over a large number of decentralized nodes that would traditionally entail significant latency. This efficiency does not completely forgo the concept of decentralization but rather creates a blended path of both permissioned and permissionless architecture where the benefits of the respective stakeholder are relevant to the network participant. In essence, this means that a data analyst requires no permission to engage the network, however, a data provider is secured against data leakage. Such a design choice strikes a pragmatic balance between the extremes of full decentralization and the necessity for high-throughput, time-sensitive data delivery and data piracy prevention.
