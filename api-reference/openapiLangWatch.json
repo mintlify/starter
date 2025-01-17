@@ -872,9 +872,9 @@
             "type": "integer",
             "example": 1000
           },
-          "pageOffset": {
-            "type": "integer",
-            "example": 1
+          "scrollId": {
+            "type": "string",
+            "example": "123"
           },
           "filters": {
             "type": "object",
