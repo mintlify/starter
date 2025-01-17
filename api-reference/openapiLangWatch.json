@@ -1065,13 +1065,9 @@
       "Pagination": {
         "type": "object",
         "properties": {
-          "currentPageOffset": {
-            "type": "integer",
-            "example": 1
-          },
-          "nextPageOffset": {
-            "type": "integer",
-            "example": 1000
+          "scrollId": {
+            "type": "string",
+            "example": "123"
           },
           "totalHits": {
             "type": "integer",
