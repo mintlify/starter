@@ -162,7 +162,7 @@
 				"platform/contacts",
 				"platform/library",
 				"platform/billing",
-				"platform/settings"
+				"platform/settings/settings"
 			]
 		},
 		{
@@ -175,7 +175,8 @@
 					"group": "Whitepapers",
 					"pages": [
 						"resources/whitepapers/overview",
-						"resources/whitepapers/conversational-ai"
+						"resources/whitepapers/conversational-ai",
+						"resources/whitepapers/agency-guide"
 					],
 					"icon": "file",
 					"iconType": "light"
