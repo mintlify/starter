@@ -172,6 +172,12 @@
       ]
     },
     {
+      "group": "v1",
+      "pages": [
+        "api-reference/v1/get-v1ping"
+      ]
+    },
+    {
       "group": "feedbacks",
       "pages": [
         "api-reference/feedbacks/post-v1set_trace_feedback"
