@@ -123,6 +123,32 @@ For detailed examples and usage patterns, refer to the test files in the SDK rep
 
 ---
 
+### Timestamp support
+
+In the contract version 2, we have added support for timestamps. Replacing the `Date` type with the `number` type in the `GetRecordInput` and `Record` types.
+
+```typescript
+interface GetRecordInput {
+    dateFrom: number;
+    dateTo: number;
+}
+
+interface Record {
+    dateValue: number;
+    value: string;
+}
+
+// Read data from the stream with timestamps
+const records = await stream.getRecord({
+	dateFrom: 1672531200, // 2023-01-01
+	dateTo: 1675123200, // 2023-01-31
+});
+```
+
+For more information about the timestamp interface, feel free to navigate to the SDK repository.
+Most of the functions and interfaces are the same as the previous version, but with date values replaced with timestamps.
+For example, to deploy a new stream with timestamps, you can use the `deployPrimitiveStream` function with the `contractVersion` parameter set to 2.
+
 ### Additional Resources
 
 - [Truflation Whitepaper](https://whitepaper.truflation.com/)
