@@ -31,8 +31,8 @@
 			"url": "/token-governance"
 		},
 		{
-			"name": "Bounties & Security",
-			"url": "/bounties-security"
+			"name": "Grants & Security",
+			"url": "/grants-security"
 		},
 		{
 			"name": "Whitepaper",
@@ -50,7 +50,7 @@
 		},
 		{
 			"name": "Report a Bug",
-			"url": "https://docs.truf.network/bounties-security/bug-report"
+			"url": "https://docs.truf.network/grants-security/bug-report"
 		},
 		{
 			"name": "Community",
@@ -60,43 +60,27 @@
 	"navigation": [
 		{
 			"group": "Get Started",
-			"pages": [
-				"home",
-				"sdks"
-			]
+			"pages": ["home", "sdks"]
 		},
 		{
 			"group": "Creating Streams and Indexes",
-			"pages": [
-				"developer-guide",
-				"writing-adapters"
-			]
+			"pages": ["developer-guide", "writing-adapters"]
 		},
 		{
 			"group": "Running a Node",
-			"pages": [
-				"node-operator-guide",
-				"node-upgrade"
-			]
+			"pages": ["node-operator-guide", "node-upgrade"]
 		},
 		{
 			"group": "Incentives",
-			"pages": [
-				"incentive-system"
-			]
+			"pages": ["incentive-system"]
 		},
 		{
 			"group": "Troubleshooting",
-			"pages": [
-				"troubleshooting-channels"
-			]
+			"pages": ["troubleshooting-channels"]
 		},
 		{
 			"group": "Resources",
-			"pages": [
-				"faq",
-				"media-kit"
-			]
+			"pages": ["faq", "media-kit"]
 		},
 		{
 			"group": "Ecosystem Partners",
@@ -114,13 +98,13 @@
 			]
 		},
 		{
-			"group": "Bounties & Security",
+			"group": "Grants & Security",
 			"pages": [
-				"/bounties-security/bounties-overview",
-				"/bounties-security/data-consumer-guide",
-				"/bounties-security/data-provider-guide",
-				"/bounties-security/security-audits",
-				"/bounties-security/bug-report"
+				"/grants-security/grant-overview",
+				"/grants-security/data-consumer-guide",
+				"/grants-security/data-provider-guide",
+				"/grants-security/security-audits",
+				"/grants-security/bug-report"
 			]
 		},
 		{
@@ -132,7 +116,7 @@
 				"/whitepaper/consensus-mechanism",
 				"/whitepaper/tn-components",
 				"/whitepaper/consuming-data",
-        "/whitepaper/references",
+				"/whitepaper/references",
 				"/whitepaper/authentication-authorization",
 				"/whitepaper/data-types",
 				"/whitepaper/billing",
