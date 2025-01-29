@@ -165,6 +165,12 @@
       ]
     },
     {
+      "group": "v1",
+      "pages": [
+        "api-reference/v1/get-v1get_dataset"
+      ]
+    },
+    {
       "group": "models",
       "pages": [
         "api-reference/models/get-v1models",
