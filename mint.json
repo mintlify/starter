@@ -108,7 +108,8 @@
 						"build/agent-builder/outcomes",
 						"build/agent-builder/variables",
 						"build/agent-builder/training-and-rules",
-						"build/agent-builder/genius"
+						"build/agent-builder/genius",
+						"build/agent-builder/tips-and-tricks"
 					],
 					"icon": "diagram-nested",
 					"iconType": "light"

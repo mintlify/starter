@@ -1,0 +1,71 @@
+---
+title: Tips & Tricks
+description: Best practices for building effective Voice Agents in Thoughtly
+icon: lightbulb
+---
+
+## Introduction
+
+Building an effective Voice Agent requires more than just adding nodes and connecting them. It demands clarity, logical flow, and adherence to structured guidelines. Thoughtly’s no-code Agent Builder simplifies the process, but following best practices will help ensure reliability, scalability, and ease of maintenance.
+
+## General Best Practices
+
+Clear instructions are critical in each node. If a conversation flow is confusing to a human, it will be confusing to AI. Remember, AI does not think smarter than humans—it follows patterns. Avoid spelling errors to prevent misinterpretation, and ensure all text is structured logically.
+
+When crafting prompt instructions, do not use special characters such as `*`, `^`, or `$`. These can interfere with parsing and processing, leading to unintended errors. Implementing a system guardrail for this is highly recommended.
+
+## Structuring Nodes Effectively
+
+A well-structured Voice Agent depends on clear node organization. Ensuring logical flow between nodes prevents confusion and helps AI handle conversations smoothly.
+
+### Start Node
+
+Your Start Node is the gateway to the conversation. It should be simple, clear, and direct. Avoid attempting to simulate voicemail detection, as it is unreliable. Instead, focus on setting the stage for a structured conversation.
+
+### End Nodes
+
+A well-structured conversation needs a clear exit. Multiple end nodes are allowed, but each must include a distinct closing message to ensure a smooth call conclusion. This prevents dead-end interactions and leaves a positive impression on callers.
+
+End nodes must use static, verbatim text and cannot reference dynamic variables. This rule ensures consistency and predictability, eliminating potential errors.
+
+### Transfer Nodes
+
+Multiple transfer nodes can be used to direct calls efficiently. For phone transfers, use clear messages to guide the caller. For agent transfers, specify the agent’s name and purpose clearly. When using multiple transfer nodes, ensure that each has distinct names or messages to avoid confusion.
+
+Like end nodes, transfer nodes must also be static and cannot reference dynamic variables. Implementing this as a system guardrail will prevent potential errors in call routing.
+
+## Optimizing Speak Nodes
+
+Speak nodes should strictly contain speech instructions—nothing else. Do not include navigation rules or conditional logic within these nodes. The AI should focus solely on delivering the intended speech.
+
+Avoid vague prompts such as “ask me anything.” Instead, anticipate the caller’s possible questions and define clear, specific outcomes to guide the conversation effectively.
+
+## Managing Actions and Variables
+
+Variables play a crucial role in customizing responses, but they must be used properly. Ensure that the variable picker includes the node ID for better organization and tracking.
+
+Bracketed variables (e.g., `[variable]`) should be used only within speech instructions. They represent dynamic information the agent may reference based on conversation history. Be cautious with replacements in additional rules to maintain consistency and avoid errors.
+
+## Navigating Outcomes
+
+Each node must lead to a distinct outcome. Avoid creating loops where a node directly links back to its parent. However, looping back to ancestor nodes is permitted when necessary for logical flow.
+
+Ensure that within a given conversation branch, each node has unique instructions all the way up to the start node. If an outcome is meant to address caller questions, do not assume the question has been answered in previous nodes—make sure the next node provides a direct answer.
+
+## Guidelines for Advanced Rules
+
+Use advanced rules only when absolutely necessary. They should never contain questions or navigation instructions. Instead of relying on complex logic within rules, structure your conversation flow in a way that naturally guides the user through different paths.
+
+## Best Practices for Genius Data Integration
+
+When integrating Genius data, ensure that it follows a strict Question & Answer (Q&A) format. Avoid including unnecessary details—concise, well-structured data reduces hallucinations and improves response accuracy.
+
+Exercise caution with scheduling data and time-sensitive information. Since AI does not have real-time context awareness, incorrect or outdated information can lead to confusion. Regularly review and update Genius data sources to maintain reliability.
+
+## Ensuring Effective Data Extraction
+
+Data extraction nodes must be set up correctly to function as intended. Every data extraction action should have a clearly defined field for extraction. Before deployment, test extraction actions in the output tab using a sample response. If the test returns no output, it indicates an issue that must be fixed before production use.
+
+## Final Thoughts
+
+Following these best practices will help you build a robust and effective Thoughtly Voice Agent. By structuring nodes properly, defining distinct outcomes, and ensuring clear speech instructions, you can create a seamless and professional AI-powered voice experience. Keep refining and testing your agent to achieve optimal performance and user satisfaction.
