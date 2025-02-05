@@ -20,11 +20,22 @@ Learn how to update your docs locally and deploy them to the public.
   </Accordion>
   <Accordion icon="rectangle-terminal" title="Preview changes">
     Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
+    command line interface to render these changes locally. 
+    1. Install the
     [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
     documentation changes locally with this command: ``` npm i -g mintlify ```
     2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
+    `docs.json` is): ``` mintlify dev ```
+    <Note>
+      If you’re currently using the legacy ```mint.json``` configuration file, please update the Mintlify CLI:
+
+
+      ```npm i -g mintlify@latest```
+      And run the new upgrade command in your docs repository:
+
+      ```mintlify upgrade```
+      You should now be using the new ```docs.json``` configuration file. Feel free to delete the ```mint.json``` file from your repository.
+    </Note>
   </Accordion>
 </AccordionGroup>
 
@@ -55,32 +66,32 @@ Add content directly in your files with MDX syntax and React components. You can
 
 <CardGroup>
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
+<Card title="Add Content With MDX" icon="file" href="/essentials/markdown">
+  Add content to your docs with MDX syntax.
 </Card>
 
 <Card
-  title="Add API Endpoints"
+  title="Add Code Blocks"
   icon="square-code"
-  href="/api-playground/configuration"
+  href="/essentials/code"
 >
-  Implement your OpenAPI spec and enable API user interaction.
+  Add code directly to your docs with syntax highlighting.
 </Card>
 
 <Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
+  title="Add Images"
+  icon="image"
+  href="/essentials/images"
 >
-  Draw insights from user interactions with your documentation.
+  Add images to your docs to make them more engaging.
 </Card>
 
 <Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
+  title="Add Custom Components"
+  icon="puzzle-piece"
+  href="/essentials/reusable-snippets"
 >
-  Keep your docs on your own website's subdomain.
+  Add templates to your docs to make them more reusable.
 </Card>
 
 </CardGroup>
