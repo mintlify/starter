@@ -15,14 +15,6 @@ Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview th
 ```
 npm i -g mintlify
 ```
-<Note>
-Please upgrade to ```docs.json``` before proceeding and delete the legacy ```mint.json``` file.
-</Note>
-To upgrade, run the following command at the root of your documentation (where docs.json is)
-
-```
-mintlify upgrade
-```
 
 Run the following command at the root of your documentation (where docs.json is)
 
