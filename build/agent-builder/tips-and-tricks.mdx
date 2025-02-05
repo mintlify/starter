@@ -1,8 +1,9 @@
 ---
 title: Tips & Tricks
 description: Best practices for building effective Voice Agents in Thoughtly
-icon: lightbulb
 ---
+
+![editor](/images/hero/editor.png)
 
 ## Introduction
 
@@ -15,6 +16,15 @@ Clear instructions are critical in each node. If a conversation flow is confusin
 When crafting prompt instructions, do not use special characters such as `*`, `^`, or `$`. These can interfere with parsing and processing, leading to unintended errors. Implementing a system guardrail for this is highly recommended.
 
 ## Structuring Nodes Effectively
+
+A well-structured Voice Agent depends on clear node organization. Ensuring logical flow between nodes prevents confusion and helps AI handle conversations smoothly. Additionally, avoid unnecessary complexity in node construction:
+
+- The start node’s outcome should avoid simulating voicemail detection, as it is unreliable.
+- If an outcome is labeled "caller has questions" and leads to another node, do not assume the question has already been answered. The next node’s purpose is to provide an explicit answer.
+- Avoid phrases like "ask me anything." Instead, be specific about the topics the agent can answer to prevent hallucination or unexpected behavior.
+- Remove all spelling errors. Poorly structured outcomes can be misinterpreted, leading to incorrect logic paths.
+
+Additionally, review the actions used in nodes. If an action only references `{{system.contact.phone_number}}`, there may be no need to extract it again from conversation history. Eliminate redundant actions where possible to streamline performance.
 
 A well-structured Voice Agent depends on clear node organization. Ensuring logical flow between nodes prevents confusion and helps AI handle conversations smoothly.
 
@@ -54,15 +64,27 @@ Ensure that within a given conversation branch, each node has unique instruction
 
 ## Guidelines for Advanced Rules
 
+Advanced rules should be used sparingly and only when absolutely necessary. Never include navigation instructions in advanced rules. Statements like "do not move forward unless..." should be avoided. Instead, structure your conversation flow using outcomes and well-defined nodes.
+
+Additionally, do not place questions inside advanced rules. Instead, ensure questions are handled within the agent’s node structure for better clarity and response accuracy.
+
 Use advanced rules only when absolutely necessary. They should never contain questions or navigation instructions. Instead of relying on complex logic within rules, structure your conversation flow in a way that naturally guides the user through different paths.
 
 ## Best Practices for Genius Data Integration
+
+Genius data sources should always follow a strict Question & Answer (Q&A) format. Avoid including unnecessary details—concise, well-structured data reduces hallucinations and improves response accuracy.
+
+Review each Genius data source regularly and ensure it aligns with the Q&A format. The current format in some agents may be confusing the model, leading to incorrect or irrelevant responses. Remove any unnecessary information to enhance accuracy.
 
 When integrating Genius data, ensure that it follows a strict Question & Answer (Q&A) format. Avoid including unnecessary details—concise, well-structured data reduces hallucinations and improves response accuracy.
 
 Exercise caution with scheduling data and time-sensitive information. Since AI does not have real-time context awareness, incorrect or outdated information can lead to confusion. Regularly review and update Genius data sources to maintain reliability.
 
 ## Ensuring Effective Data Extraction
+
+Data extraction nodes must be set up correctly to function as intended. Every data extraction action should have a clearly defined field for extraction. Before deployment, test extraction actions in the output tab using a sample response. If the test returns no output, it indicates an issue that must be fixed before production use.
+
+Ensure that the field being extracted is valid. If an agent is attempting to extract a field that does not exist, such as "Phone Optimization," the action will fail. Test the extraction in the output tab before proceeding to avoid unnecessary errors.
 
 Data extraction nodes must be set up correctly to function as intended. Every data extraction action should have a clearly defined field for extraction. Before deployment, test extraction actions in the output tab using a sample response. If the test returns no output, it indicates an issue that must be fixed before production use.
 
