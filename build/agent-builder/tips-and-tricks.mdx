@@ -13,6 +13,15 @@ Clear instructions are critical in each node. If a conversation flow is confusin
 
 When crafting prompt instructions, do not use special characters such as `*`, `^`, or `$`. These can interfere with parsing and processing, leading to unintended errors. Implementing a system guardrail for this is highly recommended.
 
+### Rules for Building an Agent
+
+When you build an agent, you must follow these rules:
+- No special characters allowed in each node's message/instructions.
+- No special characters allowed in outcomes, but `-` and `/` are okay.
+- Outcomes need a minimum of 35 characters.
+- End nodes and transfer nodes must have a minimum of 80 characters.
+- No nodes can be connected to themselves or the one directly above them.
+
 ## Structuring Nodes Effectively
 
 A well-structured Voice Agent depends on clear node organization. Ensuring logical flow between nodes prevents confusion and helps AI handle conversations smoothly. Additionally, avoid unnecessary complexity in node construction:
@@ -24,8 +33,6 @@ A well-structured Voice Agent depends on clear node organization. Ensuring logic
 
 Additionally, review the actions used in nodes. If an action only references `{{system.contact.phone_number}}`, there may be no need to extract it again from conversation history. Eliminate redundant actions where possible to streamline performance.
 
-A well-structured Voice Agent depends on clear node organization. Ensuring logical flow between nodes prevents confusion and helps AI handle conversations smoothly.
-
 ### Start Node
 
 Your Start Node is the gateway to the conversation. It should be simple, clear, and direct. Avoid attempting to simulate voicemail detection, as it is unreliable. Instead, focus on setting the stage for a structured conversation.
@@ -34,13 +41,13 @@ Your Start Node is the gateway to the conversation. It should be simple, clear, 
 
 A well-structured conversation needs a clear exit. Multiple end nodes are allowed, but each must include a distinct closing message to ensure a smooth call conclusion. This prevents dead-end interactions and leaves a positive impression on callers.
 
-End nodes must use static, verbatim text and cannot reference dynamic variables. This rule ensures consistency and predictability, eliminating potential errors.
+End nodes must use static, verbatim text and cannot reference dynamic variables. This rule ensures consistency and predictability, eliminating potential errors. Additionally, end nodes must have a minimum of 80 characters.
 
 ### Transfer Nodes
 
 Multiple transfer nodes can be used to direct calls efficiently. For phone transfers, use clear messages to guide the caller. For agent transfers, specify the agent’s name and purpose clearly. When using multiple transfer nodes, ensure that each has distinct names or messages to avoid confusion.
 
-Like end nodes, transfer nodes must also be static and cannot reference dynamic variables. Implementing this as a system guardrail will prevent potential errors in call routing.
+Like end nodes, transfer nodes must also be static and cannot reference dynamic variables. Implementing this as a system guardrail will prevent potential errors in call routing. Additionally, transfer nodes must have a minimum of 80 characters.
 
 ## Optimizing Speak Nodes
 
@@ -60,6 +67,8 @@ Each node must lead to a distinct outcome. Avoid creating loops where a node dir
 
 Ensure that within a given conversation branch, each node has unique instructions all the way up to the start node. If an outcome is meant to address caller questions, do not assume the question has been answered in previous nodes—make sure the next node provides a direct answer.
 
+Additionally, outcomes need a minimum of 35 characters.
+
 ## Guidelines for Advanced Rules
 
 Advanced rules should be used sparingly and only when absolutely necessary. Never include navigation instructions in advanced rules. Statements like "do not move forward unless..." should be avoided. Instead, structure your conversation flow using outcomes and well-defined nodes.
@@ -74,8 +83,6 @@ Genius data sources should always follow a strict Question & Answer (Q&A) format
 
 Review each Genius data source regularly and ensure it aligns with the Q&A format. The current format in some agents may be confusing the model, leading to incorrect or irrelevant responses. Remove any unnecessary information to enhance accuracy.
 
-When integrating Genius data, ensure that it follows a strict Question & Answer (Q&A) format. Avoid including unnecessary details—concise, well-structured data reduces hallucinations and improves response accuracy.
-
 Exercise caution with scheduling data and time-sensitive information. Since AI does not have real-time context awareness, incorrect or outdated information can lead to confusion. Regularly review and update Genius data sources to maintain reliability.
 
 ## Ensuring Effective Data Extraction
@@ -83,8 +90,6 @@ Exercise caution with scheduling data and time-sensitive information. Since AI d
 Data extraction nodes must be set up correctly to function as intended. Every data extraction action should have a clearly defined field for extraction. Before deployment, test extraction actions in the output tab using a sample response. If the test returns no output, it indicates an issue that must be fixed before production use.
 
 Ensure that the field being extracted is valid. If an agent is attempting to extract a field that does not exist, such as "Phone Optimization," the action will fail. Test the extraction in the output tab before proceeding to avoid unnecessary errors.
-
-Data extraction nodes must be set up correctly to function as intended. Every data extraction action should have a clearly defined field for extraction. Before deployment, test extraction actions in the output tab using a sample response. If the test returns no output, it indicates an issue that must be fixed before production use.
 
 ## Final Thoughts
 
