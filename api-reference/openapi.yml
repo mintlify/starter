@@ -1032,6 +1032,20 @@ components:
           type: string
           format: email
           example: john.smith@company.com
+        recurring_checks_enabled:
+          description: Determines if recurring checks are enabled for this user. Overrides the same setting if present in client level configuration.
+          type: boolean
+        recurring_check_frequency:
+          description: Frequency of the recurring check for this user. Overrides the same setting if present in client level configuration. Available frequencies [WEEKLY, DAILY].
+          type: string
+          example: WEEKLY
+        recurring_check_end_date:
+          description: End date of the recurring check schedule. Overrides the same setting if present in client level configuration.
+          "$ref": "#/components/schemas/Date"
+        payroll_period_months:
+          description: Lookback period of the payroll to search on account creation. Overrides the same setting if present in client level configuration.
+          type: integer
+          format: int32
     CreatedUser:
       allOf:
         - required: [user_id, created_at]

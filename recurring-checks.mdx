@@ -5,7 +5,7 @@ description: 'Learn about and configure recurring payroll'
 
 ## Introduction
 
-To keep your users' payroll up to date without having to manually query each connection, Recurring Payroll can be enabled for your client. This allows you to specify a time frequency for automated payroll fetches. 
+To keep your users' payroll up to date without having to manually query each connection, Recurring Payroll can be enabled for your users. This allows you to specify a time frequency for automated payroll fetches. 
 
 The valid frequencies are:
 - `WEEKLY` - once a week on Monday 12AM UTC
@@ -13,9 +13,10 @@ The valid frequencies are:
 
 ## Execution
 
-When a recurring check is executed, all of your eligible users will have their accounts updated with their latest payroll. At the moment, the frequency can only be applied on a client level
-which means all users will have their payroll fetched at the same time. In the future Teal will support user level frequencies. The payroll is queried from the payroll provider by using the most recent `pay_date` of the account, 
-retrieving the new data that falls after this.
+When a recurring check is executed, all of your eligible users will have their accounts updated with their latest payroll. The payroll is queried from the payroll provider by using the most recent `pay_date` of the account, 
+retrieving the new data that falls after this. Recurring checks can be enabled for all users or for individual users. This also applies to the recurring check configuration where the frequency and end date of the recurring
+check can be applied on the user level or to the client level. If a user has a configuration for a given field, it will always take precedence over the client level configuration. If the user has a partial configuration,
+then the fields that are not configured will be taken from the client configuration if present.
 
 ## Eligibility
 
@@ -34,16 +35,6 @@ by the creation time (most recently created). A user can have multiple active ac
 
 If a fetch fails for an account during the recurring payroll check, then it will be placed on a daily retry schedule until it is successful. The daily retry runs at 3AM UTC. When the failure is due to invalid credentials, expired refresh token or a detection of Multi-Factor authentication, these accounts
 are excluded from future checks.
-
-## Webhooks
-
-You can subscribe to the below events to receive the recurring check feedback for failures.
-
-- `recurring-checks-reconnect` - notifies when a user requires an account reconnection to resume recurring payroll checks. This will be due to invalid credentials (e.g. password) or a refresh token expiring for a provider that uses OAuth. 
-If this event is sent it signifies that the user must be redirected to the authorisation flow.
-- `recurring-checks-unavailable` - notifies when a user is no longer eligible for recurring payroll checks. This will be due to MFA being detected for the account.
-
-If you have subscribed to the `user-payroll-submitted`, then you will receive the notifications as usual for each user on a successful payroll update.
 
 ## Sandbox
 
