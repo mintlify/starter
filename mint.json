@@ -73,6 +73,7 @@
       "pages": [
         "api-reference/accounts/create",
         "api-reference/accounts/list",
+        "api-reference/accounts/list-recurring",
         "api-reference/accounts/get",
         "api-reference/accounts/delete"
       ]

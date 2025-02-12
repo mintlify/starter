@@ -29,7 +29,9 @@ To see which users are eligible for recurring checks you can call the `GET /user
 the above criteria. An account is considered active if the payroll provider has not marked it as inactive and the latest `pay_date` for the account is not older than 40 days.
 
 A duplicate account is defined as multiple accounts with the same username and payroll provider combination for a given user. If there are duplicate accounts then Teal will take the one with the most recent activity (time of last fetch of payroll), or the
-by the creation time (most recently created). A user can have multiple active accounts with different providers and all of their accounts will be part of the recurring update.
+by the creation time (most recently created). A user can have multiple active accounts with different providers and all of these accounts will be part of the recurring update.
+
+To see which accounts would be part of the recurring schedule for a given user you can call the `GET /accounts/recurring` endpoint.
 
 ## Failures
 
