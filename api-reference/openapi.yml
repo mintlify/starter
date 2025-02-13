@@ -1033,6 +1033,11 @@ components:
       type: string
       format: date-time
       example: 2019-05-17T00:00:00.000Z
+    FraudRisk:
+      type: string
+      description: The fraud risk level assessment. Fraud risk will be present if the payroll data is coming from a payslip source
+      enum: [Low, Medium, High]
+      example: Low
     PaginationWithOrderedBy:
       type: object
       allOf:
@@ -1074,11 +1079,11 @@ components:
       type: object
       properties:
         name:
-          description: The full name of the user. It doens't have to be unique for the client.
+          description: The full name of the user. It doesn't have to be unique for the client.
           type: string
           example: John Smith
         email:
-          description: The email of the user. The field does not have to be a real email address. It can be the user’s identifier in your system.
+          description: The email of the user. The field does not have to be a real email address. It can be the user's identifier in your system.
           type: string
           format: email
           example: john.smith@company.com
@@ -1532,6 +1537,9 @@ components:
           $ref: "#/components/schemas/EmploymentInformation"
         income_information:
           $ref: "#/components/schemas/IncomeInformation"
+        fraud_risk:
+          "$ref": "#/components/schemas/FraudRisk"
+          nullable: true
     IdentityInformation:
       type: object
       properties:
