@@ -39,9 +39,9 @@
 			"url": "https://app.thoughtly.com"
 		},
 		{
-			"name": "Join our Slack",
+			"name": "Join our Community",
 			"icon": "slack",
-			"url": "https://thoughtly.com/slack"
+			"url": "https://community.thoughtly.com"
 		},
 		{
 			"name": "Book a Demo",
@@ -266,7 +266,7 @@
 		"x": "https://twitter.com/thoughtlyai",
 		"linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
 		"instagram": "https://www.instagram.com/thoughtly.ai/",
-		"slack": "https://thoughtly.com/slack"
+		"slack": "https://community.thoughtly.com"
 	},
 	"integrations": {
 		"intercom": "uii3kkuk"
