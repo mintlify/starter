@@ -39,9 +39,14 @@
 			"url": "https://app.thoughtly.com"
 		},
 		{
-			"name": "Join our Community",
+			"name": "Slack Community",
 			"icon": "slack",
 			"url": "https://community.thoughtly.com"
+		},
+		{
+			"name": "Join Office Hours",
+			"icon": "clock",
+			"url": "https://thoughtly.com/office-hours"
 		},
 		{
 			"name": "Book a Demo",
