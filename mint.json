@@ -47,6 +47,11 @@
 			"name": "Book a Demo",
 			"icon": "calendar",
 			"url": "https://fns.thought.ly/lead/email?demo=true"
+		},
+		{
+			"name": "Refer a Friend",
+			"icon": "gift",
+			"url": "https://refer.thoughtly.com"
 		}
 	],
 	"tabs": [
