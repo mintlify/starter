@@ -90,36 +90,45 @@ _Installation:_
 Ensure you have Node.js 18 or later installed. To install the SDK, run:
 
 ```bash
-npm install @trufnetwork/truf-node-sdk-js
+npm install @trufnetwork/sdk-js
 ```
 
 _Example Usage:_
 
 ```javascript
-import { NodeTSNClient, StreamId } from "@trufnetwork/truf-node-sdk-js";
+import { NodeTSNClient, StreamId } from "@trufnetwork/sdk-js";
+
+// Create a wallet
+const wallet = new Wallet(
+    "<your-private-key-hex>"
+);
 
 // Initialize client
 const client = new NodeTSNClient({
-	privateKey: "<your-private-key-hex>",
-	providerUrl: "https://staging.tsn.truflation.com",
+	endpoint: "https://staging.tsn.truflation.com",
+    signerInfo: {
+        address: wallet.address,
+        signer: wallet
+    },
+    chainId: "truflation-staging-2024-11-22" // or use NodeTNClient.getDefaultChainId()
 });
 
 // Load an existing stream
-const streamId = StreamId.fromName("your-stream-name");
-const stream = await client.loadPrimitiveStream(streamId);
+const streamId = StreamId.fromString("your-stream-name");
+const stream = client.loadPrimitiveStream(streamId);
 
 // Read data from the stream
 const records = await stream.getRecord({
 	dateFrom: "2023-01-01",
-	dateTo: "2023-01-31",
+	dateTo: "2023-01-31"
 });
 
 records.forEach((record) => {
-	console.log(record.dateValue, record.value.toString());
+	console.log(record.dateValue, record.value);
 });
 ```
 
-For detailed examples and usage patterns, refer to the test files in the SDK repository.
+For detailed examples and usage patterns, refer to the test files and examples in the SDK repository.
 
 ---
 
