@@ -206,7 +206,7 @@
     },
     {
       "group": "",
-      "pages": ["support"]
+      "pages": ["support", "status"]
     }
   ],
   "footerSocials": {
