@@ -96,7 +96,7 @@ npm install @trufnetwork/sdk-js
 _Example Usage:_
 
 ```javascript
-import { NodeTSNClient, StreamId } from "@trufnetwork/sdk-js";
+import { NodeTNClient, StreamId } from "@trufnetwork/sdk-js";
 
 // Create a wallet
 const wallet = new Wallet(
@@ -104,7 +104,7 @@ const wallet = new Wallet(
 );
 
 // Initialize client
-const client = new NodeTSNClient({
+const client = new NodeTNClient({
 	endpoint: "https://staging.tsn.truflation.com",
     signerInfo: {
         address: wallet.address,
