@@ -159,6 +159,15 @@
       ]
     },
     {
+      "group": "finetuning",
+      "pages": [
+        "api-reference/finetuning/post-v1create_finetuning_job",
+        "api-reference/finetuning/post-v1finetuned_model_try",
+        "api-reference/finetuning/post-v1finetuning_job_details",
+        "api-reference/finetuning/post-v1init_page_data"
+      ]
+    },
+    {
       "group": "embeddings",
       "pages": [
         "api-reference/embeddings/post-v1embeddings"
