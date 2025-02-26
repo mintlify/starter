@@ -135,9 +135,9 @@ Example:
 
 <CodeGroup>
 ```python Python
-model = "gpt-3.5-turbo"
+model = "gpt-4o-mini"
 system_prompt = "You are a helpful assistant."
-session_id = "my-session"
+session_id = SESSION_ID
 temperature = 0.7
 messages = [
     { "role": "user", "content": "Who won the world series in 2020?" },
@@ -155,9 +155,9 @@ response = client.chat.completions.create(
 print(response)
 ```
 ```javascript JavaScript
-const model = "gpt-3.5-turbo"
+const model = "gpt-4o-mini"
 const system_prompt = "You are a helpful assistant."
-const session_id = "my-session"
+const session_id = SESSION_ID
 const temperature = 0.7
 const messages = [
     { role: "user", content: "Who won the world series in 2020?" },
@@ -220,7 +220,7 @@ To add a document to a repository, you can use the `repositories.create` method.
 ```python Python
 response = client.repository.document.create(
     repository_id=3,
-    file="./testfile.txt" # This could be a .txt, .pdf, .docx file.
+    file= "./testfile.txt" # This could be a .txt, .pdf, .docx file.
 )
 
 print(response)
@@ -231,7 +231,7 @@ const response = await client.repository.document.create({
     repository_id: 3,
     file: "./testfile.txt" // This could be a .txt, .pdf, .docx file.
 })
-```  
+```   
 </CodeGroup>
 
 This will return a response containing the document ID, name, repository ID, and other details. Here is how the output looks like:

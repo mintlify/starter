@@ -2,14 +2,24 @@
 icon: folder-open
 ---
 
-With **Repositories** you can just upload the documents and we take care of the rest. This guide will show you how to create **RAG-based** assistants that are able to interact with your documents. 
+**Repositories** are **Prem's** way of utlizing easy to use **RAG (Retrieval-Augmented Generation)** with a model of your choice.
+ 
+ **RAG** gives your models the ability to interact with your documents, gain knowledge and use it to generate responses based on the content of your documents. 
+ 
+ This guide will show you how to create **RAG-based** assistant without having to worry about the underlying infrastructure like integrating a vector database or setting up a retrieval pipeline. Prem will take care of the heavy lifting for you. 
+ 
+ Just worry about providing your documents and focus on the fun part, building your custom models.
 
 <img
   src="https://static.premai.io/prem-saas-docs/repositories-guide/repositoriesDocumentPage.png"
   alt="Overview"
 />
 
+<Tip>
+
 **RAG** is a powerful technique that combines the strengths of retrieval-based systems and generative models to enable assistants to provide accurate and contextually relevant responses based on the content of your documents.
+
+</Tip>
 
 
 
@@ -19,6 +29,7 @@ With **Repositories** you can just upload the documents and we take care of the 
 
 - Get a basic understanding of **Prem's** APIs and SDKs.
 
+## Getting started: a step by step guide
 <Steps>
   <Step title="Create A Repository and Upload Your Documents">
   <Tip>
@@ -67,7 +78,7 @@ With **Repositories** you can just upload the documents and we take care of the 
     You **MUST** add a project description, otherwise you will not be able to start the training.
   </Warning>
 
-  - Fine-tune your selected model in the [Gym](/get-started/gym) on your specific domain or task. This involves training the model on a subset of your documents and optimizing its parameters for better performance and coherence.
+  - Fine-tune your selected model in the [Gym](/get-started/autonomous-fine-tuning) on your specific domain or task. This involves training the model on a subset of your documents and optimizing its parameters for better performance and coherence.
   - Integrate the fine-tuned model into your pipeline. When a user sends a query, the model will retrieve relevant documents from the repository and then pass them to the generative model to generate a contextually appropriate response.
 
   </Step>

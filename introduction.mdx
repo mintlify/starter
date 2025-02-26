@@ -1,186 +1,55 @@
 ---
-title: Quickstart Guide
-
-icon: terminal
-
-description: Let's create a Generative AI application in minutes.
+title: Welcome to Prem
+icon: burst
 ---
 
-<img src="/images/cover.png" alt="Prem" />
-## Why Prem?
+Prem is a powerful AI platform that gives you all the tools necessary to create your own custom reasoning models without the need to be a machine learning engineer.
 
-**Prem** is a platform that's packaged with the necessary tools to effortlessly integrate Generative AI into your applications.
+Just load your dataset, choose a model, and in one click, you can have a distilled, fine-tuned model ready to use in no time.
 
-## With Prem you can:
-
-- **Simultaneously test and monitor AI models in the [_Prem Lab_](/get-started/lab):** Compare the performance of multiple models and find the best fit for your use case.
-- **Train models in the [_Prem Gym_](/get-started/gym):** Leverage Prem’s ability to autonomously fine-tune models. The Gym is your place to beef up your deployment models by continuously fine-tuning your data in order to improve performance.
-- **Seamlessly create [_RAG-based assistants_](/get-started/repositories):** Prem is capable of interacting with your documents. Just upload the documents, and we’ll take care of the rest.
-- **[_Launch_](/get-started/launchpad) and use the [_Prem JavaScript and Python SDKs_](/get-started/sdk):** Integrate your custom AI into your applications with minimal effort.
-
-## Quickstart{" "}
-
-✌️ This guide shows you how to create a Generative AI application with Prem in minutes.
-
-  <Steps titleSize="h3">
-    <Step title="Activate your Prem account.">
-
-[Click here to sign up](https://app.premai.io/accounts/signup/)
-
-</Step>
-<Step title="Sign in and generate an API key.">
-
-![Alt Text](https://static.premai.io/prem-saas-docs/quickstart-guide/apiKeys.gif)
-
-</Step>
-
-<Step title="Create a new project.">
-<Note>We set up a starter project for you already. You can either use the starter project provided or create a new project from scratch. It's up to you.</Note>
-![GIF of how to create a new project with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/newProject.gif)
-<Tip>Make sure to take note of your Project ID. You'll need it to use the SDK. You can find your **Project ID** on the Project page under each project's title or on the Set Up page.</Tip>
- <img
-  src="https://static.premai.io/prem-saas-docs/quickstart-guide/projectID.png"
-  alt="Playground"
-/>
-</Step>
-
-<Step title="Head over to the Lab and experiment with various AI models simultaneously.">
-
-![Usage of the Prem Lab](https://static.premai.io/prem-saas-docs/quickstart-guide/premLab.gif)
-
-</Step>
-
-<Step title="After you've experimented with different models in the Lab, go to the Launchpad and choose the most suitable model for your use case.">
-
-![Launch you Generative AI App with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/launchPad.gif)
-
-</Step>
-
-<Step title="Now it's time to integrate Prem into your application.">
-## Choose an SDK and install
-<Tip>
-  Prem also exposes a simple [REST API](/api-reference/introduction) for interacting with the platform. 
-</Tip>
-
-<CodeGroup>
-```bash Python
-pip install premai
-```
-
-```bash JavaScript
-npm install @premai/prem-sdk
-```
-
-</CodeGroup>
-
-## Run your first project.
-
-<CodeGroup>
-
-```python Python
-from premai import Prem
-
-client = Prem(api_key=YOUR_API_KEY)
-
-project_id = PROJECT_ID
-
-system_prompt = "You're a helpful assistant"
-
-messages = [
-    {"role": "user", "content": "Who won the world series in 2020?"},
-]
-
-response = client.chat.completions.create(
-    project_id=project_id,
-    system_prompt=system_prompt,
-    messages=messages,
-)
-
-print(response.choices)
-
-```
-
-```javaScript JavaScript
-import Prem from "@premai/prem-sdk";
-
-const client = new Prem({
-  apiKey: API_KEY,
-});
-
-const project_id = PROJECT_ID;
-
-const system_prompt = "You're a helpful assistant";
-const messages = [
-  { role: "user", content: "Who won the World Series in 2020?" },
-];
-
-async function chatCompletion() {
-  const responseSync = await client.chat.completions.create({
-    project_id,
-    system_prompt,
-    messages,
-  });
-
-  console.log(responseSync);
-}
-```
-
-</CodeGroup>
-
-</Step>
-
-</Steps>
+We designed Prem to make AI integration seamless, efficient, and effective so that you can focus on developing your product and not all the AI complexity.
 
 
+### Heres what you can do with Prem:
 
-## Next steps
+- Access the best in class AI models without any vendor lock-in.
+- [Autonomously fine-tune models](/get-started/autonomous-fine-tuning) to customize for your use case.
+- Use our [SDKs](/get-started/sdk) to integrate Prem into your own codebase.
+- Bring your own datasets and/or collect traces to accurately fine-tune your models.
+- Take advantage of model distillation to create smaller, more efficient models.
+- Securely integrate your documents into your models without having to build your own RAG.
+- Bring your own [Qdrant](https://qdrant.tech/) vector database.
+- Deploy your models to your own local infrastructure.
 
-- Continue to test AI Models in the [Lab](/get-started/lab).
-- Check out the [API reference](/api-reference/introduction).
-- Customize an AI model with knowledge from your documents using [repositories](/get-started/repositories).
-- Fine-tune your AI models in the [Gym](/get-started/gym).
+Check out our [Quickstart Guide](/introduction) to get started in minutes.
+## Get started with Prem in minutes.
 
-## Read the guides
-
-<CardGroup cols={3}>
-  <Card title="Prem SDK" icon="plug" href="/get-started/sdk">
-    Integrate Prem into your products.
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="bolt" href="/introduction">
+    Learn how to make your first custom AI model in minutes.
   </Card>
-
-{" "}
-
-<Card title="Projects" icon="folder" href="/get-started/manage-projects">
-  Create and manage projects to organize your work.
-</Card>
-
-  <Card
-    title="Lab"
-    icon="flask"
-    href="/get-started/lab"
-  >
-    Experiment with different models in the Lab.
+  <Card title="Get Started with the SDK" icon="code" href="/get-started/sdk">
+    Use our Javascript and Python SDKs to integrate Prem into your own codebase.
   </Card>
 </CardGroup>
+----
+## Develop with Prem
+<CardGroup cols={2}>
+  <Card title="Autonomous Fine-Tuning" icon="robot" href="/get-started/autonomous-fine-tuning">
+    Learn how you can use Prem to autonomously fine-tune your models.
+  </Card>
+  <Card title="API Reference" icon="computer" href="/api-reference/introduction">
+    Explore the Prem API reference and implement functions into your own codebase.
+  </Card>
 
-<CardGroup cols={3}>
-  <Card title="Monitoring" icon="chart-line" href="/get-started/monitoring">
-    Monitor your AI integration.
+</CardGroup>
+----
+## Support
+<CardGroup cols={2}>
+  <Card title="FAQ" icon="question" href="/faq">
+    Find answers to frequently asked questions about Prem.
   </Card>
-  <Card
-    title="Repositories"
-    icon="folder-open"
-    href="/get-started/repositories"
-  >
-    Upload documents to your repositories.
-  </Card>
-  <Card title="Launchpad" icon="rocket" href="/get-started/launchpad">
-    Launch your preferred model.
+  <Card title=" Service Status Dashboard" icon="chart-line">
+    Check the status of Prem's services.
   </Card>
 </CardGroup>
-
-<CardGroup cols={3}>
-  <Card title="Gym" icon="dumbbell" href="/get-started/gym">
-    Train your own Model.
-  </Card>
-</CardGroup>
-

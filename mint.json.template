@@ -63,8 +63,8 @@
     {
       "group": "Get started",
       "pages": [
-        "get-started/overview",
         "introduction",
+        "get-started/quick-start",
         "get-started/sdk"
       ]
     },
@@ -76,7 +76,7 @@
         "get-started/monitoring",
         "get-started/repositories",
         "get-started/launchpad",
-        "get-started/aft",
+        "get-started/autonomous-fine-tuning",
         "get-started/json-output",
         "get-started/function-calling",
         "get-started/chat-completion-sse",
@@ -114,7 +114,7 @@
             "premsql/generators",
             "premsql/executors",
             "premsql/evaluators",
-            "premsql/error_dataset",
+            "premsql/error-dataset",
             "premsql/tuner",
             "premsql/agents",
             "premsql/playground"

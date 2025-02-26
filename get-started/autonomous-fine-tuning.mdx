@@ -1,0 +1,283 @@
+---
+title: Autonomous Fine-Tuning
+icon: robot
+---
+Autonomous fine-tuning is a powerful feature that allows developers to create custom AI models without requiring machine learning expertise or human intervention.
+
+Unlike traditional fine-tuning approaches, which require extensive experience and manual oversight, our autonomous fine-tuning agent only requires a well-curated dataset and a few granular parameters.
+
+The user interface (UI) and user experience (UX) of the Autonomous Fine-Tuning agent are designed to be intuitive and easy to use, so any type of developer can use it and focus on building the AI-enhanced applications they want to build.
+
+Under the hood, Prem has sophisticated data augmentation and distributed training architectures that maximize your custom model's performance.
+
+Save time, money and resources by letting Prem handle the heavy lifting.
+
+This is one of our most detailed guides. So buckle up and get ready to fine-tune your models like a pro.
+
+---
+
+# Best Practices
+
+<Warning>Click [here](#getting-started-step-by-step-guide) to skip to the step by step guide</Warning>
+
+### **Data Preparation: Start Small, Iterate Frequently**.
+- Begin with a small well-curated examples for your specific use case. Even a small dataset can serve as a strong foundation when combined with the system's autonomous data augmentation.
+
+### **Use the Prem Playground for Rapid Feedback**
+    - **Leverage the interactive comparison feature** in the Prem Playground to quickly gauge which model variant is performing well on your task.
+
+
+    - **Perform red-teaming tests** by providing diverse, challenging prompts. This not only uncovers vulnerabilities but also creates high-value data for subsequent fine-tuning stages.
+
+### **Emphasize Quality in Data Collection**
+
+    - **Automated data harvesting** from production systems is powerful, but ensure you incorporate clear filtering and quality checks. Use domain-specific rules and engagement metrics to keep your training data relevant and noise-free.
+
+    - **Multi-dimensional annotations** (accuracy, relevance, style, etc.) can provide richer signals for model training, resulting in more robust outcomes.
+
+### **Make the Most of Autonomous Data Augmentation**
+
+    - **Rely on the platform's multi-agent orchestration** to expand your dataset systematically without compromising on semantic consistency.
+
+    - **Configure domain constraints** carefully to avoid generating irrelevant or contradictory samples. For instance, if you're focusing on code generation, ensure that your sandboxed environment and validation criteria are well-defined before augmentation begins.
+
+### **Choose the Right Model Family & Resources**
+
+
+    - **Select a model family** that aligns with your task domain (NL2NL, NL2C, or specialized models like Text to SQL). Each family has different baseline capabilities and constraints.
+   
+### **Continuously Evaluate & Prune**
+
+    - **Run parallel trainings** on different model candidates and let the system's leaderboard identify top performers. This multi-model strategy helps surface unexpected winners (smaller models may outperform bigger ones for certain tasks).
+
+
+    - **Prune underperforming models** early to save computational resources. Focus on refining promising candidates with additional synthetic data or domain-specific fine-tuning.
+
+### **Close the Loop with Active Learning (Coming Soon ⚠️)**
+
+
+    - **Continually gather new examples** from both user feedback and system logs. The more "real-world" data you incorporate, the more resilient your models become.
+    - **Use feedback modification tools** in the Prem Platform to annotate or correct model responses. These corrected examples directly fuel the next iteration of fine-tuning.
+
+
+# Getting Started: Step by Step Guide
+
+<Steps>
+    <Step title="Prepare your data (JSON or JSONL Only)">
+
+    **In order to fine-tune your model, you are required to submit a **JSON** or **JSONL** dataset in the following format:**
+    
+    ```json example.json
+    [
+      {
+        "messages": [
+          {
+            "role": "system",
+            "content": "..."
+          },
+          {
+            "role": "user",
+            "content": "..."
+          },
+          {
+            "role": "assistant",
+            "content": "..."
+          }
+        ]
+      }
+    ]
+    ```
+
+    or in **JSONL** format (one **JSON** object per line):
+
+    ```jsonl example.jsonl
+    {"messages": [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
+    {"messages": [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
+    {"messages": [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
+    ```
+
+    </Step>
+    <Step title="Configure your fine-tuning job">
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/configureFinetuneImage.png" alt="Image of the autonomous fine-tuning job configuration page"/>
+    When configuring your fine-tuning job, you are required to provide the following:
+
+    - **Fine-tuning Job Name**
+    - **Base Model**: Select the base model you'd like to use.
+    - **Training Depth**: Use the slider to select the training depth between quick and deep training. 
+      
+      **Key Differences**:
+        - **Complexity**: Deep models (deep training depth) learn more complex and abstract features, whereas quick models might focus on simpler, more direct representations.
+        - **Performance vs. Resources**: Deep models often provide better performance on complex tasks but require more computational resources and time to train. Quick models are faster to train and use less resources but may not perform as well on challenging problems.
+        - **Training Time**: Models with deep training depth generally take longer to train due to the increased number of layers, which can complicate the learning process.
+    
+    - **A Dataset**: Drag and drop your dataset into the **Dataset** section. Make sure your dataset is in the correct format as shown [above](#prepare-your-data-json-or-jsonl-only).
+    ### Configuration In Action
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/configureFineTuneJob.gif" alt="Playground"/>
+    
+    ### Need Synthetic Data generation?
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/syntheticGenerationToggleImage.png" alt="Synthetic data toggle button Image"/>
+
+
+    Toggle the **Synthetic Data Generation** switch to enable or disable the generation of additional training examples.
+    
+    Configure how additional training examples will be generated with the following parameters:
+
+
+    - **Creativity**: Select the creativity level for the synthetic data generation with the slider with a creativty level of 0 being the least creative and 1.0 being the most creative.
+    - **Positive Instructions**: Describe what datapoints you'd like to see more of in the synthetic data generation.
+    - **Negative Instructions**: Describe what datapoints you'd like to see less of in the synthetic data generation.
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/syntheticGenerationToggle.gif" alt="Synthetic data toggle button GIF"/>
+
+    Now just click the **Start Fine-Tuning Job** button to start the Autonomous Fine-Tuning Agent.
+
+    </Step>
+      <Step title="Fine-Tuning in Action: Data Augmentation">
+      **If you are using synthetic data generation, the Data Augmentation phase begins. If you're not using synthetic data generation, you'll be queued and go straight to the fine-tuning phase.**
+  <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/dataAugmentationVideo.gif"
+  alt="Data Augmentation GIF"
+/>
+>  Data Augmentation for synthetic data generation
+
+<Card title="Check the status of your fine-tuning jobs" icon="lightbulb">
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/fineTunedModelStatus.png" alt="Fine-Tuned Job Status"/>
+</Card>
+
+<Card title="After some time you'll be able to check the evaluation metrics of your fine-tuned model" icon="lightbulb">
+Click the successful fine-tuning Job to view the evaluation metrics. While you're waiting for your evaluation metrics you can still test out your fine-tuned model in the [Lab](/get-started/lab-guide) and deploy to your applications using the [Launchpad](/get-started/launchpad).
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/aftEvals.png" alt="Fine-Tuned Job Status"/>
+</Card>
+
+    </Step>
+      <Step title="You'll recieve confirmation emails about the status of your fine-tuning jobs">
+
+      **The first email will confirm that the fine-tuning process has begun.**
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/autonmousFineTuneBegunEmail.png"alt="Autonomous Fine-Tuning Begun Email"/>
+
+**The second email will confirm that the fine-tuning has been completed.**
+
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/autonmousFineTuneBegunEmail.png" alt="Fine-Tuning Complete Email"/>
+    </Step>
+    <Step title="Try your fine-tuned model in the Lab">
+        **Now that the fine-tuning is complete, head over to the **Lab** to test it out.** 
+        
+    <img src="https://static.premai.io/prem-saas-docs/gym-guide/tryAutonmousFineTunedLab.gif" alt="Fine-Tuned Model in Lab"/>
+
+     <Tip>
+        You can also download your datasets by clicking on the fine-tuning job and then clicking the **Download Dataset** button for both the original dataset and the augmented dataset.
+      </Tip>
+      ---
+      ### Compare your fine-tuned model to a different pre-trained model
+      <Tip>
+      If you'd like to learn more about the Prem Lab and how to experiment with different models, check out our [Lab Guide](/get-started/lab-guide).
+      </Tip>
+
+      <img src="https://static.premai.io/prem-saas-docs/gym-guide/testFineTunedModelLab.gif" alt="Compare Fine-Tuned Model in the Lab"/>
+
+  
+
+        **You can search for your fine-tuned model the same way you would with any of the pre-trained models available.**
+        <img src="https://static.premai.io/prem-saas-docs/gym-guide/searchFtModelLab.gif" alt="Search for your Fine-Tuned Model in the Lab"/>
+        
+        You can always change the system prompt, change params, and add repositories to curate the fine-tuned model to your liking.
+       
+
+        <Tip>
+        You can also test out your fine-tuned model indivdually in the chat section of the **Lab**
+
+         <img src="https://static.premai.io/prem-saas-docs/gym-guide/singleFTChat.png" alt="Playground"/>
+        </Tip>
+    </Step>
+
+    <Step title="Launch your fine-tuned model with the Launchpad">
+
+    <Tip>
+    If you'd like to learn more about the Prem Launchpad and how to deploy your model, check out our [Launchpad Guide](/get-started/launchpad).
+
+    You'll also need to know how to download and use the SDK to integrate your model into your applications. Check out the [SDK Guide](/get-started/sdk-guide) for more information.
+    </Tip>
+        Now that you used the Autonmous fine-tuning agent and testing is complete, navigate to the [Launchpad](/get-started/launchpad) to deploy your model so it's ready for integrating into your applications. 
+        
+        You will still have the ability to configure the model's params, system prompts and repositories.
+             <img
+  src="https://static.premai.io/prem-saas-docs/gym-guide/atfLaunchpad.gif"
+  alt="Launchpad for autonomous fine-tuned model"
+/>
+    </Step>
+    <Step title="Integrate your fine-tuned model into your applications using the SDK">
+    <CodeGroup>
+
+```python Python
+from premai import Prem
+
+client = Prem(
+    api_key=YOUR_API_KEY,
+)
+
+project_id = YOUR_PROJECT_ID
+
+model = YOUR_FINE_TUNED_MODELS_NAME
+
+messages = [
+    {
+        "role": "user",
+        "content": "How do I check if TPM is enabled in Windows after configuring it in BIOS?",
+    },
+]
+
+response = client.chat.completions.create(
+    project_id=project_id,
+    messages=messages,
+    model=model,
+    stream=False,
+)
+
+print(response)
+```
+
+```javascript JavaScript/TypeScript
+import Prem from "@premai/prem-sdk";
+
+
+const client = new Prem({
+    apiKey: YOUR_API_KEY,
+ });
+
+const project_id = YOUR_PROJECT_ID;
+
+const model = YOUR_FINE_TUNED_MODELS_NAME;
+
+const messages = [
+  { role: "user", content: "How do I check if TPM is enabled in Windows after configuring it in BIOS?" },
+];
+
+// Create completion
+const responseSync = await client.chat.completions.create({
+  project_id,
+  model,
+  messages,
+  stream: false,
+});
+
+console.log(responseSync);
+```
+
+</CodeGroup>
+    </Step>
+    
+    <Step title="Evaluate your fine-tuned model's performance with Traces">
+    <Tip>
+    Learn more about the Prem Traces and how to use them, by checking out our [Monitoring & Traces Guide](/get-started/model-monitoring).
+    </Tip>
+
+    As you continue to use your launched/deployed fine-tuned model, you can use the Traces feature to monitor its performance. We highly recommend that you check in on your fine-tuned model's performance regularly to ensure it's performing as expected.
+
+    </Step>
+</Steps>
+
+# Finished!
+
+You've now successfully fine-tuned your model and launched it using the Launchpad. 
+
+Remember to check that Prem also has an API that works just like the SDK. So if you're using a different language, you can still use Prem.
+
