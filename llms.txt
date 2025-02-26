@@ -1,0 +1,2546 @@
+# FILE: ./introduction.mdx
+
+---
+title: Introduction
+---
+
+Welcome to LangWatch, the all-in-one [open-source](https://github.com/langwatch/langwatch) LLMops platform.
+
+LangWatch allows you to track, monitor, guardrail and evaluate your LLMs apps for measuring quality and alert on issues.
+
+For domain experts, it allows you to easily sift through conversations, see topics being discussed and annotate and score messages
+for improvement in a collaborative manner with the development team.
+
+For developers, it allows you to debug, build datasets, prompt engineer on the playground and
+run batch evaluations or [DSPy experiments](./dspy-visualization/quickstart) to continuously improve the product.
+
+Finally, for the business, it allows you to track conversation metrics and give full user and quality analytics, cost tracking, build
+custom dashboards and even integrate it back on your own platform for reporting to your customers.
+
+You can [sign up](https://app.langwatch.ai/) and already start the integration on our free tier by following the guides bellow:
+
+<CardGroup cols={2}>
+  <Card title="Python Integration Guide" icon="link" href="./integration/python/guide" />
+  <Card title="TypeScript Integration Guide" icon="link" href="./integration/typescript/guide" />
+  <Card title="REST API" icon="link" href="./integration/rest-api" />
+</CardGroup>
+
+You can also [open the demo project](https://app.langwatch.ai/demo) check out a [video](https://www.loom.com/share/17f827b1f5a648298779b36e2dc959e6) on our platform.
+
+## Get in touch
+
+Feel free to reach out to us directly at [support@langwatch.ai](mailto:support@langwatch.ai). You can also open a [GitHub issue](https://github.com/langwatch/langwatch/issues)
+to report bugs and request features, or join our [Discord](https://discord.gg/kT4PhDS2gH) channel and ask questions directly for the community and the core team.
+---
+
+# FILE: ./concepts.mdx
+
+---
+title: Concepts
+---
+
+Understanding LangWatch concepts can be made easier with two practical examples: an AI travel assistant and a tool for generating blog posts. Let's dive into how each core concept of LangWatch applies to these examples.
+
+Imagine you've created an AI travel assistant that helps users plan their trips by conversing with them to suggest destinations, find the best prices for flights, and assist with bookings. On the other hand, you also have a platform that assists users in generating, and refining blog posts, including SEO optimization.
+
+### Threads
+
+Field: `thread_id`
+
+A **thread** in the context of the AI travel assistant represents a complete conversation, that is, the group of all traces. It's the entire chat that groups all back-and-forth messages as the user inquires about different aspects of their travel plan. For the blog post tool, a thread could be for example the creation process of a new blog post, encapsulating all interactions that contribute to its completion—from headline generation to the final SEO adjustments.
+
+### Traces
+
+Field: `trace_id`
+
+A **trace** in the travel assistant's example is each distinct message, for example when a user asks for the best prices for a destination, or asks if pets are allowed in the hotel.
+
+In the blog post tool case, a trace could be for example each time a new generation of a catchy headline option happens, or the generation of a draft for the body, or the SEO keywords generation.
+
+It does not matter how many steps are inside, each trace is a full end-to-end generation handled by the AI.
+
+The `trace_id` is by default randomly generated if you don't provide one, however, to keep control of your traces and connect them to events like [Thumbs Up/Down](./user-events/thumbs-up-down), we recommend generating a random id on your side, using, for example the [nanoid](https://pypi.org/project/nanoid/) library.
+
+### Spans
+
+Field: `span_id`
+
+Within each trace, **spans** represent the individual steps taken to achieve the outcome. In the travel bot scenario, a span could be a call to the LLM to suggest potential destinations, another span for querying the airline price API, and a final span for formatting the response to present to the user. For the blog post tool, one span might be the initial text generation, followed by a subsequent span for LLM to self-critiquing the content, and another span for the third LLM call refining the text based on the critique.
+
+### User ID
+
+Field: `user_id`
+
+The **user id** identifies the ID of the final user of the product. In the context of both the AI travel assistant and the tool for generating blog posts, it's the ID that identifies the person using the app, usually their user account ID, this allows LangWatch to track how end users are using the product.
+
+### Customer ID
+
+Field: `customer_id`
+
+The **customer id** is used when you provide a platform for your customers to build LLM apps for their end users. For example, it would be if your are building a platform that allow _others_ to build AI assistants for _their_ users. Having the **customer id** allows LangWatch to group all metrics and messages per customer, which allows you to access LangWatch data through our APIs to build a custom analytics dashboard for your customers, so they can see how their own LLM assistants are behaving.
+
+### Labels
+
+Field: `labels`
+
+You can use **labels** to organize and compare the traces sent to LangWatch for any comparison you want to do. You can for example apply different labels for different actions, for example a label `blogpost_title` for generating the blog post title and another `blogpost_keywords`, for generating keywords. You can use it for versioning as well, for example label the first implementation
+version as `v1.0.0`, then do a prompt engineering to improve the AI travel planner itenerary builder, and label it as `v1.0.1`. This way you can easily focus on each different functionality or compare versions on LangWatch dashboard.
+
+---
+
+# FILE: ./integration/overview.mdx
+
+Integrating LangWatch into your projects is designed to be a straightforward process. Regardless of the language or LLM model you are using, you can set up LangWatch with minimal configuration and start gathering valuable insights into your LLM's performance and user interactions.
+
+<CardGroup cols={2}>
+  <Card title="Python Integration Guide" icon="link" href="./python/guide" />
+  <Card title="TypeScript Integration Guide" icon="link" href="./typescript/guide" />
+  <Card title="REST API" icon="link" href="./rest-api" />
+</CardGroup>
+
+---
+
+# FILE: ./integration/python/reference.mdx
+
+---
+title: Python SDK Reference
+sidebarTitle: Reference
+---
+
+This page contains the low-level reference for the Python SDK components, for guide on integrating LangWatch into your Python project, see [Python Integration Guide](/integration/python/guide).
+
+## Trace
+
+The trace is the basic unit of work in LangWatch. It is a collection of spans that are grouped together to form a single unit of work, you can create a trace in three manners:
+
+```python
+import langwatch
+
+# As a decorator:
+@langwatch.trace()
+def my_function():
+    pass
+
+
+# As a context manager
+with langwatch.trace():
+    pass
+
+
+# As a function
+trace = langwatch.trace()
+```
+
+All three ways will create the same trace objects, but for the last one you manually need to call `trace.deferred_send_spans()` or `trace.send_spans()` to send the spans to the LangWatch API.
+
+The first two will also set the trace to the context, which you can retrieve by:
+
+```
+trace = langwatch.get_current_trace()
+```
+
+Both on the trace creation function and `.update()` you can set trace_id, metadata and api_key to be used by the trace.
+
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+| trace_id | `str` | The trace id to use for the trace, a random one is generated by default, but you can also pass your own to connect with your internal message id if you have it. |
+| metadata | `dict` | The object holding metadata for the trace, it contains a few fields listed below. |
+| metadata.user_id | `str` | The user id that is triggering the generation on your LLM pipeline |
+| metadata.thread_id | `str` | A thread id can be used to virtually group together all the different traces in a single thread or workflow |
+| metadata.labels | `list[str]` | A list of labels to categorize the trace which you can use to filter on later on LangWatch dashboard, trigger evaluations and alerts |
+| api_key | `str` | The api key to use for the trace, can be set to override the LANGWATCH_API_KEY environment variable. |
+
+
+## Span
+
+A Span is a single unit of work in a trace, it is the smallest unit of work in LangWatch. Similar to traces, you can create it in three different manners:
+
+```python
+import langwatch
+
+# As a decorator
+@langwatch.span()
+def my_function():
+    pass
+
+# As a context manager
+with langwatch.span():
+    pass
+
+# As a function
+span = langwatch.span()
+```
+
+All three ways will create the same span objects, but for the last one you need to manually end the span by calling `span.end()`, which may also take parameters for updating the span data:
+
+```python
+span.end(output="sunny")
+```
+
+The first two will also set the span to the context, which you can retrieve by:
+
+```
+span = langwatch.get_current_span()
+```
+
+By default, when the span is created it becomes the child of the current span in context, but you can also explicitly create a children span from a trace or from another span by initiating them from the parent, for example:
+
+```python
+trace = langwatch.trace() # or langwatch.get_current_trace()
+
+# Direct child of the trace
+span = trace.span(name="child")
+
+# Child of another span, granchild of the trace
+subspan = span.span(name="grandchild")
+
+subspan.end()
+span.end()
+
+trace.deferred_send_spans()
+```
+
+Both on the span creation function, `.update()` and `.end()` functions you can set span parameters:
+
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+| span_id | `str` | The span id to use for the span, a random one is generated by default. |
+| name | `str` | The name of the span, automatically inferred from the function when using the `@langwatch.span()` decorator. |
+| type | `"span" \| "rag" \| "llm" \| "chain" \| "tool" \| "agent" \| "guardrail"` | The type of the span, defaults to `span`, with `rag` and `llm` spans allowing for some extra parameters. |
+| parent | `ContextSpan` | The parent span to use for the span, if not set, the current span in context is used as the parent. |
+| capture_input | `bool` | Available only on the `@langwatch.span()` decorator, whether to capture the input of the function, defaults to `True`. |
+| capture_output | `bool` | Available only on the `@langwatch.span()` decorator, whether to capture the output of the function, defaults to `True`. |
+| input | `str \| list[ChatMessage] \| SpanInputOutput` | The span input, it can be either a string, or a list of OpenAI-compatible chat messages format dicts, or a `SpanInputOutput` object, which captures other generic types such as `{ "type": "json", "value": {...} }`. |
+| output | `str \| list[ChatMessage] \| SpanInputOutput` | The span output, it can be either a string, or a list of OpenAI-compatible chat messages format dicts, or a `SpanInputOutput` object, which captures other generic types such as `{ "type": "json", "value": {...} }`. |
+| error | `Exception` | The error that occurred during the function execution, if any. It is automatically captured with the `@langwatch.span()` decorator and context manager. |
+| timestamps | `SpanTimestamps` | The timestamps of the span, tracked by default when using the `@langwatch.span()` decorator and context manager. |
+| timestamps.started_at | `int` | The start time of the span in milliseconds, the current time is used by default when the span starts. |
+| timestamps.first_token_at | `int` | The time when the first token was generated in milliseconds, automatically tracked for streaming LLMs when using framework integrations. |
+| timestamps.finished_at | `int` | The time when the span finished in milliseconds, the current time is used by default when the span ends. |
+| contexts | `list[str] \| list[RAGChunk]` | **RAG only:** The list of contexts retrieved by the RAG, manually captured to be used later as the context source for RAG evaluators. Check out the [Capturing a RAG Span](/integration/python/guide#capturing-a-rag-span) guide for more information. |
+| model | `str` | **LLM only:** The model used for the LLM in the `"vendor/model"` format (e.g. `"openai/gpt-3.5-turbo"`), automatically captured when using framework integrations, otherwise important to manually set it for correct tokens and costs tracking. |
+| params | `LLMSpanParams` | **LLM only:** The parameters used for the LLM, on which parameters were used by the LLM call, automatically captured when using framework integrations |
+| params.temperature | `float` | **LLM only:** The temperature used for the LLM |
+| params.stream | `bool` | **LLM only:** Whether the LLM is streaming or not |
+| params.tools | `list[dict]` | **LLM only:** OpenAI-compatible tools list available to the LLM |
+| params.tool_choice | `str` | **LLM only:** The OpenAI-compatible tool_choice setting for the LLM |
+| metrics | `LLMSpanMetrics` | **LLM only:** The metrics of the LLM span, automatically captured when using framework integrations |
+| metrics.prompt_tokens | `int` | **LLM only:** The number of prompt tokens used by the LLM |
+| metrics.completion_tokens | `int` | **LLM only:** The number of completion tokens used by the LLM |
+---
+
+# FILE: ./integration/python/guide.mdx
+
+---
+title: Python Integration Guide
+sidebarTitle: Guide
+---
+
+<div className="not-prose" style={{display: "flex", gap: "8px", padding: "0"}}>
+  <div>
+  <a href="https://github.com/langwatch/langwatch/tree/main/python-sdk" target="_blank">
+    <img src="https://img.shields.io/badge/repo-langwatch-blue?style=flat&logo=Github" noZoom alt="LangWatch Python Repo" />
+  </a>
+  </div>
+
+  <div>
+  <a href="https://pypi.org/project/langwatch/" target="_blank">
+    <img src="https://img.shields.io/pypi/v/langwatch?color=007EC6" noZoom alt="LangWatch Python SDK version" />
+  </a>
+  </div>
+</div>
+
+LangWatch library is the easiest way to integrate your Python application with LangWatch, the messages are synced on the background so it doesn't intercept or block your LLM calls.
+
+
+
+
+
+#### Prerequisites
+
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+
+#### Installation
+
+```sh
+pip install langwatch
+```
+
+#### Configuration
+
+Ensure `LANGWATCH_API_KEY` is set:
+
+
+### Environment variable
+
+```bash
+export LANGWATCH_API_KEY='your_api_key_here'
+```
+
+### Runtime
+
+You can set `LANGWATCH_API_KEY` globally at runtime:
+
+```python
+import langwatch
+import os
+
+langwatch.api_key = os.getenv("LANGWATCH_API_KEY")
+```
+
+Or on the specific trace being tracked:
+
+```python
+import langwatch
+import os
+
+@langwatch.trace(api_key=os.getenv("LANGWATCH_API_KEY"))
+def main():
+    ...
+```
+
+
+
+
+
+## Capturing Messages
+
+- Each message triggering your LLM pipeline as a whole is captured with a [Trace](/concepts#traces).
+- A [Trace](/concepts#traces) contains multiple [Spans](/concepts#spans), which are the steps inside your pipeline.
+  - A span can be an LLM call, a database query for a RAG retrieval, or a simple function transformation.
+  - Different types of [Spans](/concepts#spans) capture different parameters.
+  - [Spans](/concepts#spans) can be nested to capture the pipeline structure.
+- [Traces](/concepts#traces) can be grouped together on LangWatch Dashboard by having the same [`thread_id`](/concepts#threads) in their metadata, making the individual messages become part of a conversation.
+  - It is also recommended to provide the [`user_id`](/concepts#user-id) metadata to track user analytics.
+
+## Create a Trace
+
+To capture traces and spans, start by adding the `@langwatch.trace()` decorator to the function that starts your LLM pipeline. Here it is represented by the `main()` function, but it can be your endpoint call or your class method that triggers the whole generation.
+
+```python
+import langwatch
+
+@langwatch.trace()
+def main():
+    ...
+```
+
+This is the main entry point for your trace, and all spans called from here will be collected automatically to LangWatch in the background.
+
+<Note>
+On short-live environments like Lambdas or Serverless Functions, be sure to call <br /> `langwatch.get_current_trace().send_spans()` before your trace function ends to wait for all pending requests to be sent before the runtime is destroyed.
+</Note>
+
+## Capturing LLM Spans
+
+LangWatch provides some utilities to automatically capture spans for popular LLM frameworks.
+
+
+### OpenAI
+
+For OpenAI, you can use the `autotrack_openai_calls()` function to automatically capture LLM spans for OpenAI calls for the current trace.
+
+```python
+import langwatch
+from openai import OpenAI
+
+client = OpenAI()
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().autotrack_openai_calls(client)
+    ...
+```
+
+That's enough to have your OpenAI calls collected and visible on LangWatch dashboard:
+
+![OpenAI Spans](/images/integration/openai.png)
+
+### Azure
+
+For Azure OpenAI, you can use the `autotrack_openai_calls()` function to automatically capture LLM spans for Azure OpenAI calls for the current trace.
+
+```python
+import langwatch
+from openai import AzureOpenAI
+
+client = AzureOpenAI()
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().autotrack_openai_calls(client)
+    ...
+```
+
+That's enough to have your Azure OpenAI calls collected and visible on LangWatch dashboard:
+
+![Azure OpenAI Spans](/images/integration/azure.png)
+
+### LiteLLM
+
+You can use [LiteLLM](https://github.com/BerriAI/litellm) to call OpenAI, Anthropic, Gemini, Groq Llama 3 and over 100+ LLM models.
+
+And for tracking it all with LangWatch, you can use the `autotrack_litellm_calls()` function to automatically capture LLM spans for LiteLLM calls for the current trace.
+
+```python
+import langwatch
+import litellm
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().autotrack_litellm_calls(litellm)
+
+    response = litellm.completion(
+        ...
+    )
+```
+
+<Note>
+Since we patch the `completion` method of the `litellm` module, you must use `litellm.completion()` instead of just `completion()` when calling your LLM, otherwise LangWatch will not be able to capture the spans.
+</Note>
+
+That's enough to have your LiteLLM calls collected and visible on LangWatch dashboard:
+
+![LiteLLM Spans](/images/integration/litellm.png)
+
+### DSPy
+
+[DSPy](https://github.com/stanfordnlp/dspy) is the LLM framework that automatically optimizes prompts, you can use LangWatch both for [visualizing](/dspy-visualization/quickstart) the
+optimization process, and for tracking the calls during inference as this guide shows.
+
+To track DSPy programs, you can use the `autotrack_dspy()` function to automatically capture DSPy modules forward pass, retrievers and LLM calls for the current trace.
+
+```python
+import langwatch
+import dspy
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().autotrack_dspy()
+
+    program = MyDspyProgram()
+    response = program(
+        ...
+    )
+```
+
+That's enough to have your DSPy traces collected and visible on LangWatch dashboard:
+
+![DSPy Spans](/images/integration/dspy.png)
+
+### LangChain
+
+For LangChain, you can automatically capture every step of your chain as a span by getting a LangChain callback for the current trace with `get_langchain_callback()`.
+
+```python
+import langwatch
+
+@langwatch.trace()
+def main():
+    ...
+    chain.invoke(
+        {"input": user_input},
+        # Add the LangWatch callback when invoking your chain
+        {"callbacks": [langwatch.get_current_trace().get_langchain_callback()]},
+    )
+```
+
+That's enough to have your LangChain calls collected and visible on LangWatch dashboard:
+
+![LangChain Spans](/images/integration/langchain.png)
+
+
+
+Check out for more python integration examples on the [examples folder on our GitHub repo](https://github.com/langwatch/langwatch/tree/main/python-sdk/examples).
+
+## Adding metadata
+
+You can add metadata to track the user_id and current conversation thread_id, this is highly recommended to unlock better conversation grouping and user analytics on LangWatch.
+
+```python
+import langwatch
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().update(metadata={"user_id": "user_id", "thread_id": "thread_id"})
+    ...
+```
+
+You can also add custom labels to your trace to help you better filter and group your traces, or even trigger specific evaluations and alerts.
+
+```python
+import langwatch
+
+@langwatch.trace()
+def main():
+    langwatch.get_current_trace().update(metadata={"labels": ["production"]})
+    ...
+```
+
+Check out the [reference](./reference#trace) to see all the available trace properties.
+
+## Changing the Message Input and Output
+
+By default, the main input and output of the trace displayed on LangWatch is captured from the arguments and return value of
+the top-level decorated function and heuristics try to extract the human-readable message from it automatically.
+
+However, sometimes more complex structures are used and the messages might not end up very human-readable on LangWatch, for example:
+
+![Raw Input and Output](/images/integration/message-raw-input-output.png)
+
+To make the messages really easy to read in the list and through the whole conversation, you can manually set what
+should the input and output of the trace be, by calling `.update(input=...)` and `.update(output=...)` on the current trace:
+
+```python
+import langwatch
+
+@langwatch.trace()
+def main(inputs):
+    # Update the input of the trace with the user message or any other human-readable text
+    langwatch.get_current_trace().update(input=inputs.question)
+
+    ...
+
+    # Then, before returning, update the output of the trace with final response
+    langwatch.get_current_trace().update(output=response)
+
+    return response
+```
+
+This will make the messages on LangWatch look like this:
+
+![Custom Input and Output](/images/integration/message-custom-input-output.png)
+
+## Capturing a RAG span
+
+RAG is a combination of a retrieval and a generation step, LangWatch provides a special span type for RAG that captures both steps separately which allows to capture the `contexts` being used by the LLM on your pipeline.
+By capturing the `contexts`, you unlock various uses of it on LangWatch, like RAG evaluators such as Faitfhfulness and Context Relevancy, and analytics on which documents are being used the most.
+
+
+### RAG Span
+
+To capture a RAG span, you can use the `@langwatch.span(type="rag")` decorator, along with a call to `.update()` to add the `contexts` to the span:
+
+```python
+@langwatch.span(type="rag")
+def rag_retrieval():
+    # the documents you retrieved from your vector database
+    search_results = ["France is a country in Europe.", "Paris is the capital of France."]
+
+    # capture them on the span contexts before returning
+    langwatch.get_current_span().update(contexts=search_results)
+
+    return search_results
+```
+
+If you have document or chunk ids from the results, we recommend you can to capture them along with the id using `RAGChunk`, as this allows them to be grouped together and generate documents analytics on LangWatch dashboard:
+
+```python
+from langwatch.types import RAGChunk
+
+@langwatch.span(type="rag")
+def rag_retrieval():
+    # the documents you retrieved from your vector database
+    search_results = [
+        {
+            "id": "doc-1",
+            "content": "France is a country in Europe.",
+        },
+        {
+            "id": "doc-2",
+            "content": "Paris is the capital of France.",
+        },
+    ]
+
+    # capture then on the span contexts with RAGChunk before returning
+    langwatch.get_current_span().update(
+        contexts=[
+            RAGChunk(
+                document_id=document["id"],
+                content=document["content"],
+            )
+            for document in search_results
+        ]
+    )
+
+    return search_results
+```
+
+Then you'll be able to see the captured contexts that will also be used later on for evaluatios on LangWatch dashboard:
+
+![RAG Spans](/images/integration/rag.png)
+
+### LangChain
+
+When using LangChain, generally your RAG happens by calling a [`Retriever`](https://python.langchain.com/v0.1/docs/modules/data_connection/retrievers/).
+
+We provide a utility `langwatch.langchain.capture_rag_from_retriever` to capture the documents found by the retriever and convert it into a LangWatch compatible format for tracking. For that you need to pass the retriever as first argument, and then a function to map each document to a `RAGChunk`, like in the example below:
+
+```python
+import langwatch
+from langwatch.types import RAGChunk
+
+@langwatch.trace()
+def main():
+    retriever = ...
+    retriever_tool = create_retriever_tool(
+        langwatch.langchain.capture_rag_from_retriever(
+            retriever,
+            lambda document: RAGChunk(
+                document_id=document.metadata["source"],
+                content=document.page_content
+            ),
+        ),
+        "langwatch_search",
+        "Search for information about LangWatch. For any questions about LangWatch, use this tool if you didn't already",
+    )
+
+    tools = [retriever_tool]
+    model = ChatOpenAI(streaming=True)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "You are a helpful assistant that only reply in short tweet-like responses, using lots of emojis and use tools only once.\n\n{agent_scratchpad}",
+            ),
+            ("human", "{question}"),
+        ]
+    )
+    agent = create_tool_calling_agent(model, tools, prompt)
+    executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    return executor.invoke(user_input, config=RunnableConfig(
+        callbacks=[langwatch.get_current_trace().get_langchain_callback()]
+    ))
+```
+
+Alternatively, if you don't use retrievers, but still want to capture the context for example from a tool call that you do, we also provide a utility `langwatch.langchain.capture_rag_from_tool` to capture RAG contexts around a tool. For that you need to pass the tool as first argument, and then a function to map the tool's output to `RAGChunk`s, like in the example below:
+
+```python
+import langwatch
+from langwatch.types import RAGChunk
+
+@langwatch.trace()
+def main():
+    my_custom_tool = ...
+    wrapped_tool = langwatch.langchain.capture_rag_from_tool(
+        my_custom_tool, lambda response: [
+          RAGChunk(
+            document_id=response["id"], # optional
+            chunk_id=response["chunk_id"], # optional
+            content=response["content"]
+          )
+        ]
+    )
+
+    tools = [wrapped_tool] # use the new wrapped tool in your agent instead of the original one
+    model = ChatOpenAI(streaming=True)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "You are a helpful assistant that only reply in short tweet-like responses, using lots of emojis and use tools only once.\n\n{agent_scratchpad}",
+            ),
+            ("human", "{question}"),
+        ]
+    )
+    agent = create_tool_calling_agent(model, tools, prompt)
+    executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    return executor.invoke(user_input, config=RunnableConfig(
+        callbacks=[langWatchCallback]
+    ))
+```
+
+Then you'll be able to see the captured contexts that will also be used later on for evaluatios on LangWatch dashboard:
+
+![RAG Spans](/images/integration/langchain-rag.png)
+
+
+
+## Capturing other spans
+
+To be able to inspect and debug each step of your pipeline along with the LLM calls, you can use the `@langwatch.span()` decorator. You can pass in different `type`s to categorize your spans.
+
+```python
+import langwatch
+
+@langwatch.span()
+def database_query():
+    ...
+
+@langwatch.span(type="tool")
+def weather_forecast(city: str):
+    ...
+
+@langwatch.span(type="rag")
+def rag_retrieval():
+    ...
+
+# You can manually track llm calls too if the automatic capture is not enough for your use case
+@langwatch.span(type="llm")
+def llm_call():
+    ...
+
+@langwatch.trace()
+def main():
+    ...
+```
+
+The input and output of the decorated function are automatically captured in the span, to disable that, you can set `capture_input` and `capture_output` to `False`:
+
+```python
+@langwatch.span(capture_input=False, capture_output=False)
+def database_query():
+    ...
+```
+
+You can also modify the current spans attributes, either on the decorator by using `.update()` on the current span:
+
+```python
+@langwatch.span(type="llm", name="custom_name")
+def llm_call():
+    langwatch.get_current_span().update(model="my-custom-model")
+    ...
+```
+
+Check out the [reference](./reference#span) to see all the available span properties.
+
+## Capturing custom evaluation results
+
+[LangWatch Evaluators](/evaluations/overview) can run automatically on your traces, but if you have an in-house custom evaluator, you can also capture the evaluation
+results of your custom evaluator on the current trace or span by using the `.add_evaluation` method:
+
+
+
+```python
+import langwatch
+
+@langwatch.span(type="evaluation")
+def evaluation_step():
+    ... # your custom evaluation logic
+
+    langwatch.get_current_span().add_evaluation(
+        name="custom evaluation", # required
+        passed=True,
+        score=0.5,
+        label="category_detected",
+        details="explanation of the evaluation results",
+    )
+```
+
+The evaluation `name` is required and must be a string. The other fields are optional, but at least one of `passed`, `score` or `label` must be provided.
+
+## Synchronizing your message IDs with LangWatch traces
+
+If you store the messages in a database on your side as well, you set the `trace_id` of the current trace to the same one of the message on your side, this way your system will be in sync with LangWatch traces, making it easier to investigate later on.
+
+```python
+@langwatch.trace()
+def main():
+    ...
+    langwatch.get_current_trace().update(trace_id=message_id)
+    ...
+```
+---
+
+# FILE: ./integration/typescript/guide.mdx
+
+---
+title: TypeScript Integration Guide
+sidebarTitle: Guide
+---
+
+<div className="not-prose" style={{display: "flex", gap: "8px", padding: "0"}}>
+  <div>
+  <a href="https://github.com/langwatch/langwatch/tree/main/typescript-sdk" target="_blank">
+    <img src="https://img.shields.io/badge/repo-langwatch-blue?style=flat&logo=Github" noZoom alt="LangWatch TypeScript Repo" />
+  </a>
+  </div>
+
+  <div>
+  <a href="https://www.npmjs.com/package/langwatch" target="_blank">
+    <img src="https://img.shields.io/npm/v/langwatch?color=007EC6" noZoom alt="LangWatch TypeScript SDK version" />
+  </a>
+  </div>
+</div>
+
+LangWatch library is the easiest way to integrate your TypeScript application with LangWatch, the messages are synced on the background so it doesn't intercept or block your LLM calls.
+
+
+
+#### Prerequisites
+
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+
+#### Installation
+
+```sh
+npm install langwatch
+```
+
+#### Configuration
+
+Ensure `LANGWATCH_API_KEY` is set:
+
+
+### Environment variable
+
+```bash .env
+LANGWATCH_API_KEY='your_api_key_here'
+```
+
+### Client parameters
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch({
+  apiKey: 'your_api_key_here',
+});
+```
+
+
+
+
+
+## Basic Concepts
+
+- Each message triggering your LLM pipeline as a whole is captured with a [Trace](/concepts#traces).
+- A [Trace](/concepts#traces) contains multiple [Spans](/concepts#spans), which are the steps inside your pipeline.
+  - A span can be an LLM call, a database query for a RAG retrieval, or a simple function transformation.
+  - Different types of [Spans](/concepts#spans) capture different parameters.
+  - [Spans](/concepts#spans) can be nested to capture the pipeline structure.
+- [Traces](/concepts#traces) can be grouped together on LangWatch Dashboard by having the same [`thread_id`](/concepts#threads) in their metadata, making the individual messages become part of a conversation.
+  - It is also recommended to provide the [`user_id`](/concepts#user-id) metadata to track user analytics.
+
+
+## Integration
+
+
+### Vercel AI SDK
+
+The Vercel AI SDK supports tracing via Next.js OpenTelemetry integration. By using the `LangWatchExporter`, you can automatically collect those traces to LangWatch.
+
+First, you need to install the necessary dependencies:
+
+```bash
+npm install @vercel/otel langwatch @opentelemetry/api-logs @opentelemetry/instrumentation @opentelemetry/sdk-logs
+```
+
+Then, set up the OpenTelemetry for your application, follow one of the tabs below depending whether you are using AI SDK with Next.js or on Node.js:
+
+
+### Next.js
+
+You need to enable the `instrumentationHook` in your `next.config.js` file if you haven't already:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    instrumentationHook: true,
+  },
+};
+
+module.exports = nextConfig;
+```
+
+Next, you need to create a file named `instrumentation.ts` (or `.js`) in the __root directory__ of the project (or inside `src` folder if using one), with `LangWatchExporter` as the traceExporter:
+
+```typescript
+import { registerOTel } from '@vercel/otel'
+import { LangWatchExporter } from 'langwatch'
+
+export function register() {
+  registerOTel({
+    serviceName: 'next-app',
+    traceExporter: new LangWatchExporter({
+      apiKey: process.env.LANGWATCH_API_KEY
+    })
+  })
+}
+```
+
+(Read more about Next.js OpenTelemetry configuration [on the official guide](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry#manual-opentelemetry-configuration))
+
+Finally, enable `experimental_telemetry` tracking on the AI SDK calls you want to trace:
+
+```typescript
+const result = await generateText({
+  model: openai('gpt-4o-mini'),
+  prompt: 'Explain why a chicken would make a terrible astronaut, be creative and humorous about it.',
+  experimental_telemetry: {
+    isEnabled: true,
+    // optional metadata
+    metadata: {
+      userId: "myuser-123",
+      threadId: "mythread-123",
+    },
+  },
+});
+```
+
+### Node.js
+
+For Node.js, start by following the official OpenTelemetry guide:
+
+- [OpenTelemetry Node.js Getting Started](https://opentelemetry.io/docs/languages/js/getting-started/nodejs/)
+
+Once you have set up OpenTelemetry, you can use the `LangWatchExporter` to automatically send your traces to LangWatch:
+
+```typescript
+import { LangWatchExporter } from 'langwatch'
+
+const sdk = new NodeSDK({
+  traceExporter: new LangWatchExporter({
+    apiKey: process.env.LANGWATCH_API_KEY
+  }),
+  // ...
+});
+```
+
+
+
+That's it! Your messages will now be visible on LangWatch:
+
+![Vercel AI SDK](/images/integration/vercel-ai-sdk.png)
+
+## Example Project
+
+You can find a full example project with a more complex pipeline and Vercel AI SDK and LangWatch integration [on our GitHub](https://github.com/langwatch/langwatch/blob/main/typescript-sdk/example/lib/chat/vercel-ai.tsx).
+
+## Manual Integration
+
+The docs from here below are for manual integration, in case you are not using the Vercel AI SDK OpenTelemetry integration,
+you can manually start a trace to capture your messages:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+```typescript
+import { convertFromVercelAIMessages } from 'langwatch'
+
+const span = trace.startLLMSpan({
+  name: "llm",
+  model: model,
+  input: {
+    type: "chat_messages",
+    value: convertFromVercelAIMessages(messages)
+  },
+});
+```
+
+This will capture the LLM input and register the time the call started. Once the LLM call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation, e.g.:
+
+```typescript
+span.end({
+  output: {
+    type: "chat_messages",
+    value: convertFromVercelAIMessages(output), // assuming output is Message[]
+  },
+  metrics: {
+    promptTokens: chatCompletion.usage?.prompt_tokens,
+    completionTokens: chatCompletion.usage?.completion_tokens,
+  },
+});
+```
+
+
+### OpenAI
+
+Start by initializing LangWatch client and creating a new trace to capture your messages:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then to capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
+
+```typescript
+import { OpenAI } from "openai";
+
+// Model to be used and messages that will be sent to the LLM
+const model = "gpt-4o"
+const messages : OpenAI.Chat.ChatCompletionMessageParam[] = [
+  { role: "system", content: "You are a helpful assistant." },
+  {
+    role: "user",
+    content: "Write a tweet-size vegetarian lasagna recipe for 4 people.",
+  },
+]
+```
+
+Then, start the LLM span from the trace, giving it the model and input messages:
+
+```typescript
+const span = trace.startLLMSpan({
+  name: "llm",
+  model: model,
+  input: {
+    type: "chat_messages",
+    value: messages
+  },
+});
+```
+
+This will capture the LLM input and register the time the call started. Now, continue with the LLM call normally, using the same parameters:
+
+```typescript
+const openai = new OpenAI();
+const chatCompletion = await openai.chat.completions.create({
+  messages: messages,
+  model: model,
+});
+```
+
+Finally, after the OpenAI call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation:
+
+```typescript
+span.end({
+  output: {
+    type: "chat_messages",
+    value: [chatCompletion.choices[0]!.message],
+  },
+  metrics: {
+    promptTokens: chatCompletion.usage?.prompt_tokens,
+    completionTokens: chatCompletion.usage?.completion_tokens,
+  },
+});
+```
+
+### Azure
+
+Start by initializing LangWatch client and creating a new trace to capture your messages:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then to capture your LLM calls, you can start an LLM span inside the trace with the input about to be sent to the LLM.
+
+First, define the model and the messages you are going to use for your LLM call separately, so you can capture them:
+
+```typescript
+import { AzureOpenAI } from "openai";
+
+// Model to be used and messages that will be sent to the LLM
+const model = "gpt-4-turbo-2024-04-09"
+const messages : OpenAI.Chat.ChatCompletionMessageParam[] = [
+  { role: "system", content: "You are a helpful assistant." },
+  {
+    role: "user",
+    content: "Write a tweet-size vegetarian lasagna recipe for 4 people.",
+  },
+]
+```
+
+Then, start the LLM span from the trace, giving it the model and input messages:
+
+```typescript
+const span = trace.startLLMSpan({
+  name: "llm",
+  model: model,
+  input: {
+    type: "chat_messages",
+    value: messages
+  },
+});
+```
+
+This will capture the LLM input and register the time the call started. Now, continue with the LLM call normally, using the same parameters:
+
+```typescript
+const openai = new AzureOpenAI({
+  apiKey: process.env.AZURE_OPENAI_API_KEY,
+  apiVersion: "2024-02-01",
+  endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+});
+const chatCompletion = await openai.chat.completions.create({
+  messages: messages,
+  model: model,
+});
+```
+
+Finally, after the OpenAI call is done, end the span to get the finish timestamp to be registered, and capture the output and the token metrics, which will be used for cost calculation:
+
+```typescript
+span.end({
+  output: {
+    type: "chat_messages",
+    value: [chatCompletion.choices[0]!.message],
+  },
+  metrics: {
+    promptTokens: chatCompletion.usage?.prompt_tokens,
+    completionTokens: chatCompletion.usage?.completion_tokens,
+  },
+});
+```
+
+### LangChain.js
+
+Start by initializing LangWatch client and creating a new trace to capture your chain:
+
+```typescript
+import { LangWatch } from 'langwatch';
+
+const langwatch = new LangWatch();
+
+const trace = langwatch.getTrace({
+  metadata: { threadId: "mythread-123", userId: "myuser-123" },
+});
+```
+
+Then, to capture your LLM calls and all other chain steps, LangWatch provides a callback hook for LangChain.js that automatically tracks everything for you.
+
+First, define your chain as you would normally do:
+
+```typescript
+import { StringOutputParser } from '@langchain/core/output_parsers'
+import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { ChatOpenAI } from '@langchain/openai'
+
+const prompt = ChatPromptTemplate.fromMessages([
+  ['system', 'Translate the following from English into Italian'],
+  ['human', '{input}']
+])
+const model = new ChatOpenAI({ model: 'gpt-3.5-turbo' })
+const outputParser = new StringOutputParser()
+
+const chain = prompt.pipe(model).pipe(outputParser)
+```
+
+Now, when calling your chain either with `invoke` or `stream`, pass in `trace.getLangChainCallback()` as one of the callbacks:
+
+```typescript
+const stream = await chain.stream(
+  { input: message },
+  { callbacks: [trace.getLangChainCallback()] }
+)
+```
+
+That's it! The full trace with all spans for each chain step will be sent automatically to LangWatch in the background on periodic intervals. After capturing your first LLM Span, go to [LangWatch Dashboard](https://app.langwatch.com), your message should be there!
+
+
+
+<Note>
+On short-live environments like Lambdas or Serverless Functions, be sure to call <br /> `await trace.sendSpans();` to wait for all pending requests to be sent before the runtime is destroyed.
+</Note>
+
+## Capture a RAG Span
+
+Appart from LLM spans, another very used type of span is the RAG span. This is used to capture the retrieved contexts from a RAG that will be used by the LLM, and enables a whole new set of RAG-based features evaluations for RAG quality on LangWatch.
+
+
+
+To capture a RAG, you can simply start a RAG span inside the trace, giving it the input query being used:
+
+```typescript
+const ragSpan = trace.startRAGSpan({
+  name: "my-vectordb-retrieval", // optional
+  input: { type: "text", value: "search query" },
+});
+
+// proceed to do the retrieval normally
+```
+
+Then, after doing the retrieval, you can end the RAG span with the contexts that were retrieved and will be used by the LLM:
+
+```typescript
+ragSpan.end({
+  contexts: [
+    {
+      documentId: "doc1",
+      content: "document chunk 1",
+    },
+    {
+      documentId: "doc2",
+      content: "document chunk 2",
+    },
+  ],
+});
+```
+
+<Note>
+On LangChain.js, RAG spans are captured automatically by the LangWatch callback when using LangChain Retrievers, with `source` as the documentId.
+</Note>
+
+## Capture an arbritary Span
+
+You can also use generic spans to capture any type of operation, its inputs and outputs, for example for a function call:
+
+```typescript
+// before the function starts
+const span = trace.startSpan({
+  name: "weather_function",
+  input: {
+    type: "json",
+    value: {
+      city: "Tokyo",
+    },
+  },
+});
+
+// ...after the function ends
+span.end({
+  output: {
+    type: "json",
+    value: {
+      weather: "sunny",
+    },
+  },
+});
+```
+
+You can also nest spans one inside the other, capturing your pipeline structure, for example:
+
+```typescript
+const span = trace.startSpan({
+  name: "pipeline",
+});
+
+const nestedSpan = span.startSpan({
+  name: "nested_pipeline",
+});
+
+nestedSpan.end()
+
+span.end()
+```
+
+Both LLM and RAG spans can also be nested like any arbritary span.
+
+## Capturing Exceptions
+
+To capture also when your code throws an exception, you can simply wrap your code around a try/catch, and update or end the span with the exception:
+
+```typescript
+try {
+  throw new Error("unexpected error");
+} catch (error) {
+  span.end({
+    error: error,
+  });
+}
+```
+
+## Capturing custom evaluation results
+
+[LangWatch Evaluators](/evaluations/overview) can run automatically on your traces, but if you have an in-house custom evaluator, you can also capture the evaluation
+results of your custom evaluator on the current trace or span by using the `.addEvaluation` method:
+
+
+
+```typescript
+import { type LangWatchTrace } from "langwatch";
+
+async function llmStep({ message, trace }: { message: string, trace: LangWatchTrace }): Promise<string> {
+    const span = trace.startLLMSpan({ name: "llmStep" });
+
+    // ... your existing code
+
+    span.addEvaluation({
+        name: "custom evaluation",
+        passed: true,
+        score: 0.5,
+        label: "category_detected",
+        details: "explanation of the evaluation results",
+    });
+}
+```
+
+The evaluation `name` is required and must be a string. The other fields are optional, but at least one of `passed`, `score` or `label` must be provided.
+---
+
+# FILE: ./integration/rest-api.mdx
+
+---
+title: REST API Integration
+---
+
+If your preferred programming language or platform is not directly supported by the existing LangWatch libraries, you can use the REST API with `curl` to send trace data. This guide will walk you through how to integrate LangWatch with any system that allows HTTP requests.
+
+**Prerequisites:**
+
+- Ensure you have `curl` installed on your system.
+
+**Configuration:**
+
+Set the `LANGWATCH_API_KEY` environment variable in your environment:
+
+```bash
+export LANGWATCH_API_KEY='your_api_key_here'
+```
+
+**Usage:**
+
+You will need to prepare your span data in accordance with the Span type definitions provided by LangWatch. Below is an example of how to send span data using curl:
+
+    1. Prepare your JSON data. Make sure it's properly formatted as expected by LangWatch.
+    2. Use the curl command to send your trace data. Here is a basic template:
+
+```bash
+# Set your API key and endpoint URL
+LANGWATCH_API_KEY="your_langwatch_api_key"
+LANGWATCH_ENDPOINT="https://app.langwatch.ai"
+
+# Use curl to send the POST request, e.g.:
+curl -X POST "$LANGWATCH_ENDPOINT/api/collector" \
+     -H "X-Auth-Token: $LANGWATCH_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d @- <<EOF
+{
+  "trace_id": "trace-123",
+  "spans": [
+    {
+      "type": "llm",
+      "span_id": "span-456",
+      "vendor": "openai",
+      "model": "gpt-4",
+      "input": {
+        "type": "chat_messages",
+        "value": [
+          {
+            "role": "user",
+            "content": "Input to the LLM"
+          }
+        ]
+      },
+      "output": {
+        "type": "chat_messages",
+        "value": [
+            {
+                "role": "assistant",
+                "content": "Output from the LLM",
+                "function_call": null,
+                "tool_calls": []
+            }
+        ]
+      },
+      "params": {
+        "temperature": 0.7,
+        "stream": false
+      },
+      "metrics": {
+        "prompt_tokens": 100,
+        "completion_tokens": 150
+      },
+      "timestamps": {
+        "started_at": 1706628806000,
+        "finished_at": 1706628808000
+      }
+    }
+  ],
+  "metadata": {
+    "user_id": "optional_end_user_identifier",
+    "thread_id": "optional_thread_identifier",
+    "customer_id": "optional_platform_customer_identifier",
+    "labels": ["optional_label_1", "optional_label_2"]
+  }
+}
+EOF
+```
+
+Replace the placeholders with your actual data. The `@-` tells `curl` to read the JSON data from the standard input, which we provide via the `EOF`-delimited here-document.
+
+For the type reference of how a `span` should look like, check out our [types definitions](https://github.com/langwatch/langwatch/blob/main/python-sdk/langwatch/types.py#L118).
+
+It's optional but highly recommended to pass the `user_id` on the metadata if you want to leverage user-specific analytics and the `thread_id` to group related traces together. To connect it to an event later on. Read more about those and other concepts [here](../concepts).
+
+3.  Execute the `curl` command. If successful, LangWatch will process your trace data.
+
+This method of integration offers a flexible approach for sending traces from any system capable of making HTTP requests. Whether you're using a less common programming language or a custom-built platform, this RESTful approach ensures you can benefit from LangWatch's capabilities.
+
+Remember to handle errors and retries as needed. You might need to script additional logic around the `curl` command to handle these cases.
+
+After following the above guide, your interactions with LLMs should now be captured by LangWatch. Once integrated, you can visit your LangWatch dashboard to view and analyze the traces collected from your applications.
+
+---
+
+# FILE: ./integration/opentelemetry/guide.mdx
+
+---
+title: OpenTelemetry Integration Guide
+sidebarTitle: Guide
+---
+
+
+
+OpenTelemetry is a standard protocol for tracing, and LangWatch is fully compatible with OpenTelemetry, you can use any OpenTelemetry compatible library to capture your LLM traces and send them to LangWatch.
+
+This guide demonstrates the OpenTelemetry integration using Python, but the same principles apply to integration with OpenTelemetry instrumentation in other languages.
+
+#### Prerequisites
+
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+
+#### Installation
+
+```bash
+pip install opentelemetry
+```
+
+#### Configuration
+
+Set up LangWatch as the OpenTelemetry exporter endpoint:
+
+```python
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+
+# Set up OpenTelemetry trace provider with LangWatch as the endpoint
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(
+    SimpleSpanProcessor(
+        OTLPSpanExporter(
+            endpoint="https://app.langwatch.ai/api/otel/v1/traces",
+            headers={"Authorization": "Bearer " + os.environ["LANGWATCH_API_KEY"]},
+        )
+    )
+)
+# Optionally, you can also print the spans to the console.
+tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+```
+
+## Capturing LLM Traces
+
+Currently, there are different open initiatives for LLM instrumentation libraries, here we show some examples on how to capture LLM traces with a couple of them.
+
+
+  ### OpenInference (Python)
+
+
+      ### OpenAI
+
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-openai
+        ```
+
+        Then, instrument your OpenAI calls:
+
+        ```python
+        from openinference.instrumentation.openai import OpenAIInstrumentor
+
+        OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your OpenAI calls in the LangWatch dashboard:
+
+        ![OpenInference OpenAI Spans](/images/integration/opentelemetry/openinference-openai.png)
+
+        ## Capturing Metadata
+
+You can use OpenInference's `using_attributes` context manager to capture additional information for your LLM calls, such as the user_id, session_id (equivalent to thread id), tags and metadata:
+
+```python
+from openinference.instrumentation import using_attributes
+
+def main():
+  with using_attributes(
+      session_id="my-test-session",
+      user_id="my-test-user",
+      tags=["tag-1", "tag-2"],
+      metadata={"foo": "bar"},
+  ):
+      # Your LLM call
+```
+
+      ### DSPy
+
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-dspy
+        ```
+
+        Then, instrument your DSPy calls:
+
+        ```python
+        from openinference.instrumentation.dspy import DSPyInstrumentor
+
+        DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your DSPy calls in the LangWatch dashboard:
+
+        ![OpenInference DSPy Spans](/images/integration/opentelemetry/openinference-dspy.png)
+
+        ## Capturing Metadata
+
+You can use OpenInference's `using_attributes` context manager to capture additional information for your LLM calls, such as the user_id, session_id (equivalent to thread id), tags and metadata:
+
+```python
+from openinference.instrumentation import using_attributes
+
+def main():
+  with using_attributes(
+      session_id="my-test-session",
+      user_id="my-test-user",
+      tags=["tag-1", "tag-2"],
+      metadata={"foo": "bar"},
+  ):
+      # Your LLM call
+```
+
+      ### Haystack
+
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-haystack
+        ```
+
+        Then, instrument your Haystack calls:
+
+        ```python
+        from openinference.instrumentation.haystack import HaystackInstrumentor
+
+        HaystackInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your Haystack calls in the LangWatch dashboard:
+
+        ![OpenInference Haystack Spans](/images/integration/opentelemetry/openinference-haystack.png)
+
+        ## Capturing Metadata
+
+You can use OpenInference's `using_attributes` context manager to capture additional information for your LLM calls, such as the user_id, session_id (equivalent to thread id), tags and metadata:
+
+```python
+from openinference.instrumentation import using_attributes
+
+def main():
+  with using_attributes(
+      session_id="my-test-session",
+      user_id="my-test-user",
+      tags=["tag-1", "tag-2"],
+      metadata={"foo": "bar"},
+  ):
+      # Your LLM call
+```
+
+      ### LangChain
+
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-langchain
+        ```
+
+        Then, instrument your LangChain calls:
+
+        ```python
+        from openinference.instrumentation.langchain import LangChainInstrumentor
+
+        LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your LangChain calls in the LangWatch dashboard:
+
+        ![OpenInference LangChain Spans](/images/integration/opentelemetry/openinference-langchain.png)
+
+        ## Capturing Metadata
+
+You can use OpenInference's `using_attributes` context manager to capture additional information for your LLM calls, such as the user_id, session_id (equivalent to thread id), tags and metadata:
+
+```python
+from openinference.instrumentation import using_attributes
+
+def main():
+  with using_attributes(
+      session_id="my-test-session",
+      user_id="my-test-user",
+      tags=["tag-1", "tag-2"],
+      metadata={"foo": "bar"},
+  ):
+      # Your LLM call
+```
+
+      ### CrewAI
+
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-crewai openinference-instrumentation-langchain
+        ```
+
+        Then, instrument your LangChain calls. CrewAI uses LangChain under the hood, so we instrument both:
+
+        ```python
+        from openinference.instrumentation.crewai import CrewAIInstrumentor
+        from openinference.instrumentation.langchain import LangChainInstrumentor
+
+        CrewAIInstrumentor().instrument(tracer_provider=tracer_provider)
+        LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your CrewAI calls in the LangWatch dashboard.
+
+        ## Capturing Metadata
+
+You can use OpenInference's `using_attributes` context manager to capture additional information for your LLM calls, such as the user_id, session_id (equivalent to thread id), tags and metadata:
+
+```python
+from openinference.instrumentation import using_attributes
+
+def main():
+  with using_attributes(
+      session_id="my-test-session",
+      user_id="my-test-user",
+      tags=["tag-1", "tag-2"],
+      metadata={"foo": "bar"},
+  ):
+      # Your LLM call
+```
+
+
+
+
+  ### OpenLLMetry (Python)
+
+
+      ### OpenAI
+
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-openai
+        ```
+
+        Then, instrument your OpenAI calls:
+
+        ```python
+        from opentelemetry.instrumentation.openai import OpenAIInstrumentor
+
+        OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your OpenAI calls in the LangWatch dashboard:
+
+        ![OpenLLMetry OpenAI Spans](/images/integration/opentelemetry/openllmetry-openai.png)
+
+      ### Anthropic
+
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-anthropic
+        ```
+
+        Then, instrument your Anthropic calls:
+
+        ```python
+        from opentelemetry.instrumentation.anthropic import AnthropicInstrumentor
+
+        AnthropicInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your Anthropic calls in the LangWatch dashboard:
+
+        ![OpenLLMetry Anthropic Spans](/images/integration/opentelemetry/openllmetry-anthropic.png)
+
+      ### LangChain
+
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-langchain
+        ```
+
+        Then, instrument your LangChain calls:
+
+        ```python
+        from opentelemetry.instrumentation.langchain import LangchainInstrumentor
+
+        LangchainInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your LangChain calls in the LangWatch dashboard:
+
+        ![OpenLLMetry LangChain Spans](/images/integration/opentelemetry/openllmetry-langchain.png)
+
+      ### LlamaIndex
+
+        Installation:
+
+        ```bash
+        pip install opentelemetry-instrumentation-llamaindex
+        ```
+
+        Then, instrument your LlamaIndex calls:
+
+        ```python
+        from opentelemetry.instrumentation.llamaindex import LlamaIndexInstrumentor
+
+        LlamaIndexInstrumentor().instrument(tracer_provider=tracer_provider)
+        ```
+
+        That's it! You can now see the traces for your LlamaIndex calls in the LangWatch dashboard.
+
+
+
+
+
+
+---
+
+# FILE: ./integration/rags-context-tracking.mdx
+
+---
+title: "RAG Context Tracking"
+---
+
+Retrieval Augmented Generation (RAGs) is a common way to augment the generation of your LLM by retrieving a set of documents based on the user query and giving it to the LLM to use as context for answering, either by using a vector database, getting responses from an API, or integrated agent files and memory.
+
+It can be challenging, however, to build a good quality RAG pipeline, making sure the right data was retrieved, preventing the LLM from hallucinating, monitor which documents are the most used and keep iterating to improve it, this is where integrating with LangWatch can help, by integrating your RAG you unlock a series of Guardrails, Measurements and Analytics for RAGs LangWatch.
+
+
+
+
+
+
+### Python (General)
+
+To capture a RAG span, you can use the `@langwatch.span(type="rag")` decorator, along with a call to `.update()` to add the `contexts` to the span:
+
+```python
+@langwatch.span(type="rag")
+def rag_retrieval():
+    # the documents you retrieved from your vector database
+    search_results = ["France is a country in Europe.", "Paris is the capital of France."]
+
+    # capture them on the span contexts before returning
+    langwatch.get_current_span().update(contexts=search_results)
+
+    return search_results
+```
+
+If you have document or chunk ids from the results, we recommend you can to capture them along with the id using `RAGChunk`, as this allows them to be grouped together and generate documents analytics on LangWatch dashboard:
+
+```python
+from langwatch.types import RAGChunk
+
+@langwatch.span(type="rag")
+def rag_retrieval():
+    # the documents you retrieved from your vector database
+    search_results = [
+        {
+            "id": "doc-1",
+            "content": "France is a country in Europe.",
+        },
+        {
+            "id": "doc-2",
+            "content": "Paris is the capital of France.",
+        },
+    ]
+
+    # capture then on the span contexts with RAGChunk before returning
+    langwatch.get_current_span().update(
+        contexts=[
+            RAGChunk(
+                document_id=document["id"],
+                content=document["content"],
+            )
+            for document in search_results
+        ]
+    )
+
+    return search_results
+```
+
+Then you'll be able to see the captured contexts that will also be used later on for evaluatios on LangWatch dashboard:
+
+![RAG Spans](/images/integration/rag.png)
+
+### Python (LangChain)
+
+When using LangChain, generally your RAG happens by calling a [`Retriever`](https://python.langchain.com/v0.1/docs/modules/data_connection/retrievers/).
+
+We provide a utility `langwatch.langchain.capture_rag_from_retriever` to capture the documents found by the retriever and convert it into a LangWatch compatible format for tracking. For that you need to pass the retriever as first argument, and then a function to map each document to a `RAGChunk`, like in the example below:
+
+```python
+import langwatch
+from langwatch.types import RAGChunk
+
+@langwatch.trace()
+def main():
+    retriever = ...
+    retriever_tool = create_retriever_tool(
+        langwatch.langchain.capture_rag_from_retriever(
+            retriever,
+            lambda document: RAGChunk(
+                document_id=document.metadata["source"],
+                content=document.page_content
+            ),
+        ),
+        "langwatch_search",
+        "Search for information about LangWatch. For any questions about LangWatch, use this tool if you didn't already",
+    )
+
+    tools = [retriever_tool]
+    model = ChatOpenAI(streaming=True)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "You are a helpful assistant that only reply in short tweet-like responses, using lots of emojis and use tools only once.\n\n{agent_scratchpad}",
+            ),
+            ("human", "{question}"),
+        ]
+    )
+    agent = create_tool_calling_agent(model, tools, prompt)
+    executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    return executor.invoke(user_input, config=RunnableConfig(
+        callbacks=[langwatch.get_current_trace().get_langchain_callback()]
+    ))
+```
+
+Alternatively, if you don't use retrievers, but still want to capture the context for example from a tool call that you do, we also provide a utility `langwatch.langchain.capture_rag_from_tool` to capture RAG contexts around a tool. For that you need to pass the tool as first argument, and then a function to map the tool's output to `RAGChunk`s, like in the example below:
+
+```python
+import langwatch
+from langwatch.types import RAGChunk
+
+@langwatch.trace()
+def main():
+    my_custom_tool = ...
+    wrapped_tool = langwatch.langchain.capture_rag_from_tool(
+        my_custom_tool, lambda response: [
+          RAGChunk(
+            document_id=response["id"], # optional
+            chunk_id=response["chunk_id"], # optional
+            content=response["content"]
+          )
+        ]
+    )
+
+    tools = [wrapped_tool] # use the new wrapped tool in your agent instead of the original one
+    model = ChatOpenAI(streaming=True)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "You are a helpful assistant that only reply in short tweet-like responses, using lots of emojis and use tools only once.\n\n{agent_scratchpad}",
+            ),
+            ("human", "{question}"),
+        ]
+    )
+    agent = create_tool_calling_agent(model, tools, prompt)
+    executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    return executor.invoke(user_input, config=RunnableConfig(
+        callbacks=[langWatchCallback]
+    ))
+```
+
+Then you'll be able to see the captured contexts that will also be used later on for evaluatios on LangWatch dashboard:
+
+![RAG Spans](/images/integration/langchain-rag.png)
+
+### TypeScript
+
+To capture a RAG, you can simply start a RAG span inside the trace, giving it the input query being used:
+
+```typescript
+const ragSpan = trace.startRAGSpan({
+  name: "my-vectordb-retrieval", // optional
+  input: { type: "text", value: "search query" },
+});
+
+// proceed to do the retrieval normally
+```
+
+Then, after doing the retrieval, you can end the RAG span with the contexts that were retrieved and will be used by the LLM:
+
+```typescript
+ragSpan.end({
+  contexts: [
+    {
+      documentId: "doc1",
+      content: "document chunk 1",
+    },
+    {
+      documentId: "doc2",
+      content: "document chunk 2",
+    },
+  ],
+});
+```
+
+<Note>
+On LangChain.js, RAG spans are captured automatically by the LangWatch callback when using LangChain Retrievers, with `source` as the documentId.
+</Note>
+
+### REST API
+
+To track the RAG context when using the REST API, add a new span of type `rag`, you may also refer the LLM generation as the child of it:
+
+```bash
+curl -X POST "https://app.langwatch.ai/api/collector" \\
+     -H "X-Auth-Token: $API_KEY" \\
+     -H "Content-Type: application/json" \\
+     -d @- <<EOF
+{
+  "trace_id": "trace-123",
+  "spans": [
+    {
+      "type": "rag",
+      "name": null,
+      "span_id": "span-123",
+      "input": {
+          "type": "text",
+          "value": "What is the capital of France?"
+      },
+      "timestamps": {
+          "started_at": 1702485035000,
+          "first_token_at": null,
+          "finished_at": 1702485041000
+      },
+      "contexts": [
+        {
+            "document_id": "doc-1",
+            "chunk_id": "0",
+            "content": "France is a country in Europe.",
+        },
+        {
+            "document_id": "doc-2",
+            "chunk_id": "0",
+            "content": "Paris is the capital of France.",
+        },
+      ]
+    },
+    {
+      "type": "llm",
+      "span_id": "span-456",
+      "parent_id": "span-123",
+      "vendor": "openai",
+      "model": "gpt-4",
+      "input": {
+        "type": "chat_messages",
+        "value": [
+          {
+            "role": "user",
+            "content": "Input to the LLM"
+          }
+        ]
+      },
+      "outputs": [
+        {
+          "type": "chat_messages",
+          "value": [
+              {
+                  "role": "assistant",
+                  "content": "Output from the LLM",
+                  "function_call": null,
+                  "tool_calls": []
+              }
+          ]
+        }
+      ],
+      "params": {
+        "temperature": 0.7,
+        "stream": false
+      },
+      "metrics": {
+        "prompt_tokens": 100,
+        "completion_tokens": 150
+      },
+      "timestamps": {
+        "started_at": 1617981376000,
+        "finished_at": 1617981378000
+      }
+    }
+  ],
+}
+EOF
+```
+
+
+
+
+---
+
+# FILE: ./features/batch-evaluations.mdx
+
+---
+title: Batch Evaluations
+---
+
+If you intend to conduct batch evaluations on the datasets you've created in LangWatch, we offer a Python SKD to facilitate this process. This guide aims to provide comprehensive instructions on leveraging our Python SDK to execute batch evaluations effectively.
+
+### Usage
+
+After adding records to your dataset, created within the dataset section of LangWatch, you can proceed to select the dataset for batch evaluation along with the desired evaluations. You have the option to choose from predefined evaluations or any custom evaluations you've set up in the Evaluation and Guardrails section of LangWatch.
+
+### Screenshots examples
+
+In the below in screenshot you will see the datasets section in LangWatch, you can get your batch evaluation python snippet by clicking on on the Batch Evaluation button.
+
+<img
+  className="block"
+  src="/images/screenshot-datasets-page.png"
+  alt="LangWatch"
+/>
+
+In the below screenshot you will see where you can select the dataset you want to evaluate on as well as selecting which evaluations you would like to run. Each tab has different evaluation you can choose from.
+
+<img
+  className="block"
+  src="/images/screenshot-batch-evaluation-drawer.png"
+  alt="LangWatch"
+/>
+
+In the screenshot below, you'll find a Python code snippet ready for execution to perform your batch processing. The parameters passed into the `BatchEvaluation` include your chosen dataset and an array of selected evaluations to run against it.
+
+<img
+  className="block"
+  src="/images/screenshot-batch-evaluation-python.png"
+  alt="LangWatch"
+/>
+
+We've streamlined the process by setting up pandas for you, enabling seamless evaluation of datasets directly on the results object. This means you can leverage the power of pandas' data manipulation and analysis capabilities effortlessly within your evaluation workflow. With pandas at your disposal, you can efficiently explore, analyze, and manipulate your data to derive valuable insights without the need for additional setup or configuration.
+
+### Python snippet
+
+When executing the snippet, you'll encounter a callback function at your disposal. This function contains the original entry data, allowing you to run it against your own Large Language Model (LLM). You can utilize this response to compare results within your evaluation process.
+
+Ensure that you return the `output` as some evaluations may require it. As you create your code snippet in the evaluations tab, you'll notice indications of which evaluations necessitate particular information. Utilize this guidance as a reference to kickstart your workflow effectively.
+
+---
+
+# FILE: ./features/triggers.mdx
+
+---
+title: Triggers
+---
+
+## Create triggers based on LangWatch filters
+
+LangWatch offers you the possibility to create triggers based on your selected filters. You can use these triggers to send notifications to either Slack or selected team email adresses.
+
+#### Usage
+
+To create a trigger in the LangWatch dashboard, follow these steps:
+
+- Click the filter button located at the top right of the LangWatch dashboard.
+- After creating a filter, a trigger button will appear.
+- Click the trigger button to open a popout drawer.
+- In the drawer, you can configure your trigger with the desired settings.
+
+<img
+  className="block"
+  src="/images/trigger-screenshot-button.png"
+  alt="LangWatch"
+/>
+**Trigger actions**
+<img
+  className="block"
+  src="/images/trigger-screenshot-drawer.png"
+  alt="LangWatch"
+/>
+
+Once the trigger is created, you will receive an alert whenever a message meets the criteria of the trigger. These trigger checks are run on the minute but not instantaneously, as the data needs time to be processed. You can find the created triggers under the Settings section, where you can deactivate or delete a trigger to stop receiving notifications.
+
+**Trigger settings**
+
+<img
+  className="block"
+  src="/images/trigger-screenshot-settings.png"
+  alt="LangWatch"
+/>
+
+---
+
+# FILE: ./features/embedded-analytics.mdx
+
+---
+title: Embedded Analytics
+---
+
+## Export Analytics with REST Endpoint
+
+LangWatch offers you the possibility to build and integrate LangWatch graph's on your own systems and applications, to display it to your customers in another interface.
+
+On LangWatch dashboard, you can use our powerful custom chart builder tool, to plot any data collected and generated by LangWatch, and customize the way you want to display it. You can then use our REST API to fetch the graph data.
+
+**Usage:**
+You will need to obtain your JSON payload from the custom graph section in our application. You can find this on the Analytics page > Custom Reports > Add chart.
+
+    1. Pick the custom graph you want to get the analytics for.
+    2. Prepare your JSON data. Make sure it's is the same format that is showing in the LangWatch application.
+    3. Use the `curl` command to get you analytics data. Here is a basic template:
+
+```bash
+# Set your API key and endpoint URL
+API_KEY="your_langwatch_api_key"
+ENDPOINT="https://app.langwatch.ai/api/analytics"
+
+# Use curl to send the POST request, e.g.:
+curl -X POST "$ENDPOINT" \
+    -H "X-Auth-Token: $API_KEY" \
+    -H "Content-Type: application/json" \
+    -d @- <<EOF
+    {
+     "startDate": 1708434000000,
+     "endDate": 1710939600000,
+     "filters": {},
+     "series": [
+       {
+         "metric": "metadata.user_id",
+         "aggregation": "cardinality"
+       }
+     ],
+     "timeScale": 1
+   }
+EOF
+```
+
+    4. Execute the `curl` command. If successful, LangWatch will return the custom analytics data in the response.
+
+## Screenshots on how to get the JSON data.
+
+On the right menu button above the graph you will see the **Show API** menu link. Click that and a modal will then popup.
+
+<img className="block" src="/images/screenshot-show-json.png" alt="LangWatch" />
+
+Within this modal, you'll find the JSON payload required for the precise custom analytics
+data. Simply copy this payload and paste it into the body of your REST POST request.
+
+<img
+  className="block"
+  src="/images/screenshot-json-modal.png"
+  alt="LangWatch"
+/>
+Now you're fully prepared to access your customized analytics and seamlessly integrate
+them into your specific use cases.
+
+If you encounter any hurdles or have questions, our support team is eager to assist you.
+
+---
+
+# FILE: ./features/annotations.mdx
+
+---
+title: Annotations
+---
+
+## Create annotations on messages
+
+With annotations, you can add additional information to messages. This can be useful to comment on or add any other information that you want to add to a message for further analysis.
+
+We have also implemented the option to add a scoring system for each annotation, more information about this can be found in the [Annotation Scoring](/features/annotations#annotation-scoring) section
+
+If you want to add an annotation to a queue, you can do so by clicking on the add to queue button to send the messages to the queue for later analysis. You can create queues and add members to them on the the main annotations page. More information about this can be found in the [Annotation Queues](/features/annotations#annotation-queues) section.
+
+
+
+#### Usage
+
+To create an annotation, follow these steps:
+
+1) Click the message you want to annotate on and a [Trace](/concepts#traces) details drawer will open.
+2) On the top right, click the annotation button.
+3) Here you will be able to add a comment, a link or any other information that you want to add to the message.
+
+
+<img className="block" src="/images/annotations-trace.png" alt="LangWatch" />
+
+
+Once you have created an annotation, you will see it next to to the message.
+
+
+<img className="block" src="/images/annotations-comment.png" alt="LangWatch" />
+
+
+# Annotation Scoring
+
+We have developed a customized scoring system for each annotation. To get started, you will need to create your scores on the settings page.
+
+There are two types of score data you can choose from:
+
+- **Checkbox**: To add multiple selectable options.
+- **Multiple Choice**: To add a single selectable option.
+
+
+<img className="block" src="/images/annotation-add-score.png" alt="LangWatch" />
+
+After you have created your scores, you can activate or deactivate them on the settings page.
+
+<img className="block" src="/images/annotation-view-scores.png" alt="LangWatch" />
+
+Once your scores are activated, you will see them in the annotations tab. For each annotation you create, the score options will be available, allowing you to add more detailed information to your annotations.
+When annotating a message, you will see the score options below the comment input. Once you have added a score, you will be asked for an optional reason for the score.
+
+<div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+  <img className="block" src="/images/annotation-score-selection.png" alt="LangWatch" style={{ flex: 1 }} />
+  <img className="block" src="/images/annotation-score-reason.png" alt="LangWatch" style={{ flex: 1 }} />
+</div>
+
+Thats it! You can now annotate messages and add your custom score metrics to them.
+
+
+
+# Annotation Queues
+
+To get started with annotation queues, follow these steps:
+
+1) Go to the annotations page.
+2) Click the plus button to create a new queue.
+3) Add a name for your queue, description, members and click on the "Save" button.
+
+<img className="block" src="/images/annotations-create-queue.png" alt="LangWatch" />
+
+Once you have created your queue, you will be able to select this when creating an annotation and send the messages to the queue or directly to a project member for later analysis.
+
+<img className="block" src="/images/annotation-add-to-queue.png" alt="LangWatch" />
+
+Once you add an item to the queue, you can view it in the annotations section, whether it's in a queue or sent directly to you.
+
+<img className="block" src="/images/annotation-queues.png" alt="LangWatch" />
+
+When clicking on a queue item, you will be directed to the message where you can add an annotation. Once happy with your annotation, you can click on the "Done" button and move on to the next item.
+
+<img className="block" src="/images/annotation-queue-items.png" alt="LangWatch" />
+
+Once you’ve completed the final item in the queue, you’ll see that all tasks are done. That’s it! Happy annotating!
+
+<img className="block" src="/images/annotation-queue-items-complete.png" alt="LangWatch" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+# FILE: ./features/datasets.mdx
+
+---
+title: Datasets
+---
+
+## Create datasets
+
+LangWatch offers you the possibility to create datasets on your LLM messages. These datasets can be used to train your own models or to do further analysis on the data.
+We offer the possibility to create datasets with the following data types;
+
+- **Input**: The message input string.
+- **Expected Output**: The gold-standard expected output for the given input,
+  useful for output-comparison metrics
+- **Contexts**: The contexts provided if your are doing RAG, useful
+  for RAG-metric evaluations
+- **[Spans](/concepts#spans)**: A JSON with all the spans contained in the message
+  trace, that is, all the steps in your pipeline, for
+  more complex evaluations
+- **LLM Input**: The input the LLM received, in LLM chat history json
+  format
+- **Expected LLM Output**: The gold-standard expected output for the given input,
+  in LLM chat history json format.
+- **Annotation Scores**: The scores of the annotations, useful for annotation-comparison metrics
+- **Evaluation Metrics**: The evaluation metrics for the dataset, useful for evaluation-comparison metrics
+
+#### Usage
+
+To create a dataset, simply go to the datasets page and click the "Create New Dataset" button. You will be able to select the type of dataset you want as well as the columns you want to include.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-add.png"
+  alt="LangWatch"
+/>
+
+There are a couple ways to add data to a dataset;
+
+- **Manually**: You can add data on a per message basis.
+- **Group selection**: You can fill the dataset by selecting a group of messages.
+- **CSV Upload**: You can fill the dataset by uploading a CSV file.
+
+### Manually
+
+To add data manually, click the "Add to Dataset" button on the messages page after selecting a message. You will then be able to choose the dataset type and preview the data that will be added.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-single.png"
+  alt="LangWatch"
+/>
+
+### Group selection
+
+To add data by selecting a group, simply click the "Add to Dataset" button after choosing the desired messages in the table view. You'll then be able to select the type of dataset you wish to add to and preview the data that will be included.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-group.png"
+  alt="LangWatch"
+/>
+### CSV Upload
+
+To add data by CSV upload, go to your datasets page and select the dataset you want to update. Click the "Upload CSV" button and upload your CSV file. You can then map the columns from your CSV file to the appropriate fields in the dataset based on the dataset type.
+
+<img
+  className="block"
+  src="/images/dataset-screenshot-csv.png"
+  alt="LangWatch"
+/>
+
+---
+
+# FILE: ./evaluations/overview.mdx
+
+---
+title: Evaluations
+---
+
+LangWatch offers an extensive library of evaluators to help you evaluate the quality and guarantee the safety of your LLM apps.
+Those are very easy to set up on [LangWatch dashboard](https://app.langwatch.com/).
+
+![Evaluators](/images/screenshot-evaluators.png)
+
+## Evaluators List
+
+
+
+<AccordionGroup>
+  <Accordion title="Safety">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Azure Jailbreak Detection](/langevals/api-reference/endpoint/azure-jailbreak-detection) | This evaluator checks for jailbreak-attempt in the input using Azure's Content Safety API. |
+    | [Azure Content Safety](/langevals/api-reference/endpoint/content-safety) | This evaluator detects potentially unsafe content in text, including hate speech, self-harm, sexual content, and violence. It allows customization of the severity threshold and the specific categories to check. |
+    | [Google Cloud DLP PII Detection](/langevals/api-reference/endpoint/google-cloud-dlp-pii-detection) | Google DLP PII detects personally identifiable information in text, including phone numbers, email addresses, and social security numbers. It allows customization of the detection threshold and the specific types of PII to check. |
+    | [Llama Guard](/langevals/api-reference/endpoint/llama-guard) | This evaluator is a special version of Llama trained strictly for acting as a guardrail, following customizable guidelines. It can work both as a safety evaluator and as policy enforcement. |
+    | [OpenAI Moderation](/langevals/api-reference/endpoint/openai-moderation) | This evaluator uses OpenAI's moderation API to detect potentially harmful content in text, including harassment, hate speech, self-harm, sexual content, and violence. |
+  </Accordion>
+  <Accordion title="Policy">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Competitor LLM check](/langevals/api-reference/endpoint/competitor-detection-llm) | This evaluator use an LLM-as-judge to check if the conversation is related to competitors, without having to name them explicitly |
+    | [Off Topic Evaluator](/langevals/api-reference/endpoint/off-topic-detection) | This evaluator checks if the user message is concerning one of the allowed topics of the chatbot |
+    | [Competitor Blocklist](/langevals/api-reference/endpoint/competitor-blocklist) | This evaluator checks if any of the specified competitors was mentioned |
+    | Product Sentiment Polarity | For messages about products, this evaluator checks for the nuanced sentiment direction of the LLM output, either very positive, subtly positive, subtly negative, or very negative. |
+  </Accordion>
+  <Accordion title="Quality">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Lingua Language Detection](/langevals/api-reference/endpoint/lingua-language-detection) | This evaluator detects the language of the input and output text to check for example if the generated answer is in the same language as the prompt, or if it's in a specific expected language. |
+    | Query Resolution | This evaluator checks if all the user queries in the conversation were resolved. Useful to detect when the bot doesn't know how to answer or can't help the user.  |
+    | [Ragas Context Recall](/langevals/api-reference/endpoint/ragas-context-recall) | This evaluator measures the extent to which the retrieved context aligns with the annotated answer, treated as the ground truth. Higher values indicate better performance. |
+    | [Ragas Faithfulness](/langevals/api-reference/endpoint/ragas-faithfulness) | This evaluator assesses the extent to which the generated answer is consistent with the provided context. Higher scores indicate better faithfulness to the context. |
+    | [Ragas Context Utilization](/langevals/api-reference/endpoint/ragas-context-utilization) | This metric evaluates whether all of the output relevant items present in the contexts are ranked higher or not. Higher scores indicate better utilization. |
+    | [Ragas Context Relevancy](/langevals/api-reference/endpoint/ragas-context-relevancy) | This metric gauges the relevancy of the retrieved context, calculated based on both the question and contexts. The values fall within the range of (0, 1), with higher values indicating better relevancy. |
+    | [Ragas Context Precision](/langevals/api-reference/endpoint/ragas-context-precision) | This metric evaluates whether all of the ground-truth relevant items present in the contexts are ranked higher or not. Higher scores indicate better precision. |
+    | [Ragas Answer Relevancy](/langevals/api-reference/endpoint/ragas-answer-relevancy) | This evaluator focuses on assessing how pertinent the generated answer is to the given prompt. Higher scores indicate better relevancy. |
+
+  </Accordion>
+  <Accordion title="Custom">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | [Semantic Similarity Evaluator](/langevals/api-reference/endpoint/llm-similarity-evaluator) | Allows you to check for semantic similarity or dissimilarity between input and output and a target value, so you can avoid sentences that you don't want to be present without having to match on the exact text. |
+    | [Custom Basic Evaluator](/langevals/api-reference/endpoint/llm-basic-evaluator) | Allows you to check for simple text matches or regex evaluation. |
+    | [Custom LLM Boolean Evaluator](/langevals/api-reference/endpoint/llm-boolean-evaluator) | Use an LLM as a judge with a custom prompt to do a true/false boolean evaluation of the message. |
+    | [Custom LLM Score Evaluator](/langevals/api-reference/endpoint/llm-score-evaluator) | Use an LLM as a judge with custom prompt to do a numeric score evaluation of the message. |
+  </Accordion>
+</AccordionGroup>
+
+## Custom Evaluator Integration
+
+If you have a custom evaluator built in-house, you can follow the guide below to integrate.
+
+<CardGroup cols={1}>
+  <Card
+    title="Custom Evaluator Integration"
+    icon="link"
+    href="./custom-evaluator-integration"
+  />
+</CardGroup>
+
+---
+
+# FILE: ./evaluations/custom-evaluator-integration.mdx
+
+---
+title: Custom Evaluator Integration
+---
+
+If you have a custom evaluator built in-house which run on your own code, either during the LLM pipeline or after, you can still capture the evaluation results
+and connect it back to the trace to visualize it together with the other LangWatch evaluators.
+
+
+
+
+
+### Python
+
+
+You can capture the evaluation results of your custom evaluator on the current trace or span by using the `.add_evaluation` method:
+
+```python
+import langwatch
+
+@langwatch.span(type="evaluation")
+def evaluation_step():
+    ... # your custom evaluation logic
+
+    langwatch.get_current_span().add_evaluation(
+        name="custom evaluation", # required
+        passed=True,
+        score=0.5,
+        label="category_detected",
+        details="explanation of the evaluation results",
+    )
+```
+
+The evaluation `name` is required and must be a string. The other fields are optional, but at least one of `passed`, `score` or `label` must be provided.
+
+
+### TypeScript
+
+
+You can capture the evaluation results of your custom evaluator on the current trace or span by using the `.addEvaluation` method:
+
+```typescript
+import { type LangWatchTrace } from "langwatch";
+
+async function llmStep({ message, trace }: { message: string, trace: LangWatchTrace }): Promise<string> {
+    const span = trace.startLLMSpan({ name: "llmStep" });
+
+    // ... your existing code
+
+    span.addEvaluation({
+        name: "custom evaluation",
+        passed: true,
+        score: 0.5,
+        label: "category_detected",
+        details: "explanation of the evaluation results",
+    });
+}
+```
+
+The evaluation `name` is required and must be a string. The other fields are optional, but at least one of `passed`, `score` or `label` must be provided.
+
+
+### REST API
+
+
+## REST API Specification
+
+### Endpoint
+
+`POST /api/collector`
+
+### Headers
+
+- `X-Auth-Token`: Your LangWatch API key.
+
+### Request Body
+
+```javascript
+{
+  "trace_id": "id of the message the evaluation was run on",
+  "evaluations": [{
+    "evaluation_id": "evaluation-id-123", // optional unique id for identifying the evaluation, if not provided, a random id will be generated
+    "name": "custom evaluation", // required
+    "passed": true, // optional
+    "score": 0.5, // optional
+    "label": "category_detected", // optional
+    "details": "explanation of the evaluation results", // optional
+    "error": { // optional to capture error details in case evaluation had an error
+      "message": "error message",
+      "stacktrace": [],
+    },
+    "timestamps": { // optional
+      "created_at": "1723411698506", // unix timestamp in milliseconds
+      "updated_at": "1723411698506" // unix timestamp in milliseconds
+    }
+  }]
+}
+```
+
+
+---
+
+# FILE: ./guardrails/overview.mdx
+
+---
+title: Overview
+---
+
+Learn how you can protect your LLM application from costly mistakes by setting up guardrails.
+
+<CardGroup cols={1}>
+  <Card
+    title="Setting up Guardrails"
+    icon="link"
+    href="./setting-up-guardrails"
+  />
+</CardGroup>
+
+---
+
+# FILE: ./guardrails/setting-up-guardrails.mdx
+
+---
+title: Setting Up Guardrails
+---
+
+Guardrails are protections you can add around your LLM calls, either before calling the LLM, for example to prevent jailbreaking; after calling an LLM, for example to verify if the generated output does not contain toxic language or leaking PII; or to steer the LLM in a different direction, for example when detecting a user is going off-topic or talking about competition, in which you might want to throw them in a different flow.
+
+Setting up Guardrails is quite easy, first, go to the Evaluation and Guardrails area on your [LangWatch dashboard](https://app.langwatch.ai), press + Add, and look for evaluators with the shield icon, those evaluators are the ones that support acting as Guardrails:
+
+<img src="/images/guardrails.png" alt="Guardrails" />
+
+Then, change the Execution Mode to "As a Guardrail", on the page itself, you will see the instructions on how to integrate the guardrail to your code, after following the instructions, don't forget to click "Save" to create the Guardrail before trying it out.
+
+<img src="/images/enable-guardrails.png" alt="Guardrails" />
+
+Back to the Guardrail setup, you can also try it out on the messages already on LangWatch, to verify if the Guardrail is working well, of it some adjustments are needed, using the Try it out section:
+
+<img src="/images/guardrails-try-it-out.png" alt="Guardrails" />
+
+You are now ready to keep your LLM protected and steer the conversation in the right direction with LangWatch Guardrails! Follow the next guides for examples on how to use Guardrails for handling different situations, and more advanced use cases.
+
+## What's next?
+
+- (In progress) Using guardrails to prevent bad inputs from the LLM
+- (In progress) Using guardrails to prevent bad outputs from the LLM to the user
+- (In progress) Steering the conversation with another LLM call from the guardrail
+- (In progress) Handling multiple guardrail calls in parallel
+- (In progress) Speculative execution of the LLM in parallel to the guardrail call
+
+---

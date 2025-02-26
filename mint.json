@@ -17,6 +17,10 @@
   },
   "topbarLinks": [
     {
+      "name": "llms.txt",
+      "url": "/llms.txt"
+    },
+    {
       "name": "Support",
       "url": "/support#email-support"
     },
@@ -205,7 +209,7 @@
       ]
     },
     {
-      "group": "",
+      "group": "Support",
       "pages": ["support", "status"]
     }
   ],

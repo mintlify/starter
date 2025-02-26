@@ -1,0 +1,16 @@
+{
+  "includePaths": [
+    "introduction.mdx",
+    "concepts.mdx",
+    "integration/overview.mdx",
+    "integration/python/*.mdx",
+    "integration/typescript/*.mdx",
+    "integration/rest-api.mdx",
+    "integration/opentelemetry/*.mdx",
+    "integration/rags-context-tracking.mdx",
+    "features/*.mdx",
+    "evaluations/*.mdx",
+    "guardrails/*.mdx"
+  ],
+  "excludePaths": ["**/node_modules/**"]
+}
