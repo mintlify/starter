@@ -131,7 +131,7 @@
     }
   },
   "webhooks": {
-    "new_plant": {
+    "/plant/webhook": {
       "post": {
         "description": "Information about a new plant added to the store",
         "requestBody": {
