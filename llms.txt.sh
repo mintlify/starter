@@ -13,7 +13,7 @@ const excludePaths = config.excludePaths || [];
 const outputFile = 'llms.txt';
 
 // Clear the output file if it exists
-fs.writeFileSync(outputFile, '');
+fs.writeFileSync(outputFile, "# LangWatch\n\n");
 
 // Function to process imports in an MDX file
 function processImports(content, filePath) {
