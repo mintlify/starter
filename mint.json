@@ -18,7 +18,7 @@
   "topbarLinks": [
     {
       "name": "llms.txt",
-      "url": "/llms.txt"
+      "url": "https://docs.langwatch.ai/llms.txt"
     },
     {
       "name": "Support",
