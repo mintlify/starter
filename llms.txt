@@ -252,10 +252,6 @@ sidebarTitle: Guide
 
 LangWatch library is the easiest way to integrate your Python application with LangWatch, the messages are synced on the background so it doesn't intercept or block your LLM calls.
 
-
-
-
-
 #### Prerequisites
 
 - Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
@@ -298,10 +294,6 @@ import os
 def main():
     ...
 ```
-
-
-
-
 
 ## Capturing Messages
 
@@ -448,8 +440,6 @@ def main():
 That's enough to have your LangChain calls collected and visible on LangWatch dashboard:
 
 ![LangChain Spans](/images/integration/langchain.png)
-
-
 
 Check out for more python integration examples on the [examples folder on our GitHub repo](https://github.com/langwatch/langwatch/tree/main/python-sdk/examples).
 
@@ -654,8 +644,6 @@ Then you'll be able to see the captured contexts that will also be used later on
 
 ![RAG Spans](/images/integration/langchain-rag.png)
 
-
-
 ## Capturing other spans
 
 To be able to inspect and debug each step of your pipeline along with the LLM calls, you can use the `@langwatch.span()` decorator. You can pass in different `type`s to categorize your spans.
@@ -708,8 +696,6 @@ Check out the [reference](./reference#span) to see all the available span proper
 
 [LangWatch Evaluators](/evaluations/overview) can run automatically on your traces, but if you have an in-house custom evaluator, you can also capture the evaluation
 results of your custom evaluator on the current trace or span by using the `.add_evaluation` method:
-
-
 
 ```python
 import langwatch
@@ -765,8 +751,6 @@ sidebarTitle: Guide
 
 LangWatch library is the easiest way to integrate your TypeScript application with LangWatch, the messages are synced on the background so it doesn't intercept or block your LLM calls.
 
-
-
 #### Prerequisites
 
 - Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
@@ -797,10 +781,6 @@ const langwatch = new LangWatch({
   apiKey: 'your_api_key_here',
 });
 ```
-
-
-
-
 
 ## Basic Concepts
 
@@ -897,8 +877,6 @@ const sdk = new NodeSDK({
   // ...
 });
 ```
-
-
 
 That's it! Your messages will now be visible on LangWatch:
 
@@ -1142,8 +1120,6 @@ const stream = await chain.stream(
 
 That's it! The full trace with all spans for each chain step will be sent automatically to LangWatch in the background on periodic intervals. After capturing your first LLM Span, go to [LangWatch Dashboard](https://app.langwatch.com), your message should be there!
 
-
-
 <Note>
 On short-live environments like Lambdas or Serverless Functions, be sure to call <br /> `await trace.sendSpans();` to wait for all pending requests to be sent before the runtime is destroyed.
 </Note>
@@ -1151,8 +1127,6 @@ On short-live environments like Lambdas or Serverless Functions, be sure to call
 ## Capture a RAG Span
 
 Appart from LLM spans, another very used type of span is the RAG span. This is used to capture the retrieved contexts from a RAG that will be used by the LLM, and enables a whole new set of RAG-based features evaluations for RAG quality on LangWatch.
-
-
 
 To capture a RAG, you can simply start a RAG span inside the trace, giving it the input query being used:
 
@@ -1249,8 +1223,6 @@ try {
 
 [LangWatch Evaluators](/evaluations/overview) can run automatically on your traces, but if you have an in-house custom evaluator, you can also capture the evaluation
 results of your custom evaluator on the current trace or span by using the `.addEvaluation` method:
-
-
 
 ```typescript
 import { type LangWatchTrace } from "langwatch";
@@ -1384,8 +1356,6 @@ After following the above guide, your interactions with LLMs should now be captu
 title: OpenTelemetry Integration Guide
 sidebarTitle: Guide
 ---
-
-
 
 OpenTelemetry is a standard protocol for tracing, and LangWatch is fully compatible with OpenTelemetry, you can use any OpenTelemetry compatible library to capture your LLM traces and send them to LangWatch.
 
@@ -1719,11 +1689,6 @@ Retrieval Augmented Generation (RAGs) is a common way to augment the generation 
 
 It can be challenging, however, to build a good quality RAG pipeline, making sure the right data was retrieved, preventing the LLM from hallucinating, monitor which documents are the most used and keep iterating to improve it, this is where integrating with LangWatch can help, by integrating your RAG you unlock a series of Guardrails, Measurements and Analytics for RAGs LangWatch.
 
-
-
-
-
-
 ### Python (General)
 
 To capture a RAG span, you can use the `@langwatch.span(type="rag")` decorator, along with a call to `.update()` to add the `contexts` to the span:
@@ -1980,8 +1945,6 @@ EOF
 ```
 
 
-
-
 ---
 
 # FILE: ./features/batch-evaluations.mdx
@@ -2156,8 +2119,6 @@ We have also implemented the option to add a scoring system for each annotation,
 
 If you want to add an annotation to a queue, you can do so by clicking on the add to queue button to send the messages to the queue for later analysis. You can create queues and add members to them on the the main annotations page. More information about this can be found in the [Annotation Queues](/features/annotations#annotation-queues) section.
 
-
-
 #### Usage
 
 To create an annotation, follow these steps:
@@ -2202,8 +2163,6 @@ When annotating a message, you will see the score options below the comment inpu
 
 Thats it! You can now annotate messages and add your custom score metrics to them.
 
-
-
 # Annotation Queues
 
 To get started with annotation queues, follow these steps:
@@ -2229,22 +2188,6 @@ When clicking on a queue item, you will be directed to the message where you can
 Once you’ve completed the final item in the queue, you’ll see that all tasks are done. That’s it! Happy annotating!
 
 <img className="block" src="/images/annotation-queue-items-complete.png" alt="LangWatch" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ---
@@ -2335,8 +2278,6 @@ Those are very easy to set up on [LangWatch dashboard](https://app.langwatch.com
 
 ## Evaluators List
 
-
-
 <AccordionGroup>
   <Accordion title="Safety">
     | Evaluator                                | Description                |
@@ -2400,10 +2341,6 @@ title: Custom Evaluator Integration
 
 If you have a custom evaluator built in-house which run on your own code, either during the LLM pipeline or after, you can still capture the evaluation results
 and connect it back to the trace to visualize it together with the other LangWatch evaluators.
-
-
-
-
 
 ### Python
 

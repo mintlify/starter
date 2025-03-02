@@ -37,6 +37,9 @@ function processImports(content, filePath) {
           // Read the imported file
           const importedContent = fs.readFileSync(absoluteImportPath, 'utf8');
           imports[importName] = importedContent;
+          if (importName == "LLMsTxtProtip") {
+            imports[importName] = ""
+          }
         } else {
           console.warn(`Warning: Import file not found: ${absoluteImportPath}`);
         }
@@ -64,6 +67,9 @@ function processImports(content, filePath) {
 
   // Remove <Tabs> and </Tabs> tags
   modifiedContent = modifiedContent.replace(/<Tabs>|<\/Tabs>/g, '');
+
+  // Remove too many sequential newlines
+  modifiedContent = modifiedContent.replace(/\n\n\n\n+/g, '\n\n');
 
   return modifiedContent;
 }
