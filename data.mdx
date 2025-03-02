@@ -146,6 +146,18 @@ curl --request DELETE \
 A deletion of a user deletes all sub-resources that the user is linked to. This includes accounts, payroll and uploaded documents. Once deleted no data can be retreived for that user, nor can any new data be attributed. On an account level, any connection can be revoked by the user at any time. 
 A deletion of an account removes all entries and payroll associated with it. After deletion, this account can not be retireved nor any data queried from it.
 
+### Date handling
+
+All dates in our API are formatted according to [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). 
+
+Response dates are always returned in UTC, representing the equivalent moment in time regardless of the original time zone offset. For example, 2PM in Berlin:
+`2024-02-17T14:00:00+02:00` is returned as `2024-02-17T12:00:00Z`
+
+When submitting dates to the API, you can include offsets, and these will be respected in all date calculations.
+
+When integrating with payroll providers that supply dates without time components (e.g., `2024-02-17`), we standardize these to noon UTC (`2024-02-17T12:00:00Z`) to avoid any ambiguity with date boundaries across time zones.
+This should be taken into consideration when submitting your own dates for filtering payroll (such as in `POST /accounts`).
+
 ### Security and Compliance
 
 Our infrastructure employs advanced security measures, including data encryption, regular security audits, and compliance with global data protection standards (e.g., GDPR, CCPA), to safeguard user data against unauthorized access or breaches.

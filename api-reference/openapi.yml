@@ -1091,7 +1091,7 @@ components:
           description: Determines if recurring checks are enabled for this user. Overrides the same setting if present in client level configuration.
           type: boolean
         recurring_check_frequency:
-          description: Frequency of the recurring check for this user. Overrides the same setting if present in client level configuration. Available frequencies [WEEKLY, DAILY].
+          description: Frequency of the recurring check for this user. Overrides the same setting if present in client level configuration. Available frequencies in production are [WEEKLY, DAILY]. Sandbox allows HOURLY frequency in addition.
           type: string
           example: WEEKLY
         recurring_check_end_date:
