@@ -110,6 +110,35 @@ paths:
           "$ref": "#/components/responses/BadRequest"
         "401":
           "$ref": "#/components/responses/UnauthorizedApiKey"
+    put:
+      description: Update a user and its config. If a field is sent as null then it is considered an unset or removal.
+      summary: Updates a user.
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreatedUser"
+        "400":
+          "$ref": "#/components/responses/BadRequest"
+        "401":
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+        "404":
+          "$ref": "#/components/responses/ResourceNotFound"
     delete:
       summary: Deletes a user along with all the files, accounts, entries and payroll submission associated with it.
       parameters:

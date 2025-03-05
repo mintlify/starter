@@ -57,6 +57,7 @@
       "pages": [
         "api-reference/users/create",
         "api-reference/users/get",
+        "api-reference/users/update",
         "api-reference/users/list",
         "api-reference/users/list-recurring",
         "api-reference/users/delete"
