@@ -2,9 +2,12 @@
 title: FAQ
 icon: question
 ---
-1. Is Prem free to use?
+### 1. Is Prem free to use?
     - Yes, Prem is free, and for premium features, you can choose between different pricing tiers.
-2. What models are available to use with Prem?
+    
+Check out our [pricing page](https://premai.io/pricing) to learn more.
+
+### 2. What models are available to use with Prem?
 <Note>
 
 Click [here](https://app.premai.io/providers/) to view our model status page.
@@ -20,6 +23,17 @@ The following models are available to use with Prem:
 - claude-3-opus
 - claude-3-sonnet
 
+### codellama
+- prem-codellama-7b
+
+### Deepseek
+- deepseek-r1
+- deepseek-r1-distill-llama-70b
+
+### Gemma2 
+- prem-gemma2-2b
+- prem-gemma2-9b
+
 ### GPT
 - gpt-4o-mini
 - gpt-4o-mini-eu
@@ -28,27 +42,32 @@ The following models are available to use with Prem:
 - gpt-4-eu
 - gpt-4-turbo
 
-### Meta
+### Llama
 - llama-3.3-70b
-- llama-3-8b-tool-use
 - llama-3.2-1b
 - llama-3.2-3b
-- llama-3-70b-tool-use
-- llama-3-8b
-- llama-3-70b
 - llama-3.1-8b
 - llama-3.1-70b
 - llama-3-8b-guard
-- llama-3.3-70b
+- llama-3-8b
+- llama-3-70b
+- llama-3-8b-guard
+- prem-llama-3.2-1b
+- prem-llama-3.2-3b
+- prem-llama-3.1-8b
 
 ### Mistral
 - mistral-8x7b-instruct
 
-3. **Is there an API that I can use if I am not using Python or Javascript?**
+#### Qwen
+- prem-qwen-2.5-3b
+- prem-qwen-2.5-7b
+- prem-qwen-2.5-0.5b
+- prem-qwen-2.5-1.5b
+
+### 3. Is there an API that I can use if I am not using Python or Javascript?
     - Yes, our API is language-agnostic, which means you can use it with any programming language that supports making HTTP requests. While our  documentation provides examples in Python and JavaScript SDKs, you can easily adapt these examples to work with your preferred programming language, such as GO, Java, Rust, or PHP. As long as your chosen language has a built-in way to send HTTP requests and parse JSON responses, you can integrate our API into your projects seamlessly.
-4. **How does the fine tuning work? Do I need to be an experienced ML engineer?**
-    - To start fine-tuning, you must experiment with your models in the Lab. After you've had enough conversations, you can head over to the Traces page and mark 50 positive feedbacks in order for the Gym to be prepared to fine-tune. Auto-fine-tuning will come soon.
-5. **How do I migrate projects between organizations?**
+### 4. How does the Autonomous fine-tuning Agent work? Do I need to be an experienced ML engineer?
+    - You do not need to be an experienced ML engineer to use the Autonomous fine-tuning Agent.  All you need to do is provide a dataset and chooose a base model. The Agent will then fine-tune the model on your dataset. Check out our [docs](https://docs.premai.io/docs/fine-tuning/autonomous-fine-tuning) to learn more.
+### 5. **How do I migrate projects between organizations?**
     - At present, we do not offer assistance for migrating projects between organizations. While you can replicate this process manually by utilizing the SDK to read and write runs. the most efficient approach would be to create a new project within your organization and proceed from there.
-6. **When should I use the Gym to fine tune?**
-    - You should fine-tune a language model when you need it to understand and generate text specific to your use case, such as legal or medical language, or a unique writing style. Fine-tuning can improve the model's performance and efficiency, especially when you have limited data. However, if your application doesn't require specialized language or you have a large, diverse dataset, you may not need to fine-tune.
