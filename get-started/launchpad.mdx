@@ -6,26 +6,27 @@ icon: rocket
 The **Launchpad** combines settings from **Params** and **Repositories** to bring you one last step to tweak your models before integrating them. You can always come back and launch any updates you make to your model at any time, allowing for easy model switching in your application.
 
 <img
-  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchpad.png"
-  alt="Overview"
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchpadImage.png"
+  alt="An image of the launchpad"
 />
 
 The Launchpad allows you to easily launch and integrate your customized models into your projects using the SDKs. It provides a streamlined and intuitive interface for selecting and deploying models, making it simple to incorporate powerful AI capabilities into your applications.
 
-## Launching a Model
+# Launching A Model
 <Tip>
 You can also access the Launchpad for a specific model you were testing in the **Lab** by clicking the more options icon next to the model of your choice. Your **Params** and **Repositories** will follow.
 </Tip>
-### Model Selection
+## Model Selection
 In the Launchpad, you will see a list of available  models.
 Browse through the models and select the one that best suits your requirements.
 
 <img
-  src="https://static.premai.io/prem-saas-docs/launchpad-guide/modelList.gif"
-  alt="Overview"
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/chooseAModel.gif"
+  alt="A Gif of choosing a model"
 />
-### Model Configuration
+## Model Configuration
 
+### Parameters
 Specify any required parameters or options specific to the chosen model.
 
 Customize the model's behavior according to your needs with the following settings:
@@ -37,17 +38,49 @@ Customize the model's behavior according to your needs with the following settin
 - `Limit` Sets the maximum number of top-matching documents to retrieve based on similarity.
 - `Similarity` Measures how closely a query matches document embeddings. Higher values indicate greater similarity, ranging from 0 to 1.
 
-### Launching the Model
+### Adding A Repository (RAG)
+<Tip>
+Check out the [Repositories](/get-started/repositories) guide to learn more about how to create and manage your repositories.
+</Tip>
+Link a repository to the model to enable **RAG**. Just click on the **Add Repo** button and select the repository of your choice. This ensures that the model has access to the latest information and data from the repositories of you chose. 
+
+You can also add multiple repositories to the same model.
+<img
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/addRepoLaunchpad.gif"
+  alt="A Gif of adding a repository to the model"
+/>
+---
+### Adding An Action/Integration
+
+Tool calling usually takes a lot of code to set up. With Prem, you can add an action to your model by just clicking on the **Add Action** button and selecting the action from the tool of your choice.
+<img
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/addIntegrationLaunchpad.gif"
+  alt="A Gif of adding an action/integration to the model"
+/>
+
+## Launching the Model
 
 Once you have configured the model, click on the "Launch" button.
 The Launchpad will initiate the model launching process, which may take a few moments depending on the model's size and complexity.
 <img
-  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchButton.gif"
-  alt="Overview"
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchTheModel.gif"
+  alt="A Gif of the model launching process"
 />
 
-### Integrate with the SDK
+## Integrate with the SDK
 
 Now that your model is launched with its latest changes, you can easily integrate it into your application with the **SDK**. 
 
+<Tip>
 Check out the [SDK Guide](/get-started/sdk) here.
+</Tip>
+
+## See the history of your launched models
+
+Under the Launchpad, you can see the history of your launched models.
+You can view which model is currently in use and which models have been launched.
+We provide you with additional information such as the number of traces and how many repositories are linked to each model.
+<img
+  src="https://static.premai.io/prem-saas-docs/launchpad-guide/launchHistory.png"
+  alt="An image of the history of your launched models"
+/>
