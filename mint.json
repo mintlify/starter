@@ -39,6 +39,11 @@
 			"url": "https://app.thoughtly.com"
 		},
 		{
+			"name": "Platform Status",
+			"icon": "server",
+			"url": "https://status.thoughtly.com"
+		},
+		{
 			"name": "Slack Community",
 			"icon": "slack",
 			"url": "https://community.thoughtly.com"
