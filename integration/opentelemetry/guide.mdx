@@ -75,6 +75,25 @@ Currently, there are different open initiatives for LLM instrumentation librarie
 
         <OpenInferenceMetadata />
       </Tab>
+      <Tab title="AWS Bedrock">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-bedrock
+        ```
+
+        Then, instrument your AWS calls:
+
+        ```python
+        from openinference.instrumentation.bedrock import BedrockInstrumentor
+
+        BedrockInstrumentor().instrument()
+        ```
+
+        That's it! You can now see the traces for your AWS Bedrock calls in the LangWatch dashboard.
+
+        <OpenInferenceMetadata />
+      </Tab>
       <Tab title="DSPy">
         Installation:
 
