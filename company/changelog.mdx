@@ -4,14 +4,95 @@ description: Stay up to date with the latest changes at Thoughtly
 mode: wide
 ---
 
-<Update label="December 2024">
-	## What's new so far?
+<Update label="March 2025">  
+## Instant Voice Cloning
 
-	December is still young, but we've already made some exciting updates to the Thoughtly platform. Here's a quick overview of what's new so far:
+We're excited to introduce **[Instant Voice Cloning](/platform/voices)**, a groundbreaking new feature that allows you to create hyper-realistic AI voices in seconds. With just a short audio sample, you can generate a high-quality AI voice that mimics tone, pitch, and cadence with near-perfect accuracy.
+
+[![Instant Voice Cloning](/images/ui/voice-cloning.png)](https://app.arcade.software/share/MaOO9bPhyHAP5ZdOq8Gt)
+
+### How It Works
+1. **Record or Upload** – Provide a short voice sample (as little as 10 seconds).
+2. **AI Processing** – Our system instantly analyzes the sample using Cartesia’s `sonic` model.
+3. **Preview & Adjust** – Listen to the cloned voice and fine-tune pitch, speed, and intonation.
+4. **Deploy** – Use your new AI voice in any Thoughtly Virtual Agent.
+
+### Key Features:
+- **Lightning-Fast Cloning** – Get a fully functional AI voice in under a minute.
+- **No Training Required** – Unlike traditional voice cloning, this process is instant and requires no manual tuning.
+- **Ultra-Realistic Speech** – Powered by Cartesia's cutting-edge `sonic` model, delivering human-like quality.
+- **Full Control** – Adjust pitch, speed, and emotion to refine the cloned voice.
+- **Private & Secure** – Cloned voices are unique to your account and cannot be shared or accessed by others.
+
+[Learn More](/platform/voices) about Instant Voice Cloning.
+</Update>
+
+<Update label="February 2025">  
+## Agent v1.5
+
+The revolutionary new Thoughtly Virtual Agent, v1.5, is now available. This update includes a host of new features and improvements, including:
+
+- **Mid-call Actions**: Agents can now perform actions during a call, such as sending an SMS, updating a CRM, or fetching real-time data.
+- **Reduced Hallucinations**: Thanks to a proprietary combination of mathematical calculations and LLM reasoning, agents now generate more accurate responses with optimized context windows.
+- **Improved Failure Tolerance**: The system now leverages multiple LLM vendors to enhance reliability and minimize downtime.
+- **Lower Latency**: More efficient logic and scalable infrastructure reduce response times for a smoother user experience.
+- **Enhanced Navigation**: Edges now carry meaning instead of relying on bloated context, leading to smarter conversation flows.
+- **Advanced Node Controls**: Users now have more granular control over settings, including:
+	- **Voice Confidence Threshold** – Adjust response certainty.
+	- **Sensitivity Threshold** – Fine-tune agent responsiveness.
+	- **Verbatim Mode** – Force strict adherence to scripted responses.
+	- **Disable Interruption** – Prevent the agent from speaking over the user.
+	- **Small Talk & Music Handling** – Configure how the agent responds to casual conversation and background music.
+- **Cartesia Voice Support**: Expanded capabilities with [Cartesia](/platform/voices) for hyper-realistic, low-latency voices.
+
+![Experimental Features](/images/ui/experimental-features.png)
+
+Try it out by enabling experimental features in your [Developer Settings](https://app.thoughtly.com/settings/developer). Be sure to follow our [Tips & Tricks](/build/agent-builder/tips-and-tricks.mdx) to prompt correctly and get the most out of the new Agent.
+
+## Cartesia
+
+We're excited to announce our partnership with Cartesia, a leading provider of AI voice models. Thoughtly now leverages Cartesia’s flagship Sonic model, the most advanced generative voice technology available.
+
+![Cartesia x Thoughtly](/images/misc/thoughtly-x-cartesia.png)
+
+**Why Sonic?**
+- **Blazing Fast**: With a time-to-first-audio of 90ms, Sonic is the fastest generative voice model available, designed for real-time interactions.
+- **Superior Quality**: Ranked #1 in voice quality in independent evaluations, delivering ultra-realistic AI-generated voices.
+- **Fine-Tuned Control**: Adjust pitch, speed, emotion, and pronunciation for fully customized voice responses.
+- **Multilingual Support**: Supports 15+ languages, including English, Spanish, French, Japanese, and German, with localized accents for seamless communication.
+- **Scalability & Reliability**: Purpose-built for enterprise-grade AI voice applications, ensuring low-latency, high-accuracy voice synthesis.
+
+Cartesia's voices are available from the [Voice Library](/platform/voices) after enabling experimental features. Voices are only available in v1.5 agents, not v1.
+
+## New Integrations
+
+This month, we've added or updated our integrations with:
+- 🆕 [**Zoho**](/integrations/crm/zoho): Schedule appointments, create, find, and update records.
+- ⬆️ [**GoHighLevel**](/integrations/crm/highlevel): Retrieve contacts, update contacts, and delete contacts.
+
+</Update>
+
+<Update label="January 2025">
+	## January Updates 🎉
+
+	- [**Gmail Integration**](/integrations/communication/gmail): Give your Agents the ability to send emails directly from your Gmail account, providing you with an all-in-one tool for getting a customer's email during a call or from your CRM, using AI to draft a message, then sending a follow-up after a call.
+	- [**New Mindbody Actions**](/integrations/scheduling/mindbody): Lookup a client by phone number and email.
+	- [**Slack Integration**](/integrations/communication/slack): Notify your team in Slack when a call is completed, or when other events occur.
+	- [**New Salesforce Trigger**](/integrations/crm/salesforce): Trigger workflows based on new objects created in Salesforce.
+	- New tables, filtering, and search: You can now filter, search, and sort columns in tables, such as the Library and Agent pages.
+</Update>
+
+<Update label="December 2024">
+	## December Updates 🎄
 
 	- [**Webhook Triggers**](/build/automations/triggers#webhook): Trigger workflows based on events like new leads, inbound calls, or completed calls.
 	- [**New Google Sheets Actions**](/integrations/productivity/google-sheets): Append a row to a Google Sheet via Automations.
 	- [**SMS Actions**](/build/automations/actions#sms): Send SMS messages via Automations.
+	- [**Smartsheet Integration**](/integrations/productivity/smartsheet): Connect Thoughtly to Smartsheet for seamless data management.
+	- [**New Acuity Actions**](/integrations/scheduling/acuity): Added new actions for the Acuity Scheduling integration.
+	- **Multi-Region Services**: Thoughtly's services are now intercontinental 🚀
+		- In addition to our main data center in **Virginia,** we now have data centers in **Oregon,** **Belgium,** and **Taiwan** to support our growing global customer base. The web platform will automatically route you to the nearest data center and should provide a much faster experience for users outside of the U.S.
+		- Note that our telecom services are still being routed through our Virginia data center, but we're working on global deployments as soon as possible to improve call quality and latency for international calls.
 
 </Update>
 

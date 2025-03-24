@@ -2,6 +2,7 @@ export const IntegrationCard = ({
 	name,
 	domain,
 	href,
+	logoOverride,
 }) => (
 	<Card horizontal="true" href={href}>
 		<div style={{
@@ -10,7 +11,7 @@ export const IntegrationCard = ({
 			alignItems: 'center',
 		}}>
 			<img
-				src={`https://logo.clearbit.com/${domain}`}
+				src={logoOverride || `https://logo.clearbit.com/${domain}`}
 				className='w-8 rounded-md'
 			/>
 			<div className='font-bold ml-3 text-lg'>

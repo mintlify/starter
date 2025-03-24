@@ -5,13 +5,13 @@
 		"version": "1.0.0",
 		"contact": {
 			"name": "Thoughtly Support",
-			"email": "support@thought.ly",
-			"url": "https://thought.ly"
+			"email": "support@thoughtly.com",
+			"url": "https://thoughtly.com"
 		}
 	},
 	"servers": [
 		{
-			"url": "https://api.thought.ly",
+			"url": "https://api.thoughtly.com",
 			"description": "Production server"
 		}
 	],

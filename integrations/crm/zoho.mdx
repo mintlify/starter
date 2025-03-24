@@ -1,5 +1,50 @@
 ---
-title: ZoHo
+title: Zoho
 ---
 
-<Note>This integration is not yet available. Please check back soon for updates.</Note>
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Zoho"
+	domain="zoho.com"
+	triggers={[
+		{
+			"name": "Contact Created",
+			"description": "This trigger fires when a new contact is created in Zoho. A contact is a person or organization that you do business with."
+		}
+	]}
+    actions={[
+        {
+            "name": "Search Record",
+			"description": "This action searches for a record in Zoho. A record is a single entry in a Zoho application, such as a contact, lead, or deal."
+		},
+		{
+			"name": "Create Record",
+			description: "Creates a new record in Zoho. A record is a single entry in a Zoho application, such as a contact, lead, or deal."
+		},
+		{
+			"name": "Update Record",
+			description: "Updates an existing record in Zoho. A record is a single entry in a Zoho application, such as a contact, lead, or deal."
+		},
+		{
+			"name": "Delete Record",
+			description: "Deletes a record in Zoho. A record is a single entry in a Zoho application, such as a contact, lead, or deal."
+		},
+		{
+            "name": "Create Appointment",
+			"description": "Creates a new appointment in Zoho. An appointment is a scheduled meeting or event."
+		},
+		{
+			"name": "Fetch Appointment",
+			description: "Fetches an appointment from Zoho. An appointment is a scheduled meeting or event."
+		},
+		{
+			"name": "Reschedule Appointment",
+			description: "Reschedules an appointment in Zoho. An appointment is a scheduled meeting or event."
+		},
+		{
+			"name": "Delete Appointment",
+			description: "Deletes an appointment in Zoho. An appointment is a scheduled meeting or event."
+		},
+    ]}
+/>

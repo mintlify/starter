@@ -30,23 +30,38 @@
 	},
 	"topbarCtaButton": {
 		"name": "Get Started",
-		"url": "https://app.thought.ly"
+		"url": "https://app.thoughtly.com"
 	},
 	"anchors": [
 		{
 			"name": "Dashboard",
 			"icon": "browser",
-			"url": "https://app.thought.ly"
+			"url": "https://app.thoughtly.com"
 		},
 		{
-			"name": "Join our Slack",
+			"name": "Platform Status",
+			"icon": "server",
+			"url": "https://status.thoughtly.com"
+		},
+		{
+			"name": "Slack Community",
 			"icon": "slack",
-			"url": "https://thought.ly/slack"
+			"url": "https://community.thoughtly.com"
+		},
+		{
+			"name": "Join Office Hours",
+			"icon": "clock",
+			"url": "https://thoughtly.com/office-hours"
 		},
 		{
 			"name": "Book a Demo",
 			"icon": "calendar",
 			"url": "https://fns.thought.ly/lead/email?demo=true"
+		},
+		{
+			"name": "Refer a Friend",
+			"icon": "gift",
+			"url": "https://refer.thoughtly.com"
 		}
 	],
 	"tabs": [
@@ -109,7 +124,8 @@
 						"build/agent-builder/outcomes",
 						"build/agent-builder/variables",
 						"build/agent-builder/training-and-rules",
-						"build/agent-builder/genius"
+						"build/agent-builder/genius",
+						"build/agent-builder/tips-and-tricks"
 					],
 					"icon": "diagram-nested",
 					"iconType": "light"
@@ -163,20 +179,21 @@
 				"platform/contacts",
 				"platform/library",
 				"platform/billing",
-				"platform/settings"
+				"platform/settings/settings"
 			]
 		},
 		{
 			"group": "Resources",
 			"pages": [
 				"resources/faq",
-				"resources/training-videos",
+				"resources/videos",
 				"resources/glossary",
 				{
 					"group": "Whitepapers",
 					"pages": [
 						"resources/whitepapers/overview",
-						"resources/whitepapers/conversational-ai"
+						"resources/whitepapers/conversational-ai",
+						"resources/whitepapers/agency-guide"
 					],
 					"icon": "file",
 					"iconType": "light"
@@ -219,6 +236,13 @@
 			]
 		},
 		{
+			"group": "Communication",
+			"pages": [
+				"integrations/communication/gmail",
+				"integrations/communication/slack"
+			]
+		},
+		{
 			"group": "Ticketing",
 			"pages": [
 				"integrations/ticketing/zendesk"
@@ -230,7 +254,8 @@
 				"integrations/productivity/google-sheets",
 				"integrations/productivity/airtable",
 				"integrations/productivity/typeform",
-				"integrations/productivity/trello"
+				"integrations/productivity/trello",
+				"integrations/productivity/smartsheet"
 			]
 		},
 		{
@@ -257,7 +282,7 @@
 		"x": "https://twitter.com/thoughtlyai",
 		"linkedin": "https://www.linkedin.com/company/thoughtly-ai/",
 		"instagram": "https://www.instagram.com/thoughtly.ai/",
-		"slack": "https://thought.ly/slack"
+		"slack": "https://community.thoughtly.com"
 	},
 	"integrations": {
 		"intercom": "uii3kkuk"
@@ -265,13 +290,9 @@
 	"analytics": {
 		"ga4": {
 			"measurementId": "G-4JRQ329JCS"
-		},
-		"posthog": {
-			"apiKey": "phc_1rmhDrcylqNFKJpFQwDuBV3P4wFYFnZBr8CMY31jLpX",
-			"apiHost": "https://us.i.posthog.com"
 		}
 	},
 	"api": {
-		"baseUrl": "https://api.thought.ly"
+		"baseUrl": "https://api.thoughtly.com"
 	}
 }

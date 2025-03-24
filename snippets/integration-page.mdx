@@ -3,22 +3,24 @@ export const IntegrationPage = ({
 	triggers,
 	name,
 	domain,
+	logoOverride,
 }) => (
 	<div>
 		<div className="flex flex-row items-center h-10 pb-4">
 			<img
-				src={`https://logo.clearbit.com/${domain}`}
+				src={logoOverride || `https://logo.clearbit.com/${domain}`}
 				className='w-5 rounded-md mr-2 h-5'
 			/>
 			<div className="text-xl">
-				Integrate with <span className='font-bold'>{name}</span>
+				Integrate with <a href={`https://${domain}`} target={"_blank"}><span className='font-bold'>{name}</span></a>
 			</div>
 		</div>
 
-		By integrating Thoughtly with {name}, you can automate tasks and workflows before, during, and after calls. To integrate with {name}, head to the <a href="https://app.thought.ly/integration" target="_blank">Integrations</a> page and follow the instructions.
+		By integrating Thoughtly with {name}, you can automate tasks and workflows before, during, and after calls. To integrate with {name}, head to the <a href="https://app.thoughtly.com/integration" target="_blank">Integrations</a> page and follow the instructions.
 
 		{triggers && (
 			<div>
+				<hr/>
 				<h3>Triggers</h3>
 
 				Triggers are available via <a href="/build/automations/triggers">Automations</a>. You can use them to start your Automations, such as for initiating a call or sending an SMS.
@@ -35,6 +37,7 @@ export const IntegrationPage = ({
 
 		{actions && (
 			<div>
+				<hr/>
 				<h3>Actions</h3>
 
 				Actions are available both via <a href="/build/agent-builder/nodes">Mid-Call Actions</a> and <a href="/build/automations/actions">Automations</a>. You can give your Voice Agents access to these Actions so they can perform tasks in {name} during a call, or use them in Automations to automate tasks before and after calls.

@@ -1,0 +1,24 @@
+---
+title: Slack
+---
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Slack"
+	domain="slack.com"
+    actions={[
+        {
+            "name": "Send Message",
+			"description": "This action sends a message to a Slack channel. You can specify the channel, message text, and other options."
+		},
+		{
+			"name": "Send Direct Message",
+			"description": "This action sends a direct message to a user in Slack. You can specify the user, message text, and other options."
+		},
+		{
+			"name": "Delete Message",
+			"description": "This action deletes a message in a Slack channel. You can specify the message to delete."
+		}
+    ]}
+/>

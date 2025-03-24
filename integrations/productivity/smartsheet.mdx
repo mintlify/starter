@@ -1,0 +1,30 @@
+---
+title: Smartsheet
+---
+
+import { IntegrationPage } from '/snippets/integration-page.mdx'
+
+<IntegrationPage
+    name="Smartsheet"
+    domain="smartsheet.com"
+    actions={[
+        {
+            "name": "Lookup Row",
+			"description": "Queries a row in a Smartsheet spreadsheet."
+		},
+		{
+			"name": "Create Row",
+			"description": "Creates a new row in a Smartsheet spreadsheet."
+		},
+        {
+            "name": "Update Row",
+            "description": "Updates a row in a Smartsheet spreadsheet."
+        }
+    ]}
+	triggers={[
+		{
+			"name": "Row Created",
+			"description": "Triggers when a new row is created in a Smartsheet."
+		},
+	]}
+/>
