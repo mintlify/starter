@@ -31,6 +31,12 @@
               "essentials/navigation",
               "essentials/reusable-snippets"
             ]
+          },
+          {
+            "group": "Guia de Desenvolvimento",
+            "pages": [
+              "guia-de-desenvolvimento/infraestrutura"
+            ]
           }
         ]
       },
