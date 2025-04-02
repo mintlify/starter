@@ -1,0 +1,215 @@
+---
+title: 'Metrics Overview'
+description: 'Overview of the metrics endpoint structure and common parameters'
+---
+
+## Metrics Endpoint Structure
+
+All metrics endpoints follow the same base structure:
+
+**Endpoint:** `POST /metrics/v2/{metric_type}`
+
+**Authentication Required:** Yes
+
+**Path Parameters:**
+
+- `metric_type` (string, required): The type of metric to retrieve. See available metric types below.
+
+## Common Request Parameters
+
+Most metric endpoints accept the following request parameters:
+
+```json
+{
+  "filters": {
+    "key1": "value1",
+    "key2": "value2"
+  },
+  "group_by": ["field1", "field2"],
+  "date_level": "day|week|month|quarter|year",
+  "aggregation": "sum|avg|count|etc",
+  "metric_min_value": 0,
+  "date_field": "created_at|merged_at|etc",
+  "time_series_data": false,
+  "include_previous_period": false
+}
+```
+
+### Parameter Details
+
+<ResponseField name="filters" type="object">
+  Key-value pairs for filtering the metric data. Common filters include:
+  - `repository_id`: Filter by specific repository
+  - `user_id`: Filter by specific user
+  - `team_id`: Filter by specific team
+  - `start_date`: Start date for the metric calculation
+  - `end_date`: End date for the metric calculation
+</ResponseField>
+
+<ResponseField name="group_by" type="array">
+  Fields to group the results by. Default: `[]`
+  
+  Common grouping fields include:
+  - `repository_name`: Group by repository
+  - `user_name`: Group by user
+  - `team_name`: Group by team
+</ResponseField>
+
+<ResponseField name="date_level" type="string">
+  Time granularity for data aggregation. Options:
+  - `day`: Daily aggregation
+  - `week`: Weekly aggregation
+  - `month`: Monthly aggregation
+  - `quarter`: Quarterly aggregation
+  - `year`: Yearly aggregation
+</ResponseField>
+
+<ResponseField name="aggregation" type="string">
+  Method to aggregate the metric data. Options depend on the metric type but generally include:
+  - `sum`: Sum values
+  - `avg`: Average values
+  - `count`: Count occurrences
+  - `min`: Minimum value
+  - `max`: Maximum value
+  - `median`: Median value
+  - `p90`: 90th percentile
+</ResponseField>
+
+<ResponseField name="metric_min_value" type="number">
+  Minimum value threshold for the metric. Default: `0`
+</ResponseField>
+
+<ResponseField name="date_field" type="string">
+  Date field to use for time-based calculations. Options depend on the metric type but generally include:
+  - `created_at`: Creation date
+  - `merged_at`: Merge date
+  - `completed_at`: Completion date
+</ResponseField>
+
+<ResponseField name="time_series_data" type="boolean">
+  Whether to return data formatted for time series visualization. Default: `false`
+</ResponseField>
+
+<ResponseField name="include_previous_period" type="boolean">
+  Whether to include data from the previous time period for comparison. Default: `false`
+</ResponseField>
+
+## Response Format
+
+The response format depends on the requested metric and parameters. By default, the API returns a JSON object with the requested metric data:
+
+```json
+{
+  "results": [
+    {
+      "metric_name": "pull-requests-count",
+      "value": 42,
+      "group_by": {
+        "repository_name": "my-repository"
+      }
+    },
+    {
+      "metric_name": "pull-requests-count",
+      "value": 18,
+      "group_by": {
+        "repository_name": "another-repository"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+
+If `time_series_data` is set to `true`, the response will be formatted for line chart visualization:
+
+```json
+{
+  "series": [
+    {
+      "name": "my-repository",
+      "data": [4, 8, 12, 10, 8]
+    },
+    {
+      "name": "another-repository",
+      "data": [2, 4, 5, 4, 3]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023"],
+  "meta": {
+    "filters": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-05-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-05-31"
+    }
+  }
+}
+```
+
+## Available Metric Types
+
+The API provides a wide range of metric types across several categories:
+
+<Tabs>
+  <Tab title="Development Metrics">
+    - `coding-time`: Time spent coding
+    - `pickup-time`: Time between commit and PR open
+    - `commit-to-open`: Time from commit to PR open
+    - `reviews-count`: Number of reviews
+    - `open-to-review`: Time between PR open and first review
+    - `review-to-merge`: Time between first review and merge
+    - `review-time`: Total time spent in review
+    - `rework-time`: Time spent on rework after review
+    - `cycle-time`: Full cycle time from commit to merge
+  </Tab>
+  <Tab title="Pull Request Metrics">
+    - `pull-requests-count`: Number of pull requests
+    - `pull-requests-size`: Size of pull requests
+    - `review-rate`: Review rate
+    - `complexity-score`: Code complexity score
+    - `review-interactions-count`: Number of review interactions
+    - `comment-interactions-count`: Comment interaction count
+    - `comments-count`: Number of comments
+    - `commit-interactions-count`: Commit interaction count
+    - `commits-count`: Number of commits
+  </Tab>
+  <Tab title="Issue Metrics">
+    - `issues-count`: Number of issues
+    - `completed-issues-count`: Number of completed issues
+    - `started-issues-count`: Number of started issues
+    - `backlog-issues-count`: Number of backlog issues
+    - `story-points`: Story points
+    - `completed-story-points`: Completed story points
+    - `started-story-points`: Started story points
+    - `issue-cycle-time`: Issue cycle time
+    - `issue-comment-interactions-count`: Issue comment interaction count
+    - `issue-comments-count`: Number of issue comments
+  </Tab>
+  <Tab title="Other Metrics">
+    - `benchmark`: Retrieves benchmark metrics
+    - `releases-count`: Number of releases
+    - `ai-companion-chat-accepted-lines`: Lines accepted from AI suggestions
+    - `ai-companion-chat-suggested-lines`: Lines suggested by AI
+    - `ai-companion-requests`: Number of AI companion requests
+    - `ai-companion-most-used-model`: Most used AI model
+    - `ai-companion-most-used-programming-language`: Most used programming language with AI
+    - `ai-companion-adopted-users`: Number of users who adopted AI companion
+    - `ai-companion-productivity-score-boost`: Productivity boost from AI companion
+    - `ai-companion-productivity-score`: Productivity score with AI companion
+    - `ai-companion-productivity-score-boost-percentage`: Percentage productivity boost from AI
+    - `user-details`: User details
+    - `date-details`: Date-related details
+    - `get-multiple-metrics`: Retrieves multiple metrics in a single request
+  </Tab>
+</Tabs>

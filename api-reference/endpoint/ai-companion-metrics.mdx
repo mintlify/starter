@@ -1,0 +1,324 @@
+---
+title: 'AI Companion Metrics'
+description: 'API endpoints for AI companion usage and productivity metrics'
+---
+
+## AI Companion Metrics
+
+AI Companion metrics measure how developers interact with AI assistants, the impact on productivity, and the adoption of AI tools in your organization.
+
+### Available Metrics
+
+<ParamField path="ai-companion-chat-accepted-lines" type="string">
+  Lines accepted from AI suggestions
+</ParamField>
+
+<ParamField path="ai-companion-chat-suggested-lines" type="string">
+  Lines suggested by AI
+</ParamField>
+
+<ParamField path="ai-companion-requests" type="string">
+  Number of AI companion requests
+</ParamField>
+
+<ParamField path="ai-companion-most-used-model" type="string">
+  Most used AI model
+</ParamField>
+
+<ParamField path="ai-companion-most-used-programming-language" type="string">
+  Most used programming language with AI
+</ParamField>
+
+<ParamField path="ai-companion-adopted-users" type="string">
+  Number of users who adopted AI companion
+</ParamField>
+
+<ParamField path="ai-companion-productivity-score-boost" type="string">
+  Productivity boost from AI companion
+</ParamField>
+
+<ParamField path="ai-companion-productivity-score" type="string">
+  Productivity score with AI companion
+</ParamField>
+
+<ParamField path="ai-companion-productivity-score-boost-percentage" type="string">
+  Percentage productivity boost from AI
+</ParamField>
+
+## AI Companion Requests Metric
+
+This endpoint provides data on the number of AI companion requests.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/ai-companion-requests' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["user_name"],
+    "date_level": "month",
+    "date_field": "created_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "Alice",
+      "data": [45, 78, 110, 165, 220, 310]
+    },
+    {
+      "name": "Bob",
+      "data": [32, 65, 95, 140, 180, 250]
+    },
+    {
+      "name": "Charlie",
+      "data": [58, 92, 130, 175, 240, 320]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## AI Companion Suggested vs Accepted Lines
+
+This endpoint provides data on suggested lines vs. accepted lines from AI.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/get-multiple-metrics' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": [],
+    "date_level": "month",
+    "metrics": ["ai-companion-chat-suggested-lines", "ai-companion-chat-accepted-lines"],
+    "date_fields": {
+      "ai-companion-chat-suggested-lines": "created_at",
+      "ai-companion-chat-accepted-lines": "created_at"
+    },
+    "aggregations": {
+      "ai-companion-chat-suggested-lines": "sum",
+      "ai-companion-chat-accepted-lines": "sum"
+    },
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "metrics": {
+    "ai-companion-chat-suggested-lines": {
+      "series": [
+        {
+          "name": "Suggested Lines",
+          "data": [4500, 6800, 8900, 10200, 12500, 15800]
+        }
+      ],
+      "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+      "unit": "lines"
+    },
+    "ai-companion-chat-accepted-lines": {
+      "series": [
+        {
+          "name": "Accepted Lines",
+          "data": [3200, 4900, 6700, 7800, 9600, 12400]
+        }
+      ],
+      "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+      "unit": "lines"
+    }
+  },
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## AI Companion Productivity Score Boost
+
+This endpoint provides data on productivity boost from AI usage.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/ai-companion-productivity-score-boost-percentage' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["user_name"],
+    "date_level": "quarter",
+    "aggregation": "avg",
+    "date_field": "created_at"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "ai-companion-productivity-score-boost-percentage",
+      "value": 35.8,
+      "group_by": {
+        "user_name": "Alice"
+      },
+      "unit": "percent"
+    },
+    {
+      "metric_name": "ai-companion-productivity-score-boost-percentage",
+      "value": 28.2,
+      "group_by": {
+        "user_name": "Bob"
+      },
+      "unit": "percent"
+    },
+    {
+      "metric_name": "ai-companion-productivity-score-boost-percentage",
+      "value": 42.1,
+      "group_by": {
+        "user_name": "Charlie"
+      },
+      "unit": "percent"
+    }
+  ],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Most Used Programming Language with AI
+
+This endpoint provides data on the most used programming languages with AI.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/ai-companion-most-used-programming-language' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": [],
+    "date_level": "total",
+    "aggregation": "count",
+    "date_field": "created_at"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "ai-companion-most-used-programming-language",
+      "value": "JavaScript",
+      "count": 4250
+    },
+    {
+      "metric_name": "ai-companion-most-used-programming-language",
+      "value": "Python",
+      "count": 3840
+    },
+    {
+      "metric_name": "ai-companion-most-used-programming-language",
+      "value": "TypeScript",
+      "count": 2950
+    },
+    {
+      "metric_name": "ai-companion-most-used-programming-language",
+      "value": "Java",
+      "count": 1820
+    },
+    {
+      "metric_name": "ai-companion-most-used-programming-language",
+      "value": "Go",
+      "count": 1540
+    }
+  ],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Parameter Notes
+
+<ResponseField name="date_field" type="string">
+  For AI companion metrics, the following date fields are available:
+  - `created_at`: When the AI interaction occurred
+  - `accepted_at`: When the AI suggestion was accepted
+</ResponseField>
+
+<ResponseField name="aggregation" type="string">
+  Different aggregation methods are appropriate for different AI metrics:
+  - For requests/lines count: `sum` or `count`
+  - For productivity scores: `avg` or `median`
+  - For adoption metrics: `count` or `distinct_count`
+</ResponseField>
+
+## Common Use Cases
+
+- **Adoption Monitoring**: Track AI tool adoption across teams and users
+- **Productivity Analysis**: Measure productivity improvements from AI usage
+- **User Behavior**: Understand how developers interact with AI tools
+- **ROI Calculation**: Quantify the business value of AI investments
+- **Technology Insights**: Identify which programming languages benefit most from AI
+- **Training Needs**: Determine where additional AI training may be beneficial based on acceptance rates

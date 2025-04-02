@@ -1,0 +1,244 @@
+---
+title: 'Pull Request Metrics'
+description: 'API endpoints for pull request related metrics'
+---
+
+## Pull Request Metrics
+
+Pull request metrics provide insights into the volume, size, complexity, and interactions of pull requests in your repositories.
+
+### Available Metrics
+
+<ParamField path="pull-requests-count" type="string">
+  Number of pull requests
+</ParamField>
+
+<ParamField path="pull-requests-size" type="string">
+  Size of pull requests (typically measured in lines of code)
+</ParamField>
+
+<ParamField path="review-rate" type="string">
+  Review rate (percentage of PRs that receive reviews)
+</ParamField>
+
+<ParamField path="complexity-score" type="string">
+  Code complexity score
+</ParamField>
+
+<ParamField path="review-interactions-count" type="string">
+  Number of review interactions
+</ParamField>
+
+<ParamField path="comment-interactions-count" type="string">
+  Comment interaction count
+</ParamField>
+
+<ParamField path="comments-count" type="string">
+  Number of comments
+</ParamField>
+
+<ParamField path="commit-interactions-count" type="string">
+  Commit interaction count
+</ParamField>
+
+<ParamField path="commits-count" type="string">
+  Number of commits
+</ParamField>
+
+## Pull Requests Count Metric
+
+This endpoint provides the count of pull requests based on specified filters.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/pull-requests-count' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["repository_name", "author_name"],
+    "date_level": "month",
+    "date_field": "created_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "repo-a/user-1",
+      "data": [5, 7, 4, 6, 8, 9]
+    },
+    {
+      "name": "repo-a/user-2",
+      "data": [3, 5, 6, 4, 7, 8]
+    },
+    {
+      "name": "repo-b/user-1",
+      "data": [2, 3, 4, 5, 6, 7]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+  "meta": {
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Pull Requests Size Metric
+
+This endpoint provides information about the size of pull requests.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/pull-requests-size' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["repository_name"],
+    "date_level": "month",
+    "aggregation": "avg",
+    "date_field": "created_at"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "pull-requests-size",
+      "value": 142.5,
+      "group_by": {
+        "repository_name": "frontend-repo"
+      },
+      "unit": "lines"
+    },
+    {
+      "metric_name": "pull-requests-size",
+      "value": 87.3,
+      "group_by": {
+        "repository_name": "backend-repo"
+      },
+      "unit": "lines"
+    },
+    {
+      "metric_name": "pull-requests-size",
+      "value": 213.8,
+      "group_by": {
+        "repository_name": "infrastructure-repo"
+      },
+      "unit": "lines"
+    }
+  ],
+  "meta": {
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Complexity Score Metric
+
+This endpoint provides a complexity score for pull requests.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/complexity-score' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["repository_name"],
+    "date_level": "quarter",
+    "aggregation": "avg",
+    "date_field": "created_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "frontend-repo",
+      "data": [3.2, 2.9, 3.1, 2.8]
+    },
+    {
+      "name": "backend-repo",
+      "data": [4.1, 3.8, 3.5, 3.3]
+    },
+    {
+      "name": "infrastructure-repo",
+      "data": [4.5, 4.3, 4.0, 3.7]
+    }
+  ],
+  "categories": ["Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Parameter Notes
+
+<ResponseField name="date_field" type="string">
+  For pull request metrics, the following date fields are available:
+  - `created_at`: When the PR was created
+  - `merged_at`: When the PR was merged
+  - `closed_at`: When the PR was closed
+</ResponseField>
+
+<ResponseField name="aggregation" type="string">
+  Different aggregation methods are appropriate for different PR metrics:
+  - For PR count: `sum` or `count`
+  - For PR size: `avg`, `median`, or `p90`
+  - For complexity score: `avg` or `max`
+</ResponseField>
+
+## Common Use Cases
+
+- **Monitor PR Volume**: Track the number of PRs created over time
+- **Identify Large PRs**: Find PRs that are above a certain size threshold using `metric_min_value`
+- **Analyze Review Culture**: Track review rate and comments per PR
+- **Assess Complexity Trends**: Monitor if code complexity is increasing or decreasing over time
+- **Team Comparison**: Compare PR metrics across different teams or repositories

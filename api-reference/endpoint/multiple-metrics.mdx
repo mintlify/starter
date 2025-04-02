@@ -1,0 +1,387 @@
+---
+title: 'Multiple Metrics'
+description: 'Retrieve multiple metrics in a single API request'
+---
+
+## Get Multiple Metrics
+
+The `get-multiple-metrics` endpoint allows you to retrieve multiple different metrics in a single API request, which is useful for dashboards and reports.
+
+**Endpoint:** `POST /metrics/v2/get-multiple-metrics`
+
+**Authentication Required:** Yes
+
+## Request Format
+
+```json
+{
+  "filters": {
+    "key1": "value1",
+    "key2": "value2"
+  },
+  "group_by": ["field1", "field2"],
+  "date_level": "day|week|month|quarter|year",
+  "metrics": ["metric1", "metric2", "metric3"],
+  "metric_min_values": {
+    "metric1": 0,
+    "metric2": 0,
+    "metric3": 0
+  },
+  "date_fields": {
+    "metric1": "created_at",
+    "metric2": "merged_at",
+    "metric3": "completed_at"
+  },
+  "aggregations": {
+    "metric1": "sum",
+    "metric2": "avg",
+    "metric3": "count"
+  },
+  "include_previous_period": false
+}
+```
+
+### Parameter Details
+
+<ResponseField name="metrics" type="array" required>
+  Array of metric types to retrieve. You can include any of the available metrics from the different categories.
+  
+  Example: `["cycle-time", "pull-requests-count", "completed-issues-count"]`
+</ResponseField>
+
+<ResponseField name="metric_min_values" type="object">
+  Object mapping each metric to its minimum value threshold.
+  
+  Example: 
+  ```json
+  {
+    "cycle-time": 0,
+    "pull-requests-count": 1,
+    "completed-issues-count": 0
+  }
+  ```
+</ResponseField>
+
+<ResponseField name="date_fields" type="object">
+  Object mapping each metric to the date field to use for time-based calculations.
+  
+  Example: 
+  ```json
+  {
+    "cycle-time": "merged_at",
+    "pull-requests-count": "created_at",
+    "completed-issues-count": "completed_at"
+  }
+  ```
+</ResponseField>
+
+<ResponseField name="aggregations" type="object">
+  Object mapping each metric to the aggregation method to use.
+  
+  Example: 
+  ```json
+  {
+    "cycle-time": "avg",
+    "pull-requests-count": "sum",
+    "completed-issues-count": "sum"
+  }
+  ```
+</ResponseField>
+
+## Response Format
+
+The response contains an array of results, with each result including the metric name, value, and group by values:
+
+```json
+{
+  "results": [
+    {
+      "metric_name": "cycle-time",
+      "value": 16.4,
+      "group_by": {
+        "repository_name": "repo-a"
+      },
+      "unit": "hours"
+    },
+    {
+      "metric_name": "pull-requests-count",
+      "value": 42,
+      "group_by": {
+        "repository_name": "repo-a"
+      }
+    },
+    {
+      "metric_name": "completed-issues-count",
+      "value": 38,
+      "group_by": {
+        "repository_name": "repo-a"
+      }
+    },
+    {
+      "metric_name": "cycle-time",
+      "value": 12.8,
+      "group_by": {
+        "repository_name": "repo-b"
+      },
+      "unit": "hours"
+    },
+    {
+      "metric_name": "pull-requests-count",
+      "value": 36,
+      "group_by": {
+        "repository_name": "repo-b"
+      }
+    },
+    {
+      "metric_name": "completed-issues-count",
+      "value": 29,
+      "group_by": {
+        "repository_name": "repo-b"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+
+## Example: Team Performance Dashboard
+
+This example demonstrates retrieving multiple metrics for a team performance dashboard:
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/get-multiple-metrics' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["user_name"],
+    "date_level": "month",
+    "metrics": ["cycle-time", "pull-requests-count", "completed-issues-count"],
+    "metric_min_values": {
+      "cycle-time": 0,
+      "pull-requests-count": 0,
+      "completed-issues-count": 0
+    },
+    "date_fields": {
+      "cycle-time": "merged_at",
+      "pull-requests-count": "created_at",
+      "completed-issues-count": "completed_at"
+    },
+    "aggregations": {
+      "cycle-time": "avg",
+      "pull-requests-count": "sum",
+      "completed-issues-count": "sum"
+    },
+    "include_previous_period": true
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "cycle-time",
+      "value": 14.2,
+      "previous_value": 16.8,
+      "change_percentage": -15.5,
+      "group_by": {
+        "user_name": "John Doe"
+      },
+      "unit": "hours"
+    },
+    {
+      "metric_name": "pull-requests-count",
+      "value": 28,
+      "previous_value": 22,
+      "change_percentage": 27.3,
+      "group_by": {
+        "user_name": "John Doe"
+      }
+    },
+    {
+      "metric_name": "completed-issues-count",
+      "value": 32,
+      "previous_value": 26,
+      "change_percentage": 23.1,
+      "group_by": {
+        "user_name": "John Doe"
+      }
+    },
+    {
+      "metric_name": "cycle-time",
+      "value": 10.6,
+      "previous_value": 12.2,
+      "change_percentage": -13.1,
+      "group_by": {
+        "user_name": "Jane Smith"
+      },
+      "unit": "hours"
+    },
+    {
+      "metric_name": "pull-requests-count",
+      "value": 35,
+      "previous_value": 30,
+      "change_percentage": 16.7,
+      "group_by": {
+        "user_name": "Jane Smith"
+      }
+    },
+    {
+      "metric_name": "completed-issues-count",
+      "value": 40,
+      "previous_value": 34,
+      "change_percentage": 17.6,
+      "group_by": {
+        "user_name": "Jane Smith"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "previous_date_range": {
+      "start_date": "2022-01-01",
+      "end_date": "2022-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Example: Repository Comparison
+
+This example demonstrates retrieving multiple metrics to compare different repositories:
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/get-multiple-metrics' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "repository_id": ["repo1", "repo2", "repo3"],
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["repository_name"],
+    "date_level": "quarter",
+    "metrics": ["cycle-time", "pull-requests-size", "complexity-score"],
+    "metric_min_values": {
+      "cycle-time": 0,
+      "pull-requests-size": 0,
+      "complexity-score": 0
+    },
+    "date_fields": {
+      "cycle-time": "merged_at",
+      "pull-requests-size": "created_at",
+      "complexity-score": "created_at"
+    },
+    "aggregations": {
+      "cycle-time": "median",
+      "pull-requests-size": "avg",
+      "complexity-score": "avg"
+    },
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "metrics": {
+    "cycle-time": {
+      "series": [
+        {
+          "name": "repo1",
+          "data": [15.2, 14.8, 13.9, 12.5]
+        },
+        {
+          "name": "repo2",
+          "data": [10.3, 9.8, 9.2, 8.6]
+        },
+        {
+          "name": "repo3",
+          "data": [18.7, 17.3, 16.5, 15.9]
+        }
+      ],
+      "categories": ["Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"],
+      "unit": "hours"
+    },
+    "pull-requests-size": {
+      "series": [
+        {
+          "name": "repo1",
+          "data": [145, 132, 128, 120]
+        },
+        {
+          "name": "repo2",
+          "data": [88, 92, 85, 80]
+        },
+        {
+          "name": "repo3",
+          "data": [210, 195, 185, 175]
+        }
+      ],
+      "categories": ["Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"],
+      "unit": "lines"
+    },
+    "complexity-score": {
+      "series": [
+        {
+          "name": "repo1",
+          "data": [3.5, 3.2, 2.9, 2.8]
+        },
+        {
+          "name": "repo2",
+          "data": [2.1, 2.0, 1.9, 1.8]
+        },
+        {
+          "name": "repo3",
+          "data": [4.2, 3.9, 3.7, 3.5]
+        }
+      ],
+      "categories": ["Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"]
+    }
+  },
+  "meta": {
+    "filters": {
+      "repository_id": ["repo1", "repo2", "repo3"],
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Best Practices
+
+1. **Limit the number of metrics**: Request only the metrics you need to avoid performance issues.
+2. **Use consistent date fields**: When possible, use the same date field for related metrics.
+3. **Choose appropriate aggregations**: Different metrics may require different aggregation methods.
+4. **Consider using time series data**: For dashboard visualizations, setting `time_series_data` to `true` provides data formatted for charts.
+5. **Include previous period data**: Setting `include_previous_period` to `true` provides comparison data for trend analysis.

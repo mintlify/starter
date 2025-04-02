@@ -1,0 +1,187 @@
+---
+title: 'Development Metrics'
+description: 'API endpoints for development time and process metrics'
+---
+
+## Development Metrics
+
+Development metrics focus on the time spent in different phases of the development process, helping teams understand and optimize their development workflow.
+
+### Available Metrics
+
+<ParamField path="coding-time" type="string">
+  Time spent coding
+</ParamField>
+
+<ParamField path="pickup-time" type="string">
+  Time between commit and PR open
+</ParamField>
+
+<ParamField path="commit-to-open" type="string">
+  Time from commit to PR open
+</ParamField>
+
+<ParamField path="reviews-count" type="string">
+  Number of reviews
+</ParamField>
+
+<ParamField path="open-to-review" type="string">
+  Time between PR open and first review
+</ParamField>
+
+<ParamField path="review-to-merge" type="string">
+  Time between first review and merge
+</ParamField>
+
+<ParamField path="review-time" type="string">
+  Total time spent in review
+</ParamField>
+
+<ParamField path="rework-time" type="string">
+  Time spent on rework after review
+</ParamField>
+
+<ParamField path="cycle-time" type="string">
+  Full cycle time from commit to merge
+</ParamField>
+
+## Cycle Time Metric
+
+This example demonstrates how to retrieve the cycle time metric, which measures the full development cycle from initial commit to merge.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/cycle-time' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["repository_name", "user_name"],
+    "date_level": "month",
+    "aggregation": "avg",
+    "date_field": "merged_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "repo-a/user-1",
+      "data": [16.5, 14.2, 15.8, 12.6, 11.3, 10.9]
+    },
+    {
+      "name": "repo-a/user-2",
+      "data": [22.1, 18.5, 16.9, 15.2, 14.8, 13.5]
+    },
+    {
+      "name": "repo-b/user-1",
+      "data": [18.7, 17.2, 16.1, 14.3, 13.9, 12.8]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+  "meta": {
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "unit": "hours"
+  }
+}
+```
+</CodeGroup>
+
+## Review Time Metric
+
+This example demonstrates how to retrieve the review time metric, which measures the total time spent in the review phase.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/review-time' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["team_name"],
+    "date_level": "month",
+    "aggregation": "avg"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "review-time",
+      "value": 8.5,
+      "group_by": {
+        "team_name": "Backend Team"
+      }
+    },
+    {
+      "metric_name": "review-time",
+      "value": 6.2,
+      "group_by": {
+        "team_name": "Frontend Team"
+      }
+    },
+    {
+      "metric_name": "review-time",
+      "value": 9.7,
+      "group_by": {
+        "team_name": "Infrastructure Team"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "unit": "hours"
+  }
+}
+```
+</CodeGroup>
+
+## Parameter Notes
+
+<ResponseField name="date_field" type="string">
+  For development metrics, the following date fields are available:
+  - `created_at`: For metrics related to the creation time
+  - `merged_at`: For metrics related to the merge time (best for cycle time)
+  - `first_review_at`: For metrics related to review time
+</ResponseField>
+
+<ResponseField name="aggregation" type="string">
+  For time-based metrics, the following aggregations are recommended:
+  - `avg`: Average time (most common)
+  - `median`: Median time (reduces impact of outliers)
+  - `p90`: 90th percentile (shows worst-case scenarios)
+</ResponseField>
+
+## Common Use Cases
+
+- **Track Cycle Time Trends**: Monitor how development cycle time changes over time
+- **Identify Bottlenecks**: Find which part of the development process takes the longest
+- **Compare Team Performance**: Compare cycle times across different teams or repositories
+- **Set Performance Goals**: Establish baseline metrics and set improvement goals

@@ -1,0 +1,180 @@
+---
+title: 'Benchmark Metrics'
+description: 'API endpoints for comparing your metrics against industry benchmarks'
+---
+
+## Benchmark Metrics
+
+Benchmark metrics provide insights into how your engineering organization compares to industry standards and best practices.
+
+### Available Metrics
+
+<ParamField path="benchmark" type="string">
+  Retrieves benchmark metrics for comparison
+</ParamField>
+
+## Benchmark Metric
+
+This endpoint provides benchmark data for various metrics.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/benchmark' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "industry": "software",
+      "company_size": "medium",
+      "metric_type": "cycle-time"
+    },
+    "group_by": ["metric_name"],
+    "date_level": "total"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "cycle-time",
+      "value": 16.4,
+      "benchmark_value": 22.5,
+      "benchmark_p25": 12.8,
+      "benchmark_p50": 22.5,
+      "benchmark_p75": 35.2,
+      "percentile": 38,
+      "unit": "hours"
+    },
+    {
+      "metric_name": "pickup-time",
+      "value": 3.2,
+      "benchmark_value": 4.5,
+      "benchmark_p25": 2.1,
+      "benchmark_p50": 4.5,
+      "benchmark_p75": 8.3,
+      "percentile": 42,
+      "unit": "hours"
+    },
+    {
+      "metric_name": "review-time",
+      "value": 6.8,
+      "benchmark_value": 9.2,
+      "benchmark_p25": 5.5,
+      "benchmark_p50": 9.2,
+      "benchmark_p75": 14.1,
+      "percentile": 35,
+      "unit": "hours"
+    }
+  ],
+  "meta": {
+    "filters": {
+      "industry": "software",
+      "company_size": "medium",
+      "metric_type": "cycle-time"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Industry Comparison
+
+This endpoint allows you to compare your metrics with specific industry segments.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/benchmark' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "metric_type": "pull-requests-size",
+      "company_size": "medium"
+    },
+    "group_by": ["industry"],
+    "date_level": "total"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "pull-requests-size",
+      "value": 120.5,
+      "benchmark_value": 180.2,
+      "percentile": 25,
+      "group_by": {
+        "industry": "software"
+      },
+      "unit": "lines"
+    },
+    {
+      "metric_name": "pull-requests-size",
+      "value": 120.5,
+      "benchmark_value": 210.7,
+      "percentile": 15,
+      "group_by": {
+        "industry": "finance"
+      },
+      "unit": "lines"
+    },
+    {
+      "metric_name": "pull-requests-size",
+      "value": 120.5,
+      "benchmark_value": 150.3,
+      "percentile": 35,
+      "group_by": {
+        "industry": "e-commerce"
+      },
+      "unit": "lines"
+    },
+    {
+      "metric_name": "pull-requests-size",
+      "value": 120.5,
+      "benchmark_value": 105.8,
+      "percentile": 65,
+      "group_by": {
+        "industry": "technology"
+      },
+      "unit": "lines"
+    }
+  ],
+  "meta": {
+    "filters": {
+      "metric_type": "pull-requests-size",
+      "company_size": "medium"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Parameter Notes
+
+<ResponseField name="filters" type="object">
+  Benchmark-specific filters:
+  - `industry`: Filter by industry sector (software, finance, healthcare, etc.)
+  - `company_size`: Filter by company size (small, medium, large, enterprise)
+  - `metric_type`: The type of metric to benchmark
+  - `region`: Filter by geographic region (optional)
+  - `year`: Filter by benchmark year (optional)
+</ResponseField>
+
+<ResponseField name="benchmark_metadata" type="object">
+  The response includes benchmark metadata:
+  - `benchmark_value`: The median value for the benchmark group
+  - `benchmark_p25`: The 25th percentile value
+  - `benchmark_p50`: The 50th percentile value (median)
+  - `benchmark_p75`: The 75th percentile value
+  - `percentile`: Your organization's percentile ranking
+</ResponseField>
+
+## Common Use Cases
+
+- **Performance Comparison**: Compare your team's performance against industry standards
+- **Goal Setting**: Set realistic goals based on industry benchmarks
+- **Identifying Opportunities**: Find areas where your team significantly underperforms compared to benchmarks
+- **Executive Reporting**: Provide context for metrics by showing where the organization stands relative to peers
+- **Competitive Analysis**: Understand how your engineering organization compares to competitors

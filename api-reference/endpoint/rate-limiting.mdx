@@ -1,0 +1,258 @@
+---
+title: 'Rate Limiting'
+description: 'Understanding API rate limits and best practices'
+---
+
+## Rate Limiting
+
+The Bilanc Metrics API implements rate limiting to ensure fair usage and maintain service reliability. Understanding these limits and implementing appropriate strategies will help you avoid disruptions to your API access.
+
+### Current Limits
+
+- **Request Timeout**: 300 seconds per request
+- **Rate Limits**: Implemented on a per-user basis
+- **Concurrent Requests**: Limited to 10 concurrent requests per user
+
+These limits are subject to change based on service usage patterns and performance considerations.
+
+### Rate Limit Headers
+
+When you make a request to the API, the response includes headers that provide information about your current rate limit status:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1617267600
+```
+
+| Header | Description |
+|--------|-------------|
+| X-RateLimit-Limit | The maximum number of requests allowed in the current time window |
+| X-RateLimit-Remaining | The number of requests remaining in the current time window |
+| X-RateLimit-Reset | The time (in Unix timestamp format) when the rate limit will reset |
+
+### Rate Limit Exceeded Response
+
+When you exceed the rate limit, the API returns a `429 Too Many Requests` status code with the following response:
+
+```json
+{
+  "detail": "Rate limit exceeded. Please try again later."
+}
+```
+
+## Best Practices for Handling Rate Limits
+
+### 1. Monitor Rate Limit Headers
+
+Check the rate limit headers in API responses to track your current usage and avoid hitting limits:
+
+```javascript
+const makeApiRequest = async () => {
+  const response = await fetch('https://api.bilanc.co/metrics/v2/cycle-time', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_AUTH_TOKEN',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ /* request body */ })
+  });
+  
+  // Check rate limit headers
+  const rateLimitLimit = response.headers.get('X-RateLimit-Limit');
+  const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
+  const rateLimitReset = response.headers.get('X-RateLimit-Reset');
+  
+  console.log(`Rate limit: ${rateLimitRemaining}/${rateLimitLimit}, reset at ${new Date(rateLimitReset * 1000)}`);
+  
+  // Process the response data
+  const data = await response.json();
+  return data;
+};
+```
+
+### 2. Implement Exponential Backoff for Retries
+
+When you receive a rate limit error, use an exponential backoff strategy to retry the request:
+
+```javascript
+const fetchWithRetry = async (url, options, maxRetries = 5) => {
+  let retries = 0;
+  
+  while (retries < maxRetries) {
+    try {
+      const response = await fetch(url, options);
+      
+      if (response.status === 429) {
+        // Rate limit exceeded
+        const retryAfter = response.headers.get('Retry-After') || 1;
+        const waitTime = Math.min(1000 * Math.pow(2, retries) * (1 + Math.random() * 0.2), 60000);
+        console.log(`Rate limit exceeded. Retrying after ${waitTime}ms`);
+        
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        retries++;
+        continue;
+      }
+      
+      return response;
+    } catch (error) {
+      console.error('Error making request:', error);
+      
+      if (retries >= maxRetries - 1) throw error;
+      
+      const waitTime = Math.min(1000 * Math.pow(2, retries) * (1 + Math.random() * 0.2), 60000);
+      console.log(`Request failed. Retrying after ${waitTime}ms`);
+      
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+      retries++;
+    }
+  }
+};
+```
+
+### 3. Batch Requests with the Multiple Metrics Endpoint
+
+Instead of making separate API calls for each metric, use the [Multiple Metrics](/api-reference/endpoint/multiple-metrics) endpoint to reduce the number of API requests:
+
+```javascript
+// Instead of making multiple separate requests
+const fetchMultipleMetricsSeparately = async () => {
+  const cycleTime = await fetchMetric('cycle-time', params1);
+  const prCount = await fetchMetric('pull-requests-count', params2);
+  const issueCount = await fetchMetric('issues-count', params3);
+  
+  return { cycleTime, prCount, issueCount };
+};
+
+// Use the multiple metrics endpoint
+const fetchMultipleMetricsBatched = async () => {
+  const response = await fetch('https://api.bilanc.co/metrics/v2/get-multiple-metrics', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_AUTH_TOKEN',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      filters: { /* common filters */ },
+      metrics: ['cycle-time', 'pull-requests-count', 'issues-count'],
+      // Other parameters...
+    })
+  });
+  
+  return await response.json();
+};
+```
+
+### 4. Implement Request Throttling
+
+Limit the rate at which your application makes API requests:
+
+```javascript
+class ThrottledApiClient {
+  constructor(maxRequestsPerSecond = 5) {
+    this.queue = [];
+    this.processing = false;
+    this.maxRequestsPerSecond = maxRequestsPerSecond;
+    this.interval = 1000 / maxRequestsPerSecond;
+    this.lastRequestTime = 0;
+  }
+  
+  async request(url, options) {
+    return new Promise((resolve, reject) => {
+      this.queue.push({ url, options, resolve, reject });
+      this.processQueue();
+    });
+  }
+  
+  async processQueue() {
+    if (this.processing || this.queue.length === 0) return;
+    
+    this.processing = true;
+    
+    const now = Date.now();
+    const timeToWait = Math.max(0, this.lastRequestTime + this.interval - now);
+    
+    await new Promise(resolve => setTimeout(resolve, timeToWait));
+    
+    const { url, options, resolve, reject } = this.queue.shift();
+    
+    try {
+      const response = await fetch(url, options);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    } finally {
+      this.lastRequestTime = Date.now();
+      this.processing = false;
+      this.processQueue();
+    }
+  }
+}
+
+// Usage
+const apiClient = new ThrottledApiClient(5); // 5 requests per second
+apiClient.request('https://api.bilanc.co/metrics/v2/cycle-time', {
+  method: 'POST',
+  headers: { /* ... */ },
+  body: JSON.stringify({ /* ... */ })
+}).then(response => {
+  // Handle response
+});
+```
+
+### 5. Cache Results When Appropriate
+
+Cache API responses to reduce the number of requests for frequently accessed data:
+
+```javascript
+const metricsCache = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+const fetchMetricsWithCache = async (metricType, params) => {
+  const cacheKey = `${metricType}-${JSON.stringify(params)}`;
+  
+  // Check if we have a cached result
+  if (metricsCache.has(cacheKey)) {
+    const { data, timestamp } = metricsCache.get(cacheKey);
+    
+    // Check if the cache is still valid
+    if (Date.now() - timestamp < CACHE_TTL) {
+      console.log(`Using cached data for ${cacheKey}`);
+      return data;
+    }
+  }
+  
+  // Fetch fresh data
+  console.log(`Fetching fresh data for ${cacheKey}`);
+  const response = await fetch(`https://api.bilanc.co/metrics/v2/${metricType}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_AUTH_TOKEN',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(params)
+  });
+  
+  const data = await response.json();
+  
+  // Cache the result
+  metricsCache.set(cacheKey, {
+    data,
+    timestamp: Date.now()
+  });
+  
+  return data;
+};
+```
+
+## Requesting Rate Limit Increases
+
+If you need higher rate limits for your application, contact Bilanc support with the following information:
+
+1. Your account information
+2. The specific API endpoints you're using
+3. Your current usage patterns
+4. The reason for the rate limit increase request
+5. The expected volume of requests
+
+We'll review your request and determine if a rate limit increase is appropriate for your use case.

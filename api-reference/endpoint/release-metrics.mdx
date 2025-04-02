@@ -1,0 +1,160 @@
+---
+title: 'Release Metrics'
+description: 'API endpoints for release-related metrics'
+---
+
+## Release Metrics
+
+Release metrics provide insights into the frequency, quality, and stability of your software releases.
+
+### Available Metrics
+
+<ParamField path="releases-count" type="string">
+  Number of releases
+</ParamField>
+
+## Releases Count Metric
+
+This endpoint provides data on the number of releases over time.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/releases-count' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["repository_name"],
+    "date_level": "month",
+    "date_field": "created_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "frontend-repo",
+      "data": [3, 4, 5, 4, 6, 5]
+    },
+    {
+      "name": "backend-repo",
+      "data": [2, 2, 3, 4, 3, 4]
+    },
+    {
+      "name": "mobile-repo",
+      "data": [1, 2, 1, 2, 2, 3]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+  "meta": {
+    "filters": {
+      "repository_id": "123456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Release Frequency Analysis
+
+This endpoint provides an analysis of release frequency.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/releases-count' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["team_name"],
+    "date_level": "quarter",
+    "aggregation": "sum",
+    "date_field": "created_at"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "releases-count",
+      "value": 32,
+      "group_by": {
+        "team_name": "Platform Team"
+      }
+    },
+    {
+      "metric_name": "releases-count",
+      "value": 45,
+      "group_by": {
+        "team_name": "Frontend Team"
+      }
+    },
+    {
+      "metric_name": "releases-count",
+      "value": 28,
+      "group_by": {
+        "team_name": "Backend Team"
+      }
+    },
+    {
+      "metric_name": "releases-count",
+      "value": 15,
+      "group_by": {
+        "team_name": "Mobile Team"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Parameter Notes
+
+<ResponseField name="date_field" type="string">
+  For release metrics, the following date fields are available:
+  - `created_at`: When the release was created
+  - `published_at`: When the release was published or deployed
+</ResponseField>
+
+<ResponseField name="filters" type="object">
+  Release-specific filters:
+  - `release_type`: Filter by release type (e.g., major, minor, patch)
+  - `environment`: Filter by deployment environment (e.g., production, staging)
+  - `status`: Filter by release status (e.g., successful, failed, rolled back)
+</ResponseField>
+
+## Common Use Cases
+
+- **Release Frequency Tracking**: Monitor how often teams are releasing software
+- **Release Cadence Analysis**: Analyze patterns in release timing and frequency
+- **Team Comparison**: Compare release metrics across different teams or repositories
+- **Goal Setting**: Set and monitor goals for deployment frequency
+- **Continuous Delivery Maturity**: Track improvements in deployment frequency as a measure of CD maturity

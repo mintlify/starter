@@ -1,33 +1,115 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Overview'
+description: 'Complete reference documentation for the Bilanc Metrics API'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Bilanc Metrics API
 
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+The Bilanc Metrics API allows you to retrieve various engineering and development metrics from your organization's data. The API is built using FastAPI and provides endpoints for accessing different types of metrics.
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="API Endpoint Structure"
+  icon="chart-line"
 >
-  View the OpenAPI specification file
+  All metric endpoints follow the pattern: `POST /metrics/v2/{metric_type}`
 </Card>
 
-## Authentication
+## Core Concepts
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+### Authentication
+
+All API endpoints require authentication using PropelAuth. Include your authentication token in the request headers.
+
+```bash
+Authorization: Bearer YOUR_AUTH_TOKEN
+```
+
+See our [Authentication](/authentication) guide for more details.
+
+### Common Request Parameters
+
+Most API endpoints accept the following common parameters:
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `filters` | object | Key-value pairs for filtering the metric data |
+| `group_by` | array | Fields to group the results by |
+| `date_level` | string | Time granularity (day, week, month, quarter, year) |
+| `aggregation` | string | Method to aggregate the metric data |
+| `date_field` | string | Date field to use for time-based calculations |
+| `time_series_data` | boolean | Whether to return data formatted for time series visualization |
+| `include_previous_period` | boolean | Whether to include data from the previous time period |
+
+### Response Format
+
+API responses are returned in JSON format. The exact structure depends on the requested metric and parameters but generally follows a consistent pattern:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "results": [
+    {
+      "metric_name": "pull-requests-count",
+      "value": 42,
+      "group_by": {
+        "repository_name": "my-repo"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "repository_id": "123456"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
   }
-]
+}
 ```
+
+## Available Metric Categories
+
+<CardGroup cols={3}>
+  <Card
+    title="Development Metrics"
+    icon="code"
+    href="/api-reference/endpoint/development-metrics"
+  >
+    Metrics related to development time and process
+  </Card>
+  <Card
+    title="Pull Request Metrics"
+    icon="code-pull-request"
+    href="/api-reference/endpoint/pull-request-metrics"
+  >
+    Metrics related to pull requests
+  </Card>
+  <Card
+    title="Issue Metrics"
+    icon="bug"
+    href="/api-reference/endpoint/issue-metrics"
+  >
+    Metrics related to issues and tickets
+  </Card>
+  <Card
+    title="Release Metrics"
+    icon="tag"
+    href="/api-reference/endpoint/release-metrics"
+  >
+    Metrics related to releases
+  </Card>
+  <Card
+    title="AI Companion Metrics"
+    icon="robot"
+    href="/api-reference/endpoint/ai-companion-metrics"
+  >
+    Metrics related to AI usage and productivity
+  </Card>
+  <Card
+    title="Multiple Metrics"
+    icon="layer-group"
+    href="/api-reference/endpoint/multiple-metrics"
+  >
+    Request multiple metrics in a single API call
+  </Card>
+</CardGroup>

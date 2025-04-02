@@ -1,0 +1,257 @@
+---
+title: 'Issue Metrics'
+description: 'API endpoints for issue and ticket related metrics'
+---
+
+## Issue Metrics
+
+Issue metrics provide insights into ticket management, story points, and team productivity in handling issues.
+
+### Available Metrics
+
+<ParamField path="issues-count" type="string">
+  Number of issues
+</ParamField>
+
+<ParamField path="completed-issues-count" type="string">
+  Number of completed issues
+</ParamField>
+
+<ParamField path="started-issues-count" type="string">
+  Number of started issues
+</ParamField>
+
+<ParamField path="backlog-issues-count" type="string">
+  Number of backlog issues
+</ParamField>
+
+<ParamField path="story-points" type="string">
+  Story points
+</ParamField>
+
+<ParamField path="completed-story-points" type="string">
+  Completed story points
+</ParamField>
+
+<ParamField path="started-story-points" type="string">
+  Started story points
+</ParamField>
+
+<ParamField path="issue-cycle-time" type="string">
+  Issue cycle time
+</ParamField>
+
+<ParamField path="issue-comment-interactions-count" type="string">
+  Issue comment interaction count
+</ParamField>
+
+<ParamField path="issue-comments-count" type="string">
+  Number of issue comments
+</ParamField>
+
+## Completed Issues Count Metric
+
+This endpoint provides the count of completed issues based on specified filters.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/completed-issues-count' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["team_name", "assignee_name"],
+    "date_level": "month",
+    "date_field": "completed_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "Backend Team/Alice",
+      "data": [12, 15, 10, 18, 14, 16]
+    },
+    {
+      "name": "Backend Team/Bob",
+      "data": [8, 12, 11, 9, 13, 15]
+    },
+    {
+      "name": "Frontend Team/Charlie",
+      "data": [10, 9, 14, 12, 15, 17]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Story Points Metric
+
+This endpoint provides information about story points.
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/story-points' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["team_name"],
+    "date_level": "quarter",
+    "aggregation": "sum",
+    "date_field": "created_at"
+  }'
+```
+
+```json Response
+{
+  "results": [
+    {
+      "metric_name": "story-points",
+      "value": 320,
+      "group_by": {
+        "team_name": "Backend Team"
+      }
+    },
+    {
+      "metric_name": "story-points",
+      "value": 285,
+      "group_by": {
+        "team_name": "Frontend Team"
+      }
+    },
+    {
+      "metric_name": "story-points",
+      "value": 175,
+      "group_by": {
+        "team_name": "QA Team"
+      }
+    }
+  ],
+  "meta": {
+    "filters": {
+      "team_id": "team123",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Issue Cycle Time Metric
+
+This endpoint provides data on issue cycle time (from creation to completion).
+
+<CodeGroup>
+```bash Request
+curl -X POST 'https://api.bilanc.co/metrics/v2/issue-cycle-time' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "project_id": "project456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    },
+    "group_by": ["issue_type"],
+    "date_level": "month",
+    "aggregation": "avg",
+    "date_field": "completed_at",
+    "time_series_data": true
+  }'
+```
+
+```json Response
+{
+  "series": [
+    {
+      "name": "Bug",
+      "data": [4.2, 3.8, 3.5, 3.1, 2.8, 2.5]
+    },
+    {
+      "name": "Feature",
+      "data": [10.5, 9.8, 10.2, 8.7, 7.9, 7.2]
+    },
+    {
+      "name": "Task",
+      "data": [2.1, 1.9, 1.7, 1.5, 1.4, 1.2]
+    }
+  ],
+  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
+  "meta": {
+    "filters": {
+      "project_id": "project456",
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "date_range": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-06-30"
+    },
+    "unit": "days"
+  }
+}
+```
+</CodeGroup>
+
+## Parameter Notes
+
+<ResponseField name="date_field" type="string">
+  For issue metrics, the following date fields are available:
+  - `created_at`: When the issue was created
+  - `started_at`: When work on the issue started
+  - `completed_at`: When the issue was completed
+  - `closed_at`: When the issue was closed
+</ResponseField>
+
+<ResponseField name="aggregation" type="string">
+  Different aggregation methods are appropriate for different issue metrics:
+  - For issue counts: `sum` or `count`
+  - For story points: `sum` or `avg`
+  - For cycle time: `avg`, `median`, or `p90`
+</ResponseField>
+
+<ResponseField name="filters" type="object">
+  Issue-specific filters:
+  - `issue_type`: Filter by issue type (e.g., bug, feature, task)
+  - `priority`: Filter by priority level
+  - `status`: Filter by current status
+  - `assignee_id`: Filter by assignee
+  - `project_id`: Filter by project
+</ResponseField>
+
+## Common Use Cases
+
+- **Sprint Velocity**: Track completed story points per sprint
+- **Ticket Resolution**: Monitor the number of completed issues over time
+- **Cycle Time Analysis**: Identify bottlenecks in issue resolution
+- **Backlog Management**: Track the growth or reduction of backlog issues
+- **Comment Analysis**: Analyze communication patterns through issue comments
+- **Team Performance**: Compare team productivity based on issues completed and story points

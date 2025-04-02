@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Bilanc Metrics API",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#10A2AA",
+    "light": "#07D2FB",
+    "dark": "#092D57"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
       {
@@ -18,18 +18,7 @@
             "pages": [
               "introduction",
               "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "authentication"
             ]
           }
         ]
@@ -44,12 +33,23 @@
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Metric Endpoints",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/metrics-overview",
+              "api-reference/endpoint/benchmark-metrics",
+              "api-reference/endpoint/development-metrics",
+              "api-reference/endpoint/pull-request-metrics",
+              "api-reference/endpoint/issue-metrics",
+              "api-reference/endpoint/release-metrics",
+              "api-reference/endpoint/ai-companion-metrics",
+              "api-reference/endpoint/multiple-metrics"
+            ]
+          },
+          {
+            "group": "Additional Information",
+            "pages": [
+              "api-reference/endpoint/error-handling",
+              "api-reference/endpoint/rate-limiting"
             ]
           }
         ]
@@ -58,45 +58,33 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Bilanc Website",
+          "href": "https://bilanc.co",
+          "icon": "globe"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/dark.png",
+    "dark": "/logo/light.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@bilanc.co"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.bilanc.co"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "linkedin": "https://linkedin.com/company/bilanc"
     }
   }
 }

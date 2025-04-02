@@ -1,0 +1,127 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate with the Bilanc Metrics API'
+---
+
+## Authentication
+
+The Bilanc Metrics API uses PropelAuth for authentication. All API endpoints require a valid authentication token in the request headers.
+
+### Obtaining an API Token
+
+You can obtain an API token by:
+
+1. Logging into your Bilanc dashboard at [app.bilanc.co](https://app.bilanc.co)
+2. Navigating to **Settings > API Tokens**
+3. Creating a new API token with the appropriate permissions
+
+<Warning>
+  Keep your API tokens secure. Do not share them or commit them to public repositories.
+</Warning>
+
+### Using Your API Token
+
+Include your API token in the `Authorization` header of your requests:
+
+```bash
+Authorization: Bearer YOUR_AUTH_TOKEN
+```
+
+### Example Authenticated Request
+
+Here's an example of how to authenticate your API requests:
+
+<CodeGroup>
+```javascript Node.js
+const axios = require('axios');
+
+const API_TOKEN = 'YOUR_AUTH_TOKEN';
+
+async function getMetrics() {
+  try {
+    const response = await axios.post('https://api.bilanc.co/metrics/v2/pull-requests-count', {
+      filters: {
+        repository_id: "123456"
+      },
+      date_level: "month"
+    }, {
+      headers: {
+        'Authorization': `Bearer ${API_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching metrics:', error);
+  }
+}
+```
+
+```python Python
+import requests
+
+API_TOKEN = "YOUR_AUTH_TOKEN"
+
+def get_metrics():
+    url = "https://api.bilanc.co/metrics/v2/pull-requests-count"
+    
+    headers = {
+        "Authorization": f"Bearer {API_TOKEN}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "filters": {
+            "repository_id": "123456"
+        },
+        "date_level": "month"
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error: {response.status_code}, {response.text}")
+        return None
+```
+
+```bash cURL
+curl -X POST 'https://api.bilanc.co/metrics/v2/pull-requests-count' \
+  -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "filters": {
+      "repository_id": "123456"
+    },
+    "date_level": "month"
+  }'
+```
+</CodeGroup>
+
+### Authentication Errors
+
+If your authentication token is invalid or missing, the API will return a `401 Unauthorized` error:
+
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+### Token Expiration
+
+API tokens may be configured to expire after a certain period. When a token expires, you'll need to generate a new one from the dashboard.
+
+### Token Permissions
+
+API tokens can be created with different permission levels. Ensure your token has the appropriate permissions for the endpoints you're trying to access.
+
+<Tip>
+  For production applications, we recommend creating tokens with the minimum permissions necessary for your use case.
+</Tip>
+
+### Revoking Tokens
+
+You can revoke API tokens at any time from the Bilanc dashboard. Once revoked, a token can no longer be used to authenticate requests.
