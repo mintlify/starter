@@ -5,7 +5,7 @@ description: 'API endpoints for pull request related metrics'
 
 ## Pull Request Metrics
 
-Pull request metrics provide insights into the volume, size, complexity, and interactions of pull requests in your repositories.
+Pull request metrics provide insights into the volume, size, productivity, and interactions of pull requests in your repositories.
 
 ### Available Metrics
 
@@ -21,8 +21,8 @@ Pull request metrics provide insights into the volume, size, complexity, and int
   Review rate (percentage of PRs that receive reviews)
 </ParamField>
 
-<ParamField path="complexity-score" type="string">
-  Code complexity score
+<ParamField path="productivity-score" type="string">
+  Code productivity score
 </ParamField>
 
 <ParamField path="review-interactions-count" type="string">
@@ -56,46 +56,43 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/pull-requests-count' \
   -H 'Content-Type: application/json' \
   -d '{
     "filters": {
-      "repository_id": "123456",
+      "pr_states": ["merged", "closed"],
       "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
+      "end_date": "2023-01-02"
     },
-    "group_by": ["repository_name", "author_name"],
-    "date_level": "month",
+    "group_by": ["repository", "pr_state"],
+    "date_level": "day",
     "date_field": "created_at",
-    "time_series_data": true
   }'
 ```
 
 ```json Response
-{
-  "series": [
-    {
-      "name": "repo-a/user-1",
-      "data": [5, 7, 4, 6, 8, 9]
-    },
-    {
-      "name": "repo-a/user-2",
-      "data": [3, 5, 6, 4, 7, 8]
-    },
-    {
-      "name": "repo-b/user-1",
-      "data": [2, 3, 4, 5, 6, 7]
-    }
-  ],
-  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
-  "meta": {
-    "filters": {
-      "repository_id": "123456",
-      "start_date": "2023-01-01",
-      "end_date": "2023-06-30"
-    },
-    "date_range": {
-      "start_date": "2023-01-01",
-      "end_date": "2023-06-30"
-    }
-  }
-}
+[
+  {
+    "day_date": "2023-01-01",
+    "repository": "repo-a",
+    "pr_state": "merged",
+    "pr_count": 5
+  },
+  {
+    "day_date": "2023-01-01",
+    "repository": "repo-b",
+    "pr_state": "merged",
+    "pr_count": 8
+  },
+  {
+    "day_date": "2023-01-01",
+    "repository": "repo-a",
+    "pr_state": "closed",
+    "pr_count": 1
+  },
+  {
+    "day_date": "2023-01-02",
+    "repository": "repo-a",
+    "pr_state": "merged",
+    "pr_count": 3
+  },
+]
 ```
 </CodeGroup>
 
@@ -110,112 +107,104 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/pull-requests-size' \
   -H 'Content-Type: application/json' \
   -d '{
     "filters": {
-      "repository_id": "123456",
       "start_date": "2023-01-01",
       "end_date": "2023-12-31"
     },
-    "group_by": ["repository_name"],
-    "date_level": "month",
-    "aggregation": "avg",
+    "group_by": ["repository"],
+    "aggregation": "sum",
     "date_field": "created_at"
   }'
 ```
 
 ```json Response
-{
-  "results": [
-    {
-      "metric_name": "pull-requests-size",
-      "value": 142.5,
-      "group_by": {
-        "repository_name": "frontend-repo"
-      },
-      "unit": "lines"
-    },
-    {
-      "metric_name": "pull-requests-size",
-      "value": 87.3,
-      "group_by": {
-        "repository_name": "backend-repo"
-      },
-      "unit": "lines"
-    },
-    {
-      "metric_name": "pull-requests-size",
-      "value": 213.8,
-      "group_by": {
-        "repository_name": "infrastructure-repo"
-      },
-      "unit": "lines"
-    }
-  ],
-  "meta": {
-    "filters": {
-      "repository_id": "123456",
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
-    },
-    "date_range": {
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
-    }
-  }
-}
+[
+  {
+    "date_level_not_set": true,
+    "repository": "frontend-repo",
+    "sum_additions": 5499,
+    "sum_deletions": 1234,
+    "sum_total_changes": 6733
+  },
+  {
+    "date_level_not_set": true,
+    "repository": "backend-repo",
+    "sum_additions": 7800,
+    "sum_deletions": 4500,
+    "sum_total_changes": 12300
+  },
+]
 ```
 </CodeGroup>
 
-## Complexity Score Metric
+## productivity Score Metric
 
-This endpoint provides a complexity score for pull requests.
+This endpoint provides a productivity score for pull requests.
 
 <CodeGroup>
 ```bash Request
-curl -X POST 'https://api.bilanc.co/metrics/v2/complexity-score' \
+curl -X POST 'https://api.bilanc.co/metrics/v2/productivity-score' \
   -H 'Authorization: Bearer YOUR_AUTH_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
     "filters": {
-      "team_id": "team123",
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
+      "team_ids": ["team123"],
+      "start_date": "2023-01-02",
+      "end_date": "2023-01-31"
     },
-    "group_by": ["repository_name"],
-    "date_level": "quarter",
-    "aggregation": "avg",
+    "date_level": "week",
+    "aggregation": "sum",
     "date_field": "created_at",
-    "time_series_data": true
   }'
 ```
 
 ```json Response
-{
-  "series": [
-    {
-      "name": "frontend-repo",
-      "data": [3.2, 2.9, 3.1, 2.8]
-    },
-    {
-      "name": "backend-repo",
-      "data": [4.1, 3.8, 3.5, 3.3]
-    },
-    {
-      "name": "infrastructure-repo",
-      "data": [4.5, 4.3, 4.0, 3.7]
-    }
-  ],
-  "categories": ["Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"],
-  "meta": {
-    "filters": {
-      "team_id": "team123",
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
-    },
-    "date_range": {
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
-    }
-  }
-}
+[
+  {
+    "week_date": "2023-01-02",
+    "team_name": "frontend-repo",
+    "sum_productivity_score": 450
+  },
+  {
+    "week_date": "2023-01-02",
+    "team_name": "dbt-repo",
+    "sum_productivity_score": 100
+  },
+  {
+    "week_date": "2023-01-09",
+    "team_name": "frontend-repo",
+    "sum_productivity_score": 1000
+  },
+  {
+    "week_date": "2023-01-09",
+    "team_name": "dbt-repo",
+    "sum_productivity_score": 50
+  },
+  {
+    "week_date": "2023-01-16",
+    "team_name": "frontend-repo",
+    "sum_productivity_score": 355
+  },
+  {
+    "week_date": "2023-01-16",
+    "team_name": "dbt-repo",
+    "sum_productivity_score": 105
+  },
+  {
+    "week_date": "2023-01-23",
+    "team_name": "frontend-repo",
+    "sum_productivity_score": 550
+  },
+  {
+    "week_date": "2023-01-23",
+    "team_name": "dbt-repo",
+    "sum_productivity_score": 5
+  },
+  {
+    "week_date": "2023-01-30",
+    "team_name": "frontend-repo",
+    "sum_productivity_score": 15
+  },
+]
 ```
 </CodeGroup>
 
@@ -229,10 +218,8 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/complexity-score' \
 </ResponseField>
 
 <ResponseField name="aggregation" type="string">
-  Different aggregation methods are appropriate for different PR metrics:
-  - For PR count: `sum` or `count`
-  - For PR size: `avg`, `median`, or `p90`
-  - For complexity score: `avg` or `max`
+  Metrics that are not count based can be aggregated using the following method:
+  - `sum`, `max`, `min`, `avg`
 </ResponseField>
 
 ## Common Use Cases
@@ -240,5 +227,5 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/complexity-score' \
 - **Monitor PR Volume**: Track the number of PRs created over time
 - **Identify Large PRs**: Find PRs that are above a certain size threshold using `metric_min_value`
 - **Analyze Review Culture**: Track review rate and comments per PR
-- **Assess Complexity Trends**: Monitor if code complexity is increasing or decreasing over time
+- **Assess productivity Trends**: Monitor if code productivity is increasing or decreasing over time
 - **Team Comparison**: Compare PR metrics across different teams or repositories

@@ -148,16 +148,14 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/review-time' \
 
 <ResponseField name="date_field" type="string">
   For development metrics, the following date fields are available:
-  - `created_at`: For metrics related to the creation time
-  - `merged_at`: For metrics related to the merge time (best for cycle time)
-  - `first_review_at`: For metrics related to review time
+  - `created_at`: For metrics related to the pull request creation time
+  - `merged_at`: For metrics related to the pull request merge time (best for cycle time)
+  - `first_review_at`: For metrics related to pull request first review time
 </ResponseField>
 
 <ResponseField name="aggregation" type="string">
-  For time-based metrics, the following aggregations are recommended:
-  - `avg`: Average time (most common)
-  - `median`: Median time (reduces impact of outliers)
-  - `p90`: 90th percentile (shows worst-case scenarios)
+  Metrics that are not count based can be aggregated using the following method:
+  - `sum`, `max`, `min`, `avg`
 </ResponseField>
 
 ## Common Use Cases
