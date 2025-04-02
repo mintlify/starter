@@ -56,48 +56,44 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/cycle-time' \
   -H 'Content-Type: application/json' \
   -d '{
     "filters": {
-      "repository_id": "123456",
+      "repositories": ["repo-name-1", "repo-name-2"],
       "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
+      "end_date": "2023-02-28"
     },
-    "group_by": ["repository_name", "user_name"],
+    "group_by": ["repository_name", "name"],
     "date_level": "month",
     "aggregation": "avg",
     "date_field": "merged_at",
-    "time_series_data": true
   }'
 ```
 
 ```json Response
-{
-  "series": [
-    {
-      "name": "repo-a/user-1",
-      "data": [16.5, 14.2, 15.8, 12.6, 11.3, 10.9]
-    },
-    {
-      "name": "repo-a/user-2",
-      "data": [22.1, 18.5, 16.9, 15.2, 14.8, 13.5]
-    },
-    {
-      "name": "repo-b/user-1",
-      "data": [18.7, 17.2, 16.1, 14.3, 13.9, 12.8]
-    }
-  ],
-  "categories": ["Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023"],
-  "meta": {
-    "filters": {
-      "repository_id": "123456",
-      "start_date": "2023-01-01",
-      "end_date": "2023-06-30"
-    },
-    "date_range": {
-      "start_date": "2023-01-01",
-      "end_date": "2023-06-30"
-    },
-    "unit": "hours"
+[
+  {
+    "month_date": "2023-01-01",
+    "name": "John Doe",
+    "repository_name": "repo-name-1",
+    "avg_cycle_time": 1500
+  },
+  {
+    "month_date": "2023-01-01",
+    "name": "John Doe",
+    "repository_name": "repo-name-2",
+    "avg_cycle_time": 1300
+  },
+  {
+    "month_date": "2023-01-01",
+    "name": "Jane Doe",
+    "repository_name": "repo-name-1",
+    "avg_cycle_time": 1110
+  },
+  {
+    "month_date": "2023-02-01",
+    "name": "Jane Doe",
+    "repository_name": "repo-name-1",
+    "avg_cycle_time": 1710
   }
-}
+]
 ```
 </CodeGroup>
 
@@ -112,9 +108,9 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/review-time' \
   -H 'Content-Type: application/json' \
   -d '{
     "filters": {
-      "team_id": "team123",
+      "team_ids": ["team123"],
       "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
+      "end_date": "2023-02-28"
     },
     "group_by": ["team_name"],
     "date_level": "month",
@@ -123,43 +119,28 @@ curl -X POST 'https://api.bilanc.co/metrics/v2/review-time' \
 ```
 
 ```json Response
-{
-  "results": [
-    {
-      "metric_name": "review-time",
-      "value": 8.5,
-      "group_by": {
-        "team_name": "Backend Team"
-      }
-    },
-    {
-      "metric_name": "review-time",
-      "value": 6.2,
-      "group_by": {
-        "team_name": "Frontend Team"
-      }
-    },
-    {
-      "metric_name": "review-time",
-      "value": 9.7,
-      "group_by": {
-        "team_name": "Infrastructure Team"
-      }
-    }
-  ],
-  "meta": {
-    "filters": {
-      "team_id": "team123",
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
-    },
-    "date_range": {
-      "start_date": "2023-01-01",
-      "end_date": "2023-12-31"
-    },
-    "unit": "hours"
-  }
-}
+[
+  {
+    "month_date": "2023-01-01",
+    "team_name": "Frontend",
+    "avg_review_time": 500
+  },
+  {
+    "month_date": "2023-01-01",
+    "team_name": "Backend",
+    "avg_review_time": 800
+  },
+  {
+    "month_date": "2023-02-01",
+    "team_name": "Frontend",
+    "avg_review_time": 100
+  },
+  {
+    "month_date": "2023-02-01",
+    "team_name": "Backend",
+    "avg_review_time": 900
+  },
+]
 ```
 </CodeGroup>
 
