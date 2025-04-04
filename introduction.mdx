@@ -1,71 +1,81 @@
 ---
-title: Introduction
-description: "Welcome to the home of your new documentation"
+title: Introdução
+description: "Bem-vindo à documentação do Data Lake da IplanRio"
 ---
 
 <img
   className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
+  src="/images/iplan_assinatura_azul.png"
+  alt="Iplan Assinatura"
 />
 <img
   className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
+  src="/images/iplan_assinatura_azul.png"
+  alt="Iplan Assinatura"
 />
 
-## Setting up
+## Visão Geral
 
-The first step to world-class documentation is setting up your editing environments.
+O **Data Lake da IplanRio** é uma iniciativa para centralizar, tratar e disponibilizar dados estratégicos das secretarias da Prefeitura do Rio de Janeiro. Ele promove uma infraestrutura moderna, escalável e transparente para análise de dados públicos e internos.
+
+Este espaço de documentação tem como objetivo orientar desenvolvedores, analistas e gestores sobre como utilizar, contribuir e evoluir com a plataforma de dados.
+
+---
+
+## Primeiros Passos
+
+Antes de explorar os dados ou desenvolver pipelines, é importante configurar seu ambiente de trabalho e conhecer os conceitos fundamentais.
 
 <CardGroup cols={2}>
   <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
+    title="Visão Geral da Infraestrutura"
+    icon="server"
+    href="/infra"
   >
-    Get your docs set up locally for easy development
+    Entenda como os componentes do Data Lake se integram, desde a orquestração até a análise de dados.
   </Card>
   <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
+    title="Pipelines Públicos"
+    icon="code-branch"
+    href="https://github.com/prefeitura-rio/pipelines_rj_sms"
   >
-    Preview your changes before you push to make sure they're perfect
+    Repositório com os pipelines públicos utilizados nas rotinas de ETL/ELT.
   </Card>
 </CardGroup>
 
-## Make it yours
+---
 
-Update your docs to your brand and add valuable content for the best user conversion.
+## Personalize e Contribua
+
+Além de consumir dados, você também pode contribuir com novos pipelines, evoluir modelos de dados ou explorar novas visualizações.
 
 <CardGroup cols={2}>
   <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
+    title="Modelos de Dados"
+    icon="database"
+    href="https://github.com/prefeitura-rio/queries-rj-iplanrio"
   >
-    Customize your docs to your company's colors and brands
+    Acesse e contribua com os modelos de dados utilizados pela IplanRio para análises padronizadas.
   </Card>
   <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
+    title="Visualizações e Dashboards"
+    icon="chart-line"
+    href="/analises"
   >
-    Automatically generate endpoints from an OpenAPI spec
+    Veja exemplos de visualizações construídas com ferramentas como Power BI e Looker.
   </Card>
   <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
+    title="Componentes do Data Lake"
+    icon="cubes"
+    href="/componentes"
   >
-    Build interactive features and designs to guide your users
+    Conheça cada ferramenta usada na arquitetura: Prefect, DBT, BigQuery, entre outras.
   </Card>
   <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
+    title="Capacitações"
+    icon="book-open"
+    href="/capacitação"
   >
-    Check out our showcase of our favorite documentation
+    Descubra como aprender mais sobre cada parte do ecossistema de dados.
   </Card>
 </CardGroup>

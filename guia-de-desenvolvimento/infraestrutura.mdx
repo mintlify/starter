@@ -1,40 +1,38 @@
 ---
 title: "A Infraestrutura"
 description: "Visão geral da infraestrutura do Data Lake da IplanRio."
+icon: "layers"
 ---
 
 # A Infraestrutura
 
 ## Visão Geral
 
-O **Data Lake da IplanRio** é composto por várias ferramentas e tecnologias que trabalham juntas para coletar, armazenar, gerenciar e analisar esses dados. Cada componente tem um papel específico e, quando combinados, eles criam um ecossistema poderoso para o tratamento de grandes volumes de informações. Vamos explorar os principais componentes que formam um Data Lake eficiente:
+O Data Lake da IplanRio é composto por várias ferramentas e tecnologias que trabalham juntas para coletar, armazenar, gerenciar e analisar esses dados. Cada componente tem um papel específico e, quando combinados, eles criam um ecossistema poderoso para o tratamento de grandes volumes de informações. Vamos explorar os principais componentes que formam um Data Lake eficiente:
 
 #### Orquestração com Prefect
 
-Essencial para garantir que as tarefas sejam executadas de forma ordenada e eficaz. Ele é a espinha dorsal da automação de fluxos de trabalho, assegurando que os processos de **ELT (Extract, Load, Transform)** sejam executados de maneira confiável e escalável.
+Essencial para garantir que as tarefas sejam executadas de forma ordenada e eficaz. Ele é a espinha dorsal da automação de fluxos de trabalho, assegurando que os processos de ELT (Extract, Load, Transform) sejam executados de maneira confiável e escalável.
 
 #### Data Warehouse com BigQuery
 
-O lugar onde os dados são armazenados de maneira estruturada e prontos para análise. Nele, você pode realizar consultas **SQL de alta velocidade** e armazenar dados transformados para análises mais recorrentes.
+O lugar onde os dados são armazenados de maneira estruturada e prontos para análise. Nele, você pode realizar consultas SQL de alta velocidade e armazenar dados transformados para análises mais recorrentes.
 
 #### Construção e Monitoramento com DBT
 
-Ferramenta responsável pela **transformação** (o "T" do ELT) dos dados dentro do Data Warehouse e pelo monitoramento dos mesmos. Ao trazer o conceito de **versionamento de código e testes automatizados** ao processo de transformação dos dados, proporciona uma camada adicional de **governança e qualidade** aos dados no Data Warehouse.
+Ferramenta responsável pela transformação (o "T" do ELT) dos dados dentro do Data Warehouse e pelo monitoramento dos mesmos. Ao trazer o conceito de versionamento de código e testes automatizados ao processo de transformação dos dados, proporciona uma camada adicional de governança e qualidade aos dados no Data Warehouse.
 
 #### Notificações de Falhas via Discord
 
-Sistema de alerta que **notifica a equipe responsável** caso ocorram problemas nos processos de dados. Ele oferece uma comunicação imediata sobre quaisquer interrupções ou falhas, permitindo uma rápida resposta e resolução.
+Sistema de alerta que notifica a equipe responsável caso ocorram problemas nos processos de dados. Ele oferece uma comunicação imediata sobre quaisquer interrupções ou falhas, permitindo uma rápida resposta e resolução.
 
 #### Análise de Dados com Python, R, Power BI e Looker
 
-Conjunto de ferramentas que permitem aos usuários **acessar, analisar e visualizar** os dados armazenados no Data Lake.
+Conjunto de ferramentas que permitem aos usuários acessar, analisar e visualizar os dados armazenados no Data Lake.
 
 ---
 
-Cada um desses componentes desempenha um papel vital para que o **Data Lake** seja robusto e funcional. Juntos, eles oferecem uma infraestrutura completa para que a **IplanRio** possa aproveitar ao máximo seus dados.
+Cada um desses componentes desempenha um papel vital para que o Data Lake seja robusto e funcional. Juntos, eles oferecem uma infraestrutura completa para que a IplanRio possa aproveitar ao máximo seus dados.
 
 ![Arquitetura](../images/guia-de-desenvolvimento/arquitetura.png)
 
-Para uma visão mais detalhada e técnica sobre o funcionamento do **Data Lake da IplanRio** e como ele se integra com o **Data Lake das demais Secretarias**, acessar:
-
-[Documentação Técnica](https://docs.dados.rio/guia-desenvolvedores/visao-geral-infra/)

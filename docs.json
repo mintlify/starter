@@ -1,61 +1,54 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Documentação Data Lake IplanRio",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#3F38AC",
+    "light": "#42B9EB",
+    "dark": "#3F38AC"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
+  "fonts": {
+    "heading": {
+      "family": "DM Sans",
+      "weight": 700
+    },
+    "body": {
+      "family": "DM Sans"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Introdução",
         "groups": [
           {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "Guia de Desenvolvimento",
-            "pages": [
-              "guia-de-desenvolvimento/infraestrutura"
-            ]
+            "group": "Comece aqui",
+            "pages": ["introduction", "quickstart", "development"]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "Guia de Desenvolvimento",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Guia de Desenvolvimento",
             "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "guia-de-desenvolvimento/infraestrutura",
+              {
+                "group": "Tipos de Pipeline",
+                "pages": [
+                  "guia-de-desenvolvimento/tipos-de-pipeline/extracao-e-carga-de-dados",
+                  "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados"
+                ]
+              },
+              {
+                "group": "Guia de Estilo",
+                "pages": [
+                  "guia-de-desenvolvimento/guia-de-estilo/conjuntos-de-dados-e-tabelas",
+                  "guia-de-desenvolvimento/guia-de-estilo/campos"
+                ]
+              }
             ]
           }
         ]
@@ -82,8 +75,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo-iplan-rio.svg",
+    "dark": "/logo/logo-iplan-rio.svg"
   },
   "navbar": {
     "links": [
