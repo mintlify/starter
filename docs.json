@@ -29,7 +29,7 @@
         ]
       },
       {
-        "tab": "Guia de Desenvolvimento",
+        "tab": "Data Lake",
         "groups": [
           {
             "group": "Guia de Desenvolvimento",
@@ -57,19 +57,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "anchor": "Site IplanRio",
+          "href": "https://www.iplan.rio/",
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Discord IplanRio",
+          "href": "https://discord.gg/myFqCKr3",
+          "icon": "discord"
         }
       ]
     }
