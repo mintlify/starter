@@ -75,8 +75,8 @@
     }
   },
   "logo": {
-    "light": "/logo/logo-iplan-rio.svg",
-    "dark": "/logo/logo-iplan-rio.svg"
+    "light": "/logo/iplan_simples_azul.svg",
+    "dark": "/logo/iplan_simples_branca.svg"
   },
   "navbar": {
     "links": [
