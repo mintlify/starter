@@ -1,0 +1,199 @@
+---
+title: Instalação do DBT e dependências
+description: Guia passo a passo para configurar o ambiente com DBT, Python e GitHub.
+---
+
+# 🚀 Instalação do DBT e suas Dependências
+
+Este guia explica como instalar o `DBT (Data Build Tool)`, além de configurar o ambiente com `Python` e `GitHub`.
+
+## ✅ Pré-requisitos
+
+- Acesso ao terminal (Linux, macOS ou Windows)
+- Permissões de administrador
+
+---
+
+## 1. Instalar o Python
+
+<Note>
+  O Python é uma linguagem de programação muito utilizada em projetos de ciência
+  de dados, automação e engenharia de dados. O DBT (Data Build Tool) é
+  distribuído como um pacote Python, ou seja, usamos o Python como base para
+  instalar, configurar e executar o DBT no nosso ambiente.
+</Note>
+
+Recomendamos instalar o Python via [pyenv](https://github.com/pyenv/pyenv) no Linux/macOS ou diretamente do site oficial no Windows.
+
+<Info> O DBT requer Python 3.9 ou superior. </Info>
+
+### macOS / Linux (com pyenv)
+
+```bash
+# Instalar pyenv (requer curl e git)
+curl https://pyenv.run | bash
+
+# Adicionar ao shell (bash/zsh)
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
+source ~/.bashrc
+
+# Instalar e usar uma versão do Python
+pyenv install 3.11.8
+pyenv global 3.11.8
+```
+
+### Windows
+
+Baixe o instalador oficial em: [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
+
+Durante a instalação:
+
+- Marque a opção `"Add Python to PATH"`
+- Clique em `Customize installation` e ative a opção `"Install pip"`
+- Finalize a instalação e reinicie o terminal
+
+Verifique:
+
+```bash
+python --version
+pip --version
+```
+
+---
+
+## 2. Instalar o Git
+
+<Note>
+  O `Git` é um sistema de controle de versão distribuído. Ele é essencial para
+  trabalharmos de forma colaborativa, mantendo o histórico de alterações e
+  facilitando o versionamento dos nossos arquivos.
+</Note>
+
+No nosso projeto, usaremos o `Git` para subir os modelos construídos com o DBT para o nosso repositório principal, que centraliza todos os modelos do nosso datalake. Isso garante rastreabilidade, colaboração e integração com os pipelines de dados.
+
+### macOS (via Homebrew)
+
+```bash
+brew install git
+```
+
+### Linux (via apt)
+
+```bash
+sudo apt update
+sudo apt install git
+```
+
+### Windows
+
+Baixe o instalador em: [https://git-scm.com/download/win](https://git-scm.com/download/win)
+
+Durante a instalação:
+
+- Mantenha as opções padrão
+- Ao final, reinicie o terminal
+
+Verifique:
+
+```bash
+git --version
+```
+
+---
+
+## 3. Criar e ativar um ambiente virtual Python
+
+<Note>
+  Ambientes virtuais Python são usados para `isolar as dependências de um
+  projeto`. Isso significa que os pacotes que instalamos para o DBT não vão
+  interferir em outros projetos nem conflitar com pacotes instalados globalmente
+  no seu sistema.
+</Note>
+
+Vamos criar um ambiente virtual chamado `dbt-env`, que usaremos exclusivamente para este projeto.
+
+### Linux/macOS
+
+```bash
+python -m venv dbt-env
+source dbt-env/bin/activate
+```
+
+### Windows
+
+```cmd
+python -m venv dbt-env
+dbt-env\Scripts\activate
+```
+
+Para sair (desativar) o ambiente virtual, use o comando:
+
+```bash
+deactivate
+```
+
+<Warning>
+  Sempre que você for trabalhar com DBT, `lembre-se de ativar o ambiente
+  virtual` com o comando apropriado para seu sistema operacional.
+</Warning>
+
+---
+
+## 4. Instalar o DBT
+
+<Note>
+  O `DBT (Data Build Tool)` é uma ferramenta que permite transformar dados
+  dentro do seu data warehouse usando apenas SQL e alguns comandos em linha de
+  comando.
+</Note>
+
+Para funcionar com diferentes tecnologias de Data Warehouse (como BigQuery, Snowflake, Postgres, Redshift, etc), o DBT utiliza `adaptadores`. Adaptadores são pacotes que permitem que o DBT se conecte e interaja com cada tipo específico de banco de dados.
+
+No nosso caso, usaremos apenas o `BigQuery`, pois é onde nosso data lake está hospedado.
+
+Vamos instalar o DBT com o adaptador do BigQuery:
+
+```bash
+pip install dbt-bigquery
+```
+
+---
+
+## 5. Verificar a instalação
+
+```bash
+dbt --version
+```
+
+Saída esperada (exemplo):
+
+```bash
+Core:
+  - installed: 1.7.0
+  - latest:    1.7.0
+
+Plugins:
+  - postgres: 1.7.0
+```
+
+---
+
+## 6. Configurar o GitHub (opcional, mas recomendado)
+
+1. Crie uma conta em [github.com](https://github.com/)
+2. Configure o Git localmente:
+
+```bash
+git config --global user.name "Seu Nome"
+git config --global user.email "seu@email.com"
+```
+
+---
+
+## 🎉 Pronto!
+
+Agora seu ambiente está preparado para iniciar projetos com o DBT.
+
+👉 Veja o próximo passo: [Criando seu primeiro projeto DBT](./primeiro-projeto-dbt)

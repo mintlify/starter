@@ -48,6 +48,12 @@
                   "guia-de-desenvolvimento/guia-de-estilo/conjuntos-de-dados-e-tabelas",
                   "guia-de-desenvolvimento/guia-de-estilo/campos"
                 ]
+              },
+              {
+                "group": "Contribuindo com o Projeto",
+                "pages": [
+                  "guia-de-desenvolvimento/contribuindo-com-o-projeto/instalacao-dbt"
+                ]
               }
             ]
           }
