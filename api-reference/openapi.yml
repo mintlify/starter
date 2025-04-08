@@ -1315,11 +1315,17 @@ components:
           type: string
           format: url
           example: https://webhooks.company.com
-        secret:
+        signing_secret:
           type: string
           description: A secret to sign the body of the webhook as described at "https://docs.goteal.co"
           writeOnly: true # Not included in response objects
           example: very-secret
+        encryption_key:
+          type: string
+          description: A randomly generated 32-byte key, encoded in Base64, used to encrypt messages.
+            This key is necessary for encryption but is not retrievable after being set.
+          writeOnly: true
+          example: St/73LZ1xHkwX5TanL7V+YAVczn4acozPf3cFySKQXI=
         config:
           type: object
           description: Configuration properties of the webhook
