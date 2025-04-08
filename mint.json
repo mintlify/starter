@@ -157,6 +157,12 @@
             "api-reference/annotations/get-all-annotations-trace",
             "api-reference/annotations/create-annotation-trace"
           ]
+        },
+        {
+          "group": "Datasets",
+          "pages": [
+            "api-reference/datasets/post-dataset-entries"
+          ]
         }
       ]
     },

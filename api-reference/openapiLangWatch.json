@@ -795,6 +795,33 @@
           }
         }
       }
+    },
+
+    "/api/dataset/{slug}/entries": {
+      "post": {
+        "responses": {},
+        "operationId": "postApiDatasetBySlugEntries",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "description": "Add entries to a dataset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatasetPostEntries"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1074,6 +1101,26 @@
             "example": 1254
           }
         }
+      },
+
+      "DatasetPostEntries": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {}
+            },
+            "example": [
+              {
+                "input": "hi",
+                "output": "Hello, how can I help you today?"
+              }
+            ]
+          }
+        },
+        "required": ["entries"]
       }
     },
     "securitySchemes": {
