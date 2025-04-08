@@ -1625,6 +1625,43 @@ def main():
       # Your LLM call
 ```
 
+      ### Autogen (experimental)
+
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-autogen
+        ```
+
+        **Note:** The Autogen integration is currently experimental and may have limitations or unexpected behavior.
+
+        Then, instrument Autogen:
+
+        ```python
+        from openinference.instrumentation.autogen import AutogenInstrumentor
+
+        AutogenInstrumentor().instrument()
+        ```
+
+        That's it! You can now see the traces from inside Autogen in the LangWatch dashboard.
+
+        ## Capturing Metadata
+
+You can use OpenInference's `using_attributes` context manager to capture additional information for your LLM calls, such as the user_id, session_id (equivalent to thread id), tags and metadata:
+
+```python
+from openinference.instrumentation import using_attributes
+
+def main():
+  with using_attributes(
+      session_id="my-test-session",
+      user_id="my-test-user",
+      tags=["tag-1", "tag-2"],
+      metadata={"foo": "bar"},
+  ):
+      # Your LLM call
+```
+
 
 
 
