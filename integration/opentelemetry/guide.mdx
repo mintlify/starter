@@ -178,6 +178,27 @@ Currently, there are different open initiatives for LLM instrumentation librarie
 
         <OpenInferenceMetadata />
       </Tab>
+      <Tab title="Autogen (experimental)">
+        Installation:
+
+        ```bash
+        pip install openinference-instrumentation-autogen
+        ```
+
+        **Note:** The Autogen integration is currently experimental and may have limitations or unexpected behavior.
+
+        Then, instrument Autogen:
+
+        ```python
+        from openinference.instrumentation.autogen import AutogenInstrumentor
+
+        AutogenInstrumentor().instrument()
+        ```
+
+        That's it! You can now see the traces from inside Autogen in the LangWatch dashboard.
+
+        <OpenInferenceMetadata />
+      </Tab>
     </Tabs>
   </Tab>
 
