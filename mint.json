@@ -87,7 +87,8 @@
         "integration/rest-api",
         "integration/rags-context-tracking",
         "concepts",
-        "integration/cookbooks"
+        "integration/cookbooks",
+        "integration/mcp"
       ]
     },
     {
