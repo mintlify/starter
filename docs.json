@@ -37,6 +37,7 @@
               "guia-de-desenvolvimento/infraestrutura",
               {
                 "group": "Tipos de Pipeline",
+                "icon": "house-flood-water-circle-arrow-right",
                 "pages": [
                   "guia-de-desenvolvimento/tipos-de-pipeline/extracao-e-carga-de-dados",
                   "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados"
@@ -44,6 +45,7 @@
               },
               {
                 "group": "Guia de Estilo",
+                "icon": "palette",
                 "pages": [
                   "guia-de-desenvolvimento/guia-de-estilo/conjuntos-de-dados-e-tabelas",
                   "guia-de-desenvolvimento/guia-de-estilo/campos"
@@ -51,6 +53,7 @@
               },
               {
                 "group": "Contribuindo com o Projeto",
+                "icon": "people-carry-box",
                 "pages": [
                   "guia-de-desenvolvimento/contribuindo-com-o-projeto/instalacao-dbt"
                 ]

@@ -5,7 +5,7 @@ description: Guia passo a passo para configurar o ambiente com DBT, Python e Git
 
 # 🚀 Instalação do DBT e suas Dependências
 
-Este guia explica como instalar o `DBT (Data Build Tool)`, além de configurar o ambiente com `Python` e `GitHub`.
+Este guia explica como instalar o DBT (Data Build Tool), além de configurar o ambiente com Python e GitHub.
 
 ## ✅ Pré-requisitos
 
@@ -13,8 +13,8 @@ Este guia explica como instalar o `DBT (Data Build Tool)`, além de configurar o
 - Permissões de administrador
 
 ---
-
-## 1. Instalar o Python
+<AccordionGroup>
+<Accordion title="1. Instalar o Python">
 
 <Note>
   O Python é uma linguagem de programação muito utilizada em projetos de ciência
@@ -23,9 +23,9 @@ Este guia explica como instalar o `DBT (Data Build Tool)`, além de configurar o
   instalar, configurar e executar o DBT no nosso ambiente.
 </Note>
 
-Recomendamos instalar o Python via [pyenv](https://github.com/pyenv/pyenv) no Linux/macOS ou diretamente do site oficial no Windows.
+Recomendamos instalar a última versão do Python via [pyenv](https://github.com/pyenv/pyenv) no Linux/macOS ou diretamente do site oficial no Windows.
 
-<Info> O DBT requer Python 3.9 ou superior. </Info>
+<Warning> O DBT requer Python 3.9 ou superior. </Warning>
 
 ### macOS / Linux (com pyenv)
 
@@ -40,8 +40,8 @@ echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
 source ~/.bashrc
 
 # Instalar e usar uma versão do Python
-pyenv install 3.11.8
-pyenv global 3.11.8
+pyenv install 3.12
+pyenv global 3.12
 ```
 
 ### Windows
@@ -50,8 +50,8 @@ Baixe o instalador oficial em: [https://www.python.org/downloads/windows/](https
 
 Durante a instalação:
 
-- Marque a opção `"Add Python to PATH"`
-- Clique em `Customize installation` e ative a opção `"Install pip"`
+- Marque a opção "Add python.exe to PATH"
+- Clique em Customize installation e ative a opção "Install pip"
 - Finalize a instalação e reinicie o terminal
 
 Verifique:
@@ -60,18 +60,46 @@ Verifique:
 python --version
 pip --version
 ```
+</Accordion>
 
----
+<Accordion title="2. Instalar o Visual Studio Code">
+<Note>
+  O [Visual Studio Code (VS Code)](https://code.visualstudio.com/) é um editor
+  de código leve e poderoso, muito utilizado em projetos com Python, DBT e Git.
+</Note>
 
-## 2. Instalar o Git
+Embora não seja obrigatório, recomendamos o uso do VS Code porque ele facilita:
+
+- A navegação e edição dos arquivos .sql e .yml usados no DBT
+- O controle de versão com Git através de uma interface gráfica simples
+- A visualização de erros, highlights de sintaxe e integração com o terminal
+
+### Instalação
+
+Baixe e instale o VS Code no site oficial:  
+👉 [https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+### Extensões recomendadas
+
+Após instalar o VS Code, você pode adicionar algumas extensões úteis:
+
+- Python (Microsoft) — para suporte ao ambiente virtual e sintaxe Python
+- SQL (ou SQLTools) — para melhor experiência com arquivos .sql
+- DBT Power User — extensão dedicada ao desenvolvimento com DBT
+
+Essas ferramentas deixarão seu ambiente de trabalho mais produtivo e organizado.
+
+</Accordion>
+
+<Accordion title="3. Instalar o Git">
 
 <Note>
-  O `Git` é um sistema de controle de versão distribuído. Ele é essencial para
+  O Git é um sistema de controle de versão distribuído. Ele é essencial para
   trabalharmos de forma colaborativa, mantendo o histórico de alterações e
   facilitando o versionamento dos nossos arquivos.
 </Note>
 
-No nosso projeto, usaremos o `Git` para subir os modelos construídos com o DBT para o nosso repositório principal, que centraliza todos os modelos do nosso datalake. Isso garante rastreabilidade, colaboração e integração com os pipelines de dados.
+No nosso projeto, usaremos o Git para subir os modelos construídos com o DBT para o nosso repositório principal, que centraliza todos os modelos do nosso datalake. Isso garante rastreabilidade, colaboração e integração com os pipelines de dados.
 
 ### macOS (via Homebrew)
 
@@ -93,6 +121,7 @@ Baixe o instalador em: [https://git-scm.com/download/win](https://git-scm.com/do
 Durante a instalação:
 
 - Mantenha as opções padrão
+- Marque o Visual Studio Code como editor padrão
 - Ao final, reinicie o terminal
 
 Verifique:
@@ -100,68 +129,77 @@ Verifique:
 ```bash
 git --version
 ```
+</Accordion>
 
----
-
-## 3. Criar e ativar um ambiente virtual Python
+<Accordion title="4. Criar e ativar um ambiente virtual Python">
 
 <Note>
-  Ambientes virtuais Python são usados para `isolar as dependências de um
-  projeto`. Isso significa que os pacotes que instalamos para o DBT não vão
+  Ambientes virtuais Python são usados para isolar as dependências de um
+  projeto. Isso significa que os pacotes que instalamos para o DBT não vão
   interferir em outros projetos nem conflitar com pacotes instalados globalmente
   no seu sistema.
 </Note>
 
-Vamos criar um ambiente virtual chamado `dbt-env`, que usaremos exclusivamente para este projeto.
+Vamos criar um ambiente virtual chamado dbt-env, que usaremos exclusivamente para este projeto.
 
 ### Linux/macOS
 
+Criar o ambiente:
 ```bash
 python -m venv dbt-env
+```
+
+
+Ativar o ambiente:
+```bash
 source dbt-env/bin/activate
 ```
 
+
 ### Windows
 
+Criar o ambiente:
 ```cmd
 python -m venv dbt-env
+```
+
+
+Ativar o ambiente:
+```cmd
 dbt-env\Scripts\activate
 ```
 
-Para sair (desativar) o ambiente virtual, use o comando:
 
+Desativar o ambiente (qualquer sistema):
 ```bash
 deactivate
 ```
 
 <Warning>
-  Sempre que você for trabalhar com DBT, `lembre-se de ativar o ambiente
-  virtual` com o comando apropriado para seu sistema operacional.
+  Sempre que você for trabalhar com DBT, lembre-se de ativar o ambiente
+  virtual com o comando apropriado para seu sistema operacional.
 </Warning>
 
----
+</Accordion>
 
-## 4. Instalar o DBT
+<Accordion title="5. Instalação do DBT">
 
 <Note>
-  O `DBT (Data Build Tool)` é uma ferramenta que permite transformar dados
+  O DBT (Data Build Tool) é uma ferramenta que permite transformar dados
   dentro do seu data warehouse usando apenas SQL e alguns comandos em linha de
   comando.
 </Note>
 
-Para funcionar com diferentes tecnologias de Data Warehouse (como BigQuery, Snowflake, Postgres, Redshift, etc), o DBT utiliza `adaptadores`. Adaptadores são pacotes que permitem que o DBT se conecte e interaja com cada tipo específico de banco de dados.
+Para funcionar com diferentes tecnologias de Data Warehouse (como BigQuery, Snowflake, Postgres, Redshift, etc), o DBT utiliza adaptadores. Adaptadores são pacotes que permitem que o DBT se conecte e interaja com cada tipo específico de banco de dados.
 
-No nosso caso, usaremos apenas o `BigQuery`, pois é onde nosso data lake está hospedado.
+No nosso caso, usaremos apenas o BigQuery, pois é onde nosso data lake está hospedado.
 
-Vamos instalar o DBT com o adaptador do BigQuery:
+Vamos instalar então o DBT com o adaptador do BigQuery:
 
 ```bash
-pip install dbt-bigquery
+python -m pip install dbt-core dbt-bigquery
 ```
-
----
-
-## 5. Verificar a instalação
+Verifique a instalação:
 
 ```bash
 dbt --version
@@ -171,16 +209,17 @@ Saída esperada (exemplo):
 
 ```bash
 Core:
-  - installed: 1.7.0
-  - latest:    1.7.0
+  - installed: 1.9.3
+  - latest:    1.9.4
 
 Plugins:
-  - postgres: 1.7.0
+  - bigquery: 1.9.1
 ```
 
----
+</Accordion>
 
-## 6. Configurar o GitHub (opcional, mas recomendado)
+
+<Accordion title="6. Configurar o GitHub (opcional, mas recomendado)">
 
 1. Crie uma conta em [github.com](https://github.com/)
 2. Configure o Git localmente:
@@ -189,6 +228,8 @@ Plugins:
 git config --global user.name "Seu Nome"
 git config --global user.email "seu@email.com"
 ```
+</Accordion>
+</AccordionGroup>
 
 ---
 
@@ -196,4 +237,3 @@ git config --global user.email "seu@email.com"
 
 Agora seu ambiente está preparado para iniciar projetos com o DBT.
 
-👉 Veja o próximo passo: [Criando seu primeiro projeto DBT](./primeiro-projeto-dbt)
