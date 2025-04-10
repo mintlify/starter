@@ -1,0 +1,88 @@
+---
+title: 'Merging Users into a Unified Engineer Profile'
+description: 'Learn how to merge multiple user identities into a single engineer profile'
+---
+
+{/* Add your YouTube video embed once recorded */}
+<Frame>
+  {/* Placeholder for future video */}
+  <img 
+    src="/images/placeholder-video-thumbnail.png" 
+    alt="Video tutorial on merging users"
+  />
+</Frame>
+
+## Overview
+
+When integrating with multiple data sources like GitHub and JIRA, it's common for the same engineer to appear under different identities. Our platform allows you to merge these into a single, unified profile.
+
+## Why Merge Users?
+
+<CardGroup cols={3}>
+  <Card title="Combine Data" icon="layer-group">
+    Integrate metrics from multiple tools
+  </Card>
+  <Card title="Accurate Insights" icon="chart-line">
+    Get precise engineer-level analytics
+  </Card>
+  <Card title="Clean Reports" icon="broom">
+    Eliminate duplicates in your dashboards
+  </Card>
+</CardGroup>
+
+## Steps to Merge Users
+
+<Steps>
+  <Step title="Navigate to the Users Page">
+    Go to **Admin → Users**
+  </Step>
+  <Step title="Select the Users to Merge">
+    Use the checkboxes to select multiple user entries that belong to the same person.
+  </Step>
+  <Step title="Click on Merging Actions">
+    Open the dropdown labeled **Merging Actions**
+  </Step>
+  <Step title="Choose Merge">
+    Select the **Merge** option from the dropdown
+  </Step>
+  <Step title="Confirm the Merge">
+    You may be asked to confirm the merge action.
+    
+    Once confirmed, the selected users will be combined into one engineer profile.
+  </Step>
+</Steps>
+
+## How Does Merging Work?
+
+Merging consolidates identities from multiple sources (e.g., GitHub, JIRA) under a single engineer. All activity, tickets, PRs, and metrics will be aggregated accordingly.
+
+<Accordion title="Technical Details">
+  When users are merged:
+  - All historical data is recalculated for the unified profile
+  - Integration source mappings are updated
+  - Unique IDs from each platform are preserved for data integrity
+</Accordion>
+
+## Unmerging Users
+
+If you merged by mistake, you can reverse the action:
+
+<Steps>
+  <Step title="Select the merged profile">
+    Navigate to the merged user profile
+  </Step>
+  <Step title="Go to Merging Actions">
+    Open the dropdown menu
+  </Step>
+  <Step title="Choose Unmerge">
+    Confirm the unmerge action
+  </Step>
+</Steps>
+
+## Need Help?
+
+If you're unsure which users to merge, or if something doesn't look right, [contact support](mailto:support@bilanc.co) or refer to our [troubleshooting guide](/essentials/troubleshooting).
+
+<Tip>
+  **Best Practice**: Before merging users in a production environment, we recommend testing on a small subset of users first to ensure data accuracy.
+</Tip>
