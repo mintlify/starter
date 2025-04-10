@@ -53,6 +53,23 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "How To Videos",
+        "groups": [
+          {
+            "group": "Admin & Settings",
+            "pages": [
+              "how-to/merging-users"
+            ]
+          },
+          {
+            "group": "Data Connections",
+            "pages": [
+              "how-to/cursor-data-import"
+            ]
+          }
+        ]
       }
     ],
     "global": {
