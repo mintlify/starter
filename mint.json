@@ -64,7 +64,7 @@
 	"navigation": [
 		{
 			"group": "Get Started",
-			"pages": ["home", "sdks"]
+			"pages": ["home", "sdks", "ai-toolkit"]
 		},
 		{
 			"group": "Creating Streams and Indexes",
