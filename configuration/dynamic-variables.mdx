@@ -1,0 +1,187 @@
+---
+title: Dynamic Variables
+description: Learn how to configure and use dynamic variables for personalization
+---
+
+# Dynamic Variables
+
+This guide covers how to configure and use dynamic variables to personalize your Ravan.ai agent interactions.
+
+## Basic Configuration
+
+### 1. Variable Definition
+
+```json
+{
+  "variables": {
+    "user": {
+      "name": {
+        "source": "profile",
+        "fallback": "there",
+        "usage": "personalized"
+      },
+      "preferences": {
+        "source": "crm",
+        "update": "real-time",
+        "scope": "session"
+      }
+    },
+    "context": {
+      "time": {
+        "format": "local",
+        "usage": "greeting"
+      },
+      "location": {
+        "source": "ip",
+        "precision": "city",
+        "usage": "regional"
+      }
+    }
+  }
+}
+```
+
+### 2. Integration Settings
+
+```json
+{
+  "integration": {
+    "crm": {
+      "enabled": true,
+      "sync": "real-time",
+      "fields": ["name", "preferences", "history"]
+    },
+    "custom": {
+      "enabled": true,
+      "endpoint": "https://api.example.com/variables",
+      "auth": "oauth2"
+    }
+  }
+}
+```
+
+## Advanced Usage
+
+### 1. Template Configuration
+
+```json
+{
+  "templates": {
+    "greeting": "Hello {user.name}, welcome back!",
+    "personalized": "Based on your {user.preferences.category} interest...",
+    "contextual": "Since it's {context.time.hour} in {context.location.city}..."
+  }
+}
+```
+
+### 2. Conditional Logic
+
+```json
+{
+  "conditions": {
+    "rules": [
+      {
+        "condition": "user.preferences.language == 'es'",
+        "template": "¡Hola {user.name}!"
+      },
+      {
+        "condition": "context.time.hour < 12",
+        "template": "Good morning {user.name}"
+      }
+    ],
+    "fallback": "Hello {user.name}"
+  }
+}
+```
+
+## Variable Management
+
+### 1. Storage Configuration
+
+```json
+{
+  "storage": {
+    "session": {
+      "duration": "browser",
+      "scope": "user",
+      "encryption": true
+    },
+    "persistent": {
+      "location": "crm",
+      "sync": "bidirectional",
+      "retention": "policy"
+    }
+  }
+}
+```
+
+### 2. Security Settings
+
+```json
+{
+  "security": {
+    "encryption": {
+      "enabled": true,
+      "method": "aes-256",
+      "keyRotation": "monthly"
+    },
+    "access": {
+      "control": "role-based",
+      "audit": true,
+      "logging": true
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Variable Design**
+   - Use meaningful names
+   - Define clear scopes
+   - Set appropriate fallbacks
+   - Document usage
+
+2. **Integration**
+   - Validate data sources
+   - Handle errors gracefully
+   - Monitor sync status
+   - Test thoroughly
+
+3. **Security**
+   - Encrypt sensitive data
+   - Control access
+   - Monitor usage
+   - Regular audits
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Variable Issues**
+   - Check definitions
+   - Verify sources
+   - Test fallbacks
+   - Monitor updates
+
+2. **Integration Problems**
+   - Verify connections
+   - Check permissions
+   - Monitor sync
+   - Test endpoints
+
+3. **Security Concerns**
+   - Review access
+   - Check encryption
+   - Monitor logs
+   - Update policies
+
+## Next Steps
+
+- [Configure Personality Prompts](/configuration/personality-prompts)
+- [Set up Guardrails](/configuration/guardrails)
+- [Customize Knowledge Context](/configuration/knowledge-context)
+
+<Callout type="info">
+  Need help with dynamic variables? Contact our support team at support@ravan.ai
+</Callout> 

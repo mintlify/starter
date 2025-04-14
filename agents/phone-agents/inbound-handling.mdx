@@ -1,0 +1,245 @@
+---
+title: Inbound Call Handling
+description: Learn how to configure and manage inbound calls with your phone agents
+---
+
+# Inbound Call Handling
+
+This guide covers the configuration and management of inbound calls with Ravan.ai phone agents.
+
+## Basic Configuration
+
+### 1. Inbound Settings
+
+```json
+{
+  "inbound": {
+    "enabled": true,
+    "maxConcurrentCalls": 20,
+    "queueEnabled": true,
+    "queueTimeout": 300,
+    "operatingHours": {
+      "start": "08:00",
+      "end": "20:00",
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+    }
+  }
+}
+```
+
+### 2. IVR Configuration
+
+```json
+{
+  "ivr": {
+    "enabled": true,
+    "greeting": "Welcome to our support line. Please select an option.",
+    "options": [
+      {
+        "digit": "1",
+        "description": "Technical Support",
+        "action": "route",
+        "target": "tech_support"
+      },
+      {
+        "digit": "2",
+        "description": "Billing",
+        "action": "route",
+        "target": "billing"
+      },
+      {
+        "digit": "3",
+        "description": "General Inquiries",
+        "action": "route",
+        "target": "general"
+      }
+    ],
+    "timeout": 10,
+    "maxAttempts": 3
+  }
+}
+```
+
+## Call Routing
+
+### 1. Basic Routing
+
+```json
+{
+  "routing": {
+    "strategy": "skill-based",
+    "rules": [
+      {
+        "condition": "language == 'es'",
+        "target": "spanish_agents"
+      },
+      {
+        "condition": "priority == 'high'",
+        "target": "senior_agents"
+      },
+      {
+        "condition": "timeInQueue > 300",
+        "action": "escalate"
+      }
+    ]
+  }
+}
+```
+
+### 2. Queue Management
+
+```json
+{
+  "queue": {
+    "enabled": true,
+    "announcements": {
+      "position": true,
+      "waitTime": true,
+      "frequency": 30
+    },
+    "holdMusic": {
+      "type": "custom",
+      "source": "https://example.com/music.mp3"
+    },
+    "callback": {
+      "enabled": true,
+      "threshold": 300,
+      "announcement": "Would you like a callback instead of waiting?"
+    }
+  }
+}
+```
+
+## Call Handling
+
+### 1. Voicemail Configuration
+
+```json
+{
+  "voicemail": {
+    "enabled": true,
+    "greeting": "Please leave a message after the tone.",
+    "maxDuration": 120,
+    "transcription": {
+      "enabled": true,
+      "language": "auto",
+      "notifyEmail": true
+    },
+    "storage": {
+      "duration": 30,
+      "location": "cloud"
+    }
+  }
+}
+```
+
+### 2. Call Transfers
+
+```json
+{
+  "transfers": {
+    "warmTransfer": {
+      "enabled": true,
+      "announcement": "I'll connect you with a specialist",
+      "holdMusic": "default"
+    },
+    "coldTransfer": {
+      "enabled": true,
+      "timeout": 30
+    },
+    "emergencyTransfer": {
+      "enabled": true,
+      "number": "+1987654321",
+      "priority": "high"
+    }
+  }
+}
+```
+
+## Integration Settings
+
+### 1. CRM Integration
+
+```json
+{
+  "crm": {
+    "enabled": true,
+    "provider": "salesforce",
+    "sync": {
+      "callLogs": true,
+      "transcripts": true,
+      "recordings": true
+    },
+    "popup": {
+      "enabled": true,
+      "trigger": "callStart",
+      "data": ["contact", "history", "notes"]
+    }
+  }
+}
+```
+
+### 2. Webhook Configuration
+
+```json
+{
+  "webhooks": {
+    "callStart": "https://api.example.com/call/start",
+    "callEnd": "https://api.example.com/call/end",
+    "transfer": "https://api.example.com/call/transfer",
+    "voicemail": "https://api.example.com/voicemail"
+  }
+}
+```
+
+## Best Practices
+
+1. **Routing Strategy**
+   - Implement skill-based routing
+   - Set up proper queue management
+   - Configure appropriate timeouts
+   - Monitor queue performance
+
+2. **Call Quality**
+   - Monitor audio quality
+   - Check connection stability
+   - Verify hold music
+   - Test announcements
+
+3. **Integration**
+   - Sync with CRM systems
+   - Configure webhooks
+   - Set up notifications
+   - Monitor data flow
+
+## Troubleshooting
+
+Common inbound call issues:
+
+1. **Routing Problems**
+   - Check IVR configuration
+   - Verify routing rules
+   - Test queue settings
+   - Monitor agent availability
+
+2. **Integration Issues**
+   - Verify CRM connection
+   - Check webhook endpoints
+   - Monitor data sync
+   - Test notifications
+
+3. **Quality Issues**
+   - Check audio settings
+   - Monitor network performance
+   - Verify hold music
+   - Test announcements
+
+## Next Steps
+
+- [Configure Outbound Calls](/agents/phone-agents/outbound-basics)
+- [Set up Call Analytics](/agents/phone-agents/analytics)
+- [Test and Validate](/agents/phone-agents/testing)
+
+<Callout type="info">
+  Need help with inbound call configuration? Contact our support team at support@ravan.ai
+</Callout> 

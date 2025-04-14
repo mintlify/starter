@@ -1,0 +1,193 @@
+---
+title: Voice Cloning
+description: Learn how to request and use cloned voices for your AI agents
+---
+
+# Voice Cloning
+
+This guide covers how to request and use cloned voices for your Ravan.ai agents.
+
+## Voice Cloning Process
+
+### 1. Request Submission
+
+```json
+{
+  "request": {
+    "type": "voiceCloning",
+    "priority": "standard",
+    "samples": {
+      "required": 30,
+      "duration": "10-15 minutes",
+      "format": "wav",
+      "quality": "high"
+    },
+    "metadata": {
+      "name": "Custom Voice",
+      "gender": "specify",
+      "age": "specify",
+      "accent": "specify"
+    }
+  }
+}
+```
+
+### 2. Sample Requirements
+
+```json
+{
+  "requirements": {
+    "environment": {
+      "noiseLevel": "low",
+      "roomType": "treated",
+      "microphone": "professional"
+    },
+    "content": {
+      "diversity": "high",
+      "emotionalRange": "full",
+      "speakingStyles": "varied"
+    },
+    "technical": {
+      "sampleRate": 48000,
+      "bitDepth": 24,
+      "channels": 1
+    }
+  }
+}
+```
+
+## Voice Training
+
+### 1. Training Configuration
+
+```json
+{
+  "training": {
+    "method": "neural",
+    "duration": "24-48 hours",
+    "iterations": 1000,
+    "qualityChecks": {
+      "automated": true,
+      "humanReview": true,
+      "metrics": ["similarity", "naturalness", "stability"]
+    }
+  }
+}
+```
+
+### 2. Quality Assurance
+
+```json
+{
+  "qa": {
+    "tests": [
+      {
+        "type": "similarity",
+        "threshold": 0.95,
+        "method": "spectral"
+      },
+      {
+        "type": "naturalness",
+        "threshold": 4.5,
+        "scale": "MOS"
+      },
+      {
+        "type": "stability",
+        "threshold": 0.98,
+        "duration": "10 minutes"
+      }
+    ]
+  }
+}
+```
+
+## Usage Configuration
+
+### 1. Voice Deployment
+
+```json
+{
+  "deployment": {
+    "platforms": ["web", "mobile", "phone"],
+    "scaling": {
+      "concurrentUsers": 1000,
+      "responseTime": "< 100ms"
+    },
+    "fallback": {
+      "enabled": true,
+      "voice": "default"
+    }
+  }
+}
+```
+
+### 2. Voice Management
+
+```json
+{
+  "management": {
+    "versioning": true,
+    "backup": true,
+    "updates": {
+      "frequency": "quarterly",
+      "method": "incremental"
+    },
+    "monitoring": {
+      "quality": true,
+      "usage": true,
+      "performance": true
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Sample Collection**
+   - Use professional equipment
+   - Follow script guidelines
+   - Maintain consistent environment
+   - Record diverse content
+
+2. **Training Process**
+   - Monitor progress
+   - Validate quality
+   - Test thoroughly
+   - Document results
+
+3. **Deployment**
+   - Test across platforms
+   - Monitor performance
+   - Plan for scaling
+   - Set up fallbacks
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Quality Issues**
+   - Check sample quality
+   - Review training process
+   - Test with different content
+   - Monitor performance
+
+2. **Deployment Problems**
+   - Verify platform support
+   - Check resource allocation
+   - Monitor response times
+   - Test fallback mechanism
+
+3. **Usage Issues**
+   - Monitor user feedback
+   - Check scaling limits
+   - Verify voice consistency
+   - Test edge cases
+
+## Next Steps
+
+- [Configure Language & Voice](/configuration/language-voice)
+- [Set up Speech Control](/configuration/speech-control)
+- [Customize Guardrails](/configuration/guardrails)
+
+<Callout type="warning">
+  Voice cloning requires high-quality samples and may take 24-48 hours to complete. Plan accordingly. 

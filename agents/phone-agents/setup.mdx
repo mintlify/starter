@@ -1,0 +1,192 @@
+---
+title: Phone Agent Setup
+description: Learn how to set up and configure your phone agents
+---
+
+# Phone Agent Setup
+
+This guide will walk you through the process of setting up your phone agents in Ravan.ai.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- A Ravan.ai account with phone agent capabilities enabled
+- Access to your phone system or VoIP provider
+- Required network configurations
+- Security credentials and certificates
+
+## Initial Setup
+
+### 1. Account Configuration
+
+1. Log in to your Ravan.ai dashboard
+2. Navigate to the Phone Agents section
+3. Click "Add New Phone Agent"
+4. Fill in the basic information:
+   - Agent name
+   - Description
+   - Time zone
+   - Operating hours
+
+### 2. Phone Number Setup
+
+```json
+{
+  "phoneNumbers": {
+    "primary": {
+      "number": "+1234567890",
+      "type": "local",
+      "capabilities": ["voice", "sms"]
+    },
+    "fallback": {
+      "number": "+1987654321",
+      "type": "toll-free",
+      "capabilities": ["voice"]
+    }
+  }
+}
+```
+
+### 3. Voice Gateway Configuration
+
+```json
+{
+  "voiceGateway": {
+    "provider": "twilio",
+    "credentials": {
+      "accountSid": "your-account-sid",
+      "authToken": "your-auth-token"
+    },
+    "settings": {
+      "codec": "G.711",
+      "region": "us-east-1",
+      "fallbackEnabled": true
+    }
+  }
+}
+```
+
+## Network Configuration
+
+### 1. Firewall Settings
+
+```json
+{
+  "firewall": {
+    "inboundPorts": [5060, 5061],
+    "outboundPorts": [5060, 5061],
+    "allowedIPs": ["192.168.1.0/24"],
+    "protocols": ["TCP", "UDP"]
+  }
+}
+```
+
+### 2. Quality of Service (QoS)
+
+```json
+{
+  "qos": {
+    "voicePriority": "high",
+    "bandwidth": {
+      "minimum": "100kbps",
+      "recommended": "300kbps"
+    },
+    "latency": {
+      "maximum": "150ms",
+      "target": "50ms"
+    }
+  }
+}
+```
+
+## Security Setup
+
+### 1. Authentication
+
+```json
+{
+  "authentication": {
+    "method": "oauth2",
+    "credentials": {
+      "clientId": "your-client-id",
+      "clientSecret": "your-client-secret"
+    },
+    "scopes": ["voice", "phone"]
+  }
+}
+```
+
+### 2. Encryption
+
+```json
+{
+  "encryption": {
+    "srtp": true,
+    "tls": true,
+    "minimumTlsVersion": "1.2",
+    "certificates": {
+      "path": "/path/to/certificates",
+      "autoRenew": true
+    }
+  }
+}
+```
+
+## Testing & Validation
+
+### 1. Initial Test Call
+
+1. Configure test numbers
+2. Set up test scenarios
+3. Run test calls
+4. Verify audio quality
+5. Check call routing
+
+### 2. Performance Testing
+
+```json
+{
+  "testScenarios": {
+    "concurrentCalls": 50,
+    "duration": 300,
+    "metrics": {
+      "audioQuality": "MOS > 4.0",
+      "latency": "< 150ms",
+      "packetLoss": "< 1%"
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+Common setup issues and solutions:
+
+1. **Connection Problems**
+   - Verify firewall settings
+   - Check network connectivity
+   - Validate credentials
+   - Test SIP registration
+
+2. **Audio Quality Issues**
+   - Check codec settings
+   - Verify bandwidth
+   - Test network latency
+   - Validate QoS settings
+
+3. **Authentication Errors**
+   - Verify credentials
+   - Check token expiration
+   - Validate scopes
+   - Test API access
+
+## Next Steps
+
+- [Configure Outbound Calls](/agents/phone-agents/outbound-basics)
+- [Set up Inbound Handling](/agents/phone-agents/inbound-handling)
+- [Test and Validate](/agents/phone-agents/testing)
+
+<Callout type="info">
+  Need help with setup? Contact our support team at support@ravan.ai
+</Callout> 

@@ -1,0 +1,207 @@
+---
+title: Outbound Call Basics
+description: Learn how to configure and manage outbound calls with your phone agents
+---
+
+# Outbound Call Basics
+
+This guide covers the fundamentals of setting up and managing outbound calls with Ravan.ai phone agents.
+
+## Outbound Call Configuration
+
+### 1. Basic Settings
+
+```json
+{
+  "outbound": {
+    "enabled": true,
+    "maxConcurrentCalls": 10,
+    "retryAttempts": 3,
+    "retryInterval": 300,
+    "timezone": "America/New_York",
+    "operatingHours": {
+      "start": "09:00",
+      "end": "17:00",
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday"]
+    }
+  }
+}
+```
+
+### 2. Caller ID Settings
+
+```json
+{
+  "callerId": {
+    "displayName": "Your Company Name",
+    "phoneNumber": "+1234567890",
+    "type": "local",
+    "verificationStatus": "verified"
+  }
+}
+```
+
+## Dialing Strategies
+
+### 1. Progressive Dialing
+
+```json
+{
+  "progressiveDialing": {
+    "enabled": true,
+    "maxAttempts": 3,
+    "interval": 300,
+    "timeout": 30,
+    "detection": {
+      "answeringMachine": true,
+      "fax": true,
+      "busy": true
+    }
+  }
+}
+```
+
+### 2. Predictive Dialing
+
+```json
+{
+  "predictiveDialing": {
+    "enabled": true,
+    "algorithm": "adaptive",
+    "parameters": {
+      "abandonRate": 0.03,
+      "averageTalkTime": 180,
+      "wrapUpTime": 30,
+      "agentAvailability": 0.8
+    }
+  }
+}
+```
+
+## Call Handling
+
+### 1. Answering Machine Detection
+
+```json
+{
+  "amd": {
+    "enabled": true,
+    "sensitivity": "high",
+    "greetingLength": 3,
+    "initialSilence": 2,
+    "greeting": 3,
+    "afterGreetingSilence": 1,
+    "totalAnalysisTime": 10,
+    "machineThreshold": 0.6,
+    "machineWords": ["hello", "hi", "leave a message"]
+  }
+}
+```
+
+### 2. Call Transfers
+
+```json
+{
+  "transfers": {
+    "warmTransfer": {
+      "enabled": true,
+      "announcement": "I'll connect you with a representative",
+      "holdMusic": "default"
+    },
+    "coldTransfer": {
+      "enabled": true,
+      "timeout": 30
+    }
+  }
+}
+```
+
+## Compliance Settings
+
+### 1. Do Not Call (DNC) Management
+
+```json
+{
+  "dnc": {
+    "enabled": true,
+    "lists": {
+      "internal": true,
+      "national": true,
+      "state": true
+    },
+    "scrubbing": {
+      "frequency": "daily",
+      "time": "00:00"
+    }
+  }
+}
+```
+
+### 2. Call Recording
+
+```json
+{
+  "recording": {
+    "enabled": true,
+    "consentRequired": true,
+    "announcement": "This call may be recorded for quality assurance",
+    "format": "mp3",
+    "storage": {
+      "duration": 90,
+      "location": "cloud"
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Dialing Strategy**
+   - Start with progressive dialing
+   - Monitor performance metrics
+   - Adjust based on results
+   - Consider time zones
+
+2. **Call Quality**
+   - Monitor audio quality
+   - Check connection stability
+   - Verify caller ID
+   - Test answering machine detection
+
+3. **Compliance**
+   - Maintain DNC lists
+   - Follow local regulations
+   - Document consent
+   - Monitor call times
+
+## Troubleshooting
+
+Common outbound call issues:
+
+1. **Connection Problems**
+   - Check network settings
+   - Verify credentials
+   - Test phone numbers
+   - Monitor call quality
+
+2. **Compliance Issues**
+   - Verify DNC lists
+   - Check time zones
+   - Validate consent
+   - Review recordings
+
+3. **Performance Issues**
+   - Monitor dialing rates
+   - Check agent availability
+   - Review call outcomes
+   - Analyze metrics
+
+## Next Steps
+
+- [Configure Inbound Handling](/agents/phone-agents/inbound-handling)
+- [Set up Call Analytics](/agents/phone-agents/analytics)
+- [Test and Validate](/agents/phone-agents/testing)
+
+<Callout type="warning">
+  Always ensure compliance with local regulations and maintain proper documentation for all outbound calls.
+</Callout> 

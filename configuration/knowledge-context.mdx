@@ -1,0 +1,194 @@
+---
+title: Knowledge Context
+description: Learn how to configure and manage knowledge context for your Ravan.ai agent
+---
+
+# Knowledge Context
+
+This guide covers how to configure and manage the knowledge context that powers your Ravan.ai agent's understanding and responses.
+
+## Basic Configuration
+
+### 1. Knowledge Sources
+
+```json
+{
+  "sources": {
+    "documentation": {
+      "type": "markdown",
+      "path": "/docs",
+      "update": "daily",
+      "priority": "high"
+    },
+    "faq": {
+      "type": "json",
+      "path": "/data/faq",
+      "update": "weekly",
+      "priority": "medium"
+    },
+    "product": {
+      "type": "api",
+      "endpoint": "https://api.example.com/products",
+      "update": "real-time",
+      "priority": "high"
+    }
+  }
+}
+```
+
+### 2. Context Management
+
+```json
+{
+  "context": {
+    "retention": {
+      "duration": "session",
+      "maxSize": "10MB",
+      "cleanup": "auto"
+    },
+    "refresh": {
+      "interval": "hourly",
+      "strategy": "incremental",
+      "validation": true
+    }
+  }
+}
+```
+
+## Advanced Configuration
+
+### 1. Knowledge Graph
+
+```json
+{
+  "knowledgeGraph": {
+    "entities": {
+      "products": {
+        "type": "product",
+        "attributes": ["name", "price", "category"],
+        "relationships": ["related", "compatible"]
+      },
+      "users": {
+        "type": "person",
+        "attributes": ["preferences", "history"],
+        "relationships": ["purchases", "interests"]
+      }
+    },
+    "rules": {
+      "inference": true,
+      "validation": true,
+      "consistency": true
+    }
+  }
+}
+```
+
+### 2. Context Enhancement
+
+```json
+{
+  "enhancement": {
+    "semantic": {
+      "enabled": true,
+      "model": "gpt-4",
+      "confidence": 0.8
+    },
+    "personalization": {
+      "enabled": true,
+      "factors": ["history", "preferences", "context"],
+      "weight": 0.7
+    }
+  }
+}
+```
+
+## Integration Settings
+
+### 1. Data Sources
+
+```json
+{
+  "integration": {
+    "crm": {
+      "enabled": true,
+      "sync": "real-time",
+      "fields": ["customer", "order", "support"]
+    },
+    "cms": {
+      "enabled": true,
+      "sync": "daily",
+      "content": ["articles", "guides", "updates"]
+    }
+  }
+}
+```
+
+### 2. API Configuration
+
+```json
+{
+  "api": {
+    "endpoints": {
+      "knowledge": "https://api.ravan.ai/v1/knowledge",
+      "context": "https://api.ravan.ai/v1/context",
+      "update": "https://api.ravan.ai/v1/update"
+    },
+    "auth": {
+      "method": "jwt",
+      "refresh": "hourly"
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Knowledge Management**
+   - Regular updates
+   - Quality validation
+   - Version control
+   - Backup strategy
+
+2. **Context Optimization**
+   - Relevant data
+   - Efficient storage
+   - Quick retrieval
+   - Proper cleanup
+
+3. **Integration**
+   - Reliable sources
+   - Error handling
+   - Monitoring
+   - Testing
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Knowledge Issues**
+   - Verify sources
+   - Check updates
+   - Validate content
+   - Monitor quality
+
+2. **Context Problems**
+   - Check retention
+   - Verify refresh
+   - Monitor size
+   - Test retrieval
+
+3. **Integration Errors**
+   - Verify connections
+   - Check permissions
+   - Monitor sync
+   - Test endpoints
+
+## Next Steps
+
+- [Configure Dynamic Variables](/configuration/dynamic-variables)
+- [Set up Personality Prompts](/configuration/personality-prompts)
+- [Customize Guardrails](/configuration/guardrails)
+
+<Callout type="info">
+  Need help with knowledge context? Contact our support team at support@ravan.ai
+</Callout> 

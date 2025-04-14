@@ -1,0 +1,224 @@
+---
+title: Web Agent Embedding
+description: Learn how to add the Ravan.ai web agent to your website
+---
+
+# Web Agent Embedding
+
+This guide will help you add the Ravan.ai web agent to your website. We'll cover different implementation methods and best practices for optimal performance.
+
+## Implementation Methods
+
+### 1. Basic Implementation
+
+Add this code to your website's `<head>` section:
+
+```html
+<!-- Ravan.ai Web Agent -->
+<script>
+  window.ravanConfig = {
+    agentId: 'YOUR_AGENT_ID',
+    mode: 'chat',
+    position: 'bottom-right'
+  };
+</script>
+<script src="https://cdn.ravan.ai/agent.js" async></script>
+```
+
+### 2. Advanced Implementation
+
+For more control over the agent's behavior:
+
+```html
+<!-- Ravan.ai Web Agent -->
+<script>
+  window.ravanConfig = {
+    agentId: 'YOUR_AGENT_ID',
+    mode: {
+      default: 'chat',
+      available: ['chat', 'voice', 'video'],
+      autoSwitch: true
+    },
+    appearance: {
+      avatar: {
+        type: 'custom',
+        url: 'https://your-domain.com/avatar.png'
+      },
+      colors: {
+        primary: '#0066FF',
+        secondary: '#FFFFFF'
+      },
+      position: {
+        horizontal: 'right',
+        vertical: 'bottom',
+        offset: { x: 20, y: 20 }
+      }
+    },
+    behavior: {
+      greeting: 'Hello! How can I help you today?',
+      autoStart: false,
+      escalation: {
+        enabled: true,
+        threshold: 3
+      }
+    }
+  };
+</script>
+<script src="https://cdn.ravan.ai/agent.js" async></script>
+```
+
+## Platform-Specific Instructions
+
+### WordPress
+
+1. **Using a Plugin**
+   - Install the Ravan.ai WordPress plugin
+   - Configure through the plugin settings
+   - The agent will be automatically added to your site
+
+2. **Manual Implementation**
+   - Edit your theme's `header.php` or use a header/footer plugin
+   - Add the implementation code
+   - Save and verify the installation
+
+### Shopify
+
+1. **Using the App Store**
+   - Install the Ravan.ai app from the Shopify App Store
+   - Configure through the app settings
+   - The agent will be automatically added to your store
+
+2. **Manual Implementation**
+   - Go to Online Store > Themes
+   - Edit theme > Edit code
+   - Add the implementation code to `theme.liquid`
+   - Save and verify the installation
+
+### Wix
+
+1. **Using the App Market**
+   - Add the Ravan.ai app from the Wix App Market
+   - Configure through the app settings
+   - The agent will be automatically added to your site
+
+2. **Manual Implementation**
+   - Go to Settings > Custom Code
+   - Add the implementation code
+   - Save and verify the installation
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Performance">
+    - Load the script asynchronously
+    - Use the CDN version
+    - Implement lazy loading
+    - Monitor page load times
+  </Accordion>
+  <Accordion title="Security">
+    - Use HTTPS
+    - Implement CSP headers
+    - Regular security audits
+    - Keep the script updated
+  </Accordion>
+  <Accordion title="User Experience">
+    - Choose optimal widget position
+    - Set appropriate greeting messages
+    - Configure smooth transitions
+    - Implement proper fallbacks
+  </Accordion>
+</AccordionGroup>
+
+## Testing & Validation
+
+Before going live:
+
+1. **Functionality Testing**
+   - Verify all interaction modes
+   - Test on different devices
+   - Check browser compatibility
+   - Validate integrations
+
+2. **Performance Testing**
+   - Measure page load impact
+   - Check resource usage
+   - Monitor memory consumption
+   - Test under load
+
+3. **User Experience Testing**
+   - Verify widget positioning
+   - Test responsiveness
+   - Check accessibility
+   - Validate mobile experience
+
+## Troubleshooting
+
+Common issues and solutions:
+
+<CardGroup cols={2}>
+  <Card
+    title="Script Not Loading"
+    description="Check network connectivity and CSP settings"
+    icon="wifi"
+  />
+  <Card
+    title="Widget Not Visible"
+    description="Verify z-index and positioning"
+    icon="eye"
+  />
+  <Card
+    title="Performance Issues"
+    description="Optimize script loading and resource usage"
+    icon="gauge"
+  />
+  <Card
+    title="Integration Problems"
+    description="Check API endpoints and configurations"
+    icon="plug"
+  />
+</CardGroup>
+
+## Advanced Configuration
+
+### Custom Events
+
+```javascript
+window.ravanConfig = {
+  // ... other config
+  events: {
+    onLoad: function() {
+      console.log('Agent loaded');
+    },
+    onConversationStart: function() {
+      console.log('Conversation started');
+    },
+    onConversationEnd: function() {
+      console.log('Conversation ended');
+    }
+  }
+};
+```
+
+### Dynamic Configuration
+
+```javascript
+// Update configuration dynamically
+window.ravanConfig.update({
+  mode: 'voice',
+  appearance: {
+    colors: {
+      primary: '#FF0000'
+    }
+  }
+});
+```
+
+## Next Steps
+
+- Learn about [Web Agent Configuration](/agents/web-agent/configuration)
+- Explore [Customization Options](/agents/web-agent/customization)
+- Set up [CRM Integration](/crm-automation/crm-integration)
+
+<Callout type="info">
+  Need help with embedding? Contact our support team at support@ravan.ai
+</Callout> 
