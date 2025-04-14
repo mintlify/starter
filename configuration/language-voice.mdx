@@ -1,0 +1,180 @@
+---
+title: Language & Voice Configuration
+description: Learn how to configure languages and voices for your AI agents
+---
+
+# Language & Voice Configuration
+
+This guide covers how to configure and customize languages and voices for your Ravan.ai agents.
+
+## Language Settings
+
+### 1. Basic Configuration
+
+```json
+{
+  "language": {
+    "primary": "en-US",
+    "fallback": "en-GB",
+    "supported": ["en-US", "en-GB", "es-ES", "fr-FR"],
+    "autoDetection": true,
+    "translation": {
+      "enabled": true,
+      "provider": "google",
+      "quality": "high"
+    }
+  }
+}
+```
+
+### 2. Regional Settings
+
+```json
+{
+  "regional": {
+    "accent": "neutral",
+    "dialect": "standard",
+    "localization": {
+      "dateFormat": "MM/DD/YYYY",
+      "timeFormat": "12h",
+      "currency": "USD",
+      "measurement": "imperial"
+    }
+  }
+}
+```
+
+## Voice Settings
+
+### 1. Voice Selection
+
+```json
+{
+  "voice": {
+    "gender": "neutral",
+    "age": "adult",
+    "style": "professional",
+    "pitch": 0.0,
+    "rate": 1.0,
+    "volume": 1.0
+  }
+}
+```
+
+### 2. Voice Quality
+
+```json
+{
+  "quality": {
+    "sampleRate": 24000,
+    "bitDepth": 16,
+    "channels": 1,
+    "codec": "opus",
+    "enhancement": {
+      "noiseReduction": true,
+      "echoCancellation": true,
+      "autoGainControl": true
+    }
+  }
+}
+```
+
+## Speech Settings
+
+### 1. Pronunciation
+
+```json
+{
+  "pronunciation": {
+    "dictionary": "custom",
+    "rules": [
+      {
+        "pattern": "\\b(\\w+)\\b",
+        "replacement": "$1",
+        "priority": 1
+      }
+    ],
+    "exceptions": {
+      "companyNames": true,
+      "technicalTerms": true,
+      "acronyms": true
+    }
+  }
+}
+```
+
+### 2. Prosody
+
+```json
+{
+  "prosody": {
+    "pitch": {
+      "range": "normal",
+      "variation": "natural",
+      "emphasis": "contextual"
+    },
+    "rate": {
+      "base": "normal",
+      "variation": "natural",
+      "pauses": "contextual"
+    },
+    "volume": {
+      "base": "normal",
+      "variation": "natural",
+      "emphasis": "contextual"
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Language Selection**
+   - Consider target audience
+   - Support key languages
+   - Enable auto-detection
+   - Provide fallbacks
+
+2. **Voice Configuration**
+   - Match brand identity
+   - Ensure clarity
+   - Test comprehension
+   - Monitor quality
+
+3. **Speech Settings**
+   - Natural prosody
+   - Clear pronunciation
+   - Appropriate emphasis
+   - Consistent style
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Language Detection**
+   - Check configuration
+   - Verify language packs
+   - Test detection accuracy
+   - Monitor fallback usage
+
+2. **Voice Quality**
+   - Check audio settings
+   - Verify codec support
+   - Test network conditions
+   - Monitor user feedback
+
+3. **Pronunciation Issues**
+   - Update dictionary
+   - Add custom rules
+   - Test with users
+   - Monitor feedback
+
+## Next Steps
+
+- [Configure Voice Cloning](/configuration/voice-cloning)
+- [Set up Speech Control](/configuration/speech-control)
+- [Customize Guardrails](/configuration/guardrails)
+
+<Callout type="info">
+  Need help with language or voice configuration? Contact our support team at support@ravan.ai
+</Callout> 

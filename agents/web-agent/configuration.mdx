@@ -1,0 +1,238 @@
+---
+title: Web Agent Configuration
+description: Learn how to configure your web agent for chat, voice, and video interactions
+---
+
+# Web Agent Configuration
+
+This guide will walk you through setting up and configuring your Ravan.ai web agent for optimal performance on your website.
+
+## Configuration Options
+
+### 1. Interaction Modes
+
+<Feature
+  title="Chat Mode"
+  description="Text-based conversations with your website visitors"
+  icon="message-square"
+/>
+
+<Feature
+  title="Voice Mode"
+  description="Voice conversations through the web interface"
+  icon="microphone"
+/>
+
+<Feature
+  title="Video Mode"
+  description="Face-to-face video interactions when needed"
+  icon="video"
+/>
+
+### 2. Appearance Settings
+
+<Feature
+  title="Custom Avatar"
+  description="Choose or upload a custom avatar"
+  icon="user"
+/>
+
+<Feature
+  title="Brand Colors"
+  description="Match your website's color scheme"
+  icon="palette"
+/>
+
+<Feature
+  title="Widget Position"
+  description="Choose where the agent appears on your site"
+  icon="layout"
+/>
+
+## Setup Process
+
+### Step 1: Basic Configuration
+
+1. **Access Settings**
+   - Log in to your Ravan.ai dashboard
+   - Navigate to Agents > Web Agent
+   - Click "Configure"
+
+2. **Choose Mode**
+   - Select interaction modes (chat, voice, video)
+   - Set default mode
+   - Configure mode switching options
+
+3. **Appearance**
+   - Upload avatar or choose from library
+   - Set brand colors
+   - Configure widget position
+
+### Step 2: Advanced Settings
+
+1. **Personality**
+   - Set tone and style
+   - Configure expertise level
+   - Define response patterns
+
+2. **Integration**
+   - Connect to your CRM
+   - Set up webhooks
+   - Configure API endpoints
+
+3. **Behavior**
+   - Set greeting messages
+   - Configure auto-responses
+   - Define escalation rules
+
+## Code Implementation
+
+Add the following code to your website to implement the web agent:
+
+```html
+<!-- Ravan.ai Web Agent -->
+<script>
+  window.ravanConfig = {
+    agentId: 'YOUR_AGENT_ID',
+    mode: 'chat', // 'chat', 'voice', or 'video'
+    position: 'bottom-right',
+    colors: {
+      primary: '#0066FF',
+      secondary: '#FFFFFF'
+    }
+  };
+</script>
+<script src="https://cdn.ravan.ai/agent.js" async></script>
+```
+
+## Configuration Options
+
+### Mode Settings
+
+```javascript
+{
+  "mode": {
+    "default": "chat",
+    "available": ["chat", "voice", "video"],
+    "autoSwitch": true,
+    "preferences": {
+      "chat": {
+        "typingIndicator": true,
+        "messageDelay": 500
+      },
+      "voice": {
+        "autoStart": false,
+        "noiseCancellation": true
+      },
+      "video": {
+        "resolution": "720p",
+        "autoAccept": false
+      }
+    }
+  }
+}
+```
+
+### Appearance Settings
+
+```javascript
+{
+  "appearance": {
+    "avatar": {
+      "type": "custom",
+      "url": "https://your-domain.com/avatar.png"
+    },
+    "colors": {
+      "primary": "#0066FF",
+      "secondary": "#FFFFFF",
+      "text": "#000000",
+      "background": "#FFFFFF"
+    },
+    "position": {
+      "horizontal": "right",
+      "vertical": "bottom",
+      "offset": {
+        "x": 20,
+        "y": 20
+      }
+    }
+  }
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Performance Optimization">
+    - Load agent script asynchronously
+    - Use CDN for faster loading
+    - Implement lazy loading
+  </Accordion>
+  <Accordion title="User Experience">
+    - Set appropriate greeting messages
+    - Configure smooth mode transitions
+    - Implement proper fallbacks
+  </Accordion>
+  <Accordion title="Security">
+    - Use HTTPS
+    - Implement CSP headers
+    - Regular security audits
+  </Accordion>
+</AccordionGroup>
+
+## Testing & Validation
+
+Before going live:
+
+1. **Test All Modes**
+   - Verify chat functionality
+   - Test voice quality
+   - Check video performance
+
+2. **Cross-browser Testing**
+   - Chrome
+   - Firefox
+   - Safari
+   - Edge
+
+3. **Mobile Testing**
+   - iOS devices
+   - Android devices
+   - Responsive design
+
+## Troubleshooting
+
+Common issues and solutions:
+
+<CardGroup cols={2}>
+  <Card
+    title="Script Not Loading"
+    description="Check network connectivity and CSP settings"
+    icon="wifi"
+  />
+  <Card
+    title="Mode Switching Issues"
+    description="Verify browser permissions and configuration"
+    icon="arrows-left-right"
+  />
+  <Card
+    title="Performance Problems"
+    description="Optimize script loading and resource usage"
+    icon="gauge"
+  />
+  <Card
+    title="Integration Errors"
+    description="Check API endpoints and webhook configurations"
+    icon="plug"
+  />
+</CardGroup>
+
+## Next Steps
+
+- Learn about [Web Agent Embedding](/agents/web-agent/embedding)
+- Explore [Customization Options](/agents/web-agent/customization)
+- Set up [CRM Integration](/crm-automation/crm-integration)
+
+<Callout type="info">
+  Need help with configuration? Contact our support team at support@ravan.ai
+</Callout> 

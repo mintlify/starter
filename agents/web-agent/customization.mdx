@@ -1,0 +1,199 @@
+---
+title: Web Agent Customization
+description: Learn how to customize your web agent's appearance and behavior
+---
+
+# Web Agent Customization
+
+This guide will help you customize your Ravan.ai web agent's appearance, behavior, and interaction style to match your brand and use case.
+
+## Appearance Customization
+
+### Avatar Options
+
+<Feature
+  title="Custom Avatar"
+  description="Upload your own avatar image or choose from our library"
+  icon="user"
+/>
+
+<Feature
+  title="Animated Avatars"
+  description="Add subtle animations to make interactions more engaging"
+  icon="play"
+/>
+
+<Feature
+  title="Brand Colors"
+  description="Match your website's color scheme"
+  icon="palette"
+/>
+
+## Customization Options
+
+### 1. Avatar Settings
+
+```javascript
+{
+  "avatar": {
+    "type": "custom", // "custom" or "default"
+    "url": "https://your-domain.com/avatar.png",
+    "animation": {
+      "enabled": true,
+      "type": "subtle", // "subtle", "expressive", or "none"
+      "triggers": ["speaking", "listening", "thinking"]
+    }
+  }
+}
+```
+
+### 2. Color Scheme
+
+```javascript
+{
+  "colors": {
+    "primary": "#0066FF",
+    "secondary": "#FFFFFF",
+    "text": "#000000",
+    "background": "#FFFFFF",
+    "accent": "#FF6B6B",
+    "success": "#4CAF50",
+    "warning": "#FFC107",
+    "error": "#F44336"
+  }
+}
+```
+
+### 3. Widget Appearance
+
+```javascript
+{
+  "widget": {
+    "position": {
+      "horizontal": "right",
+      "vertical": "bottom",
+      "offset": { "x": 20, "y": 20 }
+    },
+    "size": {
+      "width": "400px",
+      "height": "600px"
+    },
+    "borderRadius": "12px",
+    "shadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+  }
+}
+```
+
+## Behavior Customization
+
+### 1. Interaction Style
+
+```javascript
+{
+  "behavior": {
+    "greeting": "Hello! How can I help you today?",
+    "farewell": "Thank you for chatting with us!",
+    "typingIndicator": true,
+    "messageDelay": 500,
+    "autoStart": false,
+    "escalation": {
+      "enabled": true,
+      "threshold": 3,
+      "message": "Would you like to speak with a human agent?"
+    }
+  }
+}
+```
+
+### 2. Response Customization
+
+```javascript
+{
+  "responses": {
+    "style": "friendly", // "professional", "casual", "friendly"
+    "length": "medium", // "short", "medium", "detailed"
+    "emojis": true,
+    "links": true,
+    "formatting": true
+  }
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Brand Consistency">
+    - Match your website's design language
+    - Use consistent colors and typography
+    - Maintain brand voice in responses
+  </Accordion>
+  <Accordion title="User Experience">
+    - Keep animations subtle and professional
+    - Ensure good contrast for readability
+    - Test on different devices and screen sizes
+  </Accordion>
+  <Accordion title="Performance">
+    - Optimize avatar image size
+    - Use appropriate animation settings
+    - Monitor loading times
+  </Accordion>
+</AccordionGroup>
+
+## Testing & Validation
+
+Before going live with your customizations:
+
+1. **Visual Testing**
+   - Check on different devices
+   - Verify color contrast
+   - Test animations
+   - Validate responsive design
+
+2. **Interaction Testing**
+   - Test conversation flow
+   - Verify response formatting
+   - Check escalation behavior
+   - Validate custom messages
+
+3. **Performance Testing**
+   - Measure load times
+   - Check resource usage
+   - Monitor animation performance
+   - Test under different network conditions
+
+## Troubleshooting
+
+Common customization issues and solutions:
+
+<CardGroup cols={2}>
+  <Card
+    title="Avatar Not Loading"
+    description="Check image URL and file format"
+    icon="image"
+  />
+  <Card
+    title="Color Issues"
+    description="Verify color format and contrast"
+    icon="palette"
+  />
+  <Card
+    title="Animation Problems"
+    description="Check animation settings and triggers"
+    icon="play"
+  />
+  <Card
+    title="Responsive Issues"
+    description="Test on different screen sizes"
+    icon="smartphone"
+  />
+</CardGroup>
+
+## Next Steps
+
+- Learn about [Web Agent Configuration](/agents/web-agent/configuration)
+- Explore [Embedding Options](/agents/web-agent/embedding)
+- Set up [CRM Integration](/crm-automation/crm-integration)
+
+<Callout type="info">
+  Need help with customization? Contact our support team at support@ravan.ai
+</Callout> 

@@ -1,0 +1,215 @@
+---
+title: Guardrails
+description: Learn how to configure negative prompts and boundaries for your AI agents
+---
+
+# Guardrails
+
+This guide covers how to configure and customize guardrails for your Ravan.ai agents to ensure safe and appropriate interactions.
+
+## Basic Guardrails
+
+### 1. Content Boundaries
+
+```json
+{
+  "boundaries": {
+    "topics": {
+      "allowed": ["support", "product", "service"],
+      "restricted": ["politics", "religion", "personal"],
+      "sensitive": ["financial", "medical", "legal"]
+    },
+    "language": {
+      "profanity": false,
+      "slang": "limited",
+      "formality": "professional"
+    },
+    "behavior": {
+      "selfDisclosure": "minimal",
+      "opinions": "neutral",
+      "advice": "qualified"
+    }
+  }
+}
+```
+
+### 2. Safety Settings
+
+```json
+{
+  "safety": {
+    "moderation": {
+      "enabled": true,
+      "level": "strict",
+      "response": "redirect"
+    },
+    "escalation": {
+      "triggers": ["distress", "abuse", "emergency"],
+      "action": "human",
+      "priority": "high"
+    },
+    "privacy": {
+      "dataHandling": "secure",
+      "retention": "limited",
+      "sharing": "restricted"
+    }
+  }
+}
+```
+
+## Advanced Controls
+
+### 1. Response Validation
+
+```json
+{
+  "validation": {
+    "accuracy": {
+      "factChecking": true,
+      "sourceVerification": true,
+      "confidenceThreshold": 0.8
+    },
+    "appropriateness": {
+      "contentFilter": true,
+      "contextAwareness": true,
+      "sensitivityDetection": true
+    },
+    "consistency": {
+      "brandVoice": true,
+      "messageAlignment": true,
+      "policyCompliance": true
+    }
+  }
+}
+```
+
+### 2. Monitoring Settings
+
+```json
+{
+  "monitoring": {
+    "realTime": {
+      "enabled": true,
+      "metrics": ["toxicity", "bias", "accuracy"],
+      "alerts": true
+    },
+    "periodic": {
+      "enabled": true,
+      "frequency": "daily",
+      "scope": "comprehensive"
+    },
+    "reporting": {
+      "automated": true,
+      "humanReview": true,
+      "actionItems": true
+    }
+  }
+}
+```
+
+## Custom Rules
+
+### 1. Rule Configuration
+
+```json
+{
+  "rules": {
+    "custom": [
+      {
+        "name": "brandGuidelines",
+        "pattern": "\\b(brand|product)\\b",
+        "action": "validate",
+        "priority": 1
+      },
+      {
+        "name": "sensitiveTopics",
+        "pattern": "\\b(medical|legal|financial)\\b",
+        "action": "escalate",
+        "priority": 2
+      }
+    ],
+    "default": {
+      "enabled": true,
+      "strictness": "moderate",
+      "adaptation": true
+    }
+  }
+}
+```
+
+### 2. Response Templates
+
+```json
+{
+  "templates": {
+    "boundary": {
+      "enabled": true,
+      "messages": [
+        "I'm not able to discuss that topic.",
+        "Let me connect you with a specialist.",
+        "I'm here to help with [specific topic]."
+      ]
+    },
+    "escalation": {
+      "enabled": true,
+      "messages": [
+        "I'll connect you with a human agent.",
+        "This requires special attention.",
+        "Let me get you the right help."
+      ]
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Content Safety**
+   - Define clear boundaries
+   - Monitor interactions
+   - Update rules regularly
+   - Test effectiveness
+
+2. **Response Quality**
+   - Validate accuracy
+   - Ensure consistency
+   - Monitor appropriateness
+   - Gather feedback
+
+3. **System Management**
+   - Regular audits
+   - Performance monitoring
+   - Rule optimization
+   - Incident response
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Boundary Issues**
+   - Review rules
+   - Check configuration
+   - Monitor effectiveness
+   - Update as needed
+
+2. **Validation Problems**
+   - Verify settings
+   - Check thresholds
+   - Monitor accuracy
+   - Adjust parameters
+
+3. **Monitoring Issues**
+   - Check alerts
+   - Verify reporting
+   - Test escalation
+   - Review logs
+
+## Next Steps
+
+- [Configure Personality Prompts](/configuration/personality-prompts)
+- [Set up Dynamic Variables](/configuration/dynamic-variables)
+- [Customize Knowledge Context](/configuration/knowledge-context)
+
+<Callout type="warning">
+  Regularly review and update guardrails to ensure they remain effective and aligned with your requirements.
+</Callout> 
