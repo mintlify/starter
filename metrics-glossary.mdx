@@ -1,0 +1,51 @@
+---
+title: 📈 Metrics Glossary
+description: "This glossary explains the key metrics available in Bilanc's analytics platform to help you better understand your engineering team's performance."
+---
+
+
+## Pull Request Metrics
+
+### Merged PRs
+The total number of pull requests that have been successfully merged into the default branch during the selected time period.
+
+### Productivity Score
+An AI-generated score (0–100) that estimates the relative effort and complexity involved in completing each pull request. This is calculated using contextual metadata (code changes, issue data, etc.) and LLM-based analysis. Learn more about how we calculate the Productivity Score [here](https://www.bilanc.co/blog/how-do-we-measure-engineering-productivity).
+
+### Total Lines of Code
+The net number of lines of code added, modified, or deleted across all merged pull requests. This includes both additions and deletions.
+
+### Cycle Time
+The duration between when a pull request is opened and when it is merged. This reflects how long it takes for code to move from draft to production-ready.
+
+### Review Time
+The time taken between the first review comment and the final merge of the PR. This measures how quickly PRs are reviewed once submitted.
+
+### Review Rate
+The percentage of pull requests that received a code review before being merged. A key signal of collaborative development and code quality checks.
+
+### Merge Frequency
+The number of pull requests merged per engineer (or per team) per day. It reflects how frequently changes are being integrated into the main branch.
+
+## Deployment Metrics
+
+### Deployment Frequency
+How often new changes are deployed to production. This is tracked using deployment metadata from your CI/CD pipelines.
+
+## PR Categorization
+
+### PR Categories
+Each pull request is automatically classified using an LLM into one of the following categories:
+
+- **Bug Fixes** – Code changes that resolve bugs or errors.
+- **Tech Improvements** – Refactors, performance optimizations, dependency upgrades, or infrastructure changes.
+- **Feature Work** – Code that implements new user-facing functionality or business logic.
+
+### State
+The current status of the PR: Open, Merged, or Closed.
+
+### PR Opened At
+The timestamp of when the pull request was initially created.
+
+### PR Merged At
+The timestamp of when the pull request was successfully merged.

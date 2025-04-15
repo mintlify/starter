@@ -18,7 +18,8 @@
             "pages": [
               "introduction",
               "quickstart",
-              "authentication"
+              "authentication",
+              "metrics-glossary"
             ]
           }
         ]
