@@ -6,9 +6,6 @@ description: "This glossary explains the key metrics available in Bilanc's analy
 
 ## Pull Request Metrics
 
-### Merged PRs
-The total number of pull requests that have been successfully merged into the default branch during the selected time period.
-
 ### Productivity Score
 An AI-generated score (0–100) that estimates the relative effort and complexity involved in completing each pull request. This is calculated using contextual metadata (code changes, issue data, etc.) and LLM-based analysis. Learn more about how we calculate the Productivity Score [here](https://www.bilanc.co/blog/how-do-we-measure-engineering-productivity).
 
@@ -16,7 +13,7 @@ An AI-generated score (0–100) that estimates the relative effort and complexit
 The net number of lines of code added, modified, or deleted across all merged pull requests. This includes both additions and deletions.
 
 ### Cycle Time
-The duration between when a pull request is opened and when it is merged. This reflects how long it takes for code to move from draft to production-ready.
+The duration between the first commit and when a PR is merged. This reflects how long it takes for code to move from draft to production-ready.
 
 ### Review Time
 The time taken between the first review comment and the final merge of the PR. This measures how quickly PRs are reviewed once submitted.
@@ -27,10 +24,22 @@ The percentage of pull requests that received a code review before being merged.
 ### Merge Frequency
 The number of pull requests merged per engineer (or per team) per day. It reflects how frequently changes are being integrated into the main branch.
 
-## Deployment Metrics
+## AI Metrics
 
-### Deployment Frequency
-How often new changes are deployed to production. This is tracked using deployment metadata from your CI/CD pipelines.
+### Adoption Rate
+The percentage of engineers who used AI tools (e.g., Copilot, Cursor) during the selected time period. This helps measure how widely AI is being integrated into daily workflows.
+
+### Productivity Score Boost per Engineer
+The average increase in Productivity Score for an engineer on days when they use AI tools compared to days they don't. This reflects the measurable impact of AI on engineering output.
+
+### AI Requests per Engineer
+The number of AI tool activations, completions, or suggestions made per engineer. This helps quantify the intensity of AI usage.
+
+### Most Used Model
+The AI model most frequently used across the organization (e.g., GPT-4, Claude, Codium). Useful for understanding model preferences and potential standardization.
+
+### Most Used Language
+The programming language most frequently associated with AI-assisted development during the selected period. Helps identify where AI is most leveraged across your codebase.
 
 ## PR Categorization
 
@@ -49,3 +58,8 @@ The timestamp of when the pull request was initially created.
 
 ### PR Merged At
 The timestamp of when the pull request was successfully merged.
+
+## Deployment Metrics
+
+### Deployment Frequency
+How often new changes are deployed to production. This is tracked using deployment metadata from your CI/CD pipelines.
