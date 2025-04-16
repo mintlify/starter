@@ -151,6 +151,12 @@ python -m venv dbt-env
 
 
 Ativar o ambiente:
+
+<Warning>
+  Sempre que você for trabalhar com DBT, lembre-se de ativar o ambiente
+  virtual com o comando abaixo.
+</Warning>
+
 ```bash
 source dbt-env/bin/activate
 ```
@@ -165,6 +171,13 @@ python -m venv dbt-env
 
 
 Ativar o ambiente:
+
+<Warning>
+  Sempre que você for trabalhar com DBT, lembre-se de ativar o ambiente
+  virtual com o comando abaixo.
+</Warning>
+
+
 ```cmd
 dbt-env\Scripts\activate
 ```
@@ -174,11 +187,6 @@ Desativar o ambiente (qualquer sistema):
 ```bash
 deactivate
 ```
-
-<Warning>
-  Sempre que você for trabalhar com DBT, lembre-se de ativar o ambiente
-  virtual com o comando apropriado para seu sistema operacional.
-</Warning>
 
 </Accordion>
 
@@ -218,8 +226,57 @@ Plugins:
 
 </Accordion>
 
+<Accordion title="6. Configurando variáveis de ambiente">
 
-<Accordion title="6. Configurar o GitHub (opcional, mas recomendado)">
+<Note>
+  Algumas variáveis de ambiente podem ser configuradas para personalizar o comportamento do DBT.
+  Duas importantes são:
+  - <code>DBT_PROFILES_DIR</code>: define o diretório onde está o arquivo <code>profiles.yml</code>.
+  - <code>DBT_USER</code>: valor opcional que pode ser utilizado em perfis personalizados ou scripts.
+</Note>
+
+Vamos configurar essas variáveis nos sistemas Linux/macOS e Windows.
+
+### Linux/macOS
+
+Você pode definir as variáveis de ambiente adicionando as linhas abaixo ao final do arquivo `~/.bashrc`, `~/.zshrc` ou outro arquivo de configuração do seu shell:
+
+```bash
+export DBT_PROFILES_DIR=/caminho/para/seu/diretorio
+export DBT_USER=seu_nome
+```
+
+Depois de adicionar, execute:
+
+```bash
+source ~/.bashrc  # ou ~/.zshrc, dependendo do seu shell
+```
+
+### Windows
+
+No Windows, você pode configurar variáveis de ambiente temporariamente no terminal:
+
+```cmd
+setx DBT_PROFILES_DIR=C:\caminho\para\seu\diretorio
+setx DBT_USER=seu_nome
+```
+
+Ou:
+
+1. Abra o menu Iniciar e busque por "Variáveis de ambiente".
+2. Clique em "Editar variáveis de ambiente do sistema".
+3. Na seção "Variáveis de usuário", clique em "Novo" e adicione:
+   - Nome da variável: `DBT_PROFILES_DIR`
+   - Valor da variável: `C:\caminho\para\seu\diretorio`
+4. Repita o processo para `DBT_USER`.
+
+<Warning>
+  Sempre que você for trabalhar com DBT, verifique se as variáveis de ambiente estão corretamente definidas, especialmente <code>DBT_PROFILES_DIR</code>.
+</Warning>
+
+</Accordion>
+
+<Accordion title="7. Configurar o GitHub (opcional, mas recomendado)">
 
 1. Crie uma conta em [github.com](https://github.com/)
 2. Configure o Git localmente:
