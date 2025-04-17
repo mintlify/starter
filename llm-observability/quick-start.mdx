@@ -1,0 +1,87 @@
+---
+title: Quick start
+mode: "wide"
+---
+
+Ready to plug LangWatch into your project and start seeing what your LLM is *really* thinking? Awesome! LangWatch helps you understand every user interaction (**Thread**), each individual AI task (**Trace**), and all the underlying steps (**Span**) involved. We've made getting started super smooth.
+
+No matter your tech stack – Python, Node.js, Go, or something else – or which LLM you're rocking (OpenAI, Anthropic, Cohere, local models, you name it!), integrating LangWatch is a breeze.
+
+Let's get cracking.
+
+<Steps>
+  <Step title="Create your LangWatch account">
+    First step: grab your LangWatch account. Head over to [langwatch.com](https://app.langwatch.com), sign up, and get your API key ready.
+
+    <img src="/images/llm-observability/quick-start/setup-full.webp" />
+  </Step>
+
+  <Step title="Install the LangWatch SDK">
+    Next, install the LangWatch SDK for your stack. We have official SDKs for Python and Node.js ready to go. If you're using another language, our [OpenTelemetry Integration Guide](/llm-observability/api-sdk/other/open-telemetry) provides the details you need.
+
+    <CodeGroup>
+```bash Python
+pip install langwatch
+```
+```bash JavaScript
+npm install langwatch @vercel/otel @opentelemetry/api-logs @opentelemetry/instrumentation @opentelemetry/sdk-logs
+```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Add LangWatch to your project">
+    Time to connect LangWatch. Initialize the SDK within your project. Here's how you can set it up:
+
+    <CodeGroup>
+```python Python
+import langwatch
+import os
+from langwatch.instrumentors import OpenAIInstrumentor
+
+langwatch.setup(
+    api_key=os.getenv("LANGWATCH_API_KEY"), # Your LangWatch API key
+    instrumentors=[OpenAIInstrumentor()] # Add the instrumentor for your LLM
+)
+```
+```javascript JavaScript
+// ./next.config.js - Enable the Next.js instrumentation hook
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    instrumentationHook: true,
+  },
+};
+
+module.exports = nextConfig;
+
+// ./src/instrumentation.ts - Configure LangWatch export
+import { registerOTel } from '@vercel/otel';
+import { LangWatchExporter } from 'langwatch';
+
+export function register() {
+  registerOTel({
+    serviceName: 'your-app-name', // Give your service a clear name
+    traceExporter: new LangWatchExporter({
+      apiKey: process.env.LANGWATCH_API_KEY, // Your LangWatch API key
+    })
+  });
+}
+
+// ./src/index.ts - Enable telemetry where needed
+const result = await generateText({
+  model: openai('gpt-4o-mini'),
+  prompt: 'How many calories do I burn jumping to conclusions?',
+  experimental_telemetry: {
+    isEnabled: true, // Ensure telemetry is active for relevant operations
+  },
+});
+```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Start observing!">
+    You're all set! Jump into your LangWatch dashboard to see your data flowing in. You'll find **Traces** (individual AI tasks) and their detailed **Spans** (the steps within), all organized into **Threads** (complete user sessions). Start exploring and use **User IDs** or custom **Labels** to dive deeper!
+
+    <img src="/images/llm-observability/quick-start/setup-monitor.webp" />
+  </Step>
+</Steps>
