@@ -57,6 +57,102 @@
       "pages": ["introduction", "self-hosting"]
     },
     {
+      "group": "🔎 Observe",
+      "pages": [
+        "llm-observability/quick-start",
+        "llm-observability/concepts",
+        {
+          "group": "Language APIs & SDKs",
+          "pages": [
+            {
+              "group": "Python",
+              "pages": [
+                "llm-observability/api-sdk/python/getting-started",
+                {
+                  "group": "Integrations",
+                  "pages": [
+                    "llm-observability/api-sdk/python/integrations/open-ai",
+                    "llm-observability/api-sdk/python/integrations/azure",
+                    "llm-observability/api-sdk/python/integrations/lite-llm",
+                    "llm-observability/api-sdk/python/integrations/lang-chain",
+                    "llm-observability/api-sdk/python/integrations/pydantic-ai",
+                    "llm-observability/api-sdk/python/integrations/google-adk",
+                    "llm-observability/api-sdk/python/integrations/aws-bedrock",
+                    "llm-observability/api-sdk/python/integrations/crew-ai",
+                    "llm-observability/api-sdk/python/integrations/haystack",
+                    "llm-observability/api-sdk/python/integrations/other"
+                  ]
+                },
+                {
+                  "group": "Tutorials",
+                  "pages": [
+                    "llm-observability/api-sdk/python/tutorial/capturing-rag",
+                    "llm-observability/api-sdk/python/tutorial/observing-tool-calls",
+                    "llm-observability/api-sdk/python/tutorial/instrumenting-agents",
+                    "llm-observability/api-sdk/python/tutorial/capturing-user-feedback",
+                    "llm-observability/api-sdk/python/tutorial/capturing-user-events",
+                    "llm-observability/api-sdk/python/tutorial/capturing-custom-evaluations"
+                  ]
+                },
+                "llm-observability/api-sdk/python/api-reference"
+              ]
+            },
+            {
+              "group": "JavaScript & TypeScript",
+              "pages": [
+                "llm-observability/api-sdk/js/getting-started",
+                {
+                  "group": "Integrations",
+                  "pages": [
+                    "llm-observability/api-sdk/js/integrations/vercel-ai",
+                    "llm-observability/api-sdk/js/integrations/open-ai",
+                    "llm-observability/api-sdk/js/integrations/lang-chain-js",
+                    "llm-observability/api-sdk/js/integrations/other"
+                  ]
+                },
+                {
+                  "group": "Tutorials",
+                  "pages": [
+                    "llm-observability/api-sdk/js/tutorial/capturing-rag",
+                    "llm-observability/api-sdk/js/tutorial/observing-tool-calls",
+                    "llm-observability/api-sdk/js/tutorial/instrumenting-agents",
+                    "llm-observability/api-sdk/js/tutorial/tracking-user-feedback",
+                    "llm-observability/api-sdk/js/tutorial/capturing-user-events",
+                    "llm-observability/api-sdk/js/tutorial/capturing-custom-evaluations"
+                  ]
+                },
+                "llm-observability/api-sdk/js/api-reference"
+              ]
+            },
+            {
+              "group": "Platforms",
+              "pages": [
+                "llm-observability/api-sdk/platforms/langflow-integration",
+                "llm-observability/api-sdk/platforms/flowise-integration"
+              ]
+            },
+            {
+              "group": "Other",
+              "pages": [
+                "llm-observability/api-sdk/other/getting-started",
+                "llm-observability/api-sdk/other/open-telemetry-api",
+                "llm-observability/api-sdk/other/rest-api"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Monitoring & Alerting",
+          "pages": [
+            "llm-observability/monitoring-and-alerting/overview",
+            "llm-observability/monitoring-and-alerting/inspecting-traces",
+            "llm-observability/monitoring-and-alerting/alerts",
+            "llm-observability/monitoring-and-alerting/viewing-analytics"
+          ]
+        }
+      ]
+    },
+    {
       "group": "Optimization Studio",
       "pages": [
         "optimization-studio/overview",
@@ -222,7 +318,10 @@
   ],
   "footerSocials": {
     "github": "https://github.com/langwatch/langwatch",
-    "linkedin": "https://www.linkedin.com/company/langwatch/"
+    "website": "https://langwatch.ai",
+    "x-twitter": "https://x.com/langwatchai",
+    "linkedin": "https://www.linkedin.com/company/langwatch/",
+    "youtube": "https://www.youtube.com/@LangWatch"
   },
   "modeToggle": {
     "default": "light"
