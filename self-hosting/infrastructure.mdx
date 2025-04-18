@@ -1,0 +1,29 @@
+---
+title: 'Infrastructure'
+description: 'Learn more about the infrastructure of Bilanc'
+---
+
+## Infrastructure Components
+
+Bilanc’s infrastructure comprises several core services, each responsible for a specific layer of the platform:
+
+- **API Server (FastAPI)**: Serves as the primary API gateway.  
+- **Dashboard (Next.js)**: Renders interactive analytics and visualizations.  
+- **Workflow Orchestrator (Dagster)**: Schedules and executes data pipelines.  
+- **Task Queue (Celery)**: Handles asynchronous background jobs at scale.  
+- **Message Broker (Redis)**: Acts as the message broker for Celery tasks.  
+- **Primary Database (PostgreSQL)**: Persists application state, user data, and analytics.
+
+## Cloud vs. self-hosted architecture
+
+The Bilanc architecture is largely the same for both Cloud and Self-hosting. This ensures self-hosted instances benefit from continous dog-fooding and load-testing.
+
+## Email service
+
+Bilanc uses Resend exclusively for emails.
+
+For self-hosted instances, you can configure your own API key
+
+<Tip>
+  If you are interested in the self-hosting version, please get in touch with us at support@bilanc.co or book a [demo](https://calendly.com/0x-s13i/bilanc-15-min-customer-discovery-call).
+</Tip>

@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
             "group": "Get Started",
@@ -20,6 +20,26 @@
               "quickstart",
               "authentication",
               "metrics-glossary"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              {
+                "group": "Product Configuration",
+                "pages": [
+                  "how-to/cursor-data-import",
+                  "how-to/merging-users"
+                ]
+              },
+              {
+                "group": "Self Hosting",
+                "pages": [
+                  "self-hosting/infrastructure",
+                  "self-hosting/overview",
+                  "self-hosting/configuration"
+                ]
+              }
             ]
           }
         ]
@@ -51,23 +71,6 @@
             "pages": [
               "api-reference/endpoint/error-handling",
               "api-reference/endpoint/rate-limiting"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "How To Videos",
-        "groups": [
-          {
-            "group": "Admin & Settings",
-            "pages": [
-              "how-to/merging-users"
-            ]
-          },
-          {
-            "group": "Data Connections",
-            "pages": [
-              "how-to/cursor-data-import"
             ]
           }
         ]

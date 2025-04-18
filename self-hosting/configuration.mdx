@@ -1,0 +1,129 @@
+---
+title: 'Self‑Hosting Configuration'
+description: 'Bilanc can be deployed in minutes using Docker Compose. This guide walks you through all required environment variables and the commands to get up and running.'
+---
+
+## 1. Prerequisites
+
+- Docker & Docker Compose installed (v2+ recommended)  
+- Terminal access to your Bilanc project directory  
+- API keys for your chosen AI provider, email service, and GitHub
+
+---
+
+## 2. Initial Setup
+
+1. **Clone the repository** (if you haven’t already):
+   ```bash
+   git clone https://github.com/bilanc/bilanc.git
+   cd bilanc
+   ```
+2. **Copy the example env file**:
+   ```bash
+   cp .env.example .env
+   ```
+3. **Edit `.env`** and fill in the values as described below.
+
+---
+
+## 3. Environment Variables
+
+### A. AI Provider
+
+| Variable                 | Description                                                                                 | Example     |
+| ------------------------ | ------------------------------------------------------------------------------------------- | ----------- |
+| `AI_PROVIDER`            | Choose your AI backend: `openai` (default), `anthropic`, or `google`.                       | `openai`    |
+| `OPENAI_API_KEY`         | API key for OpenAI models (required if `AI_PROVIDER=openai`).                               | `sk-...`    |
+| `ANTHROPIC_API_KEY`      | API key for Anthropic (Claude) (required if `AI_PROVIDER=anthropic`).                       | `env-...`   |
+| `GOOGLE_GEMINI_API_KEY`  | API key for Google Gemini (required if `AI_PROVIDER=google`).                               | `AIza...`   |
+
+> Only set the API key corresponding to your chosen `AI_PROVIDER`.
+
+### B. Email Service
+
+| Variable               | Description                                 | Example                         |
+| ---------------------- | ------------------------------------------- | ------------------------------- |
+| `DEFAULT_SENDER_EMAIL` | From address for system-generated emails    | `no-reply@yourdomain.com`       |
+| `RESEND_API_KEY`       | API key for Resend (email delivery service) | `re_1234567890abcdef`           |
+
+### C. Frontend (Dashboard)
+
+| Variable       | Description                                                | Example                                |
+| -------------- | ---------------------------------------------------------- | -------------------------------------- |
+| `FRONTEND_URL` | Public URL of your Bilanc dashboard (used in email links)  | `https://dashboard.yourdomain.com`     |
+
+### D. Database (PostgreSQL)
+
+Bilanc includes a Postgres container by default. To connect to an external DB, override these:
+
+| Variable              | Description                      | Default | Example               |
+| --------------------- | -------------------------------- | ------- | --------------------- |
+| `POSTGRES_HOST`       | Hostname or IP of the Postgres   | `db`    | `db.example.com`      |
+| `POSTGRES_PORT`       | Port number                      | `5432`  | `5432`                |
+| `POSTGRES_DATABASE`   | Database name                    | `bilanc`| `bilanc_prod`         |
+| `POSTGRES_USERNAME`   | Database user                    | `bilanc`| `bilanc_user`         |
+| `POSTGRES_PASSWORD`   | Database password                | —       | `secure_password`     |
+
+### E. GitHub Integration
+
+| Variable                 | Description                                                               | Example                                          |
+| ------------------------ | ------------------------------------------------------------------------- | ------------------------------------------------ |
+| `GITHUB_ACCESS_TOKEN`    | GitHub Personal Access Token with `repo` and `read:org` scopes            | `ghp_abcdef1234567890`                           |
+| `GITHUB_REPOSITORIES`    | Space‑separated list of repos to track (format: `owner/name`)             | `bilanc/bilanc-frontend bilanc/bilanc-backend`   |
+
+---
+
+## 4. Example `.env` Template
+
+```bash
+# ─── AI Configuration ─────────────────────────────────────────────────────
+AI_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+
+# ─── Email Configuration ──────────────────────────────────────────────────
+DEFAULT_SENDER_EMAIL=no-reply@yourdomain.com
+RESEND_API_KEY=re_123456...
+
+# ─── Dashboard ───────────────────────────────────────────────────────────
+FRONTEND_URL=https://dashboard.yourdomain.com
+
+# ─── PostgreSQL ──────────────────────────────────────────────────────────
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+POSTGRES_DATABASE=bilanc
+POSTGRES_USERNAME=bilanc
+POSTGRES_PASSWORD=secure_password
+
+# ─── GitHub Integration ─────────────────────────────────────────────────
+GITHUB_ACCESS_TOKEN=ghp_abcdef1234567890
+GITHUB_REPOSITORIES="bilanc/bilanc-frontend bilanc/bilanc-backend"
+```
+
+---
+
+## 5. Running Bilanc
+
+```bash
+docker compose up -d
+```
+
+Once up, the services are available at:
+- **API Server** → http://localhost:8000  
+- **Dashboard**   → http://localhost:3000  
+- **Orchestrator**→ http://localhost:4000  
+
+Monitor logs in real time:
+
+```bash
+docker compose logs -f
+```
+
+---
+
+## 6. Next Steps
+
+- Open your dashboard at `FRONTEND_URL` and authenticate via GitHub.  
+- Configure or switch AI providers by updating `AI_PROVIDER` in `.env`.  
+- For production deployments, point PostgreSQL to a managed database and lock down your env file.
+
+You’re all set—enjoy full self‑hosted Bilanc!

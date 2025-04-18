@@ -1,0 +1,54 @@
+---
+title: 'Overview'
+description: 'Overview of the self-hosted edition.'
+---
+
+Bilanc offers a self-hosted deployment option for customers who need full control over their infrastructure. This guide covers deployment, scaling, updates, and other key operational details.
+
+## Features
+All paid features available on Bilanc Cloud are included in the Enterprise self-hosted edition.
+
+## Plan requirement
+A Bilanc subscription is required.
+
+## Intended users
+Optimised for large, regulated enterprises.
+
+## Deployment
+By default, Bilanc is deployed as a Docker image. We could explore other deployent options (e.g. Helm charts) if required.
+
+## Updates
+Updates are distributed via versioned Docker images. A staging environment is recommended to test updates before production.
+
+Update cadence is flexible based on your needs.
+
+## Cloud provider support
+Bilanc is cloud acgnostic. Supports all major cloud providers (AWS, GCP, Azure).
+
+## Infrastructure components
+See the detailed infrastructure components [here](infrastructure)
+
+## Recommended configuration
+- **5 Node services** (API, Orchestrator Dashboard, Daemon, Orchestrator Webserver, Celery): 1 CPU, 2GB RAM per service
+- **Postgres database**: 2 CPU, 8GB RAM, 128GB storage
+- **Redis data store**: 128MB
+
+## Scaling
+Auto-scaling is not provided out-of-the-box yet, but the default configuration scales far. We can guide you on configuring auto-scaling when needed.
+
+Bottlenecks mostly depend on:
+- Data Transformation: solved by scaling Postgres vertically.
+
+## Data Storage
+- Postgres: Persists application state, user data, and analytics.
+
+## Using existing data stores
+- Bilanc is flexible with data store setups. However, we recommend a separate instance for independent scaling.
+
+## Internet Access Requirments
+- API: Required for pulling Team information from GitHub
+- Orchestrator: Required for data ingestion from the data sources
+
+<Tip>
+  If you are interested in the self-hosting version, please get in touch with us at support@bilanc.co or book a [demo](https://calendly.com/0x-s13i/bilanc-15-min-customer-discovery-call).
+</Tip>
