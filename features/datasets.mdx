@@ -4,39 +4,32 @@ title: Datasets
 
 ## Create datasets
 
-LangWatch offers you the possibility to create datasets on your LLM messages. These datasets can be used to train your own models or to do further analysis on the data.
-We offer the possibility to create datasets with the following data types;
+LangWatch allows you to create and manage datasets, with a built-in excel-like interface for collaborating with your team.
 
-- **Input**: The message input string.
-- **Expected Output**: The gold-standard expected output for the given input,
-  useful for output-comparison metrics
-- **Contexts**: The contexts provided if your are doing RAG, useful
-  for RAG-metric evaluations
-- **[Spans](/concepts#spans)**: A JSON with all the spans contained in the message
-  trace, that is, all the steps in your pipeline, for
-  more complex evaluations
-- **LLM Input**: The input the LLM received, in LLM chat history json
-  format
-- **Expected LLM Output**: The gold-standard expected output for the given input,
-  in LLM chat history json format.
-- **Annotation Scores**: The scores of the annotations, useful for annotation-comparison metrics
-- **Evaluation Metrics**: The evaluation metrics for the dataset, useful for evaluation-comparison metrics
+* Import datasets in any format you want, manage columns and data types
+* Keep populating the dataset with data traced from production
+* Create new datasets from scratch with AI assistance
+* Generate synthetic data from documents
+* Import, export and manage versions
 
-#### Usage
+### Usage
 
-To create a dataset, simply go to the datasets page and click the "Create New Dataset" button. You will be able to select the type of dataset you want as well as the columns you want to include.
+To create a dataset, simply go to the datasets page and click the "Upload or Create Dataset" button. You will be able to select the type of dataset you want as well as the columns you want to include.
 
 <img
   className="block"
-  src="/images/dataset-screenshot-add.png"
+  src="/images/dataset-screenshot-new.png"
   alt="LangWatch"
 />
+
+## Adding data
 
 There are a couple ways to add data to a dataset;
 
 - **Manually**: You can add data on a per message basis.
-- **Group selection**: You can fill the dataset by selecting a group of messages.
+- **From traces**: You can fill the dataset by selecting a group of messages already captured.
 - **CSV Upload**: You can fill the dataset by uploading a CSV file.
+- **Continuously populate**: You can continuously populate the dataset with data traced from production.
 
 ### Manually
 
@@ -48,7 +41,7 @@ To add data manually, click the "Add to Dataset" button on the messages page aft
   alt="LangWatch"
 />
 
-### Group selection
+### From traces
 
 To add data by selecting a group, simply click the "Add to Dataset" button after choosing the desired messages in the table view. You'll then be able to select the type of dataset you wish to add to and preview the data that will be included.
 
@@ -57,9 +50,31 @@ To add data by selecting a group, simply click the "Add to Dataset" button after
   src="/images/dataset-screenshot-group.png"
   alt="LangWatch"
 />
+
+### Continuously
+
+You can keep continously populating the dataset with new data arriving from production by using **Triggers**. Simply go to the Messages page and select a filter (for example, by model), the Add Trigger button will be enabled:
+
+<img
+  className="block"
+  src="/images/add-trigger.png"
+  alt="LangWatch"
+  style={{ maxWidth: "300px" }}
+/>
+
+For Action, select **Add To Dataset**, and chose the right fields to map from the trace to the dataset:
+
+<img
+  className="block"
+  src="/images/add-to-dataset-trigger.png"
+  alt="LangWatch"
+/>
+
+Hit save, and that's it! Now every time a new message matches the filter, the trigger will be fired and the dataset will be populated with the new row.
+
 ### CSV Upload
 
-To add data by CSV upload, go to your datasets page and select the dataset you want to update. Click the "Upload CSV" button and upload your CSV file. You can then map the columns from your CSV file to the appropriate fields in the dataset based on the dataset type.
+To add data by CSV upload, go to your datasets page and select the dataset you want to update. Click the "Upload CSV" button and upload your CSV or JSONL file. You can then map the columns from your file to the appropriate fields in the dataset based on the dataset type.
 
 <img
   className="block"

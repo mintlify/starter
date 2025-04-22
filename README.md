@@ -1,6 +1,6 @@
 # LangWatch and LangEvals Documentation
 
-This is the documentation repository for the [LangWatch](https://github.com/langwatch/langwatch) and [LangEvals](https://github.com/langwatch/langevals) projects.
+This is the documentation repository for [LangWatch](https://github.com/langwatch/langwatch).
 
 ### Development
 

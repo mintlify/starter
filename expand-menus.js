@@ -1,3 +1,6 @@
+const expandables = ["Language APIs & SDKs", "Evaluation"];
+let expanded = [];
+
 const originalPath = window.location.pathname;
 const pushState = history.pushState;
 const replaceState = history.replaceState;
@@ -22,9 +25,6 @@ history.replaceState = function () {
     document.querySelector(`[href="${originalPath}"]`).click();
   }, 0);
 };
-
-const expandables = ["Language APIs & SDKs", "Evaluation"];
-let expanded = [];
 
 const expandAllGroups = () => {
   const groups = document.querySelectorAll(".group");

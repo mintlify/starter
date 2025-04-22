@@ -256,7 +256,7 @@ LangWatch library is the easiest way to integrate your Python application with L
 
 #### Prerequisites
 
-- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.ai/).
 
 #### Installation
 
@@ -755,7 +755,7 @@ LangWatch library is the easiest way to integrate your TypeScript application wi
 
 #### Prerequisites
 
-- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.ai/).
 
 #### Installation
 
@@ -1120,7 +1120,7 @@ const stream = await chain.stream(
 )
 ```
 
-That's it! The full trace with all spans for each chain step will be sent automatically to LangWatch in the background on periodic intervals. After capturing your first LLM Span, go to [LangWatch Dashboard](https://app.langwatch.com), your message should be there!
+That's it! The full trace with all spans for each chain step will be sent automatically to LangWatch in the background on periodic intervals. After capturing your first LLM Span, go to [LangWatch Dashboard](https://app.langwatch.ai), your message should be there!
 
 <Note>
 On short-live environments like Lambdas or Serverless Functions, be sure to call <br /> `await trace.sendSpans();` to wait for all pending requests to be sent before the runtime is destroyed.
@@ -1365,7 +1365,7 @@ This guide demonstrates the OpenTelemetry integration using Python, but the same
 
 #### Prerequisites
 
-- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.com/).
+- Obtain your `LANGWATCH_API_KEY` from the [LangWatch dashboard](https://app.langwatch.ai/).
 
 #### Installation
 
@@ -2072,7 +2072,7 @@ Ensure that you return the `output` as some evaluations may require it. As you c
 # FILE: ./features/triggers.mdx
 
 ---
-title: Triggers
+title: Alerts and Triggers
 ---
 
 ## Create triggers based on LangWatch filters
@@ -2115,7 +2115,7 @@ Once the trigger is created, you will receive an alert whenever a message meets 
 # FILE: ./features/embedded-analytics.mdx
 
 ---
-title: Embedded Analytics
+title: Exporting Analytics
 ---
 
 ## Export Analytics with REST Endpoint
@@ -2210,33 +2210,6 @@ Once you have created an annotation, you will see it next to to the message.
 
 <img className="block" src="/images/annotations-comment.png" alt="LangWatch" />
 
-
-# Annotation Scoring
-
-We have developed a customized scoring system for each annotation. To get started, you will need to create your scores on the settings page.
-
-There are two types of score data you can choose from:
-
-- **Checkbox**: To add multiple selectable options.
-- **Multiple Choice**: To add a single selectable option.
-
-
-<img className="block" src="/images/annotation-add-score.png" alt="LangWatch" />
-
-After you have created your scores, you can activate or deactivate them on the settings page.
-
-<img className="block" src="/images/annotation-view-scores.png" alt="LangWatch" />
-
-Once your scores are activated, you will see them in the annotations tab. For each annotation you create, the score options will be available, allowing you to add more detailed information to your annotations.
-When annotating a message, you will see the score options below the comment input. Once you have added a score, you will be asked for an optional reason for the score.
-
-<div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-  <img className="block" src="/images/annotation-score-selection.png" alt="LangWatch" style={{ flex: 1 }} />
-  <img className="block" src="/images/annotation-score-reason.png" alt="LangWatch" style={{ flex: 1 }} />
-</div>
-
-Thats it! You can now annotate messages and add your custom score metrics to them.
-
 # Annotation Queues
 
 To get started with annotation queues, follow these steps:
@@ -2264,6 +2237,33 @@ Once you’ve completed the final item in the queue, you’ll see that all tasks
 <img className="block" src="/images/annotation-queue-items-complete.png" alt="LangWatch" />
 
 
+# Annotation Scoring
+
+We have developed a customized scoring system for each annotation. To get started, you will need to create your scores on the settings page.
+
+There are two types of score data you can choose from:
+
+- **Checkbox**: To add multiple selectable options.
+- **Multiple Choice**: To add a single selectable option.
+
+
+<img className="block" src="/images/annotation-add-score.png" alt="LangWatch" />
+
+After you have created your scores, you can activate or deactivate them on the settings page.
+
+<img className="block" src="/images/annotation-view-scores.png" alt="LangWatch" />
+
+Once your scores are activated, you will see them in the annotations tab. For each annotation you create, the score options will be available, allowing you to add more detailed information to your annotations.
+When annotating a message, you will see the score options below the comment input. Once you have added a score, you will be asked for an optional reason for the score.
+
+<div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+  <img className="block" src="/images/annotation-score-selection.png" alt="LangWatch" style={{ flex: 1 }} />
+  <img className="block" src="/images/annotation-score-reason.png" alt="LangWatch" style={{ flex: 1 }} />
+</div>
+
+Thats it! You can now annotate messages and add your custom score metrics to them.
+
+
 ---
 
 # FILE: ./features/datasets.mdx
@@ -2274,39 +2274,32 @@ title: Datasets
 
 ## Create datasets
 
-LangWatch offers you the possibility to create datasets on your LLM messages. These datasets can be used to train your own models or to do further analysis on the data.
-We offer the possibility to create datasets with the following data types;
+LangWatch allows you to create and manage datasets, with a built-in excel-like interface for collaborating with your team.
 
-- **Input**: The message input string.
-- **Expected Output**: The gold-standard expected output for the given input,
-  useful for output-comparison metrics
-- **Contexts**: The contexts provided if your are doing RAG, useful
-  for RAG-metric evaluations
-- **[Spans](/concepts#spans)**: A JSON with all the spans contained in the message
-  trace, that is, all the steps in your pipeline, for
-  more complex evaluations
-- **LLM Input**: The input the LLM received, in LLM chat history json
-  format
-- **Expected LLM Output**: The gold-standard expected output for the given input,
-  in LLM chat history json format.
-- **Annotation Scores**: The scores of the annotations, useful for annotation-comparison metrics
-- **Evaluation Metrics**: The evaluation metrics for the dataset, useful for evaluation-comparison metrics
+* Import datasets in any format you want, manage columns and data types
+* Keep populating the dataset with data traced from production
+* Create new datasets from scratch with AI assistance
+* Generate synthetic data from documents
+* Import, export and manage versions
 
-#### Usage
+### Usage
 
-To create a dataset, simply go to the datasets page and click the "Create New Dataset" button. You will be able to select the type of dataset you want as well as the columns you want to include.
+To create a dataset, simply go to the datasets page and click the "Upload or Create Dataset" button. You will be able to select the type of dataset you want as well as the columns you want to include.
 
 <img
   className="block"
-  src="/images/dataset-screenshot-add.png"
+  src="/images/dataset-screenshot-new.png"
   alt="LangWatch"
 />
+
+## Adding data
 
 There are a couple ways to add data to a dataset;
 
 - **Manually**: You can add data on a per message basis.
-- **Group selection**: You can fill the dataset by selecting a group of messages.
+- **From traces**: You can fill the dataset by selecting a group of messages already captured.
 - **CSV Upload**: You can fill the dataset by uploading a CSV file.
+- **Continuously populate**: You can continuously populate the dataset with data traced from production.
 
 ### Manually
 
@@ -2318,7 +2311,7 @@ To add data manually, click the "Add to Dataset" button on the messages page aft
   alt="LangWatch"
 />
 
-### Group selection
+### From traces
 
 To add data by selecting a group, simply click the "Add to Dataset" button after choosing the desired messages in the table view. You'll then be able to select the type of dataset you wish to add to and preview the data that will be included.
 
@@ -2327,9 +2320,31 @@ To add data by selecting a group, simply click the "Add to Dataset" button after
   src="/images/dataset-screenshot-group.png"
   alt="LangWatch"
 />
+
+### Continuously
+
+You can keep continously populating the dataset with new data arriving from production by using **Triggers**. Simply go to the Messages page and select a filter (for example, by model), the Add Trigger button will be enabled:
+
+<img
+  className="block"
+  src="/images/add-trigger.png"
+  alt="LangWatch"
+  style={{ maxWidth: "300px" }}
+/>
+
+For Action, select **Add To Dataset**, and chose the right fields to map from the trace to the dataset:
+
+<img
+  className="block"
+  src="/images/add-to-dataset-trigger.png"
+  alt="LangWatch"
+/>
+
+Hit save, and that's it! Now every time a new message matches the filter, the trigger will be fired and the dataset will be populated with the new row.
+
 ### CSV Upload
 
-To add data by CSV upload, go to your datasets page and select the dataset you want to update. Click the "Upload CSV" button and upload your CSV file. You can then map the columns from your CSV file to the appropriate fields in the dataset based on the dataset type.
+To add data by CSV upload, go to your datasets page and select the dataset you want to update. Click the "Upload CSV" button and upload your CSV or JSONL file. You can then map the columns from your file to the appropriate fields in the dataset based on the dataset type.
 
 <img
   className="block"
@@ -2342,64 +2357,77 @@ To add data by CSV upload, go to your datasets page and select the dataset you w
 # FILE: ./evaluations/overview.mdx
 
 ---
-title: Evaluations
+title: List of Evaluators
 ---
 
 LangWatch offers an extensive library of evaluators to help you evaluate the quality and guarantee the safety of your LLM apps.
-Those are very easy to set up on [LangWatch dashboard](https://app.langwatch.com/).
 
-![Evaluators](/images/screenshot-evaluators.png)
 
 ## Evaluators List
 
 <AccordionGroup>
+  <Accordion title="Expected Answer Evaluation">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | Exact Match Evaluator | A simple evaluator that checks if the output matches the expected_output exactly. |
+    | LLM Answer Match | Uses an LLM to check if the generated output answers a question correctly the same way as the expected output, even if their style is different. |
+    | LLM Factual Match | Computes with an LLM how factually similar the generated answer is to the expected output. |
+    | SQL Query Equivalence | Checks if the SQL query is equivalent to a reference one by using an LLM to infer if it would generate the same results given the table schemas. |
+    | ROUGE Score | Traditional NLP metric. ROUGE score for evaluating the similarity between two strings. |
+    | BLEU Score | Traditional NLP metric. BLEU score for evaluating the similarity between two strings. |
+  </Accordion>
+  <Accordion title="LLM-as-Judge">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | LLM-as-a-Judge Boolean Evaluator | Use an LLM as a judge with a custom prompt to do a true/false boolean evaluation of the message. |
+    | LLM-as-a-Judge Score Evaluator | Use an LLM as a judge with custom prompt to do a numeric score evaluation of the message. |
+    | LLM-as-a-Judge Category Evaluator | Use an LLM as a judge with a custom prompt to classify the message into custom defined categories. |
+    | Rubrics Based Scoring | Rubric-based evaluation metric that is used to evaluate responses. The rubric consists of descriptions for each score, typically ranging from 1 to 5 |
+  </Accordion>
+  <Accordion title="RAG Quality">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | Ragas Faithfulness | This evaluator assesses the extent to which the generated answer is consistent with the provided context. Higher scores indicate better faithfulness to the context, useful for detecting hallucinations. |
+    | Ragas Response Relevancy | Evaluates how pertinent the generated answer is to the given prompt. Higher scores indicate better relevancy. |
+    | Ragas Response Context Recall | Uses an LLM to measure how many of relevant documents attributable the claims in the output were successfully retrieved in order to generate an expected output. |
+    | Ragas Response Context Precision | Uses an LLM to measure the proportion of chunks in the retrieved context that were relevant to generate the output or the expected output. |
+    | Context F1 | Balances between precision and recall for context retrieval, increasing it means a better signal-to-noise ratio. Uses traditional string distance metrics. |
+    | Context Precision | Measures how accurate is the retrieval compared to expected contexts, increasing it means less noise in the retrieval. Uses traditional string distance metrics. |
+    | Context Recall | Measures how many relevant contexts were retrieved compared to expected contexts, increasing it means more signal in the retrieval. Uses traditional string distance metrics. |
+  </Accordion>
+  <Accordion title="Quality Aspects Evaluation">
+    | Evaluator                                | Description                |
+    | -----------------------------------------|----------------------------|
+    | Lingua Language Detection | This evaluator detects the language of the input and output text to check for example if the generated answer is in the same language as the prompt, or if it's in a specific expected language. |
+    | Summarization Score | Measures how well the summary captures important information from the retrieved contexts. |
+    | Valid Format Evaluator | Allows you to check if the output is a valid json, markdown, python, sql, etc. For JSON, can optionally validate against a provided schema. |
+  </Accordion>
   <Accordion title="Safety">
     | Evaluator                                | Description                |
     | -----------------------------------------|----------------------------|
-    | [Azure Jailbreak Detection](/langevals/api-reference/endpoint/azure-jailbreak-detection) | This evaluator checks for jailbreak-attempt in the input using Azure's Content Safety API. |
-    | [Azure Content Safety](/langevals/api-reference/endpoint/content-safety) | This evaluator detects potentially unsafe content in text, including hate speech, self-harm, sexual content, and violence. It allows customization of the severity threshold and the specific categories to check. |
-    | [Google Cloud DLP PII Detection](/langevals/api-reference/endpoint/google-cloud-dlp-pii-detection) | Google DLP PII detects personally identifiable information in text, including phone numbers, email addresses, and social security numbers. It allows customization of the detection threshold and the specific types of PII to check. |
-    | [Llama Guard](/langevals/api-reference/endpoint/llama-guard) | This evaluator is a special version of Llama trained strictly for acting as a guardrail, following customizable guidelines. It can work both as a safety evaluator and as policy enforcement. |
-    | [OpenAI Moderation](/langevals/api-reference/endpoint/openai-moderation) | This evaluator uses OpenAI's moderation API to detect potentially harmful content in text, including harassment, hate speech, self-harm, sexual content, and violence. |
-  </Accordion>
-  <Accordion title="Policy">
-    | Evaluator                                | Description                |
-    | -----------------------------------------|----------------------------|
-    | [Competitor LLM check](/langevals/api-reference/endpoint/competitor-detection-llm) | This evaluator use an LLM-as-judge to check if the conversation is related to competitors, without having to name them explicitly |
-    | [Off Topic Evaluator](/langevals/api-reference/endpoint/off-topic-detection) | This evaluator checks if the user message is concerning one of the allowed topics of the chatbot |
-    | [Competitor Blocklist](/langevals/api-reference/endpoint/competitor-blocklist) | This evaluator checks if any of the specified competitors was mentioned |
-    | Product Sentiment Polarity | For messages about products, this evaluator checks for the nuanced sentiment direction of the LLM output, either very positive, subtly positive, subtly negative, or very negative. |
-  </Accordion>
-  <Accordion title="Quality">
-    | Evaluator                                | Description                |
-    | -----------------------------------------|----------------------------|
-    | [Lingua Language Detection](/langevals/api-reference/endpoint/lingua-language-detection) | This evaluator detects the language of the input and output text to check for example if the generated answer is in the same language as the prompt, or if it's in a specific expected language. |
-    | Query Resolution | This evaluator checks if all the user queries in the conversation were resolved. Useful to detect when the bot doesn't know how to answer or can't help the user.  |
-    | [Ragas Context Recall](/langevals/api-reference/endpoint/ragas-context-recall) | This evaluator measures the extent to which the retrieved context aligns with the annotated answer, treated as the ground truth. Higher values indicate better performance. |
-    | [Ragas Faithfulness](/langevals/api-reference/endpoint/ragas-faithfulness) | This evaluator assesses the extent to which the generated answer is consistent with the provided context. Higher scores indicate better faithfulness to the context. |
-    | [Ragas Context Utilization](/langevals/api-reference/endpoint/ragas-context-utilization) | This metric evaluates whether all of the output relevant items present in the contexts are ranked higher or not. Higher scores indicate better utilization. |
-    | [Ragas Context Relevancy](/langevals/api-reference/endpoint/ragas-context-relevancy) | This metric gauges the relevancy of the retrieved context, calculated based on both the question and contexts. The values fall within the range of (0, 1), with higher values indicating better relevancy. |
-    | [Ragas Context Precision](/langevals/api-reference/endpoint/ragas-context-precision) | This metric evaluates whether all of the ground-truth relevant items present in the contexts are ranked higher or not. Higher scores indicate better precision. |
-    | [Ragas Answer Relevancy](/langevals/api-reference/endpoint/ragas-answer-relevancy) | This evaluator focuses on assessing how pertinent the generated answer is to the given prompt. Higher scores indicate better relevancy. |
-
-  </Accordion>
-  <Accordion title="Custom">
-    | Evaluator                                | Description                |
-    | -----------------------------------------|----------------------------|
-    | [Semantic Similarity Evaluator](/langevals/api-reference/endpoint/llm-similarity-evaluator) | Allows you to check for semantic similarity or dissimilarity between input and output and a target value, so you can avoid sentences that you don't want to be present without having to match on the exact text. |
-    | [Custom Basic Evaluator](/langevals/api-reference/endpoint/llm-basic-evaluator) | Allows you to check for simple text matches or regex evaluation. |
-    | [Custom LLM Boolean Evaluator](/langevals/api-reference/endpoint/llm-boolean-evaluator) | Use an LLM as a judge with a custom prompt to do a true/false boolean evaluation of the message. |
-    | [Custom LLM Score Evaluator](/langevals/api-reference/endpoint/llm-score-evaluator) | Use an LLM as a judge with custom prompt to do a numeric score evaluation of the message. |
+    | PII Detection | Detects personally identifiable information in text, including phone numbers, email addresses, and social security numbers. It allows customization of the detection threshold and the specific types of PII to check. |
+    | Prompt Injection / Jailbreak Detection | Detect prompt injection attempts and jailbreak attempts in the input |
+    | Content Safety | Detect potentially unsafe content in text, including hate speech, self-harm, sexual content, and violence. It allows customization of the severity threshold and the specific categories to check. |
   </Accordion>
 </AccordionGroup>
 
-## Custom Evaluator Integration
+## Running Evaluations
+
+Set up your first evaluation using the [Evaluation Wizard](https://app.langwatch.ai/@project/evaluations):
+
+<a href="https://app.langwatch.ai/@project/evaluations" target="_blank">
+<Frame>
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.53.38.png" alt="" style={{ maxWidth: '400px' }} noZoom />
+</Frame>
+</a>
+
+## Instrumenting Custom Evaluator
 
 If you have a custom evaluator built in-house, you can follow the guide below to integrate.
 
 <CardGroup cols={1}>
   <Card
-    title="Custom Evaluator Integration"
+    title="Instrumenting Custom Evaluator"
     icon="link"
     href="./custom-evaluator-integration"
   />
@@ -2410,7 +2438,7 @@ If you have a custom evaluator built in-house, you can follow the guide below to
 # FILE: ./evaluations/custom-evaluator-integration.mdx
 
 ---
-title: Custom Evaluator Integration
+title: Instrumenting Custom Evaluator
 ---
 
 If you have a custom evaluator built in-house which run on your own code, either during the LLM pipeline or after, you can still capture the evaluation results
@@ -2503,55 +2531,5 @@ The evaluation `name` is required and must be a string. The other fields are opt
 }
 ```
 
-
----
-
-# FILE: ./guardrails/overview.mdx
-
----
-title: Overview
----
-
-Learn how you can protect your LLM application from costly mistakes by setting up guardrails.
-
-<CardGroup cols={1}>
-  <Card
-    title="Setting up Guardrails"
-    icon="link"
-    href="./setting-up-guardrails"
-  />
-</CardGroup>
-
----
-
-# FILE: ./guardrails/setting-up-guardrails.mdx
-
----
-title: Setting Up Guardrails
----
-
-Guardrails are protections you can add around your LLM calls, either before calling the LLM, for example to prevent jailbreaking; after calling an LLM, for example to verify if the generated output does not contain toxic language or leaking PII; or to steer the LLM in a different direction, for example when detecting a user is going off-topic or talking about competition, in which you might want to throw them in a different flow.
-
-Setting up Guardrails is quite easy, first, go to the Evaluation and Guardrails area on your [LangWatch dashboard](https://app.langwatch.ai), press + Add, and look for evaluators with the shield icon, those evaluators are the ones that support acting as Guardrails:
-
-<img src="/images/guardrails.png" alt="Guardrails" />
-
-Then, change the Execution Mode to "As a Guardrail", on the page itself, you will see the instructions on how to integrate the guardrail to your code, after following the instructions, don't forget to click "Save" to create the Guardrail before trying it out.
-
-<img src="/images/enable-guardrails.png" alt="Guardrails" />
-
-Back to the Guardrail setup, you can also try it out on the messages already on LangWatch, to verify if the Guardrail is working well, of it some adjustments are needed, using the Try it out section:
-
-<img src="/images/guardrails-try-it-out.png" alt="Guardrails" />
-
-You are now ready to keep your LLM protected and steer the conversation in the right direction with LangWatch Guardrails! Follow the next guides for examples on how to use Guardrails for handling different situations, and more advanced use cases.
-
-## What's next?
-
-- (In progress) Using guardrails to prevent bad inputs from the LLM
-- (In progress) Using guardrails to prevent bad outputs from the LLM to the user
-- (In progress) Steering the conversation with another LLM call from the guardrail
-- (In progress) Handling multiple guardrail calls in parallel
-- (In progress) Speculative execution of the LLM in parallel to the guardrail call
 
 ---

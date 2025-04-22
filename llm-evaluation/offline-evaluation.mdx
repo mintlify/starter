@@ -19,13 +19,13 @@ We will use the latest as our example, let's evaluate a customer support agent.
 1. First, go to the [evaluations page](https://app.langwatch.ai/@project/evaluations) and click in New Evaluation:
 
 <Frame>
-<img src="/images/offline-evaluations/image_psd_2.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/image_psd_2.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 2. Choose Offline evaluation:
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.26.31_1.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.26.31_1.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 3. Now it's time we choose a sample dataset. You could generate a new one with AI here, but you can also use this one we already provide for the Customer Support Agent example, just click the link to download: [Download Dataset](https://huggingface.co/datasets/MakTek/Customer_support_faqs_dataset/resolve/main/train_expanded.json)
@@ -33,13 +33,13 @@ We will use the latest as our example, let's evaluate a customer support agent.
 4. Now choose Upload CSV and select the dataset file:
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.26.31_2.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.26.31_2.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 5. Save the dataset, and you should see the full 200 examples in there:
 
 <Frame>
-<img src="/images/offline-evaluations/image.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/image.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 6. Now press "Next". This is where we are going to choose our executor, that will run our examples. This could be for example an API that your application have where we can run the examples through, a Python code block, or a simple prompt we can create right now.
@@ -48,7 +48,7 @@ We will use the latest as our example, let's evaluate a customer support agent.
 So let's choose Create a prompt to get started:
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.26.31_3.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.26.31_3.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 7. Then paste our sample Customer Service prompt in there:
@@ -137,31 +137,31 @@ So let's choose Create a prompt to get started:
 8. Also choose the LLM you want to execute this, I'm going to run it with gemini-2.0-flash-lite:
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.52.21.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.52.21.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 9. Next, it's time to chose our evaluator, here is where you have all the options depending on your use case. For our use case, we do have the expected answers before hand, so we can choose "Expected Answer Evaluation":
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.53.38.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.53.38.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 10. Next, select "LLM Answer Match", this evaluator uses an LLM to compare to generated answer (output) with the gold standard one (expected_output) and verify that they are equivalent, that is, that they both reply the question the same way, even if written very differently:
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.54.59.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.54.59.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 11. Press "Next", then finally, it's time for us to run our evaluation, give it a name and press "Run Evaluation":
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_16.26.31_4.png" alt="" style={{ maxWidth: '400px' }} />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_16.26.31_4.png" alt="" style={{ maxWidth: '400px' }} />
 </Frame>
 
 12. You can see the results now, and they are great! 95% pass, just a couple answers wrong that we might want to iron out.
 
 <Frame>
-<img src="/images/offline-evaluations/Screenshot_2025-04-17_at_17.12.05.png" />
+<img src="/images/offline-evaluation/Screenshot_2025-04-17_at_17.12.05.png" />
 </Frame>
 
 At this point you might want to go back to the prompt, make some adjustments, make sure it gets those two failing questions right, then run it again to check it didn't break anything else, and so on.

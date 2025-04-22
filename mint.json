@@ -53,97 +53,52 @@
     {
       "group": "LLM Observability",
       "pages": [
-        "llm-observability/quick-start",
-        "llm-observability/concepts",
+        "integration/overview",
+        "concepts",
         {
           "group": "Language APIs & SDKs",
           "pages": [
             {
               "group": "Python",
               "pages": [
-                "llm-observability/api-sdk/python/getting-started",
-                {
-                  "group": "Integrations",
-                  "pages": [
-                    "llm-observability/api-sdk/python/integrations/open-ai",
-                    "llm-observability/api-sdk/python/integrations/azure",
-                    "llm-observability/api-sdk/python/integrations/lite-llm",
-                    "llm-observability/api-sdk/python/integrations/lang-chain",
-                    "llm-observability/api-sdk/python/integrations/pydantic-ai",
-                    "llm-observability/api-sdk/python/integrations/google-adk",
-                    "llm-observability/api-sdk/python/integrations/aws-bedrock",
-                    "llm-observability/api-sdk/python/integrations/crew-ai",
-                    "llm-observability/api-sdk/python/integrations/haystack",
-                    "llm-observability/api-sdk/python/integrations/other"
-                  ]
-                },
-                {
-                  "group": "Tutorials",
-                  "pages": [
-                    "llm-observability/api-sdk/python/tutorial/capturing-rag",
-                    "llm-observability/api-sdk/python/tutorial/observing-tool-calls",
-                    "llm-observability/api-sdk/python/tutorial/instrumenting-agents",
-                    "llm-observability/api-sdk/python/tutorial/capturing-user-feedback",
-                    "llm-observability/api-sdk/python/tutorial/capturing-user-events",
-                    "llm-observability/api-sdk/python/tutorial/capturing-custom-evaluations"
-                  ]
-                },
-                "llm-observability/api-sdk/python/api-reference"
+                "integration/python/guide",
+                "integration/python/reference"
               ]
             },
             {
-              "group": "JavaScript & TypeScript",
-              "pages": [
-                "llm-observability/api-sdk/js/getting-started",
-                {
-                  "group": "Integrations",
-                  "pages": [
-                    "llm-observability/api-sdk/js/integrations/vercel-ai",
-                    "llm-observability/api-sdk/js/integrations/open-ai",
-                    "llm-observability/api-sdk/js/integrations/lang-chain-js",
-                    "llm-observability/api-sdk/js/integrations/other"
-                  ]
-                },
-                {
-                  "group": "Tutorials",
-                  "pages": [
-                    "llm-observability/api-sdk/js/tutorial/capturing-rag",
-                    "llm-observability/api-sdk/js/tutorial/observing-tool-calls",
-                    "llm-observability/api-sdk/js/tutorial/instrumenting-agents",
-                    "llm-observability/api-sdk/js/tutorial/tracking-user-feedback",
-                    "llm-observability/api-sdk/js/tutorial/capturing-user-events",
-                    "llm-observability/api-sdk/js/tutorial/capturing-custom-evaluations"
-                  ]
-                },
-                "llm-observability/api-sdk/js/api-reference"
-              ]
+              "group": "TypeScript",
+              "pages": ["integration/typescript/guide"]
             },
             {
-              "group": "Platforms",
-              "pages": [
-                "llm-observability/api-sdk/platforms/langflow-integration",
-                "llm-observability/api-sdk/platforms/flowise-integration"
-              ]
+              "group": "OpenTelemetry",
+              "pages": ["integration/opentelemetry/guide"]
             },
+            "integration/rags-context-tracking",
+            "integration/langflow",
+            "integration/flowise",
+            "integration/rest-api"
+          ]
+        },
+        {
+          "group": "User Events",
+          "pages": [
+            "user-events/overview",
             {
-              "group": "Other",
+              "group": "Events",
               "pages": [
-                "llm-observability/api-sdk/other/getting-started",
-                "llm-observability/api-sdk/other/open-telemetry-api",
-                "llm-observability/api-sdk/other/rest-api"
+                "user-events/thumbs-up-down",
+                "user-events/waited-to-finish",
+                "user-events/selected-text",
+                "user-events/custom"
               ]
             }
           ]
         },
         {
-          "group": "Monitoring & Alerting",
-          "pages": [
-            "llm-observability/monitoring-and-alerting/overview",
-            "llm-observability/monitoring-and-alerting/inspecting-traces",
-            "llm-observability/monitoring-and-alerting/alerts",
-            "llm-observability/monitoring-and-alerting/viewing-analytics"
-          ]
-        }
+          "group": "Monitoring & Alerts",
+          "pages": ["features/triggers", "features/embedded-analytics"]
+        },
+        "integration/code-examples"
       ]
     },
     {
@@ -153,11 +108,13 @@
           "group": "Evaluation",
           "pages": [
             "llm-evaluation/offline-evaluation",
+            "llm-evaluation/real-time-evaluation",
             "evaluations/overview",
             "evaluations/custom-evaluator-integration"
           ]
         },
-        "features/datasets"
+        "features/datasets",
+        "features/annotations"
       ]
     },
     {
@@ -172,67 +129,16 @@
             "optimization-studio/evaluating",
             "optimization-studio/optimizing"
           ]
-        }
-      ]
-    },
-    {
-      "group": "Monitoring Integration",
-      "pages": [
-        "integration/overview",
-        {
-          "group": "Python",
-          "pages": ["integration/python/guide", "integration/python/reference"]
         },
         {
-          "group": "TypeScript",
-          "pages": ["integration/typescript/guide"]
-        },
-        {
-          "group": "OpenTelemetry",
-          "pages": ["integration/opentelemetry/guide"]
-        },
-        "integration/langflow",
-        "integration/flowise",
-        "integration/rest-api",
-        "integration/rags-context-tracking",
-        "concepts",
-        "integration/cookbooks",
-        "integration/mcp"
-      ]
-    },
-    {
-      "group": "Guardrails",
-      "pages": ["guardrails/overview", "guardrails/setting-up-guardrails"]
-    },
-    {
-      "group": "User Events",
-      "pages": [
-        "user-events/overview",
-        {
-          "group": "Events",
+          "group": "DSPy Visualization",
           "pages": [
-            "user-events/thumbs-up-down",
-            "user-events/waited-to-finish",
-            "user-events/selected-text",
-            "user-events/custom"
+            "dspy-visualization/quickstart",
+            "dspy-visualization/custom-optimizer",
+            "dspy-visualization/rag-visualization"
           ]
-        }
-      ]
-    },
-    {
-      "group": "DSPy Visualization",
-      "pages": [
-        "dspy-visualization/quickstart",
-        "dspy-visualization/custom-optimizer",
-        "dspy-visualization/rag-visualization"
-      ]
-    },
-    {
-      "group": "More Features",
-      "pages": [
-        "features/triggers",
-        "features/annotations",
-        "features/embedded-analytics"
+        },
+        "integration/mcp"
       ]
     },
     {
