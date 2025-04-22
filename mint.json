@@ -184,6 +184,20 @@
     "linkedin": "https://www.linkedin.com/company/langwatch/",
     "youtube": "https://www.youtube.com/@LangWatch"
   },
+  "redirects": [
+    {
+      "source": "/langevals/:path*",
+      "destination": "https://github.com/langwatch/langevals"
+    },
+    {
+      "source": "/integration/cookbooks",
+      "destination": "/integration/code-examples"
+    },
+    {
+      "source": "/guardrails/:path*",
+      "destination": "/llm-evaluation/real-time-evaluation"
+    }
+  ],
   "modeToggle": {
     "default": "light"
   }
