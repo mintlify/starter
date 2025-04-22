@@ -33,12 +33,6 @@
     "type": "github",
     "url": "https://github.com/langwatch/langwatch"
   },
-  "tabs": [
-    {
-      "name": "LangEvals",
-      "url": "langevals"
-    }
-  ],
   "anchors": [
     {
       "name": "Open Dashboard",
@@ -57,7 +51,7 @@
       "pages": ["introduction", "self-hosting"]
     },
     {
-      "group": "🔎 Observe",
+      "group": "LLM Observability",
       "pages": [
         "llm-observability/quick-start",
         "llm-observability/concepts",
@@ -153,13 +147,32 @@
       ]
     },
     {
-      "group": "Optimization Studio",
+      "group": "LLM Evaluation",
       "pages": [
-        "optimization-studio/overview",
-        "optimization-studio/llm-nodes",
-        "optimization-studio/datasets",
-        "optimization-studio/evaluating",
-        "optimization-studio/optimizing"
+        {
+          "group": "Evaluation",
+          "pages": [
+            "llm-evaluation/offline-evaluation",
+            "evaluations/overview",
+            "evaluations/custom-evaluator-integration"
+          ]
+        },
+        "features/datasets"
+      ]
+    },
+    {
+      "group": "LLM Development",
+      "pages": [
+        {
+          "group": "Prompt Optimization Studio",
+          "pages": [
+            "optimization-studio/overview",
+            "optimization-studio/llm-nodes",
+            "optimization-studio/datasets",
+            "optimization-studio/evaluating",
+            "optimization-studio/optimizing"
+          ]
+        }
       ]
     },
     {
@@ -185,13 +198,6 @@
         "concepts",
         "integration/cookbooks",
         "integration/mcp"
-      ]
-    },
-    {
-      "group": "Evaluations",
-      "pages": [
-        "evaluations/overview",
-        "evaluations/custom-evaluator-integration"
       ]
     },
     {
@@ -226,7 +232,6 @@
       "pages": [
         "features/triggers",
         "features/annotations",
-        "features/datasets",
         "features/embedded-analytics"
       ]
     },
@@ -257,58 +262,8 @@
         },
         {
           "group": "Datasets",
-          "pages": [
-            "api-reference/datasets/post-dataset-entries"
-          ]
+          "pages": ["api-reference/datasets/post-dataset-entries"]
         }
-      ]
-    },
-    {
-      "group": "Documentation",
-      "pages": [
-        "langevals/documentation/introduction",
-        "langevals/documentation/evaluators",
-        "langevals/documentation/unit-tests",
-        "langevals/documentation/API-example",
-        "langevals/how-to-choose-your-evaluator",
-        {
-          "group": "Modular Architecture",
-          "pages": ["langevals/documentation/modular-architecture/contributing"]
-        }
-      ]
-    },
-    {
-      "group": "Tutorials",
-      "pages": [
-        "langevals/tutorials/extensive-unit-testing",
-        "langevals/tutorials/rag-evaluation",
-        "langevals/tutorials/ci-cd-pipeline-evaluation"
-      ]
-    },
-    {
-      "group": "API Endpoints",
-      "pages": [
-        "langevals/api-reference/endpoint/lingua-language-detection",
-        "langevals/api-reference/endpoint/openai-moderation",
-        "langevals/api-reference/endpoint/google-cloud-dlp-pii-detection",
-        "langevals/api-reference/endpoint/content-safety",
-        "langevals/api-reference/endpoint/azure-jailbreak-detection",
-        "langevals/api-reference/endpoint/azure-prompt-injection-detection",
-        "langevals/api-reference/endpoint/competitor-detection-llm",
-        "langevals/api-reference/endpoint/competitor-blocklist",
-        "langevals/api-reference/endpoint/off-topic-detection",
-        "langevals/api-reference/endpoint/ragas-answer-relevancy",
-        "langevals/api-reference/endpoint/ragas-context-precision",
-        "langevals/api-reference/endpoint/ragas-context-recall",
-        "langevals/api-reference/endpoint/ragas-context-relevancy",
-        "langevals/api-reference/endpoint/ragas-context-utilization",
-        "langevals/api-reference/endpoint/ragas-faithfulness",
-        "langevals/api-reference/endpoint/haystack-faithfulness",
-        "langevals/api-reference/endpoint/llm-boolean-evaluator",
-        "langevals/api-reference/endpoint/llm-score-evaluator",
-        "langevals/api-reference/endpoint/llm-basic-evaluator",
-        "langevals/api-reference/endpoint/llm-similarity-evaluator",
-        "langevals/api-reference/endpoint/llama-guard"
       ]
     },
     {
