@@ -1,21 +1,21 @@
 ---
 title: "SDKs"
-description: "Learn how to interact with the TRUF.network using SDKs."
+description: "Learn how to interact with the TRUF.NETWORK using SDKs."
 ---
 
-The TRUF.network offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
+The TRUF.NETWORK offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
 
 ---
 
 ### What is a `streamID`?
 
-A `streamID` is an identifier used in the TRUF.network (TN) to identify the deployed contract. It is a unique string generated from a descriptive name, such as an English name, to ensure easy reference and management of data streams.
+A `streamID` is an identifier used in the TRUF.NETWORK (TN) to identify the deployed contract. It is a unique string generated from a descriptive name, such as an English name, to ensure easy reference and management of data streams.
 
 ---
 
 ### Go SDK
 
-The Go SDK provides tools to publish, compose, and consume economic data streams within the TRUF.network. It supports operations on primitive streams and composed streams.
+The Go SDK provides tools to publish, compose, and consume economic data streams within the TRUF.NETWORK. It supports operations on primitive streams and composed streams.
 
 _Installation:_
 
@@ -99,18 +99,16 @@ _Example Usage:_
 import { NodeTNClient, StreamId } from "@trufnetwork/sdk-js";
 
 // Create a wallet
-const wallet = new Wallet(
-    "<your-private-key-hex>"
-);
+const wallet = new Wallet("<your-private-key-hex>");
 
 // Initialize client
 const client = new NodeTNClient({
 	endpoint: "https://staging.tsn.truflation.com",
-    signerInfo: {
-        address: wallet.address,
-        signer: wallet
-    },
-    chainId: "truflation-staging-2024-11-22" // or use NodeTNClient.getDefaultChainId()
+	signerInfo: {
+		address: wallet.address,
+		signer: wallet,
+	},
+	chainId: "truflation-staging-2024-11-22", // or use NodeTNClient.getDefaultChainId()
 });
 
 // Load an existing stream
@@ -120,7 +118,7 @@ const stream = client.loadPrimitiveStream(streamId);
 // Read data from the stream
 const records = await stream.getRecord({
 	dateFrom: "2023-01-01",
-	dateTo: "2023-01-31"
+	dateTo: "2023-01-31",
 });
 
 records.forEach((record) => {
@@ -138,13 +136,13 @@ In the contract version 2, we have added support for timestamps. Replacing the `
 
 ```typescript
 interface GetRecordInput {
-    dateFrom: number;
-    dateTo: number;
+	dateFrom: number;
+	dateTo: number;
 }
 
 interface Record {
-    dateValue: number;
-    value: string;
+	dateValue: number;
+	value: string;
 }
 
 // Read data from the stream with timestamps
