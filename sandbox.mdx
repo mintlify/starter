@@ -129,10 +129,14 @@ curl --request POST \
 }
 ```
 
+As with production accounts, when connecting we will retrieve payroll immediately. For sandbox, the number of payroll submissions generated
+matches the `payroll_period_months` configuration. If this is set on both the client and user configuration, the user level config takes 
+precedence. For example, if it is set to 7 months, we'll return 8 payroll submissions (including the current month). If it is not set we'll
+take a default of 36 months. To simulate a gap in the payroll, the `Shape` provider will leave a 3 month gap from the time of the request. 
 
 ## 5. Retrieve submitted Payroll information `/entries/connections`
 
-Retrieve payroll for a connected account.
+Retrieve latest payroll for a connected account. For sandbox, we'll always return new payroll where the `pay_date` is set to the current day. For `Shape` provider we will still maintain a 3 month gap.
 
 ```bash
 curl --location --request POST 'https://api.sandbox.goteal.co/entries/connections' \

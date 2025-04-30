@@ -158,6 +158,11 @@ When submitting dates to the API, you can include offsets, and these will be res
 When integrating with payroll providers that supply dates without time components (e.g., `2024-02-17`), we standardize these to noon UTC (`2024-02-17T12:00:00Z`) to avoid any ambiguity with date boundaries across time zones.
 This should be taken into consideration when submitting your own dates for filtering payroll (such as in `POST /accounts`).
 
+### Client callback
+
+You can configure a client callback that will be redirected to after the end user has completed their journey. This allows the user to finish their flow on your chosen domain. For successful account connections we will redirect with the 
+`account_id`, `user_id` and `provider` in the query parameters. For payslip uploads we will redirect with the `user_id` and a `message` parameter. On failure we'll attach an `error` parameter alongside the `user_id`.
+
 ### Security and Compliance
 
 Our infrastructure employs advanced security measures, including data encryption, regular security audits, and compliance with global data protection standards (e.g., GDPR, CCPA), to safeguard user data against unauthorized access or breaches.
