@@ -1,0 +1,142 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Starter Kit",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#07C983",
+    "dark": "#0D9373"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "data",
+              "sandbox",
+              "recurring-checks"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/quickstart",
+              "api-reference/webhooks"
+            ]
+          },
+          {
+            "group": "Users",
+            "pages": [
+              "api-reference/users/create",
+              "api-reference/users/get",
+              "api-reference/users/update",
+              "api-reference/users/list",
+              "api-reference/users/list-recurring",
+              "api-reference/users/delete"
+            ]
+          },
+          {
+            "group": "User Token",
+            "pages": [
+              "api-reference/users/tokens"
+            ]
+          },
+          {
+            "group": "Accounts",
+            "pages": [
+              "api-reference/accounts/create",
+              "api-reference/accounts/list",
+              "api-reference/accounts/list-recurring",
+              "api-reference/accounts/get",
+              "api-reference/accounts/delete"
+            ]
+          },
+          {
+            "group": "Entries",
+            "pages": [
+              "api-reference/entries/connections-create",
+              "api-reference/entries/payslips-create",
+              "api-reference/entries/list",
+              "api-reference/entries/delete"
+            ]
+          },
+          {
+            "group": "Payroll",
+            "pages": [
+              "api-reference/payroll/get"
+            ]
+          },
+          {
+            "group": "Documents",
+            "pages": [
+              "api-reference/documents/get",
+              "api-reference/documents/list",
+              "api-reference/documents/delete"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "api-reference/webhooks/create",
+              "api-reference/webhooks/get",
+              "api-reference/webhooks/list",
+              "api-reference/webhooks/delete"
+            ]
+          },
+          {
+            "group": "Members",
+            "pages": [
+              "api-reference/members/create",
+              "api-reference/members/get",
+              "api-reference/members/list",
+              "api-reference/members/delete",
+              "api-reference/members/signin"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Website",
+          "href": "https://goteal.co",
+          "icon": "book-open-cover"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "api": {
+    "openapi": [
+      "openapi.yml"
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hello@goteal.co"
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://goteal.co",
+      "linkedin": "https://www.linkedin.com/company/goteal"
+    }
+  }
+}
