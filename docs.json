@@ -120,11 +120,6 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
-  "api": {
-    "openapi": [
-      "openapi.yml"
-    ]
-  },
   "navbar": {
     "links": [
       {
