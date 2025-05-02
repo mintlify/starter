@@ -1,9 +1,9 @@
 ---
 title: "Node Operator Guide"
-description: "Comprehensive guide to setting up and running a Truflation Stream Network (TSN) node."
+description: "Comprehensive guide to setting up and running a TRUF.NETWORK (TN) node."
 ---
 
-This guide will walk you through the process of setting up and running a Truflation Stream Network (TSN) node. By following these steps, you'll be able to deploy a node, optionally become a validator, and contribute to the TSN.
+This guide will walk you through the process of setting up and running a TRUF.NETWORK (TN) node. By following these steps, you'll be able to deploy a node, optionally become a validator, and contribute to the TN.
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ Before you begin, ensure you have the following:
 
 - Install from [Docker's official website](https://docs.docker.com/get-docker/)
 
-3. **TSN Binaries**: Necessary for node deployment.
+3. **TN Binaries**: Necessary for node deployment.
 
 - Download from the [latest GitHub release](https://github.com/trufnetwork/truf-node/releases)
 
@@ -47,7 +47,7 @@ docker run -d -p 5432:5432 --name tsn-postgres \
 
 If you prefer a custom PostgreSQL setup, ensure it meets the requirements specified in the [configuration guide](https://docs.kwil.com/docs/daemon/running-postgres).
 
-### 3. Deploy TSN Node
+### 3. Deploy TN Node
 
 #### 3.1. Install PSQL
 
@@ -57,9 +57,9 @@ To be able to Snapshot from the network, you need to have `psql` installed on yo
 sudo apt -y install postgresql
 ```
 
-#### 3.2. Run TSN Binaries
+#### 3.2. Run TN Binaries
 
-Run the TSN binaries to deploy your node:
+Run the TN binaries to deploy your node:
 
 ```bash
 kwild --root-dir ./my-peer-config/ --chain.statesync.enable=true --chain.statesync.rpc-servers='http://18.189.163.27:26657'
@@ -92,7 +92,7 @@ You can always ping us for help in the validator process.
 
 To help others discover your node:
 
-1. Fork the TSN repository.
+1. Fork the TN repository.
 2. Add your node information to the `configs/network/available_nodes.json` file.
 3. Submit a Pull Request with your changes.
 

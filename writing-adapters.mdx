@@ -41,22 +41,22 @@ This command initializes the necessary services in the background.
 
 ## Understanding Reusable Tasks
 
-The repository offers several reusable tasks to facilitate data ingestion into TSN:
+The repository offers several reusable tasks to facilitate data ingestion into TN:
 
 - **Reading Data**:
 - `task_read_repo_csv_file`: Reads a CSV file from a GitHub repository.
 - `task_read_gsheet`: Retrieves data from a Google Sheet.
 
-- **TSN Operations**:
-- `task_insert_tsn_records`: Inserts records into TSN.
-- `task_get_all_tsn_records`: Fetches all records from TSN.
+- **TN Operations**:
+- `task_insert_tsn_records`: Inserts records into TN.
+- `task_get_all_tsn_records`: Fetches all records from TN.
 - `task_deploy_primitive_if_needed`: Deploys a primitive if it doesn't already exist.
 
 - **Data Manipulation**:
 - `task_reconcile_data`: Reconciles data between sources.
 - `task_normalize_source`: Standardizes source data.
 - `task_filter_by_source_id`: Filters data based on a source ID.
-- `task_prepare_records_for_tsn`: Prepares records for insertion into TSN.
+- `task_prepare_records_for_tsn`: Prepares records for insertion into TN.
 
 ## Developing a Custom Adapter (Python Example)
 
@@ -75,7 +75,7 @@ from tsn_adapters.tasks.tsn import task_insert_tsn_records
 def custom_adapter_flow():
     # Read data from the source
     data = task_read_repo_csv_file('repo_name', 'path/to/file.csv')
-    # Insert data into TSN
+    # Insert data into TN
     task_insert_tsn_records('stream_id', data)
 ```
 

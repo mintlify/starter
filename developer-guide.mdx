@@ -21,7 +21,7 @@ You can build and run the TRUF-Node using Docker Compose or manually.
 
 _Using Docker Compose (Recommended)_
 
-1. Clone the TSN repository:
+1. Clone the TN repository:
 
 ```bash
 git clone https://github.com/trufnetwork/truf-node.git
@@ -92,7 +92,7 @@ cd deployments/dev-gateway
 
 **Running the Indexer**
 
-The indexer collects and processes data from the TSN-DB. To start the indexer:
+The indexer collects and processes data from the TN-DB. To start the indexer:
 
 ```bash
 task indexer
@@ -102,7 +102,7 @@ Access the metrics dashboard at `http://localhost:1337/v0/swagger`.
 
 **Fetching the Genesis File**
 
-The genesis file contains the initial configuration for the TSN network. To fetch the latest genesis file:
+The genesis file contains the initial configuration for the TN network. To fetch the latest genesis file:
 
 1. Ensure you have read access to the repository.
 2. Create a `.env` file in the root directory, similar to `.env.example`, and include your GitHub token.
@@ -114,7 +114,7 @@ task get-genesis
 
 **System Contract**
 
-The system contract stores accepted streams by TSN governance and serves as an entry point for queries.
+The system contract stores accepted streams by TN governance and serves as an entry point for queries.
 
 _Fetching Records via System Contract_
 
@@ -133,7 +133,7 @@ When running the development setup using `task compose-dev`, the following monit
 - **Prometheus**: Accessible at `http://localhost:9090`
 - **Grafana**: Accessible at `http://localhost:3000` (default credentials: `admin/admin`)
 
-These tools provide insights into the performance and behavior of the TSN-DB system.
+These tools provide insights into the performance and behavior of the TN-DB system.
 
 For more details on metrics configuration, refer to the files in the `deployments/dev-gateway` directory.
 

@@ -44,7 +44,7 @@ import (
 func main() {
     ctx := context.Background()
 
-    // Create TSN client
+    // Create TN client
     pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
     signer := &auth.EthPersonalSigner{Key: *pk}
     tsnClient, err := tsnclient.NewClient(ctx, "https://staging.tsn.truflation.com", tsnclient.WithSigner(signer))
@@ -159,6 +159,6 @@ For example, to deploy a new stream with timestamps, you can use the `deployPrim
 ### Additional Resources
 
 - [Truflation Whitepaper](https://whitepaper.truflation.com/)
-- [TSN-SDK Documentation](https://github.com/trufnetwork/sdk-go)
+- [TN-SDK Documentation](https://github.com/trufnetwork/sdk-go)
 
 For support or questions, please open an issue in the respective SDK repository or contact our support team.
