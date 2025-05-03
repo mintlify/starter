@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "ReplyiAI Docs",
+  "name": "Ordibl Docs",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
@@ -16,9 +16,18 @@
     }
   },
   "topbarLinks": [
+   
+    {
+      "name": "Sign Up",
+      "url": "https://app.ordibl.ai/signup"
+    },
+    {
+      "name": "Login",
+      "url": "https://app.ordibl.ai/signin"
+    },
     {
       "name": "Support",
-      "url": "support@replyi.ai"
+      "url": "http://www.ordibl.ai/ContactPage"
     }
   ],
   "tabs": [
@@ -30,58 +39,31 @@
   "anchors": [
     {
       "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "#"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "#"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
+      "icon": "book-open",
       "url": "#"
     }
   ],
   "navigation": [
+
     {
-      "group": "Get Started",
+      "group": "How-to Guides",
       "pages": [
         "introduction",
         "quickstart",
-        "development"
-      ]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
-      ]
-    },
-    {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "guides/knowledge-base",
+        "guides/AI-agent",
+        "guides/phone-number",
+        "guides/batch-call",
+        "guides/call-log",
+        "guides/task-actions",
+        "guides/integration",
+        "guides/settings"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/replyiai",
+    "x": "https://x.com/ordiblai",
     "github": "https://github.com/ReplyiAI",
-    "linkedin": "https://www.linkedin.com/company/replyiai"
+    "linkedin": "https://www.linkedin.com/company/ordibl"
   }
 }
