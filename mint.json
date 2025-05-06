@@ -34,6 +34,10 @@
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Changelog",
+      "url": "changelog"
     }
   ],
   "anchors": [
@@ -50,6 +54,7 @@
       "pages": [
         "introduction",
         "quickstart",
+        "guides/dashboard",
         "guides/knowledge-base",
         "guides/AI-agent",
         "guides/phone-number",
