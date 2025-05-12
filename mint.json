@@ -5,7 +5,7 @@
     "dark": "/logo.svg",
     "light": "/logo.svg"
   },
-  "openapi": "https://app.premai.io/api/schema/",
+  "openapi": "https://sid.premai.io/api/openapi.json",
   "metadata": {
     "og:image": "https://static.premai.io/prem-saas-docs/metadata.jpg"
   },
@@ -27,7 +27,7 @@
   ],
   "topbarCtaButton": {
     "name": "Use Prem",
-    "url": "https://app.premai.io"
+    "url": "https://sid.premai.io"
   },
   "tabs": [
     {
@@ -43,17 +43,12 @@
     {
       "name": "Community",
       "icon": "discord",
-      "url": "https://discord.gg/D4K6VQxAgA"
+      "url": "https://discord.gg/zCBckVUBD7"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
       "url": "https://blog.premai.io"
-    },
-    {
-      "name": "Models' Status",
-      "icon": "signal",
-      "url": "https://app.premai.io/providers/"
     }
   ],
   "feedback": {
