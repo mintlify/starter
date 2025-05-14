@@ -3,166 +3,156 @@ title: Quickstart Guide
 
 icon: terminal
 
-description: Let's create a Generative AI application in minutes.
+description: Let's get you started with Prem in minutes.
 ---
+<Note>
+This is a quickstart guide for using the **Chat Completions** funcationality. If you want to learn about [Datasets](/datasets/overview), [Autonomous Fine-Tuning](/finetuning/overview), [Evaluations](/evaluations/overview), [Stats](/stats/overview) and [Playground](/playground/overview), please refer to those guides.
+</Note>
 
-<img src="/images/cover.png" alt="Prem" />
 
+The quickest way to get started with Prem is to use the OpenAI SDKs for chat completions as shown below.
 
-## Start here{" "}
-  <Steps titleSize="h3">
-    <Step title="Activate your Prem account.">
+<Note>
+The Prem AI API can also be used with any programming language that has a HTTP client and/or with the OpenAI SDKs. 
 
-[Click here to sign up](https://app.premai.io/accounts/signup/)
+For API usage documentation, refer to the [API Reference](/api-reference/introduction).
+</Note>
 
-</Step>
-<Step title="Sign in and generate an API key.">
-
-![Alt Text](https://static.premai.io/prem-saas-docs/quickstart-guide/api-key-1.gif)
-
-</Step>
-
-<Step title="Create a new project.">
-![GIF of how to create a new project with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/create-project.gif)
-<Tip>Make sure to take note of your Project ID. You'll need it to use the SDK. You can find your **Project ID** on the Project page under each project's title or on the Set Up page.</Tip>
- <img
-  src="https://static.premai.io/prem-saas-docs/quickstart-guide/projectsID.png"
-  alt="Playground"
-/>
-</Step>
-
-<Step title="Head over to the Lab and experiment with various AI models simultaneously.">
-
-![Usage of the Prem Lab](https://static.premai.io/prem-saas-docs/quickstart-guide/premlab-example.gif)
-
-</Step>
-
-<Step title="After you've experimented with different models in the Lab, go to the Launchpad and choose the most suitable model for your use case.">
-
-<Tip>The launchpad has more configurations to customize your model with. We'll cover these configurations in the [launchpad](/get-started/launchpad), [actions](/get-started/actions) and [repositories](/get-started/repositories) guides.</Tip>
-![Launch you Generative AI App with Prem](https://static.premai.io/prem-saas-docs/quickstart-guide/launchpad-overview.gif)
-
-</Step>
-
-<Step title="Now it's time to integrate Prem into your application.">
-Once you've launched your model using the launchpad, you can integrate it into your application using our [SDKs](/get-started/sdk).
-
-## Choose an SDK and install
-<Tip>
-  Prem also exposes a simple [REST API](/api-reference/introduction) for interacting with the platform. 
-</Tip>
-
+### Install the OpenAI SDKs
 <CodeGroup>
-```bash Python
-pip install premai
+```bash javascript/typescript
+npm install openai;
 ```
-
-```bash JavaScript
-npm install @premai/prem-sdk
+```bash python
+pip install openai;
 ```
-
 </CodeGroup>
 
-## Run your first project.
-
+### Perfrom A Chat Completion
 <CodeGroup>
+```javascript javascript/typescript
+import OpenAI from "openai";
 
-```python Python
-from premai import Prem
-
-client = Prem(api_key=YOUR_API_KEY)
-
-project_id = PROJECT_ID
-
-system_prompt = "You're a helpful assistant"
-
-messages = [
-    {"role": "user", "content": "Who won the world series in 2020?"},
-]
-
-response = client.chat.completions.create(
-    project_id=project_id,
-    system_prompt=system_prompt,
-    messages=messages,
-)
-
-print(response.choices)
-
-```
-
-```javaScript JavaScript
-import Prem from "@premai/prem-sdk";
-
-const client = new Prem({
-  apiKey: API_KEY,
+const client = new OpenAI({
+    baseURL: "https://sid.premai.io/api/v1/",
+    apiKey: process.env.PREMAI_API_KEY,
 });
 
-const project_id = PROJECT_ID;
+//Create a chat completion
+const response = await client.chat.completions.create({
+    model: "gpt-4o", //Or any other model you want to use
+    messages: [{ role: "user", content: "Write a one-sentence bedtime story about a unicorn." }]
+});
 
-const system_prompt = "You're a helpful assistant";
-const messages = [
-  { role: "user", content: "Who won the World Series in 2020?" },
-];
-
-async function chatCompletion() {
-  const responseSync = await client.chat.completions.create({
-    project_id,
-    system_prompt,
-    messages,
-  });
-
-  console.log(responseSync);
-}
+console.log(response.choices[0].message.content);
 ```
+```python python
+import os
+from openai import OpenAI
 
+client = OpenAI(
+    base_url="https://sid.premai.io/api/v1/",
+    api_key=os.environ.get("PREMAI_API_KEY"),
+)
+
+# Create a chat completion
+response = client.chat.completions.create(
+    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
+    model="gpt-4o", # Or any other model you want to use
+)
+
+print(response.choices[0].message.content)
+```
 </CodeGroup>
 
-</Step>
+### Chat Completion With Streaming
+<CodeGroup>
+```javascript javascript/typescript
+import OpenAI from "openai";
 
-</Steps>
+const client = new OpenAI({
+    baseURL: "https://sid.premai.io/api/v1/",
+    apiKey: process.env.PREMAI_API_KEY,
+});
 
+//Create a chat completion
+const response = await client.chat.completions.create({
+    model: "gpt-4o", //Or any other model you want to use
+    messages: [{ role: "user", content: "Write a one-sentence bedtime story about a unicorn." }],
+    stream: true,
+});
 
+for await (const chunk of response) {
+    if (chunk.choices[0].delta.content) {
+        process.stdout.write(chunk.choices[0].delta.content);
+        
+    }
+}
+```
+```python python
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://sid.premai.io/api/v1/",
+    api_key=os.environ.get("PREMAI_API_KEY"),
+)
+
+# Create completion
+response = client.chat.completions.create(
+    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
+    model="gpt-4o", # Or any other model you want to use
+    stream=True,
+)
+
+for chunk in response:
+    if chunk.choices[0].delta.content is not None:
+        print(chunk.choices[0].delta.content, end='', flush=True)
+```
+</CodeGroup>
+
+<Note>
+The model name can be replaced with the name of your fine-tuned models as well.
+</Note>
 
 ## Next steps
 
-- Learn to [Autonomously fine-tune](/get-started/autonomous-fine-tuning) your AI models.
-- Continue to test AI Models in the [Lab](/get-started/lab).
-- Customize an AI model with knowledge from your documents using [repositories](/get-started/repositories).
-- Check out the [SDK](/get-started/sdk) and [API Reference](/api-reference/introduction).
-- Integrate your custom models into your codebase
+- Add your own [Dataset](/datasets/overview) as a first step to create your own custom models.
+- Next, [Autonomously Fine-Tune](/finetuning/overview) your models using a dataset.
+- Then, use [Evaluations](/evaluations/overview) to track your models performance.
+- Afterwards, keep up with your model's performance with [Stats](/stats/overview).
+- Finally, test models your fine-tuned models and pre-trained models in the [Playground](/playground/overview).
+- Bring your models to production or repeat any steps you need to improve your models or make new ones.
 
 ## Read the guides
 
 <CardGroup cols={3}>
-<Card title="Autonomous Fine-Tuning" icon="robot" href="/get-started/autonomous-fine-tuning">
-  Learn how you can use Prem to autonomously fine-tune your models.
+<Card title="Datasets" icon="database" href="/datasets/overview">
+  Import your own dataset.
 </Card>
 
 
-<Card title="Launchpad" icon="rocket" href="/get-started/launchpad">
-    Launch your preferred model.
+<Card title="Autonomous Fine-Tuning" icon="robot" href="/finetuning/overview">
+    Fine-Tune your models.
 </Card>
 
 {" "}
 
-<Card title="SDKs" icon="flask" href="/get-started/sdk">
-    Seamlessly integrate Prem into your application.
+<Card title="Evaluations" icon="flask" href="/evaluations/overview">
+    Evaluate your models.
 </Card>
+
 </CardGroup>
 
 <CardGroup cols={3}>
-  <Card title="Lab" icon="flask" href="/get-started/lab">
-    Experiment with different models in the Lab.
+  <Card title="Playground" icon="play" href="/playground/overview">
+    Experiment with AI models.
   </Card>
-  <Card title="Traces" icon="chart-line" href="/get-started/monitoring">
+  <Card title="Stats" icon="chart-line" href="/stats/overview">
     Monitor your AI integration.
   </Card>
-  <Card
-    title="Repositories"
-    icon="folder-open"
-    href="/get-started/repositories"
-  >
-    Upload documents to your repositories.
+  <Card title="API" icon="code" href="/api-reference/introduction">
+    Use the Prem API.
   </Card>
 </CardGroup>
 

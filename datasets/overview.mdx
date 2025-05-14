@@ -1,0 +1,44 @@
+---
+title: Datasets Overview
+description: Learn how to create and use datasets to fine-tune your models.
+---
+
+## What are datasets?
+
+A Dataset is a collection of datapoints that we will use to train a model how to respond to specifric types of inputs.
+
+Understanding JSONL Datasets for Fine-Tuning
+
+A dataset for fine-tuning is a collection of examples in JSONL format (JSON Lines), where each line represents a single conversation example.
+
+Dataset Structure
+
+Each line in your JSONL file contains a JSON object with a single field called "messages". This field holds an array of 3 message objects, each with:
+
+
+    - A `"role"` field (identifying who is speaking)
+
+    - A `"content"` field (containing the actual text)
+
+
+The Three Roles
+
+
+    - `"system"`: Provides context and instructions that guide the model's behavior
+
+    - `"user"`: Represents what a human user would say or ask
+
+    - `"assistant"`: Contains the ideal response you want the model to learn to generate
+
+
+Example Format
+
+```jsonl
+{"messages": [{"role": "system", "content": "You are a helpful recipe assistant. You are to extract the generic ingredients from each of the recipes provided."}, {"role": "user", "content": "Title: No-Bake Nut Cookies\n\nIngredients: [\"1 c. firmly packed brown sugar\", \"1/2 c. evaporated milk\", \"1/2 tsp. vanilla\", \"1/2 c. broken nuts (pecans)\", \"2 Tbsp. butter or margarine\", \"3 1/2 c. bite size shredded rice biscuits\"]\n\nGeneric ingredients: "}, {"role": "assistant", "content": "[\"brown sugar\", \"milk\", \"vanilla\", \"nuts\", \"butter\", \"bite size shredded rice biscuits\"]"}]}
+{"messages": [{"role": "system", "content": "You are a helpful recipe assistant. You are to extract the generic ingredients from each of the recipes provided."}, {"role": "user", "content": "Title: Jewell Ball'S Chicken\n\nIngredients: [\"1 small jar chipped beef, cut up\", \"4 boned chicken breasts\", \"1 can cream of mushroom soup\", \"1 carton sour cream\"]\n\nGeneric ingredients: "}, {"role": "assistant", "content": "[\"beef\", \"chicken breasts\", \"cream of mushroom soup\", \"sour cream\"]"}]}
+{"messages": [{"role": "system", "content": "You are a helpful recipe assistant. You are to extract the generic ingredients from each of the recipes provided."}, {"role": "user", "content": "Title: Creamy Corn\n\nIngredients: [\"2 (16 oz.) pkg. frozen corn\", \"1 (8 oz.) pkg. cream cheese, cubed\", \"1/3 c. butter, cubed\", \"1/2 tsp. garlic powder\", \"1/2 tsp. salt\", \"1/4 tsp. pepper\"]\n\nGeneric ingredients: "}, {"role": "assistant", "content": "[\"frozen corn\", \"cream cheese\", \"butter\", \"garlic powder\", \"salt\", \"pepper\"]"}]}
+```
+
+This format teaches the model that when given the system instruction to act as a customer service agent and asked about returns, it should respond with the specific return process information.
+
+Download this test dataset [here](https://github.com/prem-ai/datasets/blob/main/test_dataset.jsonl) to give it a try.

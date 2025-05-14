@@ -1,9 +1,19 @@
 ---
-title: 'Introduction'
+title: 'Getting Started With The Prem API'
 description: "Learn how to interact with Prem's API endpoints."
 ---
+This is the API reference for **Prem AI**. 
 
-<CardGroup cols={3}>
+It contains the documentation for all of the endpoints that are available in the Prem API. You can use the sidebar to navigate to the different sections.
+
+**Prem** provides a REST API that you can use to interact with the platform with any programming language that can make HTTP requests. 
+
+### This API Allows You To Perform The Following Actions:
+- [Chat Completions](/api-reference/chat-completions) (Chat with a model of your choice- fine-tuned or pre-trained).
+- [Models](/api-reference/models) (See what models are available).
+- [Internal Models](/api-reference/models/get-v1internalModels) (See what internal models are available on your account including models you've fine-tuned).
+
+<CardGroup cols={2}>
   <Card
     title="Chat Completions"
     icon="message"
@@ -12,32 +22,7 @@ description: "Learn how to interact with Prem's API endpoints."
     View chat completion endpoint details
   </Card>
 
-  <Card
-    title="Datapoint"
-    icon="desktop"
-    href="/api-reference/data-points"
-  >
-    View datapoint endpoint details
-  </Card>
-
-  <Card
-    title="Embeddings"
-    icon="table"
-    href="/api-reference/embeddings"
-  >
-    View embeddings endpoint details
-  </Card>
-</CardGroup>
-
-<CardGroup cols={3}>
-  <Card
-    title="Fine Tuning"
-    icon="dumbbell"
-    href="/api-reference/finetuning"
-  >
-    View fine tuning endpoint details
-  </Card>
-
+  
   <Card
     title="Models"
     icon="brain"
@@ -46,17 +31,10 @@ description: "Learn how to interact with Prem's API endpoints."
     View models endpoint details
   </Card>
 
-  <Card
-    title="Repository"
-    icon="folder-open"
-    href="/api-reference/repository"
-  >
-    View repository endpoint details
-  </Card>
 </CardGroup>
 
 
-## Authentication
+### Authentication
 
 All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
 
