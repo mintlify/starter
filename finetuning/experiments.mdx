@@ -1,0 +1,33 @@
+---
+title: Experiments
+description: Learn how to create experiments with your fine-tuned model.
+---
+
+# Getting Started With Experiments
+
+Experiments are the way to experiment with your fine-tuned model. 
+
+
+
+---
+# Set Parameters
+<img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiment-parameters.png" alt="Image of the experiment parameters" />
+
+Each experiment has the following parameters:
+
+
+- **Base Model ID**: The foundation model that will be fine-tuned with your data. More powerful models generally result in better performance but will significantly increase processing time. 
+
+        Click [here](/resources/available-models) to view the list of our available models.
+- **Batch Size**: Number of samples processed together in a single training step. Larger batch sizes can improve training quality but substantially increase memory usage and processing time. Smaller batches process faster but may require more epochs. Valid range: 1-8
+- **Learning Rate Multiplier**: Controls how quickly the model adapts to your training data. Higher values (closer to 1) can speed up training time but risk lower quality results. Lower values typically produce better models but require significantly longer processing time. Valid range: between 0 and 1
+- **Number of Epochs**: Number of complete passes through your training dataset. More epochs generally produce better results but linearly increase total processing time. Each additional epoch adds approximately the same amount of processing time. Valid range: 1-10
+- **LoRA**: Low-Rank Adaptation (LoRA) is a fine-tuning technique that updates fewer parameters. Enabling LoRA significantly reduces memory requirements and processing time while often maintaining comparable performance to full fine-tuning.
+
+
+
+
+
+
+
+

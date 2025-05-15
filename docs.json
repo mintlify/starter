@@ -17,38 +17,46 @@
             "group": "Get started",
             "pages": [
               "introduction",
-              "get-started/quick-start",
-              "get-started/api-keys"
+              "get-started/quick-start"
             ]
           },
           {
             "group": "Datasets",
             "pages": [
-              "datasets/overview"
+              "datasets/overview",
+              "datasets/get-started",
+              "datasets/enrich-dataset",
+              "datasets/autosplit-dataset",
+              "datasets/create-snapshot"
             ]
           },
           {
-            "group": "Finetuning",
+            "group": "Fine-Tuning",
             "pages": [
-              "finetuning/overview"
+              "finetuning/overview",
+              "finetuning/get-started",
+              "finetuning/experiments"
             ]
           },
           {
             "group": "Evaluations",
             "pages": [
-              "evaluations/overview"
+              "evaluations/overview",
+              "evaluations/get-started"
             ]
           },
           {
             "group": "Playground",
             "pages": [
-              "playground/overview"
+              "playground/overview",
+              "playground/get-started"
             ]
           },
           {
             "group": "Stats",
             "pages": [
-              "stats/overview"
+              "stats/overview",
+              "stats/get-started"
             ]
           },
           {
@@ -84,7 +92,8 @@
           {
             "group": "Resources",
             "pages": [
-              "resources/faq"
+              "resources/faq",
+              "resources/available-models"
             ]
           }
         ]

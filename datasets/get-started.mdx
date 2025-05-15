@@ -1,0 +1,56 @@
+---
+title: Get Started With Datasets
+description: Learn how to create, manage, and use datasets in Prem.
+---
+
+# Creating a Dataset
+
+<img src="https://static.premai.io/prem-saas-docs/datasets/get-started/step-0-createADataset.gif" alt="GIF of creating a dataset" />
+
+<Steps>
+    <Step title="Click + Create To Create A Dataset">
+    <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/step-1-click-create-a-dataset.gif" alt="GIF of clicking the create a dataset button" />
+
+     To create a dataset, click the **+ Create Dataset** button in the top right corner of the page.
+
+    </Step>
+    <Step title="Upload A File">
+    <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/step-2-upload-file.gif" alt="GIF of uploading a file" />
+       - Choose a name for your dataset.
+       - Write a system prompt for your dataset. 
+       - Upload a `JSONL` file.
+       - Click **Confirm** to create the dataset.
+        <Tip>
+             Refer to our [Datasets](/datasets/overview) documentation for more information on the `JSONL` file format.
+        </Tip>
+
+        <Note>
+            When you upload a `JSONL` file, Prem will automatically create a system prompt for you that you can edit.
+       </Note>
+
+    </Step>
+
+</Steps>
+
+# Next Steps
+
+<CardGroup cols={2}>
+    <Card title="Enrich a Dataset" icon="sparkles" href="/datasets/enrich-dataset">
+        Start a data augmentation job to add synthetic data to your dataset.
+    </Card>
+    <Card title="Create a Snapshot" icon="camera" href="/datasets/create-snapshot">
+        Create a snapshot of your dataset to save your current state.
+    </Card>
+    
+</CardGroup>
+
+<CardGroup cols={2}>
+    <Card title="Autosplit a Dataset" icon="split" href="/datasets/autosplit-dataset">
+        Automatically split your dataset into training, validation, and test sets.
+    </Card>
+    <Card title="Fine-Tune a Model" icon="robot" href="/finetuning/overview">
+        Fine-tune a model on your dataset.
+    </Card>
+</CardGroup>
+
+

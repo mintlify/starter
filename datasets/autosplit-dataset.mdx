@@ -1,0 +1,52 @@
+---
+title: Autosplit a Dataset
+description: Learn how to autosplit a dataset into training, and validation sets.
+---
+
+
+# What is Autosplit?
+Autosplit distributes your uncategorized datapoints between Training and Validation sets.
+# How to Autosplit a Dataset
+
+<Steps>
+    <Step title="Click Autosplit">
+        Click the Autosplit button on the top right of the screen to autosplit your dataset.
+        <img src="https://static.premai.io/prem-saas-docs/datasets/autosplit-dataset/step-1-click-autosplit.gif" alt="GIF of clicking the autosplit button" />
+    </Step>
+    <Step title="Select the Percentage of Datapoints to Autosplit">
+        Select the percentage of datapoints you want to split into training and validation.
+        <img src="https://static.premai.io/prem-saas-docs/datasets/autosplit-dataset/step-2-select-percentage.gif" alt="GIF of selecting the percentage of datapoints to autosplit" />
+    </Step>
+    <Step title="OPTIONAL: Allow synthetic data in Validation">
+        Click this toggle to allow synthetic data in Validation.
+        <img src="https://static.premai.io/prem-saas-docs/datasets/autosplit-dataset/step-3-allow-synthetic-data.gif" alt="GIF of allowing synthetic data in Validation" />
+    </Step>
+    <Step title="Click Split">
+        Click Split to autosplit your dataset. You'll see that the dataset is now split into Training and Validation.
+        <img src="https://static.premai.io/prem-saas-docs/datasets/autosplit-dataset/step-4-click-split.gif" alt="GIF of clicking the split button" />
+    </Step>
+    <Step title="Create a Snapshot">
+    Now that your dataset is split, you can create a [Snapshot](/datasets/create-snapshot) to use in Finetuning or Evaluation.
+
+    **Click the card below to learn how to create a Snapshot.**
+     <Card title="Create a Snapshot" icon="camera" href="/datasets/create-snapshot">
+        Create a Snapshot to use in Finetuning or Evaluation.
+    </Card>
+    </Step>
+</Steps>
+
+# Next Steps
+<CardGroup col={2} >
+    <Card title="Create a Snapshot" icon="camera" href="/datasets/create-snapshot">
+        Create a Snapshot to use in Finetuning or Evaluation.
+    </Card>
+    <Card title="Create a Finetuned Model" icon="robot" href="/finetuning/get-started">
+        Create a Finetuned Model to use in Evaluation.
+    </Card>
+    <Card title="Create an Evaluation" icon="heart-pulse" href="/evaluations/get-started">
+        Create an Evaluation to use in Evaluation.
+    </Card>
+    <Card title="Use the Playground" icon="play" href="/playground">
+        Use the Playground to test your model.
+    </Card>
+</CardGroup>

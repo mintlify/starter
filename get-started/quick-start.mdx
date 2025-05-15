@@ -6,18 +6,43 @@ icon: terminal
 description: Let's get you started with Prem in minutes.
 ---
 <Note>
-This is a quickstart guide for using the **Chat Completions** funcationality. If you want to learn about [Datasets](/datasets/overview), [Autonomous Fine-Tuning](/finetuning/overview), [Evaluations](/evaluations/overview), [Stats](/stats/overview) and [Playground](/playground/overview), please refer to those guides.
+This is a quickstart guide for using the **Chat Completions** funcationality. 
+
+Chat completions allow you to choose a model (e.g. `gpt-4o` or the name of a model you fine-tuned) to generate a response using a text-based prompt.
+
+If you want to learn about [Datasets](/datasets/overview), [Autonomous Fine-Tuning](/finetuning/overview), [Evaluations](/evaluations/overview), [Stats](/stats/overview) and [Playground](/playground/overview), please refer to those guides.
 </Note>
 
 
 The quickest way to get started with Prem is to use the OpenAI SDKs for chat completions as shown below.
 
 <Note>
-The Prem AI API can also be used with any programming language that has a HTTP client and/or with the OpenAI SDKs. 
+You can also use the [Prem AI API](/api-reference/introduction) to generate chat completions. 
 
+With the API you can use any programming language that has a HTTP client.
+
+We give you the option to use the [Prem AI API](/api-reference/introduction) or the OpenAI SDKs.
+ 
 For API usage documentation, refer to the [API Reference](/api-reference/introduction).
 </Note>
 
+<Steps>
+<Step title="Create an API Key 🔑">
+
+Click the **API Key** Button on the sidebar. Then click the **+ Create API Key** button. 
+
+Afterwards, copy the API key and save it in a secure location.
+
+<img
+  src="https://static.premai.io/prem-saas-docs/get-started/quick-start/create-api-key.png"
+  alt="Create an API Key"
+/>
+
+
+
+</Step>
+
+<Step title="Install the OpenAI SDKs">
 ### Install the OpenAI SDKs
 <CodeGroup>
 ```bash javascript/typescript
@@ -27,8 +52,12 @@ npm install openai;
 pip install openai;
 ```
 </CodeGroup>
+</Step>
 
-### Perfrom A Chat Completion
+<Step title="Perfrom A Chat Completion">
+<Note>
+The model name can be replaced with the name of your fine-tuned models as well.
+</Note>                      
 <CodeGroup>
 ```javascript javascript/typescript
 import OpenAI from "openai";
@@ -110,10 +139,10 @@ for chunk in response:
         print(chunk.choices[0].delta.content, end='', flush=True)
 ```
 </CodeGroup>
+</Step>
+</Steps>
 
-<Note>
-The model name can be replaced with the name of your fine-tuned models as well.
-</Note>
+
 
 ## Next steps
 
