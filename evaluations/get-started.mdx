@@ -8,8 +8,47 @@ description: Learn how to evaluate a model in Prem.
     You can only evaluate a model if you have a snapshot of your dataset.
 </Note>
 
-## Create an Evaluation
+## Create an New Evaluation
+To create a new evaluation, you need to have a fine-tuned model. If you don't have a fine-tuned model, you can create one by following the steps in the [Fine-Tuning](/finetuning/overview) section.
 
-## Use an Evaluation
+<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-1-create-evaluations.gif" alt="Gif of creating a new evaluation" />
 
-## Evaluate a Model
+You need to fill out the following fields:
+
+- **Evaluation Prompt**: The prompt to use for the evaluation.
+
+Here is an exmaple of an Evaluation Prompt:
+
+> Convert medical reports into ICD-10 codes.
+>
+> You will be given a textual medical report. The model must return a list of ICD-10 codes.
+>
+> Evaluate:
+>
+> Are the codes valid and from the ICD-10 standard?
+> Do the codes align with the diagnosis mentioned in the report?
+> Are there unnecessary or incorrect codes predicted?
+
+- [Dataset](/datasets/overview): The dataset to use for the evaluation.
+- [Snapshot](/datasets/snapshots): The snapshot of the dataset to use for the evaluation.
+-  Models: You can select multiple models to evaluate.
+
+Once you have filled out the fields click the "Create Evaluation" button.
+
+## Check Your Results
+
+Once you have created an evaluation, you can check your results by clicking on the evaluation and each datapoint to get more details.
+
+<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-2-check-results.png" alt="Image of checking your results" />
+---
+<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-2-check-results.gif" alt="Gif of checking your results" />
+
+Here are some reults to keep in mind:
+<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-3-evaluation-result-details.png" alt="Image of checking your results details" />
+- **Average Score**: The average score of the evaluation based on the fine-tuned model.
+- **Datapoint**: The user message from the dataset.
+- **Name of the model the evaluation was run on**: The name of the model the evaluation was run on.
+- **System Prompt**: The system prompt used for the evaluation.
+- **User Message**: The user message from the dataset.
+- **Original Assistant Response**: The original assistant message from the dataset.
+- **Model Score**: The score of the model chosen for the evaluation.

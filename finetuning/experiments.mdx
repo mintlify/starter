@@ -5,13 +5,12 @@ description: Learn how to create experiments with your fine-tuned model.
 
 # Getting Started With Experiments
 
-Experiments are the way to experiment with your fine-tuned model. 
+Experiments are the way to prepare your fine-tuned model for testing, evaluation, and deployment. 
 
-
-
+<img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiments/step-0-what-are-experiments.png" alt="Image of the experiment overview" />
 ---
 # Set Parameters
-<img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiment-parameters.png" alt="Image of the experiment parameters" />
+<img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiments/step-1-start-experiments.gif" alt="Image of setting experiment parameters" />
 
 Each experiment has the following parameters:
 
@@ -23,6 +22,38 @@ Each experiment has the following parameters:
 - **Learning Rate Multiplier**: Controls how quickly the model adapts to your training data. Higher values (closer to 1) can speed up training time but risk lower quality results. Lower values typically produce better models but require significantly longer processing time. Valid range: between 0 and 1
 - **Number of Epochs**: Number of complete passes through your training dataset. More epochs generally produce better results but linearly increase total processing time. Each additional epoch adds approximately the same amount of processing time. Valid range: 1-10
 - **LoRA**: Low-Rank Adaptation (LoRA) is a fine-tuning technique that updates fewer parameters. Enabling LoRA significantly reduces memory requirements and processing time while often maintaining comparable performance to full fine-tuning.
+
+
+---
+# Experiment Results
+
+Once you run your experiments, you can do the following:
+
+- View the Training Loss Comparison Chart.
+  - The Training Loss Comparison Chart visualizes how the model's error decreases during training across different experiments. Lower loss values indicate better model performance. This chart helps you compare different parameter configurations to identify which settings produce the most effective fine-tuned models.
+  
+ <Note> 
+  You can click on each experiment name to toggle if the experiment is hidden or shown.
+  <img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiments/toggle-chart.gif" alt="Gif of toggling the experiment chart" />
+</Note>
+---
+
+<img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiments/step-2-click-test-download.png" alt="Image of test the model and download the model" />
+
+- Click the "Test Model" button to test the Fine-tuned Model in the [Playground](/playground/overview)
+- Click the download button to download the Fine-tuned Model.
+
+
+# Next Steps
+Now that you have a fine-tuned model, you can do the following:
+<CardGroup cols={2}>
+<Card title="Test the Fine-tuned Model in the Playground" icon="play" href="/playground/overview">
+  Try out the fine-tuned model in the [Playground](/playground/overview) before deploying it or running evaluations.    
+</Card>
+<Card title="Run Evaluations" icon="heart-pulse" href="/evaluations/overview">
+  Run evaluations to test the performance of the fine-tuned model.
+</Card>
+</CardGroup>
 
 
 

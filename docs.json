@@ -48,45 +48,13 @@
           {
             "group": "Playground",
             "pages": [
-              "playground/overview",
-              "playground/get-started"
+              "playground/overview"
             ]
           },
           {
             "group": "Stats",
             "pages": [
-              "stats/overview",
-              "stats/get-started"
-            ]
-          },
-          {
-            "group": "Build with Prem",
-            "pages": [
-              {
-                "group": "Cookbook",
-                "pages": [
-                  "cookbook/cookbook-link",
-                  "cookbook/chat-with-pdf",
-                  "cookbook/url-content-summarizer",
-                  "cookbook/text-2-sql",
-                  "cookbook/chat-with-sql",
-                  "cookbook/arxiv-ml-qna"
-                ]
-              },
-              {
-                "group": "premsql",
-                "pages": [
-                  "premsql/introduction",
-                  "premsql/datasets",
-                  "premsql/generators",
-                  "premsql/executors",
-                  "premsql/evaluators",
-                  "premsql/error-dataset",
-                  "premsql/tuner",
-                  "premsql/agents",
-                  "premsql/playground"
-                ]
-              }
+              "stats/overview"
             ]
           },
           {
