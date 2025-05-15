@@ -1,73 +1,120 @@
 ---
-title: FAQ
-icon: question
+title: Frequently Asked Questions
+description: Find answers to common questions about Prem.
 ---
-### 1. Is Prem free to use?
-    - Yes, Prem is free, and for premium features, you can choose between different pricing tiers.
-    
-Check out our [pricing page](https://premai.io/pricing) to learn more.
+## General Questions
 
-### 2. What models are available to use with Prem?
-<Note>
+### What is Prem?
+Prem is a AI platform that enables you to create, fine-tune, evaluate, and deploy custom AI models. It's designed to make AI integration seamless and efficient, allowing you to focus on developing your product without dealing with AI complexity.
 
-Click [here](https://app.premai.io/providers/) to view our model status page.
+### What can I do with Prem?
+With Prem, you can:
+- Access best-in-class AI models without vendor lock-in
+- Autonomously fine-tune models with your own datasets
+- Evaluate models using built-in metrics and tools
+- Test models with the built-in Playground
+- Monitor your models' performance over time with Stats
 
-</Note>
+### How do I get started with Prem?
+You can get started by following our [Quick Start Guide](/get-started/quick-start) which will walk you through creating your first custom AI model in minutes.
 
-The following models are available to use with Prem:
-### Anthropic
-- claude-3-5-sonnet
-- claude-3.5-sonnet-v2
-- claude-3.5-haiku
-- claude-3-haiku
-- claude-3-opus
-- claude-3-sonnet
+### Does Prem require machine learning expertise?
+No, Prem is designed to be accessible to users without machine learning expertise. Our Autonomous Fine-Tuning feature handles the complexities of model training for you.
 
-### codellama
-- prem-codellama-7b
+## Datasets
 
-### Deepseek
-- deepseek-r1
-- deepseek-r1-distill-llama-70b
+### What format should my dataset be in?
+Datasets should be in **JSONL (JSON Lines)** format, where each line represents a single conversation example. Each example should contain a "messages" field with an array of message objects that have "role" and "content" fields.
 
-### Gemma2 
-- prem-gemma2-2b
-- prem-gemma2-9b
+### What roles are included in a dataset?
+Each conversation in your dataset should include three roles:
+- "system": Provides context and instructions for the model's behavior
+- "user": Represents what a human user would say or ask
+- "assistant": Contains the ideal response you want the model to learn
 
-### GPT
-- gpt-4o-mini
-- gpt-4o-mini-eu
-- gpt-4o
-- gpt-4o-eu
-- gpt-4-eu
-- gpt-4-turbo
+### How do I create a dataset in Prem?
+You can follow our [Get Started with Datasets](/datasets/get-started) guide to learn how to create and format datasets properly.
 
-### Llama
-- llama-3.3-70b
-- llama-3.2-1b
-- llama-3.2-3b
-- llama-3.1-8b
-- llama-3.1-70b
-- llama-3-8b-guard
-- llama-3-8b
-- llama-3-70b
-- llama-3-8b-guard
-- prem-llama-3.2-1b
-- prem-llama-3.2-3b
-- prem-llama-3.1-8b
+### Can I enrich my dataset?
+Yes, Prem offers dataset enrichment capabilities. You can learn more about this in our [Enrich Dataset](/datasets/enrich-dataset) documentation.
 
-### Mistral
-- mistral-8x7b-instruct
+### What is a dataset snapshot?
+A snapshot is a fixed version of your dataset that can be used for fine-tuning. Creating snapshots allows you to preserve specific versions of your dataset for training or comparison purposes. Learn more in the [Create Snapshot](/datasets/create-snapshot) guide.
 
-#### Qwen
-- prem-qwen-2.5-3b
-- prem-qwen-2.5-7b
-- prem-qwen-2.5-0.5b
-- prem-qwen-2.5-1.5b
+## Fine-Tuning
 
-### 3. Is there an API that I can use if I am not using Python or Javascript?
-    - Yes, our API is language-agnostic, which means you can use it with any programming language that supports making HTTP requests. While our  documentation provides examples in Python and JavaScript SDKs, you can easily adapt these examples to work with your preferred programming language, such as GO, Java, Rust, or PHP. As long as your chosen language has a built-in way to send HTTP requests and parse JSON responses, you can integrate our API into your projects seamlessly.
-### 4. How does the Autonomous fine-tuning Agent work? Do I need to be an experienced ML engineer?
-    - You do not need to be an experienced ML engineer to use the Autonomous fine-tuning Agent.  All you need to do is provide a dataset and chooose a base model. The Agent will then fine-tune the model on your dataset. Check out our [docs](https://docs.premai.io/docs/fine-tuning/autonomous-fine-tuning) to learn more.
-### 5. **How do I migrate projects between organizations?**
-    - At present, we do not offer assistance for migrating projects between organizations. While you can replicate this process manually by utilizing the SDK to read and write runs. the most efficient approach would be to create a new project within your organization and proceed from there.
+### What is Autonomous Fine-Tuning?
+Autonomous Fine-Tuning is Prem's approach to creating custom models without requiring machine learning expertise. It automatically handles the complexities of the fine-tuning process for you.
+
+### Why should I fine-tune a model?
+Fine-tuning offers several benefits:
+- Adapts models to specific tasks or domains
+- Improves performance for your specific use cases
+- Requires less data and resources than training from scratch
+- Allows customization to your unique requirements
+- Helps overcome limitations in the original model
+
+### How does the fine-tuning process work?
+The basic process involves:
+1. Creating a snapshot of your dataset
+2. Fine-tuning your selected model on this dataset snapshot
+3. Evaluating the resulting model to verify performance
+
+### How long does fine-tuning take?
+Fine-tuning duration depends on your dataset size and the model you're using. Typically, the process can take anywhere from minutes to a few hours.
+
+## Evaluations
+
+### What are model evaluations?
+Model evaluations are systematic assessments of how well AI models perform on specific tasks, measuring aspects like accuracy, reliability, fairness, safety, and alignment with human preferences.
+
+### Why are evaluations necessary?
+Evaluations are critical for:
+- Quality assurance before deployment
+- Identifying areas needing improvement
+- Optimizing costs by selecting the most efficient model
+- Mitigating risks by detecting potential biases or unsafe outputs
+- Tracking performance progress over time
+
+### How does Prem's evaluation system work?
+Prem offers an integrated evaluation system that:
+- Seamlessly evaluates models within the same platform
+- Uses your actual datasets for real-world performance testing
+- Provides comparative analysis between different models
+- Enables continuous monitoring of model performance
+
+### What metrics are used for evaluation?
+Prem offers various evaluation metrics depending on your use case. For specific information about available metrics, please refer to our [Evaluations Overview](/evaluations/overview) documentation.
+
+## Models
+
+### What models are available on Prem?
+Prem offers a wide range of models from providers like Anthropic (Claude), OpenAI (GPT), Meta (Llama), Google (Gemma), and others. For a complete and up-to-date list, see our [Available Models](/resources/available-models) page.
+
+### Can I use my own custom models?
+Yes, Prem allows you to fine-tune existing models to create your own custom versions tailored to your specific use cases.
+
+### How do I choose the right model for my use case?
+The best model depends on your specific requirements, including:
+- Task complexity
+- Performance needs
+- Resource constraints
+- Budget considerations
+You can use our Playground and Evaluation tools to compare different models for your specific use case.
+
+## Pricing and Support
+
+### How is Prem priced?
+For the most current pricing information, please contact our sales team at [info@premai.io](mailto:info@premai.io).
+
+### Where can I get help if I have issues?
+You can get support by:
+- Joining our [Discord community](https://discord.gg/zCBckVUBD7)
+- Emailing [info@premai.io](mailto:info@premai.io)
+- Reading our documentation
+
+### Do you offer enterprise support?
+Yes, we offer enterprise support options. Please contact us at [info@premai.io](mailto:info@premai.io) to discuss your specific needs.
+
+### Where can I learn about the latest news from Prem?
+You can stay updated on the latest features and improvements by checking our Release Notes or following our [Blog](https://blog.premai.io).
