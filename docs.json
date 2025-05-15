@@ -3,10 +3,10 @@
   "theme": "mint",
   "name": "Prem",
   "colors": {
-    "primary": "#23211F",
-    "light": "#a986c5",
-    "dark": "#23211F"
-  },
+  "primary": "#4c6ef5",
+  "light": "#FFFFFF",
+  "dark": "#4c6ef5"
+},
   "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
@@ -21,7 +21,7 @@
             ]
           },
           {
-            "group": "Datasets",
+            "group": "Datasets 🗃️",
             "pages": [
               "datasets/overview",
               "datasets/get-started",
@@ -31,7 +31,7 @@
             ]
           },
           {
-            "group": "Fine-Tuning",
+            "group": "Fine-Tuning 🛠️",
             "pages": [
               "finetuning/overview",
               "finetuning/get-started",
@@ -39,26 +39,26 @@
             ]
           },
           {
-            "group": "Evaluations",
+            "group": "Evaluations 📈",
             "pages": [
               "evaluations/overview",
               "evaluations/get-started"
             ]
           },
           {
-            "group": "Playground",
+            "group": "Playground 🛝",
             "pages": [
               "playground/overview"
             ]
           },
           {
-            "group": "Stats",
+            "group": "Stats 📊",
             "pages": [
               "stats/overview"
             ]
           },
           {
-            "group": "Resources",
+            "group": "Resources 🧰 ",
             "pages": [
               "resources/faq",
               "resources/available-models"
