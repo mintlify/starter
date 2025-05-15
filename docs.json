@@ -4,9 +4,16 @@
   "name": "Prem",
   "colors": {
   "primary": "#4c6ef5",
-  "light": "#FFFFFF",
+  "light": "#4c6ef5",
   "dark": "#4c6ef5"
 },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  },
+  "background": {
+    "decoration":"gradient" 
+  },
   "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
