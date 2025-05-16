@@ -114,8 +114,8 @@
     }
   },
   "logo": {
-    "light": "/logo.svg",
-    "dark": "/logo.svg"
+    "light": "/images/logos/black.svg",
+    "dark": "/images/logos/white.svg"
   },
   "api": {
     "openapi": "https://sid.premai.io/api/openapi.json"
