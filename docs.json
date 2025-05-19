@@ -117,7 +117,7 @@
     "dark": "/images/logos/White.svg"
   },
   "api": {
-    "openapi": "https://sid.premai.io/api/openapi.json"
+    "openapi": "https://studio.premai.io/api/openapi.json"
   },
   "navbar": {
     "links": [
@@ -129,7 +129,7 @@
     "primary": {
       "type": "button",
       "label": "Use Prem",
-      "href": "https://sid.premai.io"
+      "href": "https://studio.premai.io"
     }
   },
   "seo": {
