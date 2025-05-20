@@ -69,6 +69,17 @@
               "resources/faq",
               "resources/available-models"
             ]
+          },
+          {
+            "group": "Cookbook 🍳",
+            "pages": [
+              {
+                "group": "Integrations",
+                "pages": [
+                  "cookbook/integrations/pydantic"
+                ]
+              }
+            ]
           }
         ]
       },
