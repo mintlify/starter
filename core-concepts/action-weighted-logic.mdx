@@ -1,0 +1,27 @@
+---
+title: "Action Weighting Logic"
+description: "Measuring relative impact."
+---
+
+Sage employs a weighting system that recognizes the differences in user effort per action type, and the relative impact that different action types have on network growth. Actions are grouped into four categories, with an initial set of 25 distinct actions implemented into the model. This approach further enhances fairness and discourages users from gaming the system through repetitive or lower-value activities.
+
+Action categories:
+
+- **Content Creation (High Effort, High Value)**: Original content, including posts, images, or videos, that meaningfully enriches the ecosystem quality.
+- **Engagement (Moderate Effort, Incremental Value)**: Interactions including likes, shares, and comments that create positive feedback loops and encourage ongoing community participation.
+- **Social Expansion (Strategic Effort, Lasting Value)**:  Actions like establishing new follows or connections that expand and enrich the social graph, or inviting new participants that expand the ecosystem.
+- **Community Building (Collaborative effort, Lasting Value)**: Activities involving creation and growth of channels, groups, DAO’s, and similar community structures.
+
+### Example Weights by Action Type:
+
+| Action Category            | Action Type                             | Contribution Weight |
+| -------------------------- | --------------------------------------- | ------------------- |
+| **Content Creation**       | Post created (text, image, video, etc.) | 1.0                 |
+| **Engagement**             | Post liked                              | 0.25                |
+| **Engagement**             | Post shared                             | 0.5                 |
+| **Social Graph Expansion** | User followed                           | 0.5                 |
+| **Social Graph Expansion** | Follower gained                         | 0.75                |
+| **Community Building**     | Group created                           | 1.0                 |
+| **Community Building**     | Group member gained                     | 0.5                 |
+
+Contribution weights are regularly reviewed, adjusted as needed, and will ultimately be governed by the community.

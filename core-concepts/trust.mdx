@@ -1,0 +1,60 @@
+---
+title: "$TRUST"
+description: "The first crypto asset minted solely through verified user effort."
+---
+
+\$TRUST is the first Earned Mint Token and the foundational asset of Sage’s economy, minted exclusively through user participation that has been validated by PoSC.
+
+## \$TRUST Minting Phases
+
+Sage employs a two-phase minting approach for \$TRUST tokens, designed to balance the unique requirements for launching an Earned Mint Token with long-term sustainability.
+
+### Phase 1: \$TRUST = Fixed Mint Price (Initial Bootstrap)
+
+At launch, \$TRUST tokens are minted at a predetermined “fixed mint price” of **\$0.000001 USD** per token. Because token supply emerges solely through user activity, there’s initially no supply available to create a liquidity pool (LP). Importantly, this fixed mint price is temporary and distinct from the eventual market price of \$TRUST. The PoSC engine calculates rewards using the fixed mint price only until the token achieves sufficient liquidity and a stable market valuation. Once these conditions are met, the PoSC engine transitions to a dynamic, market-driven \$TRUST price for reward calculations.
+
+**Key benefits of Phase 1**:
+
+- **Guaranteed Immediate Rewards**: Ensures every eligible action is fairly compensated from day one, preventing situations where early user contributions go unrewarded due to the absence of a liquid market and \$TRUST market price.
+- **Amplified Early Incentives**: Provides highly favorable initial rewards, effectively incentivizing early contributors.
+- **Clear Initial Market Seeding**:  Enables market participants to steadily accumulate \$TRUST tokens at a stable, fixed price, efficiently seeding the market with liquidity. This structured initial distribution accelerates the transition toward Phase 2, where a robust liquidity pool naturally emerges.
+
+**Example Calculation (Phase 1)**:
+
+_A user performs an eligible action that incurs a transaction fee of 0.02 \$SUI. Assume token valuations at the time of the action are: 1 \$SUI = \$1.00 USD, and 1 \$TRUST = \$0.000001 USD (fixed mint price)._
+
+<Info>
+  **Reward formula:**\
+  \$TRUST Minted = (Transaction Fee in USD) / Fixed \$TRUST Price in USD) × Weight
+
+  **Reward calculation:**
+
+  \$TRUST minted = (\$0.02 / \$0.000001) x 1.0 = 20,000 \$TRUST _(assuming a weight of 1.0)_
+</Info>
+
+The protocol will transition from Phase 1 (fixed mint price) to Phase 2 (market-driven mint price) once the \$TRUST token achieves a stable liquidity pool with a pre-defined total value locked (e.g., \$100,000), sustained consistently for a pre-defined minimum number of consecutive days (e.g., 30).
+
+### Phase 2: \$TRUST = Market-Driven Mint Price
+
+Upon reaching the defined liquidity threshold and a stable market valuation, the PoSC engine transitions to using the market-driven \$TRUST price for reward calculations. This shift naturally introduces token scarcity: as \$TRUST valuations rise, fewer tokens are minted for identical actions compared to when prices were lower.
+
+**Key characteristics of Phase 2:**
+
+- **Dynamic Valuation**: Reward calculations adjust in real-time based on the current market price of \$TRUST, keeping reward distributions aligned with both network usage and economic activity.
+- **Adaptive Calculations**: Reward issuance automatically scales inversely with increases in \$TRUST’s market value, creating sustainable token-supply growth, natural supply-demand dynamics, and incentives for continuous network participation.
+
+**Example Calculation (Phase 2)**:
+
+_A user performs an eligible action incurring a transaction fee of 0.02 \$SUI. Assume token valuations at the time of the action are: 1 \$SUI = \$1.00 USD, and 1 \$TRUST = \$0.000002 USD (market-driven price)._
+
+<Info>
+  **Reward formula:**
+
+  \$TRUST Minted = (Transaction Fee in USD) / Market \$TRUST Price in USD) × Weight
+
+  **Reward calculation:**
+
+  \$TRUST minted = (\$0.02 / \$0.000002) x 1.0 = 10,000 \$TRUST _(assuming a weight of 1.0)_
+</Info>
+
+The market-driven reward calculations keep token supply closely tied to actual network activity, establishing a self-regulating economy. This model generates uniquely attractive supply-demand dynamics, naturally increasing token scarcity as the network’s value grows—making early participation highly advantageous and incentivizing sustained, meaningful contributions.
