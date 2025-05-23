@@ -93,16 +93,15 @@
             ]
           },
           {
-            "group": "chat-completions",
+            "group": "Chat Completions",
             "pages": [
               "api-reference/chat-completions/post-v1chatcompletions"
             ]
           },
           {
-            "group": "models",
+            "group": "Models",
             "pages": [
-              "api-reference/models/get-v1models",
-              "api-reference/models/get-v1internalModels"
+              "api-reference/models/get-v1models"
             ]
           }
         ]
