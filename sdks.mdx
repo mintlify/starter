@@ -15,7 +15,7 @@ A `streamID` is an identifier used in the TRUF.NETWORK (TN) to identify the depl
 
 ### Go SDK
 
-The Go SDK provides tools to publish, compose, and consume economic data streams within the TRUF.NETWORK. It supports operations on primitive streams and composed streams.
+The Go SDK provides a comprehensive set of tools to interact with the TRUF.NETWORK, enabling operations on primitive, composed, and system streams—such as deployment, record insertion, metadata management, and batch operations.
 
 _Installation:_
 
@@ -33,10 +33,11 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/golang-sql/civil"
+    "time"
+
     "github.com/kwilteam/kwil-db/core/crypto"
     "github.com/kwilteam/kwil-db/core/crypto/auth"
-    "github.com/trufnetwork/sdk-go/core/tsnclient"
+    "github.com/trufnetwork/sdk-go/core/tnclient"
     "github.com/trufnetwork/sdk-go/core/types"
     "github.com/trufnetwork/sdk-go/core/util"
 )
@@ -44,47 +45,73 @@ import (
 func main() {
     ctx := context.Background()
 
-    // Create TN client
+    // 1. Create a TN client with a signer
     pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
     signer := &auth.EthPersonalSigner{Key: *pk}
-    tsnClient, err := tsnclient.NewClient(ctx, "https://staging.tsn.truflation.com", tsnclient.WithSigner(signer))
+    client, err := tnclient.NewClient(ctx, "https://gateway.infra.truf.network", tnclient.WithSigner(signer))
     if err != nil {
         panic(err)
     }
 
-    // Load an existing stream
-    streamId := util.GenerateStreamId("your-stream-name")
-    streamLocator := tsnClient.OwnStreamLocator(streamId)
-    stream, err := tsnClient.LoadPrimitiveStream(streamLocator)
+    // 2. Generate a unique stream ID
+    streamId := util.GenerateStreamId("example-stream")
+
+    // 3. Deploy a new primitive stream
+    deployTx, err := client.DeployStream(ctx, streamId, types.StreamTypePrimitive)
+    if err != nil {
+        panic(err)
+    }
+    // Wait for deployment to be mined
+    _, err = client.WaitForTx(ctx, deployTx, time.Second)
     if err != nil {
         panic(err)
     }
 
-    // Read data from the stream
-    dateFrom, _ := civil.ParseDate("2023-01-01")
-    dateTo, _ := civil.ParseDate("2023-01-31")
-    records, err := stream.GetRecord(ctx, types.GetRecordInput{
-        DateFrom: &dateFrom,
-        DateTo:   &dateTo,
+    // 4. Insert records into the stream
+    primitiveActions, err := client.LoadPrimitiveActions()
+    if err != nil {
+        panic(err)
+    }
+    insertTx, err := primitiveActions.InsertRecords(ctx, []types.InsertRecordInput{
+        {
+            DataProvider: client.Address(),
+            StreamId:     streamId,
+            EventTime:    1672531200, // Unix timestamp for 2023-01-01
+            Value:        123.45,
+        },
     })
     if err != nil {
         panic(err)
     }
+    _, _ = client.WaitForTx(ctx, insertTx, time.Second)
 
-    for _, record := range records {
-        fmt.Println(record.DateValue, record.Value.String())
+    // 5. Read records from the stream
+    records, err := primitiveActions.GetRecord(ctx, types.GetRecordInput{
+        DataProvider: client.Address(),
+        StreamId:     streamId,
+        From:         util.IntPtr(1672531200),
+        To:           util.IntPtr(1675123200),
+    })
+    if err != nil {
+        panic(err)
+    }
+    for _, r := range records {
+        fmt.Println(r.EventTime, r.Value)
     }
 }
 ```
 
-For comprehensive examples and usage patterns, refer to the test files in the SDK repository.
+This example covers the primary workflow: deploying a primitive stream, inserting records, and retrieving data. For more advanced operations—such as composed streams, batch deployments, permissions, and metadata management—refer to the API reference and interface docs:
+- Client API: methods like DeployStream, DestroyStream, ListStreams, stream management, and more.
+- Primitive Stream: InsertRecords and GetRecord
+- Composed Stream: taxonomy management
+For comprehensive examples and edge-case handling, consult the test files in the [sdk-Go repository](https://github.com/trufnetwork/sdk-go).
 
 ---
 
 ### TypeScript/JavaScript SDK
 
-The TypeScript/JavaScript SDK offers similar capabilities as the Go SDK, with implementations tailored for both Node.js and browser environments.
-
+The TypeScript/JavaScript SDK provides tools to deploy, interact with, and consume economic data streams within the TRUF.NETWORK in both Node.js and browser environments.
 _Installation:_
 
 Ensure you have Node.js 18 or later installed. To install the SDK, run:
@@ -96,69 +123,120 @@ npm install @trufnetwork/sdk-js
 _Example Usage:_
 
 ```javascript
-import { NodeTNClient, StreamId } from "@trufnetwork/sdk-js";
+mport { NodeTNClient, StreamId, StreamType } from "@trufnetwork/sdk-js";
+import { Wallet } from "ethers";
+import * as dotenv from "dotenv";
 
-// Create a wallet
-const wallet = new Wallet("<your-private-key-hex>");
+dotenv.config();
 
-// Initialize client
-const client = new NodeTNClient({
-	endpoint: "https://staging.tsn.truflation.com",
-	signerInfo: {
-		address: wallet.address,
-		signer: wallet,
-	},
-	chainId: "truflation-staging-2024-11-22", // or use NodeTNClient.getDefaultChainId()
-});
+(async () => {
+  const wallet = new Wallet(process.env.PRIVATE_KEY!);
+  const client = new NodeTNClient({
+    endpoint: "https://gateway.infra.truf.network",
+    signerInfo: { address: wallet.address, signer: wallet },
+  });
 
-// Load an existing stream
-const streamId = StreamId.fromString("your-stream-name");
-const stream = client.loadPrimitiveStream(streamId);
+  // 1. Generate a stream ID
+  const streamId = StreamId.fromString("example-stream");
 
-// Read data from the stream
-const records = await stream.getRecord({
-	dateFrom: "2023-01-01",
-	dateTo: "2023-01-31",
-});
+  // 2. Deploy a primitive stream
+  const deployResponse = await client.deployStream(streamId, StreamType.Primitive);
+  deployResponse.throw();
+  const receipt = deployResponse.unwrap();
+  await client.waitForTx(receipt.txHash);
 
-records.forEach((record) => {
-	console.log(record.dateValue, record.value);
-});
+  // 3. Insert records into the stream
+  const primitive = client.loadPrimitiveAction();
+  const insertResponse = await primitive.insertRecords([
+    { stream: client.ownStreamLocator(streamId), eventTime: 1672531200, value: "123.45" },
+  ]);
+  insertResponse.throw();
+  const insertReceipt = insertResponse.unwrap();
+  await client.waitForTx(insertReceipt.txHash);
+
+  // 4. Read records from the stream
+  const records = await primitive.getRecord({
+    stream: client.ownStreamLocator(streamId),
+    from: 1672531200,
+    to:   1675123200,
+  });
+  console.log(records);
+})();
 ```
 
-For detailed examples and usage patterns, refer to the test files and examples in the SDK repository.
-
+For comprehensive examples and edge-case handling, consult the test files in the [skd-js repository](https://github.com/trufnetwork/sdk-js).
 ---
 
-### Timestamp support
+### Python SDK
 
-In the contract version 2, we have added support for timestamps. Replacing the `Date` type with the `number` type in the `GetRecordInput` and `Record` types.
+The Python SDK wraps the Go SDK via C bindings, exposing the same core functionality—such as deploying streams, inserting records, retrieving data, managing taxonomies, and destroying streams—directly from Python code. It is still under active development and leverages the Go toolchain to compile its bindings.
 
-```typescript
-interface GetRecordInput {
-	dateFrom: number;
-	dateTo: number;
-}
+_Requirements:_
+- Python 3.8 or later
 
-interface Record {
-	dateValue: number;
-	value: string;
-}
-
-// Read data from the stream with timestamps
-const records = await stream.getRecord({
-	dateFrom: 1672531200, // 2023-01-01
-	dateTo: 1675123200, // 2023-01-31
-});
+_Installation:_
+```bash
+pip install trufnetwork-sdk-py
 ```
 
-For more information about the timestamp interface, feel free to navigate to the SDK repository.
-Most of the functions and interfaces are the same as the previous version, but with date values replaced with timestamps.
-For example, to deploy a new stream with timestamps, you can use the `deployPrimitiveStream` function with the `contractVersion` parameter set to 2.
+_Example Usage:_
+
+```python
+from datetime import datetime, timezone
+from trufnetwork_sdk_py.client import TNClient, STREAM_TYPE_PRIMITIVE, STREAM_TYPE_COMPOSED
+from trufnetwork_sdk_py.utils import generate_stream_id
+
+# 1. Initialize TN client
+client = TNClient("https://gateway.infra.truf.network", "<your-private-key-hex>")
+
+# 2. Generate unique stream IDs
+primitive_id = generate_stream_id("example-primitive-stream")
+composed_id  = generate_stream_id("example-composed-stream")
+
+# 3. Deploy streams
+tx1 = client.deploy_stream(primitive_id, STREAM_TYPE_PRIMITIVE)
+print("Primitive deployed:", tx1)
+tx2 = client.deploy_stream(composed_id, STREAM_TYPE_COMPOSED)
+print("Composed deployed:", tx2)
+
+# 4. Insert records into primitive stream
+records = [
+    {"date": int(datetime(2023, 1, 1, tzinfo=timezone.utc).timestamp()), "value": 10.5},
+    {"date": int(datetime(2023, 1, 2, tzinfo=timezone.utc).timestamp()), "value": 12.2},
+]
+tx3 = client.insert_records(primitive_id, records)
+print("Inserted records:", tx3)
+
+# 5. Retrieve records from the stream
+results = client.get_records(
+    primitive_id,
+    date_from=int(datetime(2023, 1, 1, tzinfo=timezone.utc).timestamp()),
+    date_to=int(datetime(2023, 1, 3, tzinfo=timezone.utc).timestamp()),
+)
+for r in results:
+    print("EventTime:", r["EventTime"], "Value:", r["Value"])
+
+# 6. Define and describe taxonomy for composed stream
+child_streams = {primitive_id: 1.0}
+tx4 = client.set_taxonomy(composed_id, child_streams)
+print("Taxonomy set:", tx4)
+
+taxonomy = client.describe_taxonomy(composed_id)
+print("Taxonomy:", taxonomy)
+
+# 7. Destroy streams when done
+client.destroy_stream(primitive_id)
+client.destroy_stream(composed_id)
+```
+
+This example demonstrates the end-to-end Python workflow: client initialization, stream deployment, record management, taxonomy operations, and cleanup
+For comprehensive examples and edge-case handling, consult the test files in the [sdk-py repository](https://github.com/trufnetwork/sdk-py/issues).
 
 ### Additional Resources
 
-- [Truflation Whitepaper](https://whitepaper.truflation.com/)
-- [TN-SDK Documentation](https://github.com/trufnetwork/sdk-go)
+- [Truflation Whitepaper](https://whitepaper.truflation.com)
+- [SDK-Go Documentation](https://github.com/trufnetwork/sdk-go)
+- [SDK-JS Documentation](https://github.com/trufnetwork/sdk-js)
+- [SDK-Py Documentation](https://github.com/trufnetwork/sdk-py)
 
 For support or questions, please open an issue in the respective SDK repository or contact our support team.
