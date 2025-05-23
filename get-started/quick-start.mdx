@@ -94,6 +94,23 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
+```python python (async)
+import os
+from openai import AsyncOpenAI
+
+client = AsyncOpenAI(
+    base_url="https://studio.premai.io/api/v1/",
+    api_key=os.environ.get("PREMAI_API_KEY"),
+)
+
+# Create a chat completion
+response = await client.chat.completions.create(
+    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
+    model="gpt-4o", # Or any other model you want to use
+)
+
+print(response.choices[0].message.content)
+```
 </CodeGroup>
 
 ### Chat Completion with Streaming
@@ -114,10 +131,7 @@ const response = await client.chat.completions.create({
 });
 
 for await (const chunk of response) {
-    if (chunk.choices[0].delta.content) {
-        process.stdout.write(chunk.choices[0].delta.content);
-        
-    }
+    process.stdout.write(chunk.choices[0].delta.content);
 }
 ```
 ```python python
@@ -137,8 +151,26 @@ response = client.chat.completions.create(
 )
 
 for chunk in response:
-    if chunk.choices[0].delta.content is not None:
-        print(chunk.choices[0].delta.content, end='', flush=True)
+    print(chunk.choices[0].delta.content, end='', flush=True)
+```
+```python python (async)
+import os
+from openai import AsyncOpenAI
+
+client = AsyncOpenAI(
+    base_url="https://studio.premai.io/api/v1/",
+    api_key=os.environ.get("PREMAI_API_KEY"),
+)
+
+# Create completion
+response = await client.chat.completions.create(
+    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
+    model="gpt-4o", # Or any other model you want to use
+    stream=True,
+)
+
+async for chunk in response:
+    print(chunk.choices[0].delta.content, end='', flush=True)
 ```
 </CodeGroup>
 </Step>
