@@ -1,29 +1,28 @@
 ---
-title: Chat with PDF
+title: "Chat with PDF"
 ---
+
 Welcome to the Prem AI cookbook section. In this recipe, we will step by step build a simple chat with a PDF application (~ 100 lines of code) using [Prem AI SDK](/get-started/sdk.mdx) and [Streamlit](https://streamlit.io/). The best part is that you don't need to understand complex mechanisms like RAG (Retrieval Augmented Generation) to make this app. So, without further ado, let's get started. You can find the [complete code here](https://github.com/premAI-io/cookbook/chat-with-pdf).
 
-<img
-  src="/images/cookbook/chat with pdf.jpeg"
-  alt="Playground"
-/>
+![Playground](/images/cookbook/chat with pdf.jpeg)
 
 ## Objective
 
 This recipe aims to show developers and users how to get started with Prem's Generative AI Platform. The overall tutorial is going to be done in four simple steps:
 
-1. Setting up all the required packages. 
-2. Introducing Prem repositories and how to upload documents (like PDF) into repositories. 
+1. Setting up all the required packages.
+2. Introducing Prem repositories and how to upload documents (like PDF) into repositories.
 3. Writing a simple Streamlit chat function that will take user prompts, get the context from Prem repositories and then pass it to the LLM to provide us accurate results.
 
-After completing this tutorial, you will be familiar with Prem SDK and some of its terms. You can check out our other recipes, which cover more intermediate and advanced GenAI use cases. 
+After completing this tutorial, you will be familiar with Prem SDK and some of its terms. You can check out our other recipes, which cover more intermediate and advanced GenAI use cases.
 
-## Setting up the project 
+## Setting up the project
+
 Let's start by creating a virtual environment and installing Prem SDK and Streamlit.
 
 <Note>
-Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). As a last requirement, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories). 
-</Note> 
+  Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). As a last requirement, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories).
+</Note>
 
 ```bash
 python3 -m venv venv
@@ -59,11 +58,10 @@ premai_api_key = st.secrets.premai_api_key
 premai_project_id = 123456 
 premai_repository_id = 123456
 prem_client = premai.Prem(api_key=premai_api_key)
-
 ```
 
 <Note>
-Both `premai_project_id` and `premai_repository_id` are dummy ids. So, in your case, please ensure you have a valid project_id and repository_id. You can know more about project_id [here](/get-started/projects.mdx) and repository_id [here](/get-started/repositories.mdx).
+  Both `premai_project_id` and `premai_repository_id` are dummy ids. So, in your case, please ensure you have a valid project_id and repository_id. You can know more about project_id [here](/get-started/projects.mdx) and repository_id [here](/get-started/repositories.mdx).
 </Note>
 
 ## Uploading documents to Prem repositories
@@ -74,11 +72,11 @@ With Prem Repositories, you can upload any kind of document (like .txt, .pdf, et
 
 Let's write some code that will do the following:
 
-1. First, upload some PDF documents using streamlit `file_uploader`. 
+1. First, upload some PDF documents using streamlit `file_uploader`.
 2. Save each file in a temporary directory.
 3. Use prem-SDK to upload those temporarily saved files to Prem repositories.
 
-First, write a helper function to save an uploaded document using streamlit. 
+First, write a helper function to save an uploaded document using streamlit.
 
 ```python
 def temp_save_uploaded_file(uploadedfile):
@@ -95,7 +93,7 @@ def temp_save_uploaded_file(uploadedfile):
         return None  
 ```
 
-Now let's make the file uploader object through which we save those files and upload it to repositories. 
+Now let's make the file uploader object through which we save those files and upload it to repositories.
 
 ```python
 with st.sidebar:
@@ -121,7 +119,7 @@ with st.sidebar:
 
 ## Writing the chat function
 
-Streamlit has a concept of [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) which shares variables within a session. To maintain the history of the chat, we can either create a new session or display the history of chats and retrieved documents in the current session. 
+Streamlit has a concept of [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) which shares variables within a session. To maintain the history of the chat, we can either create a new session or display the history of chats and retrieved documents in the current session.
 
 ```python
 if "messages" not in st.session_state:
@@ -145,15 +143,12 @@ repositories = dict(
 Let's define the workflow from here:
 
 1. We take the user's prompt, display it using Streamlit, and add it to the Streamlit [session_state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) object.
-
 2. Next, start with our assistant block, where we get our response from Prem SDK and then stream the response in Streamlit until the streaming is finished.
-
 3. Finally, we also show the chunks of documents retrieved to generate the answer, which helps with some interpretability.
- 
 
-With our workflow defined, let's code it out. 
+With our workflow defined, let's code it out.
 
-```python 
+```python
 # Get the prompt from the user 
 if prompt := st.chat_input("Please write your query"):
     user_content = {"role": "user", "content": prompt}
@@ -205,4 +200,5 @@ Congratulations you have created your first application using Prem AI. To run th
 ```bash
 streamlit run app.py
 ```
-You can check out more tutorials in our cookbook, as well as their full [source code](https://github.com/premAI-io/cookbook/). 
+
+You can check out more tutorials in our cookbook, as well as their full [source code](https://github.com/premAI-io/cookbook/).
