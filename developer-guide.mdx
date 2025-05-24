@@ -24,14 +24,14 @@ _Using Docker Compose (Recommended)_
 1. Clone the TN repository:
 
 ```bash
-git clone https://github.com/trufnetwork/truf-node.git
-cd truf-node
+git clone https://github.com/trufnetwork/node.git
+cd node
 ```
 
 2. Build and start the TRUF-Node containers:
 
 ```bash
-task compose
+task single:start
 ```
 
 This command builds and starts the TRUF-Node in Docker containers with pre-seeded data.
@@ -73,7 +73,7 @@ kwil-cli configure
 Provide the following values when prompted:
 
 - **Kwil RPC URL**: `http://localhost:8484`
-- **Kwil Chain ID**: _(leave blank)_
+- **Kwil Chain ID**: `tn-v2`
 - **Private Key**: _(any Ethereum private key)_
 
 For testing purposes, you can use the private key `0000000000000000000000000000000000000000000000000000000000000001`.
@@ -88,7 +88,7 @@ The Kwil Gateway (KGW) is a load-balancer with authentication capabilities, enab
 cd deployments/dev-gateway
 ```
 
-2. Follow the instructions in the [README.md](https://github.com/trufnetwork/truf-node/blob/main/deployments/dev-gateway/README.md) file to set up and run the gateway.
+2. Follow the instructions in the [README.md](https://github.com/trufnetwork/node/blob/main/deployments/dev-gateway/README.md) file to set up and run the gateway.
 
 **Running the Indexer**
 
@@ -112,19 +112,6 @@ The genesis file contains the initial configuration for the TN network. To fetch
 task get-genesis
 ```
 
-**System Contract**
-
-The system contract stores accepted streams by TN governance and serves as an entry point for queries.
-
-_Fetching Records via System Contract_
-
-To fetch records:
-
-```bash
-kwil-cli database call -a=get_unsafe_record -n=tsn_system_contract -o=<owner_address> stream_id:<stream_id> date_from:2024-06-01 date_to:2024-06-17 --private-key <private_key> --provider <provider_url>
-```
-
-This command retrieves records from the system contract for the specified stream and data provider within the given date range.
 
 **Metrics and Monitoring**
 
@@ -142,4 +129,4 @@ For more details on metrics configuration, refer to the files in the `deployment
 - [Truflation Website](https://truflation.com)
 - [Truflation Whitepaper](https://whitepaper.truflation.com)
 
-For further assistance, join our [Discord community](https://discord.com/invite/5AMCBYxfW4) or open an issue on our [GitHub repository](https://github.com/trufnetwork/truf-network/issues).
+For further assistance, join our [Discord community](https://discord.com/invite/5AMCBYxfW4) or open an issue on our [GitHub repository](https://github.com/trufnetwork/node/issues).

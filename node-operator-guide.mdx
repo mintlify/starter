@@ -9,29 +9,26 @@ This guide will walk you through the process of setting up and running a TRUF.NE
 
 Before you begin, ensure you have the following:
 
-1. **Kwil-admin**: Used to generate the initial configuration file.
-
-- Download from the [latest GitHub release](https://github.com/kwilteam/kwil-db/releases)
+1. **Kwild**: The all-in-one binary for node operation and administration.
+- Download from the [latest GitHub release](https://github.com/trufnetwork/node/releases)
 
 2. **Docker**: Required for running the PostgreSQL image.
+- Install from [Docker's official website](https://docs.docker.com/get-docker)
 
-- Install from [Docker's official website](https://docs.docker.com/get-docker/)
-
-3. **TN Binaries**: Necessary for node deployment.
-
-- Download from the [latest GitHub release](https://github.com/trufnetwork/truf-node/releases)
+3. **PostgreSQL Client**: Required for state sync and database operations.
+- Install with `sudo apt -y install postgresql-16` (Ubuntu/Debian)
 
 ## Setup Steps
 
 ### 1. Generate Initial Configuration
 
-Use `kwil-admin` to create your initial configuration file. For example:
+Use `kwild` to create your initial configuration file:
 
 ```bash
-kwil-admin setup peer  \
--g ./configs/network/staging/genesis.json \
---root-dir ./my-peer-config/ \
---chain.p2p.persistent-peers c6d2ea1e573d207cc31b7e17c771ab8ca2091b22@staging.node-1.tsn.truflation.com:26656,34599966ce4b67628f4cfa99fdca74ea2d039018@staging.node-2.tsn.truflation.com:26656
+kwild setup init \
+  -g ./configs/network/v2/genesis.json \
+  --root ./my-node-config/ \
+  --p2p.bootnodes "<revealed-soon>"
 ```
 
 ### 2. Set Up PostgreSQL
@@ -39,37 +36,41 @@ kwil-admin setup peer  \
 For a quick setup, run Kwil's pre-configured PostgreSQL Docker image:
 
 ```bash
-docker run -d -p 5432:5432 --name tsn-postgres \
- -e "POSTGRES_HOST_AUTH_METHOD=trust" \
- -v postgres_data:/var/lib/postgresql/data \
- kwildb/postgres:latest
+docker run -d -p 5432:5432 --name tn-postgres \
+  -e "POSTGRES_HOST_AUTH_METHOD=trust" \
+  -v postgres_data:/var/lib/postgresql/data \
+  kwildb/postgres:latest
 ```
 
 If you prefer a custom PostgreSQL setup, ensure it meets the requirements specified in the [configuration guide](https://docs.kwil.com/docs/daemon/running-postgres).
 
+**Security Warning**: Do not expose port 5432 publicly and make sure to set passwords for your database in production environments.
+
 ### 3. Deploy TN Node
 
-#### 3.1. Install PSQL
-
-To be able to Snapshot from the network, you need to have `psql` installed on your machine. You can install it by running:
+Run the kwild binary to deploy your node:
 
 ```bash
-sudo apt -y install postgresql
+kwild start --root ./my-node-config/ --statesync.enable=true --statesync.trusted_providers='<revealed-soon>'
 ```
 
-#### 3.2. Run TN Binaries
+Ensure your firewall allows incoming connections on:
+- JSON-RPC port (default: 8484)
+- P2P port (default: 6600)
 
-Run the TN binaries to deploy your node:
+The `--statesync.enable` and `--statesync.trusted_providers` flags are optional and will help your node sync faster with the network using snapshots provided by trusted nodes.
+
+### 4. Verify Node Synchronization
+
+Before proceeding to become a validator, ensure your node is fully synced with the network:
 
 ```bash
-kwild --root-dir ./my-peer-config/ --chain.statesync.enable=true --chain.statesync.rpc-servers='http://18.189.163.27:26657'
+kwild admin status
 ```
 
-Ensure your firewall allows incoming connections on the JSON-RPC port (default: 8484) and P2P port (default: 26656).
+Look for the `syncing: false` in the output, and check that your `best_block_height` is close to the current network height.
 
-The `--chain.statesync.enable` and `--chain.statesync.rpc-servers` flags are optional and only needed if you want to enable state sync on your node. It will help your node to sync faster with the network with the snapshot provided by the RPC servers.
-
-### 4. Become a Validator (Optional)
+### 5. Become a Validator (Optional)
 
 To upgrade your node to a validator:
 
@@ -77,23 +78,29 @@ To upgrade your node to a validator:
 2. Submit a validator join request:
 
 ```bash
-kwil-admin validators join --rpcserver /path/to/your/node.sock
+kwild validators join
 ```
 
 3. Wait for approval from existing validators. You can check your join request status with:
 
 ```bash
-kwil-admin validators join-status <your-public-key> --rpcserver /path/to/your/node.sock
+kwild validators list-join-requests
 ```
 
-You can always ping us for help in the validator process.
+Existing validators must approve your request. For each existing validator needed to approve:
 
-### 5. Submit Your Node to Available Node List (Optional)
+```bash
+kwild validators approve <your-node-id>
+```
+
+You can always reach out to the community for help with the validator process.
+
+### 6. Submit Your Node to Available Node List (Optional)
 
 To help others discover your node:
 
 1. Fork the TN repository.
-2. Add your node information to the `configs/network/available_nodes.json` file.
+2. Add your node information to the `configs/network/v2/network-nodes.csv` file.
 3. Submit a Pull Request with your changes.
 
 We'll review and merge your PR to include your node in the network's seed list.
@@ -102,14 +109,24 @@ We'll review and merge your PR to include your node in the network's seed list.
 
 Essential network configuration files are located in the `configs/network/` directory:
 
-- `genesis.json`: The network's genesis file.
-- `network-nodes.csv`: List of available nodes for peer discovery.
+- `v2/genesis.json`: The network's genesis file.
+- `v2/network-nodes.csv`: List of available nodes for peer discovery.
 
 When setting up your node, refer to these files for network-specific parameters and peer information.
+
+## Node ID Format
+
+Node IDs in TRUF.NETWORK follow the format: `<public key>#<key type>@<IP address>:<port>`
+
+You can find your node ID by running:
+```bash
+kwild key info --key-file /path/to/your/nodekey.json
+```
 
 ## Additional Resources
 
 - [Kwil Documentation](https://docs.kwil.com)
+- [Production Network Deployment Guide](https://docs.kwil.com/docs/node/production)
 
 For further assistance, join our [Discord community](https://discord.com/invite/5AMCBYxfW4) or open an issue on our [GitHub repository](https://github.com/trufnetwork/truf-node-operator/issues).
 

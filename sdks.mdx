@@ -1,242 +1,81 @@
 ---
-title: "SDKs"
-description: "Learn how to interact with the TRUF.NETWORK using SDKs."
+title: "Node Upgrade"
+description: "Step-by-step guide to upgrading your node in the TRUF.NETWORK."
 ---
 
-The TRUF.NETWORK offers SDKs in Go and TypeScript/JavaScript to facilitate seamless integration with its decentralized platform for economic data streams.
+Keeping your node up-to-date is crucial for maintaining network security and performance. Follow this guide to upgrade your node in the TRUF.NETWORK.
 
----
+## 1. Backup Existing Data
 
-### What is a `streamID`?
+- **Node Data Directory**: Backup the directory containing `config.toml` and `private_key`.
+- **PostgreSQL Database**: Backup the `kwild` database to prevent data loss during the upgrade process.
 
-A `streamID` is an identifier used in the TRUF.NETWORK (TN) to identify the deployed contract. It is a unique string generated from a descriptive name, such as an English name, to ensure easy reference and management of data streams.
+## 2. Stop Running Services
 
----
+- **Node Service**: Stop the `tn` or `kwild` service.
+- **PostgreSQL Container**: Stop the PostgreSQL container to prepare for the upgrade.
 
-### Go SDK
+## 3. Update PostgreSQL Container
 
-The Go SDK provides a comprehensive set of tools to interact with the TRUF.NETWORK, enabling operations on primitive, composed, and system streams—such as deployment, record insertion, metadata management, and batch operations.
+- **New Container**: Create a new PostgreSQL container using the latest Docker image from Kwil: `kwildb/postgres:16.5-1`.
+- **Shared Memory Size**: Set the shared memory size to `2g` using the `--shm-size` parameter. Adjust this value if necessary.
 
-_Installation:_
+_Note: An existing container cannot be updated; you must stop the existing container and create a new one._
 
-Ensure you have Go 1.20 or later installed. To install the SDK, run:
+## 4. Remove Specific Directories
+
+From the `tn` data directory, remove the following folders:
+
+- `abci`
+- `signing`
+- `rcvdSnaps` (if existing)
+- `snapshots` (if existing)
+
+## 5. Configure State Sync
+
+In the `config.toml` file located in your tn directory:
+
+- **Enable State Sync**: Set `enable = true` in the `[statesync]` section.
+- **Snapshot Directory**: Set `snapshot_dir` to the appropriate path, e.g., `/data/kwild-root/rcvdSnaps`.
+- **Trusted Providers**: Set `trusted_providers` to the following:
+
+```
+trusted_providers = "<revealed-soon>"
+```
+
+## 6. Start Services
+
+- **Node Service**: Start the `tn` or `kwild` service.
+- **PostgreSQL Container**: Start the new PostgreSQL container.
+
+## 7. Verify State Sync
+
+Monitor the logs to ensure state sync is functioning correctly. Look for messages indicating:
+
+- RPC provider used for snapshot header verification.
+- State sync enabled.
+- Discovery and acceptance of a new snapshot.
+- Retrieval and restoration of snapshot data.
+- Completion of the database restore process.
+
+## 8. Confirm Synchronization
+
+After synchronization, confirm that the node is caught up with the network:
 
 ```bash
-go get github.com/trufnetwork/sdk-go
+kwild admin status
 ```
 
-_Example Usage:_
+Look for `"syncing": false` and check that your `best_block_height` is close to the current network height.
 
-```go
-package main
+## 9. Verify Application Hash
 
-import (
-    "context"
-    "fmt"
-    "time"
-
-    "github.com/kwilteam/kwil-db/core/crypto"
-    "github.com/kwilteam/kwil-db/core/crypto/auth"
-    "github.com/trufnetwork/sdk-go/core/tnclient"
-    "github.com/trufnetwork/sdk-go/core/types"
-    "github.com/trufnetwork/sdk-go/core/util"
-)
-
-func main() {
-    ctx := context.Background()
-
-    // 1. Create a TN client with a signer
-    pk, _ := crypto.Secp256k1PrivateKeyFromHex("<your-private-key-hex>")
-    signer := &auth.EthPersonalSigner{Key: *pk}
-    client, err := tnclient.NewClient(ctx, "https://gateway.infra.truf.network", tnclient.WithSigner(signer))
-    if err != nil {
-        panic(err)
-    }
-
-    // 2. Generate a unique stream ID
-    streamId := util.GenerateStreamId("example-stream")
-
-    // 3. Deploy a new primitive stream
-    deployTx, err := client.DeployStream(ctx, streamId, types.StreamTypePrimitive)
-    if err != nil {
-        panic(err)
-    }
-    // Wait for deployment to be mined
-    _, err = client.WaitForTx(ctx, deployTx, time.Second)
-    if err != nil {
-        panic(err)
-    }
-
-    // 4. Insert records into the stream
-    primitiveActions, err := client.LoadPrimitiveActions()
-    if err != nil {
-        panic(err)
-    }
-    insertTx, err := primitiveActions.InsertRecords(ctx, []types.InsertRecordInput{
-        {
-            DataProvider: client.Address(),
-            StreamId:     streamId,
-            EventTime:    1672531200, // Unix timestamp for 2023-01-01
-            Value:        123.45,
-        },
-    })
-    if err != nil {
-        panic(err)
-    }
-    _, _ = client.WaitForTx(ctx, insertTx, time.Second)
-
-    // 5. Read records from the stream
-    records, err := primitiveActions.GetRecord(ctx, types.GetRecordInput{
-        DataProvider: client.Address(),
-        StreamId:     streamId,
-        From:         util.IntPtr(1672531200),
-        To:           util.IntPtr(1675123200),
-    })
-    if err != nil {
-        panic(err)
-    }
-    for _, r := range records {
-        fmt.Println(r.EventTime, r.Value)
-    }
-}
-```
-
-This example covers the primary workflow: deploying a primitive stream, inserting records, and retrieving data. For more advanced operations—such as composed streams, batch deployments, permissions, and metadata management—refer to the API reference and interface docs:
-- Client API: methods like DeployStream, DestroyStream, ListStreams, stream management, and more.
-- Primitive Stream: InsertRecords and GetRecord
-- Composed Stream: taxonomy management
-For comprehensive examples and edge-case handling, consult the test files in the [sdk-Go repository](https://github.com/trufnetwork/sdk-go).
-
----
-
-### TypeScript/JavaScript SDK
-
-The TypeScript/JavaScript SDK provides tools to deploy, interact with, and consume economic data streams within the TRUF.NETWORK in both Node.js and browser environments.
-_Installation:_
-
-Ensure you have Node.js 18 or later installed. To install the SDK, run:
+Use the following command to verify the application hash:
 
 ```bash
-npm install @trufnetwork/sdk-js
+curl -s http://127.0.0.1:8484/api/v1/health
 ```
 
-_Example Usage:_
+Ensure the response indicates the node is healthy and synchronized with the network.
 
-```javascript
-mport { NodeTNClient, StreamId, StreamType } from "@trufnetwork/sdk-js";
-import { Wallet } from "ethers";
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-(async () => {
-  const wallet = new Wallet(process.env.PRIVATE_KEY!);
-  const client = new NodeTNClient({
-    endpoint: "https://gateway.infra.truf.network",
-    signerInfo: { address: wallet.address, signer: wallet },
-  });
-
-  // 1. Generate a stream ID
-  const streamId = StreamId.fromString("example-stream");
-
-  // 2. Deploy a primitive stream
-  const deployResponse = await client.deployStream(streamId, StreamType.Primitive);
-  deployResponse.throw();
-  const receipt = deployResponse.unwrap();
-  await client.waitForTx(receipt.txHash);
-
-  // 3. Insert records into the stream
-  const primitive = client.loadPrimitiveAction();
-  const insertResponse = await primitive.insertRecords([
-    { stream: client.ownStreamLocator(streamId), eventTime: 1672531200, value: "123.45" },
-  ]);
-  insertResponse.throw();
-  const insertReceipt = insertResponse.unwrap();
-  await client.waitForTx(insertReceipt.txHash);
-
-  // 4. Read records from the stream
-  const records = await primitive.getRecord({
-    stream: client.ownStreamLocator(streamId),
-    from: 1672531200,
-    to:   1675123200,
-  });
-  console.log(records);
-})();
-```
-
-For comprehensive examples and edge-case handling, consult the test files in the [skd-js repository](https://github.com/trufnetwork/sdk-js).
----
-
-### Python SDK
-
-The Python SDK wraps the Go SDK via C bindings, exposing the same core functionality—such as deploying streams, inserting records, retrieving data, managing taxonomies, and destroying streams—directly from Python code. It is still under active development and leverages the Go toolchain to compile its bindings.
-
-_Requirements:_
-- Python 3.8 or later
-
-_Installation:_
-```bash
-pip install trufnetwork-sdk-py
-```
-
-_Example Usage:_
-
-```python
-from datetime import datetime, timezone
-from trufnetwork_sdk_py.client import TNClient, STREAM_TYPE_PRIMITIVE, STREAM_TYPE_COMPOSED
-from trufnetwork_sdk_py.utils import generate_stream_id
-
-# 1. Initialize TN client
-client = TNClient("https://gateway.infra.truf.network", "<your-private-key-hex>")
-
-# 2. Generate unique stream IDs
-primitive_id = generate_stream_id("example-primitive-stream")
-composed_id  = generate_stream_id("example-composed-stream")
-
-# 3. Deploy streams
-tx1 = client.deploy_stream(primitive_id, STREAM_TYPE_PRIMITIVE)
-print("Primitive deployed:", tx1)
-tx2 = client.deploy_stream(composed_id, STREAM_TYPE_COMPOSED)
-print("Composed deployed:", tx2)
-
-# 4. Insert records into primitive stream
-records = [
-    {"date": int(datetime(2023, 1, 1, tzinfo=timezone.utc).timestamp()), "value": 10.5},
-    {"date": int(datetime(2023, 1, 2, tzinfo=timezone.utc).timestamp()), "value": 12.2},
-]
-tx3 = client.insert_records(primitive_id, records)
-print("Inserted records:", tx3)
-
-# 5. Retrieve records from the stream
-results = client.get_records(
-    primitive_id,
-    date_from=int(datetime(2023, 1, 1, tzinfo=timezone.utc).timestamp()),
-    date_to=int(datetime(2023, 1, 3, tzinfo=timezone.utc).timestamp()),
-)
-for r in results:
-    print("EventTime:", r["EventTime"], "Value:", r["Value"])
-
-# 6. Define and describe taxonomy for composed stream
-child_streams = {primitive_id: 1.0}
-tx4 = client.set_taxonomy(composed_id, child_streams)
-print("Taxonomy set:", tx4)
-
-taxonomy = client.describe_taxonomy(composed_id)
-print("Taxonomy:", taxonomy)
-
-# 7. Destroy streams when done
-client.destroy_stream(primitive_id)
-client.destroy_stream(composed_id)
-```
-
-This example demonstrates the end-to-end Python workflow: client initialization, stream deployment, record management, taxonomy operations, and cleanup
-For comprehensive examples and edge-case handling, consult the test files in the [sdk-py repository](https://github.com/trufnetwork/sdk-py/issues).
-
-### Additional Resources
-
-- [Truflation Whitepaper](https://whitepaper.truflation.com)
-- [SDK-Go Documentation](https://github.com/trufnetwork/sdk-go)
-- [SDK-JS Documentation](https://github.com/trufnetwork/sdk-js)
-- [SDK-Py Documentation](https://github.com/trufnetwork/sdk-py)
-
-For support or questions, please open an issue in the respective SDK repository or contact our support team.
+For detailed information and advanced configurations, refer to the [TRUF.NETWORK Whitepaper](https://whitepaper.truflation.com/).
