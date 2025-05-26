@@ -23,4 +23,32 @@ Before you start, ensure you have:
 
 Set up your development environment quickly with these steps, depending on your tech stack:
 
-### 
+<Steps>
+  <Step title="Install Sage SDK">
+    ```
+    npm install @sageprotocol
+    ```
+  </Step>
+  <Step title="Configure Sage React Provider or Client">
+    ```
+    import { SageProvider } from '@sageprotocol/react';
+    
+    return (
+        <SageProvider appId=”your-app-id” network=”testnet”>
+            …
+        </SageProvider>
+    );
+    
+    or
+    
+    import { SageClient } from '@sageprotocol/sdk';
+    
+    const sage = new SageClient({
+      appId: 'your-app-id',
+      network: 'testnet', // or 'mainnet'
+    });
+    ```
+  </Step>
+</Steps>
+
+Ensure your Sui wallet is connected to the appropriate network (Sui Testnet or Sui Mainnet).
