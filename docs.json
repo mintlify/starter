@@ -23,7 +23,8 @@
             "group": "Get started",
             "pages": [
               "introduction",
-              "get-started/quick-start"
+              "get-started/quick-start",
+              "get-started/sdks"
             ]
           },
           {
@@ -93,15 +94,11 @@
             ]
           },
           {
-            "group": "Chat Completions",
+            "group": "Chat",
             "pages": [
-              "api-reference/chat-completions/post-v1chatcompletions"
-            ]
-          },
-          {
-            "group": "Models",
-            "pages": [
-              "api-reference/models/get-v1models"
+              "api-reference/chat-completions/post-v1chatcompletions",
+              "api-reference/models/get-v1models",
+              "api-reference/models/get-v1internalModels"
             ]
           }
         ]

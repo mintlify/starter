@@ -1,0 +1,48 @@
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
+});
+
+const response = await client.chat.completions({
+  messages: [{ role: 'system', content: 'You are a helpful assistant.' }],
+  model: 'llama3.2-3b'
+});
+
+console.log(response.choices[0].message.content);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
+)
+response = client.chat.completions(
+    messages=[{
+        "role": "system",
+        "content": "You are a helpful assistant."
+    }],
+    model="llama3.2-3b",
+)
+print(response.choices[0].message.content)
+```
+```python python (async)
+import os
+from openai import AsyncPremAI
+
+client = AsyncPremAI(
+    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
+)
+
+# Create a chat completion
+response = await client.chat.completions.create(
+    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
+    model="llama3.2-3b", # Or any other model you want to use
+)
+
+print(response.choices[0].message.content)
+```
+</CodeGroup>

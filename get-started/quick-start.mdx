@@ -8,7 +8,7 @@ description: Let's get you started with Prem in minutes. In this guide, we'll sh
 <Note>
 This is a quickstart guide for using the **Chat Completions** functionality.
 
-Chat completions allow you to choose a model (e.g. `gpt-4o` or the name of a model you fine-tuned) to generate a response using a text-based prompt.
+Chat completions allow you to choose a model (e.g. `llama3.2-3b` or the name of a model you fine-tuned) to generate a response using a text-based prompt.
 
 Keep in mind that Prem is designed to make the process of creating custom models easy and efficient. Most of the functionality like fine-tuning, evaluations, stats and playground will be available on the Prem platform. Once you've configured your settings, you'll be able to use your custom models by simply using the [Prem AI API](/api-reference/introduction) or OpenAI SDKs.
 
@@ -38,9 +38,7 @@ Afterwards, copy the API key and save it in a secure location.
   alt="Create an API Key"
 />
 
-## Use with PremAI SDK
-
-### Install the PremAI SDK
+## Install the PremAI SDK
 <CodeGroup>
 ```bash javascript/typescript
 npm install premai
@@ -50,224 +48,19 @@ pip install premai
 ```
 </CodeGroup>
 
-### List Models
-<CodeGroup>
-```javascript javascript/typescript
-import PremAI from 'premai';
+## Chat Completions
+import PremChatCompletions from '/snippets/prem-chat-completions.mdx';
 
-const client = new PremAI({
-  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
-});
+<PremChatCompletions/>
 
-const response = await client.chat.listModels();
+## Chat Completion with Streaming
+import PremChatCompletionsStreaming from '/snippets/prem-chat-completions-streaming.mdx';
 
-console.log(response.data);
-```
-```python python
-import os
-from premai import PremAI
-
-client = PremAI(
-    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
-)
-response = client.chat.list_models()
-print(response.data)
-```
-</CodeGroup>
-
-### Chat Completions
-<CodeGroup>
-```javascript javascript/typescript
-import PremAI from 'premai';
-
-const client = new PremAI({
-  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
-});
-
-const response = await client.chat.completions({
-  messages: [{ role: 'system', content: 'You are a helpful assistant.' }],
-  model: 'gpt-4o'
-});
-
-console.log(response.id);
-```
-```python python
-import os
-from premai import PremAI
-
-client = PremAI(
-    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
-)
-response = client.chat.completions(
-    messages=[{
-        "role": "system",
-        "content": "You are a helpful assistant."
-    }],
-    model="gpt-4o",
-)
-print(response.id)
-```
-</CodeGroup>
-
-### List Models Internal
-<CodeGroup>
-```javascript javascript/typescript
-import PremAI from 'premai';
-
-const client = new PremAI({
-  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
-});
-
-async function main() {
-  const response = await client.chat.listModelsInternal();
-}
-
-main();
-```
-```python python
-import os
-from premai import PremAI
-
-client = PremAI(
-    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
-)
-
-response = client.chat.list_models_internal()
-```
-</CodeGroup>
-
-## Use with OpenAI SDK
-
-### Install the OpenAI SDK
-<CodeGroup>
-```bash javascript/typescript
-npm install openai
-```
-```bash python
-pip install openai
-```
-</CodeGroup>
-
-### Chat Completions
-<Note>
-The model name can be replaced with the name of your fine-tuned models as well.
-</Note>
-<CodeGroup>
-```javascript javascript/typescript
-import OpenAI from "openai";
-
-const client = new OpenAI({
-    baseURL: "https://studio.premai.io/api/v1/",
-    apiKey: process.env.PREMAI_API_KEY,
-});
-
-//Create a chat completion
-const response = await client.chat.completions.create({
-    model: "gpt-4o", //Or any other model you want to use
-    messages: [{ role: "user", content: "Write a one-sentence bedtime story about a unicorn." }]
-});
-
-console.log(response.choices[0].message.content);
-```
-```python python
-import os
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://studio.premai.io/api/v1/",
-    api_key=os.environ.get("PREMAI_API_KEY"),
-)
-
-# Create a chat completion
-response = client.chat.completions.create(
-    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
-    model="gpt-4o", # Or any other model you want to use
-)
-
-print(response.choices[0].message.content)
-```
-```python python (async)
-import os
-from openai import AsyncOpenAI
-
-client = AsyncOpenAI(
-    base_url="https://studio.premai.io/api/v1/",
-    api_key=os.environ.get("PREMAI_API_KEY"),
-)
-
-# Create a chat completion
-response = await client.chat.completions.create(
-    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
-    model="gpt-4o", # Or any other model you want to use
-)
-
-print(response.choices[0].message.content)
-```
-</CodeGroup>
-
-### Chat Completion with Streaming
-<CodeGroup>
-```javascript javascript/typescript
-import OpenAI from "openai";
-
-const client = new OpenAI({
-    baseURL: "https://studio.premai.io/api/v1/",
-    apiKey: process.env.PREMAI_API_KEY,
-});
-
-//Create a chat completion
-const response = await client.chat.completions.create({
-    model: "gpt-4o", //Or any other model you want to use
-    messages: [{ role: "user", content: "Write a one-sentence bedtime story about a unicorn." }],
-    stream: true,
-});
-
-for await (const chunk of response) {
-    process.stdout.write(chunk.choices[0].delta.content);
-}
-```
-```python python
-import os
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://studio.premai.io/api/v1/",
-    api_key=os.environ.get("PREMAI_API_KEY"),
-)
-
-# Create completion
-response = client.chat.completions.create(
-    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
-    model="gpt-4o", # Or any other model you want to use
-    stream=True,
-)
-
-for chunk in response:
-    print(chunk.choices[0].delta.content, end='', flush=True)
-```
-```python python (async)
-import os
-from openai import AsyncOpenAI
-
-client = AsyncOpenAI(
-    base_url="https://studio.premai.io/api/v1/",
-    api_key=os.environ.get("PREMAI_API_KEY"),
-)
-
-# Create completion
-response = await client.chat.completions.create(
-    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
-    model="gpt-4o", # Or any other model you want to use
-    stream=True,
-)
-
-async for chunk in response:
-    print(chunk.choices[0].delta.content, end='', flush=True)
-```
-</CodeGroup>
+<PremChatCompletionsStreaming/>
 
 ## Next Steps
 
+- Explore the [Client SDKs](/get-started/sdks) to learn how to use the PremAI SDK and OpenAI SDK.
 - Add your own [Dataset](/datasets/overview) as a first step to create your own custom models.
 - Next, [Autonomously Fine-Tune](/finetuning/overview) your models using a dataset.
 - Then, use [Evaluations](/evaluations/overview) to track your model's performance.
