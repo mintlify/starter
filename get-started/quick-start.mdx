@@ -3,10 +3,10 @@ title: Quickstart Guide
 
 icon: terminal
 
-description: Let's get you started with Prem in minutes. In this guide, we'll show you how to use the **Chat Completions** funcationality. 
+description: Let's get you started with Prem in minutes. In this guide, we'll show you how to use the **Chat Completions** functionality. 
 ---
 <Note>
-This is a quickstart guide for using the **Chat Completions** funcationality. 
+This is a quickstart guide for using the **Chat Completions** functionality. 
 
 Chat completions allow you to choose a model (e.g. `gpt-4o` or the name of a model you fine-tuned) to generate a response using a text-based prompt.
 
@@ -15,23 +15,21 @@ Keep in mind that Prem is designed to make the process of creating custom models
 If you want to learn about [Datasets](/datasets/overview), [Autonomous Fine-Tuning](/finetuning/overview), [Evaluations](/evaluations/overview), [Stats](/stats/overview) and [Playground](/playground/overview), please refer to those guides.
 </Note>
 
-
-The quickest way to get started with Prem is to use the OpenAI SDKs for chat completions as shown below.
+The quickest way to get started with Prem is to use either the PremAI SDK or OpenAI SDKs for chat completions as shown below.
 
 <Note>
 You can also use the [Prem AI API](/api-reference/introduction) to generate chat completions. 
 
-With the API you can use any programming language that has a HTTP client.
+With the API you can use any programming language that has an HTTP client.
 
-We give you the option to use the [Prem AI API](/api-reference/introduction) or the OpenAI SDKs.
+We give you the option to use the [Prem AI API](/api-reference/introduction), the PremAI SDK, or the OpenAI SDKs.
  
 For API usage documentation, refer to the [API Reference](/api-reference/introduction).
 </Note>
 
-<Steps>
-<Step title="Create an API Key 🔑">
+## Create an API Key 🔑
 
-Click the **API Key** Button on the sidebar. Then click the **+ Create API Key** button. 
+Click the **API Key** button on the sidebar. Then click the **+ Create API Key** button. 
 
 Afterwards, copy the API key and save it in a secure location.
 
@@ -40,23 +38,117 @@ Afterwards, copy the API key and save it in a secure location.
   alt="Create an API Key"
 />
 
+## Use with PremAI SDK
 
-
-</Step>
-
-<Step title="Install the OpenAI SDKs">
-### Install the OpenAI SDKs
+### Install the PremAI SDK
 <CodeGroup>
 ```bash javascript/typescript
-npm install openai;
+npm install premai
 ```
 ```bash python
-pip install openai;
+pip install premai
 ```
 </CodeGroup>
-</Step>
 
-<Step title="Perform a Chat Completion">
+### List Models
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
+});
+
+const response = await client.chat.listModels();
+
+console.log(response.data);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
+)
+response = client.chat.list_models()
+print(response.data)
+```
+</CodeGroup>
+
+### Chat Completions
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
+});
+
+const response = await client.chat.completions({ 
+  messages: [{ role: 'system', content: 'You are a helpful assistant.' }], 
+  model: 'gpt-4o' 
+});
+
+console.log(response.id);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
+)
+response = client.chat.completions(
+    messages=[{
+        "role": "system",
+        "content": "You are a helpful assistant."
+    }],
+    model="gpt-4o",
+)
+print(response.id)
+```
+</CodeGroup>
+
+### List Models Internal
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
+});
+
+async function main() {
+  const response = await client.chat.listModelsInternal();
+}
+
+main();
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
+)
+
+response = client.chat.list_models_internal()
+```
+</CodeGroup>
+
+## Use with OpenAI SDK
+
+### Install the OpenAI SDK
+<CodeGroup>
+```bash javascript/typescript
+npm install openai
+```
+```bash python
+pip install openai
+```
+</CodeGroup>
+
+### Chat Completions
 <Note>
 The model name can be replaced with the name of your fine-tuned models as well.
 </Note>                      
@@ -173,38 +265,30 @@ async for chunk in response:
     print(chunk.choices[0].delta.content, end='', flush=True)
 ```
 </CodeGroup>
-</Step>
-</Steps>
 
-
-
-## Next steps
+## Next Steps
 
 - Add your own [Dataset](/datasets/overview) as a first step to create your own custom models.
 - Next, [Autonomously Fine-Tune](/finetuning/overview) your models using a dataset.
-- Then, use [Evaluations](/evaluations/overview) to track your models performance.
+- Then, use [Evaluations](/evaluations/overview) to track your model's performance.
 - Afterwards, keep up with your model's performance with [Stats](/stats/overview).
-- Finally, test models your fine-tuned models and pre-trained models in the [Playground](/playground/overview).
+- Finally, test your fine-tuned models and pre-trained models in the [Playground](/playground/overview).
 - Bring your models to production or repeat any steps you need to improve your models or make new ones.
 
-## Read the guides
+## Read the Guides
 
 <CardGroup cols={3}>
 <Card title="Datasets" icon="database" href="/datasets/overview">
   Import your own dataset.
 </Card>
 
-
 <Card title="Autonomous Fine-Tuning" icon="robot" href="/finetuning/overview">
-    Fine-Tune your models.
+    Fine-tune your models.
 </Card>
-
-{" "}
 
 <Card title="Evaluations" icon="heart-pulse" href="/evaluations/overview">
     Evaluate your models.
 </Card>
-
 </CardGroup>
 
 <CardGroup cols={3}>
@@ -218,7 +302,7 @@ async for chunk in response:
     Use the Prem API.
   </Card>
 </CardGroup>
-----
+
 ## Support
 <CardGroup cols={2}>
   <Card title="FAQ" icon="question" href="/resources/faq">
