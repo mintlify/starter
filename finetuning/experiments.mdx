@@ -5,7 +5,7 @@ description: Learn how to create experiments with your fine-tuned model.
 
 # Getting Started with Experiments
 
-Experiments are the way to prepare your fine-tuned model for testing, evaluation, and deployment. 
+Experiments are the way to prepare your fine-tuned model for testing, evaluation, and deployment.
 
 <img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiments/step-0-what-are-experiments.png" alt="Image of the experiment overview" />
 ---
@@ -15,7 +15,7 @@ Experiments are the way to prepare your fine-tuned model for testing, evaluation
 Each experiment has the following parameters:
 
 
-- **Base Model ID**: The foundation model that will be fine-tuned with your data. More powerful models generally result in better performance but will significantly increase processing time. 
+- **Base Model ID**: The foundation model that will be fine-tuned with your data. More powerful models generally result in better performance but will significantly increase processing time.
 
         Click [here](/resources/available-models) to view the list of our available models.
 - **Batch Size**: Number of samples processed together in a single training step. Larger batch sizes can improve training quality but substantially increase memory usage and processing time. Smaller batches process faster but may require more epochs. Valid range: 1-8
@@ -31,8 +31,8 @@ Once you run your experiments, you can do the following:
 
 - View the Training Loss Comparison Chart.
   - The Training Loss Comparison Chart visualizes how the model's error decreases during training across different experiments. Lower loss values indicate better model performance. This chart helps you compare different parameter configurations to identify which settings produce the most effective fine-tuned models.
-  
- <Note> 
+
+ <Note>
   You can click on each experiment name to toggle if the experiment is hidden or shown.
   <img src="https://static.premai.io/prem-saas-docs/fine-tuning/experiments/toggle-chart.gif" alt="Gif of toggling the experiment chart" />
 </Note>
@@ -48,17 +48,9 @@ Once you run your experiments, you can do the following:
 Now that you have a fine-tuned model, you can do the following:
 <CardGroup cols={2}>
 <Card title="Test the Fine-tuned Model in the Playground" icon="play" href="/playground/overview">
-  Try out the fine-tuned model in the [Playground](/playground/overview) before deploying it or running evaluations.    
+  Try out the fine-tuned model in the [Playground](/playground/overview) before deploying it or running evaluations.
 </Card>
 <Card title="Run Evaluations" icon="heart-pulse" href="/evaluations/overview">
   Run evaluations to test the performance of the fine-tuned model.
 </Card>
 </CardGroup>
-
-
-
-
-
-
-
-

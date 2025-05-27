@@ -3,10 +3,10 @@ title: Executors
 description: Connects to databases and executes generated SQL queries to fetch results.
 ---
 
-An executor executes the generated SQL queries against 
-the database and fetches the results. 
-It is a crucial component in the Text-to-SQL pipeline, as 
-it ensures that the generated SQL queries are valid and 
+An executor executes the generated SQL queries against
+the database and fetches the results.
+It is a crucial component in the Text-to-SQL pipeline, as
+it ensures that the generated SQL queries are valid and
 return the expected results.
 
 PremSQL supports a native executor for SQLite databases and also supports [LangChain's SQLDatabase](https://python.langchain.com/v0.2/docs/integrations/tools/sql_database/)
@@ -18,7 +18,7 @@ from premsql.executors import SQLiteExecutor
 # Instantiate the executor
 executor = SQLiteExecutor()
 
-# Set a sample dataset path 
+# Set a sample dataset path
 db_path = "./data/db/california_schools.sqlite"
 sql = 'SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_popularity DESC LIMIT 1'
 
@@ -108,4 +108,3 @@ class PostgreSQLExecutor(BaseExecutor):
 
 Awesome now that we understand what executors are and how they work,
 let's understand how to evaluate the generated SQL queries using the `Text2SQLEvaluator` in the next section.
-

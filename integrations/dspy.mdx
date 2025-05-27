@@ -30,7 +30,7 @@ Once we have imported our required modules, let's set up our dspy-premai client.
 To use dspy with prem, you do not need to pass any model name or set any parameters with our chat-client. By default it will use the model name and parameters used in the [LaunchPad](https://docs.premai.io/get-started/launchpad).
 
 <Note>
- If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.   
+ If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.
 </Note>
 
 ```python
@@ -54,22 +54,22 @@ You can also change the generation parameters while calling the model. Here's ho
 
 ```python
 print(llm(
-    "What is a large language model?", 
+    "What is a large language model?",
     temperature=0.7, max_tokens=20
 ))
 ```
 
 <Note>
-If you are going to place system prompt here, then it will override your system prompt that was fixed while deploying the application from the platform. 
+If you are going to place system prompt here, then it will override your system prompt that was fixed while deploying the application from the platform.
 
-You can find all the optional parameters [here](https://docs.premai.io/get-started/sdk#optional-parameters). Any parameters other than [these supported parameters](https://docs.premai.io/get-started/sdk#optional-parameters) will be automatically removed before calling the model. 
+You can find all the optional parameters [here](https://docs.premai.io/get-started/sdk#optional-parameters). Any parameters other than [these supported parameters](https://docs.premai.io/get-started/sdk#optional-parameters) will be automatically removed before calling the model.
 </Note>
 
 ### Native RAG Support
 
 Prem Repositories which allows users to upload documents (.txt, .pdf etc) and connect those repositories to the LLMs. You can think Prem repositories as native RAG, where each repository can be considered as a vector database. You can connect multiple repositories. You can learn more about repositories [here](https://docs.premai.io/get-started/repositories).
 
-Repositories are also supported in dspy premai. Here is how you can do it. 
+Repositories are also supported in dspy premai. Here is how you can do it.
 
 ```python
 query = "what is the diameter of individual Galaxy"
@@ -81,13 +81,13 @@ repositories = dict(
 )
 ```
 
-First we start by defining our repository with some repository ids. Make sure that the ids are valid repository ids. You can learn more about how to get the repository id [here](https://docs.premai.io/get-started/repositories). 
+First we start by defining our repository with some repository ids. Make sure that the ids are valid repository ids. You can learn more about how to get the repository id [here](https://docs.premai.io/get-started/repositories).
 
-> Please note: Similar like `model` when you invoke the argument `repositories`, then you are potentially overriding the repositories connected in the launchpad. 
+> Please note: Similar like `model` when you invoke the argument `repositories`, then you are potentially overriding the repositories connected in the launchpad.
 
-Now, we connect the repository with our chat object to invoke RAG based generations. 
+Now, we connect the repository with our chat object to invoke RAG based generations.
 
-```python 
+```python
 response = llm(query, max_tokens=100, repositories=repositories)
 
 print(response)
@@ -95,7 +95,7 @@ print("---")
 print(json.dumps(llm.history, indent=4))
 ```
 
-Here is how an example generation would look like with Prem Repositories. 
+Here is how an example generation would look like with Prem Repositories.
 
 ```bash
 'The diameters of individual galaxies range from 80,000-150,000 light-years.'
@@ -156,4 +156,4 @@ Here is how an example generation would look like with Prem Repositories.
 
 So, this also means that you do not need to make your own RAG pipeline when using the Prem Platform. Prem uses it's own RAG technology to deliver best in class performance for Retrieval Augmented Generations.
 
-> Ideally, you do not need to connect Repository IDs here to get Retrieval Augmented Generations. You can still get the same result if you have connected the repositories in prem platform. 
+> Ideally, you do not need to connect Repository IDs here to get Retrieval Augmented Generations. You can still get the same result if you have connected the repositories in prem platform.

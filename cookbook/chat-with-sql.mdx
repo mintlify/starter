@@ -11,22 +11,22 @@ Welcome to the Prem AI cookbook section. In this cookbook, we are going to make 
 
 ## Objective
 
-This recipe aims to show developers and users how to get started with Prem's Generative AI Platform and build different use cases around it. Through this tutorial, we also want to show how you can easily integrate Prem with existing Open Source LLM orchestration tools like [llama-index](https://docs.llamaindex.ai/en/stable/examples/llm/premai/). We will give you a basic understanding of how to connect data sources (like SQL database) using llama-index and then use PremAI LLMs and Embeddings to index the data and fetch meaningful results. 
+This recipe aims to show developers and users how to get started with Prem's Generative AI Platform and build different use cases around it. Through this tutorial, we also want to show how you can easily integrate Prem with existing Open Source LLM orchestration tools like [llama-index](https://docs.llamaindex.ai/en/stable/examples/llm/premai/). We will give you a basic understanding of how to connect data sources (like SQL database) using llama-index and then use PremAI LLMs and Embeddings to index the data and fetch meaningful results.
 
 ## Setting up the project
 
 Let's start by creating a virtual environment and installing dependencies.
 
 <Note>
-Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). You also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
-</Note> 
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). You also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement.
+</Note>
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Up next, we need to install some dependencies. You can check out all the dependencies [in this requirements.txt](https://github.com/premAI-io/cookbook/chat-with-sql/requirements.txt) file. 
+Up next, we need to install some dependencies. You can check out all the dependencies [in this requirements.txt](https://github.com/premAI-io/cookbook/chat-with-sql/requirements.txt) file.
 
 <Card icon="lightbulb" href="/get-started/supported-models">
 Prem AI offers a variety of models comprising of LLMs and Embedding models. You can check out all the available models under this [**section**](https://docs.premai.io/get-started/supported-models).
@@ -34,7 +34,7 @@ Prem AI offers a variety of models comprising of LLMs and Embedding models. You 
 
 Our file structure for this project will consist of two main files: `db_utils.py` and `main.py`. In the `db_utils.py` file, we will write all the utility functions to connect llama-index with our SQL database and the table of our choice. The `main.py` file contains the streamlit code to provide a nice front end.
 
-## Ingesting movies data into SQL table `Optional` 
+## Ingesting movies data into SQL table `Optional`
 
 This section will create a sample SQL table using Postgres DB. We set it up locally and use this [Netflix movies dataset](https://www.kaggle.com/datasets/rahulvyasm/netflix-movies-and-tv-shows) from Kaggle. We download the dataset (a single CSV file). We load the dataset using pandas, and then we parse each row of the dataframe and insert it into our table.
 
@@ -44,14 +44,14 @@ If you already have a database and some tables, you are not required to follow t
 
 ## Connecting SQL table using llama-index and PremAI
 
-We will specifically understand some functions inside the [db_utils.py file](https://github.com/premAI-io/cookbook/chat-with-sql/db_utils.py). Let's look at the schematics to understand what is happening under the hood. 
+We will specifically understand some functions inside the [db_utils.py file](https://github.com/premAI-io/cookbook/chat-with-sql/db_utils.py). Let's look at the schematics to understand what is happening under the hood.
 
 <img
   src="/images/cookbook/chat-with-sql-simple.png"
   alt="Playground"
 />
 
-In the above figure, we can see that the user first sends a query to the LLM. The whole process is orchestrated using llama-index, which during initialization connects with the database using `SQLDatabase` and then builds the query engine using `NLSQLTableQueryEngine`. This engine is basically prompted to generate proper SQL from the table schema and its contents. 
+In the above figure, we can see that the user first sends a query to the LLM. The whole process is orchestrated using llama-index, which during initialization connects with the database using `SQLDatabase` and then builds the query engine using `NLSQLTableQueryEngine`. This engine is basically prompted to generate proper SQL from the table schema and its contents.
 
 <Note>
 This workflow shown above does not use any embedding-based retrieving techniques. It provides an awesome abstraction for text2sql related workflows once connected with some sort of database from SQLAlchemy.
@@ -72,7 +72,7 @@ def setup_index_before_chat(db_config: dict, table: str, ):
     port = db_config["port"]
     database = db_config["database"]
 
-    # connect to the database 
+    # connect to the database
     engine = create_engine(
         f"postgresql://{username}:{password}@{host}:{port}/{database}"
     )
@@ -85,7 +85,7 @@ def setup_index_before_chat(db_config: dict, table: str, ):
     return query_engine
 ```
 
-Since this function is particular to our chosen table, let's write a helper function to fetch all the table names inside our database. 
+Since this function is particular to our chosen table, let's write a helper function to fetch all the table names inside our database.
 
 ```python Python
 from typing import Union
@@ -120,7 +120,7 @@ premai_project_id = "xxxx"
 username = "xxxxx"
 password = "xxxxx"
 host = "localhost"
-port = "5432"  
+port = "5432"
 database = "xxxxx"
 ```
 
@@ -168,7 +168,7 @@ Settings.llm = llm
 Settings.embed_model = embedding_model
 ```
 
-Next, we write a simple sidebar to choose which table to chat with. This is where we will require our helper function: `get_all_tables_from_db`. 
+Next, we write a simple sidebar to choose which table to chat with. This is where we will require our helper function: `get_all_tables_from_db`.
 
 ```python Python
 with st.sidebar:
@@ -180,7 +180,7 @@ with st.sidebar:
         st.success(f"You will be chatting with Table: {options}")
 ```
 
-Once we get the table of interest from the user, we then connect that table using our `setup_index_before_chat` function. 
+Once we get the table of interest from the user, we then connect that table using our `setup_index_before_chat` function.
 
 ```python Python
 if options is None:
@@ -199,8 +199,8 @@ In this section, we are going to implement the [**same boilerplate chat code**](
 
 On a high level, here is our overall pipeline that we want to carry out using Streamlit:
 
-1. Get the prompt from the user, save it to a streamlit session to capture history and show the prompt in the chat UI. 
-2. Once got the prompt, pass it to the `query_engine` and get the result. 
+1. Get the prompt from the user, save it to a streamlit session to capture history and show the prompt in the chat UI.
+2. Once got the prompt, pass it to the `query_engine` and get the result.
 3. Stream the result and show the metadata (including the SQL query written to fetch the results for debug purposes).
 
 <Accordion title="Streamlit chat implementation">
@@ -217,7 +217,7 @@ else:
     )
 
     # Print all the previous messages from the user or assistant
-    # if exists 
+    # if exists
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
@@ -268,23 +268,23 @@ else:
 
 </Accordion>
 
-Congratulations if you made it this far. This almost concludes our recipe on how we can use Prem AI and llama-index to connect SQL and perform semantic operations like question answering with it (using the Text2SQL method). You can find the full code [here](https://github.com/premAI-io/cookbook/chat-with-sql). 
+Congratulations if you made it this far. This almost concludes our recipe on how we can use Prem AI and llama-index to connect SQL and perform semantic operations like question answering with it (using the Text2SQL method). You can find the full code [here](https://github.com/premAI-io/cookbook/chat-with-sql).
 
 We also have an additional section on how to use embedding-based retrieval methods to index multiple tables and chat with them. If you are further interested, you can have a look.
 
 ## Chat with multiple SQL tables `Optional`
 
-In this section, we will write an additional function to replace the existing `setup_index_before_chat` with a more advanced one. We will also introduce how to index multiple tables and chat with them using llama-index and Prem AI. 
+In this section, we will write an additional function to replace the existing `setup_index_before_chat` with a more advanced one. We will also introduce how to index multiple tables and chat with them using llama-index and Prem AI.
 
-The workflow remains the same but with some changes. 
+The workflow remains the same but with some changes.
 
-1. We first connect to our database. 
-2. After this, we gather all the tables and initialize a `VectorStoreIndex`, which essentially maps and performs an indexing to all the available table schemas. Here, our embedding model is used to get the schema embeddings and all the metadata related to the tables. 
-3. When we pass a user query, it goes to the in-memory vector index to fetch all the nearest embeddings. 
+1. We first connect to our database.
+2. After this, we gather all the tables and initialize a `VectorStoreIndex`, which essentially maps and performs an indexing to all the available table schemas. Here, our embedding model is used to get the schema embeddings and all the metadata related to the tables.
+3. When we pass a user query, it goes to the in-memory vector index to fetch all the nearest embeddings.
 4. Finally, it decodes the embedded data and puts it into the LLM context to get the SQL.
-5. This SQL is run inside the database to fetch proper results and then fed to another LLM in a better human-readable format. 
+5. This SQL is run inside the database to fetch proper results and then fed to another LLM in a better human-readable format.
 
-Here is the schematic diagram to understand in more detail. 
+Here is the schematic diagram to understand in more detail.
 
 <img
   src="/images/cookbook/chat-with-sql-complex.png"
@@ -293,7 +293,7 @@ Here is the schematic diagram to understand in more detail.
 
 Let's code this approach.
 
-```python Python 
+```python Python
 from llama_index.core import SQLDatabase
 from llama_index.core.indices.struct_store import SQLTableRetrieverQueryEngine
 from llama_index.core.objects import (
@@ -321,7 +321,7 @@ def setup_index_before_chat_use_embedding(db_config: dict):
     all_table_names = get_all_tables_from_db(db_config)
     for table_name in all_table_names:
         table_schema_objs.append(SQLTableSchema(table_name=table_name))
-    
+
     object_index = ObjectIndex.from_objects(
         table_schema_objs,
         table_node_mapping,
@@ -334,4 +334,4 @@ def setup_index_before_chat_use_embedding(db_config: dict):
     return query_engine
 ```
 
-Awesome, now all we need to do is replace the `setup_index_before_chat` with `setup_index_before_chat_use_embedding` function inside `main.py` and then we are now able to chat with multiple tables. You can check out the [full source code](https://github.com/premAI-io/cookbook/chat-with-sql) to run and reproduce the results and extend it to your SQL based Generative AI workflows. 
+Awesome, now all we need to do is replace the `setup_index_before_chat` with `setup_index_before_chat_use_embedding` function inside `main.py` and then we are now able to chat with multiple tables. You can check out the [full source code](https://github.com/premAI-io/cookbook/chat-with-sql) to run and reproduce the results and extend it to your SQL based Generative AI workflows.

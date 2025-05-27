@@ -3,7 +3,7 @@ title: Agents
 description: End-to-end workflows customizable Text to SQL Agentic workflows for querying, analysing and plotting charts in databases all in natural language.
 ---
 
-Agents has been quite popular for a while. Simply we can define agents as an orchestrated workflows between different LLMs/SLMs. PremSQL Agents are mainly focussed to execute tasks related to Databases. Breifly PremSQL agents can:
+Agents has been quite popular for a while. Simply we can define agents as an orchestrated workflows between different LLMs/SLMs. PremSQL Agents are mainly focussed to execute tasks related to Databases. Briefly PremSQL agents can:
 
 ![agent-architecture](/images/premsql/agent_flow.png)
 
@@ -34,11 +34,11 @@ Before diving in, ensure you have a basic understanding of the following premsql
   </Card>
 </CardGroup>
 
-Now let's understand some basic terminologies we use while using PremSQL agents. 
+Now let's understand some basic terminologies we use while using PremSQL agents.
 
 ## Terminologies
 
-Before procedding, we discuss some terminology conventions we use for PremSQL Agents.
+Before proceeding, we discuss some terminology conventions we use for PremSQL Agents.
 
 - **Agent**: An agent is considered to be the complete overall workflow.
 - **Workers**: Workers are the LLMs / SLMs which is instructed / designed to do some task.
@@ -48,7 +48,7 @@ PremSQL comes with a `baseline` agent. In other words, Baseline means the minima
 
 ## BaseLine Agent
 
-PremSQL comes with a minimal agentic implementation (more implementation variants will come in later versions), which can query to a DB, provide analysis over dataframes and answer user questions and plot simple graphs. This is how you use our baseline Text to SQL agent. 
+PremSQL comes with a minimal agentic implementation (more implementation variants will come in later versions), which can query to a DB, provide analysis over dataframes and answer user questions and plot simple graphs. This is how you use our baseline Text to SQL agent.
 
 ```python
 from premsql.agents import BaseLineAgent
@@ -76,7 +76,7 @@ Since PremSQL is a local first open source library. So in this documentation, we
 However you can also use `Text2SQLGeneratorHF` / `Text2SQLGeneratorOpenAI` or `Text2SQLGeneratorPremAI` / `Text2SQLGeneratorOllama` to use other open or closed source models as well. Now, let's proceed with instantiating our BaseLine agent.
 
 <Tip>
-Check out our [introduction page](/premsql/introduction.mdx) where we have used Ollama to do the same thing. 
+Check out our [introduction page](/premsql/introduction.mdx) where we have used Ollama to do the same thing.
 </Tip>
 
 ```Python
@@ -191,7 +191,7 @@ print(analysis.analysis)
 print(analysis.reasoning)
 ```
 Here your agent analyses the latest dataframe which was being output using the `/query` route. It searches for the latest output
-and feed that as the input and then provide the analysis. 
+and feed that as the input and then provide the analysis.
 
 
 **For plotting charts**
@@ -199,7 +199,7 @@ and feed that as the input and then provide the analysis.
 plot = agent("/plot the relation between creation date and vote type id") # This will generate a matplotlib plot
 ```
 Here your agent analyses the latest dataframe which was being output using the `/query` route. It searches for the latest output
-and feed that as the input and then go for selecting the columns of the latest input/output dataframe and selects which columns and which plot type needs to be choosen from user's input. Current supported plot types are: `scatter`, `line`, `area`, `histogram`  and `bar` plot.
+and feed that as the input and then go for selecting the columns of the latest input/output dataframe and selects which columns and which plot type needs to be chosen from user's input. Current supported plot types are: `scatter`, `line`, `area`, `histogram`  and `bar` plot.
 
 **Everything else followup route**
 
@@ -207,7 +207,7 @@ and feed that as the input and then go for selecting the columns of the latest i
 agent("hello")
 ```
 
-The followup route tells you either what to do next when you provide an input which does not match with any of the following routes shown above or when the overall agentic workflow fails. 
+The followup route tells you either what to do next when you provide an input which does not match with any of the following routes shown above or when the overall agentic workflow fails.
 
 ### Modes of Agent run
 There are three modes in which your agent can run. One way to run these agent is using this line of code:
@@ -225,26 +225,26 @@ Here you will get an output which is a Pydantic model named `ExitWorkerOutput` m
 class ExitWorkerOutput(BaseModel):
     """
     Comprehensive output model that combines results from all pipeline workers.
-    
+
     Attributes:
         session_name (str): Unique identifier for the processing session
         question (str): Original user question that initiated the pipeline
         db_connection_uri (str): Database connection string used for queries
         route_taken (Literal["plot", "analyse", "query", "followup"]): Primary processing path chosen
-        
+
         # Text2SQL Worker Results
         sql_string (Optional[str]): Generated SQL query if route_taken is "query"
         sql_reasoning (Optional[str]): Explanation of SQL generation process
         sql_input_dataframe (Optional[Dict]): Input data used for SQL generation
         sql_output_dataframe (Optional[Dict]): Results of SQL query execution
         error_from_sql_worker (Optional[str]): Any errors from SQL processing
-        
+
         # Analysis Worker Results
         analysis (Optional[str]): Generated analysis text if route_taken is "analyse"
         analysis_reasoning (Optional[str]): Explanation of analysis process
         analysis_input_dataframe (Optional[Dict]): Data used for analysis
         error_from_analysis_worker (Optional[str]): Any errors from analysis processing
-        
+
         # Plot Worker Results
         plot_config (Optional[Dict]): Chart configuration if route_taken is "plot"
         plot_input_dataframe (Optional[Dict]): Data used for plotting
@@ -252,17 +252,17 @@ class ExitWorkerOutput(BaseModel):
         image_to_plot (Optional[str]): Generated plot image (usually base64 encoded)
         plot_reasoning (Optional[str]): Explanation of plotting decisions
         error_from_plot_worker (Optional[str]): Any errors from plot generation
-        
+
         # Followup Worker Results
         followup_route_to_take (Optional[Literal]): Suggested next action
         followup_suggestion (Optional[str]): Generated followup question/suggestion
         error_from_followup_worker (Optional[str]): Any errors from followup processing
-        
+
         additional_input (Optional[Dict]): Any additional parameters used in processing
     """
 ```
 
-Now if you feel this is very overwhelming then you can just toogle `server_mode` to be on while calling the agent which looks like this:
+Now if you feel this is very overwhelming then you can just toggle `server_mode` to be on while calling the agent which looks like this:
 
 ```python
 output = agent(question="/query show me all the rows in votes", server_mode=True)
@@ -271,34 +271,34 @@ plot = agent(question="/plot the relation between creation date and vote type id
 followup = agent(question="hello", server_mode=True)
 ```
 
-All of them outputs a Pydantic model named `AgentOutput` Which is a less granular form of `ExitWorkerOutput` which contains 
+All of them outputs a Pydantic model named `AgentOutput` Which is a less granular form of `ExitWorkerOutput` which contains
 the following attributes:
 
 ```python
 class AgentOutput(BaseModel):
   """Final output model that provides a streamlined view of the pipeline results.
-  
+
   Attributes:
       session_name (str): Unique identifier for the processing session
       question (str): Original user question that initiated the pipeline
       db_connection_uri (str): Database connection string used for queries
       route_taken (Literal["plot", "analyse", "query", "followup"]): Primary processing path chosen
-      
+
       # Data Fields
       input_dataframe (Optional[Dict]): Input data used for processing
       output_dataframe (Optional[Dict]): Final processed data in {"columns": [...], "data": [[...]]} format
-      
+
       # Route-specific Results
       sql_string (Optional[str]): Generated SQL query if route_taken is "query"
       analysis (Optional[str]): Analysis text if route_taken is "analyse"
       reasoning (Optional[str]): Explanation of processing decisions
       plot_config (Optional[Dict]): Chart configuration if route_taken is "plot"
       image_to_plot (Optional[str]): Generated plot image data
-      
+
       # Followup Information
       followup_route (Optional[Literal]): Suggested next processing route
       followup_suggestion (Optional[str]): Generated followup question/suggestion
-      
+
       # Error and Metadata
       error_from_pipeline (Optional[str]): Any errors encountered during processing
       created_at (datetime): Timestamp of result creation
@@ -312,28 +312,28 @@ what how are the main topics of the comments table. Then you need to previously 
 has the comments information.
 </Card>
 
-However, there is another way to run agents, where you can explicitely add your "input dataframe" to do analysis or plotting. Here is how you do that:
+However, there is another way to run agents, where you can explicitly add your "input dataframe" to do analysis or plotting. Here is how you do that:
 
 ```python
 # let's say you have some input pandas dataframe: df
 analysis  = agent.run(question="some question", input_dataframe=df)
 ```
-That's it. Thats how you can explicitely provide dataframes to do some certain tasks. However this feature is not available in [Agent Server](/premsql/playground.mdx)
+That's it. Thats how you can explicitly provide dataframes to do some certain tasks. However this feature is not available in [Agent Server](/premsql/playground.mdx)
 
 
 ## Workers inside Baseline
 
 You can either use the BaseLine agent to run your things or you can also use each of the workers independently. Inside BaseLine there are mainly three workers as follows:
 
-1. Text to SQL Worker: This worker gets invoked when we start anything with `/query`. 
-2. Analysis Worker: This worker gets invoked when we start anything with `/analyse`. 
-3. Plot Worker: This worker gets invoked when we start anything with `plot`. 
+1. Text to SQL Worker: This worker gets invoked when we start anything with `/query`.
+2. Analysis Worker: This worker gets invoked when we start anything with `/analyse`.
+3. Plot Worker: This worker gets invoked when we start anything with `plot`.
 
-Now let's explore each of the workers in Details. 
+Now let's explore each of the workers in Details.
 
 ### Text to SQL Worker
 
-The task of Text to SQL worker is pretty much self explainatory. This worker inside BaseLine agent get's invoked when we write anything starting with `/query`. However if you use this worker independently then there is no need to do that. Here is how we define the Text to SQL worker inside BaseLine agent. 
+The task of Text to SQL worker is pretty much self explanatory. This worker inside BaseLine agent get's invoked when we write anything starting with `/query`. However if you use this worker independently then there is no need to do that. Here is how we define the Text to SQL worker inside BaseLine agent.
 
 ```python
 import os
@@ -369,7 +369,7 @@ text2sql_worker = BaseLineText2SQLWorker(
 - `exclude_tables (Optional[list])`: List of tables to exclude from schema context.
       If None, no tables are excluded.
 - `auto_filter_tables (Optional[bool])`: Whether to automatically filter relevant tables for each query.
-      Defaults to False. This will call the model one more time and it is recommended to use when model is strong and you have very large number of schemas. 
+      Defaults to False. This will call the model one more time and it is recommended to use when model is strong and you have very large number of schemas.
 
 Now let's understand how to run the worker.
 
@@ -414,7 +414,7 @@ by the following method:
 ```python
 response.show_output_dataframe()
 ```
-This will convert the json to pandas dataframe. 
+This will convert the json to pandas dataframe.
 
 ### Analyser Worker
 

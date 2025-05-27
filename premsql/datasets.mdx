@@ -35,7 +35,7 @@ bird_dataset = Text2SQLDataset(
 <Card icon="link" href="https://bird-bench.github.io/">
 BirdBench is one of the very popular and recent Text to SQL Benchmarking dataset. It comes with around 9K train and 1534 validation data
 composing of complex and diverse queries around real world datasets. They also have a private test data which they use to test different
-Text to SQL models and approaches by the community. 
+Text to SQL models and approaches by the community.
 </Card>
 
 
@@ -120,9 +120,9 @@ print_data(bird_dataset[0])
 
 <Note>
 The difference between `loading` and `setting up` a dataset is, in loading, we generally
-download the dataset or load the raw dataset from some folder. Setting up a dataset means 
+download the dataset or load the raw dataset from some folder. Setting up a dataset means
 processing the dataset (which includes inserting schemas, few shot prompts, adding customization, filtering etc)
-based on user's requirements. 
+based on user's requirements.
 </Note>
 
 ### Preview Without Tokenization
@@ -260,7 +260,7 @@ print_data(gretel_dataset[0]["raw"])
 
 ## Dataset Merging
 
-`premsql` datasets support merging, allowing you to pack multiple datasets together for combined use. 
+`premsql` datasets support merging, allowing you to pack multiple datasets together for combined use.
 This is useful when training on multiple datasets or you want to do validation on a combination of datasets.
 
 ```python
@@ -320,7 +320,7 @@ error free SQL query based on the question asked. Please make sure:
 2. Make sure the column names are correct and exists in the table
 3. For column names which has a space with it, make sure you have put `` in that column name
 4. Think step by step and always check schema and question and the column names before writing the
-query. 
+query.
 
 # Database and Table Schema:
 CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT); INSERT INTO salesperson (salesperson_id, name, region) VALUES (1, 'John Doe', 'North'), (2, 'Jane Smith', 'South'); CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE); INSERT INTO timber_sales (sales_id, salesperson_id, volume, sale_date) VALUES (1, 1, 120, '2021-01-01'), (2, 1, 150, '2021-02-01'), (3, 2, 180, '2021-01-01');
@@ -333,18 +333,18 @@ SQL: SELECT salesperson_id, name, SUM(volume) as total_volume FROM timber_sales 
 
 # Question: What is the total volume of timber sold by each salesperson, sorted by salesperson?
 
-# SQL: 
+# SQL:
 ```
 </Accordion>
 
-This prompts are made dynamically as long as the raw dataset contains the necessary keys: `db_id`, `question` and `SQL` (all case sensitives) and 
+This prompts are made dynamically as long as the raw dataset contains the necessary keys: `db_id`, `question` and `SQL` (all case sensitives) and
 the dataset is structured in the standardization followed by PremSQL. Let's understand more about the standardization and how you can create your own dataset.
 
 
 ## Creating Your Own Dataset
 
-If you have some annotations for your Text to SQL task on your private data then you can create your own dataset.When it comes to tasks like Text to SQL, we face a lot of dependencies with databases at every step. For example, to make a dataset for Text to SQL, 
-you need a module that can connect to databases, fetch the schemas, and apply them to the prompt. That's why we have introduced a more standard approach to providing inputs, which is used all across PremSQL. 
+If you have some annotations for your Text to SQL task on your private data then you can create your own dataset.When it comes to tasks like Text to SQL, we face a lot of dependencies with databases at every step. For example, to make a dataset for Text to SQL,
+you need a module that can connect to databases, fetch the schemas, and apply them to the prompt. That's why we have introduced a more standard approach to providing inputs, which is used all across PremSQL.
 If you use it for your private databases, then you can extend and customize it for your data and your use case.
 However, you strictly need to organize your files in the following structure:
 
@@ -352,8 +352,8 @@ However, you strictly need to organize your files in the following structure:
 ├── databases
 │   ├── california_schools
 │       ├── california_schools.sqlite
-├── train.json  
-├── validation.json # Optional 
+├── train.json
+├── validation.json # Optional
 ```
 
 Each sub-folder in `databases` should contain a `.sqlite` file matching the sub-folder name. Your `train` or `validation` JSON file should contain a list of dictionaries with these required keys:
@@ -383,14 +383,14 @@ from premsql.datasets import StandardDataset
 validation_dataset = StandardDataset(
     split="validation",    # it can be either train / validation / test depending on your dataset and the name of the json file
     dataset_path="/path/to/the/folder/containing/the/files/",
-    database_folder_name="databases", # The same name of the folder 
+    database_folder_name="databases", # The same name of the folder
     json_file_name="validation.json",
 )
 
 train_dataset = StandardDataset(
     split="train",    # it can be either train / validation / test depending on your dataset and the name of the json file
     dataset_path="/path/to/the/folder/containing/the/files/",
-    database_folder_name="databases", # The same name of the folder 
+    database_folder_name="databases", # The same name of the folder
     json_file_name="train.json",
 )
 ```

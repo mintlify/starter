@@ -1,6 +1,6 @@
 ---
 title: Playground
-description: Agent Server where you can deploy PremSQL agents in the most customized forms. 
+description: Agent Server where you can deploy PremSQL agents in the most customized forms.
 ---
 
 Welcome to the first release of PremSQL playground. You can think of Playground as a similar environment like chatGPT UI for specialized for RAGs on databases. There are different personas of usage of the PremSQL playground.  Before diving in, ensure you have a basic understanding of the following premsql components:
@@ -16,7 +16,7 @@ Welcome to the first release of PremSQL playground. You can think of Playground 
 
 ## For Analysts and general users
 
-If you are not interested in customizing PremSQL much, and just here want to use LLM powered data analysis, then just use our CLI to start the app and either connect your database manually or connect to bunch of CSVs files inside a folder or import it from kaggle. Here is how you launch the server: 
+If you are not interested in customizing PremSQL much, and just here want to use LLM powered data analysis, then just use our CLI to start the app and either connect your database manually or connect to bunch of CSVs files inside a folder or import it from kaggle. Here is how you launch the server:
 
 ```bash
 premsql launch all
@@ -47,11 +47,11 @@ analyser_plotter_model = Text2SQLGeneratorPremAI(
     project_id=os.environ.get("PREMAI_PROJECT_ID")
 )
 
-db_connection_uri = "<sqlite:///db_path>"       # Enter your Database path here. Supported SQLite, Postgres, MySQL. 
+db_connection_uri = "<sqlite:///db_path>"       # Enter your Database path here. Supported SQLite, Postgres, MySQL.
 baseline = BaseLineAgent(
     session_name="<session_name>",              # An unique session name must be put
-    db_connection_uri=db_connection_uri,        # DB which needs to connect for Text to SQL 
-    specialized_model1=text2sql_model,          # This referes to the Text to SQL model
+    db_connection_uri=db_connection_uri,        # DB which needs to connect for Text to SQL
+    specialized_model1=text2sql_model,          # This refers to the Text to SQL model
     specialized_model2=analyser_plotter_model,  # This refers to any model other than Text to SQL
     executor=ExecutorUsingLangChain(),          # Which DB executor to use
     auto_filter_tables=False,                   # Whether to filter tables before Text to SQL
@@ -63,12 +63,12 @@ agent_server.launch()
 ```
 And now run: `python server.py`. Here is a quick demo on How your analysis experience would look like.
 
-<iframe 
-  src="https://drive.google.com/file/d/1pVuWHNG7PtrlzHcRNFeoJ80t7-rIexhL/preview" 
-  width="760" 
-  height="570" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+<iframe
+  src="https://drive.google.com/file/d/1pVuWHNG7PtrlzHcRNFeoJ80t7-rIexhL/preview"
+  width="760"
+  height="570"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen
 ></iframe>
@@ -79,7 +79,7 @@ If you want to do the above in fully local setting using Ollama, check out our [
 
 ## For Developers
 
-Here we discuss in more details on how Agent Server is being designed. Agent Server is a wrapper around FastAPI server. As we discussed in the [Agents](/premsql/agents.mdx) that it supports two forms of outputs: `ExitWorkerOutput` and `AgentOutput`. When using AgentServer it by default uses `AgentOutput`. Here is a breif architecture of AgentServer. 
+Here we discuss in more details on how Agent Server is being designed. Agent Server is a wrapper around FastAPI server. As we discussed in the [Agents](/premsql/agents.mdx) that it supports two forms of outputs: `ExitWorkerOutput` and `AgentOutput`. When using AgentServer it by default uses `AgentOutput`. Here is a brief architecture of AgentServer.
 
 ![](/images/premsql/agent_server.png)
 
@@ -87,20 +87,19 @@ As you can see from the above architecture, you can create independent sessions 
 
 1. You can use different generators and different models
 2. You can add your own DB executor
-3. Last but not the least, you can add a new worker or make your own agent using combination of our pre-existing worker implementations and your own logics. 
+3. Last but not the least, you can add a new worker or make your own agent using combination of our pre-existing worker implementations and your own logics.
 
 ### Creating your own Worker or Agent
 
-You can use existing PremSQL components (like generators, executors and workers from existing BaseLine worker) to create your own worker or your own agent. The one thing that you need to adhere with is, PremSQL currently only supports main three types of routes viz: `/query` (for Text to SQL), `/plot` (for plotting dataframes) and `/analyse` (for analysing dataframes and question answering). Each of the worker (in the Baseline as well) is inherited from a baseclass. And each of them follows a strict output pydantic model so that we can maintain a reliable structured output generation. Once you complete your implementation of your own agent / worker you can use with AgentServer to test it out. 
+You can use existing PremSQL components (like generators, executors and workers from existing BaseLine worker) to create your own worker or your own agent. The one thing that you need to adhere with is, PremSQL currently only supports main three types of routes viz: `/query` (for Text to SQL), `/plot` (for plotting dataframes) and `/analyse` (for analysing dataframes and question answering). Each of the worker (in the Baseline as well) is inherited from a baseclass. And each of them follows a strict output pydantic model so that we can maintain a reliable structured output generation. Once you complete your implementation of your own agent / worker you can use with AgentServer to test it out.
 
 When using AgnentServer, you can also the internal Backend API (written on django) to see information around different sessions and do basic crud operations as shown here:
 
 ![](/images/premsql/agent_api.png)
 
-This will enable you to use PremSQL agents using CuRL, Python requests and also Javascript Axios. 
+This will enable you to use PremSQL agents using CuRL, Python requests and also Javascript Axios.
 
 
 ## Limitations
 
-Currently, there are some limitations in PremSQL playground. Mostly it comes with some bugs around port forwarding and some DB releated issues. Reach us out in GitHub issues so that we can fix them. 
-
+Currently, there are some limitations in PremSQL playground. Mostly it comes with some bugs around port forwarding and some DB related issues. Reach us out in GitHub issues so that we can fix them.

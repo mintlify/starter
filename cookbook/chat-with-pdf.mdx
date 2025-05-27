@@ -49,13 +49,13 @@ So now our folder structure looks something like this:
 Inside `app.py`, we import some basic libraries along with `premai` and initialise some constants:
 
 ```python
-import time 
-import json 
-import premai 
-import streamlit as st 
+import time
+import json
+import premai
+import streamlit as st
 
 premai_api_key = st.secrets.premai_api_key
-premai_project_id = 123456 
+premai_project_id = 123456
 premai_repository_id = 123456
 prem_client = premai.Prem(api_key=premai_api_key)
 ```
@@ -82,7 +82,7 @@ First, write a helper function to save an uploaded document using streamlit.
 def temp_save_uploaded_file(uploadedfile):
     if not os.path.isdir(".tempdir"):
         os.makedirs(".tempdir")
-    
+
     save_path = os.path.join(".tempdir", uploadedfile.name)
     try:
         with open(save_path, "wb") as f:
@@ -90,7 +90,7 @@ def temp_save_uploaded_file(uploadedfile):
         return  save_path
     except Exception:
         st.sidebar.toast("Failed to upload the file. Try again", icon="❌")
-        return None  
+        return None
 ```
 
 Now let's make the file uploader object through which we save those files and upload it to repositories.
@@ -134,8 +134,8 @@ Now, we will write our main function to help us chat with the documents. We star
 
 ```python
 repositories = dict(
-    ids=[premai_repository_id], 
-    similarity_threshold=0.25, 
+    ids=[premai_repository_id],
+    similarity_threshold=0.25,
     limit=5
 )
 ```
@@ -149,13 +149,13 @@ Let's define the workflow from here:
 With our workflow defined, let's code it out.
 
 ```python
-# Get the prompt from the user 
+# Get the prompt from the user
 if prompt := st.chat_input("Please write your query"):
     user_content = {"role": "user", "content": prompt}
     st.session_state.messages.append(user_content)
     with st.chat_message("user"):
         st.markdown(prompt)
-    
+
     # start the assistant block
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
@@ -164,8 +164,8 @@ if prompt := st.chat_input("Please write your query"):
         while not full_response:
             with st.spinner("Thinking ...."):
                 try:
-                    # get the response from LLM using prem sdk 
-                    # also get the retrieved chunks 
+                    # get the response from LLM using prem sdk
+                    # also get the retrieved chunks
                     response = prem_client.chat.completions.create(
                         project_id=premai_project_id,
                         messages=[user_content],
@@ -177,18 +177,18 @@ if prompt := st.chat_input("Please write your query"):
                 except Exception:
                     response_content = "Failed to respond"
                     response_doc_chunks = []
-                
+
             fr = ""
             full_response = str(response_content)
-            
-            # Stream the response here in streamlit 
+
+            # Stream the response here in streamlit
             for i in full_response:
                 time.sleep(0.01)
                 fr += i
                 message_placeholder.write(fr + "▌")
             message_placeholder.write(f"{full_response}")
             utils.see_repos(retrieved_docs=response_doc_chunks)
-        
+
         # Append the history in the sessionstate object
         st.session_state.messages.append(
             {"role": "assistant", "content": full_response}

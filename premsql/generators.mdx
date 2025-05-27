@@ -3,11 +3,11 @@ title: Generators
 description: Models that generate SQL queries from user input and a specified database source.
 ---
 
-Premsql generators are responsible for converting natural language questions into SQL queries. Think of these as modular inference APIs specific to text-to-SQL. You can integrate various third-party APIs, models, or custom pipelines. 
+Premsql generators are responsible for converting natural language questions into SQL queries. Think of these as modular inference APIs specific to text-to-SQL. You can integrate various third-party APIs, models, or custom pipelines.
 
 In this guide, we'll explore how to utilize both Hugging Face and PremAI providers to work with local and hosted models. Finally, we'll demonstrate how to create custom generators. Let’s get started by importing the necessary packages.
 
-```python 
+```python
 from premsql.generators import Text2SQLGeneratorHF
 from premsql.datasets import Text2SQLDataset
 ```
@@ -39,11 +39,11 @@ The input for generators is a `data_blob`, which should contains:
 - **prompt**: The prompt to be passed to the model.
 - **db_path**: The database path.
 
-The prompt should be contain the tabel schemas and also all the required 
+The prompt should be contain the table schemas and also all the required
 instructions to generate the SQL query. The output is a SQL query. Let's define our generator using the [Prem-1B-SQL](https://huggingface.co/premai-io/prem-1B-SQL) model available on HuggingFace.
 
 
-```python 
+```python
 generator = Text2SQLGeneratorHF(
     model_or_name_or_path="premai-io/prem-1B-SQL",
     experiment_name="test_generators",
@@ -54,27 +54,27 @@ generator = Text2SQLGeneratorHF(
 
 **Arguments:**
 - **model_or_name_or_path**: Union[str, transformers.PreTrainedModel]
-    The model name or path to be used for the text-to-SQL generation. It can be a 
+    The model name or path to be used for the text-to-SQL generation. It can be a
     string specifying the model path or a pre-loaded model object.
 
 - **experiment_name**: str
-    The name of the experiment. It will create a folder with this name in the 
+    The name of the experiment. It will create a folder with this name in the
     `./experiments` directory to store the outputs.
 
 - **type**: str
-    The type of experiment. This can be either `train` or `test`. Based on that it will create an 
-    experiment folder. So suppose your name is expeiment is: "test_generators" then it will create a folder 
+    The type of experiment. This can be either `train` or `test`. Based on that it will create an
+    experiment folder. So suppose your name is experiment is: "test_generators" then it will create a folder
     `./experiments/test_generators_test` or `./experiments/test_generators_train` based on the type.
 
 - **experiment_folder**: Optional[str], default=None
-    The folder where experiment outputs. By default, it will be created in the `./experiments` 
+    The folder where experiment outputs. By default, it will be created in the `./experiments`
     directory.
 
 - **hf_token**: Optional[str], default=None
     Hugging Face token for loading private models from the Hugging Face Hub.
 
 - **device**: Optional[str], default=None
-    The device on which the model will be loaded ('cpu', 'cuda', etc.). 
+    The device on which the model will be loaded ('cpu', 'cuda', etc.).
     If None, it defaults to the available CUDA device if present, otherwise 'cpu'.
 
 - **kwargs**: dict
@@ -83,10 +83,10 @@ generator = Text2SQLGeneratorHF(
 
 ## Using HuggingFace Transformers
 
-`Text2SQLGeneratorHF` utilizes Hugging Face Transformers. You can use any model from the 
-Hugging Face model hub. Now let's generate answer for a single data point. 
+`Text2SQLGeneratorHF` utilizes Hugging Face Transformers. You can use any model from the
+Hugging Face model hub. Now let's generate answer for a single data point.
 
-```python 
+```python
 
 sample = dataset[0]
 response = generator.generate(
@@ -115,10 +115,10 @@ SELECT movie_title FROM movies WHERE movie_release_year = 1945 ORDER BY movie_po
 - **kwargs**: `dict`
     Additional arguments passed to the model or any other configurations.
 
-The `generate` method runs a single inference without saving results. 
+The `generate` method runs a single inference without saving results.
 To generate and save multiple responses inside the `experiment_path`, use the `generate_and_save` method.
 
-```python 
+```python
 responses = generator.generate_and_save_results(
     dataset=bird_dataset,
     temperature=0.1,
@@ -128,10 +128,10 @@ responses = generator.generate_and_save_results(
 print(responses)
 
 ```
-Results are saved in the `experiment_path` as `predict.json`. 
+Results are saved in the `experiment_path` as `predict.json`.
 On subsequent runs, the cached results are reused unless `force=True` is specified.
 
-```python 
+```python
 response = generator.generate_and_save(
     dataset=dataset
     temperature=0.1,
@@ -154,7 +154,7 @@ This strategy executes the generated SQL against the DB and, if it fails, uses t
 To use this, you'll need an executor like `SQLiteExecutor`. You can use any other executors as well.
 Here's how to use it with `generate_and_save` method:
 
-```python 
+```python
 from premsql.executors import SQLiteExecutor
 
 executor = SQLiteExecutor()
@@ -168,13 +168,13 @@ response = generator.generate_and_save_results(
 )
 ```
 
-This approach employs execution-guided decoding, 
+This approach employs execution-guided decoding,
 enhancing the reliability of the generated SQL by iterative correction.
 
 <Note>
-Please note that Text2SQLGeneratorHF is only limited for causal models. So Sequence to Sequence 
+Please note that Text2SQLGeneratorHF is only limited for causal models. So Sequence to Sequence
 models are not supported in first hand. However you can still use them by creating a custom generator or directly
-feeding the model object while initializing the generator. 
+feeding the model object while initializing the generator.
 </Note>
 
 ## More Supported Generators
@@ -183,11 +183,11 @@ Other than huggingface models, we also support Prem AI and Open AI APIs. Here is
 
 ### Prem AI Generator
 
-Prem AI SDK provides all the best LLMs out there in a very reasonable price. You can use them in the same way as you use the Hugging Face Generators. 
+Prem AI SDK provides all the best LLMs out there in a very reasonable price. You can use them in the same way as you use the Hugging Face Generators.
 
 <Note>
-Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement. 
-</Note> 
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project id and an API Key](https://docs.premai.io/introduction). Additionally, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories) as a last requirement.
+</Note>
 
 ```python
 from premsql.generators import Text2SQLGeneratorPremAI
@@ -204,7 +204,7 @@ client = Text2SQLGeneratorPremAI(
 ### Apple MLX Generator
 
 <Note>
-Please note that this generator only supports Apple Silicon devices only. 
+Please note that this generator only supports Apple Silicon devices only.
 </Note>
 
 To use this generator, make sure the library `mlx` is installed. If not you can install it by:
@@ -215,7 +215,7 @@ pip install mlx mlx-lm
 
 Here's how you can use Apple MLX as your generation backend for PremSQL.
 
-```python 
+```python
 from premsql.generators import Text2SQLGeneratorMLX
 client = Text2SQLGeneratorMLX(
     model_name_or_path="premai-io/prem-1B-SQL",
@@ -267,9 +267,9 @@ client = Text2SQLGeneratorOpenAI(
 
 ## Custom Generators
 
-You can also create custom generators by extending the `Text2SQLGenerator` class. This will 
-allow you to define your own generation strategies, models, and other configurations but 
-still use the same API as the built-in generators. Here is an example on how you can do that. 
+You can also create custom generators by extending the `Text2SQLGenerator` class. This will
+allow you to define your own generation strategies, models, and other configurations but
+still use the same API as the built-in generators. Here is an example on how you can do that.
 
 To define custom generator, you need to define four methods (mandatory):
 
@@ -279,54 +279,54 @@ To define custom generator, you need to define four methods (mandatory):
 2. `load_tokenizer`: Load the tokenizer for the model. This method acts like property
     and should return the tokenizer object. In case your generator is not using any tokenizer, just return None.
 
-3. `generate`: Generate the SQL query from the prompt. This method should return the SQL query. So what ever 
+3. `generate`: Generate the SQL query from the prompt. This method should return the SQL query. So what ever
     logic is needed to run the model should be dumped here, such that the output is a single SQL query.
 
 4.  `model_name_or_path`: Here you need to return a string which will tell either the name of the model used or
-    the path to load the model. 
+    the path to load the model.
 
 
-Now let's see how you can load a custom generator. Let's use open ai for this. 
+Now let's see how you can load a custom generator. Let's use open ai for this.
 
-```python 
-from typing import Optional 
+```python
+from typing import Optional
 import os
-from openai import OpenAI 
+from openai import OpenAI
 from premsql.generators.base import Text2SQLGeneratorBase
 
 class Text2SQLGeneratorOpenAI(Text2SQLGeneratorBase):
     def __init__(
         self,
         model_name: str,
-        experiment_name: str, 
+        experiment_name: str,
         type: str,
         experiment_folder: Optional[str]=None,
         openai_api_key: Optional[str]=None,
     ):
         self._api_key = openai_api_key or os.environ.get("OPENAI_API_KEY")
-        self.model_name = model_name 
+        self.model_name = model_name
         super().__init__(
             experiment_folder=experiment_folder,
             experiment_name=experiment_name,
             type=type,
         )
-    
-    # Define your openai client 
+
+    # Define your openai client
     @property
     def load_client(self):
         client = OpenAI(api_key=self._api_key)
-        return client  
+        return client
 
     # Define the tokenizer
     @property
     def load_tokenizer(self):
-        pass 
+        pass
 
     # Define the model name and path
     @property
     def model_name_or_path(self):
         return self.model_name
-    
+
     # Write the generate function
     def generate(
         self,
@@ -353,5 +353,4 @@ class Text2SQLGeneratorOpenAI(Text2SQLGeneratorBase):
         return self.postprocess(output_string=completion) if postprocess else completion
 ```
 
-Thats it, thats how you write a custom generator. Now you can use this generator in the same way as you use the built-in generators. 
-
+Thats it, thats how you write a custom generator. Now you can use this generator in the same way as you use the built-in generators.

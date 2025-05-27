@@ -5,7 +5,7 @@ description: Evaluates different Text to SQL models and pipelines with standard 
 
 ## Evaluators and Executors
 
-premsql evaluators consist of two things. It comes with executors which helps to connect and execute SQL to the DB. PremSQL Text2SQLEvaluator lets you to evaluate your models / pipelines using the executors w.r.t. a gold dataset. Our evaluators supports the following metrics as of now: 
+premsql evaluators consist of two things. It comes with executors which helps to connect and execute SQL to the DB. PremSQL Text2SQLEvaluator lets you to evaluate your models / pipelines using the executors w.r.t. a gold dataset. Our evaluators supports the following metrics as of now:
 
 1. **Execution Accuracy (EX)**
 2. **Valid Efficiency Score (VES)**
@@ -23,8 +23,8 @@ Let's dive into the code to see how you can use `premsql` to evaluate models or 
 
 
 Lets setup all the things required for an evaluation. For an evaluation,
-we need an evaluation / validation dataset. A generator that will generate and generate and  
-saves the results. We also need an executor which we will plug in to our evaluator 
+we need an evaluation / validation dataset. A generator that will generate and generate and
+saves the results. We also need an executor which we will plug in to our evaluator
 to execute the SQL queries which will be compared with the ground truth SQL queries.
 
 Lets start with importing the required libraries and setting up our Datasets
@@ -42,7 +42,7 @@ bird_dataset = Text2SQLDataset(
     dataset_folder="/path/to/the/dataset"
 ).setup_dataset(num_rows=10)
 
-# Initialize the generator 
+# Initialize the generator
 generator = Text2SQLGeneratorHF(
     model_or_name_or_path="premai-io/prem-1B-SQL",
     experiment_name="test_generators",
@@ -50,7 +50,7 @@ generator = Text2SQLGeneratorHF(
     type="test"
 )
 
-# Get the responses 
+# Get the responses
 responses = generator.generate_and_save_results(
     dataset=bird_dataset,
     temperature=0.1,
@@ -58,22 +58,22 @@ responses = generator.generate_and_save_results(
 )
 ```
 
-Now we have generated / loaded our responses. We are now ready for evaluating the model. 
+Now we have generated / loaded our responses. We are now ready for evaluating the model.
 
-```python 
+```python
 from premsql.executors import SQLiteExecutor
 from premsql.evaluator import Text2SQLEvaluator
 
-# Define the executor 
+# Define the executor
 executor = SQLiteExecutor()
 
-# Define the evaluator 
+# Define the evaluator
 evaluator = Text2SQLEvaluator(
     executor=executor,
     experiment_path=generator.experiment_path
 )
 
-# Now evaluate the models 
+# Now evaluate the models
 results = evaluator.execute(
     metric_name="accuracy",
     model_responses=response,
@@ -103,19 +103,19 @@ print(results)
 
 As you can see that used `filter_by` option to filter the results by `db_id`. This will
 not only give you the overall accuracy but also it will divide the distribution of the accuracy
-over all the available databases. If you have a key called: `difficulty` then it will show the result 
+over all the available databases. If you have a key called: `difficulty` then it will show the result
 distribution over different available difficulty. Make sure these keys are available in the dataset, because
-if these are available in the dataset then it will be reflected on the model responses and hence on 
-the results. 
+if these are available in the dataset then it will be reflected on the model responses and hence on
+the results.
 
-Once evaluation is fininshed it will write three files:
+Once evaluation is finished it will write three files:
 
 1. `predict.json`: This file contains the responses and the evaluation results.
-2. `accuracy.json`: This file contains the accuracy results. 
-3. `ves.json`: This file contains the VES results. This will only be written if you have provided the 
+2. `accuracy.json`: This file contains the accuracy results.
+3. `ves.json`: This file contains the VES results. This will only be written if you have provided the
 metric_name to be `ves`.
 
-This is how the `predict.json` would look like after evaluation. 
+This is how the `predict.json` would look like after evaluation.
 
 
 ```json
@@ -140,8 +140,8 @@ Similarly, to compute the VES, use the same method, but with different filters. 
 
 ```python
 ves = evaluator.execute(
-    metric_name="ves", 
-    model_responses=responses, 
+    metric_name="ves",
+    model_responses=responses,
     filter_by="db_id"
 )
 ```

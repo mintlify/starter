@@ -27,11 +27,11 @@ Function calling allows models to connect with external tools, which is a great 
 | llama-3-70b            | High |
 
 
-## Setup prem client 
+## Setup prem client
 We first instantiate our prem client.
 <CodeGroup>
 ```python Python
-import os 
+import os
 
 premai_api_key = os.environ.get("PREMAI_API_KEY")
 project_id = 1234
@@ -40,12 +40,12 @@ client = Prem(api_key=premai_api_key)
 </CodeGroup>
 
 <Card icon="lightbulb">
-Make sure you have an account at [**Prem AI Platform**](https://app.premai.io) and a valid [**project id and an API Key**](https://docs.premai.io/introduction). The `project_id` used here is a dummy id. 
+Make sure you have an account at [**Prem AI Platform**](https://app.premai.io) and a valid [**project id and an API Key**](https://docs.premai.io/introduction). The `project_id` used here is a dummy id.
 </Card>
 
-## Define functions 
+## Define functions
 
-Let's start with defining some simple functions. In our example, we will define simple arithmetic functions like `addition` and `division`. At the end of this example, we will show you why you need to define simple arithmetic functions when dealing with something related to LLMs and crunching numbers. 
+Let's start with defining some simple functions. In our example, we will define simple arithmetic functions like `addition` and `division`. At the end of this example, we will show you why you need to define simple arithmetic functions when dealing with something related to LLMs and crunching numbers.
 
 <CodeGroup>
 ```python Python
@@ -59,7 +59,7 @@ def division(a, b):
 
 ## Testing LLMs without using external functions
 
-We first test an LLM's arithmetic capability without providing any external tool. This will help us understand the significance of using tools. 
+We first test an LLM's arithmetic capability without providing any external tool. This will help us understand the significance of using tools.
 
 <CodeGroup>
 ```python Python
@@ -92,18 +92,18 @@ To solve the expression \( \frac{9297838399297827278289292}{26181927361} + 16238
 So, the result is approximately \( 371410150275.0 \).
 </Accordion>
 
-The LLM answered as `371410150275.0`, but the answer was `355140529450725.56`. They do not match, and hence, we get an impression of the LLM hallucinating when the number gets too large. Let's do the same thing, but we will use function calling this time. 
+The LLM answered as `371410150275.0`, but the answer was `355140529450725.56`. They do not match, and hence, we get an impression of the LLM hallucinating when the number gets too large. Let's do the same thing, but we will use function calling this time.
 
 ## Using function calls
 
-The whole point of using function/tool calls is that we do not want LLM to guess answers. Instead, we want it to get the information with the help of external tools and then use its expressive power to give a better and more complete answer. So, the objective becomes LLM's capability to understand the functions given to it and when to call what. 
+The whole point of using function/tool calls is that we do not want LLM to guess answers. Instead, we want it to get the information with the help of external tools and then use its expressive power to give a better and more complete answer. So, the objective becomes LLM's capability to understand the functions given to it and when to call what.
 
-### Define the set of tools for the LLM. 
+### Define the set of tools for the LLM.
 
-We first define all the tools that the LLM needs to choose from that set of tools when given a user's query. 
+We first define all the tools that the LLM needs to choose from that set of tools when given a user's query.
 
 <CodeGroup>
-```python Python 
+```python Python
 tools = [
     {
         "type": "function",
@@ -151,19 +151,19 @@ tools = [
 ```
 </CodeGroup>
 
-If you look carefully, each element in the above list is a dictionary, which has the type of the tool (which is a `function` here). Then, we define the properties of the function, like `name`, `description`, `parameters` (which are function arguments), their type (whether the parameter is an integer or a string or some object), and all the required parameters of the function. 
+If you look carefully, each element in the above list is a dictionary, which has the type of the tool (which is a `function` here). Then, we define the properties of the function, like `name`, `description`, `parameters` (which are function arguments), their type (whether the parameter is an integer or a string or some object), and all the required parameters of the function.
 
 ### Feeding the tools to the LLM
 
 The overall tool calling of an LLM can be divided into two phases (which use two explicit LLM calls) as follows:
 
-1. In the first pass, we pass our query along with the tools (as shown above), and we get a JSON response back, which gives us the information about what functions the LLM calls sequentially. 
+1. In the first pass, we pass our query along with the tools (as shown above), and we get a JSON response back, which gives us the information about what functions the LLM calls sequentially.
 
-2. In the second pass, we parse all the functions LLM needs to call, and we call it and get the results with the arguments that the LLM gave us and get our result. We gather the results to feed them into the LLM. 
+2. In the second pass, we parse all the functions LLM needs to call, and we call it and get the results with the arguments that the LLM gave us and get our result. We gather the results to feed them into the LLM.
 
 After this, we get our final result from the LLM, which will always be more precise and have fewer chances of hallucination than when a function call is not used.
 
-We start with our first pass, which is when we pass the tools to our LLM. 
+We start with our first pass, which is when we pass the tools to our LLM.
 
 <CodeGroup>
 ```python Python
@@ -239,13 +239,13 @@ Here is the result from the first pass.
 ```
 </Accordion>
 
-If you see, the LLM followed the [BODMAS](https://thirdspacelearning.com/blog/what-is-bodmas/#:~:text=The%20Bodmas%20rule%20follows%20the,in%20the%20order%20of%20BODMAS.) rule in math, where it called the `division` operation first and then `addition`. 
+If you see, the LLM followed the [BODMAS](https://thirdspacelearning.com/blog/what-is-bodmas/#:~:text=The%20Bodmas%20rule%20follows%20the,in%20the%20order%20of%20BODMAS.) rule in math, where it called the `division` operation first and then `addition`.
 
-Now we parse this output and then call the functions (as mentioned by the LLM) on by one and gather our results. 
+Now we parse this output and then call the functions (as mentioned by the LLM) on by one and gather our results.
 
 ### Calling and gathering the functions response
 
-We first define a simple map between name of the function and the function object. 
+We first define a simple map between name of the function and the function object.
 
 <CodeGroup>
 ```python Python
@@ -263,7 +263,7 @@ After this, we write a helper function that does the following:
 3. Finally, append this prompt as the role `user` in our existing `messages` list.
 
 <CodeGroup>
-```python Python 
+```python Python
 from premai.models.chat_completion_response import ChatCompletionResponse
 
 intermediate_tool_result_template = """
@@ -277,8 +277,8 @@ function_response: {function_response}
 """
 
 def insert_tool_messages(
-        messages: list, 
-        response: ChatCompletionResponse, 
+        messages: list,
+        response: ChatCompletionResponse,
         function_name_dict: dict
 ):
     full_toolcall_prompt_template = "Here are the functions that you called and the response from the functions"
@@ -301,17 +301,17 @@ def insert_tool_messages(
             function_name=function_name,
             function_response=function_response
         )
-    
+
     full_toolcall_prompt_template += full_prompt
     messages.append({"role":"user", "content": full_toolcall_prompt_template})
     return messages
 ```
 </CodeGroup>
 
-Let's use this function to get our updated `messages` that we can use it in our second pass. 
+Let's use this function to get our updated `messages` that we can use it in our second pass.
 
 <CodeGroup>
-```python Python 
+```python Python
 available_function = {
     "addition": addition,
     "division": division
@@ -331,7 +331,7 @@ for message in messages:
     print()
 ```
 </CodeGroup>
- 
+
 Here is what our meessages look like, before we pass it to our LLM in the second time:
 
 <Accordion title="Output">
@@ -340,7 +340,7 @@ Role:  user
 Content:  What is 9297838399297827278289292 divided by 26181927361 plus 16238137181
 
 Role:  assistant
-Content:  
+Content:
 Message(role=<MessageRoleEnum.ASSISTANT: 'assistant'>, content=None, template_id=<premai.types.Unset object at 0x7e75953a9ed0>, params=<premai.types.Unset object at 0x7e75953a9ed0>, additional_properties={'tool_calls': [{'id': 'call_XBOKz4ZUQwRoS5HbfEI67rvu', 'function': {'arguments': {'a': 9297838399297827278289292, 'b': 26181927361}, 'name': 'division'}, 'type': 'function'}, {'id': 'call_HYUjruLFv8pSd1BvnILAVnr8', 'function': {'arguments': {'a': 0, 'b': 16238137181}, 'name': 'addition'}, 'type': 'function'}]})
 
 
@@ -360,7 +360,7 @@ function_response: 16238137181
 Now, we pass this to our LLM:
 
 <CodeGroup>
-```python Python 
+```python Python
 response = client.chat.completions.create(
     project_id=project_id,
     model=model_name,
@@ -392,7 +392,7 @@ So that is how you do function calling using Prem. You can re-use this helper fu
 ```python Python
 import os
 import json
-from premai import Prem 
+from premai import Prem
 from dotenv import load_dotenv
 
 premai_api_key = os.environ.get("PREMAI_API_KEY")
@@ -457,7 +457,7 @@ tools = [
     },
 ]
 
-# First pass 
+# First pass
 messages = [{
     "role": "user",
     "content": "What is 9297838399297827278289292 divided by 26181927361 plus 16238137181"
@@ -470,7 +470,7 @@ response = client.chat.completions.create(
     tools=tools
 )
 
-# Second pass 
+# Second pass
 available_function = {
     "addition": addition,
     "division": division
@@ -493,4 +493,4 @@ print(response.choices[0].message.content)
 </CodeGroup>
 </Accordion>
 
-Congratulations on completion of tool calling. Now you can replace this function/tools with the function/tools of your choice. 
+Congratulations on completion of tool calling. Now you can replace this function/tools with the function/tools of your choice.

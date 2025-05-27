@@ -27,7 +27,7 @@ Once we imported our required modules, let's setup our client. For now let's ass
 In order to use llama-index with PremAI, you do not need to pass any model name or set any parameters with our chat-client. By default it will use the model name and parameters used in the [LaunchPad](https://docs.premai.io/get-started/launchpad).
 
 <Note>
- If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.   
+ If you change the `model` or any other parameters like `temperature`  or `max_tokens` while setting the client, it will override existing default configurations, that was used in LaunchPad.
 </Note>
 
 ```python
@@ -41,7 +41,7 @@ prem_chat = PremAI(project_id=8)
 ```
 ## Chat Completions
 
-Now you are all set. We can now start with interacting with our application. Let's start by building simple chat request and responses using llama-index. 
+Now you are all set. We can now start with interacting with our application. Let's start by building simple chat request and responses using llama-index.
 
 ```python
 messages = [
@@ -85,7 +85,7 @@ You can also convert your chat function to a completion function. Here's how it 
 completion = prem_chat.complete("Paul Graham is ")
 ```
 <Note>
-If you are going to place system prompt here, then it will override your system prompt that was fixed while deploying the application from the platform. 
+If you are going to place system prompt here, then it will override your system prompt that was fixed while deploying the application from the platform.
 
 You can find all the optional parameters [here](https://docs.premai.io/get-started/sdk#optional-parameters). Any parameters other than [these supported parameters](https://docs.premai.io/get-started/sdk#optional-parameters) will be automatically removed before calling the model.
 </Note>
@@ -94,9 +94,9 @@ You can find all the optional parameters [here](https://docs.premai.io/get-start
 
 Prem Repositories which allows users to upload documents (.txt, .pdf etc) and connect those repositories to the LLMs. You can think Prem repositories as native RAG, where each repository can be considered as a vector database. You can connect multiple repositories. You can learn more about repositories [here](https://docs.premai.io/get-started/repositories).
 
-Repositories are also supported in langchain premai. Here is how you can do it. 
+Repositories are also supported in langchain premai. Here is how you can do it.
 
-```python 
+```python
 query = "what is the diameter of individual Galaxy"
 repository_ids = [
     1991,
@@ -104,15 +104,15 @@ repository_ids = [
 repositories = dict(ids=repository_ids, similarity_threshold=0.3, limit=3)
 ```
 
-First we start by defining our repository with some repository ids. Make sure that the ids are valid repository ids. You can learn more about how to get the repository id [here](https://docs.premai.io/get-started/repositories). 
+First we start by defining our repository with some repository ids. Make sure that the ids are valid repository ids. You can learn more about how to get the repository id [here](https://docs.premai.io/get-started/repositories).
 
 <Note>
-Please note: Similar like `model_name` when you invoke the argument `repositories`, then you are potentially overriding the repositories connected in the launchpad. 
+Please note: Similar like `model_name` when you invoke the argument `repositories`, then you are potentially overriding the repositories connected in the launchpad.
 
-Now, we connect the repository with our chat object to invoke RAG based generations. 
+Now, we connect the repository with our chat object to invoke RAG based generations.
 </Note>
 
-```python 
+```python
 messages = [
     ChatMessage(role="user", content=query),
 ]
@@ -123,7 +123,7 @@ print(response)
 So, this also means that you do not need to make your own RAG pipeline when using the Prem Platform. Prem uses it's own RAG technology to deliver best in class performance for Retrieval Augmented Generations.
 
 <Note>
-Ideally, you do not need to connect Repository IDs here to get Retrieval Augmented Generations. You can still get the same result if you have connected the repositories in prem platform. 
+Ideally, you do not need to connect Repository IDs here to get Retrieval Augmented Generations. You can still get the same result if you have connected the repositories in prem platform.
 </Note>
 
 
@@ -150,13 +150,13 @@ for response_delta in streamed_response:
 ```
 ------
 ## Embeddings
-In this section we are going to dicuss how we can get access to different embedding model using `PremAIEmbeddings` with llama-index
+In this section we are going to discuss how we can get access to different embedding model using `PremAIEmbeddings` with llama-index
 
 ```python
 from llama_index.embeddings.premai import PremAIEmbeddings
-``` 
+```
 
-We support lots of state of the art embedding models. You can view our list of supported LLMs and embedding models [here](https://docs.premai.io/get-started/supported-models). For now let's go for `text-embedding-3-large` model for this example. 
+We support lots of state of the art embedding models. You can view our list of supported LLMs and embedding models [here](https://docs.premai.io/get-started/supported-models). For now let's go for `text-embedding-3-large` model for this example.
 
 
 ```python
@@ -172,7 +172,7 @@ prem_embedding = PremAIEmbeddings(
 ```
 
 <Note>
-Setting `model_name` argument in mandatory for PremAIEmbeddings unlike chat. 
+Setting `model_name` argument in mandatory for PremAIEmbeddings unlike chat.
 </Note>
 
 

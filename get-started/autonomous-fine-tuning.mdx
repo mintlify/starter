@@ -142,7 +142,7 @@ This is one of our most detailed guides. So buckle up and get ready to fine-tune
       ![Fine-Tuned Job Status](https://static.premai.io/prem-saas-docs/gym-guide/aftEvals.png)
     </Card>
   </Step>
-  <Step title="You'll recieve confirmation emails about the status of your fine-tuning jobs">
+  <Step title="You'll receive confirmation emails about the status of your fine-tuning jobs">
     **The first email will confirm that the fine-tuning process has begun.**
 
     ![Autonomous Fine-Tuning Begun Email](https://static.premai.io/prem-saas-docs/gym-guide/autonmousFineTuneBegunEmail.png)
@@ -175,7 +175,7 @@ This is one of our most detailed guides. So buckle up and get ready to fine-tune
     You can always change the system prompt, change params, and add repositories to curate the fine-tuned model to your liking.
 
     <Tip>
-      You can also test out your fine-tuned model indivdually in the chat section of the **Lab**
+      You can also test out your fine-tuned model individually in the chat section of the **Lab**
 
       ![Playground](https://static.premai.io/prem-saas-docs/gym-guide/singleFTChat.png)
     </Tip>
@@ -197,49 +197,49 @@ This is one of our most detailed guides. So buckle up and get ready to fine-tune
 
     ```python Python
     from premai import Prem
-    
+
     client = Prem(
         api_key=YOUR_API_KEY,
     )
-    
+
     project_id = YOUR_PROJECT_ID
-    
+
     model = YOUR_FINE_TUNED_MODELS_NAME
-    
+
     messages = [
         {
             "role": "user",
             "content": "How do I check if TPM is enabled in Windows after configuring it in BIOS?",
         },
     ]
-    
+
     response = client.chat.completions.create(
         project_id=project_id,
         messages=messages,
         model=model,
         stream=False,
     )
-    
+
     print(response)
     ```
 
-    
+
     ```javascript JavaScript/TypeScript
     import Prem from "@premai/prem-sdk";
-    
-    
+
+
     const client = new Prem({
         apiKey: YOUR_API_KEY,
      });
-    
+
     const project_id = YOUR_PROJECT_ID;
-    
+
     const model = YOUR_FINE_TUNED_MODELS_NAME;
-    
+
     const messages = [
       { role: "user", content: "How do I check if TPM is enabled in Windows after configuring it in BIOS?" },
     ];
-    
+
     // Create completion
     const responseSync = await client.chat.completions.create({
       project_id,
@@ -247,7 +247,7 @@ This is one of our most detailed guides. So buckle up and get ready to fine-tune
       messages,
       stream: false,
     });
-    
+
     console.log(responseSync);
     ```
 

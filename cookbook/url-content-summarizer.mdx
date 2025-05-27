@@ -15,25 +15,25 @@ So without further ado, let’s get started. You can find the full code [here](h
 
 This recipe aims to show developers and users how to get started with Prem's Generative AI Platform and build different use cases around it. Through this tutorial, we also want to show how you can easily integrate Prem with existing Open Source LLM orchestration tools like [LangChain](https://python.langchain.com/v0.2/docs/integrations/chat/premai/). The overall tutorial can be completed in four simple steps:
 
-1. Setting up all the required packages. 
+1. Setting up all the required packages.
 2. We will introduce [LangChain Prem AI](https://python.langchain.com/v0.2/docs/integrations/chat/premai/) and how to get started with it.
 3. Understand the MapReduce summarization technique and implement the summarization pipeline.
-4. Writing out a simple frontend using Streamlit. 
+4. Writing out a simple frontend using Streamlit.
 
-## Setting up the project 
+## Setting up the project
 
 Let's start by creating a virtual environment and installing dependencies.
 
 <Note>
-Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). As a last requirement, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories). 
-</Note> 
+Before getting started, make sure you have an account at [Prem AI Platform](https://app.premai.io) and a valid [project ID and an API Key](https://docs.premai.io/introduction). As a last requirement, you also need to have at least one [repository-id](https://docs.premai.io/get-started/repositories).
+</Note>
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Next, we need to install some dependencies. You can check all the dependencies [in this requirements file](https://github.com/premAI-io/cookbook/url-summarizer/requirements.txt) and install them from here. 
+Next, we need to install some dependencies. You can check all the dependencies [in this requirements file](https://github.com/premAI-io/cookbook/url-summarizer/requirements.txt) and install them from here.
 
 Now, create one folder named `.streamlit`. Inside that folder, create a file called `secrets.toml`. Inside `secrets.toml` add your `PREMAI_API_KEY` and `PROJECT_ID` as shown here:
 
@@ -55,9 +55,9 @@ So now our folder structure looks something like this:
 Inside `app.py` we import our required libraries as shown below:
 
 ```python
-import os 
-import json 
-import streamlit as st 
+import os
+import json
+import streamlit as st
 from urllib.parse import urlparse
 from langchain_community.chat_models.premai import ChatPremAI
 
@@ -72,7 +72,7 @@ from langchain_text_splitters import CharacterTextSplitter
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chains import MapReduceDocumentsChain, ReduceDocumentsChain
 
-# Set all the settings here 
+# Set all the settings here
 premai_api_key = st.secrets.premai_api_key
 premai_project_id = st.secrets.premai_project_id
 os.environ["PREMAI_API_KEY"] = premai_api_key
@@ -83,7 +83,7 @@ prem_client = ChatPremAI(project_id=premai_project_id)
 Please make sure you have a valid project_id. You can learn more about how to find your project_id [here](/get-started/projects.mdx).
 </Warning>
 
-## Understanding Map Reduce Summarization 
+## Understanding Map Reduce Summarization
 
 We are going to implement the Map Reduce Summarization chain from LangChain. First, it is essential to understand how this chain operates on a high level. After this, we will implement it using Prem AI and LangChain.
 
@@ -95,7 +95,7 @@ The original concept comes from the famous Map-Reduce programming model, which i
 
 **Reduce:** This step takes the intermediate key-value pairs produced by the Map step, groups them by key, and processes each group to make the final output.
 
-You can deeply dive into the original workings [here](https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf). 
+You can deeply dive into the original workings [here](https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf).
 
 ### Map Reduce method in Summarization
 
@@ -107,7 +107,7 @@ You can deeply dive into the original workings [here](https://static.googleuserc
 
 The MapReduce summarization method is used for lengthy documents that exceed the token limit of the language model. So, this method tries to reduce the token length by summarizing it using the following steps:
 
-**Map step:** The map step divides the documents into smaller chunks and then applies the summarization pipeline [(LLMChain)](https://api.python.langchain.com/en/latest/chains/langchain.chains.llm.LLMChain.html#langchain.chains.llm.LLMChain) to each chunk. 
+**Map step:** The map step divides the documents into smaller chunks and then applies the summarization pipeline [(LLMChain)](https://api.python.langchain.com/en/latest/chains/langchain.chains.llm.LLMChain.html#langchain.chains.llm.LLMChain) to each chunk.
 
 **Reduce Step:** Once all the chunks (parts of documents) are summarized, we combine all those summarized chunks and then call the LLM once again to summarize them, which gives us the final summarization.
 
@@ -123,10 +123,10 @@ We start by defining our prompt templates. We need to define two templates. The 
 map_template = """
 The following is a set of documents
 {docs}
-Based on this list of docs, please identify the main themes and extract 
-informations from them which are highly valuable. So the main point should
+Based on this list of docs, please identify the main themes and extract
+information from them which are highly valuable. So the main point should
 be the theme/topic and subpoints should be the information extracts of the
-documents which are very invaluable. 
+documents which are very invaluable.
 Helpful Answer:
 """
 
@@ -139,7 +139,7 @@ or not. Do not give them the decision, give them enough insights or summary
 that will help them. Include the following sub headings
 
 1. What is this is about
-2. Main key takeaways 
+2. Main key takeaways
 3. Things to note additionally
 Helpful Answer:
 """
@@ -149,18 +149,18 @@ Helpful Answer:
 
 Now, let's write our summarization pipeline. This can be done with the following steps.
 
-1. First, load the langchain `WebBaseLoader` and the document from the given URL. We also load the [CharacterTextSplitter](https://python.langchain.com/v0.2/docs/how_to/character_text_splitter/) to split the documents into chunks. 
-2. Initialize the `map_template` and `reduce_template` from the above templates. 
-3. Initialize the `map_chain` and `reduce_chain` from langchain `LLMChain`, which will use an LLM (in our case, a ChatPremAI client) and the corresponding template. 
+1. First, load the langchain `WebBaseLoader` and the document from the given URL. We also load the [CharacterTextSplitter](https://python.langchain.com/v0.2/docs/how_to/character_text_splitter/) to split the documents into chunks.
+2. Initialize the `map_template` and `reduce_template` from the above templates.
+3. Initialize the `map_chain` and `reduce_chain` from langchain `LLMChain`, which will use an LLM (in our case, a ChatPremAI client) and the corresponding template.
 4. We define a `combined_document_chain` which combines all the summarized chunks (stacking each of them one after the other) using the [StuffDocumentsChain](https://python.langchain.com/v0.2/docs/tutorials/summarization/#stuff).
-5. Then, a `reduce_document_chain` takes those combined documents and runs the reduce (i.e. another summarization) on those stuffed documents. 
-6. Finally, a map_reduce_chain combines all the above chains into a single chain. 
+5. Then, a `reduce_document_chain` takes those combined documents and runs the reduce (i.e. another summarization) on those stuffed documents.
+6. Finally, a map_reduce_chain combines all the above chains into a single chain.
 7. Run the chain and return the results
 
 ```python
 def summarize_url(url: str, llm: ChatPremAI) -> dict:
-    
-    # Step 1: Load the WebBasedLoader and CharacterTextSplitter to load and split documents 
+
+    # Step 1: Load the WebBasedLoader and CharacterTextSplitter to load and split documents
     loader = WebBaseLoader(url)
     docs = loader.load()
     text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
@@ -176,11 +176,11 @@ def summarize_url(url: str, llm: ChatPremAI) -> dict:
     map_chain = LLMChain(llm=llm, prompt=map_prompt)
     reduce_chain = LLMChain(llm=llm, prompt=reduce_prompt)
 
-    # Step 4: Define `combined_document_chain` which combines all the summarized chunks 
+    # Step 4: Define `combined_document_chain` which combines all the summarized chunks
     combined_documents_chain = StuffDocumentsChain(
         llm_chain=reduce_chain, document_variable_name="docs"
     )
-    
+
     # Step 5: Define `reduce_document_chain`
     reduce_documents_chain = ReduceDocumentsChain(
         combine_documents_chain=combined_documents_chain,
@@ -215,25 +215,25 @@ Let's write a simple helper function that uses the `summarize_url` function and 
 
 ```python
 
-# Additional function to check if the url is valid or not 
+# Additional function to check if the url is valid or not
 def is_valid_url(url: str):
     try:
         result = urlparse(url)
         return all([result.scheme, result.netloc])
     except ValueError:
-        return False 
+        return False
 
 def summarize_component(urls: list[str], client: ChatPremAI):
     # Track which URLs got summarised and which are not
     passed, failed = [], []
 
-    # Use a loader which will load untill all provided links are summarized. 
+    # Use a loader which will load until all provided links are summarized.
     with st.spinner("Please wait while we summarize the content"):
         for url in urls:
             if not is_valid_url(url):
                 failed.append(url)
             else:
-                # Use the function 
+                # Use the function
                 results = summarize_url(url, llm=client)
                 if results:
                     passed.append({
@@ -248,20 +248,20 @@ def summarize_component(urls: list[str], client: ChatPremAI):
                         st.write(results["output_text"])
                 else:
                     failed.append(url)
-        
+
         if len(failed) > 0:
-            st.json(json.dumps(failed)) 
-    return passed, failed 
+            st.json(json.dumps(failed))
+    return passed, failed
 ```
 
 Finally, let's use the function with the main running code. We create a form with a text area where we dump all the URLs. Our code first checks the URLs. For all successful runs, it makes a card that, when expanded, contains the summary. It also returns a JSON object that indicates which links are not summarized or invalid (if any).
 
-```python 
+```python
 with st.form("Dump all URLs here"):
     input_urls = st.text_area(
         label="urls",
         height=300,
-        placeholder="Should be comma seperated valid urls"
+        placeholder="Should be comma separated valid urls"
     )
     button = st.form_submit_button("Submit")
     if button:

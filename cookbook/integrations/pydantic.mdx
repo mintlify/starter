@@ -8,7 +8,7 @@ Please read the [PydanticAI docs](https://ai.pydantic.dev/) for more information
 </Note>
 
 # Create an Agent with PydanticAI
-PydanticAI is a Python agent framework designed to make it AI Agent creation less painful to build for production grade applications with Generative AI. 
+PydanticAI is a Python agent framework designed to make it AI Agent creation less painful to build for production grade applications with Generative AI.
 
 ## Why would you use PydanticAI with PremAI?
 
@@ -37,7 +37,7 @@ uv add "pydantic-ai-slim[openai]"
 </Step>
 
 <Step>
-# Import the Pydantic AI library 
+# Import the Pydantic AI library
 Make sure you have the following imports for the OpenAI provider and the OpenAI model.
 ```python python
 from pydantic_ai import Agent
@@ -55,7 +55,7 @@ import asyncio
 premai_agent = OpenAIModel(
     'claude-3.7-sonnet',#'gpt-4o-mini',gpt-4-o,claude-3.5-sonnet,claude-3.7-sonnet etc...
     provider=OpenAIProvider(
-        base_url='https://studio.premai.io/api/v1', 
+        base_url='https://studio.premai.io/api/v1',
         api_key=os.getenv('PREMAI_API_KEY'),
     )
 )
@@ -97,7 +97,7 @@ import asyncio
 premai_agent = OpenAIModel(
     'claude-3.7-sonnet',#'gpt-4o-mini',gpt-4-o,claude-3.5-sonnet,claude-3.7-sonnet etc...
     provider=OpenAIProvider(
-        base_url='https://studio.premai.io/api/v1', 
+        base_url='https://studio.premai.io/api/v1',
         api_key=os.getenv('PREMAI_API_KEY'),
     )
 )
@@ -116,6 +116,3 @@ async def main():
 # Run the async function
 asyncio.run(main())
 ```
-
-
-

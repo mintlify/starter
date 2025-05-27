@@ -1,6 +1,6 @@
 ---
 title: Error Handling
-description: Helps to make error handling prompts and datasets for error free inference and fine-tuning datasets for enforcing self correction property. 
+description: Helps to make error handling prompts and datasets for error free inference and fine-tuning datasets for enforcing self correction property.
 ---
 
 Error-handling prompts are crucial for refining model performance, especially in complex tasks like Text-to-SQL generation. The prompts help the model learn how to handle errors by providing additional context and guidance based on past mistakes. By training on these prompts, the model can self-correct during inference, improving the quality of its output.
@@ -103,7 +103,7 @@ error_dataset = error_dataset_gen.generate_and_save(
 ```
 
 <Accordion title="This is how an sample of Error dataset would look like:">
-```python 
+```python
 {
     'db_id': 'movie_platform',
     'question': 'Name movie titles released in year 1945. Sort the listing by the descending order of movie popularity.',
@@ -129,12 +129,12 @@ ERROR_HANDLING_PROMPT = """
 
 {error_msg}
 
-Carefully review the original question and error message, then rewrite the SQL query to address the identified issues. 
-Ensure your corrected query uses correct column names, 
-follows proper SQL syntax, and accurately answers the original question 
+Carefully review the original question and error message, then rewrite the SQL query to address the identified issues.
+Ensure your corrected query uses correct column names,
+follows proper SQL syntax, and accurately answers the original question
 without introducing new errors.
 
-# SQL: 
+# SQL:
 """
 ```
 

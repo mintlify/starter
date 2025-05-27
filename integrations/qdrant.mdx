@@ -9,7 +9,7 @@ pip install premai
 ```
 
 ```bash JavaScript
-npm install @premai/prem-sdk 
+npm install @premai/prem-sdk
 ```
 </CodeGroup>
 
@@ -20,7 +20,7 @@ We start by importing all our required packages. Here is how you do that for pyt
 <CodeGroup>
 
 ```python Python
-import os 
+import os
 import getpass
 from premai import Prem
 
@@ -39,7 +39,7 @@ import { QdrantClient } from '@qdrant/js-client-rest';
 
 ### Define all the constants
 
-After this we define our constants. For Prem, we are required to set our `project_id` and `embedding_model`. You can learn more about how to get your `project_id` and API Key from [here](https://docs.premai.io/quick-start). 
+After this we define our constants. For Prem, we are required to set our `project_id` and `embedding_model`. You can learn more about how to get your `project_id` and API Key from [here](https://docs.premai.io/quick-start).
 
 From Qdrant’s side, we need to also define our server URL, in which we will be sending requests to do all sorts of CRUD operations to our vector database. We also need to define our collection name. You can learn more about these concepts from Qdrant’s [quick start](https://qdrant.tech/documentation/quick-start/) guide and [concepts](https://qdrant.tech/documentation/concepts/).
 
@@ -47,7 +47,7 @@ Last but not the least, we also need to get our documents. For simplicity purpos
 
 <CodeGroup>
 
-```python Python 
+```python Python
 # Note: project_id: 123 is a dummy project id
 # You need to have an actual project ID here. Otherwise, it will throw an error.
 
@@ -75,7 +75,7 @@ const DOCUMENTS = [
 
 ### Setup PremAI and Qdrant clients
 
-Once we defined all our constants, it’s time to instantiate Prem AI client and Qdrant client. Heres how you do it in both Python and JavaScript. 
+Once we defined all our constants, it’s time to instantiate Prem AI client and Qdrant client. Heres how you do it in both Python and JavaScript.
 
 <CodeGroup>
 
@@ -95,20 +95,20 @@ const qdrantClient = new QdrantClient({ url: SERVER_URL });
 
 ### Writing a simple helper function to fetch embeddings from documents
 
-Let’s write a simple function to fetch embeddings from document or a list of documents. This process will be done using Prem SDK. We then use this function to embed all our documents, before pushing it to Qdrant’s vector database. 
+Let’s write a simple function to fetch embeddings from document or a list of documents. This process will be done using Prem SDK. We then use this function to embed all our documents, before pushing it to Qdrant’s vector database.
 
 <CodeGroup>
 
-```python Python 
+```python Python
 from typing import Union, List
 
 def get_embeddings(
-    project_id: int, 
-    embedding_model: str, 
+    project_id: int,
+    embedding_model: str,
     documents: Union[str, List[str]]
 ) -> List[List[float]]:
     """
-    Helper function to get the embeddings from premai sdk 
+    Helper function to get the embeddings from premai sdk
     Args
         project_id (int): The project id from prem saas platform.
         embedding_model (str): The embedding model alias to choose
@@ -118,14 +118,14 @@ def get_embeddings(
             embeddings
     """
     embeddings = []
-    documents = [documents] if isinstance(documents, str) else documents 
+    documents = [documents] if isinstance(documents, str) else documents
     for embedding in prem_client.embeddings.create(
         project_id=project_id,
-        model=embedding_model, 
+        model=embedding_model,
         input=documents
     ).data:
         embeddings.append(embedding.embedding)
-    
+
     return embeddings
 ```
 ```javascript JavaScript
@@ -142,22 +142,22 @@ async function getEmbeddings(projectID, embeddingModel, documents) {
 
 ### Convert Embeddings to Qdrant Points
 
-Once we are done fetching our embedding vectors with our embedding function, we convert this to Qdrant points. After this, we will use this points to upsert into our Qdrant vector DB collection. 
+Once we are done fetching our embedding vectors with our embedding function, we convert this to Qdrant points. After this, we will use this points to upsert into our Qdrant vector DB collection.
 
 <CodeGroup>
 
-```python Python 
+```python Python
 from qdrant_client.models import PointStruct
 
 embeddings = get_embeddings(
     project_id=PROJECT_ID,
-    embedding_model=EMBEDDING_MODEL, 
-    documents=DOCUMENTS 
+    embedding_model=EMBEDDING_MODEL,
+    documents=DOCUMENTS
 )
 
 points = [
     PointStruct(
-        id=idx, 
+        id=idx,
         vector=embedding,
         payload={"text": text},
     ) for idx, (embedding, text) in enumerate(zip(embeddings, DOCUMENTS))
@@ -177,7 +177,7 @@ function convertToQdrantPoints(embeddings, texts) {
     });
 }
 
-// Usage 
+// Usage
 
 let points = null
 try {
@@ -193,15 +193,15 @@ try {
 ### Setting up Qdrant Collection
 
 > A collection is a named set of points (vectors with a payload) among which you can search.
-> 
+>
 
-If you already have a collection then you can skip this step, otherwise follow the code to create a Qdrant collection. We will be upserting our points in this collection. 
+If you already have a collection then you can skip this step, otherwise follow the code to create a Qdrant collection. We will be upserting our points in this collection.
 
 <CodeGroup>
 
-```python Python 
+```python Python
 qdrant_client.create_collection(
-    collection_name=COLLECTION_NAME, 
+    collection_name=COLLECTION_NAME,
     vectors_config=VectorParams(size=3072, distance=Distance.DOT)
 )
 ```
@@ -222,18 +222,18 @@ Once we have done making our collection, we upload all our document vectors in t
 
 <CodeGroup>
 
-```python Python 
+```python Python
 doc_ids = list(range(len(embeddings)))
 
 qdrant_client.upsert(
-    collection_name=COLLECTION_NAME, 
+    collection_name=COLLECTION_NAME,
     points=points
  )
 ```
 
 ```javascript JavaScript
 if (points != null) {
-    // Now upsert the points to the vector DB 
+    // Now upsert the points to the vector DB
     await qdrant_client.upsert(COLLECTION_NAME, {
         wait: true,
         points
@@ -245,16 +245,16 @@ if (points != null) {
 
 ### Searching for documents from a query in a collection
 
-Once our collection is indexed with all our documents, we are now ready to query it and search documents which are semantically similar to the query. Here’s how we do this. 
+Once our collection is indexed with all our documents, we are now ready to query it and search documents which are semantically similar to the query. Here’s how we do this.
 
 <CodeGroup>
 
-```python Python 
+```python Python
 query = "what is the extension of python document"
 
 query_embedding = get_embeddings(
-    project_id=PROJECT_ID, 
-    embedding_model=EMBEDDING_MODEL, 
+    project_id=PROJECT_ID,
+    embedding_model=EMBEDDING_MODEL,
     documents=query
 )
 
@@ -276,12 +276,12 @@ console.log(response)
 
 ### Full code
 
-Congratulations, now you know how you can utilize Prem AI SDK with Qdrant Client to do nearest neighbor search on your documents for your LLM RAG Applications. Here is our starter boilerplate code for both Python and JavaScript. 
+Congratulations, now you know how you can utilize Prem AI SDK with Qdrant Client to do nearest neighbor search on your documents for your LLM RAG Applications. Here is our starter boilerplate code for both Python and JavaScript.
 
 <CodeGroup>
 
-```python Python 
-import os 
+```python Python
+import os
 import getpass
 from typing import Union, List
 
@@ -290,12 +290,12 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
 def get_embeddings(
-    project_id: int, 
-    embedding_model: str, 
+    project_id: int,
+    embedding_model: str,
     documents: Union[str, List[str]]
 ) -> List[List[float]]:
     """
-    Helper function to get the embeddings from premai sdk 
+    Helper function to get the embeddings from premai sdk
     Args
         project_id (int): The project id from prem saas platform.
         embedding_model (str): The embedding model alias to choose
@@ -305,21 +305,21 @@ def get_embeddings(
             embeddings
     """
     embeddings = []
-    documents = [documents] if isinstance(documents, str) else documents 
+    documents = [documents] if isinstance(documents, str) else documents
     for embedding in prem_client.embeddings.create(
         project_id=project_id,
-        model=embedding_model, 
+        model=embedding_model,
         input=documents
     ).data:
         embeddings.append(embedding.embedding)
-    
+
     return embeddings
 
 if __name__ == "__main__":
     if os.environ.get("PREMAI_API_KEY") is None:
         os.environ["PREMAI_API_KEY"] = getpass.getpass("PremAI API Key:")
 
-        
+
     # Note: project_id: 123 is a dummy project id
     # You need to have an actual project ID here. Otherwise, it will throw an error.
 
@@ -336,16 +336,16 @@ if __name__ == "__main__":
     prem_client = Prem(api_key=api_key)
     qdrant_client = QdrantClient(url=QDRANT_SERVER_URL)
 
-    # Get the embedding and create Qdrant points 
+    # Get the embedding and create Qdrant points
     embeddings = get_embeddings(
         project_id=PROJECT_ID,
-        embedding_model=EMBEDDING_MODEL, 
-        documents=DOCUMENTS 
+        embedding_model=EMBEDDING_MODEL,
+        documents=DOCUMENTS
     )
 
     points = [
         PointStruct(
-            id=idx, 
+            id=idx,
             vector=embedding,
             payload={"text": text},
         ) for idx, (embedding, text) in enumerate(zip(embeddings, DOCUMENTS))
@@ -353,7 +353,7 @@ if __name__ == "__main__":
 
     # Create a collection. Comment this if this is created already
     qdrant_client.create_collection(
-        collection_name=COLLECTION_NAME, 
+        collection_name=COLLECTION_NAME,
         vectors_config=VectorParams(size=3072, distance=Distance.DOT)
     )
 
@@ -361,16 +361,16 @@ if __name__ == "__main__":
 
     doc_ids = list(range(len(embeddings)))
     qdrant_client.upsert(
-        collection_name=COLLECTION_NAME, 
+        collection_name=COLLECTION_NAME,
         points=points
     )
 
-    # Query your Collection 
+    # Query your Collection
 
     query = "what is the extension of python document"
     query_embedding = get_embeddings(
-        project_id=PROJECT_ID, 
-        embedding_model=EMBEDDING_MODEL, 
+        project_id=PROJECT_ID,
+        embedding_model=EMBEDDING_MODEL,
         documents=query
     )
 
@@ -392,15 +392,15 @@ const DOCUMENTS = [
     "We will be using qdrant and premai javascript sdk"
 ];
 
-// Instantiate the clients 
+// Instantiate the clients
 
 const premaiClient = new Prem({
     apiKey: "xxxx-xxx-xxx"
 })
 const qdrantClient = new QdrantClient({ url: SERVER_URL });
 
-// Define helper function to create embeddings and 
-// convert it to Qdrant points 
+// Define helper function to create embeddings and
+// convert it to Qdrant points
 
 async function getEmbeddings(projectID, embeddingModel, documents) {
     const response = await premaiClient.embeddings.create({
@@ -434,7 +434,7 @@ try {
 }
 
 // Create a new collection to store those points and index documents
-// Comment it out once a collection is created 
+// Comment it out once a collection is created
 await qdrantClient.createCollection(COLLECTION_NAME, {
     vectors: {
         size: 3072,
