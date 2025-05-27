@@ -22,14 +22,18 @@
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "core-concepts/4-social-graph-elements.mdx",
+              "core-concepts/4.1-identity.mdx",
+              "core-concepts/4.2-connections.mdx",
+              "core-concepts/4.3-content.mdx",
+              "core-concepts/4.4-community.mdx",
+              "core-concepts/action-weighted-logic.mdx",
+              "core-concepts/emt.mdx",
+              "core-concepts/incremental-rewards.mdx",
+              "core-concepts/posc.mdx",
+              "core-concepts/trust.mdx"
             ]
           }
         ]
