@@ -3,6 +3,8 @@ title: "Node Operator Guide"
 description: "Comprehensive guide to setting up and running a TRUF.NETWORK (TN) node."
 ---
 
+> **New to server setup or need a quick start?** Check our [Quick Installation Guide](https://github.com/trufnetwork/truf-node-operator/blob/main/docs/installation-guide.md) with copy-paste commands for a fresh server instance.
+
 This guide will walk you through the process of setting up and running a TRUF.NETWORK (TN) node. By following these steps, you'll be able to deploy a node, optionally become a validator, and contribute to the TN.
 
 ## Prerequisites
@@ -18,9 +20,43 @@ Before you begin, ensure you have the following:
 3. **PostgreSQL Client**: Required for state sync and database operations.
 - Install with `sudo apt -y install postgresql-16` (Ubuntu/Debian)
 
+## Getting Started
+
+### Get Kwild Binary
+
+You have two options to get the `kwild` binary:
+
+1. **Download from Releases**:
+   - Visit [TRUF.NETWORK Node Releases](https://github.com/trufnetwork/node/releases)
+   - Download the latest release for your operating system
+   - Extract the binary and move it to your system path:
+   ```bash
+   sudo mv .build/kwild /usr/local/bin/
+   ```
+
+2. **Build from Source**:
+   ```bash
+   git clone https://github.com/trufnetwork/node.git
+   cd node
+   task build
+   ```
+   The built binary will be in the `.build` directory. Move it to your system path:
+   ```bash
+   sudo mv .build/kwild /usr/local/bin/
+   ```
+
 ## Setup Steps
 
-### 1. Generate Initial Configuration
+### 1. Clone the Repository
+
+First, clone the TRUF.NETWORK node operator repository:
+
+```bash
+git clone https://github.com/trufnetwork/truf-node-operator.git
+cd truf-node-operator
+```
+
+### 2. Generate Initial Configuration
 
 Use `kwild` to create your initial configuration file:
 
@@ -31,9 +67,9 @@ kwild setup init \
   --p2p.bootnodes "4e0b5c952be7f26698dc1898ff3696ac30e990f25891aeaf88b0285eab4663e1#ed25519@node-1.mainnet.truf.network:26656,0c830b69790eaa09315826403c2008edc65b5c7132be9d4b7b4da825c2a166ae#ed25519@node-2.mainnet.truf.network:26656"
 ```
 
-For detailed instructions on configuration options more relevant to a production setup, refer to our [Configuration Guide](docs/creating-config.md).
+For detailed instructions on configuration options more relevant to a production setup, refer to our [Node Operator Repository](https://github.com/trufnetwork/truf-node-operator).
 
-### 2. Enable State Sync
+### 3. Enable State Sync
 
 Edit the `config.toml` file in your node configuration directory to enable state sync:
 
@@ -45,7 +81,7 @@ sed -i 's/trusted_providers = \[\]/trusted_providers = ["0c830b69790eaa093158264
 
 This will configure your node to use state sync for faster synchronization with the network.
 
-### 3. Set Up PostgreSQL
+### 4. Set Up PostgreSQL
 
 For a quick setup, run Kwil's pre-configured PostgreSQL Docker image:
 
@@ -56,7 +92,6 @@ docker run -d -p 5432:5432 --name tn-postgres \
     --shm-size=1gb \
     kwildb/postgres:latest
 ```
-
 The command above:
 - `-v tn-pgdata:/var/lib/postgresql/data`: Creates a persistent volume named 'tn-pgdata' to store database data
 - `--shm-size=1gb`: Allocates 1GB of shared memory for PostgreSQL operations (recommended for better performance)
@@ -92,7 +127,7 @@ If you prefer a custom PostgreSQL setup, ensure it meets the requirements specif
 
 **Security Warning**: It is recommended to not expose port 5432 publicly in production environments.
 
-### 4. Deploy TN Node
+### 5. Deploy TN Node
 
 Run the kwild binary to deploy your node:
 
@@ -112,7 +147,7 @@ Ensure your firewall allows incoming connections on:
 - JSON-RPC port (default: 8484)
 - P2P port (default: 6600)
 
-### 5. Verify Node Synchronization
+### 6. Verify Node Synchronization
 
 Before proceeding to become a validator, ensure your node is fully synced with the network:
 
@@ -120,9 +155,9 @@ Before proceeding to become a validator, ensure your node is fully synced with t
 kwild admin status
 ```
 
-Look for the `syncing: false` in the output, and check that your `best_block_height` is close to the current network height.
+Look for `syncing: false` in the output, and check that your `best_block_height` is close to the current network height.
 
-### 6. Become a Validator (Optional)
+### 7. Become a Validator (Optional)
 
 To upgrade your node to a validator:
 
@@ -159,7 +194,7 @@ Note: If you used a different directory name during setup (not `./my-node-config
 
 You can always reach out to the community for help with the validator process.
 
-### 7. Submit Your Node to Available Node List (Optional)
+### 8. Submit Your Node to Available Node List (Optional)
 
 To help others discover your node:
 
@@ -189,9 +224,11 @@ kwild key info --key-file ./my-node-config/nodekey.json
 
 ## Additional Resources
 
+- [Quick Installation Guide](https://github.com/trufnetwork/truf-node-operator/blob/main/docs/installation-guide.md) - Step-by-step commands for a fresh server setup
 - [Kwil Documentation](https://docs.kwil.com)
 - [Production Network Deployment Guide](https://docs.kwil.com/docs/node/production)
 
 For further assistance, join our [Discord community](https://discord.com/invite/5AMCBYxfW4) or open an issue on our [GitHub repository](https://github.com/trufnetwork/truf-node-operator/issues).
 
 Welcome to the TRUF.NETWORK! Your participation helps build a more robust and decentralized data infrastructure.
+
