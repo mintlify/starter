@@ -31,6 +31,18 @@
               "core-concepts/posc",
               "core-concepts/trust"
             ]
+          },
+          {
+            "group": "Build",
+            "pages": [
+              "build/1-quickstart"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "resources/1-test"
+            ]
           }
         ]
       },
