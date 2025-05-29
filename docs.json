@@ -25,11 +25,6 @@
           {
             "group": "Core Concepts",
             "pages": [
-              "core-concepts/4-social-graph-elements",
-              "core-concepts/4.1-identity",
-              "core-concepts/4.2-connections",
-              "core-concepts/4.3-content",
-              "core-concepts/4.4-community",
               "core-concepts/action-weighted-logic",
               "core-concepts/emt",
               "core-concepts/incremental-rewards",
