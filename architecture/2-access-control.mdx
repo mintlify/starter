@@ -11,7 +11,7 @@ The witness pattern serves as Sage's foundational security mechanism, requiring 
 
 Each witness type is paired with a corresponding configuration object that defines which specific witness implementations are authorized for operations. This architecture enables flexible, upgradeable access control without requiring contract modifications. For example:
 
-```
+```rust
 public fun verify_channel_witness<ChannelWitnessType: drop> (
     channel_witness_config: &ChannelWitnessConfig,
     _: &ChannelWitnessType
