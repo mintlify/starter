@@ -16,7 +16,7 @@
           {
             "group": "Introduction",
             "pages": [
-              "introduction/1-overview",
+              "index",
               "introduction/2-posc",
               "introduction/3-emt",
               "introduction/4-trust"
@@ -110,7 +110,8 @@
   "footer": {
     "socials": {
       "x": "https://x.com/sageonsui",
-      "github": "https://github.com/37-labs"
+      "github": "https://github.com/37-labs",
+      "telegram": "https://t.me/+qC8pDeuqWAE2OWRh"
     }
   }
 }
