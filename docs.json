@@ -23,13 +23,26 @@
             ]
           },
           {
-            "group": "Core Concepts",
+            "group": "Concepts",
             "pages": [
-              "core-concepts/action-weighted-logic",
-              "core-concepts/emt",
-              "core-concepts/incremental-rewards",
-              "core-concepts/posc",
-              "core-concepts/trust"
+              "concepts/1-identity",
+              "concepts/2-posts",
+              "concepts/3-connections",
+              "concepts/4-channels",
+              "concepts/5-rewards",
+              "concepts/6-apps"
+            ]
+          },
+          {
+            "group": "Architecture",
+            "pages": [
+              "architecture/1-core-packages",
+              "architecture/2-access-control",
+              "architecture/3-administration",
+              "architecture/4-social-graph-and-identity",
+              "architecture/5-rewards-and-incentives",
+              "architecture/6-content-and-channels",
+              "architecture/7-trust-economics"
             ]
           },
           {
