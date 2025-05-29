@@ -16,6 +16,16 @@ Before you begin, ensure you have the following:
 
 2. **Docker**: Required for running the PostgreSQL image.
 - Install from [Docker's official website](https://docs.docker.com/get-docker)
+- After installation, enable and start Docker:
+  ```bash
+  sudo systemctl enable docker
+  sudo systemctl start docker
+  ```
+- Add your user to the docker group to run Docker commands without sudo:
+  ```bash
+  sudo usermod -aG docker $USER
+  newgrp docker
+  ```
 
 3. **PostgreSQL Client**: Required for state sync and database operations.
 - Install with `sudo apt -y install postgresql-16` (Ubuntu/Debian)
@@ -28,10 +38,11 @@ You have two options to get the `kwild` binary:
 
 1. **Download from Releases**:
    - Visit [TRUF.NETWORK Node Releases](https://github.com/trufnetwork/node/releases)
-   - Download the latest release for your operating system
+   - Download the latest release for your operating system (e.g., `tn_2.0.1_linux_amd64.tar.gz`)
    - Extract the binary and move it to your system path:
    ```bash
-   sudo mv .build/kwild /usr/local/bin/
+   tar -xzf tn_2.0.1_linux_amd64.tar.gz
+   sudo mv kwild /usr/local/bin/
    ```
 
 2. **Build from Source**:
