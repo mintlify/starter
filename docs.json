@@ -83,7 +83,12 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Learn more",
+          "anchor": "Sage Protocl",
+          "href": "https://sageprotocol.xyz",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Whitepaper",
           "href": "https://sageprotocol.xyz",
           "icon": "book-open-cover"
         }
