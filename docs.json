@@ -11,29 +11,30 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Introduction",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction/1-overview",
+              "introduction/2-posc",
+              "introduction/3-emt",
+              "introduction/4-trust"
             ]
           },
           {
             "group": "Core Concepts",
             "pages": [
-              "core-concepts/4-social-graph-elements.mdx",
-              "core-concepts/4.1-identity.mdx",
-              "core-concepts/4.2-connections.mdx",
-              "core-concepts/4.3-content.mdx",
-              "core-concepts/4.4-community.mdx",
-              "core-concepts/action-weighted-logic.mdx",
-              "core-concepts/emt.mdx",
-              "core-concepts/incremental-rewards.mdx",
-              "core-concepts/posc.mdx",
-              "core-concepts/trust.mdx"
+              "core-concepts/4-social-graph-elements",
+              "core-concepts/4.1-identity",
+              "core-concepts/4.2-connections",
+              "core-concepts/4.3-content",
+              "core-concepts/4.4-community",
+              "core-concepts/action-weighted-logic",
+              "core-concepts/emt",
+              "core-concepts/incremental-rewards",
+              "core-concepts/posc",
+              "core-concepts/trust"
             ]
           }
         ]
@@ -62,19 +63,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "anchor": "Learn more",
+          "href": "https://sageprotocol.xyz",
           "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
         }
       ]
     }
@@ -87,20 +78,19 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:rory@sagepro"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Sage",
+      "href": "https://sageapp.xyz"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/sageonsui",
+      "github": "https://github.com/37-labs"
     }
   }
 }
