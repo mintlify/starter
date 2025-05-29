@@ -11,28 +11,72 @@ This guide will walk you through the process of setting up and running a TRUF.NE
 
 Before you begin, ensure you have the following:
 
-1. **Kwild**: The all-in-one binary for node operation and administration.
-- Download from the [latest GitHub release](https://github.com/trufnetwork/node/releases)
+1. **Docker & Docker Compose**: Required for running the PostgreSQL image.
 
-2. **Docker**: Required for running the PostgreSQL image.
-- Install from [Docker's official website](https://docs.docker.com/get-docker)
+```bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg lsb-release build-essential
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
+
 - After installation, enable and start Docker:
+
   ```bash
   sudo systemctl enable docker
   sudo systemctl start docker
   ```
 - Add your user to the docker group to run Docker commands without sudo:
+
   ```bash
   sudo usermod -aG docker $USER
   newgrp docker
   ```
+2. **PostgreSQL Client**: Required for state sync and database operations.
 
-3. **PostgreSQL Client**: Required for state sync and database operations.
-- Install with `sudo apt -y install postgresql-16` (Ubuntu/Debian)
+```bash
+sudo apt-get install -y postgresql-client-16
 
-## Getting Started
+```
+  
+3. **Go:** Required for building `kwild` binary
 
-### Get Kwild Binary
+```bash
+LATEST_GO_VERSION=$(curl -sSL https://go.dev/VERSION?m=text | head -n1)
+echo "Installing ${LATEST_GO_VERSION}..."
+curl -fsSL "https://go.dev/dl/${LATEST_GO_VERSION}.linux-amd64.tar.gz" \
+  -o "${LATEST_GO_VERSION}.linux-amd64.tar.gz"
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf "${LATEST_GO_VERSION}.linux-amd64.tar.gz"
+rm "${LATEST_GO_VERSION}.linux-amd64.tar.gz"
+```
+- After installation, add Go to PATH:
+
+  ```bash
+grep -qxF 'export GOPATH=$HOME/go' ~/.bashrc \
+  || echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+grep -qxF 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' ~/.bashrc \
+  || echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.bashrc
+  ```
+- Reload your terminal
+
+```bash
+source ~/.bashrc
+```
+
+4. **Taskfile (go-task):** 
+
+```bash
+go install github.com/go-task/task/v3/cmd/task@latest
+```
+
+5. **Kwild Binary**
 
 You have two options to get the `kwild` binary:
 
@@ -55,12 +99,28 @@ You have two options to get the `kwild` binary:
    ```bash
    sudo mv .build/kwild /usr/local/bin/
    ```
+   Apply new docker group
+  ```bash
+  newgrp docker
+  ```
 
-## Setup Steps
+## Verify Installation
+Beforte you move forward to Node Setup, verify that everything installed correctly and of the right version
 
-### 1. Clone the Repository
+```bash
+docker --version
+docker compose version
+pg_dump --version
+go version
+task --version
+kwild version
+```
 
-First, clone the TRUF.NETWORK node operator repository:
+## Node setup
+
+### 1. Clone TN Node Operator Repository
+
+From your root directly, clone the TRUF.NETWORK node operator repository:
 
 ```bash
 git clone https://github.com/trufnetwork/truf-node-operator.git
@@ -82,15 +142,12 @@ For detailed instructions on configuration options more relevant to a production
 
 ### 3. Enable State Sync
 
-Edit the `config.toml` file in your node configuration directory to enable state sync:
+This will configure your node to use state sync for faster synchronization with the network. Edit the `config.toml` file using the following command:
 
 ```bash
-# Edit the config.toml file
 sed -i '/\[state_sync\]/,/^\[/ s/enable = false/enable = true/' ./my-node-config/config.toml
 sed -i 's/trusted_providers = \[\]/trusted_providers = ["0c830b69790eaa09315826403c2008edc65b5c7132be9d4b7b4da825c2a166ae#ed25519@node-2.mainnet.truf.network:26656"]/' ./my-node-config/config.toml
 ```
-
-This will configure your node to use state sync for faster synchronization with the network.
 
 ### 4. Set Up PostgreSQL
 
@@ -107,66 +164,75 @@ The command above:
 - `-v tn-pgdata:/var/lib/postgresql/data`: Creates a persistent volume named 'tn-pgdata' to store database data
 - `--shm-size=1gb`: Allocates 1GB of shared memory for PostgreSQL operations (recommended for better performance)
 
-#### Installing pg_dump for Snapshots
-
-To enable state sync functionality, you'll need `pg_dump` installed. Here's how to install it:
-
-For Ubuntu/Debian:
-```bash
-sudo apt-get update
-sudo apt-get install postgresql-client-16
-```
-
-For CentOS/RHEL:
-```bash
-sudo yum install postgresql16
-```
-
-For macOS (using Homebrew):
-```bash
-brew install postgresql@16
-```
-
-Verify the installation:
-```bash
-pg_dump --version
-```
-
-This should show PostgreSQL version 16.x.x. The `pg_dump` utility is required for creating and restoring database snapshots during state sync.
-
-If you prefer a custom PostgreSQL setup, ensure it meets the requirements specified in the [Kwil documentation](https://docs.kwil.com/docs/daemon/running-postgres).
-
-**Security Warning**: It is recommended to not expose port 5432 publicly in production environments.
-
-### 5. Deploy TN Node
-
-Run the kwild binary to deploy your node:
+### 5. Create `systemd` service for `kwild` and PostgreSQL
 
 ```bash
-kwild start -r ./my-node-config
-```
+# Create systemd service for kwild
+sudo tee /etc/systemd/system/kwild.service << EOF
+[Unit]
+Description=TRUF.NETWORK Node Service
+After=network.target tn-postgres.service
+Requires=tn-postgres.service
 
-You can run kwild in the background by adding `&` at the end of the command:
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$(pwd)
+ExecStart=$(which kwild) start -r ./my-node-config
+Restart=always
+RestartSec=10
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
 
 ```bash
-kwild start -r ./my-node-config &
+# Create systemd service for PostgreSQL
+sudo tee /etc/systemd/system/tn-postgres.service << EOF
+[Unit]
+Description=TRUF.NETWORK PostgreSQL Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=$USER
+ExecStart=docker start -a tn-postgres
+ExecStop=docker stop tn-postgres
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
 ```
 
-This allows you to run other kwild commands in the same terminal session, such as checking node status or managing validators.
+### 5. Run TN Node
 
-Ensure your firewall allows incoming connections on:
+Before you proceed, ensure your firewall allows incoming connections on:
 - JSON-RPC port (default: 8484)
 - P2P port (default: 6600)
 
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable tn-postgres
+sudo systemctl enable kwild
+sudo systemctl start tn-postgres
+sudo systemctl start kwild
+```
+
 ### 6. Verify Node Synchronization
 
-Before proceeding to become a validator, ensure your node is fully synced with the network:
+To become a validator, ensure your node is fully synced with the network:
 
+Use this command to check node sync status. Look for `syncing: false` in the output, and check that your `best_block_height` is close to the current network height.
 ```bash
 kwild admin status
 ```
 
-Look for `syncing: false` in the output, and check that your `best_block_height` is close to the current network height.
 
 ### 7. Become a Validator (Optional)
 
@@ -243,3 +309,53 @@ For further assistance, join our [Discord community](https://discord.com/invite/
 
 Welcome to the TRUF.NETWORK! Your participation helps build a more robust and decentralized data infrastructure.
 
+## Troubleshooting
+
+### Installing `pg_dump` for Snapshots
+
+To enable state sync functionality, you'll need `pg_dump` installed. Here's how to install it:
+
+For Ubuntu/Debian:
+```bash
+sudo apt-get update
+sudo apt-get install postgresql-client-16
+```
+
+For CentOS/RHEL:
+```bash
+sudo yum install postgresql16
+```
+
+For macOS (using Homebrew):
+```bash
+brew install postgresql@16
+```
+
+Verify the installation:
+```bash
+pg_dump --version
+```
+
+**Security Warning**: It is recommended to not expose port 5432 publicly in production environments.
+
+## Status
+
+Use this command to view node logs in real-time
+```bash
+sudo journalctl -u kwild -f
+```
+
+This command will provide last 100 lines of logs
+```bash
+sudo journalctl -u kwild -n 100
+```
+
+To view logs with precise timestamp use
+```bash
+sudo journalctl -u kwild -f --output=short-precise
+```
+
+Use this command to check service status
+```bash
+sudo systemctl status kwild
+```
