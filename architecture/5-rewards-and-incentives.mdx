@@ -2,3 +2,44 @@
 title: "Rewards and Incentives"
 description: "Description of your new file."
 ---
+
+Sage Protocol implements a transparent incentives architecture explicitly designed to reward authentic social contributions and meaningful user interactions. Central to this incentive system is the **Proof of Social Contribution (PoSC)** mechanism, integrated directly with the Sage Protocol’s native **Earned Mint Token (EMT)**—the **\$TRUST** token.
+
+### **Reward Calculation & Distribution**
+
+Rewards in Sage are determined precisely by validated user actions and well-defined metrics:
+
+- **Action-Based Rewards**: Rewards are calculated based on the explicit action metrics defined in the protocol's action weighting model. Each action type (such as creating posts, engaging with content, or joining channels) has a clearly defined numerical weight (RewardWeight) representing its relative contribution to the ecosystem.
+- **RewardWeights and Registry**: These action weights are stored and managed through the RewardWeights structure, which defines the effective start and end epochs during which these weights apply. The RewardWeightsRegistry tracks historical records of reward weight configurations, enabling clear retrieval and auditing of past reward setups.
+- **Transaction Fee Alignment**: Rewards are aligned explicitly with the value users generate via transaction fees. The reward logic explicitly references and leverages these fees to determine reward values proportionately to actual on-chain activity.
+
+### **Earned Mint Token (EMT) – \$TRUST**
+
+The \$TRUST token operates under an explicit Earned Mint Token (EMT) model:
+
+- **Minting Logic**: \$TRUST tokens are minted exclusively through user-validated contributions. When users claim rewards, they gain the explicit right to mint an exact amount of \$TRUST tokens based on the value calculated by the reward logic, explicitly authorized via a RewardWitness check.
+- **Controlled Supply**: Minting of \$TRUST is explicitly regulated by the protocol's MintConfig, which defines parameters such as whether minting is enabled and maximum supply limits, ensuring a controlled and sustainable token supply aligned with genuine user engagement.
+
+### **Incremental Rewards**
+
+To encourage sustained engagement, Sage employs an explicit incremental reward mechanism:
+
+- Initial validated contributions explicitly earn direct rewards calculated precisely based on initial metrics (e.g., initial content creation).
+- Subsequent user engagements (such as likes, comments, or shares) generate additional incremental rewards, explicitly tracked via analytics actions, continuously rewarding both content creators and interacting users. These incremental metrics clearly contribute additional value to the original contribution, rewarding sustained engagement.
+
+### **Reward Witness Authorization**
+
+Security and transparency are ensured through explicit RewardWitness validation, required for minting operations. The RewardWitnessConfig explicitly specifies authorized witness types to securely verify reward claims at runtime, ensuring only authenticated rewards result in token minting.
+
+### **Architectural Advantages**
+
+This explicit reward architecture delivers clear and measurable benefits:
+
+- **Transparency and Auditability**:\
+  Clearly defined reward weights and registry storage ensure rewards can be transparently audited, verifying alignment between user actions and rewards issued. All historical analytics data and reward weights from previous epochs are explicitly preserved, enabling comprehensive, verifiable auditing of reward calculations and distributions over time.
+- **Sustainable Economic Design**:\
+  Explicitly linking rewards to transaction fees and controlled minting configurations ensures long-term economic sustainability, directly correlating ecosystem growth with user-generated economic activity.
+- **Flexible and Upgradeable**:\
+  The architecture allows administrators to dynamically adjust reward weights (RewardWeights) and configurations (MintConfig) without requiring smart contract redeployment, providing flexibility for adapting to evolving ecosystem needs.
+- **Genuine Engagement Incentives**:\
+  The incremental rewards model continuously incentivizes high-quality interactions, maintaining ongoing user participation and fostering genuine community involvement.
