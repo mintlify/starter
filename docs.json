@@ -53,8 +53,17 @@
           },
           {
             "group": "Resources",
-            "pages": [
-              "resources/1-test"
+            "groups": [
+              {
+                "group": "Admin",
+                "pages": [
+                  "resources/one/admin/1-access",
+                  "resources/one/admin/2-actions",
+                  "resources/one/admin/3-admin",
+                  "resources/one/admin/4-apps",
+                  "resources/one/admin/5-fees"
+                ]
+              }
             ]
           }
         ]
