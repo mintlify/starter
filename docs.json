@@ -119,12 +119,7 @@
         "label": "Support",
         "href": "https://t.me/xRO4R"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Sage",
-      "href": "https://sageapp.xyz"
-    }
+    ]
   },
   "footer": {
     "socials": {
