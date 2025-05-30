@@ -1,0 +1,150 @@
+---
+title: "Access"
+description: "@sage/admin > access"
+---
+
+- Struct [`ChannelConfig`](#channel-config)
+- Struct [`ChannelWitnessConfig`](#channel-witness-config)
+- Struct [`GroupWitnessConfig`](#group-witness-config)
+- Struct [`UserOwnedConfig`](#user-owned-config)
+- Struct [`UserSharedConfig`](#user-shared-config)
+- Struct [`UserWitnessConfig`](#user-witness-config)
+- [Constants](#constants)
+- Function [`assert_channel`]()
+- Function [`assert_channel_witness`]()
+- Function [`assert_group_witness`]()
+- Function [`assert_owned_user`]()
+- Function [`assert_shared_user`]()
+- Function [`assert_user_witness`]()
+- Function [`verify_channel`]()
+- Function [`verify_channel_witness`]()
+- Function [`verify_group_witness`]()
+- Function [`verify_owned_user`]()
+- Function [`verify_shared_user`]()
+- Function [`verify_user_witness`]()
+
+```rust
+use std::type_name;
+use sage_admin::admin;
+```
+
+<h2 id="channel-config">Struct `ChannelConfig`</h2>
+
+Holds the `Channel` type for runtime type checks.
+
+```rust
+public struct ChannelConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: UID,
+  type_name: TypeName
+  ```
+</Expandable>
+
+<h2 id="channel-witness-config">Struct `ChannelWitnessConfig`</h2>
+
+Holds the `ChannelWitness` type for runtime type checks.
+
+```rust
+public struct ChannelWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: UID,
+  type_name: TypeName
+  ```
+</Expandable>
+
+<h2 id="group-witness-config">Struct `GroupWitnessConfig`</h2>
+
+Holds the `GroupWitness` type for runtime type checks.
+
+```rust
+public struct GroupWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: UID,
+  type_name: TypeName
+  ```
+</Expandable>
+
+<h2 id="user-owned-config">Struct `UserOwnedConfig`</h2>
+
+Holds the `UserOwned` type for runtime type checks.
+
+```rust
+public struct UserOwnedConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: UID,
+  type_name: TypeName
+  ```
+</Expandable>
+
+<h2 id="user-shared-config">Struct `UserSharedConfig`</h2>
+
+Holds the `UserShared` type for runtime type checks.
+
+```rust
+public struct UserSharedConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: UID,
+  type_name: TypeName
+  ```
+</Expandable>
+
+<h2 id="user-witness-config">Struct `UserWitnessConfig`</h2>
+
+Holds the `UserWitness` type for runtime type checks.
+
+```rust
+public struct UserWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: UID,
+  type_name: TypeName
+  ```
+</Expandable>
+
+<h2 id="constants">Constants</h2>
+
+Runtime type checking failed for the struct.
+
+```rust
+const ETypeMismatch: u64 = 370;
+```
+
+Runtime type checking failed for the witness.
+
+```rust
+const EWitnessMismatch: u64 = 371;
+```
+
+## heading two to make it clear
+
+- 
+- assert_channel\<T\>(channel__config: &\_ChannelConfig, channel: T)
+- assert_channel_witness\<T\>(channel__witness_config: &\_ChannelWitnessConfig, channel_witness: T)
+- assert_group_witness\<T\>(group__witness_config: &\_GroupWitnessConfig, group_witness: T)
+- assert_owned_user\<T\>(owned_user__config: &\_OwnedUserConfig, owned_user: T)
+- assert_shared_user\<T\>(shared_user__config: &\_SharedUserConfig, shared_user: T)
+- assert_user_witness\<T\>(user_witness__config: &\_UserWitnessConfig, user_witness: T)
+- verify_channel\<T\>(channel__config: &\_ChannelConfig, channel: T): bool
+- verify_channel_witness\<T\>(channel__witness_config: &\_ChannelWitnessConfig, channel_witness: T): bool
+- verify_group_witness\<T\>(group__witness_config: &\_GroupWitnessConfig, group_witness: T): bool
+- verify_owned_user\<T\>(owned_user__config: &\_OwnedUserConfig, owned_user: T): bool
+- verify_shared_user\<T\>(shared_user__config: &\_SharedUserConfig, shared_user: T): bool
+
+verify_user_witness\<T\>(user_witness__config: &\_UserWitnessConfig, user_witness: T): bool
