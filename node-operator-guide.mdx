@@ -28,23 +28,24 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 
 - After installation, enable and start Docker:
 
-  ```bash
-  sudo systemctl enable docker
-  sudo systemctl start docker
-  ```
+```bash
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+
 - Add your user to the docker group to run Docker commands without sudo:
 
-  ```bash
-  sudo usermod -aG docker $USER
-  newgrp docker
-  ```
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
 2. **PostgreSQL Client**: Required for state sync and database operations.
 
 ```bash
 sudo apt-get install -y postgresql-client-16
-
 ```
-  
+
 3. **Go:** Required for building `kwild` binary
 
 ```bash
@@ -56,21 +57,23 @@ sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "${LATEST_GO_VERSION}.linux-amd64.tar.gz"
 rm "${LATEST_GO_VERSION}.linux-amd64.tar.gz"
 ```
+
 - After installation, add Go to PATH:
 
-  ```bash
+```bash
 grep -qxF 'export GOPATH=$HOME/go' ~/.bashrc \
   || echo 'export GOPATH=$HOME/go' >> ~/.bashrc
 grep -qxF 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' ~/.bashrc \
   || echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.bashrc
-  ```
-- Reload your terminal
+```
+
+- Reload your terminal:
 
 ```bash
 source ~/.bashrc
 ```
 
-4. **Taskfile (go-task):** 
+4. **Taskfile (go-task):**
 
 ```bash
 go install github.com/go-task/task/v3/cmd/task@latest
@@ -99,13 +102,14 @@ You have two options to get the `kwild` binary:
    ```bash
    sudo mv .build/kwild /usr/local/bin/
    ```
-   Apply new docker group
-  ```bash
-  newgrp docker
-  ```
+   Apply new docker group:
+   ```bash
+   newgrp docker
+   ```
 
 ## Verify Installation
-Beforte you move forward to Node Setup, verify that everything installed correctly and of the right version
+
+Before you move forward to Node Setup, verify that everything installed correctly and of the right version:
 
 ```bash
 docker --version
@@ -209,7 +213,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### 5. Run TN Node
+### 6. Run TN Node
 
 Before you proceed, ensure your firewall allows incoming connections on:
 - JSON-RPC port (default: 8484)
@@ -224,7 +228,7 @@ sudo systemctl start tn-postgres
 sudo systemctl start kwild
 ```
 
-### 6. Verify Node Synchronization
+### 7. Verify Node Synchronization
 
 To become a validator, ensure your node is fully synced with the network:
 
@@ -234,7 +238,7 @@ kwild admin status
 ```
 
 
-### 7. Become a Validator (Optional)
+### 8. Become a Validator (Optional)
 
 To upgrade your node to a validator:
 
@@ -271,7 +275,7 @@ Note: If you used a different directory name during setup (not `./my-node-config
 
 You can always reach out to the community for help with the validator process.
 
-### 8. Submit Your Node to Available Node List (Optional)
+### 9. Submit Your Node to Available Node List (Optional)
 
 To help others discover your node:
 
