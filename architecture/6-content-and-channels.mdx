@@ -2,3 +2,59 @@
 title: "Content and Channels"
 description: "Description of your new file."
 ---
+
+Sage Protocol provides decentralized, on-chain management of user-generated content and community interactions, ensuring transparent, secure, and economically incentivized user experiences. The architecture comprises clearly defined structures for managing content and communities, integrating transaction fees, moderation, and incentivization mechanisms directly within the blockchain.
+
+### **Content Management**
+
+Content in Sage is represented by decentralized, verifiable on-chain structures:
+
+- **Posts**:\
+  Managed via the Post structure, which explicitly stores content metadata (title, description), payload data, author details, timestamps, likes, and comments, as well as states indicating if the content has been edited or deleted.
+- **Engagement Interactions**:\
+  Users interact explicitly through actions such as likes and comments, tracked directly within the Likes and Posts substructures. These interactions increment engagement metrics, providing the basis for incremental rewards and analytics tracking.
+- **Fee Management**:\
+  The PostFees structure manages explicit transaction fees for actions such as liking or creating posts. Fees can be configured in native \$SUI or custom token denominations, clearly aligning economic incentives with user interactions.
+
+### **Channels & Community Management**
+
+Channels in Sage provide decentralized community-building environments managed explicitly through on-chain structures:
+
+- **Channels**:\
+  Defined explicitly by the Channel structure, each channel maintains metadata (avatar, banner, description), moderators, memberships (Membership), and interaction histories. All channel activities, such as moderation changes and member updates, are transparently stored on-chain.
+- **Membership & Moderation**:\
+  Membership is explicitly tracked via the Membership structure, maintaining precise user join/leave timestamps and membership counts.
+
+  Moderation roles and permissions are explicitly managed by the Moderation structure, providing secure, transparent moderation capabilities directly on-chain.
+- **Channel Fees**:\
+  Explicitly defined in the ChannelFees structure, channel-related transaction fees (such as creating channels, joining/leaving, posting, and moderation actions) ensure sustainable and economically aligned community operations.
+
+### **Cross-Application Interoperability**
+
+Interoperability is explicitly enabled through structured indexing mechanisms:
+
+- **App and Channel Registries**:\
+  The AppChannelRegistry and ChannelRegistry structures provide explicit mappings between applications and their channels, facilitating seamless community portability across Sage-integrated applications.
+- **Content Indexing**:\
+  PostsKey structures explicitly link sets of posts to specific applications, enabling cross-app content reuse and consistent indexing of content assets.
+
+### **Security via Witness Validation**
+
+Sensitive operations within channels are securely authorized through witness-based validation:
+
+- **ChannelWitness**:\
+  Channel-related actions (such as moderation updates) explicitly require runtime validation via the ChannelWitness capability, preventing unauthorized changes and ensuring secure channel operations.
+
+### **Architectural Advantages**
+
+This explicit, decentralized approach delivers clear practical benefits:
+
+- **Transparent Content & Engagement**:\
+  All content, interactions, and community activities are transparently verified and auditable, establishing trust and accountability.
+- **Portable & Resilient Communities**:\
+  Decentralized channel structures support censorship resistance and enable communities to seamlessly port across applications, fostering resilient and open interactions.
+- **Economically Aligned Participation**:\
+  Explicit transaction fee structures and reward integrations directly align economic incentives with community participation and content creation, ensuring sustainable ecosystem growth.
+- **Secure & Modular Governance**:
+
+  Modular moderation roles and witness-based access controls explicitly provide secure, transparent, and adaptable management of community dynamics.

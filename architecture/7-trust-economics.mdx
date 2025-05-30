@@ -2,3 +2,51 @@
 title: "$TRUST Economics"
 description: "Description of your new file."
 ---
+
+The Sage Protocol economy revolves around **\$TRUST**, a specialized token explicitly structured as an **Earned Mint Token (EMT)**. Unlike traditional tokens, the supply and minting of \$TRUST are strictly driven by validated on-chain user contributions, aligning economic incentives with authentic social value creation.
+
+### **Earned Mint Token (EMT) Model**
+
+\$TRUST is explicitly designed around the Earned Mint Token (EMT) model, ensuring tokens are minted solely through verified contributions as determined by the Proof of Social Contribution (PoSC) mechanism. This ensures every token issued directly corresponds to a validated, meaningful social action within the network.
+
+### **Minting Phases & Pricing Mechanics**
+
+Minting occurs in two distinct phases, each explicitly governed by the protocol's MintConfig:
+
+- **Phase 1 (Bootstrap Phase):**\
+  Initially, minting occurs at a fixed, stable price (e.g., \$0.000001 per \$TRUST), explicitly configured to bootstrap initial liquidity and user participation. This setup remains until pre-defined liquidity conditions are met.
+- **Phase 2 (Market-Driven Pricing):**\
+  After reaching sufficient liquidity thresholds, mint pricing transitions to a dynamic, market-driven model. In this phase, minting amounts for user rewards adjust dynamically based on real-time market valuations of \$TRUST, ensuring sustainable token inflation and explicit alignment with market conditions and ecosystem growth.
+
+### **Supply Control & Treasury Management**
+
+Token supply is securely managed through structured, on-chain mechanisms:
+
+- **Protected Treasury:**\
+  The ProtectedTreasury structure explicitly manages the treasury cap, providing secure, controlled access to minting operations. Minting logic enforces explicit checks against the maximum allowed supply, ensuring total token issuance aligns precisely with configured parameters.
+- **Reward and Governance Witnesses:**\
+  Minting and administrative adjustments require explicit authorization via secure witness-based mechanisms (RewardWitnessConfig, GovernanceWitnessConfig). These configurations ensure runtime validation of any minting or supply changes, explicitly protecting against unauthorized issuance or supply manipulation.
+
+### **Economic Sustainability & Incentive Alignment**
+
+The architecture explicitly ensures long-term sustainability and precise economic alignment:
+
+- **Cost-Anchored Rewards:**\
+  Rewards explicitly correlate with validated on-chain economic activity—specifically, transaction fees paid by users. This model guarantees that rewards directly mirror actual user-generated value, promoting economically meaningful contributions.
+- **Incremental Incentives:**\
+  Sage implements incremental rewards explicitly tied to ongoing user engagement, clearly rewarding sustained interactions such as content sharing, commenting, or liking. This incremental approach fosters ongoing, authentic community participation.
+- **Controlled Inflation & Adaptive Economics:**\
+   The explicit action-weighting model (RewardWeights and RewardWeightsRegistry) enables adaptive management of reward values and minting parameters. Administrators can dynamically adjust these configurations, providing flexibility to maintain economic balance aligned with evolving network dynamics.
+
+### **Architectural Advantages**
+
+Sage’s explicitly structured \$TRUST economics deliver key advantages:
+
+- **Transparency & Accountability:**\
+  All token minting, reward claims, and treasury activities are transparently recorded and verifiable on-chain, ensuring clear accountability.
+- **Adaptive & Sustainable Economics:**\
+  Explicit configurations in minting phases and dynamic reward adjustments clearly maintain economic sustainability, adapting to market and community conditions without disruption.
+- **Robust Security & Controlled Minting:**\
+  The witness-based minting authorization ensures secure, authorized, and explicitly validated minting operations, safeguarding token integrity and ecosystem trust.
+
+Through these explicit, carefully architected economic mechanisms, Sage Protocol ensures a sustainable, transparent, and user-aligned economic system, incentivizing genuine social contributions and ongoing, meaningful user engagement.

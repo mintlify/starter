@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "willow",
+  "theme": "linden",
   "name": "Sage Protocol",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#3185FC",
+    "light": "#022B4F",
+    "dark": "#011628"
   },
   "favicon": "/favicon.svg",
   "navigation": {
