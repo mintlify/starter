@@ -57,11 +57,11 @@
               {
                 "group": "Admin",
                 "pages": [
-                  "resources/one/admin/1-access",
-                  "resources/one/admin/2-actions",
-                  "resources/one/admin/3-admin",
-                  "resources/one/admin/4-apps",
-                  "resources/one/admin/5-fees"
+                  "resources/contracts/admin/1-access",
+                  "resources/contracts/admin/2-actions",
+                  "resources/contracts/admin/3-admin",
+                  "resources/contracts/admin/4-apps",
+                  "resources/contracts/admin/5-fees"
                 ]
               }
             ]
