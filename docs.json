@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "willow",
-  "name": "Sage Protocl",
+  "name": "Sage Protocol",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
