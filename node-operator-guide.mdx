@@ -3,8 +3,6 @@ title: "Node Operator Guide"
 description: "Comprehensive guide to setting up and running a TRUF.NETWORK (TN) node."
 ---
 
-> **New to server setup or need a quick start?** Check our [Quick Installation Guide](https://github.com/trufnetwork/truf-node-operator/blob/main/docs/installation-guide.md) with copy-paste commands for a fresh server instance.
-
 This guide will walk you through the process of setting up and running a TRUF.NETWORK (TN) node. By following these steps, you'll be able to deploy a node, optionally become a validator, and contribute to the TN.
 
 ## Prerequisites
@@ -84,27 +82,27 @@ go install github.com/go-task/task/v3/cmd/task@latest
 You have two options to get the `kwild` binary:
 
 1. **Download from Releases**:
-   - Visit [TRUF.NETWORK Node Releases](https://github.com/trufnetwork/node/releases)
-   - Download the latest release for your operating system (e.g., `tn_2.0.1_linux_amd64.tar.gz`)
-   - Extract the binary and move it to your system path:
-   ```bash
-   tar -xzf tn_2.0.1_linux_amd64.tar.gz
-   sudo mv kwild /usr/local/bin/
+- Visit [TRUF.NETWORK Node Releases](https://github.com/trufnetwork/node/releases)
+- Download the latest release for your operating system (e.g., `tn_2.0.1_linux_amd64.tar.gz`)
+- Extract the binary and move it to your system path:
+```bash
+tar -xzf tn_2.0.1_linux_amd64.tar.gz
+sudo mv kwild /usr/local/bin/
    ```
 
 2. **Build from Source**:
-   ```bash
-   git clone https://github.com/trufnetwork/node.git
-   cd node
-   task build
+```bash
+git clone https://github.com/trufnetwork/node.git
+cd node
+task build
    ```
-   The built binary will be in the `.build` directory. Move it to your system path:
-   ```bash
-   sudo mv .build/kwild /usr/local/bin/
+The built binary will be in the `.build` directory. Move it to your system path:
+```bash
+sudo mv .build/kwild /usr/local/bin/
    ```
-   Apply new docker group:
-   ```bash
-   newgrp docker
+Apply new docker group:
+```bash
+newgrp docker
    ```
 
 ## Verify Installation
@@ -142,7 +140,7 @@ kwild setup init \
   --p2p.bootnodes "4e0b5c952be7f26698dc1898ff3696ac30e990f25891aeaf88b0285eab4663e1#ed25519@node-1.mainnet.truf.network:26656,0c830b69790eaa09315826403c2008edc65b5c7132be9d4b7b4da825c2a166ae#ed25519@node-2.mainnet.truf.network:26656"
 ```
 
-For detailed instructions on configuration options more relevant to a production setup, refer to our [Node Operator Repository](https://github.com/trufnetwork/truf-node-operator).
+For detailed instructions on configuration options more relevant to a production setup, refer to our [Configuration Guide](https://github.com/trufnetwork/truf-node-operator/blob/main/docs/creating-config.md).
 
 ### 3. Enable State Sync
 
@@ -227,6 +225,8 @@ sudo systemctl enable kwild
 sudo systemctl start tn-postgres
 sudo systemctl start kwild
 ```
+
+**Security Warning**: It is recommended to not expose port 5432 publicly in production environments.
 
 ### 7. Verify Node Synchronization
 
@@ -362,4 +362,25 @@ sudo journalctl -u kwild -f --output=short-precise
 Use this command to check service status
 ```bash
 sudo systemctl status kwild
+```
+
+## Docker Container Status
+
+To check the status of your Docker containers:
+```bash
+docker ps
+```
+
+## PostgreSQL Logs
+
+To view PostgreSQL container logs:
+```bash
+docker logs tn-postgres
+```
+
+## System Boot Logs
+
+To view logs since the last system boot:
+```bash
+sudo journalctl -u kwild -b
 ```
