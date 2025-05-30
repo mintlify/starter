@@ -55,13 +55,18 @@
             "group": "Resources",
             "pages": [
               {
-                "group": "Admin",
+                "group": "Contracts",
                 "pages": [
-                  "resources/contracts/admin/1-access",
-                  "resources/contracts/admin/2-actions",
-                  "resources/contracts/admin/3-admin",
-                  "resources/contracts/admin/4-apps",
-                  "resources/contracts/admin/5-fees"
+                  {
+                    "group": "Admin",
+                    "pages": [
+                      "resources/contracts/admin/1-access",
+                      "resources/contracts/admin/2-actions",
+                      "resources/contracts/admin/3-admin",
+                      "resources/contracts/admin/4-apps",
+                      "resources/contracts/admin/5-fees"
+                    ]
+                  }
                 ]
               }
             ]
