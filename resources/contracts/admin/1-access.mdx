@@ -27,7 +27,7 @@ public struct ChannelConfig has key
 
 ### Struct ChannelWitnessConfig
 
-aHolds the `ChannelWitness` type for runtime type checks.
+Holds the `ChannelWitness` type for runtime type checks.
 
 ```rust
 public struct ChannelWitnessConfig has key
@@ -100,9 +100,10 @@ public struct UserWitnessConfig has key
   ```
 </Expandable>
 
+
 # Constants
 
-Runtime type checking failed for the struct.
+Runtime type checking failed for the struct type.
 
 ```rust
 const ETypeMismatch: u64 = 370;
@@ -114,12 +115,83 @@ Runtime type checking failed for the witness.
 const EWitnessMismatch: u64 = 371;
 ```
 
-## heading two to make it clear
+# Functions
 
-- 
-- assert_channel\<T\>(channel__config: &\_ChannelConfig, channel: T)
-- assert_channel_witness\<T\>(channel__witness_config: &\_ChannelWitnessConfig, channel_witness: T)
-- assert_group_witness\<T\>(group__witness_config: &\_GroupWitnessConfig, group_witness: T)
+### Function `assert_channel`
+
+```
+assert_channel<ChannelType: key>(channel_config: &ChannelConfig, channel: &ChannelType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_channel<ChannelType: key> (
+        channel_config: &ChannelConfig,
+        channel: &ChannelType
+    ) {
+        let is_auth = verify_channel<ChannelType>(
+            channel_config,
+            channel
+        );
+    
+        assert!(is_auth, ETypeMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_channel_witness`
+
+```
+assert_channel_witness<ChannelWitnessType: drop>(channel_witness_config: &ChannelWitnessConfig, channel_witness: &ChannelWitnessType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_channel_witness<ChannelWitnessType: drop> (
+      channel_witness_config: &ChannelWitnessConfig,
+      channel_witness: &ChannelWitnessType
+    ) {
+      let is_auth = verify_channel_witness<ChannelWitnessType>(
+          channel_witness_config,
+          channel_witness
+      );
+    
+      assert!(is_auth, EWitnessMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_group_witness`
+
+```
+assert_group_witness<GroupWitnessType: drop>(group_witness_config: &GroupWitnessConfig, group_witness: GroupWitnessType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_group_witness<GroupWitnessType: drop> (
+      group_witness_config: &GroupWitnessConfig,
+      group_witness: &GroupWitnessType
+    ) {
+      let is_auth = verify_group_witness<ChannelWitnessType>(
+          group_witness_config,
+          group_witness
+      );
+    
+      assert!(is_auth, EWitnessMismatch);
+    }
+  ```
+</Expandable>
+
+
+
+
+
+
+
+
+
+
 - assert_owned_user\<T\>(owned_user__config: &\_OwnedUserConfig, owned_user: T)
 - assert_shared_user\<T\>(shared_user__config: &\_SharedUserConfig, shared_user: T)
 - assert_user_witness\<T\>(user_witness__config: &\_UserWitnessConfig, user_witness: T)
