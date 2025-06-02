@@ -3,51 +3,56 @@ title: "Social Graph and Identity"
 description: "Description of your new file."
 ---
 
-Sage Protocol manages decentralized identities entirely on-chain through a sophisticated dual-object architecture, effectively balancing user privacy, ownership, and social functionality. This architecture empowers users with complete sovereignty over their identities and interactions, enabling seamless interoperability across applications.
+Sage Protocol manages decentralized identities entirely onchain through a sophisticated dual-object architecture. This design effectively balances user privacy, ownership, and social functionality, giving users complete sovereignty over their digital identities and seamless interoperability across applications.
 
-## **Dual-Object Identity Architecture**
+### **Dual-Object Identity Architecture**
 
-<Tabs>
-  <Tab title="UserOwned Object (Private Data)">
-    The `UserOwned` object securely stores private data and analytics, ensuring exclusive user control and ownership.
+<Card title="UserOwned Object (Private Data)">
+  The `UserOwned` object securely stores private identity data and analytics, under the exclusive control of each user:
 
-    - **Ownership:** Directly controlled by the user's wallet.
-    - **Data Contents:** Profile metadata (avatar, banner, description), personal analytics (user engagement, earnings tracking), and favorites (user-defined bookmarks of posts, channels, and users).
-    - **Access Control:** Only the wallet owner can modify this data.
-    - **Key Functions:** Private profile management, engagement analytics, favorites, and earnings management.
-    - **Storage Pattern:** Utilizes dynamic fields to manage app-specific data, including analytics segmented per epoch and favorites indexed per application.
-  </Tab>
-  <Tab title="UserShared Object (Public Interactions)">
-    The `UserShared` object manages public-facing interactions and relationships, supporting transparent, portable social data accessible to all applications.
+  - **Ownership:** Directly controlled by the user's own wallet.
+  - **Data Contents:** Profile details (avatar, banner, description), private analytics (engagement metrics, earnings tracking), and personalized favorites (user-saved bookmarks for posts, channels, and other users).
+  - **Access Control:** Only modifiable by the user’s wallet.
+  - **Key Functions:** Private profile management, tracking personal analytics, managing favorites, and earnings monitoring.
+  - **Storage Pattern:** Employs dynamic fields to handle application-specific data, such as analytics segmented by epochs and favorites indexed per app.
+</Card>
 
-    - **Ownership:** This is a shared object accessible and shareable across applications.
-    - **Data Contents:** Social relationships (follows and memberships), user-generated posts, and public interaction metrics and analytics.
-    - **Access Control:** Protected through explicit protocol logic and clearly defined actions, ensuring security against unauthorized access.
-    - **Key Functions:** Facilitates social activities, including posting content, following other users or channels, and interaction analytics.
-    - **Storage Pattern:** Utilizes dynamic fields explicitly to manage app-specific data, including: analytics segmented by epoch and posts indexed per application.
-  </Tab>
-</Tabs>
+<Card title="UserShared Object (Public Interactions)">
+  The `UserShared` object handles public-facing interactions and relationships, making social data transparently available across the ecosystem:
+
+  - **Ownership:** Publicly shared object accessible by all Sage-compatible applications.
+  - **Data Contents:** Social connections (follows, memberships), publicly visible user-generated posts, and interaction analytics.
+  - **Access Control:** Protected by explicit protocol rules and clearly defined actions, ensuring secure access and preventing unauthorized usage.
+  - **Key Functions:** Facilitates public social activities—posting content, establishing connections, and interaction analytics.
+  - **Storage Pattern:** Uses dynamic fields explicitly to store and manage app-specific data, such as analytics by epoch and content indexed per application.
+</Card>
 
 ### **UserRegistry – Unified Identity Mapping**
 
-Both `UserOwned` and `UserShared` objects integrate through the UserRegistry, a decentralized mapping structure linking usernames, wallet addresses, and user identity objects. This integration ensures identities remain consistent, verifiable, and interoperable throughout the Sage ecosystem.
+The `UserOwned` and `UserShared` objects integrate via the UserRegistry, a decentralized mapping that connects usernames, wallet addresses, and identity objects. This integration ensures user identities remain consistent, verifiable, and fully interoperable across the Sage ecosystem.
 
 ### **Decentralized Social Graph Storage**
 
-Social relationships and interactions within Sage are transparently stored on-chain using dedicated structures:
+Social interactions and relationships are transparently recorded onchain using clear, dedicated structures:
 
-- **Membership: **Tracks user participation within channels and communities, recording explicit join timestamps and interaction history.
-- **Follows:** Manages user-to-user and user-to-channel relationships, enabling transparent and verifiable social connectivity across applications.
-- **Favorites: **Allows users to bookmark preferred content (posts, channels, users), maintaining clear and portable user preferences across the ecosystem.
+- **Membership:** Records user participation in channels and communities, capturing explicit join timestamps and interaction histories.
+- **Follows:** Manages user-to-user and user-to-channel relationships, providing transparent and verifiable social connections across apps.
+- **Favorites:** Lets users bookmark their preferred content (posts, channels, users), maintaining portable and clearly defined preferences.
 
 ### **Key Advantages of Sage’s Architecture**
 
-- **Interoperability: **Relationships and reputational data across Sage-compatible applications.
-- **Ownership & Privacy: **Users maintain complete ownership and control over their private identity data without relying on central authorities, enhancing autonomy and safeguarding privacy.
-- **Censorship Resistance: **Decentralized on-chain storage ensures identities and relationships remain resilient against censorship or arbitrary restrictions, upholding ecosystem integrity.
+- **Interoperability:**\
+  User identities, relationships, and reputational data seamlessly integrate across all Sage-compatible applications.
+- **Ownership & Privacy:**\
+  Users retain complete control over their personal identity data without reliance on centralized authorities, increasing autonomy and safeguarding user privacy.
+- **Censorship Resistance:**\
+  Decentralized onchain storage ensures identity and relationship data are resilient against censorship and arbitrary restrictions, protecting ecosystem integrity.
 
 ### Practical Benefits
 
-- **For Developers: **Easily integrate decentralized identity and relationship management (`UserOwned`, `UserShared`, `Membership`, `Follows`, `Favorites`) without extensive protocol adjustments.
-- **For End-users: **Effortlessly maintain consistent identities, relationships, and reputation across multiple applications, enhancing user autonomy and minimizing friction.
-- **Ecosystem-Wide Integration: **Promotes a cohesive application environment, supporting seamless interactions of identities and social connections across diverse decentralized experiences.
+- **For Developers:**\
+  Easy integration of decentralized identity management (UserOwned, UserShared) and social graph structures (Membership, Follows, Favorites) without extensive protocol-level modifications.
+- **For End-users:**\
+  Effortlessly maintain consistent identities, relationships, and reputations across multiple apps, enhancing autonomy and minimizing friction.
+- **Ecosystem-Wide Integration:**\
+  Supports cohesive, seamless identity interactions and social connections across diverse decentralized applications, fostering a unified user experience.
