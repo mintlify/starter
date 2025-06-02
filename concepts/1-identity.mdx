@@ -1,29 +1,29 @@
 ---
 title: "Identity"
-description: "Own Your Identity, Build Your Reputation, Across Any App"
+description: "WIP"
 ---
 
 Identity in Sage Protocol is built around decentralized, blockchain-native primitives that empower users with full control and ownership over their digital identities and reputations. Sage’s identity system has two integrated layers:
 
-### **1. Global Soul-bound Identity**
+<Card title="Global Soul-bound Identity" icon="sparkles" iconType="solid">
+  Every user has a single, persistent, non-transferable identity fully controlled by them on the blockchain. This identity includes:
 
-Each user holds a single, persistent, nontransferable blockchain-based identity, fully controlled and owned by them. Key aspects include:
+  - **Core User Details:** Username, avatar, bio, and linked wallet addresses.
+  - **Personalized Metadata:** Data reflecting the user’s interests and activities across various applications.
+  - **Credibility Metrics:** A transparent measure of user reputation derived from accumulated \$TRUST tokens, earned through verified onchain social interactions.
 
-- **Core user details**: username, avatar, bio, and linked wallet addresses.
-- **Personalized metadata**: data reflecting user interests and activities across apps.
-- **Credibility metrics**: derived explicitly from accumulated \$TRUST tokens earned through verifiable social interactions and contributions onchain.
+  These components together provide a clear and authentic representation of each user's reputation across the entire Sage ecosystem.
+</Card>
 
-This global identity forms the backbone of user reputations, transparently reflecting genuine user activity across the entire Sage ecosystem.
+<Card title="App-Specific Profiles (In Development)" icon="sparkles" iconType="solid">
+  To complement global identities, Sage will introduce customizable app-specific profiles that enable tailored user experiences within individual applications. Key features will include:
 
-### 2. **App-Specific Profiles**
+  - **Customizable Profiles:** Developers define specific metadata fields and privacy settings suited to their application's requirements.
+  - **Selective Inheritance and Overrides:** Profiles can selectively inherit data from the user's global identity or override specific elements, providing nuanced reputation management and personalized interactions at the application level.
+</Card>
 
-To complement global identities, Sage plans to introduce customizable app-specific profiles, enabling tailored user experiences across individual applications. (Currently in development.) Key aspects include:
+### **Key Advantages of Sage Identity**
 
-- **Customizable profiles**: Developers define specific metadata fields and privacy settings relevant to their application's needs.
-- **Selective inheritance and overrides**: Profiles can inherit data from the global identity or selectively override it, enabling nuanced reputation management and targeted user experiences at the application level.
-
-### **Core Advantages of Sage Identity**
-
-- **Full user ownership**: Users retain complete control over their private, soulbound identities (UserOwned) and associated reputation data. Publicly shared identities (UserShared) are designed for broader visibility and interaction, and thus are not exclusively user-controlled.
-- **Public interoperability**: Due to the Move programming language’s design—which requires objects intended for cross-user interaction to be publicly shared—UserShared identities must be accessible on-chain to facilitate social interactions, enable verifiable relationships, and ensure interoperability across the Sage ecosystem.
-- **Portable and composable**: Identities seamlessly interact and integrate across the entire Sage ecosystem, ensuring user freedom and reducing platform lock-in.
+- **Full User Ownership:** Users have absolute control over their private, soul-bound identities (UserOwned) and reputation data. Publicly shared identities (UserShared), however, are intended for broader visibility and interaction across the network, making them publicly accessible rather than exclusively controlled.
+- **Public Interoperability (Move Design Constraint):** Due to constraints of the Move programming language—which requires objects used for cross-user interaction to be publicly accessible—UserShared identities must exist onchain to facilitate seamless social interactions, verifiable connections, and ecosystem-wide interoperability.
+- **Portable and Composable:** Sage identities integrate smoothly across the entire ecosystem, giving users the freedom to move between applications without losing their identities or relationships, significantly reducing platform lock-in.
