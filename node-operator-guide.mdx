@@ -125,6 +125,7 @@ kwild version
 From your root directly, clone the TRUF.NETWORK node operator repository:
 
 ```bash
+cd # Return to home directory
 git clone https://github.com/trufnetwork/truf-node-operator.git
 cd truf-node-operator
 ```
@@ -156,12 +157,33 @@ sed -i 's/trusted_providers = \[\]/trusted_providers = ["0c830b69790eaa093158264
 For a quick setup, run Kwil's pre-configured PostgreSQL Docker image:
 
 ```bash
-docker run -d -p 5432:5432 --name tn-postgres \
+docker run -d -p 127.0.0.1:5432:5432 --name tn-postgres \
     -e "POSTGRES_HOST_AUTH_METHOD=trust" \
     -v tn-pgdata:/var/lib/postgresql/data \
     --shm-size=1gb \
     kwildb/postgres:latest
 ```
+
+<Warning>
+**Critical Security Requirements:**
+1. `kwild` requires a "superuser" role to perform various tasks that require elevated privileges, such as creating triggers and publications for logical replication. The PostgreSQL database cluster should be dedicated to `kwild`, and should not be used for any other purpose.
+2. NEVER expose PostgreSQL port (5432) to the public internet. Always bind to localhost (127.0.0.1) as shown in the example above.
+</Warning>
+
+<Tip>
+**Securing PostgreSQL Port:**
+1. Use UFW (Uncomplicated Firewall) to block port 5432:
+   ```bash
+   sudo ufw deny 5432/tcp
+   ```
+
+2. Verify no external access to port 5432:
+   ```bash
+   sudo ss -tulpn | grep 5432
+   # Should only show 127.0.0.1:5432, not 0.0.0.0:5432
+   ```
+</Tip>
+
 The command above:
 - `-v tn-pgdata:/var/lib/postgresql/data`: Creates a persistent volume named 'tn-pgdata' to store database data
 - `--shm-size=1gb`: Allocates 1GB of shared memory for PostgreSQL operations (recommended for better performance)
@@ -179,8 +201,8 @@ Requires=tn-postgres.service
 [Service]
 Type=simple
 User=$USER
-WorkingDirectory=$(pwd)
-ExecStart=$(which kwild) start -r ./my-node-config
+WorkingDirectory=$HOME/truf-node-operator
+ExecStart=$(which kwild) start -r $HOME/truf-node-operator/my-node-config
 Restart=always
 RestartSec=10
 LimitNOFILE=65535
@@ -189,6 +211,8 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 EOF
 ```
+
+> **Note:** The paths in the service file above use `$HOME/truf-node-operator` as the base directory. Make sure to adjust this path according to where you cloned the repository.
 
 ```bash
 # Create systemd service for PostgreSQL
@@ -237,6 +261,15 @@ Use this command to check node sync status. Look for `syncing: false` in the out
 kwild admin status
 ```
 
+> **Note**: If you see the error `dial unix /tmp/kwild.socket: connect: connection refused`, this is normal during:
+> - Initial database setup
+> - Database restoration
+> - State sync operations
+> 
+> The service will become available once these operations complete. You can monitor the progress using:
+> ```bash
+> sudo journalctl -u kwild -f
+> ```
 
 ### 8. Become a Validator (Optional)
 
@@ -378,9 +411,57 @@ To view PostgreSQL container logs:
 docker logs tn-postgres
 ```
 
+## Accessing PostgreSQL
+
+To access the PostgreSQL database directly:
+
+```bash
+# Using the Docker container
+docker exec -it tn-postgres psql -U postgres -d kwild
+```
+
+Common useful PostgreSQL commands:
+```sql
+-- List all databases
+\l
+
+-- Connect to kwild database
+\c kwild
+
+-- Exit psql
+\q
+```
+
 ## System Boot Logs
 
 To view logs since the last system boot:
 ```bash
 sudo journalctl -u kwild -b
+```
+
+## Clean Removal
+
+> **Warning**: The following steps will completely remove your node setup, including all data and configuration. This is irreversible and should only be done if:
+> - You need to start fresh due to configuration issues
+> - You're moving to a different server
+> - You're troubleshooting persistent problems that require a clean slate
+> 
+> Make sure to backup any important data before proceeding.
+
+To completely remove the node setup:
+
+```bash
+# Stop and remove services
+sudo systemctl stop kwild tn-postgres
+sudo systemctl disable kwild tn-postgres
+sudo rm /etc/systemd/system/kwild.service /etc/systemd/system/tn-postgres.service
+sudo systemctl daemon-reload
+
+# Remove Docker resources
+docker stop tn-postgres
+docker rm tn-postgres
+docker volume rm tn-pgdata
+
+# Remove node configuration
+rm -rf $HOME/truf-node-operator/my-node-config
 ```
