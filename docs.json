@@ -4,8 +4,8 @@
   "name": "Sage Protocol",
   "colors": {
     "primary": "#3185FC",
-    "light": "#022B4F",
-    "dark": "#011628"
+    "light": "#86DEB7",
+    "dark": "#C81D25"
   },
   "favicon": "/favicon.svg",
   "navigation": {
