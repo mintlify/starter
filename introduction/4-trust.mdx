@@ -1,27 +1,28 @@
 ---
 title: "$TRUST"
-description: "Description of your new file."
+description: "WIP"
 ---
 
 The economic foundation of Sage Protocol is the \$TRUST token—crypto's first Earned Mint Token (EMT). Unlike traditional tokens, which are often created and distributed arbitrarily, \$TRUST tokens are minted exclusively through user actions verified by Sage's Proof of Social Contribution (PoSC) model.
 
 By directly tying token issuance to measurable user activities, Sage establishes a sustainable incentive loop. This encourages genuine engagement and ensures \$TRUST tokens accurately represent authentic social contributions, reputations, and meaningful community participation.
 
-**Phase 1: Fixed \$TRUST Price**
+<Steps>
+  <Step title="Phase 1: Fixed $TRUST Price" iconType="regular">
+    Initially, because \$TRUST tokens can only come from real user contributions, there won’t be immediate liquidity or a stable market price. To address this, Sage sets a fixed minting price during its bootstrap phase. This guarantees predictable, fair rewards for early contributors. Rewards during this initial phase use a clear formula:
 
-Initially, because \$TRUST tokens can only come from real user contributions, there won’t be immediate liquidity or a stable market price. To address this, Sage sets a fixed minting price during its bootstrap phase. This guarantees predictable, fair rewards for early contributors. Rewards during this initial phase use a clear formula:
+    <Info>
+      \$TRUST reward = (Action’s Transaction Fee ÷ **Fixed \$TRUST Price**) × Action Weight
+    </Info>
+  </Step>
+  <Step title="Phase 2: Market-driven $TRUST Price">
+    As the protocol grows and \$TRUST gains sufficient liquidity and stable market valuation, Sage transitions to a dynamic, market-based mint price. Rewards are then calculated using:
 
-<Info>
-  Phase 1 \$TRUST reward = (Action’s Transaction Fee ÷ **Fixed \$TRUST Price**) × Action Weight
-</Info>
-
-**Phase 2: Market-Driven \$TRUST Price**
-
-As the protocol grows and \$TRUST gains sufficient liquidity and stable market valuation, Sage transitions to a dynamic, market-based mint price. Rewards are then calculated using:
-
-<Info>
-  Phase 2 \$TRUST reward = (Action’s Transaction Fee ÷ **Market \$TRUST Price**) × Action’s Weight
-</Info>
+    <Info>
+      \$TRUST reward = (Action’s Transaction Fee ÷ **Market \$TRUST Price**) × Action’s Weight
+    </Info>
+  </Step>
+</Steps>
 
 This transition naturally introduces scarcity: when \$TRUST’s market value rises, fewer tokens are minted for the same action compared to periods of lower valuation.
 
