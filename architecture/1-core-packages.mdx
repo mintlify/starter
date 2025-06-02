@@ -3,78 +3,60 @@ title: "Core Packages"
 description: "WIP"
 ---
 
-Sage Protocol’s modular architecture is explicitly organized into clearly defined smart contract packages. Each package provides essential functionality required to support transparent, secure, and economically aligned decentralized social interactions.
+Sage Protocol’s architecture is modular, organized into clearly defined smart contract packages. Each package provides core functionality needed for transparent, secure, and economically aligned decentralized social interactions.
 
-Sage’s core packages include:
+Sage’s key packages include:
 
-<Card title="admin">
-  - Manages administrative roles and permissions, handling system governance, user moderation, secure role management, and configuration management for other packages. This package serves as a secure gateway for protocol-wide administrative operations and critical role-based access control.
+### **admin**
 
-  <Note>
-    Defined in: `admin.move`, `actions.move`, `access.move`
-  </Note>
-</Card>
+Manages administrative roles and permissions, handling governance operations, user moderation, role-based access control, and configuration management across the protocol. Acts as the secure entry point for critical administrative tasks.
 
-<Card title="analytics">
-  - Captures, stores, and manages onchain analytics data, explicitly tracking user activity metrics (such as interactions, posts, follows) and providing essential analytical data structures for computing user engagement and reward eligibility. Developers can utilize these analytics for building richer user interfaces and experiences.
+- _Code:_ Implemented clearly in admin.move, actions.move, and access.move.
 
-  <Note>
-    ...
-  </Note>
-</Card>
+### **analytics**
 
-<Card title="channel">
-  - Implements decentralized communities ("channels"), explicitly managing channel creation, membership states, moderation roles, analytics integration, and associated metadata (avatars, descriptions). Channels are app-specific but accessible globally, enabling developers to easily integrate existing communities into new user experiences.
+Tracks and stores onchain analytics data, explicitly recording user activity metrics like posts, interactions, and follows. This package provides essential data structures for determining user engagement and reward eligibility, supporting richer user experiences.
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+- _Code:_ Implemented clearly in analytics.move and analytics_actions.move.
 
-<Card title="post">
-  - Explicitly handles blockchain-native content creation and user interactions, managing individual posts, comments, likes, and associated engagement metrics. Posts are globally readable and accessible by any app within the Sage ecosystem, enabling content remixing and integration.
+### **channel**
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+Handles decentralized community spaces ("channels"), explicitly managing creation, memberships, moderation roles, analytics integration, and metadata (such as avatars and descriptions). Channels are created within specific apps but remain globally accessible, allowing seamless integration into other applications.
 
-<Card title="rewards">
-  - Manages Sage's reward logic and calculation according to the Proof of Social Contribution (PoSC) model. This package defines and securely manages global action weights, explicit reward calculation rules, and transparent distributions tied directly to verified user activities. Developers can reliably implement rewards without ambiguity.
+- _Code:_ Defined clearly in channel.move, actions.move, and supporting files like channel_registry.move and fees.move.
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+### **post**
 
-<Card title="shared">
-  - Provides common data types, utility functions, and shared logic explicitly used across multiple protocol packages. Includes reusable structures for managing favorites, likes, memberships, moderation roles, and common operations, streamlining development and ensuring consistency across the Sage ecosystem.
+Manages blockchain-native content creation and user interactions, including posts, comments, likes, and associated metrics. Posts created in any app are globally visible and accessible throughout the Sage ecosystem, enabling content integration and remixing across apps.
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+- _Code:_ Implemented explicitly in post.move, post_actions.move, and post_fees.move.
 
-<Card title="trust">
-  - Explicitly defines and manages the lifecycle of Sage’s native \$TRUST token, including minting, burning, and supply management. The `trust` package provides foundational token logic directly supporting reward distribution mechanisms defined in the `reward` package, clearly aligned with the Proof of Social Contribution (PoSC) reward model.
+### **reward**
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+Controls Sage’s reward logic according to the Proof of Social Contribution (PoSC) model. Defines global action weights, explicit reward calculation rules, and transparent reward distributions linked directly to validated user actions. This ensures clarity and consistency for developers implementing reward mechanisms.
 
-<Card title="user">
-  - Explicitly manages decentralized user identities, user-owned and user-shared metadata, onchain social connections, analytics, and user-level interactions. Developers leverage this package to build identity-aware applications, securely managing user data and interactions within the Sage protocol.
+- _Code:_ Explicitly implemented in reward.move, reward_actions.move, and reward_registry.move.
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+### **shared**
 
-<Card title="utils">
-  - Provides foundational, general-purpose utility functions explicitly shared and utilized by other packages. This package ensures secure, efficient, and consistent operation across the protocol by centralizing common utility logic such as string handling, type checks, and validations.
+Provides common data types and utility functions used explicitly across multiple protocol packages. Contains reusable structures for favorites, likes, memberships, moderation roles, and common operational logic, streamlining development and ensuring consistent behavior throughout the ecosystem.
 
-  <Note>
-    **...**
-  </Note>
-</Card>
+- _Code:_ Clearly defined in favorites.move, likes.move, membership.move, moderation.move, and posts.move.
+
+### **trust**
+
+Manages the lifecycle of Sage’s native \$TRUST token, explicitly handling minting, burning, and supply management. This foundational package directly supports the reward distribution logic defined by the PoSC reward model, ensuring token issuance aligns transparently with user contributions.
+
+- _Code:_ Minting logic explicitly confirmed in referenced files (reward.move, trust.move).
+
+### **user**
+
+Handles decentralized user identities, including private and shared user data, social connections, analytics, and user interactions. Developers use this package explicitly to build identity-aware applications, securely managing user-controlled data and facilitating onchain social interactions.
+
+- _Code:_ Defined explicitly in user_owned.move, user_shared.move, and related actions (actions.move, fees.move, invite.move).
+
+### **utils**
+
+Provides foundational, general-purpose utilities explicitly shared among other packages. Centralizes common logic like string handling, type checks, and validations to ensure secure, efficient, and consistent operations throughout the protocol.
+
+_Code:_ Utility functions explicitly verified in string.move.
