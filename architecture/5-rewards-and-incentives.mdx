@@ -3,43 +3,51 @@ title: "Rewards and Incentives"
 description: "Description of your new file."
 ---
 
-Sage Protocol implements a transparent incentives architecture explicitly designed to reward authentic social contributions and meaningful user interactions. Central to this incentive system is the **Proof of Social Contribution (PoSC)** mechanism, integrated directly with the Sage Protocol’s native **Earned Mint Token (EMT)**—the **\$TRUST** token.
+Sage Protocol implements a transparent incentive architecture designed specifically to reward authentic social contributions and meaningful user engagement. At the heart of this incentive model is the Proof of Social Contribution (PoSC) mechanism, closely integrated with Sage’s native Earned Mint Token (EMT), the \$TRUST token.
 
 ### **Reward Calculation & Distribution**
 
-Rewards in Sage are determined precisely by validated user actions and well-defined metrics:
+Rewards in Sage are calculated explicitly based on validated user actions and clearly defined metrics:
 
-- **Action-Based Rewards**: Rewards are calculated based on the explicit action metrics defined in the protocol's action weighting model. Each action type (such as creating posts, engaging with content, or joining channels) has a clearly defined numerical weight (RewardWeight) representing its relative contribution to the ecosystem.
-- **RewardWeights and Registry**: These action weights are stored and managed through the RewardWeights structure, which defines the effective start and end epochs during which these weights apply. The RewardWeightsRegistry tracks historical records of reward weight configurations, enabling clear retrieval and auditing of past reward setups.
-- **Transaction Fee Alignment**: Rewards are aligned explicitly with the value users generate via transaction fees. The reward logic explicitly references and leverages these fees to determine reward values proportionately to actual on-chain activity.
+- **Action-Based Rewards**:
+
+  Rewards are precisely computed using defined numerical weights (_RewardWeights_) for each type of user action—such as creating posts, engaging with content, or joining channels. These weights reflect each action’s relative baseline contribution to the Sage ecosystem.
+- **RewardWeights and Registry**: 
+
+  Reward weights are stored and managed through the _RewardWeights_ structure, clearly specifying effective start and end epochs. The _RewardWeightsRegistry_ transparently tracks historical reward configurations, providing clear auditability of reward distribution.
+- **Transaction Fee Alignment**: 
+
+  Rewards are explicitly aligned with the economic value users create through transaction fees. Reward calculations directly leverage transaction fee data, ensuring incentives accurately reflect genuine onchain activity.
 
 ### **Earned Mint Token (EMT) – \$TRUST**
 
-The \$TRUST token operates under an explicit Earned Mint Token (EMT) model:
+The \$TRUST token operates under Sage’s Earned Mint Token (EMT) model:
 
-- **Minting Logic**: \$TRUST tokens are minted exclusively through user-validated contributions. When users claim rewards, they gain the explicit right to mint an exact amount of \$TRUST tokens based on the value calculated by the reward logic, explicitly authorized via a RewardWitness check.
-- **Controlled Supply**: Minting of \$TRUST is explicitly regulated by the protocol's MintConfig, which defines parameters such as whether minting is enabled and maximum supply limits, ensuring a controlled and sustainable token supply aligned with genuine user engagement.
+- **Minting Logic:**\
+  \$TRUST tokens are minted exclusively from verified user actions. Users explicitly claim and mint tokens according to rewards precisely calculated by Sage’s reward logic, secured by the explicit validation through a _RewardWitness_ check.
+- **Controlled Supply:**\
+  \$TRUST minting is carefully regulated by the protocol’s _MintConfig_, which explicitly defines parameters like minting enablement and maximum supply. This ensures a controlled, sustainable token supply aligned directly with authentic user engagement.
 
 ### **Incremental Rewards**
 
-To encourage sustained engagement, Sage employs an explicit incremental reward mechanism:
+Sage employs an incremental reward system to encourage sustained user participation:
 
-- Initial validated contributions explicitly earn direct rewards calculated precisely based on initial metrics (e.g., initial content creation).
-- Subsequent user engagements (such as likes, comments, or shares) generate additional incremental rewards, explicitly tracked via analytics actions, continuously rewarding both content creators and interacting users. These incremental metrics clearly contribute additional value to the original contribution, rewarding sustained engagement.
+- Initial user contributions (like creating content) explicitly receive immediate, clearly defined rewards.
+- Subsequent interactions (such as likes, comments, shares) generate additional incremental rewards, transparently tracked through Sage’s analytics. These incremental rewards explicitly recognize sustained user participation, continuously benefiting both the original content creator and actively engaging users.
 
 ### **Reward Witness Authorization**
 
-Security and transparency are ensured through explicit RewardWitness validation, required for minting operations. The RewardWitnessConfig explicitly specifies authorized witness types to securely verify reward claims at runtime, ensuring only authenticated rewards result in token minting.
+Security and transparency are reinforced through explicit RewardWitness validation. The _RewardWitnessConfig_ clearly defines authorized witness types required to securely verify reward claims at runtime, ensuring only authenticated rewards result in token minting.
 
 ### **Architectural Advantages**
 
-This explicit reward architecture delivers clear and measurable benefits:
+Sage’s explicit reward architecture offers several practical benefits:
 
-- **Transparency and Auditability**:\
-  Clearly defined reward weights and registry storage ensure rewards can be transparently audited, verifying alignment between user actions and rewards issued. All historical analytics data and reward weights from previous epochs are explicitly preserved, enabling comprehensive, verifiable auditing of reward calculations and distributions over time.
-- **Sustainable Economic Design**:\
-  Explicitly linking rewards to transaction fees and controlled minting configurations ensures long-term economic sustainability, directly correlating ecosystem growth with user-generated economic activity.
-- **Flexible and Upgradeable**:\
-  The architecture allows administrators to dynamically adjust reward weights (RewardWeights) and configurations (MintConfig) without requiring smart contract redeployment, providing flexibility for adapting to evolving ecosystem needs.
-- **Genuine Engagement Incentives**:\
-  The incremental rewards model continuously incentivizes high-quality interactions, maintaining ongoing user participation and fostering genuine community involvement.
+- **Transparency and Auditability:**\
+  Clearly defined reward weights and historical analytics are transparently recorded, providing comprehensive auditability of reward issuance. All historical reward data across epochs remains explicitly accessible for clear verification.
+- **Sustainable Economic Design:**\
+  Explicitly linking reward calculations to actual transaction fees and employing controlled minting configurations ensures long-term economic sustainability. The token economy scales naturally with genuine user activity.
+- **Flexible and Upgradeable:**\
+  Administrators can dynamically adjust reward configurations (_RewardWeights_, _MintConfig_) securely at runtime without redeploying smart contracts, allowing Sage to flexibly adapt to changing ecosystem needs.
+- **Genuine Engagement Incentives:**\
+  The incremental reward model explicitly incentivizes ongoing, high-quality interactions, continuously rewarding sustained community engagement and fostering meaningful participation across the Sage ecosystem.
