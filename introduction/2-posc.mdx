@@ -3,10 +3,38 @@ title: "Proof of Social Contribution"
 description: "WIP"
 ---
 
-**Proof of Social Contribution (PoSC)** provides clear incentives for authentic social actions performed onchain. Rather than relying on vague metrics and subjective, centralized decision-making, PoSC directly connects token rewards to measurable social activities and their associated transaction costs, aligning incentives closely with genuine user contributions and real economic value.
+**Proof of Social Contribution (PoSC)** is Sage's native incentive mechanism that provides clear, fair rewards by converting verified user efforts directly into measurable economic value. Unlike Proof-of-Work, which rewards computational power (favoring those with the most powerful machines), or Proof-of-Stake, which rewards wealth (favoring those with the deepest pockets), PoSC explicitly rewards the onchain user activities that genuinely enrich and grow social networks.
 
-Activities like creating posts, interacting through likes or comments, and making new connections all qualify for PoSC rewards. Each reward is transparently calculated using straightforward criteria: the transaction fee, the current market price of \$TRUST tokens, and the specific action's weighting based on its value to the community.
+PoSC incentivizes a broad range of social actions, including publishing content (posts), meaningful interactions (likes, comments), network expansion (follows, friendships), and community development (channel creation and member growth). The mechanism is transparent, straightforward, and entirely onchain, ensuring every user action is explicitly linked to verifiable economic inputs (transaction fees) and clearly assigned action weights reflecting their relative value to the ecosystem.
 
-Through PoSC, users earn the explicit right to mint a specific amount of \$TRUST—crypto's first Earned Mint Token (EMT). Users can mint exactly the calculated reward whenever they choose, ensuring transparency, fairness, and a clear connection between effort and reward.
+### The PoSC Reward Process
 
-By anchoring token rewards directly to verified user actions and their explicit costs, PoSC promotes genuine social interactions, discourages spam, and puts authentic contributions at the very center of Sage Protocol's economy.
+<Steps>
+  <Step title="Onchain User Action" iconType="solid">
+    A user performs an eligible social action onchain, paying a transaction fee denominated in \$SUI. Each action type carries a predefined weighting that quantifies its relative community value.
+  </Step>
+  <Step title="PoSC Evaluation">
+    The PoSC engine verifies the authenticity of the action, converts the associated transaction fee into its USD equivalent using live price oracles, and calculates the exact \$TRUST reward based on three explicit criteria:
+
+    - The USD value of the transaction fee paid.
+    - The market price of \$TRUST tokens at the action's timestamp.
+    - The specific action weighting representing its network contribution.
+  </Step>
+  <Step title="Claim & Mint">
+    Users immediately gain the explicit right to claim and mint the calculated reward amount of \$TRUST tokens—crypto’s first Earned Mint Token (EMT). Users can mint their rewards at their discretion, ensuring direct transparency and fairness.
+  </Step>
+</Steps>
+
+By anchoring rewards explicitly to verified actions and their associated economic costs, PoSC effectively prevents spam and superficial engagement, creating ecosystems centered on genuine user contributions. 
+
+### Rethinking Consensus: From Infra to Individuals
+
+Unlike other consensus mechanisms, PoSC ensures equal opportunity for all users, rewarding active participation rather than financial or hardware advantages.
+
+| Mechanism | Rewarded Resource      | Who Benefits        | Cost Basis         | Outcome                    |
+| :-------- | :--------------------- | :------------------ | :----------------- | :------------------------- |
+| **PoW**   | Computational power    | Miners              | Energy consumption | Network security           |
+| **PoS**   | Staked capital         | Token holders       | Opportunity cost   | Validation                 |
+| **PoSC**  | Verified participation | Active contributors | Transaction costs  | Ecosystem growth and trust |
+
+By aligning user participation directly with transparent economic incentives, PoSC places authentic human contributions at the core of network value creation and sustainable community growth.
