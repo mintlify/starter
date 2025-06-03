@@ -61,6 +61,23 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Barramento de Dados",
+        "groups": [
+          {
+            "group": "Cadastro Nacional",
+            "openapi": {
+              "source": "api-reference/bcadastro_openapi.json"
+            }
+          },
+          {
+            "group": "Exemplo Mintlify",
+            "openapi": {
+              "source": "api-reference/openapi.json"
+            }
+          }
+        ]
       }
     ],
     "global": {
