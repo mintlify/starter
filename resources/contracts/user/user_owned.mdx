@@ -1,0 +1,356 @@
+---
+title: "Owned User"
+description: "@sage/user > user_owned"
+---
+
+```rust
+use std::string;
+use sui::dynamic_field;
+use sui::dynamic_object_field;
+use sage_admin::admin_access;
+use sage_admin::apps;
+use sage_analytics::analytics;
+use sage_analytics::analytics_actions;
+use sage_post::post;
+use sage_user::user_shared;
+use sage_user::user_witness;
+use sage_shared::favorites;
+```
+
+# Structs
+
+### Struct `UserOwned`
+
+Represents the `User` data specific to identity and reputation.
+
+```rust
+public struct UserOwned has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    avatar: std::string::String,
+    banner: std::string::String,
+    created_at: u64,
+    description: std::string::String,
+    key: std::string::String,
+    name: std::string::String,
+    owner: address,
+    shared_user: address,
+    total_rewards: u64,
+    updated_at: u64
+  ```
+</Expandable>
+
+# Constants
+
+Represents that content was favorited.
+
+```rust
+const FAVORITE_ADD: u8 = 10;
+```
+
+Represents that content was unfavorited.
+
+```rust
+const FAVORITE_REMOVE: u8 = 11;
+```
+
+Error code for when there is no favorited content for the selected `App`.
+
+```rust
+const ENoAppFavorites: u64 = 370;
+```
+
+# Functions
+
+### Function `get_avatar`
+
+Returns the avatar for the `OwnedUser`.
+
+```rust
+public fun get_avatar(owned_user: &UserOwned): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_avatar(
+      owned_user: &UserOwned
+    ): String {
+      owned_user.avatar
+    }
+  ```
+</Expandable>
+
+### Function `get_banner`
+
+Returns the banner for the `OwnedUser`.
+
+```rust
+public fun get_banner(owned_user: &UserOwned): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_banner(
+        owned_user: &UserOwned
+    ): String {
+        owned_user.banner
+    }
+  ```
+</Expandable>
+
+### Function `get_description`
+
+Returns the description for the `OwnedUser`.
+
+```rust
+public fun get_description(owned_user: &UserOwned): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_description(
+        owned_user: &UserOwned
+    ): String {
+        owned_user.description
+    }
+  ```
+</Expandable>
+
+### Function `get_key`
+
+Returns the lowercase name for the `OwnedUser`.
+
+```rust
+public fun get_key(owned_user: &UserOwned): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_key(
+        owned_user: &UserOwned
+    ): String {
+        owned_user.key
+    }
+  ```
+</Expandable>
+
+### Function `get_name`
+
+Returns the name for the `OwnedUser`.
+
+```rust
+public fun get_name(owned_user: &UserOwned): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_name(
+        owned_user: &UserOwned
+    ): String {
+        owned_user.name
+    }
+  ```
+</Expandable>
+
+### Function `get_owner`
+
+Returns the wallet address associated with the `OwnedUser`.
+
+```rust
+public fun get_owner(owned_user: &UserOwned): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_owner(
+        owned_user: &UserOwned
+    ): address {
+        owned_user.owner
+    }
+  ```
+</Expandable>
+
+### Function `get_shared_user`
+
+Returns the address for the `SharedUser` associated with the `OwnedUser`.
+
+```rust
+public fun get_shared_user(owned_user: &UserOwned): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_shared_user(
+        owned_user: &UserOwned
+    ): address {
+        owned_user.shared_user
+    }
+  ```
+</Expandable>
+
+### Function `get_channel_favorites_length`
+
+Get the number of `Channel`s the `User` has favorited in the `App`.
+
+```rust
+public fun get_channel_favorites_length(app: &App, user: &UserOwned): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_channel_favorites_length(
+        app: &App,
+        user: &UserOwned
+    ): u64 {
+        let app_address = object::id_address(app);
+
+        let favorites_key = ChannelFavoritesKey {
+            app: app_address
+        };
+
+        let does_exist = df::exists_with_type<ChannelFavoritesKey, Favorites>(
+            &user.id,
+            favorites_key
+        );
+
+        if (does_exist) {
+            let favorites = df::borrow<ChannelFavoritesKey, Favorites>(
+                &user.id,
+                favorites_key
+            );
+
+            favorites.get_length()
+        } else {
+            0
+        }
+    }
+  ```
+</Expandable>
+
+### Function `get_post_favorites_length`
+
+Get the number of `Post`s the `User` has favorited in the `App`.
+
+```rust
+public fun get_post_favorites_length(app: &App, user: &UserOwned): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_post_favorites_length(
+        app: &App,
+        user: &UserOwned
+    ): u64 {
+        let app_address = object::id_address(app);
+
+        let favorites_key = PostFavoritesKey {
+            app: app_address
+        };
+
+        let does_exist = df::exists_with_type<PostFavoritesKey, Favorites>(
+            &user.id,
+            favorites_key
+        );
+
+        if (does_exist) {
+            let favorites = df::borrow<PostFavoritesKey, Favorites>(
+                &user.id,
+                favorites_key
+            );
+
+            favorites.get_length()
+        } else {
+            0
+        }
+    }
+  ```
+</Expandable>
+
+### Function `get_user_favorites_length`
+
+REPLAGet the number of `User`s the `User` has favorited in the `App`.
+
+```rust
+public fun get_user_favorites_length(app: &App, user: &UserOwned): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_user_favorites_length(
+        app: &App,
+        user: &UserOwned
+    ): u64 {
+        let app_address = object::id_address(app);
+
+        let favorites_key = UserFavoritesKey {
+            app: app_address
+        };
+
+        let does_exist = df::exists_with_type<UserFavoritesKey, Favorites>(
+            &user.id,
+            favorites_key
+        );
+
+        if (does_exist) {
+            let favorites = df::borrow<UserFavoritesKey, Favorites>(
+                &user.id,
+                favorites_key
+            );
+
+            favorites.get_length()
+        } else {
+            0
+        }
+    }
+  ```
+</Expandable>
+
+### Function `get_total_rewards`
+
+Get the total amount of $TRUST rewards the `User` has been awarded through social actions.
+
+```rust
+public fun get_total_rewards(user: &UserOwned): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_total_rewards(
+        user: &UserOwned
+    ): u64 {
+        user.total_rewards
+    }
+
+  ```
+</Expandable>
+
+### Function `has_analytics`
+
+Returns true or false based on whether the `OwnedUser` has analytics for the specified `App` and reward epoch.
+
+```rust
+public fun has_analytics(owned_user: &mut UserOwned, app_address: address, epoch: u64,): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_analytics(
+        owned_user: &mut UserOwned,
+        app_address: address,
+        epoch: u64,
+    ): bool {
+        let analytics_key = AnalyticsKey {
+            app: app_address,
+            epoch
+        };
+
+        dof::exists_with_type<AnalyticsKey, Analytics>(
+            &owned_user.id,
+            analytics_key
+        )
+    }
+  ```
+</Expandable>

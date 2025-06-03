@@ -1,0 +1,102 @@
+---
+title: "Registry"
+description: "@sage/reward > registry"
+---
+
+```rust
+use sui::table;
+use sage_reward::reward;
+```
+
+# Structs
+
+### Struct `REPLRewardWeightsRegistryACE`
+
+REPLACE
+
+```rust
+public struct RewardWeightsRegistry has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    current: u64,
+    reward_weights_registry: sui::table::Table<u64, RewardWeights>
+  ```
+</Expandable>
+
+# Functions
+
+### Function `borrow`
+
+Get an immutable reference to the `RewardWeights` during a specific epoch.
+
+```rust
+public fun borrow(reward_weights_registry: &RewardWeightsRegistry, timestamp: u64): &RewardWeights
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun borrow(
+        reward_weights_registry: &RewardWeightsRegistry,
+        timestamp: u64
+    ): &RewardWeights {
+        &reward_weights_registry.reward_weights_registry[timestamp]
+    }
+  ```
+</Expandable>
+
+### Function `borrow_current`
+
+Get an immutable reference to the `RewardWeights` during the current epoch.
+
+```rust
+public fun borrow_current(reward_weights_registry: &RewardWeightsRegistry): &RewardWeights
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun borrow_current(
+        reward_weights_registry: &RewardWeightsRegistry
+    ): &RewardWeights {
+        &reward_weights_registry.reward_weights_registry[reward_weights_registry.current]
+    }
+  ```
+</Expandable>
+
+### Function `get_current`
+
+Get the current reward epoch.
+
+```rust
+public fun get_current(reward_weights_registry: &RewardWeightsRegistry): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_current(
+        reward_weights_registry: &RewardWeightsRegistry
+    ): u64 {
+        reward_weights_registry.current
+    }
+  ```
+</Expandable>
+
+### Function `get_length`
+
+Get the number of reward epochs that have occurred.
+
+```rust
+public fun get_length(reward_weights_registry: &RewardWeightsRegistry): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_length(
+        reward_weights_registry: &RewardWeightsRegistry
+    ): u64 {
+        reward_weights_registry.reward_weights_registry.length()
+    }
+  ```
+</Expandable>

@@ -1,0 +1,875 @@
+---
+title: "Actions"
+description: "@sage/channel > actions"
+---
+
+```rust
+use std::string;
+use sui::clock;
+use sui::coin;
+use sui::event;
+use sui::sui;
+use sage_admin::admin;
+use sage_admin::admin_access;
+use sage_admin::apps;
+use sage_admin::fees;
+use sage_analytics::analytics_actions;
+use sage_channel::channel;
+use sage_channel::channel_fees;
+use sage_channel::channel_registry;
+use sage_channel::channel_witness;
+use sage_post::post_actions;
+use sage_rewards::reward_registry;
+use sage_shared::membership;
+use sage_shared::moderation;
+use sage_user::user_owned;
+use sage_user::user_registry;
+use sage_user::user_shared;
+use sage_utils::string_helpers;
+```
+
+# Events
+
+### Event `ChannelCreated`
+
+Emitted when a new `Channel` is created.
+
+```rust
+public struct ChannelCreated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    app_id: address,
+    avatar: std::string::String,
+    banner: std::string::String,
+    channel_id: address,
+    channel_key: std::string::String,
+    channel_name: std::string::String,
+    created_at: u64,
+    created_by: address,
+    description: std::string::String
+  ```
+</Expandable>
+
+### Event `ChannelFollowsUpdate`
+
+Emitted when a `User` is follows or unfollows a `Channel`.
+
+```rust
+public struct ChannelFollowsUpdate has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    account_type: u8,
+    channel_id: address,
+    message: u8,
+    updated_at: u64,
+    user_id: address
+  ```
+</Expandable>
+
+### Event `ChannelModerationUpdate`
+
+Emitted when a `Moderator` is added or removed from a `Channel`.
+
+```rust
+public struct ChannelModerationUpdate has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    channel_id: address,
+    message: u8,
+    moderator_type: u8,
+    updated_at: u64,
+    user_id: address
+  ```
+</Expandable>
+
+### Event `ChannelPostCreated`
+
+Emitted when a new `Post` is created for a `Channel`.
+
+```rust
+public struct ChannelPostCreated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    app_id: address,
+    channel_id: address,
+    created_at: u64,
+    created_by: address,
+    data: std::string::String,
+    description: std::string::String,
+    post_id: address,
+    title: std::string::String
+  ```
+</Expandable>
+
+### Event `ChannelUpdated`
+
+Emitted when a `Channel` is updated.
+
+```rust
+public struct ChannelUpdated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    avatar: std::string::String,
+    banner: std::string::String,
+    channel_id: address,
+    channel_name: std::string::String,
+    description: std::string::String,
+    updated_at: u64
+  ```
+</Expandable>
+
+# Constants
+
+Attempted to change the channel name to a different value. Channel names can only change the displayed case (e.g. "my-channel" to "my-CHANNEL").
+
+```rust
+const EChannelNameMismatch: u64 = 370;
+```
+
+# Functions
+
+### Function `add_moderator_as_owner`
+
+Adds a moderator to the channel. Aborts with `EIsNotOwner` if the transaction was not executed by the channel owner and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
+
+```rust
+public fun add_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees, clock: &Clock, shared_user: &UserShared, custom_payment: sui::coin::Coin<CoinType>, sui_payment: sui::coin::Coin<SUI>, ctx: &mut TxContext) 
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun add_moderator_as_owner<CoinType> (
+        channel: &mut Channel,
+        channel_fees: &ChannelFees,
+        clock: &Clock,
+        shared_user: &UserShared,
+        custom_payment: sui::coin::Coin<CoinType>,
+        sui_payment: sui::coin::Coin<SUI>,
+        ctx: &mut TxContext
+    ) {
+        let self = tx_context::sender(ctx);
+
+        let moderation = channel::borrow_moderators_mut(
+            channel
+        );
+
+        moderation::assert_is_owner(
+            moderation,
+            self
+        );
+
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_add_moderator_owner_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );
+
+        let user_address = user_shared::get_owner(
+            shared_user
+        );
+
+        let (
+            message,
+            moderator_type
+        ) = moderation::make_moderator(
+            moderation,
+            user_address
+        );
+
+        let channel_id = object::id_address(channel);
+        let updated_at = clock.timestamp_ms();
+
+        event::emit(ChannelModerationUpdate {
+            channel_id,
+            message,
+            moderator_type,
+            updated_at,
+            user_id: user_address
+        });
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+    }
+  ```
+</Expandable>
+
+### Function `create`
+
+Creates a new `Channel`. Aborts with `EAppChannelRegistryMismatch` if the `ChannelRegistry` does not belong to the `App`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
+
+```rust
+public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_registry: &mut ChannelRegistry, channel_witness_config: &ChannelWitnessConfig, clock: &Clock, reward_weights_registry: &RewardWeightsRegistry, owned_user: &mut UserOwned, user_witness_config: &UserWitnessConfig, avatar: String, banner: String, description: String, name: String, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, ctx: &mut TxContext): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create<CoinType> (
+        app: &App,
+        channel_fees: &ChannelFees,
+        channel_registry: &mut ChannelRegistry,
+        channel_witness_config: &ChannelWitnessConfig,
+        clock: &Clock,
+        reward_weights_registry: &RewardWeightsRegistry,
+        owned_user: &mut UserOwned,
+        user_witness_config: &UserWitnessConfig,
+        avatar: String,
+        banner: String,
+        description: String,
+        name: String,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        ctx: &mut TxContext
+    ): address {
+        let app_address = object::id_address(app);
+
+        channel_registry::assert_app_channel_registry_match(
+            channel_registry,
+            app_address
+        );
+
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_create_channel_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );
+
+        let timestamp = clock.timestamp_ms();
+        let self = tx_context::sender(ctx);
+
+        let channel_key = string_helpers::to_lowercase(
+            &name
+        );
+
+        let mut follows = membership::create(ctx);
+        let (
+            moderators,
+            moderation_message,
+            moderation_type
+        ) = moderation::create(ctx);
+
+        let (
+            membership_message,
+            membership_type,
+            _membership_count
+        ) = membership::wallet_join(
+            &mut follows,
+            self,
+            timestamp
+        );
+
+        let channel_address = channel::create(
+            app_address,
+            avatar,
+            banner,
+            description,
+            timestamp,
+            self,
+            follows,
+            channel_key,
+            moderators,
+            name,
+            ctx
+        );
+
+        channel_registry::add(
+            channel_registry,
+            channel_key,
+            channel_address
+        );
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+
+        let has_rewards_enabled = apps::has_rewards_enabled(
+            app
+        );
+
+        if (has_rewards_enabled) {
+            let channel_witness = channel_witness::create_witness();
+            let current_epoch = reward_registry::get_current(
+                reward_weights_registry
+            );
+
+            let analytics = user_owned::borrow_analytics_mut_for_channel<ChannelWitness>(
+                &channel_witness,
+                channel_witness_config,
+                owned_user,
+                user_witness_config,
+                app_address,
+                current_epoch,
+                ctx
+            );
+
+            let reward_weights = reward_weights_registry.borrow_current();
+
+            let metric = utf8(METRIC_CHANNEL_CREATED);
+            let claim = reward_weights.get_weight(metric);
+
+            analytics_actions::increment_analytics_for_channel<ChannelWitness>(
+                analytics,
+                app,
+                &channel_witness,
+                channel_witness_config,
+                claim,
+                metric
+            );
+        };
+
+        event::emit(ChannelCreated {
+            app_id: app_address,
+            avatar,
+            banner,
+            channel_id: channel_address,
+            channel_key,
+            channel_name: name,
+            created_at: timestamp,
+            created_by: self,
+            description
+        });
+
+        event::emit(ChannelFollowsUpdate {
+            account_type: membership_type,
+            channel_id: channel_address,
+            message: membership_message,
+            updated_at: timestamp,
+            user_id: self
+        });
+
+        event::emit(ChannelModerationUpdate {
+            channel_id: channel_address,
+            message: moderation_message,
+            moderator_type: moderation_type,
+            updated_at: timestamp,
+            user_id: self
+        });
+
+        channel_address
+    }
+  ```
+</Expandable>
+
+### Function `create_registry`
+
+Creates a new channel registry for an `App`.
+
+```rust
+public fun create_registry(app_channel_registry: &mut AppChannelRegistry, app: &App, ctx: &mut TxContext)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create_registry (
+        app_channel_registry: &mut AppChannelRegistry,
+        app: &App,
+        ctx: &mut TxContext
+    ) {
+        let app_address = object::id_address(app);
+
+        let channel_registry = channel_registry::create(
+            app_address,
+            ctx
+        );
+
+        let channel_registry_address = object::id_address(&channel_registry);
+
+        channel_registry::add_registry(
+            app_channel_registry,
+            app_address,
+            channel_registry_address
+        );
+
+        channel_registry::share_registry(channel_registry);
+    }
+  ```
+</Expandable>
+
+### Function `follow`
+
+A `User` follows a `Channel`. Aborts with `EAppChannelMismatch` if the `Channel` does not belong to the `App`, `EIsMember` if the `User` already follows the `Channel`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
+
+```rust
+public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &ChannelFees, channel_witness_config: &ChannelWitnessConfig, clock: &Clock, reward_weights_registry: &RewardWeightsRegistry, owned_user: &mut UserOwned, user_witness_config: &UserWitnessConfig, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, ctx: &mut TxContext)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun follow<CoinType> (
+        app: &App,
+        channel: &mut Channel,
+        channel_fees: &ChannelFees,
+        channel_witness_config: &ChannelWitnessConfig,
+        clock: &Clock,
+        reward_weights_registry: &RewardWeightsRegistry,
+        owned_user: &mut UserOwned,
+        user_witness_config: &UserWitnessConfig,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        ctx: &mut TxContext
+    ) {
+        let app_address = object::id_address(app);
+
+        channel::assert_app_channel_match(
+            channel,
+            app_address
+        );
+
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_join_channel_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );
+
+        let membership = channel::borrow_follows_mut(
+            channel
+        );
+        let self = tx_context::sender(ctx);
+        let timestamp = clock.timestamp_ms();
+
+        let (
+            message,
+            account_type,
+            count
+        ) = membership::wallet_join(
+            membership,
+            self,
+            timestamp
+        );
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+
+        let has_rewards_enabled = apps::has_rewards_enabled(
+            app
+        );
+
+        if (has_rewards_enabled && count == 1) {
+            let channel_witness = channel_witness::create_witness();
+            let current_epoch = reward_registry::get_current(
+                reward_weights_registry
+            );
+
+            let reward_weights = reward_weights_registry.borrow_current();
+
+            let metric_channel = utf8(METRIC_CHANNEL_FOLLOWED);
+            let metric_user = utf8(METRIC_FOLLOWED_CHANNEL);
+
+            let claim_channel = reward_weights.get_weight(metric_channel);
+            let claim_user = reward_weights.get_weight(metric_user);
+
+            let analytics_channel = channel::borrow_analytics_mut(
+                channel,
+                channel_witness_config,
+                app_address,
+                current_epoch,
+                ctx
+            );
+
+            analytics_actions::increment_analytics_for_channel<ChannelWitness>(
+                analytics_channel,
+                app,
+                &channel_witness,
+                channel_witness_config,
+                claim_channel,
+                metric_channel
+            );
+
+            let analytics_user = user_owned::borrow_analytics_mut_for_channel<ChannelWitness>(
+                &channel_witness,
+                channel_witness_config,
+                owned_user,
+                user_witness_config,
+                app_address,
+                current_epoch,
+                ctx
+            );
+
+            analytics_actions::increment_analytics_for_channel<ChannelWitness>(
+                analytics_user,
+                app,
+                &channel_witness,
+                channel_witness_config,
+                claim_user,
+                metric_user
+            );
+        };
+        
+        let channel_id = object::id_address(channel);
+
+        event::emit(ChannelFollowsUpdate {
+            account_type,
+            channel_id,
+            message,
+            updated_at: timestamp,
+            user_id: self
+        });
+    }
+  ```
+</Expandable>
+
+### Function `post`
+
+Creates a `Post` on the `Channel`. Aborts with `EIsNotMember` if the `User` is not following the `Channel`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
+
+```rust
+public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &ChannelFees, channel_witness_config: &ChannelWitnessConfig, clock: &Clock, reward_weights_registry: &RewardWeightsRegistry, owned_user: &mut UserOwned, user_witness_config: &UserWitnessConfig, data: String, description: String, title: String, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, ctx: &mut TxContext): (address, u64)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun post<CoinType> (
+        app: &App,
+        channel: &mut Channel,
+        channel_fees: &ChannelFees,
+        channel_witness_config: &ChannelWitnessConfig,
+        clock: &Clock,
+        reward_weights_registry: &RewardWeightsRegistry,
+        owned_user: &mut UserOwned,
+        user_witness_config: &UserWitnessConfig,
+        data: String,
+        description: String,
+        title: String,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        ctx: &mut TxContext
+    ): (address, u64) {
+        let self = tx_context::sender(ctx);
+
+        let follows = channel::borrow_follows_mut(
+            channel
+        );
+
+        membership::assert_is_member(
+            follows,
+            self
+        );
+
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_post_to_channel_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );
+
+        let app_address = object::id_address(app);
+        let channel_witness = channel_witness::create_witness();
+
+        let mut posts = channel::take_posts(
+            channel,
+            app_address,
+            ctx
+        );
+
+        let (
+            post_address,
+            _self,
+            timestamp
+        ) = post_actions::create_for_channel<ChannelWitness>(
+            app,
+            &channel_witness,
+            channel_witness_config,
+            clock,
+            &mut posts,
+            data,
+            description,
+            title,
+            ctx
+        );
+
+        channel::return_posts(
+            channel,
+            app_address,
+            posts
+        );
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+
+        let has_rewards_enabled = apps::has_rewards_enabled(
+            app
+        );
+
+        if (has_rewards_enabled) {
+            let app_address = object::id_address(app);
+            let channel_witness = channel_witness::create_witness();
+            let current_epoch = reward_registry::get_current(
+                reward_weights_registry
+            );
+
+            let reward_weights = reward_weights_registry.borrow_current();
+
+            let metric = utf8(METRIC_CHANNEL_TEXT_POST);
+            let claim = reward_weights.get_weight(metric);
+
+            let analytics = user_owned::borrow_analytics_mut_for_channel<ChannelWitness>(
+                &channel_witness,
+                channel_witness_config,
+                owned_user,
+                user_witness_config,
+                app_address,
+                current_epoch,
+                ctx
+            );
+
+            analytics_actions::increment_analytics_for_channel<ChannelWitness>(
+                analytics,
+                app,
+                &channel_witness,
+                channel_witness_config,
+                claim,
+                metric
+            );
+        };
+
+        let channel_id = object::id_address(channel);
+
+        event::emit(ChannelPostCreated {
+            app_id: app_address,
+            channel_id,
+            created_at: timestamp,
+            created_by: self,
+            data,
+            description,
+            post_id: post_address,
+            title
+        });
+
+        (post_address, timestamp)
+    }
+  ```
+</Expandable>
+
+### Function `remove_moderator_as_owner`
+
+Removes a `User` as a `Moderator` on the `Channel`. Aborts with `EIsNotOwner` if the `User` is not owner of the `Channel`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
+
+```rust
+public fun remove_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees, clock: &Clock, shared_user: &UserShared, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, ctx: &mut TxContext)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun remove_moderator_as_owner<CoinType> (
+        channel: &mut Channel,
+        channel_fees: &ChannelFees,
+        clock: &Clock,
+        shared_user: &UserShared,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        ctx: &mut TxContext
+    ) {
+        let self = tx_context::sender(ctx);
+
+        let moderation = channel::borrow_moderators_mut(
+            channel
+        );
+
+        moderation::assert_is_owner(
+            moderation,
+            self
+        );
+
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_remove_moderator_owner_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );
+
+        let user_address = user_shared::get_owner(
+            shared_user
+        );
+
+        let (
+            message,
+            moderator_type
+        ) = moderation::remove_moderator(
+            moderation,
+            user_address
+        );
+
+        let channel_id = object::id_address(channel);
+        let updated_at = clock.timestamp_ms();
+
+        event::emit(ChannelModerationUpdate {
+            channel_id,
+            message,
+            moderator_type,
+            updated_at,
+            user_id: user_address
+        });
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+    }
+  ```
+</Expandable>
+
+### Function `unfollow`
+
+`User` unfollows a `Channel`.
+
+```rust
+public fun unfollow<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees, clock: &Clock, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, ctx: &mut TxContext)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun unfollow<CoinType> (
+        channel: &mut Channel,
+        channel_fees: &ChannelFees,
+        clock: &Clock,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        ctx: &mut TxContext
+    ) {
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_leave_channel_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );
+
+        let self = tx_context::sender(ctx);
+
+        let membership = channel::borrow_follows_mut(
+            channel
+        );
+        let timestamp = clock.timestamp_ms();
+
+        let (
+            message,
+            account_type,
+            _count
+        ) = membership::wallet_leave(
+            membership,
+            self,
+            timestamp
+        );
+
+        let channel_id = object::id_address(channel);
+
+        event::emit(ChannelFollowsUpdate {
+            account_type,
+            channel_id,
+            message,
+            updated_at: timestamp,
+            user_id: self
+        });
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+    }
+  ```
+</Expandable>
+
+### Function `update_as_owner`
+
+Update `Channel` metadata. The lowercase value of the name cannot be edited, but the casing can. Aborts with `EIsNotModerator` if the `User` is not a moderator of the `Channel`, `EChannelNameMismatch` if anything about the name is changed other than casing, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
+
+```rust
+public fun update_as_owner<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees, clock: &Clock, avatar: String, banner: String, description: String, name: String, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, ctx: &mut TxContext)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun update_as_owner<CoinType> (
+        channel: &mut Channel,
+        channel_fees: &ChannelFees,
+        clock: &Clock,
+        avatar: String,
+        banner: String,
+        description: String,
+        name: String,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        ctx: &mut TxContext
+    ) {
+        let self = tx_context::sender(ctx);
+
+        let moderation = channel::borrow_moderators_mut(channel);
+
+        moderation::assert_is_moderator(
+            moderation,
+            self
+        );
+
+        let _channel_key = assert_name_sameness(
+            channel,
+            name
+        );
+
+        let (
+            custom_payment,
+            sui_payment
+        ) = channel_fees::assert_update_channel_payment<CoinType>(
+            channel_fees,
+            custom_payment,
+            sui_payment
+        );        
+
+        let updated_at = clock.timestamp_ms();
+
+        channel::update(
+            channel,
+            avatar,
+            banner,
+            description,
+            name,
+            updated_at
+        );
+
+        let channel_id = object::id_address(channel);
+
+        event::emit(ChannelUpdated {
+            avatar,
+            banner,
+            channel_id,
+            channel_name: name,
+            description,
+            updated_at
+        });
+
+        fees::collect_payment<CoinType>(
+            custom_payment,
+            sui_payment
+        );
+    }
+  ```
+</Expandable>

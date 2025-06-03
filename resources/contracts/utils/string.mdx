@@ -1,0 +1,183 @@
+---
+title: "String"
+description: "@sage/utils > string"
+---
+
+```rust
+use std::string;
+```
+
+# Constants
+
+Number difference between lowercase (e.g. "a") and uppercase (e.g. "A") values.
+
+```rust
+const CHAR_CASE_OFFSET: u8 = 0x20;
+```
+
+Number representation of 'a'.
+
+```rust
+const CHAR_LOWER_A: u8 = 0x61;
+```
+
+Number representation of 'z'.
+
+```rust
+const CHAR_LOWER_Z: u8 = 0x7A;
+```
+
+Number representation of 'A'.
+
+```rust
+const CHAR_UPPER_A: u8 = 0x41;
+```
+
+Number representation of 'Z'.
+
+```rust
+const CHAR_UPPER_Z: u8 = 0x5A;
+```
+
+Number representation of '0'.
+
+```rust
+const CHAR_ZERO: u8 = 0x30;
+```
+
+Number representation of '9'.
+
+```rust
+const CHAR_NINE: u8 = 0x39;
+```
+
+Number representation of '-'.
+
+```rust
+const CHAR_DASH: u8 = 0x2D;
+```
+
+# Functions
+
+### Function `is_valid_name`
+
+Returns true or false based on whether the name is valid.
+
+```rust
+public fun is_valid_name(name: &std::string::String, min_length: u64, max_length: u64): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_valid_name(
+        name: &String,
+        min_length: u64,
+        max_length: u64
+    ): bool {
+        let len = name.length();
+        let name_bytes = name.as_bytes();
+        let mut index = 0;
+
+        if (!(len >= min_length && len <= max_length)) {
+            return false
+        };
+
+        while (index < len) {
+            let character = name_bytes[index];
+            let is_valid_character =
+                (CHAR_UPPER_A <= character && character <= CHAR_UPPER_Z)
+                || (CHAR_LOWER_A <= character && character <= CHAR_LOWER_Z)
+                || (CHAR_ZERO <= character && character <= CHAR_NINE)
+                || (character == CHAR_DASH && index != 0 && index != len - 1);
+
+            if (!is_valid_character) {
+                return false
+            };
+
+            index = index + 1;
+        };
+
+        true
+    }
+  ```
+</Expandable>
+
+### Function `to_lowercase`
+
+Returns the lowercase value of the passed String.
+
+```rust
+public fun to_lowercase(name: &std::string::String): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun to_lowercase(
+        name: &String
+    ): String {
+        let len = name.length();
+        let name_bytes = name.as_bytes();
+        let mut index = 0;
+
+        let mut lowercase_bytes = vector::empty<u8>();
+
+        while (index < len) {
+            let character = name_bytes[index];
+
+            let lowercase = if (
+                CHAR_UPPER_A <= character && character <= CHAR_UPPER_Z
+            ) {
+                character + CHAR_CASE_OFFSET
+            } else {
+                character
+            };
+
+            lowercase_bytes.push_back(lowercase);
+
+            index = index + 1;
+        };
+
+        utf8(lowercase_bytes)
+    }
+  ```
+</Expandable>
+
+### Function `REPLACE`
+
+REPLACE
+
+```rust
+public fun to_uppercase(name: &std::string::String): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun to_uppercase(
+        name: &String
+    ): String {
+        let len = name.length();
+        let name_bytes = name.as_bytes();
+        let mut index = 0;
+
+        let mut lowercase_bytes = vector::empty<u8>();
+
+        while (index < len) {
+            let character = name_bytes[index];
+
+            let lowercase = if (
+                CHAR_LOWER_A <= character && character <= CHAR_LOWER_Z
+            ) {
+                character - CHAR_CASE_OFFSET
+            } else {
+                character
+            };
+
+            lowercase_bytes.push_back(lowercase);
+
+            index = index + 1;
+        };
+
+        utf8(lowercase_bytes)
+    }
+  ```
+</Expandable>

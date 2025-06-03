@@ -1,0 +1,288 @@
+---
+title: "Moderation"
+description: "@sage/shared > moderation"
+---
+
+```rust
+use sui::table;
+```
+
+# Structs
+
+### Struct `Moderation`
+
+Table of `User`s authorized to take moderator actions on a forum.
+
+```rust
+public struct Moderation has store
+```
+
+<Expandable title="Fields">
+  ```rust
+    moderation: sui::table::Table<address, u8>
+  ```
+</Expandable>
+
+# Constants
+
+Represents that the moderator is the owner.
+
+```rust
+const OWNER: u8 = 0;
+```
+
+Represents that the moderator has the lowest permissions.
+
+```rust
+const MODERATOR: u8 = 1;
+```
+
+Represents that a moderator was added.
+
+```rust
+const MODERATOR_ADD: u8 = 10;
+```
+
+Represents that a moderator was removed.
+
+```rust
+const MODERATOR_REMOVE: u8 = 11;
+```
+
+Error code used when a moderator tries to remove the owner.
+
+```rust
+const EIsOwner: u64 = 370;
+```
+
+Error code used when a non-moderator attempts a moderator action.
+
+```rust
+const EIsNotModerator: u64 = 371;
+```
+
+Error code used when a non-owner attempts an owner action.
+
+```rust
+const EIsNotOwner: u64 = 372;
+```
+
+# Functions
+
+### Function `assert_is_moderator`
+
+Aborts with `EIsNotModerator` if the user is not a moderator or owner.
+
+```rust
+public fun assert_is_moderator(moderation: &Moderation, user: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_is_moderator(
+        moderation: &Moderation,
+        user: address
+    ) {
+        let is_moderator = is_moderator(
+            moderation,
+            user
+        );
+
+        assert!(is_moderator, EIsNotModerator);
+    }
+  ```
+</Expandable>
+
+### Function `assert_is_owner`
+
+Aborts with `EIsNotOwner` if the user is not the owner.
+
+```rust
+public fun assert_is_owner(moderation: &Moderation, user: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_is_owner(
+        moderation: &Moderation,
+        user: address
+    ) {
+        let is_owner = is_owner(
+            moderation,
+            user
+        );
+
+        assert!(is_owner, EIsNotOwner);
+    }
+  ```
+</Expandable>
+
+### Function `create`
+
+Creates a new `Moderation` instance.
+
+```rust
+public fun create(ctx: &mut TxContext): (Moderation, u8, u8)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create(
+        ctx: &mut TxContext
+    ): (Moderation, u8, u8) {
+        let self = tx_context::sender(ctx);
+
+        let mut moderation = Moderation {
+            moderation: table::new(ctx)
+        };
+
+        let (event, message) = make_owner(
+            &mut moderation,
+            self
+        );
+
+        (moderation, event, message)
+    }
+  ```
+</Expandable>
+
+### Function `get_length`
+
+Get number of moderators and owners.
+
+```rust
+public fun get_length(moderation: &Moderation): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_length(
+        moderation: &Moderation
+    ): u64 {
+        moderation.moderation.length()
+    }
+  ```
+</Expandable>
+
+### Function `is_moderator`
+
+Returns true or false based on whether the address is a moderator.
+
+```rust
+public fun is_moderator(moderation: &Moderation, user: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_moderator(
+        moderation: &Moderation,
+        user: address
+    ): bool {
+        moderation.moderation.contains(user)
+    }
+  ```
+</Expandable>
+
+### Function `is_owner`
+
+Returns true or false based on whether the address is the owner.
+
+```rust
+public fun is_owner(moderation: &Moderation, user: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_owner(
+        moderation: &Moderation,
+        user: address
+    ): bool {
+        let is_moderator = is_moderator(
+            moderation,
+            user
+        );
+
+        if (!is_moderator) {
+            false
+        } else {
+            moderation.moderation[user] == OWNER
+        }
+    }
+  ```
+</Expandable>
+
+### Function `make_moderator`
+
+Adds the address as a moderator.
+
+```rust
+public fun make_moderator(moderation: &mut Moderation, user: address): (u8, u8)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun make_moderator(
+        moderation: &mut Moderation,
+        user: address
+    ): (u8, u8) {
+        moderation.moderation.add(
+            user,
+            MODERATOR
+        );
+
+        (MODERATOR_ADD, MODERATOR)
+    }
+  ```
+</Expandable>
+
+### Function `make_owner`
+
+Adds the address as the owner.
+
+```rust
+public fun make_owner(moderation: &mut Moderation, user: address): (u8, u8)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun make_owner(
+        moderation: &mut Moderation,
+        user: address
+    ): (u8, u8) {
+        moderation.moderation.add(
+            user,
+            OWNER
+        );
+
+        (MODERATOR_ADD, OWNER)
+    }
+  ```
+</Expandable>
+
+### Function `remove_moderator`
+
+Removes the address as a moderator. Aborts with `EIsOwner` if attempting to remove the owner.
+
+```rust
+public fun remove_moderator(moderation: &mut Moderation, user: address): (u8, u8)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun remove_moderator(
+        moderation: &mut Moderation,
+        user: address
+    ): (u8, u8) {
+        let is_owner = is_owner(
+            moderation,
+            user
+        );
+
+        assert!(!is_owner, EIsOwner);
+
+        moderation.moderation.remove(user);
+
+        (MODERATOR_REMOVE, MODERATOR)
+    }
+  ```
+</Expandable>

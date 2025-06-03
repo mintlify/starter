@@ -1,0 +1,58 @@
+---
+title: "Access"
+description: "@sage/trust > access"
+---
+
+```rust
+use std::type_name;
+use sui::package;
+use sage_admin::admin;
+```
+
+# Structs
+
+### Struct `GovernanceWitnessConfig`
+
+Holds the `GovernanceWitness` type for runtime type checks.
+
+```rust
+public struct GovernanceWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    finalized: bool,
+    type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+### Struct `RewardWitnessConfig`
+
+Holds the `RewardWitness` type for runtime type checks.
+
+```rust
+public struct RewardWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    finalized: bool,
+    type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+# Constants
+
+Error code for attempting to update a finalized witness config.
+
+```rust
+const EIsFinalized: u64 = 370;
+```
+
+Error code for passing in the wrong withness type.
+
+```rust
+const EWitnessMismatch: u64 = 371;
+```

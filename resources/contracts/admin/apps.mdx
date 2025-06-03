@@ -1,0 +1,120 @@
+---
+title: "Apps"
+description: "@sage/admin > apps"
+---
+
+```rust
+use std::string;
+use sui::dynamic_field;
+use sui::package;
+use sui::table;
+use sage_admin::admin;
+```
+
+# Structs
+
+### Struct `App`
+
+Object that represents the application operating in the protocol, e.g. "Sage", "instagram-clone", "bucket", or "double-up". Developers may create different apps within the protocol to build social applications or augment their application with social capabilities.
+
+```rust
+public struct App has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: UID,
+    name: String,
+    rewards_enabled: bool
+  ```
+</Expandable>
+
+### Struct `AppRegistry`
+
+Registry that maintains a reference to every `App` on the protocol and maintains name-uniqueness.
+
+```rust
+public struct AppRegistry has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: UID,
+    registry: Table<String, address>
+  ```
+</Expandable>
+
+# Functions
+
+### Function `get_address`
+
+Returns the address of the `App`'s id.
+
+```rust
+public fun get_address(app: &App): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_address(
+        app: &App
+    ): address {
+        app.id.to_address()
+    }
+  ```
+</Expandable>
+
+### Function `get_name`
+
+Returns the name of the `App`.
+
+```rust
+public fun get_name(app: &App): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_name(
+        app: &App
+    ): String {
+        app.name
+    }
+  ```
+</Expandable>
+
+### Function `has_record`
+
+Returns `true` if the case-insensitive app name is already in use, and `false` otherwise.
+
+```rust
+public fun has_record(app: &App): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_record(
+        app_registry: &AppRegistry,
+        app_key: String
+    ): bool {
+        app_registry.registry.contains(app_key)
+    }
+  ```
+</Expandable>
+
+### Function `has_rewards_enabled`
+
+Returns `true` if rewards are enabled in the `App`, and `false` otherwise.
+
+```rust
+public fun has_rewards_enabled(app: &App): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_rewards_enabled(
+        app: &App
+    ): bool {
+        app.rewards_enabled
+    }
+  ```
+</Expandable>

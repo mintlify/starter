@@ -1,0 +1,160 @@
+---
+title: "Reward"
+description: "@sage/reward > reward"
+---
+
+```rust
+use std::string;
+use sui::dynamic_field;
+```
+
+# Structs
+
+### Struct `RewardWeight`
+
+Stores the weight of the `User` action.
+
+```rust
+public struct RewardWeight has copy, drop, store
+```
+
+<Expandable title="Fields">
+  ```rust
+    metric: std::string::String
+  ```
+</Expandable>
+
+### Struct `RewardWeights`
+
+All of the `RewardWeight`s that have been defined for the epoch.
+
+```rust
+public struct RewardWeights has key, store
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    end: u64,
+    start: u64
+  ```
+</Expandable>
+
+# Functions
+
+### Function `field_exists`
+
+Returns true or false depending on whether the `RewardWeight` has been defined for the epoch.
+
+```rust
+public fun field_exists(reward_weights: &RewardWeights, metric: String): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun field_exists(
+        reward_weights: &RewardWeights,
+        metric: String
+    ): bool {
+        let reward_weight = RewardWeight {
+            metric
+        };
+
+        df::exists_with_type<RewardWeight, u64>(
+            &reward_weights.id,
+            reward_weight
+        )
+    }
+  ```
+</Expandable>
+
+### Function `get_end`
+
+Get the timestamp for the end of the reward epoch.
+
+```rust
+public fun get_end(reward_weights: &RewardWeights): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_end(
+        reward_weights: &RewardWeights
+    ): u64 {
+        reward_weights.end
+    }
+  ```
+</Expandable>
+
+### Function `get_start`
+
+Get the timestamp for the start of the reward epoch.
+
+```rust
+public fun get_start(reward_weights: &RewardWeights): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_start(
+        reward_weights: &RewardWeights
+    ): u64 {
+        reward_weights.start
+    }
+  ```
+</Expandable>
+
+### Function `get_weight`
+
+Get the weight for the specified `User` action metric.
+
+```rust
+public fun get_weight(reward_weights: &RewardWeights, metric: String): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_weight(
+        reward_weights: &RewardWeights,
+        metric: String
+    ): u64 {
+        let does_exist = field_exists(
+            reward_weights,
+            metric
+        );
+
+        if (does_exist) {
+            let reward_weight = RewardWeight {
+                metric
+            };
+
+            *df::borrow<RewardWeight, u64>(
+                &reward_weights.id,
+                reward_weight
+            )
+        } else {
+            0
+        }
+    }
+  ```
+</Expandable>
+
+### Function `is_current`
+
+Returns true or false depending on whether the `RewardWeights` is current or not.
+
+```rust
+public fun is_current(reward_weights: &RewardWeights, timestamp: u64): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_current(
+        reward_weights: &RewardWeights,
+        timestamp: u64
+    ): bool {
+        timestamp <= reward_weights.end &&
+        timestamp >= reward_weights.start
+    }
+  ```
+</Expandable>

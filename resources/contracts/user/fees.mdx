@@ -1,0 +1,133 @@
+---
+title: "Fees"
+description: "@sage/user > fees"
+---
+
+```rust
+use std::string;
+use std::type_name;
+use sui::coin;
+use sui::event;
+use sui::sui;
+use sage_admin::admin;
+use sage_admin::apps;
+```
+
+# Structs
+
+### Struct `UserFees`
+
+Holds the fee amounts for `User` actions.
+
+```rust
+public struct UserFees has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    app: address,
+    custom_coin_type: std::type_name::TypeName,
+    create_invite_fee_custom: u64,
+    create_invite_fee_sui: u64,
+    create_user_fee_custom: u64,
+    create_user_fee_sui: u64,
+    follow_user_fee_custom: u64,
+    follow_user_fee_sui: u64,
+    friend_user_fee_custom: u64,
+    friend_user_fee_sui: u64,
+    post_to_user_fee_custom: u64,
+    post_to_user_fee_sui: u64,
+    unfollow_user_fee_custom: u64,
+    unfollow_user_fee_sui: u64,
+    unfriend_user_fee_custom: u64,
+    unfriend_user_fee_sui: u64,
+    update_user_fee_custom: u64,
+    update_user_fee_sui: u64
+  ```
+</Expandable>
+
+# Events
+
+### Event `UserFeesCreated`
+
+Emitted when a new `UserFees` is created.
+
+```rust
+public struct UserFeesCreated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    app_id: address,
+    user_fees_id: address,
+    custom_coin_type: std::type_name::TypeName,
+    create_invite_fee_custom: u64,
+    create_invite_fee_sui: u64,
+    create_user_fee_custom: u64,
+    create_user_fee_sui: u64,
+    follow_user_fee_custom: u64,
+    follow_user_fee_sui: u64,
+    friend_user_fee_custom: u64,
+    friend_user_fee_sui: u64,
+    post_to_user_fee_custom: u64,
+    post_to_user_fee_sui: u64,
+    unfollow_user_fee_custom: u64,
+    unfollow_user_fee_sui: u64,
+    unfriend_user_fee_custom: u64,
+    unfriend_user_fee_sui: u64,
+    update_user_fee_custom: u64,
+    update_user_fee_sui: u64
+  ```
+</Expandable>
+
+### Event `UserFeesUpdated`
+
+Emitted when a `UserFees` is updated.
+
+```rust
+public struct UserFeesUpdated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    user_fees_id: address,
+    custom_coin_type: std::type_name::TypeName,
+    create_invite_fee_custom: u64,
+    create_invite_fee_sui: u64,
+    create_user_fee_custom: u64,
+    create_user_fee_sui: u64,
+    follow_user_fee_custom: u64,
+    follow_user_fee_sui: u64,
+    friend_user_fee_custom: u64,
+    friend_user_fee_sui: u64,
+    post_to_user_fee_custom: u64,
+    post_to_user_fee_sui: u64,
+    unfollow_user_fee_custom: u64,
+    unfollow_user_fee_sui: u64,
+    unfriend_user_fee_custom: u64,
+    unfriend_user_fee_sui: u64,
+    update_user_fee_custom: u64,
+    update_user_fee_sui: u64
+  ```
+</Expandable>
+
+# Constants
+
+Incorrect coin type passed in for the `custom_coin`.
+
+```rust
+const EIncorrectCoinType: u64 = 370;
+```
+
+Incorrect amount of `custom_coin`.
+
+```rust
+const EIncorrectCustomPayment: u64 = 371;
+```
+
+Incorrect amount of `sui_coin`.
+
+```rust
+const EIncorrectSuiPayment: u64 = 372;
+```

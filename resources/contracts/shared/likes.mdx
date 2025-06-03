@@ -1,0 +1,142 @@
+---
+title: "Likes"
+description: "@sage/shared > likes"
+---
+
+```rust
+use sui::table;
+```
+
+# Structs
+
+### Struct `Likes`
+
+All of the relationships that exist between `User`s and the content they have liked.
+
+```rust
+public struct Likes has store
+```
+
+<Expandable title="Fields">
+  ```rust
+    likes: sui::table::Table<address, u8>
+  ```
+</Expandable>
+
+# Constants
+
+Value used to store whether content has been liked or not.
+
+```rust
+const LIKE: u8 = 1;
+```
+
+Error code used when attempting to like content that has already been liked.
+
+```rust
+const EAlreadyLiked: u64 = 370;
+```
+
+# Functions
+
+### Function `add`
+
+Like the content.
+
+```rust
+public fun add(likes: &mut Likes, key: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun add(
+        likes: &mut Likes,
+        key: address
+    ) {
+        likes.likes.add(key, LIKE);
+    }
+  ```
+</Expandable>
+
+### Function `assert_has_not_liked`
+
+Aborts with `EAlreadyLiked` if the content has already been liked.
+
+```rust
+public fun assert_has_not_liked(likes: &Likes, key: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_has_not_liked(
+        likes: &Likes,
+        key: address
+    ) {
+        let has_liked = has_liked(
+            likes,
+            key
+        );
+
+        assert!(!has_liked, EAlreadyLiked);
+    }
+  ```
+</Expandable>
+
+### Function `create`
+
+Creates a new instance of `Likes`.
+
+```rust
+public fun create(ctx: &mut TxContext): Likes
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create(
+        ctx: &mut TxContext
+    ): Likes {
+        let likes = Likes {
+            likes: table::new(ctx)
+        };
+
+        likes
+    }
+  ```
+</Expandable>
+
+### Function `get_length`
+
+Gets the number of times the content has been liked.
+
+```rust
+public fun get_length(likes: &Likes): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_length(
+        likes: &Likes
+    ): u64 {
+        likes.likes.length()
+    }
+  ```
+</Expandable>
+
+### Function `has_liked`
+
+Returns true or false based on whether the content has been liked.
+
+```rust
+public fun has_liked(likes: &Likes, key: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_liked(
+        likes: &Likes,
+        key: address
+    ): bool {
+        likes.likes.contains(key)
+    }
+  ```
+</Expandable>

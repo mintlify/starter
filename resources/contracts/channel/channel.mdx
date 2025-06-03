@@ -1,0 +1,257 @@
+---
+title: "Channel"
+description: "@sage/channel > channel"
+---
+
+```rust
+use sui::dynamic_field;
+use sui::dynamic_object_field;
+use sui::table;
+use std::string;
+use sage_admin::admin_access;
+use sage_analytics::analytics;
+use sage_analytics::analytics_actions;
+use sage_channel::channel_witness;
+use sage_shared::membership;
+use sage_shared::moderation;
+use sage_shared::posts;
+use sage_utils::string_helpers;
+```
+
+# Structs
+
+### Struct `Channel`
+
+Holds metadata for a Channel.
+
+```rust
+public struct Channel has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    app: address,
+    avatar: std::string::String,
+    banner: std::string::String,
+    blocklist: Table<address, u8>,
+    created_at: u64,
+    created_by: address,
+    description: std::string::String,
+    follows: sage_shared::membership::Membership,
+    key: std::string::String,
+    moderators: sage_shared::moderation::Moderation,
+    name: std::string::String,
+    updated_at: u64
+  ```
+</Expandable>
+
+# Constants
+
+Minimum number of characters for `Channel` name.
+
+```rust
+const CHANNEL_NAME_MIN_LENGTH: u64 = 3;
+```
+
+Maximum number of characters for `Channel` name.
+
+```rust
+const CHANNEL_NAME_MAX_LENGTH: u64 = 21;
+```
+
+Maximum number of characters for `Channel` description.
+
+```rust
+const DESCRIPTION_MAX_LENGTH: u64 = 370;
+```
+
+The `App` and `Channel` passed into the function do not correspond to one another.
+
+```rust
+const EAppChannelMismatch: u64 = 370;
+```
+
+The `Channel` description is too long.
+
+```rust
+const EInvalidChannelDescription: u64 = 371;
+```
+
+The `Channel` name is too short, too long, or is using invalid characters. Allowable values are: a-z, A-Z, 0-9, and a "-" not at the start or end.
+
+```rust
+const EInvalidChannelName: u64 = 372;
+```
+
+# Functions
+
+### Function `assert_app_channel_match`
+
+Aborts with `EAppChannelMismatch` if the `App` and `Channel` don't match.
+
+```rust
+public fun assert_app_channel_match(channel: &Channel, app_address: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_app_channel_match( channel: &Channel,
+        app_address: address
+    ) {
+        assert!(channel.app == app_address, EAppChannelMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_channel_description`
+
+Aborts with `EInvalidChannelDescription` if the `Channel` description is too long.
+
+```rust
+public fun assert_channel_description(description: &String)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_channel_description(
+        description: &String
+    ) {
+        let is_valid_description = is_valid_description(description);
+
+        assert!(is_valid_description, EInvalidChannelDescription);
+    }
+  ```
+</Expandable>
+
+### Function `assert_channel_name`
+
+Aborts with `EInvalidChannelName` if the `Channel` name is invalid.
+
+```rust
+public fun assert_channel_name(name: &String)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_channel_name(
+        name: &String
+    ) {
+        let is_valid_name = string_helpers::is_valid_name(
+            name,
+            CHANNEL_NAME_MIN_LENGTH,
+            CHANNEL_NAME_MAX_LENGTH
+        );
+
+        assert!(is_valid_name, EInvalidChannelName);
+    }
+  ```
+</Expandable>
+
+### Function `get_avatar`
+
+Returns the avatar of the `Channel`.
+
+```rust
+public fun get_avatar(channel: &Channel): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_avatar(
+        channel: &Channel
+    ): std::string::String {
+        channel.avatar
+    }
+  ```
+</Expandable>
+
+### Function `get_banner`
+
+Returns the banner of the `Channel`.
+
+```rust
+public fun get_banner(channel: &Channel): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_banner(
+        channel: &Channel
+    ): std::string::String {
+        channel.banner
+    }
+  ```
+</Expandable>
+
+### Function `get_created_by`
+
+Returns the creator of the `Channel`.
+
+```rust
+public fun get_created_by(channel: &Channel): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_created_by(
+        channel: &Channel
+    ): address {
+        channel.created_by
+    }
+  ```
+</Expandable>
+
+### Function `get_description`
+
+Returns the description of the `Channel`.
+
+```rust
+public fun get_description(channel: &Channel): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_description(
+        channel: &Channel
+    ): std::string::String {
+        channel.description
+    }
+  ```
+</Expandable>
+
+### Function `get_key`
+
+Returns the key (lowercase value of `name`) of the `Channel`.
+
+```rust
+public fun get_key(channel: &Channel): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_key(
+        channel: &Channel
+    ): std::string::String {
+        channel.key
+    }
+  ```
+</Expandable>
+
+### Function `get_name`
+
+Returns the name of the `Channel`.
+
+```rust
+public fun get_name(channel: &Channel): std::string::String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_name(
+        channel: &Channel
+    ): std::string::String {
+        channel.name
+    }
+  ```
+</Expandable>

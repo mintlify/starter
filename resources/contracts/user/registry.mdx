@@ -1,0 +1,254 @@
+---
+title: "Registry"
+description: "@sage/user > registry"
+---
+
+```rust
+use std::string;
+use sui::package;
+use sui::table;
+use sage_utils::string_helpers;
+```
+
+# Structs
+
+### Struct `UserRegistry`
+
+Registry that contains a map to all `User`s.
+
+```rust
+public struct UserRegistry has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    address_registry: Table<address, std::string::String>,
+    address_reverse_registry: Table<std::string::String, address>,
+    user_owned_registry: Table<std::string::String, address>,
+    user_owned_reverse_registry: Table<address, std::string::String>,
+    user_shared_registry: Table<std::string::String, address>,
+    user_shared_reverse_registry: Table<address, std::string::String>
+  ```
+</Expandable>
+
+# Constants
+
+Error code when a wallet address does not have an associated `User`.
+
+```rust
+const EAddressRecordDoesNotExist: u64 = 370;
+```
+
+Error code when a `User` name does not exist in the registry.
+
+```rust
+const EUsernameRecordDoesNotExist: u64 = 371;
+```
+
+# Functions
+
+### Function `assert_user_address_exists`
+
+Aborts with `EAddressRecordDoesNotExist` when a wallet address is not associated with a `User`.
+
+```rust
+public fun assert_user_address_exists(user_registry: &UserRegistry, wallet_address: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_user_address_exists(
+      user_registry: &UserRegistry,
+      wallet_address: address
+    ) {
+      let is_user = has_address_record(
+        user_registry,
+        wallet_address
+      );
+
+      assert!(is_user, EAddressRecordDoesNotExist);
+    }
+  ```
+</Expandable>
+
+### Function `assert_user_name_exists`
+
+Aborts with `EUsernameRecordDoesNotExist` when the `User` name does not exist in the registry.
+
+```rust
+public fun assert_user_name_exists(user_registry: &UserRegistry, username: String)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_user_name_exists(
+      user_registry: &UserRegistry,
+      username: String
+    ) {
+      let is_user = has_username_record(
+        user_registry,
+        username
+      );
+
+      assert!(is_user, EUsernameRecordDoesNotExist);
+    }
+  ```
+</Expandable>
+
+### Function `get_owner_address_from_key`
+
+Returns the wallet address for the `User` with the specified lowercase name.
+
+```rust
+public fun get_owner_address_from_key(user_registry: &UserRegistry, user_key: String): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_owner_address_from_key (
+      user_registry: &UserRegistry,
+      user_key: String
+    ): address {
+      *user_registry.address_reverse_registry.borrow(user_key)
+    }
+  ```
+</Expandable>
+
+### Function `get_owned_user_address_from_key`
+
+Returns the address for the `OwnedUser` with the specified lowercase name.
+
+```rust
+public fun get_owned_user_address_from_key(user_registry: &UserRegistry, user_key: String): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_owned_user_address_from_key (
+      user_registry: &UserRegistry,
+      user_key: String
+    ): address {
+      *user_registry.user_owned_registry.borrow(user_key)
+    }
+  ```
+</Expandable>
+
+### Function `get_shared_user_address_from_key`
+
+Returns the address for the `SharedUser` with the specified lowercase name.
+
+```rust
+public fun get_shared_user_address_from_key (user_registry: &UserRegistry, user_key: String): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_shared_user_address_from_key (
+      user_registry: &UserRegistry,
+      user_key: String
+    ): address {
+      *user_registry.user_shared_registry.borrow(user_key)
+    }
+  ```
+</Expandable>
+
+### Function `get_key_from_owner_address`
+
+Returns the `User` lowercase name associated with the wallet address.
+
+```rust
+public fun get_key_from_owner_address(user_registry: &UserRegistry, user_address: address): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_key_from_owner_address (
+      user_registry: &UserRegistry,
+      user_address: address
+    ): String {
+      *user_registry.address_registry.borrow(user_address)
+    }
+  ```
+</Expandable>
+
+### Function `get_key_from_owned_user_address`
+
+Returns the `User` lowercase name associated with the `OwnedUser` address.
+
+```rust
+public fun get_key_from_owned_user_address(user_registry: &UserRegistry, user_address: address): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_key_from_owned_user_address (
+      user_registry: &UserRegistry,
+      user_address: address
+    ): String {
+      *user_registry.user_owned_reverse_registry.borrow(user_address)
+    }
+  ```
+</Expandable>
+
+### Function `get_key_from_shared_user_address`
+
+Returns the `User` lowercase name associated with the `SharedUser` address.
+
+```rust
+public fun get_key_from_shared_user_address(user_registry: &UserRegistry, user_address: address): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_key_from_shared_user_address (
+      user_registry: &UserRegistry,
+      user_address: address
+    ): String {
+      *user_registry.user_shared_reverse_registry.borrow(user_address)
+    }
+  ```
+</Expandable>
+
+### Function `has_address_record`
+
+Returns true or false based on whether the wallet address has an associated `User`.
+
+```rust
+public fun has_address_record(user_registry: &UserRegistry, wallet_address: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_address_record (
+      user_registry: &UserRegistry,
+      wallet_address: address
+    ): bool {
+      user_registry.address_registry.contains(wallet_address)
+    }
+  ```
+</Expandable>
+
+### Function `has_username_record`
+
+Returns true or false based on whether the specified lowercase `User` name is in use.
+
+```rust
+public fun has_username_record(user_registry: &UserRegistry, username: String): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_username_record (
+      user_registry: &UserRegistry,
+      username: String
+    ): bool {
+      let user_key = string_helpers::to_lowercase(
+        &username
+      );
+
+      user_registry.user_owned_registry.contains(user_key) &&
+      user_registry.user_shared_registry.contains(user_key)
+    }
+  ```
+</Expandable>

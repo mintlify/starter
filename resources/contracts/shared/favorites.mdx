@@ -1,0 +1,275 @@
+---
+title: "Favorites"
+description: "@sage/shared > favorites"
+---
+
+```rust
+use sui::table;
+```
+
+# Structs
+
+### Struct `Favorite`
+
+Data on relationship created between a `User` and the content they want to favorite.
+
+```rust
+public struct Favorite has store
+```
+
+<Expandable title="Fields">
+  ```rust
+    count: u64,
+    created_at: u64,
+    is_favorite: bool,
+    updated_at: u64
+  ```
+</Expandable>
+
+### Struct `Favorites`
+
+All of the relationships that exist between `User`s and the content they have favorited.
+
+```rust
+public struct Favorites has store
+```
+
+<Expandable title="Fields">
+  ```rust
+    current_favorites: u64,
+    favorites: sui::table::Table<address, Favorite>
+  ```
+</Expandable>
+
+# Constants
+
+Error code when attempting to favorite content that has already been favorited.
+
+```rust
+const EAlreadyFavorited: u64 = 370;
+```
+
+Error code when attempting to unfavorite content that has not been favorited.
+
+```rust
+const EIsNotFavorite: u64 = 371;
+```
+
+# Functions
+
+### Function `add`
+
+Favorite the content.
+
+```rust
+public fun add(favorites: &mut Favorites, key: address, timestamp: u64): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun add(
+        favorites: &mut Favorites,
+        key: address,
+        timestamp: u64
+    ): u64 {
+        let does_exist = favorites.favorites.contains(key);
+        let mut favorite_count = 1;
+
+        if (does_exist) {
+            let favorite = favorites.favorites.borrow_mut(key);
+
+            assert!(!favorite.is_favorite, EAlreadyFavorited);
+
+            favorite.count = favorite.count + 1;
+            favorite.is_favorite = true;
+            favorite.updated_at = timestamp;
+
+            favorite_count = favorite.count;
+        } else {
+            let favorite = Favorite {
+                count: favorite_count,
+                created_at: timestamp,
+                is_favorite: true,
+                updated_at: timestamp
+            };
+
+            favorites.favorites.add(key, favorite);
+        };
+
+        favorites.current_favorites = favorites.current_favorites + 1;
+
+        favorite_count
+    }
+  ```
+</Expandable>
+
+### Function `assert_has_not_favorited`
+
+Aborts with `EAlreadyFavorited` if the content has already been favorited.
+
+```rust
+public fun assert_has_not_favorited(favorites: &Favorites, key: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_has_not_favorited(
+        favorites: &Favorites,
+        key: address
+    ) {
+        let is_favorite = is_favorite(
+            favorites,
+            key
+        );
+
+        assert!(!is_favorite, EAlreadyFavorited);
+    }
+  ```
+</Expandable>
+
+### Function `create`
+
+Creates a new instance of `Favorites`.
+
+```rust
+public fun create(ctx: &mut TxContext): Favorites
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create(
+        ctx: &mut TxContext
+    ): Favorites {
+        let favorites = Favorites {
+            current_favorites: 0,
+            favorites: table::new(ctx)
+        };
+
+        favorites
+    }
+  ```
+</Expandable>
+
+### Function `get_count`
+
+Gets the number of times the content has been favorited.
+
+```rust
+public fun get_count(favorites: &Favorites, key: address): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_count(
+        favorites: &Favorites,
+        key: address
+    ): u64 {
+        favorites.favorites[key].count
+    }
+  ```
+</Expandable>
+
+### Function `get_created_at`
+
+Get timestamp of when the content was first favorited.
+
+```rust
+public fun get_created_at(favorites: &Favorites, key: address): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_created_at(
+        favorites: &Favorites,
+        key: address
+    ): u64 {
+        favorites.favorites[key].created_at
+    }
+  ```
+</Expandable>
+
+### Function `get_length`
+
+Get the number of favorites on the content currently.
+
+```rust
+public fun get_length(favorites: &Favorites): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_length(
+        favorites: &Favorites
+    ): u64 {
+        favorites.current_favorites
+    }
+  ```
+</Expandable>
+
+### Function `get_updated_at`
+
+Get timestamp of when the content was most recently favorited. 
+
+```rust
+public fun get_updated_at(favorites: &Favorites, key: address): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_updated_at(
+        favorites: &Favorites,
+        key: address
+    ): u64 {
+        favorites.favorites[key].updated_at
+    }
+  ```
+</Expandable>
+
+### Function `is_favorite`
+
+Returns true or false based on whether the content has currently been favorited.
+
+```rust
+public fun is_favorite(favorites: &Favorites, key: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_favorite(
+        favorites: &Favorites,
+        key: address
+    ): bool {
+        favorites.favorites.contains(key) &&
+        favorites.favorites[key].is_favorite
+    }
+  ```
+</Expandable>
+
+### Function `remove`
+
+Unfavorite the content.
+
+```rust
+public fun remove(favorites: &mut Favorites, key: address, timestamp: u64): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun remove(
+        favorites: &mut Favorites,
+        key: address,
+        timestamp: u64
+    ): u64 {
+        let favorite = favorites.favorites.borrow_mut(key);
+
+        assert!(favorite.is_favorite, EIsNotFavorite);
+
+        favorite.is_favorite = false;
+        favorite.updated_at = timestamp;
+
+        favorites.current_favorites = favorites.current_favorites - 1;
+
+        favorite.count
+    }
+  ```
+</Expandable>

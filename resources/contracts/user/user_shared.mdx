@@ -1,0 +1,121 @@
+---
+title: "Shared User"
+description: "@sage/user > user_shared"
+---
+
+```rust
+use std::string;
+use sui::dynamic_field;
+use sui::dynamic_object_field;
+use sage_admin::admin_access;
+use sage_analytics::analytics;
+use sage_analytics::analytics_actions;
+use sage_shared::membership;
+use sage_shared::posts;
+use sage_user::user_witness;
+```
+
+# Structs
+
+### Struct `UserShared`
+
+Represents the `User` data specific to social interactions.
+
+```rust
+public struct UserShared has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    created_at: u64,
+    key: std::string::String,
+    owned_user: address,
+    owner: address,
+    updated_at: u64
+  ```
+</Expandable>
+
+# Functions
+
+### Function `get_key`
+
+Returns the lowercase name for the `SharedUser`.
+
+```rust
+public fun get_key(shared_user: &UserShared): String
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_key(
+        shared_user: &UserShared
+    ): String {
+        shared_user.key
+    }
+  ```
+</Expandable>
+
+### Function `get_owner`
+
+Returns the wallet address associated with the `SharedUser`.
+
+```rust
+public fun get_owner(shared_user: &UserShared): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_owner(
+        shared_user: &UserShared
+    ): address {
+        shared_user.owner
+    }
+  ```
+</Expandable>
+
+### Function `get_owned_user`
+
+Returns the address for the `OwnedUser` associated with the `SharedUser`.
+
+```rust
+public fun get_owned_user(shared_user: &UserShared): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_owned_user(
+        shared_user: &UserShared
+    ): address {
+        shared_user.owned_user
+    }
+  ```
+</Expandable>
+
+### Function `has_analytics`
+
+Returns true or false based on whether the `SharedUser` has analytics for the specified `App` and reward epoch.
+
+```rust
+public fun has_analytics(shared_user: &mut UserShared, app_address: address, epoch: u64,): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_analytics(
+        shared_user: &mut UserShared,
+        app_address: address,
+        epoch: u64,
+    ): bool {
+        let analytics_key = AnalyticsKey {
+            app: app_address,
+            epoch
+        };
+
+        dof::exists_with_type<AnalyticsKey, Analytics>(
+            &shared_user.id,
+            analytics_key
+        )
+    }
+  ```
+</Expandable>

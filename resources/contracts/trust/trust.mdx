@@ -1,0 +1,100 @@
+---
+title: "Trust"
+description: "@sage/trust > trust"
+---
+
+```rust
+use sui::coin;
+use sui::url;
+use sage_admin::admin;
+use sage_trust::trust_access;
+```
+
+# Structs
+
+### Struct `MintConfig`
+
+Manages the behavior of minting through admin controls, until they can be discontinued in favor of governance.
+
+```rust
+public struct MintConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    enabled: bool,
+    max_supply: Option<u64>
+  ```
+</Expandable>
+
+### Struct `ProtectedTreasury`
+
+Holds the `sui::coin::TreasuryCap` required for minting and burning TRUST.
+
+```rust
+public struct ProtectedTreasury has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    cap: sui::coin::TreasuryCap<TRUST>
+  ```
+</Expandable>
+
+# Functions
+
+### Function `is_minting_enabled`
+
+Returns true or false based on whether TRUST can be minted.
+
+```rust
+public fun is_minting_enabled(mint_config: &MintConfig): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_minting_enabled(
+        mint_config: &MintConfig
+    ): bool {
+        mint_config.enabled
+    }
+  ```
+</Expandable>
+
+### Function `max_supply`
+
+Returns the maximum possible TRUST that can be minted.
+
+```rust
+public fun max_supply(mint_config: &MintConfig): Option<u64>
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun max_supply(
+        mint_config: &MintConfig
+    ): Option<u64> {
+        mint_config.max_supply
+    }
+  ```
+</Expandable>
+
+### Function `total_supply`
+
+Returns the total amount of TRUST in circulation.
+
+```rust
+public fun total_supply(treasury: &ProtectedTreasury): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun total_supply(
+        treasury: &ProtectedTreasury
+    ): u64 {
+        treasury.cap.total_supply()
+    }
+  ```
+</Expandable>
