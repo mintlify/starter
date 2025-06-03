@@ -1,32 +1,68 @@
-# Mintlify Starter Kit
+# Documentação de Integração IplanRio
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+Este repositório contém a documentação técnica completa da infraestrutura de integração da IplanRio. A documentação abrange todos os aspectos da integração de sistemas, desde o Data Lake até as APIs e serviços de autenticação.
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+## Estrutura da Documentação
 
-### Development
+A documentação está organizada nas seguintes seções principais:
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+- **Introdução**: Documentos introdutórios e guias rápidos
+- **Data Lake**: 
+  - Guias de desenvolvimento
+  - Tipos de pipeline
+  - Guias de estilo para dados
+  - Processos de ETL
+- **Barramento de Dados**: 
+  - Referências de API
+  - Documentação de endpoints
+  - Guias de integração
+- **MCP (Message Control Platform)**:
+  - Arquitetura
+  - Configuração
+  - Fluxos de mensageria
+- **Autenticação e Segurança**:
+  - Protocolos de autenticação
+  - Gerenciamento de tokens
+  - Políticas de segurança
 
-```
+## Desenvolvimento Local
+
+Para visualizar e editar a documentação localmente, siga estes passos:
+
+1. Instale o [Mintlify CLI](https://www.npmjs.com/package/mintlify):
+```bash
 npm i -g mintlify
 ```
 
-Run the following command at the root of your documentation (where docs.json is)
-
-```
+2. Execute o servidor de desenvolvimento na raiz do projeto:
+```bash
 mintlify dev
 ```
 
-### Publishing Changes
+## Publicação de Alterações
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+As alterações são publicadas automaticamente através do GitHub App do Mintlify. Ao fazer push para a branch principal, as mudanças serão automaticamente implantadas em produção.
 
-#### Troubleshooting
+## Solução de Problemas
 
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+- Se o `mintlify dev` não estiver funcionando, execute `mintlify install` para reinstalar as dependências
+- Se a página carregar como 404, verifique se você está executando o comando em uma pasta que contém o arquivo `docs.json`
+
+## Links Úteis
+
+- [Site IplanRio](https://www.iplan.rio/)
+- [Discord IplanRio](https://discord.gg/myFqCKr3)
+- [Dashboard Mintlify](https://dashboard.mintlify.com)
+
+## Contribuindo
+
+Para contribuir com a documentação:
+
+1. Crie uma branch para sua contribuição
+2. Faça suas alterações seguindo o guia de estilo da documentação
+3. Envie um Pull Request para revisão
+4. Após aprovado, suas alterações serão publicadas automaticamente
+
+## Suporte
+
+Para suporte técnico, entre em contato através do email: hi@mintlify.com
