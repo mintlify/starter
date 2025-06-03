@@ -3,59 +3,59 @@ title: "Core Packages"
 description: "WIP"
 ---
 
-Sage Protocol’s architecture is modular, organized into clearly defined smart contract packages. Each package provides core functionality needed for transparent, secure, and economically aligned decentralized social interactions.
+Sage Protocol’s architecture is modular and organized into a core set of clearly defined smart contract packages. Each package provides the functionality needed for transparent, secure, and economically aligned decentralized social interactions.
 
 Sage’s key packages include:
 
-### **admin**
+### `admin`
 
 Manages administrative roles and permissions, handling governance operations, user moderation, role-based access control, and configuration management across the protocol. Acts as the secure entry point for critical administrative tasks.
 
 - _Code:_ Implemented clearly in admin.move, actions.move, and access.move.
 
-### **analytics**
+### `analytics`
 
 Tracks and stores onchain analytics data, explicitly recording user activity metrics like posts, interactions, and follows. This package provides essential data structures for determining user engagement and reward eligibility, supporting richer user experiences.
 
 - _Code:_ Implemented clearly in analytics.move and analytics_actions.move.
 
-### **channel**
+### `channel`
 
 Handles decentralized community spaces ("channels"), explicitly managing creation, memberships, moderation roles, analytics integration, and metadata (such as avatars and descriptions). Channels are created within specific apps but remain globally accessible, allowing seamless integration into other applications.
 
 - _Code:_ Defined clearly in channel.move, actions.move, and supporting files like channel_registry.move and fees.move.
 
-### **post**
+### `post`
 
 Manages blockchain-native content creation and user interactions, including posts, comments, likes, and associated metrics. Posts created in any app are globally visible and accessible throughout the Sage ecosystem, enabling content integration and remixing across apps.
 
 - _Code:_ Implemented explicitly in post.move, post_actions.move, and post_fees.move.
 
-### **reward**
+### `reward`
 
 Controls Sage’s reward logic according to the Proof of Social Contribution (PoSC) model. Defines global action weights, explicit reward calculation rules, and transparent reward distributions linked directly to validated user actions. This ensures clarity and consistency for developers implementing reward mechanisms.
 
 - _Code:_ Explicitly implemented in reward.move, reward_actions.move, and reward_registry.move.
 
-### **shared**
+### `shared`
 
 Provides common data types and utility functions used explicitly across multiple protocol packages. Contains reusable structures for favorites, likes, memberships, moderation roles, and common operational logic, streamlining development and ensuring consistent behavior throughout the ecosystem.
 
 - _Code:_ Clearly defined in favorites.move, likes.move, membership.move, moderation.move, and posts.move.
 
-### **trust**
+### `trust`
 
 Manages the lifecycle of Sage’s native \$TRUST token, explicitly handling minting, burning, and supply management. This foundational package directly supports the reward distribution logic defined by the PoSC reward model, ensuring token issuance aligns transparently with user contributions.
 
 - _Code:_ Minting logic explicitly confirmed in referenced files (reward.move, trust.move).
 
-### **user**
+### `user`
 
 Handles decentralized user identities, including private and shared user data, social connections, analytics, and user interactions. Developers use this package explicitly to build identity-aware applications, securely managing user-controlled data and facilitating onchain social interactions.
 
 - _Code:_ Defined explicitly in user_owned.move, user_shared.move, and related actions (actions.move, fees.move, invite.move).
 
-### **utils**
+### `utils`
 
 Provides foundational, general-purpose utilities explicitly shared among other packages. Centralizes common logic like string handling, type checks, and validations to ensure secure, efficient, and consistent operations throughout the protocol.
 
