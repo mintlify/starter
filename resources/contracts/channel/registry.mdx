@@ -1,0 +1,148 @@
+---
+title: "Registry"
+description: "@sage/channel > registry"
+---
+
+```rust
+use std::string;
+use sui::package;
+use sui::table;
+```
+
+# Structs
+
+### Struct `AppChannelRegistry`
+
+Registry that maps all `App`s to their respective `ChannelRegistry`.
+
+```rust
+public struct AppChannelRegistry has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    registry: sui::table::Table<address, address>
+  ```
+</Expandable>
+
+### Struct `ChannelRegistry`
+
+Registry that maps all `Channel`s for an `App`.
+
+```rust
+public struct ChannelRegistry has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    app: address,
+    registry: sui::table::Table<std::string::String, address>
+  ```
+</Expandable>
+
+# Constants
+
+The `App` and `ChannelRegistry` did not correspond with each other.
+
+```rust
+const EAppChannelRegistryMismatch: u64 = 370;
+```
+
+# Functions
+
+### Function `assert_app_channel_registry_match`
+
+Aborts with `EAppChannelRegistryMismatch` if the `App` and `ChannelRegistry` do not correspond with each other.
+
+```rust
+public fun assert_app_channel_registry_match(channel_registry: &ChannelRegistry, app_address: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_app_channel_registry_match(
+        channel_registry: &ChannelRegistry,
+        app_address: address
+    ) {
+        assert!(app_address == channel_registry.app, EAppChannelRegistryMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `borrow_channel_address`
+
+Gets address of the `Channel` struct with the specified key.
+
+```rust
+public fun borrow_channel_address(channel_registry: &ChannelRegistry, channel_key: String): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun borrow_channel_address(
+        channel_registry: &ChannelRegistry,
+        channel_key: String
+    ): address {
+        *channel_registry.registry.borrow(channel_key)
+    }
+  ```
+</Expandable>
+
+### Function `borrow_channel_registry_address`
+
+Gets address of `ChannelRegistry` struct with the specified `App` address.
+
+```rust
+public fun borrow_channel_registry_address(app_channel_registry: &AppChannelRegistry, app_address: address): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun borrow_channel_registry_address(
+        app_channel_registry: &AppChannelRegistry,
+        app_address: address
+    ): address {
+        *app_channel_registry.registry.borrow(app_address)
+    }
+  ```
+</Expandable>
+
+### Function `has_record`
+
+Returns true or false based on whether the lowercase `Channel` name currently exists in the registry.
+
+```rust
+public fun has_record(channel_registry: &ChannelRegistry, channel_key: String): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_record(
+        channel_registry: &ChannelRegistry,
+        channel_key: String
+    ): bool {
+        channel_registry.registry.contains(channel_key)
+    }
+  ```
+</Expandable>
+
+### Function `has_channel_registry`
+
+Returns true or false based on whether the `App` has a `ChannelRegistry`.
+
+```rust
+public fun has_channel_registry(app_channel_registry: &AppChannelRegistry, app_address: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_channel_registry(
+        app_channel_registry: &AppChannelRegistry,
+        app_address: address
+    ): bool {
+        app_channel_registry.registry.contains(app_address)
+    }
+  ```
+</Expandable>

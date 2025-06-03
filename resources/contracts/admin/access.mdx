@@ -1,0 +1,387 @@
+---
+title: "Access"
+description: "@sage/admin > access"
+---
+
+```rust
+use std::type_name;
+use sage_admin::admin;
+```
+
+# Structs
+
+### Struct `ChannelConfig`
+
+Holds the `Channel` type for runtime type checks.
+
+```rust
+public struct ChannelConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: sui::object::UID,
+  type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+### Struct `ChannelWitnessConfig`
+
+Holds the `ChannelWitness` type for runtime type checks.
+
+```rust
+public struct ChannelWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: sui::object::UID,
+  type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+### Struct `GroupWitnessConfig`
+
+Holds the `GroupWitness` type for runtime type checks.
+
+```rust
+public struct GroupWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: sui::object::UID,
+  type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+### Struct `UserOwnedConfig`
+
+Holds the `UserOwned` type for runtime type checks.
+
+```rust
+public struct UserOwnedConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: sui::object::UID,
+  type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+### Struct `UserSharedConfig`
+
+Holds the `UserShared` type for runtime type checks.
+
+```rust
+public struct UserSharedConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: sui::object::UID,
+  type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+### Struct `UserWitnessConfig`
+
+Holds the `UserWitness` type for runtime type checks.
+
+```rust
+public struct UserWitnessConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+  id: sui::object::UID,
+  type_name: std::type_name::TypeName
+  ```
+</Expandable>
+
+# Constants
+
+Runtime type checking failed for the struct type.
+
+```rust
+const ETypeMismatch: u64 = 370;
+```
+
+Runtime type checking failed for the witness.
+
+```rust
+const EWitnessMismatch: u64 = 371;
+```
+
+# Functions
+
+### Function `assert_channel`
+
+Aborts with `ETypeMismatch` if the `channel` is not of the configured `ChannelType`.
+
+```rust
+public fun assert_channel<ChannelType: key>(channel_config: &ChannelConfig, channel: &ChannelType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_channel<ChannelType: key> (
+        channel_config: &ChannelConfig,
+        channel: &ChannelType
+    ) {
+        let is_auth = verify_channel<ChannelType>(
+            channel_config,
+            channel
+        );
+    
+        assert!(is_auth, ETypeMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_channel_witness`
+
+Aborts with `EWitnessMismatch` if the `channel_witness` is not of the configured `ChannelWitnessType`.
+
+```rust
+public fun assert_channel_witness<ChannelWitnessType: drop>(channel_witness_config: &ChannelWitnessConfig, channel_witness: &ChannelWitnessType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_channel_witness<ChannelWitnessType: drop> (
+      channel_witness_config: &ChannelWitnessConfig,
+      channel_witness: &ChannelWitnessType
+    ) {
+      let is_auth = verify_channel_witness<ChannelWitnessType>(
+          channel_witness_config,
+          channel_witness
+      );
+    
+      assert!(is_auth, EWitnessMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_group_witness`
+
+Aborts with `EWitnessMismatch` if the `group_witness` is not of the configured `GroupWitnessType`.
+
+```rust
+public fun assert_group_witness<GroupWitnessType: drop>(group_witness_config: &GroupWitnessConfig, group_witness: &GroupWitnessType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_group_witness<GroupWitnessType: drop> (
+      group_witness_config: &GroupWitnessConfig,
+      group_witness: &GroupWitnessType
+    ) {
+      let is_auth = verify_group_witness<GroupWitnessType>(
+          group_witness_config,
+          group_witness
+      );
+    
+      assert!(is_auth, EWitnessMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_owned_user`
+
+Aborts with `ETypeMismatch` if the `owned_user` is not of the configured `UserOwnedType`.
+
+```rust
+public fun assert_owned_user<UserOwnedType: key>(owned_user_config: &UserOwnedConfig, owned_user: &UserOwnedType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_owned_user<UserOwnedType: key> (
+        owned_user_config: &UserOwnedConfig,
+        owned_user: &UserOwnedType
+    ) {
+        let is_auth = verify_owned_user<UserOwnedType>(
+            owned_user_config,
+            owned_user
+        );
+    
+        assert!(is_auth, ETypeMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_shared_user`
+
+Aborts with `ETypeMismatch` if the `shared_user` is not of the configured `UserSharedType`.
+
+```rust
+public fun assert_shared_user<UserSharedType: key>(shared_user_config: &UserSharedConfig, shared_user: &UserSharedType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_shared_user<UserSharedType: key> (
+        shared_user_config: &UserSharedConfig,
+        shared_user: &UserSharedType
+    ) {
+        let is_auth = verify_shared_user<UserSharedType>(
+            shared_user_config,
+            shared_user
+        );
+    
+        assert!(is_auth, ETypeMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `assert_user_witness`
+
+Aborts with with `EWitnessMismatch` if the `user_witness` is not of the configured `UserWitnessType`.
+
+```rust
+public fun assert_user_witness<UserWitnessType: drop>(user_witness_config: &UserWitnessConfig, user_witness: &UserWitnessType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_user_witness<UserWitnessType: drop> (
+      user_witness_config: &UserWitnessConfig,
+      user_witness: &UserWitnessType
+    ) {
+      let is_auth = verify_user_witness<UserWitnessType>(
+          user_witness_config,
+          user_witness
+      );
+    
+      assert!(is_auth, EWitnessMismatch);
+    }
+  ```
+</Expandable>
+
+### Function `verify_channel`
+
+Returns true if the `channel` is the configured `ChannelType`, and false otherwise.
+
+```rust
+public fun verify_channel<ChannelType: key>(channel_config: &ChannelConfig, _: &ChannelType): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun verify_channel<ChannelType: key> (
+        channel_config: &ChannelConfig,
+        _: &ChannelType
+    ): bool {
+        let type_name = type_name::get<ChannelType>();
+
+        type_name == channel_config.type_name
+    }
+  ```
+</Expandable>
+
+### Function `verify_channel_witness`
+
+Returns true if the `channel_witness` is the configured `ChannelWitnessType`, and false otherwise.
+
+```rust
+public fun verify_channel_witness<ChannelWitnessType: drop>(channel_witness_config: &ChannelWitnessConfig, _: &ChannelWitnessType): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun verify_channel_witness<ChannelWitnessType: drop> (
+        channel_witness_config: &ChannelWitnessConfig,
+        _: &ChannelWitnessType
+    ): bool {
+        let type_name = type_name::get<ChannelWitnessType>();
+
+        type_name == channel_witness_config.type_name
+    }
+  ```
+</Expandable>
+
+### Function `verify_group_witness`
+
+Returns true if the `group_witness` is the configured `GroupWitnessType`, and false otherwise.
+
+```rust
+public fun verify_group_witness<GroupWitnessType: drop>(group_witness_config: &GroupWitnessConfig, _: &GroupWitnessType): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun verify_group_witness<GroupWitnessType: drop> (
+        group_witness_config: &GroupWitnessConfig,
+        _: &GroupWitnessType
+    ): bool {
+        let type_name = type_name::get<GroupWitnessType>();
+
+        type_name == group_witness_config.type_name
+    }
+  ```
+</Expandable>
+
+### Function `verify_owned_user`
+
+Returns true if the `owned_user` is the configured `UserOwnedType`, and false otherwise.
+
+```rust
+public fun verify_owned_user<UserOwnedType: key>(owned_user_config: &UserOwnedConfig, _: &UserOwnedType): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun verify_owned_user<UserOwnedType: key> (
+        owned_user_config: &UserOwnedConfig,
+        _: &UserOwnedType
+    ): bool {
+        let type_name = type_name::get<UserOwnedType>();
+
+        type_name == owned_user_config.type_name
+    }
+  ```
+</Expandable>
+
+### Function `verify_shared_user`
+
+Returns true if the `shared_user` is the configured `UserSharedType`, and false otherwise.
+
+```rust
+public fun verify_shared_user<UserSharedType: key>(shared_user_config: &UserSharedConfig, _: &UserSharedType): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun verify_shared_user<UserSharedType: key> (
+        shared_user_config: &UserSharedConfig,
+        _: &UserSharedType
+    ): bool {
+        let type_name = type_name::get<UserSharedType>();
+
+        type_name == shared_user_config.type_name
+    }
+  ```
+</Expandable>
+
+### Function `verify_user_witness`
+
+Returns true if the `user_witness` is the configured `UserWitnessType`, and false otherwise.
+
+```rust
+public fun verify_user_witness<UserWitnessType: drop>(user_witness_config: &UserWitnessConfig, _: &UserWitnessType): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun verify_user_witness<UserWitnessType: drop> (
+        user_witness_config: &UserWitnessConfig,
+        _: &UserWitnessType
+    ): bool {
+        let type_name = type_name::get<UserWitnessType>();
+
+        type_name == user_witness_config.type_name
+    }
+  ```
+</Expandable>

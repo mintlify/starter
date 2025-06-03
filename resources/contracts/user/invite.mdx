@@ -1,0 +1,279 @@
+---
+title: "Invite"
+description: "@sage/user > invite"
+---
+
+```rust
+use std::hash;
+use std::string;
+use sui::event;
+use sui::package;
+use sui::table;
+use sage_admin::admin;
+```
+
+# Structs
+
+### Struct `Invite`
+
+An invitation to join the protocol.
+
+```rust
+public struct Invite has copy, drop, store
+```
+
+<Expandable title="Fields">
+  ```rust
+    hash: vector<u8>,
+    user: address
+  ```
+</Expandable>
+
+### Struct `InviteConfig`
+
+Manages whether invites are required.
+
+```rust
+public struct InviteConfig has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    required: bool
+  ```
+</Expandable>
+
+### Struct `UserInviteRegistry`
+
+Collection of all outstanding invitations.
+
+```rust
+public struct UserInviteRegistry has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    registry: sui::table::Table<std::string::String, Invite>
+  ```
+</Expandable>
+
+# Events
+
+### Event `InviteDeleted`
+
+Fires when an `Invite` is deleted.
+
+```rust
+public struct InviteDeleted has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    invite_key: std::string::String
+  ```
+</Expandable>
+
+# Constants
+
+Error code thrown when an `Invite` does not exist.
+
+```rust
+const EInviteDoesNotExist: u64 = 370;
+```
+
+Error code thrown when an `Invite` is not valid.
+
+```rust
+const EInviteInvalid: u64 = 371;
+```
+
+Error code thrown when `Invite`s are not required.
+
+```rust
+const EInviteNotAllowed: u64 = 372;
+```
+
+# Functions
+
+### Function `assert_invite_exists`
+
+Aborts with `EInviteDoesNotExist` if the registry does not contain the invite key.
+
+```rust
+public fun assert_invite_exists(user_invite_registry: &UserInviteRegistry, invite_key: String)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_invite_exists(
+      user_invite_registry: &UserInviteRegistry,
+      invite_key: String
+    ) {
+      let has_record = has_record(
+        user_invite_registry,
+        invite_key
+      );
+
+      assert!(has_record, EInviteDoesNotExist);
+    }
+  ```
+</Expandable>
+
+### Function `assert_invite_not_required`
+
+Aborts with `EInviteNotAllowed` if invites are required.
+
+```rust
+public fun assert_invite_not_required(invite_config: &InviteConfig)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_invite_not_required(
+      invite_config: &InviteConfig
+    ) {
+      let is_invite_required = is_invite_required(
+        invite_config
+      );
+
+      assert!(!is_invite_required, EInviteNotAllowed);
+    }
+  ```
+</Expandable>
+
+### Function `assert_invite_is_valid`
+
+Aborts with `EInviteInvalid` if the `Invite` is not valid.
+
+```rust
+public fun assert_invite_is_valid(invite_code: String, invite_key: String, invite_hash: vector<u8>)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_invite_is_valid(
+      invite_code: String,
+      invite_key: String,
+      invite_hash: vector<u8>
+    ) {
+      let is_invite_valid = is_invite_valid(
+        invite_code,
+        invite_key,
+        invite_hash
+      );
+
+      assert!(is_invite_valid, EInviteInvalid);
+    }
+  ```
+</Expandable>
+
+### Function `get_destructured_invite`
+
+Returns the stored hash and user wallet info.
+
+```rust
+public fun get_destructured_invite(user_invite_registry: &UserInviteRegistry, invite_key: String): (vector<u8>, address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_destructured_invite(
+      user_invite_registry: &UserInviteRegistry,
+      invite_key: String
+    ): (vector<u8>, address) {
+      let invite = *user_invite_registry.registry.borrow(invite_key);
+
+      let Invite {
+        hash,
+        user
+      } = invite;
+
+      (hash, user)
+    }
+  ```
+</Expandable>
+
+### Function `has_record`
+
+Returns true or false based on whether the invite exists in the registry.
+
+```rust
+public fun has_record(user_invite_registry: &UserInviteRegistry, invite_key: String): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun has_record(
+      user_invite_registry: &UserInviteRegistry,
+      invite_key: String
+    ): bool {
+      user_invite_registry.registry.contains(invite_key)
+    }
+  ```
+</Expandable>
+
+### Function `is_invite_required`
+
+Returns true or false based on whether invites are required.
+
+```rust
+public fun is_invite_required(invite_config: &InviteConfig): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_invite_required(
+      invite_config: &InviteConfig
+    ): bool {
+      invite_config.required
+    }
+  ```
+</Expandable>
+
+### Function `is_invite_valid`
+
+Returns true or false depending on whether the `Invite` is valid.
+
+```rust
+public fun is_invite_valid(invite_code: String, invite_key: String, invite_hash: vector<u8>): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_invite_valid(
+      invite_code: String,
+      invite_key: String,
+      invite_hash: vector<u8>
+    ): bool {
+      let mut combined = utf8(b"");
+
+      combined.append(invite_code);
+      combined.append(invite_key);
+
+      let bytes = into_bytes(combined);
+
+      let computed_hash_bytes = sha3_256(bytes);
+
+      let computed_length = computed_hash_bytes.length();
+      let provided_length = invite_hash.length();
+
+      if (computed_length != provided_length) {
+        return false
+      };
+
+      let mut index = 0;
+
+      while (index < computed_length) {
+        if (computed_hash_bytes[index] != invite_hash[index]) {
+          return false
+        };
+
+        index = index + 1;
+      };
+
+      true
+    }
+  ```
+</Expandable>

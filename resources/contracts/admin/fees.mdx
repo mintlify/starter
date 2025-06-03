@@ -1,0 +1,137 @@
+---
+title: "Fees"
+description: "@sage/admin > fees"
+---
+
+```rust
+use std::string;
+use std::type_name;
+use sui::coin;
+use sui::sui;
+use sage_admin::admin;
+use sage_admin::apps;
+```
+
+# Structs
+
+### Struct `Royalties`
+
+Holds the configuration for how royalties may be paid out when fees are collected within the protocol.
+
+```rust
+public struct Royalties has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    app: address,
+    custom_coin_type: std::type_name::TypeName,
+    partner_fee: u64,
+    partner_treasury: address,
+    protocol_fee: u64,
+    protocol_treasury: address
+  ```
+</Expandable>
+
+# Constants
+
+Upper limit of what percentage can be collected by partner and protocol treasuries from a royalty payment, equivalent to 98%.
+
+```rust
+const FEE_LIMIT: u64 = 9800;
+```
+
+Scale used to determine the percentage for the `FEE_LIMIT`.
+
+```rust
+const SCALE: u64 = 10000;
+```
+
+Error encountered when attempting to set fee ranges within royalty payments that are out of bounds.
+
+```rust
+const EInvalidFeeValue: u64 = 370;
+```
+
+# Functions
+
+### Function `collect_payment`
+
+Transfers collected payments to the protocol treasury.
+
+```rust
+public fun collect_payment<CoinType>(custom_coin: Coin<CoinType>, sui_coin: Coin<SUI>)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun collect_payment<CoinType> (
+        custom_coin: Coin<CoinType>,
+        sui_coin: Coin<SUI>
+    ) {
+        transfer::public_transfer(
+            custom_coin,
+            @treasury
+        );
+
+        transfer::public_transfer(
+            sui_coin,
+            @treasury
+        );
+    }
+  ```
+</Expandable>
+
+### Function `distribute_payment`
+
+Transfers collected payments to the protocol treasury.
+
+```rust
+public fun distribute_payment<CoinType>(royalties: &Royalties, custom_payment: Coin<CoinType>, sui_payment: Coin<SUI>, recipient: address, ctx: &mut TxContext)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun distribute_payment<CoinType> (
+        royalties: &Royalties,
+        custom_payment: Coin<CoinType>,
+        sui_payment: Coin<SUI>,
+        recipient: address,
+        ctx: &mut TxContext
+    ) {
+        let custom_payment_value = custom_payment.value();
+
+        let custom_payment = if (
+            royalties.partner_fee > 0
+        ) {
+            distribute_royalty<CoinType>(
+                royalties.partner_fee,
+                custom_payment,
+                custom_payment_value,
+                royalties.partner_treasury,
+                ctx
+            )
+        } else {
+            custom_payment
+        };
+
+        let custom_payment = if (
+            royalties.protocol_fee > 0
+        ) {
+            distribute_royalty<CoinType>(
+                royalties.protocol_fee,
+                custom_payment,
+                custom_payment_value,
+                royalties.protocol_treasury,
+                ctx
+            )
+        } else {
+            custom_payment
+        };
+
+        transfer::public_transfer(custom_payment, recipient);
+        transfer::public_transfer(sui_payment, @treasury);
+    }
+  ```
+</Expandable>

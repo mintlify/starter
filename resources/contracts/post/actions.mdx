@@ -1,0 +1,66 @@
+---
+title: "Actions"
+description: "@sage/post > actions"
+---
+
+```rust
+use std::string;
+use std::clock;
+use std::coin;
+use std::event;
+use std::sui;
+use sage_admin::admin_access;
+use sage_admin::apps;
+use sage_admin::fees;
+use sage_post::post;
+use sage_post::post_fees;
+use sage_shared::likes;
+use sage_shared::posts;
+```
+
+# Events
+
+### Event `CommentCreated`
+
+Comment on a `Post`.
+
+```rust
+public struct CommentCreated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    app_id: address,
+    created_at: u64,
+    created_by: address,
+    data: std::string::String,
+    description: std::string::String,
+    parent_post_id: address,
+    post_id: address,
+    title: std::string::String
+  ```
+</Expandable>
+
+### Event `PostLiked`
+
+Like on a `Post`.
+
+```rust
+public struct PostLiked has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    post_id: address,
+    updated_at: u64,
+    user_id: address
+  ```
+</Expandable>
+
+# Constants
+
+Tried to comment from one `App` to a `Post` on another `App`.
+
+```rust
+const EAppMismatch: u64 = 370;
+```

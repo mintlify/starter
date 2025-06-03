@@ -1,0 +1,64 @@
+---
+title: "Actions"
+description: "@sage/admin > actions"
+---
+
+```rust
+use std::string;
+use sui::event;
+use sage_admin::admin;
+use sage_admin::admin_access;
+use sage_admin::apps;
+use sage_admin::fees;
+use sage_utils::string_helpers;
+```
+
+# Events
+
+### Event `AppCreated`
+
+Emitted when a new `App` is created.
+
+```rust
+public struct AppCreated has copy, drop
+```
+
+<Expandable title="Fields">
+  ```rust
+    app_id: address,
+    name: std::string::String
+  ```
+</Expandable>
+
+# Functions
+
+### Function `create_app`
+
+Creates a new `App` within the protocol. Aborts with `sage_admin::access:ETypeMismatch` if the `owned_user` is the incorrect type.
+
+```rust
+public fun create_app<ChannelType: key>(channel_config: &ChannelConfig, channel: &ChannelType)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create_app<OwnedUserType: key> (
+        app_registry: &mut AppRegistry,
+        app_name: String,
+        owned_user: &OwnedUserType,
+        owned_user_config: &UserOwnedConfig,
+        ctx: &mut TxContext
+    ): address {
+        admin_access::assert_owned_user<OwnedUserType>(
+            owned_user_config,
+            owned_user
+        );
+
+        create_app_internal(
+            app_registry,
+            app_name,
+            ctx
+        )
+    }
+  ```
+</Expandable>

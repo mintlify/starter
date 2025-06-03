@@ -1,0 +1,350 @@
+---
+title: "Membership"
+description: "@sage/shared > membership"
+---
+
+```rust
+use sui::table;
+```
+
+# Structs
+
+### Struct `Member`
+
+Data that represents a single member of a larger organization.
+
+```rust
+public struct Member has store
+```
+
+<Expandable title="Fields">
+  ```rust
+    count: u64,
+    created_at: u64,
+    is_following: bool,
+    member_type: u8,
+    updated_at: u64
+  ```
+</Expandable>
+
+### Struct `Membership`
+
+Table of individual members of an organization.
+
+```rust
+public struct Membership has store
+```
+
+<Expandable title="Fields">
+  ```rust
+    current_followers: u64,
+    membership: sui::table::Table<address, Member>
+  ```
+</Expandable>
+
+# Constants
+
+Represents a wallet address.
+
+```rust
+const WALLET: u8 = 0;
+```
+
+Represents an object address.
+
+```rust
+const OBJECT: u8 = 1;
+```
+
+Represents a member addition.
+
+```rust
+const MEMBER_ADD: u8 = 10;
+```
+
+Represents a member removal.
+
+```rust
+const MEMBER_REMOVE: u8 = 11;
+```
+
+Error code when an address is already a member of an organization.
+
+```rust
+const EIsMember: u64 = 370;
+```
+
+Error code when an address is not a member of an organization.
+
+```rust
+const EIsNotMember: u64 = 371;
+```
+
+# Functions
+
+### Function `assert_is_member`
+
+Aborts with `EIsNotMember` if the address is not a member.
+
+```rust
+public fun assert_is_member(membership: &Membership, member_address: address)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun assert_is_member(
+        membership: &Membership,
+        member_address: address
+    ) {
+        let is_member = is_member(
+            membership,
+            member_address
+        );
+
+        assert!(is_member, EIsNotMember);
+    }
+  ```
+</Expandable>
+
+### Function `create`
+
+Creates a new `Membership` instance.
+
+```rust
+public fun create(ctx: &mut TxContext): Membership
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun create(
+        ctx: &mut TxContext
+    ): Membership {
+        let membership = Membership {
+            current_followers: 0,
+            membership: table::new(ctx)
+        };
+
+        membership
+    }
+  ```
+</Expandable>
+
+### Function `get_count`
+
+Get number of times the `Member` has joined the `Membership`.
+
+```rust
+public fun get_count(membership: &Membership, member_address: address): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_count(
+        membership: &Membership,
+        member_address: address
+    ): u64 {
+        membership.membership[member_address].count
+    }
+  ```
+</Expandable>
+
+### Function `get_created_at`
+
+Get timestamp of when the `Member` first joined.
+
+```rust
+public fun get_created_at(membership: &Membership, member_address: address): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_created_at(
+        membership: &Membership,
+        member_address: address
+    ): u64 {
+        membership.membership[member_address].created_at
+    }
+  ```
+</Expandable>
+
+### Function `get_member_length`
+
+Get the number of current `Member`s.
+
+```rust
+public fun get_member_length(membership: &Membership): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_member_length(
+        membership: &Membership
+    ): u64 {
+        membership.current_followers
+    }
+  ```
+</Expandable>
+
+### Function `get_type`
+
+Get whether the `Member` is an object or a wallet.
+
+```rust
+public fun get_type(membership: &Membership, member_address: address): u8
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_type(
+        membership: &Membership,
+        member_address: address
+    ): u8 {
+        membership.membership[member_address].member_type
+    }
+  ```
+</Expandable>
+
+### Function `get_updated_at`
+
+Get timestamp of when the `Membership` was most recently updated. 
+
+```rust
+public fun get_updated_at(membership: &Membership, member_address: address): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_updated_at(
+        membership: &Membership,
+        member_address: address
+    ): u64 {
+        membership.membership[member_address].updated_at
+    }
+  ```
+</Expandable>
+
+### Function `is_member`
+
+Returns true or false depending on whether the address is a `Member`.
+
+```rust
+public fun is_member(membership: &Membership, member_address: address): bool
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun is_member(
+        membership: &Membership,
+        member_address: address
+    ): bool {
+        membership.membership.contains(member_address) &&
+        membership.membership[member_address].is_following
+    }
+  ```
+</Expandable>
+
+### Function `object_join`
+
+Join a `Membership` as an object.
+
+```rust
+public fun object_join(membership: &mut Membership, obj_address: address, timestamp: u64): (u8, u8, u64)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun object_join(
+        membership: &mut Membership,
+        obj_address: address,
+        timestamp: u64
+    ): (u8, u8, u64) {
+        let count = join(
+            membership,
+            obj_address,
+            OBJECT,
+            timestamp
+        );
+
+        (MEMBER_ADD, OBJECT, count)
+    }
+  ```
+</Expandable>
+
+### Function `object_leave`
+
+Leave a `Membership` as an object.
+
+```rust
+public fun object_leave(membership: &mut Membership, obj_address: address, timestamp: u64): (u8, u8, u64)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun object_leave(
+        membership: &mut Membership,
+        obj_address: address,
+        timestamp: u64
+    ): (u8, u8, u64) {
+        let count = leave(
+            membership,
+            obj_address,
+            timestamp
+        );
+
+        (MEMBER_REMOVE, OBJECT, count)
+    }
+  ```
+</Expandable>
+
+### Function `wallet_join`
+
+Join a `Membership` as a wallet.
+
+```rust
+public fun wallet_join(membership: &mut Membership, user_address: address, timestamp: u64 ): (u8, u8, u64)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun wallet_join(
+        membership: &mut Membership,
+        user_address: address,
+        timestamp: u64
+    ): (u8, u8, u64) {
+        let count = join(
+            membership,
+            user_address,
+            WALLET,
+            timestamp
+        );
+
+        (MEMBER_ADD, WALLET, count)
+    }
+  ```
+</Expandable>
+
+### Function `wallet_leave`
+
+Leave a `Membership` as a wallet.
+
+```rust
+public fun wallet_leave(membership: &mut Membership, user_address: address, timestamp: u64 ): (u8, u8, u64)
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun wallet_leave(
+        membership: &mut Membership,
+        user_address: address,
+        timestamp: u64
+    ): (u8, u8, u64) {
+        let count = leave(
+            membership,
+            user_address,
+            timestamp
+        );
+
+        (MEMBER_REMOVE, WALLET, count)
+    }
+  ```
+</Expandable>

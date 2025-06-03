@@ -1,0 +1,184 @@
+---
+title: "Post"
+description: "@sage/post > post"
+---
+
+```rust
+use std::string;
+use sage_shared::likes;
+use sage_shared::posts;
+```
+
+# Structs
+
+### Struct `Post`
+
+The primary data type for holding content with an `Channel` or `User`.
+
+```rust
+public struct Post has key
+```
+
+<Expandable title="Fields">
+  ```rust
+    id: sui::object::UID,
+    app: address,
+    created_at: u64,
+    created_by: address,
+    data: std::string::String,
+    depth: u64,
+    description: std::string::String,
+    likes: Likes,
+    posts: Posts,
+    is_deleted: bool,
+    is_edited: bool,
+    title: std::string::String,
+    updated_at: u64
+  ```
+</Expandable>
+
+# Functions
+
+### Function `get_address`
+
+Gets address of `Post`.
+
+```rust
+public fun get_address(post: &Post): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_address(
+        post: &Post
+    ): address {
+        post.id.to_address()
+    }
+  ```
+</Expandable>
+
+### Function `get_app`
+
+Gets address of the `App` to which the `Post` was created.
+
+```rust
+public fun get_app(post: &Post): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_app(
+        post: &Post
+    ): address {
+        post.app
+    }
+  ```
+</Expandable>
+
+### Function `get_author`
+
+Get wallet address of the author of the `Post`.
+
+```rust
+public fun get_author(post: &Post): address
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_author(
+        post: &Post
+    ): address {
+        post.created_by
+    }
+  ```
+</Expandable>
+
+### Function `get_comments_count`
+
+Get number of comments underneath the `Post`.
+
+```rust
+public fun get_comments_count(post: &Post): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_comments_count(
+        post: &Post
+    ): u64 {
+        post.posts.get_length()
+    }
+  ```
+</Expandable>
+
+### Function `get_created_at`
+
+Get timestamp of when the `Post` was created.
+
+```rust
+public fun get_created_at(post: &Post): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_created_at(
+        post: &Post
+    ): u64 {
+        post.created_at
+    }
+  ```
+</Expandable>
+
+### Function `get_depth`
+
+Get the depth of the `Post`.
+
+```rust
+public fun get_depth(post: &Post): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_depth(
+        post: &Post
+    ): u64 {
+        post.depth
+    }
+  ```
+</Expandable>
+
+### Function `get_likes_count`
+
+Get the number of likes on the `Post`.
+
+```rust
+public fun get_likes_count(post: &Post): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_likes_count(
+        post: &Post
+    ): u64 {
+        post.likes.get_length()
+    }
+  ```
+</Expandable>
+
+### Function `get_updated_at`
+
+Get the timestamp of when the `Post` was last updated.
+
+```rust
+public fun get_updated_at(post: &Post): u64
+```
+
+<Expandable title="Implementation">
+  ```rust
+    public fun get_updated_at(
+        post: &Post
+    ): u64 {
+        post.updated_at
+    }
+  ```
+</Expandable>
