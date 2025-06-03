@@ -1,0 +1,93 @@
+---
+title: Model Context Protocol (MCP)
+description: "Protocolo de contexto para modelos de linguagem da Prefeitura do Rio de Janeiro"
+---
+
+# Model Context Protocol (MCP)
+
+O Model Context Protocol (MCP) é um protocolo aberto que padroniza como as aplicações da Prefeitura do Rio fornecem contexto para modelos de linguagem (LLMs). Desenvolvido e mantido pela IplanRio, o MCP funciona como uma porta USB-C para aplicações de IA, fornecendo uma maneira padronizada de conectar modelos de IA a diferentes fontes de dados e ferramentas.
+
+## Por que MCP?
+
+O MCP ajuda a construir agentes e fluxos de trabalho complexos sobre LLMs, fornecendo:
+
+- Integrações pré-construídas que seu LLM pode usar diretamente
+- Flexibilidade para alternar entre provedores e fornecedores de LLM
+- Melhores práticas para proteger seus dados dentro da infraestrutura municipal
+
+## Arquitetura
+
+<CardGroup cols={2}>
+  <Card
+    title="Hosts MCP"
+    icon="server"
+    href="/mcp/hosts"
+  >
+    Aplicações que desejam acessar dados através do MCP.
+  </Card>
+  <Card
+    title="Clientes MCP"
+    icon="plug"
+    href="/mcp/clientes"
+  >
+    Clientes do protocolo que mantêm conexões com servidores.
+  </Card>
+  <Card
+    title="Servidores MCP"
+    icon="network-wired"
+    href="/mcp/servidores"
+  >
+    Programas leves que expõem capacidades específicas através do MCP.
+  </Card>
+  <Card
+    title="Fontes de Dados"
+    icon="database"
+    href="/mcp/fontes"
+  >
+    Arquivos, bancos de dados e serviços acessíveis via MCP.
+  </Card>
+</CardGroup>
+
+## Recursos
+
+<CardGroup cols={2}>
+  <Card
+    title="Recursos"
+    icon="box"
+    href="/mcp/recursos"
+  >
+    Expor dados e conteúdo dos servidores para LLMs.
+  </Card>
+  <Card
+    title="Prompts"
+    icon="message"
+    href="/mcp/prompts"
+  >
+    Criar templates e fluxos de trabalho reutilizáveis.
+  </Card>
+  <Card
+    title="Ferramentas"
+    icon="tools"
+    href="/mcp/ferramentas"
+  >
+    Permitir que LLMs realizem ações através do servidor.
+  </Card>
+  <Card
+    title="Sampling"
+    icon="chart-line"
+    href="/mcp/sampling"
+  >
+    Permitir que servidores solicitem completions de LLMs.
+  </Card>
+</CardGroup>
+
+## TODO
+
+- [ ] Documentar arquitetura do MCP na Prefeitura
+- [ ] Adicionar diagramas de fluxo de contexto
+- [ ] Criar guia de configuração de servidores MCP
+- [ ] Documentar padrões de prompts municipais
+- [ ] Adicionar exemplos de integração com LLMs
+- [ ] Criar documentação de monitoramento
+- [ ] Documentar políticas de segurança
+- [ ] Adicionar guia de troubleshooting 

@@ -1,81 +1,171 @@
 ---
 title: Introdução
-description: "Bem-vindo à documentação do Data Lake da IplanRio"
+description: "Bem-vindo à documentação de integração da Prefeitura do Rio de Janeiro"
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/iplan_assinatura_azul.png"
-  alt="Iplan Assinatura"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/iplan_assinatura_branca.png"
-  alt="Iplan Assinatura"
-/>
+# Documentação de Integração da Prefeitura do Rio
+
+Esta documentação descreve a infraestrutura de integração desenvolvida pela IplanRio para a Prefeitura do Rio de Janeiro, conectando os diversos sistemas e secretarias municipais.
 
 ## Visão Geral
 
-O **Data Lake da IplanRio** é uma iniciativa para centralizar, tratar e disponibilizar dados estratégicos das secretarias da Prefeitura do Rio de Janeiro. Ele promove uma infraestrutura moderna, escalável e transparente para análise de dados públicos e internos.
+A **Infraestrutura de Integração da Prefeitura do Rio** é um ecossistema completo que conecta, processa e disponibiliza dados e serviços entre as diferentes secretarias municipais. Nossa plataforma oferece uma arquitetura moderna, segura e escalável para integração de sistemas, processamento de dados e disponibilização de APIs.
 
-Este espaço de documentação tem como objetivo orientar desenvolvedores, analistas e gestores sobre como utilizar, contribuir e evoluir com a plataforma de dados.
+Esta documentação serve como guia central para desenvolvedores, arquitetos e gestores que trabalham com a infraestrutura de integração da Prefeitura.
 
 ---
 
-## Primeiros Passos
+## Nossa Infraestrutura
 
-Antes de explorar os dados ou desenvolver pipelines, é importante configurar seu ambiente de trabalho e conhecer os conceitos fundamentais.
+Nossa plataforma de integração é composta por quatro pilares principais:
 
 <CardGroup cols={2}>
   <Card
-    title="Visão Geral da Infraestrutura"
-    icon="server"
-    href="/infra"
+    title="Data Lake"
+    icon="database"
+    href="/data-lake"
   >
-    Entenda como os componentes do Data Lake se integram, desde a orquestração até a análise de dados.
+    Centralização, tratamento e disponibilização de dados estratégicos das secretarias municipais.
   </Card>
   <Card
-    title="Pipelines Públicos"
-    icon="code-branch"
-    href="https://github.com/prefeitura-rio/pipelines_rj_sms"
+    title="Barramento de APIs"
+    icon="plug"
+    href="/barramento"
   >
-    Repositório com os pipelines públicos utilizados nas rotinas de ETL/ELT.
+    Plataforma unificada para exposição e consumo de APIs entre sistemas municipais.
+  </Card>
+  <Card
+    title="MCP (Message Control Platform)"
+    icon="message"
+    href="/mcp"
+  >
+    Sistema de mensageria para comunicação assíncrona entre serviços municipais.
+  </Card>
+  <Card
+    title="Autenticação e Segurança"
+    icon="shield"
+    href="/auth"
+  >
+    Infraestrutura de autenticação e autorização para todos os serviços municipais.
   </Card>
 </CardGroup>
 
 ---
 
-## Personalize e Contribua
+## Primeiros Passos
 
-Além de consumir dados, você também pode contribuir com novos pipelines, evoluir modelos de dados ou explorar novas visualizações.
+Comece sua jornada com nossa infraestrutura seguindo estes guias essenciais:
 
 <CardGroup cols={2}>
   <Card
+    title="Arquitetura da Integração"
+    icon="server"
+    href="/arquitetura"
+  >
+    Entenda como os diferentes componentes se integram e funcionam juntos.
+  </Card>
+  <Card
+    title="Guia de Desenvolvimento"
+    icon="code"
+    href="/desenvolvimento"
+  >
+    Configure seu ambiente e aprenda as melhores práticas de desenvolvimento.
+  </Card>
+  <Card
+    title="Segurança e Autenticação"
+    icon="key"
+    href="/seguranca"
+  >
+    Aprenda sobre nossos protocolos de segurança e como autenticar suas aplicações.
+  </Card>
+  <Card
+    title="Padrões de Integração"
+    icon="book"
+    href="/padroes"
+  >
+    Conheça os padrões e convenções para integração com nossos serviços.
+  </Card>
+</CardGroup>
+
+---
+
+## Recursos e Ferramentas
+
+Explore nossas ferramentas e recursos disponíveis:
+
+<CardGroup cols={2}>
+  <Card
+    title="APIs Disponíveis"
+    icon="api"
+    href="/apis"
+  >
+    Documentação completa de todas as APIs disponíveis no barramento.
+  </Card>
+  <Card
+    title="Pipelines de Dados"
+    icon="code-branch"
+    href="/pipelines"
+  >
+    Acesse e contribua com os pipelines de ETL/ELT do Data Lake.
+  </Card>
+  <Card
     title="Modelos de Dados"
     icon="database"
-    href="https://github.com/prefeitura-rio/queries-rj-iplanrio"
+    href="/modelos"
   >
-    Acesse e contribua com os modelos de dados utilizados pela IplanRio para análises padronizadas.
+    Documentação dos modelos de dados e schemas utilizados.
   </Card>
   <Card
-    title="Visualizações e Dashboards"
+    title="Monitoramento"
     icon="chart-line"
-    href="/analises"
+    href="/monitoramento"
   >
-    Veja exemplos de visualizações construídas com ferramentas como Power BI e Looker.
+    Ferramentas e dashboards para monitoramento da infraestrutura.
+  </Card>
+</CardGroup>
+
+---
+
+## Contribuindo
+
+Faça parte da evolução da nossa infraestrutura:
+
+<CardGroup cols={2}>
+  <Card
+    title="Guia de Contribuição"
+    icon="code-pull-request"
+    href="/contribuindo"
+  >
+    Aprenda como contribuir com novos recursos e melhorias.
   </Card>
   <Card
-    title="Componentes do Data Lake"
-    icon="cubes"
-    href="/componentes"
+    title="Comunidade"
+    icon="users"
+    href="/comunidade"
   >
-    Conheça cada ferramenta usada na arquitetura: Prefect, DBT, BigQuery, entre outras.
+    Participe de nossa comunidade de desenvolvedores e compartilhe conhecimento.
+  </Card>
+</CardGroup>
+
+---
+
+## Suporte
+
+Precisa de ajuda? Estamos aqui para apoiar:
+
+<CardGroup cols={2}>
+  <Card
+    title="FAQ"
+    icon="question"
+    href="/faq"
+  >
+    Respostas para as perguntas mais frequentes.
   </Card>
   <Card
-    title="Capacitações"
-    icon="book-open"
-    href="/capacitação"
+    title="Contato"
+    icon="envelope"
+    href="/contato"
   >
-    Descubra como aprender mais sobre cada parte do ecossistema de dados.
+    Entre em contato com nossa equipe de suporte.
   </Card>
 </CardGroup>
