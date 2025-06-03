@@ -60,11 +60,81 @@
                   {
                     "group": "Admin",
                     "pages": [
-                      "resources/contracts/admin/1-access",
-                      "resources/contracts/admin/2-actions",
-                      "resources/contracts/admin/3-admin",
-                      "resources/contracts/admin/4-apps",
-                      "resources/contracts/admin/5-fees"
+                      "resources/contracts/admin/access",
+                      "resources/contracts/admin/actions",
+                      "resources/contracts/admin/admin",
+                      "resources/contracts/admin/apps",
+                      "resources/contracts/admin/fees"
+                    ]
+                  },
+                  {
+                    "group": "Analytics",
+                    "pages": [
+                      "resources/contracts/analytics/actions",
+                      "resources/contracts/analytics/analytics"
+                    ]
+                  },
+                  {
+                    "group": "Channel",
+                    "pages": [
+                      "resources/contracts/channel/actions",
+                      "resources/contracts/channel/channel",
+                      "resources/contracts/channel/fees",
+                      "resources/contracts/channel/registry",
+                      "resources/contracts/channel/witness"
+                    ]
+                  },
+                  {
+                    "group": "Post",
+                    "pages": [
+                      "resources/contracts/post/actions",
+                      "resources/contracts/post/fees",
+                      "resources/contracts/post/post"
+                    ]
+                  },
+                  {
+                    "group": "Reward",
+                    "pages": [
+                      "resources/contracts/reward/actions",
+                      "resources/contracts/reward/registry",
+                      "resources/contracts/reward/reward",
+                      "resources/contracts/reward/witness"
+                    ]
+                  },
+                  {
+                    "group": "Shared",
+                    "pages": [
+                      "resources/contracts/shared/blocklists",
+                      "resources/contracts/shared/favorites",
+                      "resources/contracts/shared/likes",
+                      "resources/contracts/shared/membership",
+                      "resources/contracts/shared/moderation",
+                      "resources/contracts/shared/posts"
+                    ]
+                  },
+                  {
+                    "group": "Trust",
+                    "pages": [
+                      "resources/contracts/trust/access",
+                      "resources/contracts/trust/trust"
+                    ]
+                  },
+                  {
+                    "group": "User",
+                    "pages": [
+                      "resources/contracts/user/actions",
+                      "resources/contracts/user/fees",
+                      "resources/contracts/user/invite",
+                      "resources/contracts/user/registry",
+                      "resources/contracts/user/user_owned",
+                      "resources/contracts/user/user_shared",
+                      "resources/contracts/user/witness"
+                    ]
+                  },
+                  {
+                    "group": "Utils",
+                    "pages": [
+                      "resources/contracts/utils/string"
                     ]
                   }
                 ]
