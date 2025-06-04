@@ -1,15 +1,15 @@
 ---
 title: "Access Control"
-description: "Description of your new file."
+description: " "
 ---
 
-Sage Protocol implements a secure, type-safe, witness-based access control system built using the Sui Move language. This system ensures sensitive operations within the protocol are restricted to explicitly authorized components, significantly enhancing security, flexibility, and composability.
+Sage Protocol implements a secure, type-safe, witness-based access control system built using Sui’s Move language. This ensures sensitive protocol operations are accessible only to explicitly authorized components, significantly enhancing security, flexibility, and composability.
 
 ### Configurable Witness Pattern
 
- At the heart of Sage’s access control lies the configurable witness pattern. Witnesses function as special authorization tokens required to perform protected actions. Each witness is associated with a configuration object that explicitly specifies which witness types are authorized.
+At the core of Sage’s access control is the **configurable witness pattern**. Witnesses serve as authorization tokens required to execute protected operations. Each witness is associated with a configuration object explicitly defining permitted witness types.
 
-For example, the following function ensures that only authorized witness types are permitted at runtime:
+For example, the following function enforces runtime validation, ensuring only explicitly authorized witness types are accepted:
 
 ```rust
 public fun verify_channel_witness<ChannelWitnessType: drop>(
@@ -21,30 +21,30 @@ public fun verify_channel_witness<ChannelWitnessType: drop>(
 }
 ```
 
-This explicit type-name check prevents unauthorized witness usage, significantly strengthening protocol security.
+This type-name check explicitly prevents unauthorized witness usage, significantly strengthening protocol security.
 
 ### **Architectural Levels of Access Control**
 
-Sage’s access control framework is structured into multiple clear layers:
+Sage’s access control framework is organized clearly across multiple layers:
 
-- **Witness Configurations (Cross-Package Validation):**
-  - `ChannelWitnessConfig`, `UserWitnessConfig`, `GroupWitnessConfig`: Define allowed witness types for user and channel interactions.
-  - `GovernanceWitnessConfig`, `RewardWitnessConfig`: Secure critical administrative actions involving governance and reward management. These configurations are explicitly designed to become immutable after initial deployment, ensuring transparency and decentralized control.
-- **Administrative Capabilities:**
-  - `AdminCap`, `FeeCap`, `RewardCap`, `InviteCap`, `MintCap`: Specialized permissions explicitly granting administrative privileges for sensitive protocol management tasks.
-- **Object-Level Permissions:**
-  - `UserOwnedConfig`, `UserSharedConfig`: Clearly enforce permissions at the object level, ensuring users can modify only data they own or explicitly share.
+- **Witness Configurations (Cross-Package Validation)**
+  - `ChannelWitnessConfig`, `UserWitnessConfig`, `GroupWitnessConfig`: Define authorized witness types for secure user interactions and channel operations.
+  - `GovernanceWitnessConfig`, `RewardWitnessConfig`: Protect critical administrative actions related to governance and reward management. These configurations become immutable after initial deployment to ensure transparent, decentralized control.
+- **Administrative Capabilities**
+  - `AdminCap`, `FeeCap`, `RewardCap`, `InviteCap`, `MintCap`: Specialized privileges explicitly granting secure administrative control over sensitive protocol management tasks.
+- **Object-Level Permissions**
+  - `UserOwnedConfig`, `UserSharedConfig`: Enforce data-level permissions, ensuring users modify only data they own or have explicitly shared.
 
 ### **Security Advantages**
 
-This witness-based model offers several important benefits:
+The witness-based access control model provides several critical security benefits:
 
 - **Runtime Type Safety:**\
-  Explicit type-name checks catch unauthorized access attempts immediately at runtime, reducing risk from misconfiguration or unauthorized actions.
+  Explicit runtime type-name checks catch unauthorized access attempts immediately, reducing risks from misconfiguration or unauthorized actions.
 - **Composable Security:**\
-  Sage can readily introduce new witness types and validation rules, integrating seamlessly into the existing security framework.
+  Sage can easily introduce new witness types and extend validation rules, seamlessly integrating enhancements into the existing security framework without disruption.
 - **Upgradeable and Flexible:**\
-  Administrative capabilities permit updating witness configurations securely at runtime, eliminating the need to redeploy smart contracts. For example, administrators can securely update governance witness configurations using existing admin permissions:
+  Administrative capabilities enable secure updates to witness configurations at runtime, eliminating the need to redeploy smart contracts. For example, administrators can safely update governance witness configurations using existing permissions:
 
 ```
 public fun update_governance_witness<TypeName>(
@@ -57,4 +57,4 @@ public fun update_governance_witness<TypeName>(
 }
 ```
 
-This ensures adaptability for future upgrades, reducing both overhead and risk associated with configuration updates.
+This flexibility ensures the protocol remains adaptable, significantly reducing overhead and risks associated with future configuration changes.

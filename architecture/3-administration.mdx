@@ -1,31 +1,31 @@
 ---
 title: "Administration"
-description: "WIP"
+description: " "
 ---
 
-Sage Protocol implements a secure and transparent administrative architecture to effectively manage critical operations within the protocol. It utilizes explicit administrative capabilities, structured witness configurations, and runtime checks to ensure security, controlled flexibility, and modular governance.
+Sage Protocol implements a secure, transparent administrative architecture designed to manage critical protocol operations effectively. The architecture leverages clearly defined administrative capabilities, structured witness configurations, and explicit runtime validations to ensure strong security, controlled flexibility, and modular governance.
 
-Although currently administered through clearly defined roles and permissions, Sage’s design explicitly embraces incremental decentralization. Distinct administrative capabilities have been strategically established, allowing the Sage team to gradually transfer control of specific protocol functions to community governance as decentralized mechanisms mature.
+Sage’s governance model explicitly embraces progressive decentralization. Currently managed through distinct roles and permissions, the protocol’s modular administrative design allows the Sage team to incrementally transition governance responsibilities to decentralized community control as governance mechanisms mature.
 
 ### **Administrative Capabilities**
 
-Sage governance relies on clearly defined administrative capabilities, each focused on a specific domain:
+Sage governance relies on clearly defined administrative capabilities, each controlling specific governance domains:
 
-- `AdminCap`: Manages core administrative privileges, including protocol-wide settings and updates.
-- `FeeCap`: Controls transaction fee configurations, securely managing and updating fee parameters.
-- `RewardCap`: Oversees reward configurations, ensuring precise management of reward distributions and parameters.
-- `InviteCap`: Manages user onboarding through secure invite creation and validation processes.
-- `MintCap`: Explicitly controls token minting capabilities, securely governing the issuance and supply management of tokens.
+- `AdminCap`\*\*: \*\*Manages core administrative privileges, protocol-wide configurations, and critical updates.
+- `FeeCap`\*\*: \*\*Manages transaction fee configurations, allowing precise adjustments of fee parameters.
+- `RewardCap`\*\*: \*\*Controls reward configurations, overseeing reward parameters and distribution mechanisms.
+- `InviteCap`\*\*: \*\*Handles secure user onboarding through controlled invite creation and validation processes.
+- `MintCap`\*\*: \*\*Governs token minting operations, securely managing token issuance and overall supply control.
 
-The deliberate separation of these administrative capabilities into modular components facilitates Sage’s progressive decentralization goals. As governance frameworks evolve, these capabilities will incrementally transition from centralized team management to fully decentralized community governance.
+Separating these administrative capabilities into modular, explicit roles facilitates Sage’s long-term decentralization strategy. As community governance matures, individual capabilities can progressively transition from centralized team control to decentralized community oversight.
 
 ### **Governance Witness Pattern**
 
-Central to Sage’s governance is a configurable witness-based authorization system. This approach employs specialized witness configurations to explicitly authorize governance actions at runtime, providing secure and verifiable governance interactions:
+Central to Sage’s governance model is a configurable witness-based authorization system. Specialized witness configurations explicitly authorize critical governance actions at runtime, ensuring secure and verifiable governance operations.
 
-- `GovernanceWitnessConfig`: Defines authorized witness types explicitly for critical governance actions, ensuring that only approved entities can execute sensitive governance operations.
+- `GovernanceWitnessConfig`\*\*: \*\*Specifies authorized witness types allowed to perform sensitive governance actions.
 
-For example, runtime validation occurs through clear witness checks:
+For example, runtime witness validation is performed explicitly as follows:
 
 ```
 public fun update_mint_config_for_governance<GovernanceWitness: drop>(
@@ -48,11 +48,13 @@ public fun update_mint_config_for_governance<GovernanceWitness: drop>(
 }
 ```
 
-This explicit runtime verification ensures secure and authorized governance, effectively preventing unauthorized actions through precise witness validation.
+This clear prevents unauthorized governance operations and ensures only clearly authorized entities execute critical updates.
 
 ### **Upgradeability and Flexibility**
 
-A key strength of Sage’s governance architecture is the ability to dynamically update configurations securely without redeploying core protocol contracts. Administrative capabilities allow authorized administrators to adjust governance configurations, permissions, and settings securely at runtime:
+A key advantage of Sage’s governance architecture is secure, dynamic configuration updates without requiring redeployment of core contracts. Administrative capabilities allow authorized entities to securely adjust governance parameters at runtime, significantly enhancing protocol flexibility and adaptability.
+
+For example, mint configurations can be securely updated at runtime by authorized administrators:
 
 ```
 public fun update_mint_config_admin(
@@ -69,17 +71,13 @@ public fun update_mint_config_admin(
 }
 ```
 
-This flexibility ensures the protocol can smoothly adapt to evolving ecosystem needs with minimal disruption.
+This flexibility ensures Sage Protocol can seamlessly adapt to evolving ecosystem needs while minimizing operational disruptions and risks.
 
 ### **Practical Architectural Benefits**
 
-Sage’s governance architecture delivers multiple tangible advantages:
+Sage’s governance model provides several tangible benefits:
 
-- **Modular Security:**\
-  Administrative capabilities and witness configurations clearly compartmentalize control points, significantly limiting security risks through modular separation of privileges.
-- **Transparent Decision-Making:**\
-  Explicit governance witness configurations transparently document current administrative actions, providing auditable, verifiable visibility into Sage’s decision-making processes. While witness configurations alone don’t guarantee decentralization, they clearly document actions for transparent community oversight. True decentralized governance will be fully realized with the upcoming implementation of dedicated governance modules.
-- **Runtime Security Enforcement:**\
-  Sage’s witness-based pattern explicitly enforces security checks at runtime, validating every governance action immediately and precisely preventing unauthorized actions through type mismatches.
-- **Adaptable Governance:**\
-  Administrative and governance configurations can be dynamically updated at runtime, allowing the protocol to quickly and securely respond to changing ecosystem requirements without complex redeployments.
+- \*\*Modular Security: \*\*Clearly separated administrative capabilities and witness configurations compartmentalize privilege management, reducing security risks through precise and modular access control.
+- \*\*Transparent Decision-Making: \*\*Explicit governance witness configurations transparently document all administrative actions, providing auditable visibility into governance processes. While witness configurations alone do not constitute full decentralization, they clearly facilitate community oversight and auditability, laying the groundwork for future decentralized governance mechanisms.
+- \*\*Runtime Security Enforcement: \*\*Sage’s explicit runtime validations through witness-based authorization prevent unauthorized actions and misconfigurations immediately, safeguarding governance integrity.
+- \*\*Adaptable Governance: \*\*Governance and administrative configurations are dynamically updatable at runtime, enabling rapid and secure responses to changes in community needs or market conditions without complex contract redeployments.
