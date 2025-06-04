@@ -3,55 +3,42 @@ title: "Content and Channels"
 description: " "
 ---
 
-Sage Protocol manages user-generated content and community interactions transparently and securely through decentralized, blockchain-native structures. The architecture incorporates explicit mechanisms for handling content, community moderation, transaction fees, and incentive alignment directly onchain.
+Sage Protocol manages user-generated content and community interactions using decentralized, blockchain-native structures. This design integrates content handling, moderation, economic incentives, and transaction fees directly into the blockchain architecture.
 
 ### **Content Management**
 
-Content within Sage Protocol is explicitly managed through verifiable blockchain structures:
+User-generated content in Sage is managed through verifiable blockchain structures:
 
-- **Posts:**\
-  Managed by the `Post` structure, clearly storing metadata (title, description), content data, author details, timestamps, interaction metrics (likes, comments), and edit/delete status.
-- **Engagement Interactions:**\
-  Explicit interactions such as likes and comments are tracked within dedicated onchain substructures (`Likes` and within `Posts`). These actions increment clear engagement metrics that form the basis for incremental rewards and analytics tracking.
-- **Fee Management:**\
-  The `PostFees` structure explicitly defines transaction fees required for creating or interacting with posts. These fees are configurable in native \$SUI tokens or custom denominations, clearly aligning economic incentives with user interactions.
+- **Posts: **Managed via the `Post` structure, each post explicitly stores metadata (title, description), content data, author details, timestamps, interaction metrics (likes, comments), and edit/delete status.
+- **Engagement Interactions: **Explicit actions such as likes and comments are transparently tracked within dedicated onchain substructures (`Likes` and `Posts`). These interactions increment engagement metrics used directly for reward calculations and analytics.
+- **Fee Management: **The `PostFees` structure explicitly defines configurable transaction fees required for creating or interacting with content. Fees can be denominated in native \$SUI tokens or custom token denominations, directly aligning economic incentives with authentic user activity.
 
 ### **Channels & Community Management**
 
-Channels in Sage Protocol provide decentralized community-building environments managed through clear onchain structures:
+Channels within Sage offer decentralized, structured environments for building and managing communities directly onchain:
 
-- **Channels:**\
-  Defined explicitly by the `Channel` structure, each channel transparently maintains metadata (avatar, banner, description), moderators, membership information, and interaction history. All channel activities, including moderation actions and membership updates, are clearly recorded onchain.
-- **Membership & Moderation:**\
-  Membership is explicitly managed by the `Membership` structure, which records precise join and leave timestamps along with membership statistics. Moderation roles and permissions are clearly maintained within the `Moderation` structure, providing secure and transparent moderation capabilities directly within blockchain data.
-- **Channel Fees:**\
-  Transaction fees associated with channel activities—such as creating channels, joining/leaving channels, posting, and moderation actions—are explicitly managed through the `ChannelFees` structure. These fees help sustain economically aligned community operations.
+- **Channels: **Defined by the `Channel` structure, each channel transparently manages metadata (avatar, banner, description), moderation roles, membership details, and interaction histories. All channel activities, including moderation updates and membership management, are recorded explicitly onchain.
+- **Membership & Moderation: **Membership states, join/leave timestamps, and user interactions are explicitly managed through the `Membership` structure. Moderation roles and permissions are clearly defined within the `Moderation` structure, providing secure and transparent onchain community governance.
+- **Channel Fees: **Transaction fees associated with channel creation, membership changes, posting, and moderation activities are managed explicitly via the `ChannelFees` structure. These fees help maintain economically sustainable community operations.
 
 ### **Cross-Application Interoperability**
 
-Interoperability is explicitly enabled through structured indexing mechanisms:
+Sage supports interoperability through structured indexing mechanisms:
 
-- **App and Channel Registries:**\
-  Structures like `AppChannelRegistry` and `ChannelRegistry` explicitly map channels to specific applications, facilitating seamless community portability across Sage-compatible apps.
-- **Content Indexing:**\
-  The `PostsKey` structure explicitly links groups of posts to specific applications, allowing consistent indexing and cross-application content reuse.
+- **App and Channel Registries: **Structures like `AppChannelRegistry` and `ChannelRegistry` explicitly map channels to their originating applications, facilitating easy portability and interoperability of communities across all Sage-compatible applications.
+- **Content Indexing: **The `PostsKey` structure explicitly links content to specific applications, enabling consistent indexing and cross-application content reuse.
 
 ### **Security via Witness Validation**
 
-Sensitive channel operations are secured explicitly through witness-based runtime validation:
+Sensitive operations within channels are secured explicitly using runtime witness-based validation:
 
-- **ChannelWitness:**\
-  Channel-related administrative actions (e.g., moderation updates) explicitly require validation via the `ChannelWitness` capability, preventing unauthorized modifications and ensuring secure and verifiable operations.
+- **ChannelWitness: **Channel-related administrative operations (such as moderation updates) explicitly require runtime validation via the `ChannelWitness` capability, ensuring secure, verifiable, and authorized modifications.
 
 ### **Architectural Advantages**
 
-Sage’s explicit decentralized design offers practical advantages:
+Sage’s explicit decentralized approach delivers significant practical benefits:
 
-- **Transparent Content & Engagement:**\
-  All content, interactions, and community activities are transparently auditable, fostering accountability and trust.
-- **Portable & Resilient Communities:**\
-  Decentralized channels resist censorship and allow communities to easily move between applications, supporting open and resilient social interactions.
-- **Economically Aligned Participation:**\
-  Explicit fee structures and integrated rewards ensure direct economic alignment with content creation and community participation, promoting sustainable ecosystem growth.
-- **Secure & Modular Governance:**\
-  Clear moderation roles and explicit witness-based validation provide secure, transparent, and adaptable management of community dynamics.
+- **Transparent Content & Engagement: **Every action—content creation, user interactions, moderation—is transparently recorded onchain, fostering accountability, trust, and verifiability.
+- **Portable & Resilient Communities: **Decentralized channel structures resist censorship and enable seamless portability across applications, supporting open and resilient social communities.
+- **Economically Aligned Participation: **Explicit transaction fee structures and clearly integrated rewards ensure incentives directly align with genuine community engagement and authentic content creation, promoting sustainable ecosystem growth.
+- **Secure & Modular Governance: **Clearly defined moderation roles and explicit witness-based access controls provide secure, transparent, and adaptable management of community dynamics, enhancing overall security and operational flexibility.
