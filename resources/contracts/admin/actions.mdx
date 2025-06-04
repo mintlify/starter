@@ -13,7 +13,7 @@ use sage_admin::fees;
 use sage_utils::string_helpers;
 ```
 
-# Events
+## Events
 
 ### Event `AppCreated`
 
@@ -30,7 +30,7 @@ public struct AppCreated has copy, drop
   ```
 </Expandable>
 
-# Functions
+## Functions
 
 ### Function `create_app`
 
@@ -53,7 +53,7 @@ public fun create_app<ChannelType: key>(channel_config: &ChannelConfig, channel:
             owned_user_config,
             owned_user
         );
-
+  
         create_app_internal(
             app_registry,
             app_name,

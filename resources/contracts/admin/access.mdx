@@ -8,7 +8,7 @@ use std::type_name;
 use sage_admin::admin;
 ```
 
-# Structs
+## Structs
 
 ### Struct `ChannelConfig`
 
@@ -100,7 +100,7 @@ public struct UserWitnessConfig has key
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Runtime type checking failed for the struct type.
 
@@ -114,7 +114,7 @@ Runtime type checking failed for the witness.
 const EWitnessMismatch: u64 = 371;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_channel`
 
@@ -275,7 +275,7 @@ public fun verify_channel<ChannelType: key>(channel_config: &ChannelConfig, _: &
         _: &ChannelType
     ): bool {
         let type_name = type_name::get<ChannelType>();
-
+  
         type_name == channel_config.type_name
     }
   ```
@@ -296,7 +296,7 @@ public fun verify_channel_witness<ChannelWitnessType: drop>(channel_witness_conf
         _: &ChannelWitnessType
     ): bool {
         let type_name = type_name::get<ChannelWitnessType>();
-
+  
         type_name == channel_witness_config.type_name
     }
   ```
@@ -317,7 +317,7 @@ public fun verify_group_witness<GroupWitnessType: drop>(group_witness_config: &G
         _: &GroupWitnessType
     ): bool {
         let type_name = type_name::get<GroupWitnessType>();
-
+  
         type_name == group_witness_config.type_name
     }
   ```
@@ -338,7 +338,7 @@ public fun verify_owned_user<UserOwnedType: key>(owned_user_config: &UserOwnedCo
         _: &UserOwnedType
     ): bool {
         let type_name = type_name::get<UserOwnedType>();
-
+  
         type_name == owned_user_config.type_name
     }
   ```
@@ -359,7 +359,7 @@ public fun verify_shared_user<UserSharedType: key>(shared_user_config: &UserShar
         _: &UserSharedType
     ): bool {
         let type_name = type_name::get<UserSharedType>();
-
+  
         type_name == shared_user_config.type_name
     }
   ```
@@ -380,7 +380,7 @@ public fun verify_user_witness<UserWitnessType: drop>(user_witness_config: &User
         _: &UserWitnessType
     ): bool {
         let type_name = type_name::get<UserWitnessType>();
-
+  
         type_name == user_witness_config.type_name
     }
   ```

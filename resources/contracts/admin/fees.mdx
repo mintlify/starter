@@ -12,7 +12,7 @@ use sage_admin::admin;
 use sage_admin::apps;
 ```
 
-# Structs
+## Structs
 
 ### Struct `Royalties`
 
@@ -34,7 +34,7 @@ public struct Royalties has key
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Upper limit of what percentage can be collected by partner and protocol treasuries from a royalty payment, equivalent to 98%.
 
@@ -54,7 +54,7 @@ Error encountered when attempting to set fee ranges within royalty payments that
 const EInvalidFeeValue: u64 = 370;
 ```
 
-# Functions
+## Functions
 
 ### Function `collect_payment`
 
@@ -74,7 +74,7 @@ public fun collect_payment<CoinType>(custom_coin: Coin<CoinType>, sui_coin: Coin
             custom_coin,
             @treasury
         );
-
+  
         transfer::public_transfer(
             sui_coin,
             @treasury
@@ -101,7 +101,7 @@ public fun distribute_payment<CoinType>(royalties: &Royalties, custom_payment: C
         ctx: &mut TxContext
     ) {
         let custom_payment_value = custom_payment.value();
-
+  
         let custom_payment = if (
             royalties.partner_fee > 0
         ) {
@@ -115,7 +115,7 @@ public fun distribute_payment<CoinType>(royalties: &Royalties, custom_payment: C
         } else {
             custom_payment
         };
-
+  
         let custom_payment = if (
             royalties.protocol_fee > 0
         ) {
@@ -129,7 +129,7 @@ public fun distribute_payment<CoinType>(royalties: &Royalties, custom_payment: C
         } else {
             custom_payment
         };
-
+  
         transfer::public_transfer(custom_payment, recipient);
         transfer::public_transfer(sui_payment, @treasury);
     }
