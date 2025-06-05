@@ -1,6 +1,7 @@
 ---
-title: "Channel"
-description: "@sage/channel > channel"
+title: "Channel > Channel"
+description: "Defines core channel structures, member lists, moderation tools, and analytics integration.
+@sage/channel > channel"
 ---
 
 ```rust
@@ -118,7 +119,7 @@ public fun assert_channel_description(description: &String)
         description: &String
     ) {
         let is_valid_description = is_valid_description(description);
-
+  
         assert!(is_valid_description, EInvalidChannelDescription);
     }
   ```
@@ -142,7 +143,7 @@ public fun assert_channel_name(name: &String)
             CHANNEL_NAME_MIN_LENGTH,
             CHANNEL_NAME_MAX_LENGTH
         );
-
+  
         assert!(is_valid_name, EInvalidChannelName);
     }
   ```

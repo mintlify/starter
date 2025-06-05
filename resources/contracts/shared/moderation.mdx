@@ -1,6 +1,6 @@
 ---
-title: "Moderation"
-description: "@sage/shared > moderation"
+title: "Shared > Moderation"
+description: "Manages moderator and owner roles, permissions, and moderator state tracking. @sage/shared > moderation"
 ---
 
 ```rust
@@ -87,7 +87,7 @@ public fun assert_is_moderator(moderation: &Moderation, user: address)
             moderation,
             user
         );
-
+  
         assert!(is_moderator, EIsNotModerator);
     }
   ```
@@ -111,7 +111,7 @@ public fun assert_is_owner(moderation: &Moderation, user: address)
             moderation,
             user
         );
-
+  
         assert!(is_owner, EIsNotOwner);
     }
   ```
@@ -131,16 +131,16 @@ public fun create(ctx: &mut TxContext): (Moderation, u8, u8)
         ctx: &mut TxContext
     ): (Moderation, u8, u8) {
         let self = tx_context::sender(ctx);
-
+  
         let mut moderation = Moderation {
             moderation: table::new(ctx)
         };
-
+  
         let (event, message) = make_owner(
             &mut moderation,
             self
         );
-
+  
         (moderation, event, message)
     }
   ```
@@ -201,7 +201,7 @@ public fun is_owner(moderation: &Moderation, user: address): bool
             moderation,
             user
         );
-
+  
         if (!is_moderator) {
             false
         } else {
@@ -229,7 +229,7 @@ public fun make_moderator(moderation: &mut Moderation, user: address): (u8, u8)
             user,
             MODERATOR
         );
-
+  
         (MODERATOR_ADD, MODERATOR)
     }
   ```
@@ -253,7 +253,7 @@ public fun make_owner(moderation: &mut Moderation, user: address): (u8, u8)
             user,
             OWNER
         );
-
+  
         (MODERATOR_ADD, OWNER)
     }
   ```
@@ -277,11 +277,11 @@ public fun remove_moderator(moderation: &mut Moderation, user: address): (u8, u8
             moderation,
             user
         );
-
+  
         assert!(!is_owner, EIsOwner);
-
+  
         moderation.moderation.remove(user);
-
+  
         (MODERATOR_REMOVE, MODERATOR)
     }
   ```

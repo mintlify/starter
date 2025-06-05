@@ -1,6 +1,6 @@
 ---
-title: "Actions"
-description: "@sage/channel > actions"
+title: "Channel > Actions"
+description: "Supports creating, managing, moderating channels, posting content, and handling follows/unfollows with fee verification. @sage/channel > actions"
 ---
 
 ```rust
@@ -158,16 +158,16 @@ public fun add_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees
         ctx: &mut TxContext
     ) {
         let self = tx_context::sender(ctx);
-
+  
         let moderation = channel::borrow_moderators_mut(
             channel
         );
-
+  
         moderation::assert_is_owner(
             moderation,
             self
         );
-
+  
         let (
             custom_payment,
             sui_payment
@@ -176,11 +176,11 @@ public fun add_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees
             custom_payment,
             sui_payment
         );
-
+  
         let user_address = user_shared::get_owner(
             shared_user
         );
-
+  
         let (
             message,
             moderator_type
@@ -188,10 +188,10 @@ public fun add_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees
             moderation,
             user_address
         );
-
+  
         let channel_id = object::id_address(channel);
         let updated_at = clock.timestamp_ms();
-
+  
         event::emit(ChannelModerationUpdate {
             channel_id,
             message,
@@ -199,7 +199,7 @@ public fun add_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees
             updated_at,
             user_id: user_address
         });
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
@@ -236,12 +236,12 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
         ctx: &mut TxContext
     ): address {
         let app_address = object::id_address(app);
-
+  
         channel_registry::assert_app_channel_registry_match(
             channel_registry,
             app_address
         );
-
+  
         let (
             custom_payment,
             sui_payment
@@ -250,21 +250,21 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
             custom_payment,
             sui_payment
         );
-
+  
         let timestamp = clock.timestamp_ms();
         let self = tx_context::sender(ctx);
-
+  
         let channel_key = string_helpers::to_lowercase(
             &name
         );
-
+  
         let mut follows = membership::create(ctx);
         let (
             moderators,
             moderation_message,
             moderation_type
         ) = moderation::create(ctx);
-
+  
         let (
             membership_message,
             membership_type,
@@ -274,7 +274,7 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
             self,
             timestamp
         );
-
+  
         let channel_address = channel::create(
             app_address,
             avatar,
@@ -288,28 +288,28 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
             name,
             ctx
         );
-
+  
         channel_registry::add(
             channel_registry,
             channel_key,
             channel_address
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         let has_rewards_enabled = apps::has_rewards_enabled(
             app
         );
-
+  
         if (has_rewards_enabled) {
             let channel_witness = channel_witness::create_witness();
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let analytics = user_owned::borrow_analytics_mut_for_channel<ChannelWitness>(
                 &channel_witness,
                 channel_witness_config,
@@ -319,12 +319,12 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
                 current_epoch,
                 ctx
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric = utf8(METRIC_CHANNEL_CREATED);
             let claim = reward_weights.get_weight(metric);
-
+  
             analytics_actions::increment_analytics_for_channel<ChannelWitness>(
                 analytics,
                 app,
@@ -334,7 +334,7 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
                 metric
             );
         };
-
+  
         event::emit(ChannelCreated {
             app_id: app_address,
             avatar,
@@ -346,7 +346,7 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
             created_by: self,
             description
         });
-
+  
         event::emit(ChannelFollowsUpdate {
             account_type: membership_type,
             channel_id: channel_address,
@@ -354,7 +354,7 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
             updated_at: timestamp,
             user_id: self
         });
-
+  
         event::emit(ChannelModerationUpdate {
             channel_id: channel_address,
             message: moderation_message,
@@ -362,7 +362,7 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
             updated_at: timestamp,
             user_id: self
         });
-
+  
         channel_address
     }
   ```
@@ -384,20 +384,20 @@ public fun create_registry(app_channel_registry: &mut AppChannelRegistry, app: &
         ctx: &mut TxContext
     ) {
         let app_address = object::id_address(app);
-
+  
         let channel_registry = channel_registry::create(
             app_address,
             ctx
         );
-
+  
         let channel_registry_address = object::id_address(&channel_registry);
-
+  
         channel_registry::add_registry(
             app_channel_registry,
             app_address,
             channel_registry_address
         );
-
+  
         channel_registry::share_registry(channel_registry);
     }
   ```
@@ -427,12 +427,12 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
         ctx: &mut TxContext
     ) {
         let app_address = object::id_address(app);
-
+  
         channel::assert_app_channel_match(
             channel,
             app_address
         );
-
+  
         let (
             custom_payment,
             sui_payment
@@ -441,13 +441,13 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
             custom_payment,
             sui_payment
         );
-
+  
         let membership = channel::borrow_follows_mut(
             channel
         );
         let self = tx_context::sender(ctx);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             account_type,
@@ -457,30 +457,30 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
             self,
             timestamp
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         let has_rewards_enabled = apps::has_rewards_enabled(
             app
         );
-
+  
         if (has_rewards_enabled && count == 1) {
             let channel_witness = channel_witness::create_witness();
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric_channel = utf8(METRIC_CHANNEL_FOLLOWED);
             let metric_user = utf8(METRIC_FOLLOWED_CHANNEL);
-
+  
             let claim_channel = reward_weights.get_weight(metric_channel);
             let claim_user = reward_weights.get_weight(metric_user);
-
+  
             let analytics_channel = channel::borrow_analytics_mut(
                 channel,
                 channel_witness_config,
@@ -488,7 +488,7 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_channel<ChannelWitness>(
                 analytics_channel,
                 app,
@@ -497,7 +497,7 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
                 claim_channel,
                 metric_channel
             );
-
+  
             let analytics_user = user_owned::borrow_analytics_mut_for_channel<ChannelWitness>(
                 &channel_witness,
                 channel_witness_config,
@@ -507,7 +507,7 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_channel<ChannelWitness>(
                 analytics_user,
                 app,
@@ -519,7 +519,7 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
         };
         
         let channel_id = object::id_address(channel);
-
+  
         event::emit(ChannelFollowsUpdate {
             account_type,
             channel_id,
@@ -558,16 +558,16 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
         ctx: &mut TxContext
     ): (address, u64) {
         let self = tx_context::sender(ctx);
-
+  
         let follows = channel::borrow_follows_mut(
             channel
         );
-
+  
         membership::assert_is_member(
             follows,
             self
         );
-
+  
         let (
             custom_payment,
             sui_payment
@@ -576,16 +576,16 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
             custom_payment,
             sui_payment
         );
-
+  
         let app_address = object::id_address(app);
         let channel_witness = channel_witness::create_witness();
-
+  
         let mut posts = channel::take_posts(
             channel,
             app_address,
             ctx
         );
-
+  
         let (
             post_address,
             _self,
@@ -601,34 +601,34 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
             title,
             ctx
         );
-
+  
         channel::return_posts(
             channel,
             app_address,
             posts
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         let has_rewards_enabled = apps::has_rewards_enabled(
             app
         );
-
+  
         if (has_rewards_enabled) {
             let app_address = object::id_address(app);
             let channel_witness = channel_witness::create_witness();
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric = utf8(METRIC_CHANNEL_TEXT_POST);
             let claim = reward_weights.get_weight(metric);
-
+  
             let analytics = user_owned::borrow_analytics_mut_for_channel<ChannelWitness>(
                 &channel_witness,
                 channel_witness_config,
@@ -638,7 +638,7 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_channel<ChannelWitness>(
                 analytics,
                 app,
@@ -648,9 +648,9 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
                 metric
             );
         };
-
+  
         let channel_id = object::id_address(channel);
-
+  
         event::emit(ChannelPostCreated {
             app_id: app_address,
             channel_id,
@@ -661,7 +661,7 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
             post_id: post_address,
             title
         });
-
+  
         (post_address, timestamp)
     }
   ```
@@ -687,16 +687,16 @@ public fun remove_moderator_as_owner<CoinType> (channel: &mut Channel, channel_f
         ctx: &mut TxContext
     ) {
         let self = tx_context::sender(ctx);
-
+  
         let moderation = channel::borrow_moderators_mut(
             channel
         );
-
+  
         moderation::assert_is_owner(
             moderation,
             self
         );
-
+  
         let (
             custom_payment,
             sui_payment
@@ -705,11 +705,11 @@ public fun remove_moderator_as_owner<CoinType> (channel: &mut Channel, channel_f
             custom_payment,
             sui_payment
         );
-
+  
         let user_address = user_shared::get_owner(
             shared_user
         );
-
+  
         let (
             message,
             moderator_type
@@ -717,10 +717,10 @@ public fun remove_moderator_as_owner<CoinType> (channel: &mut Channel, channel_f
             moderation,
             user_address
         );
-
+  
         let channel_id = object::id_address(channel);
         let updated_at = clock.timestamp_ms();
-
+  
         event::emit(ChannelModerationUpdate {
             channel_id,
             message,
@@ -728,7 +728,7 @@ public fun remove_moderator_as_owner<CoinType> (channel: &mut Channel, channel_f
             updated_at,
             user_id: user_address
         });
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
@@ -763,14 +763,14 @@ public fun unfollow<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees
             custom_payment,
             sui_payment
         );
-
+  
         let self = tx_context::sender(ctx);
-
+  
         let membership = channel::borrow_follows_mut(
             channel
         );
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             account_type,
@@ -780,9 +780,9 @@ public fun unfollow<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees
             self,
             timestamp
         );
-
+  
         let channel_id = object::id_address(channel);
-
+  
         event::emit(ChannelFollowsUpdate {
             account_type,
             channel_id,
@@ -790,7 +790,7 @@ public fun unfollow<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees
             updated_at: timestamp,
             user_id: self
         });
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
@@ -822,19 +822,19 @@ public fun update_as_owner<CoinType> (channel: &mut Channel, channel_fees: &Chan
         ctx: &mut TxContext
     ) {
         let self = tx_context::sender(ctx);
-
+  
         let moderation = channel::borrow_moderators_mut(channel);
-
+  
         moderation::assert_is_moderator(
             moderation,
             self
         );
-
+  
         let _channel_key = assert_name_sameness(
             channel,
             name
         );
-
+  
         let (
             custom_payment,
             sui_payment
@@ -843,9 +843,9 @@ public fun update_as_owner<CoinType> (channel: &mut Channel, channel_fees: &Chan
             custom_payment,
             sui_payment
         );        
-
+  
         let updated_at = clock.timestamp_ms();
-
+  
         channel::update(
             channel,
             avatar,
@@ -854,9 +854,9 @@ public fun update_as_owner<CoinType> (channel: &mut Channel, channel_fees: &Chan
             name,
             updated_at
         );
-
+  
         let channel_id = object::id_address(channel);
-
+  
         event::emit(ChannelUpdated {
             avatar,
             banner,
@@ -865,7 +865,7 @@ public fun update_as_owner<CoinType> (channel: &mut Channel, channel_fees: &Chan
             description,
             updated_at
         });
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment

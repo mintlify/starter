@@ -1,6 +1,7 @@
 ---
-title: "Analytics"
-description: "@sage/analytics > analytics"
+title: "Analytics > Analytics"
+description: "Defines structures for analytics tracking, storing metrics, and managing claimable rewards.
+@sage/analytics > analytics"
 ---
 
 ```rust
@@ -12,7 +13,7 @@ use sui::dynamic_field;
 
 ### Struct `Analytics`
 
-Stores metadata on actions taken by a user in the protocol, and equates that to a claim of $TRUST.
+Stores metadata on actions taken by a user in the protocol, and equates that to a claim of \$TRUST.
 
 ```rust
 public struct Analytics has key, store
@@ -28,7 +29,7 @@ public struct Analytics has key, store
 
 ### Function `claim_exists`
 
-Returns `true` if a claim for $TRUST exists on `Analytics` for the specified `App`, and `false` otherwise.
+Returns `true` if a claim for \$TRUST exists on `Analytics` for the specified `App`, and `false` otherwise.
 
 ```rust
 public fun claim_exists(analytics: &Analytics, app_address: address): bool
@@ -43,7 +44,7 @@ public fun claim_exists(analytics: &Analytics, app_address: address): bool
         let claim = Claim {
             app: app_address
         };
-
+  
         df::exists_with_type<Claim, u64>(
             &analytics.id,
             claim
@@ -69,7 +70,7 @@ public fun field_exists(analytics: &Analytics, metric: String): bool
         let analytics_metric = AnalyticsMetric {
             metric
         };
-
+  
         df::exists_with_type<AnalyticsMetric, u64>(
             &analytics.id,
             analytics_metric
@@ -80,7 +81,7 @@ public fun field_exists(analytics: &Analytics, metric: String): bool
 
 ### Function `get_claim`
 
-Returns `u64` amount of $TRUST the `Analytics` object will reward upon claiming rewards.
+Returns `u64` amount of \$TRUST the `Analytics` object will reward upon claiming rewards.
 
 ```rust
 public fun get_claim(analytics: &Analytics, app_address: address): u64
@@ -96,12 +97,12 @@ public fun get_claim(analytics: &Analytics, app_address: address): u64
             analytics,
             app_address
         );
-
+  
         if (does_exist) {
             let claim = Claim {
                 app: app_address
             };
-
+  
             *df::borrow<Claim, u64>(
                 &analytics.id,
                 claim
@@ -131,12 +132,12 @@ public fun get_field(analytics: &Analytics, metric: String): u64
             analytics,
             metric
         );
-
+  
         if (does_exist) {
             let analytics_metric = AnalyticsMetric {
                 metric
             };
-
+  
             *df::borrow<AnalyticsMetric, u64>(
                 &analytics.id,
                 analytics_metric

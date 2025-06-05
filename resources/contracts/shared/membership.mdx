@@ -1,6 +1,6 @@
 ---
-title: "Membership"
-description: "@sage/shared > membership"
+title: "Shared > Membership"
+description: "Tracks membership status, joins/leaves, and membership counts. @sage/shared > membership"
 ---
 
 ```rust
@@ -100,7 +100,7 @@ public fun assert_is_member(membership: &Membership, member_address: address)
             membership,
             member_address
         );
-
+  
         assert!(is_member, EIsNotMember);
     }
   ```
@@ -123,7 +123,7 @@ public fun create(ctx: &mut TxContext): Membership
             current_followers: 0,
             membership: table::new(ctx)
         };
-
+  
         membership
     }
   ```
@@ -206,7 +206,7 @@ public fun get_type(membership: &Membership, member_address: address): u8
 
 ### Function `get_updated_at`
 
-Get timestamp of when the `Membership` was most recently updated. 
+Get timestamp of when the `Membership` was most recently updated.
 
 ```rust
 public fun get_updated_at(membership: &Membership, member_address: address): u64
@@ -264,7 +264,7 @@ public fun object_join(membership: &mut Membership, obj_address: address, timest
             OBJECT,
             timestamp
         );
-
+  
         (MEMBER_ADD, OBJECT, count)
     }
   ```
@@ -290,7 +290,7 @@ public fun object_leave(membership: &mut Membership, obj_address: address, times
             obj_address,
             timestamp
         );
-
+  
         (MEMBER_REMOVE, OBJECT, count)
     }
   ```
@@ -317,7 +317,7 @@ public fun wallet_join(membership: &mut Membership, user_address: address, times
             WALLET,
             timestamp
         );
-
+  
         (MEMBER_ADD, WALLET, count)
     }
   ```
@@ -343,7 +343,7 @@ public fun wallet_leave(membership: &mut Membership, user_address: address, time
             user_address,
             timestamp
         );
-
+  
         (MEMBER_REMOVE, WALLET, count)
     }
   ```

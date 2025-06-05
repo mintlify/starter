@@ -1,6 +1,6 @@
 ---
-title: "Shared User"
-description: "@sage/user > user_shared"
+title: "User > Shared User"
+description: "Handles structures and data shared publicly or across entities. @sage/user > user_shared"
 ---
 
 ```rust
@@ -111,7 +111,7 @@ public fun has_analytics(shared_user: &mut UserShared, app_address: address, epo
             app: app_address,
             epoch
         };
-
+  
         dof::exists_with_type<AnalyticsKey, Analytics>(
             &shared_user.id,
             analytics_key

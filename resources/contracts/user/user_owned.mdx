@@ -1,6 +1,6 @@
 ---
-title: "Owned User"
-description: "@sage/user > user_owned"
+title: "User > Owned User"
+description: "Defines structures and manages data explicitly owned by users. @sage/user > user_owned"
 ---
 
 ```rust
@@ -206,22 +206,22 @@ public fun get_channel_favorites_length(app: &App, user: &UserOwned): u64
         user: &UserOwned
     ): u64 {
         let app_address = object::id_address(app);
-
+  
         let favorites_key = ChannelFavoritesKey {
             app: app_address
         };
-
+  
         let does_exist = df::exists_with_type<ChannelFavoritesKey, Favorites>(
             &user.id,
             favorites_key
         );
-
+  
         if (does_exist) {
             let favorites = df::borrow<ChannelFavoritesKey, Favorites>(
                 &user.id,
                 favorites_key
             );
-
+  
             favorites.get_length()
         } else {
             0
@@ -245,22 +245,22 @@ public fun get_post_favorites_length(app: &App, user: &UserOwned): u64
         user: &UserOwned
     ): u64 {
         let app_address = object::id_address(app);
-
+  
         let favorites_key = PostFavoritesKey {
             app: app_address
         };
-
+  
         let does_exist = df::exists_with_type<PostFavoritesKey, Favorites>(
             &user.id,
             favorites_key
         );
-
+  
         if (does_exist) {
             let favorites = df::borrow<PostFavoritesKey, Favorites>(
                 &user.id,
                 favorites_key
             );
-
+  
             favorites.get_length()
         } else {
             0
@@ -284,22 +284,22 @@ public fun get_user_favorites_length(app: &App, user: &UserOwned): u64
         user: &UserOwned
     ): u64 {
         let app_address = object::id_address(app);
-
+  
         let favorites_key = UserFavoritesKey {
             app: app_address
         };
-
+  
         let does_exist = df::exists_with_type<UserFavoritesKey, Favorites>(
             &user.id,
             favorites_key
         );
-
+  
         if (does_exist) {
             let favorites = df::borrow<UserFavoritesKey, Favorites>(
                 &user.id,
                 favorites_key
             );
-
+  
             favorites.get_length()
         } else {
             0
@@ -310,7 +310,7 @@ public fun get_user_favorites_length(app: &App, user: &UserOwned): u64
 
 ### Function `get_total_rewards`
 
-Get the total amount of $TRUST rewards the `User` has been awarded through social actions.
+Get the total amount of \$TRUST rewards the `User` has been awarded through social actions.
 
 ```rust
 public fun get_total_rewards(user: &UserOwned): u64
@@ -323,7 +323,7 @@ public fun get_total_rewards(user: &UserOwned): u64
     ): u64 {
         user.total_rewards
     }
-
+  
   ```
 </Expandable>
 
@@ -346,7 +346,7 @@ public fun has_analytics(owned_user: &mut UserOwned, app_address: address, epoch
             app: app_address,
             epoch
         };
-
+  
         dof::exists_with_type<AnalyticsKey, Analytics>(
             &owned_user.id,
             analytics_key

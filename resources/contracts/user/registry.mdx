@@ -1,6 +1,6 @@
 ---
-title: "Registry"
-description: "@sage/user > registry"
+title: "User > Registry"
+description: "Maintains registries linking user keys to owned/shared user identities. @sage/user > registry"
 ---
 
 ```rust
@@ -66,7 +66,7 @@ public fun assert_user_address_exists(user_registry: &UserRegistry, wallet_addre
         user_registry,
         wallet_address
       );
-
+  
       assert!(is_user, EAddressRecordDoesNotExist);
     }
   ```
@@ -90,7 +90,7 @@ public fun assert_user_name_exists(user_registry: &UserRegistry, username: Strin
         user_registry,
         username
       );
-
+  
       assert!(is_user, EUsernameRecordDoesNotExist);
     }
   ```
@@ -246,7 +246,7 @@ public fun has_username_record(user_registry: &UserRegistry, username: String): 
       let user_key = string_helpers::to_lowercase(
         &username
       );
-
+  
       user_registry.user_owned_registry.contains(user_key) &&
       user_registry.user_shared_registry.contains(user_key)
     }

@@ -1,6 +1,6 @@
 ---
-title: "Actions"
-description: "@sage/user > actions"
+title: "User > Actions"
+description: "Handles creation, management, and updates to user-owned and shared identities, invites, and profile interactions. @sage/user > actions"
 ---
 
 ```rust
@@ -243,7 +243,7 @@ Maximum number of characters for `User` name.
 const USERNAME_MAX_LENGTH: u64 = 20;
 ```
 
-`User` actions that are tracked by `Analytics` that result in $TRUST rewards.
+`User` actions that are tracked by `Analytics` that result in \$TRUST rewards.
 
 ```rust
 const METRIC_COMMENT_GIVEN: vector<u8> = b"comment-given";
@@ -324,10 +324,10 @@ public fun add_favorite_channel<ChannelType: key> (app: &App, clock: &Clock, cha
             channel_config,
             channel
         );
-
+  
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             self,
@@ -340,7 +340,7 @@ public fun add_favorite_channel<ChannelType: key> (app: &App, clock: &Clock, cha
             timestamp,
             ctx
         );
-
+  
         event::emit(ChannelFavoritesUpdate {
             app_id: app_address,
             favorited_channel_id,
@@ -374,12 +374,12 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
     ) {
         let favorite_post_author = post.get_author();
         let supplied_author_address = user.get_owner();
-
+  
         assert!(favorite_post_author == supplied_author_address, ESuppliedAuthorMismatch);
-
+  
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             self,
@@ -392,9 +392,9 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
             timestamp,
             ctx
         );
-
+  
         let has_rewards_enabled = app.has_rewards_enabled();
-
+  
         if (
             has_rewards_enabled &&
             favorite_post_author != self &&
@@ -403,7 +403,7 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let analytics_self = user_owned::borrow_or_create_analytics_mut(
                 owned_user,
                 user_witness_config,
@@ -411,17 +411,17 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
                 current_epoch,
                 ctx
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric_author = utf8(METRIC_POST_FAVORITED);
             let metric_self = utf8(METRIC_FAVORITED_POST);
-
+  
             let claim_author = reward_weights.get_weight(metric_author);
             let claim_self = reward_weights.get_weight(metric_self);
             
             let user_witness = user_witness::create_witness();
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_self,
                 app,
@@ -430,7 +430,7 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
                 claim_self,
                 metric_self
             );
-
+  
             let analytics_author = user_shared::borrow_or_create_analytics_mut(
                 user,
                 user_witness_config,
@@ -438,7 +438,7 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_author,
                 app,
@@ -448,7 +448,7 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
                 metric_author
             );
         };
-
+  
         event::emit(PostFavoritesUpdate {
             app_id: app_address,
             favorited_post_id,
@@ -479,7 +479,7 @@ public fun add_favorite_user(app: &App, clock: &Clock, owned_user: &mut UserOwne
     ) {
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             self,
@@ -492,7 +492,7 @@ public fun add_favorite_user(app: &App, clock: &Clock, owned_user: &mut UserOwne
             timestamp,
             ctx
         );
-
+  
         event::emit(UserFavoritesUpdate {
             app_id: app_address,
             favorited_user_id,
@@ -518,7 +518,7 @@ public fun assert_user_description(description: &String)
         description: &String
     ) {
         let is_valid_description = is_valid_description(description);
-
+  
         assert!(is_valid_description, EInvalidUserDescription);
     }
   ```
@@ -542,7 +542,7 @@ public fun assert_user_name(name: &String)
             USERNAME_MIN_LENGTH,
             USERNAME_MAX_LENGTH
         );
-
+  
         assert!(is_valid_name, EInvalidUsername);
     }
   ```
@@ -550,7 +550,7 @@ public fun assert_user_name(name: &String)
 
 ### Function `claim_reward`
 
-If `User` has an available claim on the `App` and for the specified epoch, then mints $TRUST and transfers it to the `User`'s wallet. Aborts with `ENotSelf` if the `SharedUser` does not belong to the wallet address.
+If `User` has an available claim on the `App` and for the specified epoch, then mints \$TRUST and transfers it to the `User`'s wallet. Aborts with `ENotSelf` if the `SharedUser` does not belong to the wallet address.
 
 ```rust
 public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_config: &RewardWitnessConfig, treasury: &mut ProtectedTreasury, owned_user: &mut UserOwned, shared_user: &mut UserShared, user_witness_config: &UserWitnessConfig, epoch: u64, ctx: &mut TxContext)
@@ -571,19 +571,19 @@ public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_conf
     ) {
         let self = tx_context::sender(ctx);
         let owner = shared_user.get_owner();
-
+  
         assert!(owner == self, ENotSelf);
-
+  
         let app_address = object::id_address(app);
         let user_witness = user_witness::create_witness();
-
+  
         let mut total_coin_option: Option<Coin<TRUST>> = option::none();
-
+  
         let has_owned_analytics = owned_user.has_analytics(
             app_address,
             epoch
         );
-
+  
         if (has_owned_analytics) {
             let analytics = owned_user.borrow_analytics_mut(
                 app_address,
@@ -602,7 +602,7 @@ public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_conf
                 user_witness_config,
                 ctx
             );
-
+  
             if (coin_option.is_some()) {
                 total_coin_option.destroy_none();
                 total_coin_option = coin_option;
@@ -610,12 +610,12 @@ public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_conf
                 coin_option.destroy_none();
             };
         };
-
+  
         let has_shared_analytics = shared_user.has_analytics(
             app_address,
             epoch
         );
-
+  
         if (has_shared_analytics) {
             let analytics = shared_user.borrow_analytics_mut(
                 app_address,
@@ -634,14 +634,14 @@ public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_conf
                 user_witness_config,
                 ctx
             );
-
+  
             if (coin_option.is_some()) {
                 let coin = coin_option.destroy_some();
-
+  
                 if (total_coin_option.is_some()) {
                     let mut total_coin = total_coin_option.destroy_some();
                     total_coin.join(coin);
-
+  
                     total_coin_option = option::some(total_coin);
                 } else {
                     total_coin_option.destroy_none();
@@ -651,15 +651,15 @@ public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_conf
                 coin_option.destroy_none();
             };
         };
-
+  
         if (total_coin_option.is_some()) {
             let total_coin = total_coin_option.destroy_some();
-
+  
             let balance = total_coin.balance();
             let amount = balance.value();
-
+  
             owned_user.add_to_total_rewards(amount);
-
+  
             transfer::public_transfer(total_coin, self);
         } else {
             total_coin_option.destroy_none();
@@ -699,33 +699,33 @@ public fun comment<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwn
         u64
     ) {
         let has_rewards_enabled = app.has_rewards_enabled();
-
+  
         let parent_author = parent_post.get_author();
         let self = tx_context::sender(ctx);
-
+  
         let user_witness = user_witness::create_witness();
-
+  
         if (
             has_rewards_enabled &&
             parent_author != self
         ) {
             let supplied_author = shared_user.get_owner();
-
+  
             assert!(parent_author == supplied_author, ESuppliedAuthorMismatch);
-
+  
             let app_address = object::id_address(app);
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric_parent = utf8(METRIC_COMMENT_RECEIVED);
             let metric_self = utf8(METRIC_COMMENT_GIVEN);
-
+  
             let claim_parent = reward_weights.get_weight(metric_parent);
             let claim_self = reward_weights.get_weight(metric_self);
-
+  
             let analytics_self = user_owned::borrow_or_create_analytics_mut(
                 owned_user,
                 user_witness_config,
@@ -733,7 +733,7 @@ public fun comment<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwn
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_self,
                 app,
@@ -742,7 +742,7 @@ public fun comment<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwn
                 claim_self,
                 metric_self
             );
-
+  
             let analytics_parent = user_shared::borrow_or_create_analytics_mut(
                 shared_user,
                 user_witness_config,
@@ -750,7 +750,7 @@ public fun comment<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwn
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_parent,
                 app,
@@ -760,7 +760,7 @@ public fun comment<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwn
                 metric_parent
             );
         };
-
+  
         post_actions::comment_for_user<CoinType, UserWitness>(
             app,
             clock,
@@ -807,7 +807,7 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
     ): (address, address) {
         assert_user_name(&name);
         assert_user_description(&description);
-
+  
         let (
             custom_payment,
             sui_payment
@@ -816,56 +816,56 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
             custom_payment,
             sui_payment
         );
-
+  
         let is_invite_included = 
             option::is_some(&invite_code_option) &&
             option::is_some(&invite_key_option);
-
+  
         let is_invite_required = user_invite::is_invite_required(
             invite_config
         );
-
+  
         assert!(
             !is_invite_required || is_invite_included,
             EInviteRequired
         );
-
+  
         let invited_by = if (is_invite_included) {
             let invite_code = option::destroy_some(invite_code_option);
             let invite_key = option::destroy_some(invite_key_option);
-
+  
             user_invite::assert_invite_exists(
                 user_invite_registry,
                 invite_key
             );
-
+  
             let (hash, user_address) = user_invite::get_destructured_invite(
                 user_invite_registry,
                 invite_key
             );
-
+  
             user_invite::assert_invite_is_valid(
                 invite_code,
                 invite_key,
                 hash
             );
-
+  
             user_invite::delete_invite(
                 user_invite_registry,
                 invite_key
             );
-
+  
             option::some(user_address)
         } else {
             option::none()
         };
-
+  
         let created_at = clock.timestamp_ms();
         let self = tx_context::sender(ctx);
         let user_key = string_helpers::to_lowercase(
             &name
         );
-
+  
         let (
             owned_user,
             owned_user_address
@@ -879,7 +879,7 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
             self,
             ctx
         );
-
+  
         let shared_user_address = user_shared::create(
             created_at,
             user_key,
@@ -887,13 +887,13 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
             self,
             ctx
         );
-
+  
         user_owned::set_shared_user(
             owned_user,
             self,
             shared_user_address
         );
-
+  
         user_registry::add(
             user_registry,
             user_key,
@@ -901,12 +901,12 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
             owned_user_address,
             shared_user_address
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         event::emit(UserCreated {
             avatar,
             banner,
@@ -919,7 +919,7 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
             user_key,
             user_name: name
         });
-
+  
         (
             owned_user_address,
             shared_user_address
@@ -951,7 +951,7 @@ public fun create_invite<CoinType> (invite_config: &InviteConfig, user_fees: &Us
         ctx: &mut TxContext
     ) {
         user_invite::assert_invite_not_required(invite_config);
-
+  
         let (
             custom_payment,
             sui_payment
@@ -960,21 +960,21 @@ public fun create_invite<CoinType> (invite_config: &InviteConfig, user_fees: &Us
             custom_payment,
             sui_payment
         );
-
+  
         let self = tx_context::sender(ctx);
-
+  
         user_invite::create_invite(
             user_invite_registry,
             invite_hash,
             invite_key,
             self
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         event::emit(InviteCreated {
             invite_code,
             invite_key,
@@ -1014,14 +1014,14 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
             custom_payment,
             sui_payment
         );
-
+  
         let self = tx_context::sender(ctx);
         let user_address = user_shared::get_owner(shared_user);
-
+  
         assert!(self != user_address, ENoSelfJoin);
-
+  
         let app_address = object::id_address(app);
-
+  
         let follows = user_shared::borrow_follows_mut(
             shared_user,
             app_address,
@@ -1029,7 +1029,7 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
         );
         
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             membership_message,
             membership_type,
@@ -1039,29 +1039,29 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
             self,
             timestamp
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         let has_rewards_enabled = apps::has_rewards_enabled(
             app
         );
-
+  
         if (has_rewards_enabled && membership_count == 1) {
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric_followed = utf8(METRIC_USER_FOLLOWED);
             let metric_self = utf8(METRIC_FOLLOWED_USER);
-
+  
             let claim_followed = reward_weights.get_weight(metric_followed);
             let claim_self = reward_weights.get_weight(metric_self);
-
+  
             let analytics_self = user_owned::borrow_or_create_analytics_mut(
                 owned_user,
                 user_witness_config,
@@ -1069,9 +1069,9 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
                 current_epoch,
                 ctx
             );
-
+  
             let user_witness = user_witness::create_witness();
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_self,
                 app,
@@ -1080,7 +1080,7 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
                 claim_self,
                 metric_self
             );
-
+  
             let analytics_followed = user_shared::borrow_or_create_analytics_mut(
                 shared_user,
                 user_witness_config,
@@ -1088,7 +1088,7 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_followed,
                 app,
@@ -1098,7 +1098,7 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
                 metric_followed
             );
         };
-
+  
         event::emit(UserFollowsUpdate {
             account_type: membership_type,
             app_id: app_address,
@@ -1141,36 +1141,36 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
             custom_payment,
             sui_payment
         );
-
+  
         let friend_address = user_shared::get_owner(user_friend);
         let user_address = user_shared::get_owner(user_shared);
-
+  
         let self = tx_context::sender(ctx);
-
+  
         assert!(self == user_address, ENotSelf);
-
+  
         let app_address = object::id_address(app);
-
+  
         let friend_requests = user_shared::borrow_friend_requests_mut(
             user_shared,
             app_address,
             ctx
         );
-
+  
         let already_requested = membership::is_member(
             friend_requests,
             friend_address
         );
-
+  
         let timestamp = clock.timestamp_ms();
-
+  
         if (already_requested) {
             membership::wallet_leave(
                 friend_requests,
                 friend_address,
                 timestamp
             );
-
+  
             let friends = user_shared::borrow_friends_mut(
                 user_shared,
                 app_address,
@@ -1181,7 +1181,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                 friend_address,
                 timestamp
             );
-
+  
             let friends_friends = user_shared::borrow_friends_mut(
                 user_friend,
                 app_address,
@@ -1196,22 +1196,22 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                 user_address,
                 timestamp
             );
-
+  
             let has_rewards_enabled = apps::has_rewards_enabled(
                 app
             );
-
+  
             if (has_rewards_enabled && membership_count == 1) {
                 let current_epoch = reward_registry::get_current(
                     reward_weights_registry
                 );
-
+  
                 let reward_weights = reward_weights_registry.borrow_current();
-
+  
                 let metric = utf8(METRIC_USER_FRIENDS);
-
+  
                 let claim = reward_weights.get_weight(metric);
-
+  
                 let analytics = user_shared::borrow_or_create_analytics_mut(
                     user_shared,
                     user_witness_config,
@@ -1219,9 +1219,9 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                     current_epoch,
                     ctx
                 );
-
+  
                 let user_witness = user_witness::create_witness();
-
+  
                 analytics_actions::increment_analytics_for_user<UserWitness>(
                     analytics,
                     app,
@@ -1230,7 +1230,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                     claim,
                     metric
                 );
-
+  
                 let friend_analytics = user_shared::borrow_or_create_analytics_mut(
                     user_friend,
                     user_witness_config,
@@ -1238,7 +1238,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                     current_epoch,
                     ctx
                 );
-
+  
                 analytics_actions::increment_analytics_for_user<UserWitness>(
                     friend_analytics,
                     app,
@@ -1248,7 +1248,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                     metric
                 );
             };
-
+  
             event::emit(UserFriendUpdate {
                 account_type: membership_type,
                 app_id: app_address,
@@ -1263,7 +1263,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                 app_address,
                 ctx
             );
-
+  
             let (
                 membership_message,
                 membership_type,
@@ -1273,7 +1273,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                 user_address,
                 timestamp
             );
-
+  
             event::emit(UserFriendRequestUpdate {
                 account_type: membership_type,
                 app_id: app_address,
@@ -1283,7 +1283,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
                 user_id: user_address
             });
         };
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
@@ -1318,11 +1318,11 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
     ) {
         let author_address = post.get_author();
         let shared_user_address = shared_user.get_owner();
-
+  
         assert!(author_address == shared_user_address, ESuppliedAuthorMismatch);
-
+  
         let user_witness = user_witness::create_witness();
-
+  
         post_actions::like_for_user<CoinType, UserWitness>(
             clock,
             post,
@@ -1334,10 +1334,10 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
             sui_payment,
             ctx
         );
-
+  
         let has_rewards_enabled = app.has_rewards_enabled();
         let self = tx_context::sender(ctx);
-
+  
         if (
             has_rewards_enabled &&
             author_address != self
@@ -1346,7 +1346,7 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let analytics_self = user_owned::borrow_or_create_analytics_mut(
                 owned_user,
                 user_witness_config,
@@ -1354,17 +1354,17 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
                 current_epoch,
                 ctx
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric_author = utf8(METRIC_POST_LIKED);
             let metric_self = utf8(METRIC_LIKED_POST);
-
+  
             let claim_author = reward_weights.get_weight(metric_author);
             let claim_self = reward_weights.get_weight(metric_self);
-
+  
             let user_witness = user_witness::create_witness();
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_self,
                 app,
@@ -1373,7 +1373,7 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
                 claim_self,
                 metric_self
             );
-
+  
             let analytics_author = user_shared::borrow_or_create_analytics_mut(
                 shared_user,
                 user_witness_config,
@@ -1381,7 +1381,7 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
                 current_epoch,
                 ctx
             );
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics_author,
                 app,
@@ -1428,17 +1428,17 @@ public fun post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwned,
             custom_payment,
             sui_payment
         );
-
+  
         let app_address = object::id_address(app);
-
+  
         let mut posts = user_shared::take_posts(
             shared_user,
             app_address,
             ctx
         );
-
+  
         let user_witness = user_witness::create_witness();
-
+  
         let (
             post_address,
             self,
@@ -1454,33 +1454,33 @@ public fun post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwned,
             title,
             ctx
         );
-
+  
         user_shared::return_posts(
             shared_user,
             app_address,
             posts
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         let has_rewards_enabled = apps::has_rewards_enabled(
             app
         );
-
+  
         if (has_rewards_enabled) {
             let current_epoch = reward_registry::get_current(
                 reward_weights_registry
             );
-
+  
             let reward_weights = reward_weights_registry.borrow_current();
-
+  
             let metric = utf8(METRIC_USER_TEXT_POST);
-
+  
             let claim = reward_weights.get_weight(metric);
-
+  
             let analytics = user_owned::borrow_or_create_analytics_mut(
                 owned_user,
                 user_witness_config,
@@ -1488,9 +1488,9 @@ public fun post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwned,
                 current_epoch,
                 ctx
             );
-
+  
             let user_witness = user_witness::create_witness();
-
+  
             analytics_actions::increment_analytics_for_user<UserWitness>(
                 analytics,
                 app,
@@ -1500,9 +1500,9 @@ public fun post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwned,
                 metric
             );
         };
-
+  
         let user_id = shared_user.get_owner();
-
+  
         event::emit(UserPostCreated {
             app_id: app_address,
             created_at: timestamp,
@@ -1513,7 +1513,7 @@ public fun post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwned,
             title,
             user_id
         });
-
+  
         (post_address, timestamp)
     }
   ```
@@ -1538,7 +1538,7 @@ public fun remove_favorite_channel<ChannelType: key> (app: &App, clock: &Clock, 
     ) {
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             self,
@@ -1551,7 +1551,7 @@ public fun remove_favorite_channel<ChannelType: key> (app: &App, clock: &Clock, 
             timestamp,
             ctx
         );
-
+  
         event::emit(ChannelFavoritesUpdate {
             app_id: app_address,
             favorited_channel_id,
@@ -1582,7 +1582,7 @@ public fun remove_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserO
     ) {
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             self,
@@ -1595,7 +1595,7 @@ public fun remove_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserO
             timestamp,
             ctx
         );
-
+  
         event::emit(PostFavoritesUpdate {
             app_id: app_address,
             favorited_post_id,
@@ -1626,7 +1626,7 @@ public fun remove_favorite_user(app: &App, clock: &Clock, owned_user: &mut UserO
     ) {
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             message,
             self,
@@ -1639,7 +1639,7 @@ public fun remove_favorite_user(app: &App, clock: &Clock, owned_user: &mut UserO
             timestamp,
             ctx
         );
-
+  
         event::emit(UserFavoritesUpdate {
             app_id: app_address,
             favorited_user_id,
@@ -1670,11 +1670,11 @@ public fun remove_friend_request(app: &App, clock: &Clock, shared_user: &mut Use
     ) {
         let self = tx_context::sender(ctx);
         let user_address = user_shared::get_owner(shared_user);
-
+  
         assert!(self == user_address || self == removed_request, ENotSelf);
-
+  
         let app_address = object::id_address(app);
-
+  
         let friend_requests = user_shared::borrow_friend_requests_mut(
             shared_user,
             app_address,
@@ -1682,7 +1682,7 @@ public fun remove_friend_request(app: &App, clock: &Clock, shared_user: &mut Use
         );
         
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             membership_message,
             membership_type,
@@ -1692,7 +1692,7 @@ public fun remove_friend_request(app: &App, clock: &Clock, shared_user: &mut Use
             removed_request,
             timestamp
         );
-
+  
         event::emit(UserFriendRequestUpdate {
             account_type: membership_type,
             app_id: app_address,
@@ -1732,12 +1732,12 @@ public fun unfollow<CoinType> (app: &App, clock: &Clock, shared_user: &mut UserS
             custom_payment,
             sui_payment
         );
-
+  
         let self = tx_context::sender(ctx);
         let user_address = user_shared::get_owner(shared_user);
-
+  
         let app_address = object::id_address(app);
-
+  
         let follows = user_shared::borrow_follows_mut(
             shared_user,
             app_address,
@@ -1745,7 +1745,7 @@ public fun unfollow<CoinType> (app: &App, clock: &Clock, shared_user: &mut UserS
         );
         
         let timestamp = clock.timestamp_ms();
-
+  
         let (
             membership_message,
             membership_type,
@@ -1755,12 +1755,12 @@ public fun unfollow<CoinType> (app: &App, clock: &Clock, shared_user: &mut UserS
             self,
             timestamp
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         event::emit(UserFollowsUpdate {
             account_type: membership_type,
             app_id: app_address,
@@ -1801,17 +1801,17 @@ public fun unfriend_user<CoinType> (app: &App, clock: &Clock, user_fees: &UserFe
             custom_payment,
             sui_payment
         );
-
+  
         let friend_address = user_shared::get_owner(user_friend);
         let user_address = user_shared::get_owner(user_shared);
-
+  
         let self = tx_context::sender(ctx);
-
+  
         assert!(self == friend_address || self == user_address, ENotSelf);
-
+  
         let app_address = object::id_address(app);
         let timestamp = clock.timestamp_ms();
-
+  
         let friends = user_shared::borrow_friends_mut(
             user_shared,
             app_address,
@@ -1822,7 +1822,7 @@ public fun unfriend_user<CoinType> (app: &App, clock: &Clock, user_fees: &UserFe
             friend_address,
             timestamp
         );
-
+  
         let friends_friends = user_shared::borrow_friends_mut(
             user_friend,
             app_address,
@@ -1837,12 +1837,12 @@ public fun unfriend_user<CoinType> (app: &App, clock: &Clock, user_fees: &UserFe
             user_address,
             timestamp
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         event::emit(UserFriendUpdate {
             account_type: membership_type,
             app_id: app_address,
@@ -1886,22 +1886,22 @@ public fun update<CoinType> (clock: &Clock, user_registry: &UserRegistry, user_f
             custom_payment,
             sui_payment
         );
-
+  
         let self = tx_context::sender(ctx);
-
+  
         let owned_user_key = user_registry::get_key_from_owner_address(
             user_registry,
             self
         );
-
+  
         let lowercase_user_name = string_helpers::to_lowercase(
             &name
         );
-
+  
         assert!(lowercase_user_name == owned_user_key, EUserNameMismatch);
-
+  
         let updated_at = clock.timestamp_ms();
-
+  
         user_owned::update(
             owned_user,
             avatar,
@@ -1910,12 +1910,12 @@ public fun update<CoinType> (clock: &Clock, user_registry: &UserRegistry, user_f
             name,
             updated_at
         );
-
+  
         fees::collect_payment<CoinType>(
             custom_payment,
             sui_payment
         );
-
+  
         event::emit(UserUpdated {
             avatar,
             banner,

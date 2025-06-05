@@ -1,6 +1,6 @@
 ---
-title: "Likes"
-description: "@sage/shared > likes"
+title: "Shared > Likes"
+description: "Stores, manages, and verifies user likes on posts or content. @sage/shared > likes"
 ---
 
 ```rust
@@ -76,7 +76,7 @@ public fun assert_has_not_liked(likes: &Likes, key: address)
             likes,
             key
         );
-
+  
         assert!(!has_liked, EAlreadyLiked);
     }
   ```
@@ -98,7 +98,7 @@ public fun create(ctx: &mut TxContext): Likes
         let likes = Likes {
             likes: table::new(ctx)
         };
-
+  
         likes
     }
   ```

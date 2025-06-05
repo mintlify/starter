@@ -1,6 +1,6 @@
 ---
-title: "Reward"
-description: "@sage/reward > reward"
+title: "Reward > Reward"
+description: "Stores, manages, and validates reward weights for user actions. @sage/reward > reward"
 ---
 
 ```rust
@@ -59,7 +59,7 @@ public fun field_exists(reward_weights: &RewardWeights, metric: String): bool
         let reward_weight = RewardWeight {
             metric
         };
-
+  
         df::exists_with_type<RewardWeight, u64>(
             &reward_weights.id,
             reward_weight
@@ -122,12 +122,12 @@ public fun get_weight(reward_weights: &RewardWeights, metric: String): u64
             reward_weights,
             metric
         );
-
+  
         if (does_exist) {
             let reward_weight = RewardWeight {
                 metric
             };
-
+  
             *df::borrow<RewardWeight, u64>(
                 &reward_weights.id,
                 reward_weight

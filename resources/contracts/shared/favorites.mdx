@@ -1,6 +1,6 @@
 ---
-title: "Favorites"
-description: "@sage/shared > favorites"
+title: "Shared > Favorites"
+description: "Tracks user favorites, manages favorite counts, and status checks. @sage/shared > favorites"
 ---
 
 ```rust
@@ -74,16 +74,16 @@ public fun add(favorites: &mut Favorites, key: address, timestamp: u64): u64
     ): u64 {
         let does_exist = favorites.favorites.contains(key);
         let mut favorite_count = 1;
-
+  
         if (does_exist) {
             let favorite = favorites.favorites.borrow_mut(key);
-
+  
             assert!(!favorite.is_favorite, EAlreadyFavorited);
-
+  
             favorite.count = favorite.count + 1;
             favorite.is_favorite = true;
             favorite.updated_at = timestamp;
-
+  
             favorite_count = favorite.count;
         } else {
             let favorite = Favorite {
@@ -92,12 +92,12 @@ public fun add(favorites: &mut Favorites, key: address, timestamp: u64): u64
                 is_favorite: true,
                 updated_at: timestamp
             };
-
+  
             favorites.favorites.add(key, favorite);
         };
-
+  
         favorites.current_favorites = favorites.current_favorites + 1;
-
+  
         favorite_count
     }
   ```
@@ -121,7 +121,7 @@ public fun assert_has_not_favorited(favorites: &Favorites, key: address)
             favorites,
             key
         );
-
+  
         assert!(!is_favorite, EAlreadyFavorited);
     }
   ```
@@ -144,7 +144,7 @@ public fun create(ctx: &mut TxContext): Favorites
             current_favorites: 0,
             favorites: table::new(ctx)
         };
-
+  
         favorites
     }
   ```
@@ -208,7 +208,7 @@ public fun get_length(favorites: &Favorites): u64
 
 ### Function `get_updated_at`
 
-Get timestamp of when the content was most recently favorited. 
+Get timestamp of when the content was most recently favorited.
 
 ```rust
 public fun get_updated_at(favorites: &Favorites, key: address): u64
@@ -261,14 +261,14 @@ public fun remove(favorites: &mut Favorites, key: address, timestamp: u64): u64
         timestamp: u64
     ): u64 {
         let favorite = favorites.favorites.borrow_mut(key);
-
+  
         assert!(favorite.is_favorite, EIsNotFavorite);
-
+  
         favorite.is_favorite = false;
         favorite.updated_at = timestamp;
-
+  
         favorites.current_favorites = favorites.current_favorites - 1;
-
+  
         favorite.count
     }
   ```

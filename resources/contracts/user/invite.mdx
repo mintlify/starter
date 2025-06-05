@@ -1,6 +1,6 @@
 ---
-title: "Invite"
-description: "@sage/user > invite"
+title: "User > Invite"
+description: "Manages creation, validation, and tracking of user invitations. @sage/user > invite"
 ---
 
 ```rust
@@ -115,7 +115,7 @@ public fun assert_invite_exists(user_invite_registry: &UserInviteRegistry, invit
         user_invite_registry,
         invite_key
       );
-
+  
       assert!(has_record, EInviteDoesNotExist);
     }
   ```
@@ -137,7 +137,7 @@ public fun assert_invite_not_required(invite_config: &InviteConfig)
       let is_invite_required = is_invite_required(
         invite_config
       );
-
+  
       assert!(!is_invite_required, EInviteNotAllowed);
     }
   ```
@@ -163,7 +163,7 @@ public fun assert_invite_is_valid(invite_code: String, invite_key: String, invit
         invite_key,
         invite_hash
       );
-
+  
       assert!(is_invite_valid, EInviteInvalid);
     }
   ```
@@ -184,12 +184,12 @@ public fun get_destructured_invite(user_invite_registry: &UserInviteRegistry, in
       invite_key: String
     ): (vector<u8>, address) {
       let invite = *user_invite_registry.registry.borrow(invite_key);
-
+  
       let Invite {
         hash,
         user
       } = invite;
-
+  
       (hash, user)
     }
   ```
@@ -248,31 +248,31 @@ public fun is_invite_valid(invite_code: String, invite_key: String, invite_hash:
       invite_hash: vector<u8>
     ): bool {
       let mut combined = utf8(b"");
-
+  
       combined.append(invite_code);
       combined.append(invite_key);
-
+  
       let bytes = into_bytes(combined);
-
+  
       let computed_hash_bytes = sha3_256(bytes);
-
+  
       let computed_length = computed_hash_bytes.length();
       let provided_length = invite_hash.length();
-
+  
       if (computed_length != provided_length) {
         return false
       };
-
+  
       let mut index = 0;
-
+  
       while (index < computed_length) {
         if (computed_hash_bytes[index] != invite_hash[index]) {
           return false
         };
-
+  
         index = index + 1;
       };
-
+  
       true
     }
   ```
