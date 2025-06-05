@@ -1,6 +1,6 @@
 ---
-title: "Access"
-description: "@sage/admin > access"
+title: "Access Module"
+description: "@sage/admin > access (link to Mover Registry)"
 ---
 
 ```rust
@@ -8,9 +8,13 @@ use std::type_name;
 use sage_admin::admin;
 ```
 
+<Tip>
+  @sage/admin \> access
+</Tip>
+
 ## Structs
 
-### Struct `ChannelConfig`
+### Struct: `ChannelConfig`
 
 Holds the `Channel` type for runtime type checks.
 
@@ -25,7 +29,7 @@ public struct ChannelConfig has key
   ```
 </Expandable>
 
-### Struct `ChannelWitnessConfig`
+### Struct: `ChannelWitnessConfig`
 
 Holds the `ChannelWitness` type for runtime type checks.
 
@@ -40,7 +44,7 @@ public struct ChannelWitnessConfig has key
   ```
 </Expandable>
 
-### Struct `GroupWitnessConfig`
+### Struct: `GroupWitnessConfig`
 
 Holds the `GroupWitness` type for runtime type checks.
 
@@ -55,7 +59,7 @@ public struct GroupWitnessConfig has key
   ```
 </Expandable>
 
-### Struct `UserOwnedConfig`
+### Struct: `UserOwnedConfig`
 
 Holds the `UserOwned` type for runtime type checks.
 
@@ -70,7 +74,7 @@ public struct UserOwnedConfig has key
   ```
 </Expandable>
 
-### Struct `UserSharedConfig`
+### Struct: `UserSharedConfig`
 
 Holds the `UserShared` type for runtime type checks.
 
@@ -85,7 +89,7 @@ public struct UserSharedConfig has key
   ```
 </Expandable>
 
-### Struct `UserWitnessConfig`
+### Struct: `UserWitnessConfig`
 
 Holds the `UserWitness` type for runtime type checks.
 
@@ -116,7 +120,7 @@ const EWitnessMismatch: u64 = 371;
 
 ## Functions
 
-### Function `assert_channel`
+### Function: `assert_channel`
 
 Aborts with `ETypeMismatch` if the `channel` is not of the configured `ChannelType`.
 
@@ -140,7 +144,7 @@ public fun assert_channel<ChannelType: key>(channel_config: &ChannelConfig, chan
   ```
 </Expandable>
 
-### Function `assert_channel_witness`
+### Function: `assert_channel_witness`
 
 Aborts with `EWitnessMismatch` if the `channel_witness` is not of the configured `ChannelWitnessType`.
 
@@ -164,7 +168,7 @@ public fun assert_channel_witness<ChannelWitnessType: drop>(channel_witness_conf
   ```
 </Expandable>
 
-### Function `assert_group_witness`
+### Function: `assert_group_witness`
 
 Aborts with `EWitnessMismatch` if the `group_witness` is not of the configured `GroupWitnessType`.
 
@@ -188,7 +192,7 @@ public fun assert_group_witness<GroupWitnessType: drop>(group_witness_config: &G
   ```
 </Expandable>
 
-### Function `assert_owned_user`
+### Function: `assert_owned_user`
 
 Aborts with `ETypeMismatch` if the `owned_user` is not of the configured `UserOwnedType`.
 
@@ -212,7 +216,7 @@ public fun assert_owned_user<UserOwnedType: key>(owned_user_config: &UserOwnedCo
   ```
 </Expandable>
 
-### Function `assert_shared_user`
+### Function: `assert_shared_user`
 
 Aborts with `ETypeMismatch` if the `shared_user` is not of the configured `UserSharedType`.
 
@@ -236,7 +240,7 @@ public fun assert_shared_user<UserSharedType: key>(shared_user_config: &UserShar
   ```
 </Expandable>
 
-### Function `assert_user_witness`
+### Function: `assert_user_witness`
 
 Aborts with with `EWitnessMismatch` if the `user_witness` is not of the configured `UserWitnessType`.
 
@@ -260,7 +264,7 @@ public fun assert_user_witness<UserWitnessType: drop>(user_witness_config: &User
   ```
 </Expandable>
 
-### Function `verify_channel`
+### Function: `verify_channel`
 
 Returns true if the `channel` is the configured `ChannelType`, and false otherwise.
 
@@ -281,7 +285,7 @@ public fun verify_channel<ChannelType: key>(channel_config: &ChannelConfig, _: &
   ```
 </Expandable>
 
-### Function `verify_channel_witness`
+### Function: `verify_channel_witness`
 
 Returns true if the `channel_witness` is the configured `ChannelWitnessType`, and false otherwise.
 
@@ -302,7 +306,7 @@ public fun verify_channel_witness<ChannelWitnessType: drop>(channel_witness_conf
   ```
 </Expandable>
 
-### Function `verify_group_witness`
+### Function: `verify_group_witness`
 
 Returns true if the `group_witness` is the configured `GroupWitnessType`, and false otherwise.
 
@@ -323,7 +327,7 @@ public fun verify_group_witness<GroupWitnessType: drop>(group_witness_config: &G
   ```
 </Expandable>
 
-### Function `verify_owned_user`
+### Function: `verify_owned_user`
 
 Returns true if the `owned_user` is the configured `UserOwnedType`, and false otherwise.
 
@@ -344,7 +348,7 @@ public fun verify_owned_user<UserOwnedType: key>(owned_user_config: &UserOwnedCo
   ```
 </Expandable>
 
-### Function `verify_shared_user`
+### Function: `verify_shared_user`
 
 Returns true if the `shared_user` is the configured `UserSharedType`, and false otherwise.
 
@@ -365,7 +369,7 @@ public fun verify_shared_user<UserSharedType: key>(shared_user_config: &UserShar
   ```
 </Expandable>
 
-### Function `verify_user_witness`
+### Function: `verify_user_witness`
 
 Returns true if the `user_witness` is the configured `UserWitnessType`, and false otherwise.
 
