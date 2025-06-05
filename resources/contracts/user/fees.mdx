@@ -1,6 +1,6 @@
 ---
 title: "Fees"
-description: "Validates and manages fees related to user actions. @sage/user > fees"
+description: "Validates and manages fees related to user actions."
 ---
 
 ```rust
@@ -13,7 +13,11 @@ use sage_admin::admin;
 use sage_admin::apps;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/user
+</Tip>
+
+## Structs
 
 ### Struct `UserFees`
 
@@ -47,7 +51,7 @@ public struct UserFees has key
   ```
 </Expandable>
 
-# Events
+## Events
 
 ### Event `UserFeesCreated`
 
@@ -112,7 +116,7 @@ public struct UserFeesUpdated has copy, drop
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Incorrect coin type passed in for the `custom_coin`.
 

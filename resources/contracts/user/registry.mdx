@@ -1,6 +1,6 @@
 ---
 title: "Registry"
-description: "Maintains registries linking user keys to owned/shared user identities. @sage/user > registry"
+description: "Maintains registries linking user keys to owned/shared user identities."
 ---
 
 ```rust
@@ -10,7 +10,11 @@ use sui::table;
 use sage_utils::string_helpers;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/user
+</Tip>
+
+## Structs
 
 ### Struct `UserRegistry`
 
@@ -32,7 +36,7 @@ public struct UserRegistry has key
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Error code when a wallet address does not have an associated `User`.
 
@@ -46,7 +50,7 @@ Error code when a `User` name does not exist in the registry.
 const EUsernameRecordDoesNotExist: u64 = 371;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_user_address_exists`
 

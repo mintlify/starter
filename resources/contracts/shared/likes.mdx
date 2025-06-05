@@ -1,13 +1,17 @@
 ---
 title: "Likes"
-description: "Stores, manages, and verifies user likes on posts or content. @sage/shared > likes"
+description: "Stores, manages, and verifies user likes on posts or content."
 ---
 
 ```rust
 use sui::table;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/shared
+</Tip>
+
+## Structs
 
 ### Struct `Likes`
 
@@ -23,7 +27,7 @@ public struct Likes has store
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Value used to store whether content has been liked or not.
 
@@ -37,7 +41,7 @@ Error code used when attempting to like content that has already been liked.
 const EAlreadyLiked: u64 = 370;
 ```
 
-# Functions
+## Functions
 
 ### Function `add`
 

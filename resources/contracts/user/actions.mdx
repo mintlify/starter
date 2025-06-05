@@ -1,6 +1,6 @@
 ---
 title: "Actions"
-description: "Handles creation, management, and updates to user-owned and shared identities, invites, and profile interactions. @sage/user > actions"
+description: "Handles creation, management, and updates to user-owned and shared identities, invites, and profile interactions."
 ---
 
 ```rust
@@ -31,7 +31,11 @@ use sage_user::user_witness;
 use sage_utils::string_helpers;
 ```
 
-# Events
+<Tip>
+  Explore this package further in the Mover Registry: @sage/user
+</Tip>
+
+## Events
 
 ### Event `ChannelFavoritesUpdate`
 
@@ -223,7 +227,7 @@ public struct UserUpdated has copy, drop
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Maximum number of characters for `User` description.
 
@@ -300,7 +304,7 @@ Error code for attempting to change the name for the `User`. Only the casing may
 const EUserNameMismatch: u64 = 376;
 ```
 
-# Functions
+## Functions
 
 ### Function `add_favorite_channel`
 

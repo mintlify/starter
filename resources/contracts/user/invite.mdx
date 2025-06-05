@@ -1,6 +1,6 @@
 ---
 title: "Invite"
-description: "Manages creation, validation, and tracking of user invitations. @sage/user > invite"
+description: "Manages creation, validation, and tracking of user invitations."
 ---
 
 ```rust
@@ -12,7 +12,11 @@ use sui::table;
 use sage_admin::admin;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/user
+</Tip>
+
+## Structs
 
 ### Struct `Invite`
 
@@ -59,7 +63,7 @@ public struct UserInviteRegistry has key
   ```
 </Expandable>
 
-# Events
+## Events
 
 ### Event `InviteDeleted`
 
@@ -75,7 +79,7 @@ public struct InviteDeleted has copy, drop
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Error code thrown when an `Invite` does not exist.
 
@@ -95,7 +99,7 @@ Error code thrown when `Invite`s are not required.
 const EInviteNotAllowed: u64 = 372;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_invite_exists`
 

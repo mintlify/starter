@@ -1,13 +1,17 @@
 ---
 title: "Favorites"
-description: "Tracks user favorites, manages favorite counts, and status checks. @sage/shared > favorites"
+description: "Tracks user favorites, manages favorite counts, and status checks."
 ---
 
 ```rust
 use sui::table;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/shared
+</Tip>
+
+## Structs
 
 ### Struct `Favorite`
 
@@ -41,7 +45,7 @@ public struct Favorites has store
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Error code when attempting to favorite content that has already been favorited.
 
@@ -55,7 +59,7 @@ Error code when attempting to unfavorite content that has not been favorited.
 const EIsNotFavorite: u64 = 371;
 ```
 
-# Functions
+## Functions
 
 ### Function `add`
 

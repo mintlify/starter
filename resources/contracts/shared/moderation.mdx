@@ -1,13 +1,17 @@
 ---
 title: "Moderation"
-description: "Manages moderator and owner roles, permissions, and moderator state tracking. @sage/shared > moderation"
+description: "Manages moderator and owner roles, permissions, and moderator state tracking."
 ---
 
 ```rust
 use sui::table;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/shared
+</Tip>
+
+## Structs
 
 ### Struct `Moderation`
 
@@ -23,7 +27,7 @@ public struct Moderation has store
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Represents that the moderator is the owner.
 
@@ -67,7 +71,7 @@ Error code used when a non-owner attempts an owner action.
 const EIsNotOwner: u64 = 372;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_is_moderator`
 

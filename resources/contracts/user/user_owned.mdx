@@ -1,6 +1,6 @@
 ---
 title: "Owned User"
-description: "Defines structures and manages data explicitly owned by users. @sage/user > user_owned"
+description: "Defines structures and manages data explicitly owned by users."
 ---
 
 ```rust
@@ -17,7 +17,11 @@ use sage_user::user_witness;
 use sage_shared::favorites;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/user
+</Tip>
+
+## Structs
 
 ### Struct `UserOwned`
 
@@ -43,7 +47,7 @@ public struct UserOwned has key
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Represents that content was favorited.
 
@@ -63,7 +67,7 @@ Error code for when there is no favorited content for the selected `App`.
 const ENoAppFavorites: u64 = 370;
 ```
 
-# Functions
+## Functions
 
 ### Function `get_avatar`
 

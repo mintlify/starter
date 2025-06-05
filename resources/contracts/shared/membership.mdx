@@ -1,13 +1,17 @@
 ---
 title: "Membership"
-description: "Tracks membership status, joins/leaves, and membership counts. @sage/shared > membership"
+description: "Tracks membership status, joins/leaves, and membership counts."
 ---
 
 ```rust
 use sui::table;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/shared
+</Tip>
+
+## Structs
 
 ### Struct `Member`
 
@@ -42,7 +46,7 @@ public struct Membership has store
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Represents a wallet address.
 
@@ -80,7 +84,7 @@ Error code when an address is not a member of an organization.
 const EIsNotMember: u64 = 371;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_is_member`
 
