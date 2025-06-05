@@ -1,0 +1,1071 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "API for managing citizen data with self-declared information. This API provides endpoints for retrieving and updating citizen information, with support for caching and data validation. Self-declared data takes precedence over base data when available.",
+        "title": "RMI API",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/citizen/{cpf}": {
+            "get": {
+                "description": "Retrieves citizen data by CPF, combining base data with any self-declared updates. Self-declared data takes precedence over base data. Results are cached using Redis with configurable TTL.",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Get citizen data",
+                "parameters": [
+                    {
+                        "description": "Citizen CPF (11 digits)",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 11,
+                            "maxLength": 11
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Complete citizen data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/models.Citizen"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid CPF format",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Citizen not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citizen/{cpf}/address": {
+            "put": {
+                "description": "Updates or creates the self-declared address for a citizen by CPF. Only the address field is updated.",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Update self-declared address for a citizen",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/models.SelfDeclaredAddressInput"
+                            }
+                        }
+                    },
+                    "description": "Self-declared address",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citizen/{cpf}/email": {
+            "put": {
+                "description": "Updates or creates the self-declared email for a citizen by CPF. Only the email field is updated.",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Update self-declared email for a citizen",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/models.SelfDeclaredEmailInput"
+                            }
+                        }
+                    },
+                    "description": "Self-declared email",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citizen/{cpf}/firstlogin": {
+            "get": {
+                "description": "Checks if this is the user's first login",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Get first login status",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/models.UserConfigResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Sets the first login status to false for a user",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Update first login status",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/models.UserConfigResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citizen/{cpf}/optin": {
+            "get": {
+                "description": "Checks if the user has opted in for notifications",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Get opt-in status",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/models.UserConfigOptInResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates the user's opt-in status for notifications",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Update opt-in status",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/models.UserConfigOptInResponse"
+                            }
+                        }
+                    },
+                    "description": "Opt-in status",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/models.UserConfigOptInResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citizen/{cpf}/phone": {
+            "put": {
+                "description": "Updates or creates the self-declared phone for a citizen by CPF. Only the phone field is updated (stored as pending until verified).",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Update self-declared phone for a citizen",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/models.SelfDeclaredPhoneInput"
+                            }
+                        }
+                    },
+                    "description": "Self-declared phone",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citizen/{cpf}/phone/validate": {
+            "post": {
+                "description": "Validates the verification code sent to the phone number",
+                "tags": [
+                    "citizen"
+                ],
+                "summary": "Validate phone verification",
+                "parameters": [
+                    {
+                        "description": "CPF number",
+                        "name": "cpf",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/models.PhoneVerificationValidateRequest"
+                            }
+                        }
+                    },
+                    "description": "Verification code and phone",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.SuccessResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "Checks the health of the API and its dependencies (MongoDB and Redis). Returns detailed status for each service.",
+                "tags": [
+                    "health"
+                ],
+                "summary": "Health check endpoint",
+                "responses": {
+                    "200": {
+                        "description": "All services are healthy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.HealthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "One or more services are unhealthy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/handlers.HealthResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "description": "Operations about citizens",
+            "name": "citizen"
+        },
+        {
+            "description": "Health check operations",
+            "name": "health"
+        }
+    ],
+    "servers": [
+        {
+            "url": "//localhost:8080/v1"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "handlers.ErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                }
+            },
+            "handlers.HealthResponse": {
+                "type": "object",
+                "properties": {
+                    "services": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string"
+                    }
+                }
+            },
+            "handlers.SuccessResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Citizen": {
+                "type": "object",
+                "properties": {
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "cpf_particao": {
+                        "type": "integer"
+                    },
+                    "datalake": {
+                        "$ref": "#/components/schemas/models.Datalake"
+                    },
+                    "documentos": {
+                        "$ref": "#/components/schemas/models.Documentos"
+                    },
+                    "email": {
+                        "$ref": "#/components/schemas/models.Email"
+                    },
+                    "endereco": {
+                        "$ref": "#/components/schemas/models.Endereco"
+                    },
+                    "mae": {
+                        "$ref": "#/components/schemas/models.Mae"
+                    },
+                    "menor_idade": {
+                        "type": "boolean"
+                    },
+                    "nascimento": {
+                        "$ref": "#/components/schemas/models.Nascimento"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "nome_social": {
+                        "type": "string"
+                    },
+                    "obito": {
+                        "$ref": "#/components/schemas/models.Obito"
+                    },
+                    "raca": {
+                        "type": "string"
+                    },
+                    "row_number": {
+                        "type": "integer"
+                    },
+                    "saude": {
+                        "$ref": "#/components/schemas/models.Saude"
+                    },
+                    "sexo": {
+                        "type": "string"
+                    },
+                    "telefone": {
+                        "$ref": "#/components/schemas/models.Telefone"
+                    }
+                }
+            },
+            "models.ClinicaFamilia": {
+                "type": "object",
+                "properties": {
+                    "id_cnes": {
+                        "type": "string"
+                    },
+                    "indicador": {
+                        "type": "boolean"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "telefone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Datalake": {
+                "type": "object",
+                "properties": {
+                    "last_updated": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Documentos": {
+                "type": "object",
+                "properties": {
+                    "cns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "models.Email": {
+                "type": "object",
+                "properties": {
+                    "alternativo": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "indicador": {
+                        "type": "boolean"
+                    },
+                    "principal": {
+                        "$ref": "#/components/schemas/models.EmailPrincipal"
+                    }
+                }
+            },
+            "models.EmailPrincipal": {
+                "type": "object",
+                "properties": {
+                    "origem": {
+                        "type": "string"
+                    },
+                    "sistema": {
+                        "type": "string"
+                    },
+                    "valor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Endereco": {
+                "type": "object",
+                "properties": {
+                    "alternativo": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "indicador": {
+                        "type": "boolean"
+                    },
+                    "principal": {
+                        "$ref": "#/components/schemas/models.EnderecoPrincipal"
+                    }
+                }
+            },
+            "models.EnderecoPrincipal": {
+                "type": "object",
+                "properties": {
+                    "bairro": {
+                        "type": "string"
+                    },
+                    "cep": {
+                        "type": "string"
+                    },
+                    "complemento": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "logradouro": {
+                        "type": "string"
+                    },
+                    "municipio": {
+                        "type": "string"
+                    },
+                    "numero": {
+                        "type": "string"
+                    },
+                    "origem": {
+                        "type": "string"
+                    },
+                    "sistema": {
+                        "type": "string"
+                    },
+                    "tipo_logradouro": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.EquipeSaudeFamilia": {
+                "type": "object",
+                "properties": {
+                    "id_ine": {
+                        "type": "string"
+                    },
+                    "indicador": {
+                        "type": "boolean"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "telefone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Mae": {
+                "type": "object",
+                "properties": {
+                    "cpf": {
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Nascimento": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "string"
+                    },
+                    "municipio": {
+                        "type": "string"
+                    },
+                    "municipio_id": {
+                        "type": "string"
+                    },
+                    "pais": {
+                        "type": "string"
+                    },
+                    "pais_id": {
+                        "type": "string"
+                    },
+                    "uf": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Obito": {
+                "type": "object",
+                "properties": {
+                    "ano": {
+                        "type": "integer"
+                    },
+                    "indicador": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "models.PhoneVerificationValidateRequest": {
+                "type": "object",
+                "required": [
+                    "code",
+                    "ddd",
+                    "ddi",
+                    "valor"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "ddd": {
+                        "type": "string"
+                    },
+                    "ddi": {
+                        "type": "string"
+                    },
+                    "valor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Saude": {
+                "type": "object",
+                "properties": {
+                    "clinica_familia": {
+                        "$ref": "#/components/schemas/models.ClinicaFamilia"
+                    },
+                    "equipe_saude_familia": {
+                        "$ref": "#/components/schemas/models.EquipeSaudeFamilia"
+                    }
+                }
+            },
+            "models.SelfDeclaredAddressInput": {
+                "type": "object",
+                "required": [
+                    "bairro",
+                    "cep",
+                    "estado",
+                    "logradouro",
+                    "municipio",
+                    "numero"
+                ],
+                "properties": {
+                    "bairro": {
+                        "type": "string"
+                    },
+                    "cep": {
+                        "type": "string"
+                    },
+                    "complemento": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "logradouro": {
+                        "type": "string"
+                    },
+                    "municipio": {
+                        "type": "string"
+                    },
+                    "numero": {
+                        "type": "string"
+                    },
+                    "tipo_logradouro": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.SelfDeclaredEmailInput": {
+                "type": "object",
+                "required": [
+                    "valor"
+                ],
+                "properties": {
+                    "valor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.SelfDeclaredPhoneInput": {
+                "type": "object",
+                "required": [
+                    "ddd",
+                    "ddi",
+                    "valor"
+                ],
+                "properties": {
+                    "ddd": {
+                        "type": "string"
+                    },
+                    "ddi": {
+                        "type": "string"
+                    },
+                    "valor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.Telefone": {
+                "type": "object",
+                "properties": {
+                    "alternativo": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "indicador": {
+                        "type": "boolean"
+                    },
+                    "principal": {
+                        "$ref": "#/components/schemas/models.TelefonePrincipal"
+                    }
+                }
+            },
+            "models.TelefonePrincipal": {
+                "type": "object",
+                "properties": {
+                    "ddd": {
+                        "type": "string"
+                    },
+                    "ddi": {
+                        "type": "string"
+                    },
+                    "origem": {
+                        "type": "string"
+                    },
+                    "sistema": {
+                        "type": "string"
+                    },
+                    "valor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "models.UserConfigOptInResponse": {
+                "type": "object",
+                "properties": {
+                    "optin": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "models.UserConfigResponse": {
+                "type": "object",
+                "properties": {
+                    "firstlogin": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -66,15 +66,15 @@
         "tab": "Barramento de Dados",
         "groups": [
           {
-            "group": "Cadastro Nacional",
+            "group": "Registro Municipal Integrado",
             "openapi": {
-              "source": "api-reference/bcadastro_openapi.json"
+              "source": "api-reference/rmi_openapi-v3.json"
             }
           },
           {
-            "group": "Exemplo Mintlify",
+            "group": "Cadastro Nacional",
             "openapi": {
-              "source": "api-reference/openapi.json"
+              "source": "api-reference/bcadastro_openapi.json"
             }
           }
         ]
