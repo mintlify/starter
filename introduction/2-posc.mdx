@@ -3,9 +3,9 @@ title: "Proof of Social Contribution"
 description: " "
 ---
 
-**Proof of Social Contribution (PoSC)** is Sage's core incentive mechanism, designed to reward authentic user actions by converting verified social activities directly into measurable economic value. Unlike Proof-of-Work, which favors those with powerful computing resources, or Proof-of-Stake, which benefits users holding large capital reserves, PoSC rewards the everyday user contributions that enrich social networks and communities.
+**Proof of Social Contribution (PoSC)** is designed to reward social activity by converting verified and measurable user contributions into economic value. Unlike Proof-of-Work, which favors those with powerful computing resources, or Proof-of-Stake, which benefits users holding large capital reserves, PoSC rewards the everyday social contributions that enrich networks and communities.
 
-PoSC incentivizes a wide range of onchain social actions, including content creation (posts), meaningful engagement (likes, comments), network growth (follows, friendships), and community building (channel creation and member expansion). Every user action is clearly tied to verifiable transaction fees and predefined action weights, ensuring rewards fairly reflect each action’s contribution to the ecosystem.
+PoSC incentivizes a wide range of onchain social actions, including content creation (posts), meaningful engagement (likes, comments), network growth (follows, friendships), and community building (channel creation and member expansion). Every user action is directly tied to its verifiable transaction fee and predefined action weight, ensuring rewards accurately reflect each action’s contribution to the ecosystem.
 
 <Info>
   To see the full list of eligible social actions and their corresponding weights, refer to the Action Weighting Model section on the [\$TRUST Economics](/architecture/7-trust-economics) page.
@@ -13,18 +13,18 @@ PoSC incentivizes a wide range of onchain social actions, including content crea
 
 ### How PoSC Rewards Work
 
-PoSC rewards follow a clear and transparent three-step process:
+The PoSC rewards engine can be explained in three steps:
 
 <Steps>
   <Step title="User Action (Onchain)" iconType="solid">
-    A user performs an eligible social action (e.g., posting content, liking content, or joining a channel). Because actions are performed onchain, users pay a transaction fee denominated in \$SUI. Each action also carries a predefined weight reflecting its relative value to the community.
+    A user performs an eligible social action (e.g., posting content, liking content, or joining a channel). Because actions are performed and recorded onchain, they carry a verifiable transaction fee denominated in \$SUI.
   </Step>
   <Step title="Reward Calculation (PoSC Evaluation)">
-    The PoSC engine verifies the action, converts the transaction fee into its USD equivalent using live price oracles, and calculates the precise \$TRUST reward. Reward calculation considers three criteria:
+    The PoSC engine validates the action, converts the transaction fee into its USD equivalent using live price oracles, and calculates the precise \$TRUST reward. The reward calculation considers three criteria:
 
-    - USD-equivalent value of the transaction fee paid.
-    - Market price of \$TRUST at the action’s timestamp.
-    - Action-specific weighting based on its community impact.
+    - USD-equivalent value of the transaction fee paid
+    - Price of \$TRUST at the action’s timestamp _(see _[_\$TRUST_](/introduction/4-trust)_ for additional details)_
+    - Action-specific weighting based on its community impact _(see Action Weighting Model for additional details)_
   </Step>
   <Step title="Minting Rewards">
     Users immediately gain the right to claim and mint their calculated reward amount of \$TRUST tokens—crypto’s first Earned Mint Token (EMT). Users mint rewards at their discretion.
