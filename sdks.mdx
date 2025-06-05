@@ -233,6 +233,182 @@ client.destroy_stream(composed_id)
 This example demonstrates the end-to-end Python workflow: client initialization, stream deployment, record management, taxonomy operations, and cleanup
 For comprehensive examples and edge-case handling, consult the test files in the [sdk-py repository](https://github.com/trufnetwork/sdk-py/tree/main/examples).
 
+
+## Using SDKs with Your Local Node
+
+<Note>This section is intended for node operators who are running a local TRUF.NETWORK node that is fully synced with the network. If your node is not connected to the network, queries will return empty results because your local database will not contain any data. Always ensure your node is synchronized before using it as an SDK endpoint.</Note>
+
+Before you can fetch data from a stream using the SDKs, you need to know the stream's ID and the data provider address. The easiest way to discover these is by using the [TRUF.NETWORK Explorer](https://truf.network/explorer/0x4710a8d8f0d845da110086812a32de6d90d7ff5c/stai0000000000000000000000000000). For example, the "AI Index" stream's details—including its stream ID (`stai0000000000000000000000000000`) and data provider (`0x4710a8d8f0d845da110086812a32de6d90d7ff5c`)—can be found there. You can browse the explorer to find many other streams, view their metadata, composition, and usage, and use those details in your SDK queries.
+
+You can use any TRUF.NETWORK SDK (Go, TypeScript/JavaScript, Python) to interact with your own local node, not just the public gateway. This allows you to fetch data directly from your node, which is especially useful for node operators, validators, and developers.
+
+### Prerequisites
+
+1. **Node is fully synced:**  
+   Ensure your node is fully synchronized with the network and has all data available.  
+   See the [Node Operator Guide](./node-operator-guide.mdx#7-verify-node-synchronization) for instructions on checking sync status.
+
+2. **Local endpoint:**  
+   Your node should be running and exposing the HTTP API at `http://localhost:8484` (the default).
+
+---
+
+### Example: Fetching Data from Your Local Node
+
+Below are examples for each SDK to fetch records from the "AI Index" stream:
+
+- **Data Provider:** `0x4710a8d8f0d845da110086812a32de6d90d7ff5c`
+- **Stream ID:** `stai0000000000000000000000000000`
+- **Endpoint:** `http://localhost:8484`
+
+#### Go SDK
+
+First, install the Go SDK:
+
+```bash
+go get github.com/trufnetwork/sdk-go
+```
+
+Then, use the following code to connect to your local node and fetch data:
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "github.com/kwilteam/kwil-db/core/crypto"
+    "github.com/kwilteam/kwil-db/core/crypto/auth"
+    "github.com/trufnetwork/sdk-go/core/tnclient"
+    "github.com/trufnetwork/sdk-go/core/types"
+    "github.com/trufnetwork/sdk-go/core/util"
+)
+
+func main() {
+    ctx := context.Background()
+    pk, _ := crypto.Secp256k1PrivateKeyFromHex("YOUR_PRIVATE_KEY")
+    signer := &auth.EthPersonalSigner{Key: *pk}
+    tnClient, err := tnclient.NewClient(
+        ctx,
+        "http://localhost:8484",
+        tnclient.WithSigner(signer))
+    if err != nil {
+        panic(err)
+    }
+    primitiveActions, _ := tnClient.LoadPrimitiveActions()
+    records, err := primitiveActions.GetRecord(ctx, types.GetRecordInput{
+        DataProvider: "0x4710a8d8f0d845da110086812a32de6d90d7ff5c",
+        StreamId:     "stai0000000000000000000000000000",
+    })
+    if err != nil {
+        panic(err)
+    }
+    for _, r := range records {
+		fmt.Println(r.EventTime, r.Value.String())
+    }
+}
+```
+
+<Note>Replace `YOUR_PRIVATE_KEY` with your actual private key (hex string). The signer is required for authenticated operations and transaction signing.</Note>
+
+#### TypeScript/JavaScript SDK
+
+First, install the SDK and dependencies:
+
+```bash
+pnpm install @trufnetwork/sdk-js ethers
+```
+
+Then, use the following code to connect to your local node and fetch data:
+
+```javascript
+import { NodeTNClient, StreamLocator, EthereumAddress, StreamId } from "@trufnetwork/sdk-js";
+import { Wallet } from "ethers";
+
+const wallet = new Wallet(
+    "YOUR_PRIVATE_KEY"
+);
+const client = new NodeTNClient({
+    chainId: "",
+    endpoint: "http://localhost:8484",
+    signerInfo: {
+        address: wallet.address,
+        signer: wallet,
+    },
+});
+
+const streamLocator: StreamLocator = {
+    streamId: StreamId.fromString("stai0000000000000000000000000000").unwrap(),
+    dataProvider: EthereumAddress.fromString("0x4710a8d8f0d845da110086812a32de6d90d7ff5c").throw(),
+};
+
+const primitive = client.loadPrimitiveAction();
+const records = await primitive.getRecord({
+  stream: streamLocator,
+});
+console.log(records);
+```
+
+<Note>Replace `YOUR_PRIVATE_KEY` with your actual private key (hex string). The wallet is required for signing and authenticating requests.</Note>
+
+#### Python SDK
+
+**Quick Start from Scratch**
+
+If you are starting a new project, follow these steps:
+
+```bash
+mkdir my-truf-project
+cd my-truf-project
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Create a `pyproject.toml` file with the following content:
+
+```toml
+[project]
+dependencies = [
+    "trufnetwork-sdk-py@git+https://github.com/trufnetwork/sdk-py.git@main"
+]
+name = "my-truf-project"
+version = "0.1.0"
+```
+
+Then install dependencies:
+
+```bash
+pip install .
+```
+
+Now you can use the SDK in your code:
+
+```python
+from trufnetwork_sdk_py.client import TNClient
+
+# Replace with your actual private key (hex string)
+client = TNClient("http://localhost:8484", "YOUR_PRIVATE_KEY")
+results = client.get_records(
+    "stai0000000000000000000000000000",
+    data_provider="0x4710a8d8f0d845da110086812a32de6d90d7ff5c"
+)
+for r in results:
+    print("EventTime:", r["EventTime"], "Value:", r["Value"])
+```
+
+<Note>The `TNClient` constructor requires both the endpoint URL and your private key as positional arguments. The private key is used for signing transactions and authenticating with the node.</Note>
+
+---
+
+### Troubleshooting
+
+- If you receive empty results, ensure your node is fully synced and has the latest data.
+- If you cannot connect, verify your node is running and listening on `http://localhost:8484`.
+
+For more details on node setup and sync, see the [Node Operator Guide](./node-operator-guide.mdx).
+
+---
+
 ### Additional Resources
 
 - [Truflation Whitepaper](https://whitepaper.truflation.com)
