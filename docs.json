@@ -73,9 +73,7 @@
           },
           {
             "group": "Cadastro Nacional",
-            "openapi": {
-              "source": "api-reference/bcadastro_openapi.json"
-            }
+            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json?token=GHSAT0AAAAAADCYP2OAXEC3HFVZBMR62G7Y2CBUVUQ"
           }
         ]
       }
