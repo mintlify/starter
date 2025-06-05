@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Sage Protocol",
   "colors": {
-    "primary": "#3185FC",
-    "light": "#3185FC",
-    "dark": "#3185FC"
+    "primary": "#4AC8FF",
+    "light": "#4AC8FF",
+    "dark": "#4AC8FF"
   },
   "favicon": "/favicon.svg",
   "navigation": {
