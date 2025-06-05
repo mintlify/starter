@@ -1,6 +1,6 @@
 ---
-title: "Channel > Registry"
-description: "Maintains registries mapping app addresses to channel addresses and ensures consistency. @sage/channel > registry"
+title: "Registry"
+description: "Maintains registries mapping app addresses to channel addresses and ensures consistency."
 ---
 
 ```rust
@@ -9,7 +9,11 @@ use sui::package;
 use sui::table;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/channel
+</Tip>
+
+## Structs
 
 ### Struct `AppChannelRegistry`
 
@@ -42,7 +46,7 @@ public struct ChannelRegistry has key
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 The `App` and `ChannelRegistry` did not correspond with each other.
 
@@ -50,7 +54,7 @@ The `App` and `ChannelRegistry` did not correspond with each other.
 const EAppChannelRegistryMismatch: u64 = 370;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_app_channel_registry_match`
 

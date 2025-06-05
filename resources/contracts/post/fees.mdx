@@ -1,6 +1,6 @@
 ---
-title: "Post > Fees"
-description: "Calculates, validates, and manages fees related to posting actions. @sage/post > fees"
+title: "Fees"
+description: "Calculates, validates, and manages fees related to posting actions."
 ---
 
 ```rust
@@ -13,7 +13,11 @@ use sage_admin::admin;
 use sage_admin::apps;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/post
+</Tip>
+
+## Structs
 
 ### Struct `PostFees`
 
@@ -35,7 +39,7 @@ public struct PostFees has key
   ```
 </Expandable>
 
-# Events
+## Events
 
 ### Event `PostFeesCreated`
 
@@ -76,7 +80,7 @@ public struct PostFeesUpdated has copy, drop
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Incorrect coin type passed in for the `custom_coin`.
 

@@ -1,7 +1,6 @@
 ---
-title: "Channel > Channel"
-description: "Defines core channel structures, member lists, moderation tools, and analytics integration.
-@sage/channel > channel"
+title: "Channel"
+description: "Defines core channel structures, member lists, moderation tools, and analytics integration."
 ---
 
 ```rust
@@ -19,7 +18,11 @@ use sage_shared::posts;
 use sage_utils::string_helpers;
 ```
 
-# Structs
+<Tip>
+  Explore this package further in the Mover Registry: @sage/channel
+</Tip>
+
+## Structs
 
 ### Struct `Channel`
 
@@ -47,7 +50,7 @@ public struct Channel has key
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Minimum number of characters for `Channel` name.
 
@@ -85,7 +88,7 @@ The `Channel` name is too short, too long, or is using invalid characters. Allow
 const EInvalidChannelName: u64 = 372;
 ```
 
-# Functions
+## Functions
 
 ### Function `assert_app_channel_match`
 

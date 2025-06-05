@@ -1,6 +1,6 @@
 ---
-title: "Channel > Actions"
-description: "Supports creating, managing, moderating channels, posting content, and handling follows/unfollows with fee verification. @sage/channel > actions"
+title: "Actions"
+description: "Supports creating, managing, moderating channels, posting content, and handling follows/unfollows with fee verification."
 ---
 
 ```rust
@@ -28,7 +28,11 @@ use sage_user::user_shared;
 use sage_utils::string_helpers;
 ```
 
-# Events
+<Tip>
+  Explore this package further in the Mover Registry: @sage/channel
+</Tip>
+
+## Events
 
 ### Event `ChannelCreated`
 
@@ -128,7 +132,7 @@ public struct ChannelUpdated has copy, drop
   ```
 </Expandable>
 
-# Constants
+## Constants
 
 Attempted to change the channel name to a different value. Channel names can only change the displayed case (e.g. "my-channel" to "my-CHANNEL").
 
@@ -136,7 +140,7 @@ Attempted to change the channel name to a different value. Channel names can onl
 const EChannelNameMismatch: u64 = 370;
 ```
 
-# Functions
+## Functions
 
 ### Function `add_moderator_as_owner`
 
