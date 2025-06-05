@@ -10,39 +10,95 @@ Sage Protocol features a modular architecture organized into a clearly defined s
 Handles administrative roles, permissions, governance, user moderation, application management, and protocol configuration. It securely manages critical operations, such as app creation, royalty distribution, and type-based access controls.
 
 <Accordion title="Explore Admin Package Modules">
-  <Card title="Access Module" href="resources/contracts/admin/access.mdx">
-    Provides strict type-based access controls, ensuring only correctly authorized entities perform sensitive operations. It defines and verifies configurations for various object and witness types, enforcing robust security through explicit assertions.
-  </Card>
+  - [Access Module](/resources/contracts/admin/access) (`access`): Implements type-based access controls, verifying authorized entities through explicit type assertions.
+  - [Actions Module](/resources/contracts/admin/actions) (`actions`): Supports administrative creation and configuration of apps, royalties management, reward toggling, and logs relevant events.
+  - [Admin Module](/resources/contracts/admin/admin) (`admin`): Defines and securely initializes core admin authority structures (`AdminCap`, `FeeCap`, `RewardCap`).
+  - [Apps Module](/resources/contracts/admin/apps) (`apps`): Manages app registration and configuration, maintains an address-mapped app registry.
+  - [Fees Module](/resources/contracts/admin/fees) (`fees`): Calculates, validates, and securely distributes royalties and fees according to economic parameters.
 </Accordion>
 
 ### `analytics`
 
 Records and manages onchain analytics data, tracking user activity such as posts, interactions, and follows. This data structure helps determine user engagement levels and reward eligibility, enabling richer application experiences.
 
+<Accordion title="Explore Analytics Package Modules">
+  - [Actions Module](/resources/contracts/analytics/actions) (`actions`): Creates, increments, and manages analytics metrics associated with channels, groups, and users.
+  - [Analytics Module](/resources/contracts/analytics/analytics) (`analytics`): Defines structures for analytics tracking, storing metrics, and managing claimable rewards.
+</Accordion>
+
 ### `channel`
 
 Manages decentralized community spaces ("channels"), handling creation, memberships, moderation roles, analytics integration, and channel metadata (avatars, descriptions). Channels are created within specific apps but remain globally accessible, enabling seamless integration and reuse across the ecosystem.
+
+<Accordion title="Explore Channel Package Modules">
+  - [Actions Module](/resources/contracts/channel/actions) (`actions`): Supports creating, managing, moderating channels, posting content, and handling follows/unfollows with fee verification.
+  - [Channel Module](/resources/contracts/channel/channel) (`channel`): Defines core channel structures, member lists, moderation tools, and analytics integration.
+  - [Fees Module](/resources/contracts/channel/fees) (`fees`): Validates, collects, and manages fees associated with channel actions.
+  - [Registry Module](/resources/contracts/channel/registry) (`registry`): Maintains registries mapping app addresses to channel addresses and ensures consistency.
+  - [Witness Module](/resources/contracts/channel/witness) (`witness`): Provides witness objects for channel verification and secure operation.
+</Accordion>
 
 ### `post`
 
 Facilitates blockchain-native content creation and interactions, including posts, comments, likes, and associated engagement metrics. Posts are universally accessible across Sage, promoting content integration and cross-application remixing.
 
+<Accordion title="Explore Post Package Modules">
+  - [Actions Module](/resources/contracts/post/actions) (`actions`): Enables creating posts, comments, and likes with royalty and fee enforcement.
+  - [Fees Module](/resources/contracts/post/fees) (`fees`): Calculates, validates, and manages fees related to posting actions.
+  - [Post Module](/resources/contracts/post/post) (`post`): Defines data structures for posts, including comments, likes, and metadata management.
+</Accordion>
+
 ### `reward`
 
 Implements Sage’s reward logic using the Proof of Social Contribution (PoSC) model. It defines global action weights, calculates explicit rewards, and transparently distributes rewards based on validated user actions, providing clarity and consistency for developers.
+
+<Accordion title="Explore Reward Package Modules">
+  - [Actions Module](/resources/contracts/reward/actions) (`actions`): Manages claiming, calculating, and distributing user rewards based on analytics metrics.
+  - [Registry Module](/resources/contracts/reward/registry) (`registry`): Tracks reward weights and manages epochs of reward configurations.
+  - [Reward Module](/resources/contracts/reward/reward) (`reward`): Stores, manages, and validates reward weights for user actions.
+  - [Witness Module](/resources/contracts/reward/witness) (`witness`): Provides witness objects for secure reward claims.
+</Accordion>
 
 ### `shared`
 
 Offers common data structures and utility functions utilized by multiple protocol packages, including favorites, likes, memberships, moderation roles, and general operational logic. This simplifies development and ensures consistent user experiences across the protocol.
 
+<Accordion title="Explore Shared Package Modules">
+  - [Blocklists Module](/resources/contracts/shared/blocklists) (`blocklists`): Manages user blocklists, checks user restrictions, and stores block states.
+  - [Favorites Module](/resources/contracts/shared/favorites) (`favorites`): Tracks user favorites, manages favorite counts, and status checks.
+  - [Likes Module](/resources/contracts/shared/likes) (`likes`): Stores, manages, and verifies user likes on posts or content.
+  - [Membership Module](/resources/contracts/shared/membership) (`membership`): Tracks membership status, joins/leaves, and membership counts.
+  - [Moderation Module](/resources/contracts/shared/moderation) (`moderation`): Manages moderator and owner roles, permissions, and moderator state tracking.
+  - [Posts Module](/resources/contracts/shared/posts) (`posts`): Stores and manages collections of post addresses associated with an entity.
+</Accordion>
+
 ### `trust`
 
 Oversees the lifecycle management of Sage’s native \$TRUST token, explicitly handling token minting, burning, and supply regulation. It directly integrates with the reward package, ensuring token issuance aligns transparently with validated user contributions.
+
+<Accordion title="Explore Trust Package Modules">
+  - [Access Module](/resources/contracts/trust/access) (`access`): Enforces type-based permissions for Trust-related actions.
+  - [Trust Module](/resources/contracts/trust/trust) (`trust`): Handles minting and managing the supply of TRUST tokens based on verified user actions.
+</Accordion>
 
 ### `user`
 
 Manages decentralized user identities, covering both private and public user data, social connections, analytics, and user-level interactions. Developers leverage this package to create identity-aware applications, securely managing user-controlled data and onchain social interactions.
 
+<Accordion title="Explore User Package Modules">
+  - Actions Module (`actions`): Handles creation, management, and updates to user-owned and shared identities, invites, and profile interactions.
+  - Fees Module (`fees`): Validates and manages fees related to user actions.
+  - Invite Module (`invite`): Manages creation, validation, and tracking of user invitations.
+  - Registry Module (`registry`): Maintains registries linking user keys to owned/shared user identities.
+  - User Owned Module (`user_owned`): Defines structures and manages data explicitly owned by users.
+  - User Shared Module (`user_shared`): Handles structures and data shared publicly or across entities.
+  - Witness Module (`witness`): Provides witness objects for validating user actions.
+</Accordion>
+
 ### `utils`
 
 Provides foundational utility functions shared across multiple protocol packages, including tasks such as string handling, type checking, and input validation. Centralizing these utilities ensures secure, efficient, and consistent protocol operations.
+
+<Accordion title="Explore Utils Package Modules">
+  - [String Module](/resources/contracts/utils/string) (`string`): Offers string manipulation, validation, and helper functions used across packages.
+</Accordion>
