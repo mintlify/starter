@@ -67,12 +67,6 @@
         "groups": [
           {
             "group": "Registro Municipal Integrado",
-            "openapi": {
-              "source": "api-reference/rmi_openapi-v3.json"
-            }
-          },
-          {
-            "group": "Cadastro Nacional",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
           },
           {
