@@ -74,6 +74,10 @@
           {
             "group": "Cadastro Nacional",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
+          },
+          {
+            "group": "Módulo APP Go Rio",
+            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
           }
         ]
       }
