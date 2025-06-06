@@ -3,39 +3,34 @@ title: "Proof of Social Contribution"
 description: " "
 ---
 
-**Proof of Social Contribution (PoSC)** is designed to reward social activity by converting verified and measurable user contributions into economic value. Unlike Proof-of-Work, which favors those with powerful computing resources, or Proof-of-Stake, which benefits users holding large capital reserves, PoSC rewards the everyday social contributions that enrich networks and communities.
+**Proof of Social Contribution (PoSC)** is Sage's novel incentive mechanism, designed to verify authentic onchain social activities and transparently convert eligible user actions into economic value. Unlike Proof-of-Work, which favors powerful computing resources, or Proof-of-Stake, which favors users with large capital reserves, PoSC rewards the everyday social contributions that enrich networks and communities.
 
-PoSC incentivizes a wide range of onchain social actions, including content creation (posts), meaningful engagement (likes, comments), network growth (follows, friendships), and community building (channel creation and member expansion). Every user action is directly tied to its verifiable transaction fee and predefined action weight, ensuring rewards accurately reflect each action’s contribution to the ecosystem.
-
-<Info>
-  To see the full list of eligible social actions and their corresponding weights, refer to the Action Weighting Model section on the [\$TRUST Economics](/architecture/7-trust-economics) page.
-</Info>
+At present, PoSC incentivizes more than 20 social actions, including content creation (creating a post), meaningful engagement (giving a like, adding a comment), network growth (following another user, friending a user), and community building (creating a channel, growing channel membership). See the full list of eligible social actions on the [\$TRUST Economics](/architecture/7-trust-economics) page.
 
 ### How PoSC Rewards Work
 
-The PoSC rewards engine can be explained in three steps:
+The PoSC process can be explained in three steps:
 
 <Steps>
   <Step title="User Action (Onchain)" iconType="solid">
-    A user performs an eligible social action (e.g., posting content, liking content, or joining a channel). Because actions are performed and recorded onchain, they carry a verifiable transaction fee denominated in \$SUI.
+    An eligible social action (e.g. posting content) is performed and recorded onchain, carrying a verifiable transaction fee denominated in \$SUI.
   </Step>
   <Step title="Reward Calculation (PoSC Evaluation)">
-    The PoSC engine validates the action, converts the transaction fee into its USD equivalent using live price oracles, and calculates the precise \$TRUST reward. The reward calculation considers three criteria:
+    The PoSC engine validates the action, records its associated transaction fee, and calculates the precise \$TRUST reward. The reward calculation considers two data points:
 
-    - USD-equivalent value of the transaction fee paid
-    - Price of \$TRUST at the action’s timestamp [___(see \$TRUST for additional details)___](/introduction/4-trust)
-    - Action-specific weighting based on its community impact _(see Action Weighting Model for additional details)_
+    - The value of the transaction fee paid
+    - The value of \$TRUST at the action’s timestamp<sup>(1)</sup>
   </Step>
-  <Step title="Minting Rewards">
-    Users immediately gain the right to claim and mint their calculated reward amount of \$TRUST tokens. Users mint rewards at their discretion.
+  <Step title="Reward Minting">
+    Immediately following PoSC validation, users gain the right to claim and mint their \$TRUST reward, and can do so at their discretion.
   </Step>
 </Steps>
 
-With rewards linked to validated actions and their associated transaction costs, PoSC naturally deters spam and superficial engagement while encouraging ecosystems built around genuine social activity and contributions.
+_1) Since \$TRUST is an _[_Earned Mint Token_](/introduction/3-emt)_—meaning it's supply comes exclusively from verified, onchain user actions—it won't immediately have sufficient liquidity or a stable market price for accurate reward calculation. To address this, Sage calculates \$TRUST minting rewards in two phases: Phase 1: Bootstrap (using a fixed mint price), and Phase 2: Market (using a market-driven mint price). For full details, see the _[_\$TRUST_](/introduction/4-trust)_ section._
 
 ### Rethinking Consensus: From Infrastructure to Individuals
 
-Traditional blockchain consensus models like Proof-of-Work and Proof-of-Stake inherently favor users with greater financial or hardware resources. PoSC shifts the paradigm by placing verified human effort and meaningful participation at the heart of network incentives. In turn, every user has an equal opportunity to participate in, and benefit from, the ecosystem.
+Traditional blockchain consensus models like Proof-of-Work and Proof-of-Stake inherently favor users with greater financial or hardware resources. PoSC shifts the paradigm by placing verified human effort and meaningful participation at the heart of network incentives. In turn, every user has an equal opportunity to participate in and benefit from the ecosystem.
 
 | Mechanism | Rewarded Resource          | Who Benefits            | Cost Basis            | Outcome                        |
 | :-------- | :------------------------- | :---------------------- | :-------------------- | :----------------------------- |
