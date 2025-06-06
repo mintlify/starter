@@ -72,6 +72,10 @@
           {
             "group": "GO API",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
+          },
+          {
+            "group": "EAI Agent API",
+            "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
           }
         ]
       }
