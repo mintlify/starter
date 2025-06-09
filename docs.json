@@ -66,16 +66,20 @@
         "tab": "Barramento de Dados",
         "groups": [
           {
+            "group": "Busca",
+            "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
+          },
+          {
+            "group": "eAí Agent",
+            "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
+          },
+          {
             "group": "Registro Municipal Integrado",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
           },
           {
-            "group": "GO API",
+            "group": "GO",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
-          },
-          {
-            "group": "EAI Agent API",
-            "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
           }
         ]
       }
