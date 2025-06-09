@@ -22,7 +22,7 @@ public fun verify_channel_witness<ChannelWitnessType: drop>(
 }
 ```
 
-This type-name check explicitly prevents unauthorized witness usage, significantly strengthening protocol security.
+This type check explicitly prevents unauthorized usage, significantly strengthening protocol security.
 
 ### **Architectural Levels of Access Control**
 
@@ -47,14 +47,14 @@ The witness-based access control model provides several critical security benefi
 - **Upgradeable and Flexible:**\
   Administrative capabilities enable secure updates to witness configurations at runtime, eliminating the need to redeploy smart contracts. For example, administrators can safely update governance witness configurations using existing permissions:
 
-```
-public fun update_governance_witness<TypeName>(
+```rust
+public fun update_channel_type<ChannelType: key> (
     _: &AdminCap,
-    governance_witness_config: &mut GovernanceWitnessConfig
+    channel_config: &mut ChannelConfig
 ) {
-    assert!(!governance_witness_config.finalized, EIsFinalized);
-    governance_witness_config.type_name = type_name::get<TypeName>();
-    governance_witness_config.finalized = true;
+    let type_name = type_name::get<ChannelType>();
+
+    channel_config.type_name = type_name;
 }
 ```
 
