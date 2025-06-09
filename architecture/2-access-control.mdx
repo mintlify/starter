@@ -45,7 +45,7 @@ The witness-based access control model provides several critical security benefi
 - **Composable Security:**\
   Sage can easily introduce new witness types and extend validation rules, seamlessly integrating enhancements into the existing security framework without disruption.
 - **Upgradeable and Flexible:**\
-  Administrative capabilities enable secure updates to witness configurations at runtime, eliminating the need to redeploy smart contracts. For example, administrators can safely update governance witness configurations using existing permissions:
+  Administrative capabilities enable secure updates to witness configurations at runtime, eliminating the need to redeploy smart contracts. For example, administrators can safely update governance witness configurations using existing permissions: <u>[RORY: this section is not strictly true. we may never actually upgrade any of these because if we did things right the first time we shouldn't have to. the important aspect about this was a technical challenge we overcame to allow for this pattern to exist everywhere in the protocol while avoiding circular dependencies.]</u>
 
 ```rust
 public fun update_channel_type<ChannelType: key> (
