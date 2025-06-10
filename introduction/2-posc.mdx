@@ -5,7 +5,7 @@ description: " "
 
 **Proof of Social Contribution (PoSC)** is Sage's novel incentive mechanism, designed to verify user social activities and convert eligible actions into economic value. Unlike Proof-of-Work, which favors powerful computing resources, or Proof-of-Stake, which favors users with large capital reserves, PoSC rewards the everyday social contributions that enrich networks and communities.
 
-At present, PoSC incentivizes more than 20 social actions, including content creation (creating a post), meaningful engagement (giving a like, adding a comment), network growth (following another user, friending a user), and community building (creating a channel, growing channel membership). See the full list of eligible social actions on the [\$TRUST Mechanics](/architecture/7-trust-mechanics) page.
+PoSC currently incentivizes more than 15 social actions, including content creation (creating a post), meaningful engagement (giving a like, adding a comment), network growth (following or friending another), and community building (creating a channel, growing channel members). You can find the full list of eligible social actions on the [\$TRUST Mechanics](/architecture/7-trust-mechanics) page.
 
 ### How PoSC Rewards Work
 
@@ -22,26 +22,24 @@ The PoSC process can be explained in three steps:
     - The value of \$TRUST at the action’s timestamp
 
     <Info>
-      Since \$TRUST is an [Earned Mint Token](/introduction/3-emt)—meaning it's supply comes exclusively from verified, onchain user actions—it won't immediately have sufficient liquidity or a stable market price for accurate reward calculation. To address this, Sage will calculate \$TRUST minting rewards in two phases: Phase 1: Bootstrap (using a fixed mint price), and Phase 2: Market (using a market-driven mint price). For full details, see the [\$TRUST](/introduction/4-trust) section.
+      Since \$TRUST is an [Earned Mint Token](/introduction/3-emt)—meaning it's supply emerges only from verified, onchain user actions—Sage will use a fixed mint price to calculate rewards during the bootstrap phase (Phase 1). After \$TRUST reaches sufficient liquidity and a stable market price, the protocol will transition to using a market-driven mint price for reward calculations (Phase 2). See full details for the minting phases in the [\$TRUST](/introduction/4-trust) section.
     </Info>
   </Step>
   <Step title="Reward Minting">
-    Immediately following PoSC validation, users gain the right to mint their \$TRUST reward, and can do so at their discretion.
+    Immediately following PoSC validation, users are granted the right to mint their proportional \$TRUST rewards, and can do so at their discretion.
   </Step>
 </Steps>
 
 ### **Incremental Engagement Rewards**
 
-Subsequent interactions on content (e.g., likes, shares, comments) are considered independent actions and generate additional rewards that are distributed to the original content creator. Users engaging with content also receive proportional rewards, further encouraging community involvement.
+Subsequent content interactions (e.g., likes, shares, comments) are verified by the PoSC engine as independent actions that generate additional rewards. Each verified interactions generates additional \$TRUST minting rights (i.e., rewards) to the original content creator. Users engaging with content also receive proportional rewards, further encouraging community involvement.
 
 ### Rethinking Consensus: From Infrastructure to Individuals
 
-Traditional blockchain consensus models like Proof-of-Work and Proof-of-Stake inherently favor users with greater financial or hardware resources. PoSC shifts the paradigm by placing verified human effort and meaningful participation at the heart of network incentives. In turn, every user has an equal opportunity to participate in and benefit from the ecosystem.
+Traditional blockchain consensus models like Proof-of-Work and Proof-of-Stake inherently favor users with greater financial or hardware resources. PoSC shifts the paradigm by placing verified human effort and meaningful participation at the heart of network incentives. In turn, every user starts with an equal opportunity to participate in and benefit from the ecosystem. When rewards are aligned with transparent, meaningful engagement, user social activity becomes a central driver of sustainable ecosystem growth and value creation.
 
 | Mechanism | Rewarded Resource          | Who Benefits            | Cost Basis            | Outcome                        |
 | :-------- | :------------------------- | :---------------------- | :-------------------- | :----------------------------- |
 | PoW       | Computational power        | Miners                  | Energy consumption    | Network security               |
 | PoS       | Staked capital             | Token holders           | Opportunity cost      | Validation                     |
 | **PoSC**  | **Verified participation** | **Active contributors** | **Transaction costs** | **Ecosystem growth and trust** |
-
-When rewards are aligned with transparent, meaningful user engagement, human contributions become the central drivers of sustainable ecosystem growth and community value creation.
