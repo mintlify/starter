@@ -30,7 +30,7 @@ In practice, action weights directly influence reward calculations. The precise 
   \$TRUST reward = (Action’s Transaction Fee ÷ Market \$TRUST Price) × **Action’s Weight**
 </Info>
 
-Below is the current set of eligible actions and their corresponding beta-phase weights.
+Below is the current set of eligible actions and their corresponding beta-phase weights:
 
 | Category            | Action                                                             | Weight (beta) |
 | ------------------- | ------------------------------------------------------------------ | ------------- |
@@ -38,15 +38,24 @@ Below is the current set of eligible actions and their corresponding beta-phase 
 | Engagement Received | User's posted content **receives a like**                          | 1.0           |
 | Engagement Received | User's posted content **receives a bookmark**                      | 1.0           |
 | Engagement Received | User's posted content **receives a comment**                       | 1.0           |
-| Engagment Given     | User **likes** another user's content                              | 1.0           |
-| Engagment Given     | User **bookmarks** another user's content                          | 1.0           |
-| Engagment Given     | User **comments** on another user's content                        | 1.0           |
+| Engagment Given     | User **likes** another user's post                                 | 1.0           |
+| Engagment Given     | User **bookmarks** another user's post                             | 1.0           |
+| Engagment Given     | User **comments** on another user's post                           | 1.0           |
 | Engagment Given     | User **reply's to a commen**t                                      | 1.0           |
 | Social Graph        | User **gains a follower**                                          | 1.0           |
 | Social Graph        | User **follows another user**                                      | 1.0           |
 | Social Graph        | User **establishes a** **friend**                                  | 1.0           |
 | Community           | User **creates a channel**                                         | 1.0           |
 | Community           | User **joins a channel**                                           | 1.0           |
+
+In addition to the current set of implemented actions, we've identified several others that we plan to integrate into the protocol as Sage evolves. These future actions are designed to capture more nuanced forms of user engagement and contributions, ensuring our incentive mechanisms remain comprehensive and responsive. Initially, Sage's core team will define these eligible actions and their associated weights, but as Sage moves toward full decentralization, these decisions will progressively shift to community governance. This means the community will ultimately determine which actions qualify for rewards and how their relative values should be weighted—ensuring incentives remain aligned with collective goals. The following list highlights upcoming actions we expect to incorporate after thorough testing and validation during our beta phase.
+
+| Category             | Action                                              | Status     |
+| :------------------- | :-------------------------------------------------- | :--------- |
+| Community            | User's **channel gets a new member**                | In Testing |
+| **Social Graph**     | User **invites another user that accepts**          | In Testing |
+| Engagement Received  | User's posted content **is shared** by another user | In Testing |
+| **Engagement Given** | User **shares another user's post**                 | In Testing |
 
 ### **Supply Control & Treasury Management**
 
