@@ -20,6 +20,18 @@ Token minting unfolds across two clearly defined phases, each governed by the pr
 
 ### Current Eligible Actions and Action Weights
 
+Sage measures user contributions through a defined set of eligible actions and assigned weights. For the protocol's beta phase, all eligible actions are initially set with a uniform contribution weight of **1.0**. This approach provides a stable baseline, simplifying analysis and enabling accurate evaluation of user engagement patterns.
+
+As the protocol collects data and community feedback, action weights will be refined to reflect the varying degrees of effort and ecosystem value associated with different actions. For example, actions like **content creation** will likely maintain a higher weight (such as **1.0**) given their intrinsic value and the significant effort involved. Conversely, simpler, lower-effort interactions, such as **liking content**, may be reduced to weights around **0.5** to more accurately represent their relative impact.
+
+In practice, action weights directly influence reward calculations. The precise reward amount is determined using the following formula:
+
+<Info>
+  \$TRUST reward = (Action’s Transaction Fee ÷ Market \$TRUST Price) × **Action’s Weight**
+</Info>
+
+Below is the current set of eligible actions and their corresponding beta-phase weights.
+
 | Category            | Action                                                             | Weight (beta) |
 | ------------------- | ------------------------------------------------------------------ | ------------- |
 | Content Creation    | User **creates content** (e.g., text post, image post, video post) | 1.0           |
