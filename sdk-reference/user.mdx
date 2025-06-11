@@ -1,0 +1,447 @@
+---
+title: 'User'
+description: ' '
+---
+
+Users are the foundation of Sage Protocol's social layer. Each user has a global identity that persists across all applications while maintaining separate content per app. This section covers the complete user journey from account creation through social connections, content management, and reward claiming.
+
+## Creation
+
+User creation establishes a global identity within Sage Protocol. Each user gets two objects: an owned object (soulbound to your wallet) and a shared object (for social interactions).
+
+### User Objects
+
+Sage creates two user objects for technical reasons related to Sui's object model:
+
+- **Owned User Object:** Soulbound to your wallet, used for operations only you can perform (like posting content or following others). Acts as authentication that your wallet is a protocol user.
+- **Shared User Object:** Used for social interactions where others need to reference you (like friending, mentioning, or engaging with your content).
+
+Developers work with both objects, but users won't typically need to understand this distinction.
+
+### Channel Names
+
+- Valid characters: a-z, A-Z, 0-9, and dashes
+- Cannot start or end with a dash
+- Examples: `sui-fanatic`, `DeFi-general`, `themoveguy`
+
+### Account Creation
+
+Currently, user creation requires invite codes. This requirement will become optional as the protocol matures:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+
+function MyComponent() {
+    const { create } = useUser();
+    const [userData, setUserData] = useState({
+        name: '', description: '', inviteCode: '', inviteKey: ''
+    });
+
+    const handleSignUp = async () => {
+        const result = await create({
+            amounts: [0, 0],
+            ...userData,
+            self: walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Profile Customization
+
+Users can create rich profiles with media assets and markdown descriptions:
+
+*Example TBD*
+
+
+### Content Guidelines
+
+Profile descriptions support markdown formatting, but developers are responsible for sanitizing user input to prevent XSS and ensure content quality.
+
+## Social Connections
+
+Sage supports two types of social relationships: following (unidirectional) and friending (bidirectional).
+
+### Following Users
+
+Following creates a one-way relationship, similar to Twitter follows:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ userSharedId }) {
+    const { follow } = useUser();
+
+    const handleFollow = async () => {
+        const result = await follow({
+            amounts: [0, 0],
+            followSharedUserId: userSharedId,
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Friend Relationships
+
+Friending creates mutual connections. Use this method to create a friend request, or ff someone has already sent you a friend request, this will create the mutual friendship:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+
+function MyComponent({ userSharedId }) {
+    const { friend } = useUser();
+
+    const handleFriend = async () => {
+        const result = await friend({
+            amounts: [0, 0],
+            friendSharedUserId: userSharedId,
+            self: userContext.walletAddress,
+            sharedUserId: userContext.sharedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+Users can remove pending requests they've sent or received:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent() {
+    const { removeFriendRequest } = useUser();
+
+    const handleCancel = async (friendSharedUserId) => {
+        const result = await removeFriendRequest({
+            friendSharedUserId,
+            sharedUserId: userContext.sharedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+## Unfriending & Unfollowing
+
+Users can remove social connections:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ userSharedId, isFollowing }) {
+    const { unfollow } = useUser();
+
+    const handleUnfollow = async () => {
+        const result = await unfollow({
+            amounts: [0, 0],
+            followSharedUserId: userSharedId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent() {
+    const { unfriend } = useUser();
+
+    const handleUnfriend = async (friendSharedUserId) => {
+        const result = await unfriend({
+            amounts: [0, 0],
+            friendSharedUserId,
+            self: userContext.walletAddress,
+            sharedUserId: userContext.sharedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+## Social Use Cases
+
+### Professional Networking:
+
+- Follow industry experts for insights
+- Friend colleagues for closer collaboration
+- Build professional reputation through connections
+
+### Community Building:
+
+- Follow community leaders and active contributors
+- Friend regular collaborators on projects
+- Create tight-knit groups through mutual friending
+
+## Profile Content
+
+Users can post content directly to other users' profiles, similar to writing on someone's wall or timeline.
+
+### Profile Posting
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ targetUserSharedId }) {
+    const { post } = useUser();
+    const [postData, setPostData] = useState({ title: '', description: '', data: '' });
+
+    const handlePost = async () => {
+        const result = await post({
+            amounts: [0, 0],
+            ...postData,
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress,
+            sharedUserId: targetUserSharedId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Profile Post Examples
+
+**Professional Endorsement:**
+
+```typescript
+const result = await sageClient.postToUser({
+  amounts: [0, 0],
+  sharedUserId: colleagueSharedId,
+  title: '🌟 Professional Recommendation',
+  description: 'Endorsement for excellent smart contract work',
+  data: `## Outstanding Smart Contract Developer
+
+Just wanted to publicly recognize **Alice** for her exceptional work on our DeFi protocol:
+
+✅ **Technical Excellence**: Delivered bug-free smart contracts on time  
+✅ **Innovation**: Proposed novel gas optimization techniques  
+✅ **Mentorship**: Helped onboard 3 new developers to the team  
+
+Alice is exactly the kind of developer every Web3 team needs! 🚀`,
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+**Community Appreciation:**
+
+```typescript
+const result = await sageClient.postToUser({
+  amounts: [0, 0],
+  sharedUserId: mentorSharedId,
+  title: '🙏 Thank You!',
+  description: 'Gratitude for mentorship and guidance',
+  data: `Thanks for taking the time to review my code and provide such detailed feedback. Your suggestions about:
+
+- Gas optimization patterns
+- Security best practices  
+- Code organization
+
+...have made me a much better developer. The Web3 community is lucky to have mentors like you! 💜`,
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+## Profile Management
+
+Users can update their profile information including name casing, description, and media assets.
+
+Profile Updates
+
+*Example TBD*
+
+## Favorites
+
+Users can favorite channels, posts, and other users to curate their preferred content and connections.
+
+### Channel Favorites
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ channelId }) {
+    const { addFavoriteChannel } = useUser();
+
+    const handleFavorite = async () => {
+        const result = await addFavoriteChannel({
+            channelId,
+            ownedUserId: userContext.ownedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+
+function MyComponent() {
+    const { removeFavoriteChannel } = useUser();
+
+    const handleRemove = async (channelId) => {
+        const result = await removeFavoriteChannel({
+            channelId,
+            ownedUserId: userContext.ownedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Post Favorites
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ postId, authorSharedUserId }) {
+    const { addFavoritePost } = useUser();
+
+    const handleFavorite = async () => {
+        const result = await addFavoritePost({
+            authorSharedUserId,
+            postId,
+            ownedUserId: userContext.ownedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+
+function MyComponent() {
+    const { removeFavoritePost } = useUser();
+
+    const handleRemove = async (postId) => {
+        const result = await removeFavoritePost({
+            postId,
+            ownedUserId: userContext.ownedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### User Favorites
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+
+function MyComponent({ userSharedId }) {
+    const { addFavoriteUser } = useUser();
+
+    const handleFavorite = async () => {
+        const result = await addFavoriteUser({
+            favoriteSharedUserId: userSharedId,
+            ownedUserId: userContext.ownedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+    
+function MyComponent() {
+    const { removeFavoriteUser } = useUser();
+
+    const handleRemove = async (favoriteSharedUserId) => {
+        const result = await removeFavoriteUser({
+            favoriteSharedUserId,
+            ownedUserId: userContext.ownedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Favorites Use Cases
+
+- Content Curation: Bookmark high-quality posts for later reference
+- Community Building: Highlight valuable channels and active contributors
+- Professional Network: Track industry experts and thought leaders
+- Personal Organization: Create custom lists of preferred content and people
+
+## Reward Claiming
+
+Users can claim $TRUST token rewards based on their social contributions during specific time periods (epochs).
+
+### Claiming Rewards
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+
+function MyComponent({ epoch }) {
+    const { claimReward } = useUser();
+
+    const handleClaim = async () => {
+        const result = await claimReward({
+            epoch,
+            ownedUserId: userContext.ownedUserId,
+            sharedUserId: userContext.sharedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Reward System
+
+Rewards are calculated based on verified social actions during epoch periods. Users can claim rewards at their discretion after the actions have been validated by the protocol's Proof of Social Contribution mechanism.
+
+**Epoch-based claiming allows users to:**
+
+- Accumulate rewards over time
+- Claim when gas costs are favorable
+- Batch multiple actions into single claim transactions
+- Maintain control over reward timing

@@ -1,0 +1,154 @@
+---
+title: 'Introduction'
+description: ' '
+---
+
+The Sage Protocol SDK provides developers with a complete toolkit for building decentralized applications on Sui that leverage Sage's social primitives and economic incentives. This SDK handles all the complexity of blockchain interactions, letting you focus on building engaging user experiences.
+
+## Installation
+
+Install the SDK using npm or yarn:
+
+<CodeGroup>
+
+```bash pnpm
+pnpm i @sageprotocol/sdk
+```
+
+```bash yarn
+yarn add @sageprotocol/sdk
+```
+
+```bash npm
+npm i @sageprotocol/sdk
+```
+
+</CodeGroup>
+
+## Quick Start Example
+
+Here's a basic setup showing both approaches:
+
+**Vanilla Client Setup:**
+
+```typescript
+import { SageClient } from '@sageprotocol/sdk/client';
+
+const sageClient = new SageClient({
+  appId: '0x123...', // Your app's ID
+  channelRegistryId: '0x456...', // Your app's channel registry
+  network: 'testnet'
+});
+```
+
+**React Wrapper Setup:**
+
+```typescript
+import { SageProvider, useUser } from '@sageprotocol/sdk/react';
+
+function App() {
+  return (
+    <SageProvider
+      appId="0x123..."
+      channelRegistryId="0x456..."
+      network="testnet"
+    >
+      <UserProfile />
+    </SageProvider>
+  );
+}
+
+function UserProfile() {
+  const { create } = useUser();
+  
+  ...
+}
+```
+
+## Prerequisites
+
+<Steps>
+  <Step title="Sui Wallet" iconType="solid">
+    Users need a Sui wallet to sign transactions.
+
+    <Info>
+      Examples include [Suiet](https://suiet.app), [Phantom](https://phantom.com), [Slush](https://chromewebstore.google.com/detail/slush-%E2%80%94-a-sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil), and many more.
+    </Info>
+  </Step>
+  <Step title="Network Selection">
+    Choose testnet for development or mainnet for production.
+  </Step>
+  <Step title="Basic Sui Knowledge">
+    Familiarity with Sui's object model and transaction signing helps but isn't required.
+  </Step>
+</Steps>
+
+## Core Architecture
+
+The Sage SDK offers two integration approaches:
+
+<Card title="Vanilla Client" icon="square-1" iconType="solid">
+  Direct programmatic access to all Sage Protocol functions. Ideal for server-side applications, custom integrations, or when you need fine-grained control over transaction management.
+</Card>
+
+<Card title="React Wrapper" icon="square-2" iconType="solid">
+  Provides React hooks and context providers that simplify state management and transaction handling in React applications. Built on top of the vanilla client with additional React-specific optimizations.
+</Card>
+
+Both approaches support testnet and mainnet deployments, allowing you to develop and test before going to production.
+
+## Key Concepts
+
+### Application Isolation
+
+Content and channels are isolated per application, while user identities remain global across all Sage applications. This means users maintain consistent profiles and social graphs while experiencing app-specific content.
+
+### Transaction Patterns
+
+All write operations return transactions that must be signed and executed by your users' wallets. The SDK handles transaction construction while your application manages the signing flow:
+
+```typescript
+const result = await sageClient.createUser({
+  amounts: [0, 0],
+  name: "john-doe",
+  description: "Web3 enthusiast",
+  self: walletAddress
+});
+
+if (result.ok) {
+  await signAndExecuteTransaction({ transaction: result.transaction });
+}
+```
+
+### Error Handling
+
+The SDK uses a consistent result pattern across all operations. Check the ok property before proceeding:
+
+```typescript
+if (result.ok) {
+  // Success: use result.transaction
+} else {
+  // Error: handle result.err
+  console.error(result.err);
+}
+```
+
+## Use Cases
+
+The Sage SDK enables various decentralized social applications:
+
+- Community Platforms: Reddit-style discussion forums with tokenized engagement
+- Social Networks: Twitter-like platforms with user-owned profiles and relationships
+- Creator Platforms: Medium-style publishing with direct creator-audience connections
+- Gaming Communities: Discord-like spaces with integrated reputation and rewards
+- Professional Networks: LinkedIn-style platforms with verifiable professional identities
+
+## What's Next
+
+This documentation covers the three core primitives you'll work with:
+
+[Channels](/sdk-reference/channel): Community spaces where users can post and interact
+[Posts](/sdk-reference/post): Content creation, commenting, and engagement
+[Users](/sdk-reference/user): Identity management, social connections, and profiles
+
+Each section provides comprehensive examples and patterns for both vanilla client and React implementations.
