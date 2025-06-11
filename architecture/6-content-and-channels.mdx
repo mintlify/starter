@@ -10,7 +10,7 @@ Sage Protocol manages user-generated content and community interactions using de
 User-generated content in Sage is managed through verifiable blockchain structures:
 
 - **Posts**: Managed via the `Post` structure, each post explicitly stores metadata (title, description), content data, author details, timestamps, interaction metrics (likes, comments), and edit/delete status.
-- **Engagement Interactions**: Explicit actions such as likes and comments are transparently tracked within dedicated onchain substructures (`Likes` and `Posts`). These interactions increment engagement metrics used directly for reward calculations and analytics.
+- **Engagement Interactions**: Explicit actions such as likes, favorites, and comments are transparently tracked within dedicated onchain substructures (`Likes` , `Favorites`, and `Posts`). These interactions increment engagement metrics used directly for reward calculations and analytics.
 - **Fee Management**: The `PostFees` structure explicitly defines configurable transaction fees required for creating or interacting with content. Fees can be denominated in native \$SUI tokens or custom token denominations, directly aligning economic incentives with authentic user activity.
 
 ### **Channels & Community Management**

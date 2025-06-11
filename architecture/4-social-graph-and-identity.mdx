@@ -35,11 +35,11 @@ The `UserOwned` and `UserShared` objects integrate via the **UserRegistry**, a d
 
 ### **Decentralized Social Graph Storage**
 
-Social interactions and relationships within Sage Protocol are transparently recorded onchain through dedicated data structures:
+Social interactions and relationships within Sage Protocol are transparently recorded onchain through dedicated Move modules and data structures:
 
-- **Membership:** Captures user participation in channels and communities, including join timestamps and interaction histories.
-- **Follows:** Transparently manages user-to-user and user-to-channel relationships, creating verifiable social connections across applications.
-- **Favorites:** Allows users to bookmark their preferred content (posts, channels, users), maintaining clear, portable user preferences.
+- **Membership** (`membership`): Captures user participation in channels and communities, including join timestamps and interaction histories.
+- **Follows** (implemented within `membership`): Manages transparent user-to-user and user-to-channel relationships, providing verifiable social connections across all Sage apps.
+- **Friends** (implemented within `membership`): Records friendships between users, explicitly tracking relationship changes, timestamps, and interaction details. This ensures friend connections are clear, accurate, and verifiable across the ecosystem.
 
 ### **Key Advantages of Sage’s Architecture**
 
