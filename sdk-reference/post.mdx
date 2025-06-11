@@ -1,0 +1,211 @@
+---
+title: 'Post'
+description: ' '
+---
+
+Posts are the core content units within Sage Protocol. This section covers post interactions—specifically commenting on posts and liking content. Posts themselves can be created in channels or on user profiles, and all support rich markdown formatting.
+
+## Post Comments
+Comments allow users to respond to existing posts, creating threaded discussions. Comments are themselves posts with a parent-child relationship to the original content.
+
+### Basic Commenting
+
+When commenting on a post, you need both the post ID and the original author's shared user ID:
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ postId, authorSharedUserId }) {
+    const { commentOnPost } = usePost();
+    const [comment, setComment] = useState({ title: '', description: '', data: '' });
+
+    const handleSubmit = async () => {
+        const result = await commentOnPost({
+            amounts: [0, 0],
+            authorSharedUserId,
+            parentPostId: postId,
+            ...comment,
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Comment Types & Examples
+
+Comments support full markdown formatting, allowing for various response types:
+
+**Simple Reply:**
+
+```typescript
+const result = await sageClient.commentOnPost({
+  amounts: [0, 0],
+  authorSharedUserId: originalAuthor.sharedUserId,
+  parentPostId: '0x123...',
+  title: 'Great point!',
+  description: 'Agreeing with the main argument',
+  data: 'This really helped clarify the concept for me. Thanks for sharing!',
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+**Technical Response:**
+
+```typescript
+const result = await sageClient.commentOnPost({
+  amounts: [0, 0],
+  authorSharedUserId: originalAuthor.sharedUserId,
+  parentPostId: '0x456...',
+  title: '# Alternative Implementation',
+  description: 'Suggesting a different approach with code examples',
+  data: `## Alternative Approach
+
+Here's another way to handle this:
+
+\`\`\`typescript
+function optimizedSolution(data: any[]) {
+  return data
+    .filter(item => item.isValid)
+    .map(item => transformItem(item));
+}
+\`\`\`
+
+**Benefits:**
+- Better performance with large datasets
+- More readable code structure
+- Easier to test individual components`,
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+**Question & Clarification:**
+
+```typescript
+const result = await sageClient.commentOnPost({
+  amounts: [0, 0],
+  authorSharedUserId: originalAuthor.sharedUserId,
+  parentPostId: '0x789...',
+  title: '❓ Quick Question',
+  description: 'Seeking clarification on implementation details',
+  data: `Thanks for the detailed explanation! I have a few questions:
+
+1. **How does this handle edge cases?** Specifically when the input is null or undefined?
+
+2. **Performance considerations:** Have you tested this with large datasets (10k+ items)?
+
+3. **Browser compatibility:** Any known issues with older browsers?
+
+Would love to hear your thoughts on these points! 🙏`,
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+### Comment Thread Example
+
+Comments create hierarchical discussions. Here's how a thread might develop:
+
+```markdown
+📝 Original Post: "Best practices for smart contract testing"
+
+  💬 Comment 1: "Great overview! Here's what we do at our company..."
+  
+    💬 Reply to Comment 1: "That's interesting. How do you handle gas optimization?"
+    
+      💬 Reply to Reply: "We use these specific patterns..."
+  
+  💬 Comment 2: "I disagree with point #3. Here's why..."
+  
+  💬 Comment 3: "📚 Additional resources for anyone interested..."
+```
+
+### Content Guidelines
+
+All comment fields support markdown, but developers are responsible for sanitizing user input to prevent XSS and ensure content quality. The SDK provides basic sanitization but additional validation is recommended for production applications.
+
+## Liking Posts
+
+Users can like any post to show appreciation and engagement. Likes contribute to the post's visibility and can trigger reward mechanisms for the original author.
+
+### Basic Liking
+
+Liking requires the post ID and the original author's shared user ID:
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+
+function MyComponent({ postId, authorSharedUserId }) {
+    const { like } = usePost();
+    const [isLiked, setIsLiked] = useState(false);
+
+    const handleLike = async () => {
+        const result = await like({
+            amounts: [0, 0],
+            authorSharedUserId,
+            postId,
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+            setIsLiked(true);
+        }
+    };
+
+    return (
+        <button onClick={handleLike} disabled={isLiked}>
+            {isLiked ? 'Liked' : 'Like'}
+        </button>
+    );
+}
+```
+
+## Author References
+
+Both commenting and liking require two key identifiers:
+
+- `authorSharedUserId`: The shared user object ID of the original post creator
+- `ownedUserId`: Your own owned user object ID (for the person performing the action)
+
+These references ensure proper attribution and enable the protocol to track engagement relationships between users, as well as tracking appropriate rewards for each user.
+
+## Interaction Patterns
+
+### Engagement Flow
+
+A typical post engagement flow might look like:
+
+<Steps>
+  <Step title="Discovery" iconType="solid">
+    User discovers post in a channel or on a profile
+  </Step>
+  <Step title="Like">
+    User likes post to show appreciation
+  </Step>
+  <Step title="Comment">
+    User adds thoughtful comment to contribute to discussion
+  </Step>
+  <Step title="Engagement">
+    Other users engage with both the original post and the comment, prompting higher visibility on the thread
+  </Step>
+  <Step title="Development">
+    Discussion thread develops through multiple comment levels
+  </Step>
+</Steps>
+
+### Content Strategy
+
+When building applications with post interactions:
+
+- Encourage meaningful comments through UI design and prompting
+- Display engagement metrics to show community activity
+- Thread comments visually to maintain conversation context
+- Moderate content appropriately using both automated and manual review

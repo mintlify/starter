@@ -1,0 +1,278 @@
+---
+title: 'Channel'
+description: ' '
+---
+
+Channels are community spaces where users can share content, engage with posts, and build focused discussions. They function like subreddits or Discord channels—each with its own topic, membership, and moderation structure.
+
+## Channel Lifecycle
+
+The typical workflow for working with channels follows this pattern:
+
+1. Create a channel (becomes owner)
+2. Follow channels to join the community
+3. Post content within followed channels
+
+## Creating Channels
+
+Channel creation establishes you as the owner with full administrative rights. Channels require unique names within your application context.
+
+### Channel Names
+
+- Valid characters: a-z, A-Z, 0-9, and dashes
+- Cannot start or end with a dash
+- Examples: `web3-gaming`, `sui-defi`, `general`
+
+### Basic Creation
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+
+function MyComponent() {
+    const { create } = useChannel();
+
+    const handleCreateChannel = async (formData) => {
+        const result = await sageClient.createChannel({
+            amounts: [0, 0],
+            channelName: "crypto-art",
+            description: "**Digital art** and NFT discussions",
+            avatar: 12345, // Walrus blob ID
+            banner: 67890, // Walrus blob ID  
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+## Following Channels
+
+Users must follow channels before they can post content. Following is public and establishes membership in the community.
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ channelId }) {
+    const { follow } = useChannel();
+
+    const handleFollow = async () => {
+        const result = await follow({
+            amounts: [0, 0],
+            channelId,
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Use Cases
+
+- Topic-based communities: Follow `defi-protocols` for DeFi discussions
+- Project channels: Follow `project-updates` for development news
+- Regional groups: Follow `sf-sui-meetup` for local events
+
+## Posting to Channels
+
+Channel posts support rich markdown content including headers, links, and formatting. Only channel followers can create posts.
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+
+function MyComponent({ channelId }) {
+    const { post } = useChannel();
+
+    const [postData, setPostData] = useState({ title: '', description: '', data: '' });
+
+    const handleSubmit = async () => {
+        const result = await post({
+            amounts: [0, 0],
+            channelId,
+            ...postData,
+            ownedUserId: userContext.ownedUserId,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Content Examples
+
+**Technical Discussion:**
+
+```typescript
+const result = await sageClient.postToChannel({
+  amounts: [0, 0],
+  channelId: '0x123...',
+  title: '# Comparing Sui to Ethereum',
+  description: 'Analysis of Sui vs Ethereum performance metrics',
+  data: `## Performance Comparison
+
+| Metric | Sui | Ethereum |
+|--------|----------|----------|
+| TPS | 4,000,000,000,000,000.... | 2 |
+| Finality | Almost instant | 7 days |
+
+**Key Findings:**
+- Sui shows higher throughput
+- Both are considered blockchains`,
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+**Community Update:**
+
+```typescript
+const result = await sageClient.postToChannel({
+  amounts: [0, 0],
+  channelId: '0x456...',
+  title: '# Weekly Dev Update',
+  description: 'Progress on Sage smart contract audits and testnet deployment',
+  data: `### This Week's Progress
+
+✅ **Completed:**
+- Smart contract security audit
+- Testnet deployment scripts
+- Documentation updates
+
+🔄 **In Progress:**  
+- Mainnet preparation
+- Frontend UI polish
+
+📅 **Next Week:**
+- Public testnet launch
+- Community testing phase`,
+  ownedUserId: userContext.ownedUserId,
+  self: userContext.walletAddress
+});
+```
+
+## Unfollowing Channels
+
+Users can leave channels they no longer wish to participate in:
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+
+function MyComponent({ channelId, isFollowing }) {
+  const { unfollow } = useChannel();
+
+  const handleUnfollow = async () => {
+    const result = await unfollow({
+        amounts: [0, 0],
+        channelId,
+        self: userContext.walletAddress
+    });
+
+    if (result.ok) {
+        await signAndExecuteTransaction({ transaction: result.transaction });
+    }
+  };
+}
+```
+
+## Channel Moderation
+
+Channel owners can add and remove moderators to help manage community discussions and maintain quality standards.
+
+### Adding Moderators
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+
+function MyComponent() {
+    const { addModerator } = useChannel();
+
+    const handleAddModerator = async () => {
+        const result = await addModerator({
+            amounts: [0, 0],
+            channelId: '0x123...',
+            self: '0xabc...', // Channel owner's wallet
+            sharedUserId: '0xdef...' // User to make moderator
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Removing Moderators
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ channelId, moderators }) {
+    const { removeModerator } = useChannel();
+
+    const handleRemoveModerator = async (sharedUserId) => {
+        const result = await removeModerator({
+            amounts: [0, 0],
+            channelId,
+            self: userContext.walletAddress,
+            sharedUserId
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+## Updating Channels
+
+Channel owners can update channel information including name casing, description, and media assets. All fields must be provided as this performs a complete replacement.
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+    
+function MyComponent({ channel }) {
+    const { update } = useChannel();
+    const [channelData, setChannelData] = useState(channel);
+
+    const handleUpdate = async () => {
+        const result = await update({
+            amounts: [0, 0],
+            channelId: channel.id,
+            ...channelData,
+            self: userContext.walletAddress
+        });
+
+        if (result.ok) {
+            await signAndExecuteTransaction({ transaction: result.transaction });
+        }
+    };
+}
+```
+
+### Updating Strategy
+
+When updating channels, preserve existing values for fields you don't want to change. Additionally, the channel name cannot materially change beyond the casing of the letters (e.g. "name" to "NAME").
+
+```typescript
+// Update only description, keep everything else the same
+const result = await sageClient.updateChannel({
+    amounts: [0, 0],
+    channelId: existingChannel.id,
+    channelName: existingChannel.name,  // Keep existing
+    avatar: existingChannel.avatar,     // Keep existing  
+    banner: existingChannel.banner,     // Keep existing
+    description: "**Updated community guidelines and rules**", // New description
+    self: userContext.walletAddress
+});
+```

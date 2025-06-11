@@ -144,21 +144,32 @@
         ]
       },
       {
+        "tab": "SDK Reference",
+        "groups": [
+          {
+            "group": "SDK Documentation",
+            "pages": [
+              "sdk-reference/introduction",
+              "sdk-reference/client"
+            ]
+          },
+          {
+            "group": "Sections",
+            "pages": [
+              "sdk-reference/channel",
+              "sdk-reference/post",
+              "sdk-reference/user"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API Reference",
         "groups": [
           {
             "group": "API Documentation",
             "pages": [
               "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
             ]
           }
         ]
