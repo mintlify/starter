@@ -1,0 +1,14 @@
+---
+title: Gateway
+description: "Visão geral do gateway de integração da Prefeitura do Rio de Janeiro"
+---
+
+Esta solução implementa uma arquitetura robusta para exposição de aplicações e serviços no Google Kubernetes Engine (GKE) utilizando Istio como malha de serviço. O tráfego externo é direcionado para o cluster por meio de gateways configurados com endereços IP globais e registros DNS apropriados, garantindo que cada domínio relevante aponte corretamente para o ambiente Kubernetes.
+
+A segurança do ambiente é reforçada com o uso do Google Cloud Armor, que atua como camada de proteção contra ameaças e ataques comuns, permitindo a aplicação de políticas de segurança personalizadas. Essas políticas podem incluir bloqueio de IPs maliciosos, prevenção contra injeção de SQL, XSS, e outras ameaças conhecidas, além de possibilitar a implementação de regras de limitação de taxa e inspeção de padrões de tráfego.
+
+O gerenciamento de certificados TLS é automatizado por meio de certificados gerenciados pelo GKE, assegurando comunicação segura via HTTPS sem a necessidade de manutenção manual dos certificados. O roteamento do tráfego é realizado pelo Istio Gateway, que distribui as requisições para os serviços internos conforme regras definidas, permitindo flexibilidade e controle detalhado sobre o fluxo de dados.
+
+Além disso, a solução contempla mecanismos de autenticação e autorização baseados em JWT, garantindo que apenas usuários ou sistemas autenticados possam acessar determinados serviços, conforme as necessidades de cada aplicação.
+
+Em resumo, a arquitetura combina práticas recomendadas de exposição de serviços, automação de segurança, gerenciamento de certificados e controle de acesso, utilizando recursos nativos do GCP e Istio para proporcionar um ambiente seguro, escalável e de fácil manutenção.
