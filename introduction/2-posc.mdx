@@ -5,7 +5,7 @@ description: " "
 
 **Proof of Social Contribution (PoSC)** is Sage's novel incentive mechanism that turns verified social activity directly into economic rewards. Unlike Proof-of-Work, which favors powerful computing resources, or Proof-of-Stake, which favors users with large capital reserves, PoSC rewards the everyday social contributions that enrich networks and communities.
 
-PoSC currently incentivizes [13 social actions](https://docs.sageprotocol.xyz/architecture/7-trust-economics#current-eligible-actions-and-action-weights), including content creation (creating a post), meaningful engagement (giving a like, adding a comment), network growth (following or friending another), and community building (creating a channel, growing channel members).
+PoSC currently recognizes [13 social actions](https://docs.sageprotocol.xyz/architecture/7-trust-economics#current-eligible-actions-and-action-weights), including content creation (creating a post), meaningful engagement (giving a like, adding a comment), network growth (following or friending another), and community building (creating a channel, growing channel members).
 
 ### How PoSC Rewards Work
 
@@ -13,20 +13,17 @@ The PoSC process can be explained in three steps:
 
 <Steps>
   <Step title="User Action (Onchain)" iconType="solid">
-    An eligible social action (e.g. posting content) is performed and recorded onchain, carrying a verifiable transaction fee denominated in \$SUI.
+    A social action (e.g. posting content) is performed and recorded onchain, carrying a verifiable transaction fee denominated in \$SUI.
   </Step>
   <Step title="Reward Calculation (PoSC Evaluation)">
-    The PoSC engine validates the action, records its associated transaction fee, and calculates the precise \$TRUST reward. The reward calculation considers two data points:
+    The PoSC engine determines its eligibility, validates the social action, records its associated transaction fee, and calculates the precise \$TRUST reward. The reward calculation considers two data points:
 
-    - The value of the transaction fee paid
-    - The value of \$TRUST at the action’s timestamp
-
-    <Info>
-      Since \$TRUST is an [Earned Mint Token](/introduction/3-emt)—meaning it's supply emerges only from verified, onchain user actions—Sage will use a fixed mint price to calculate rewards during the bootstrap phase (Phase 1). After \$TRUST reaches sufficient liquidity and a stable market price, the protocol will transition to using a market-driven mint price for reward calculations (Phase 2). See full details for the minting phases in the [\$TRUST](/introduction/4-trust) section.
-    </Info>
+    1. The value of the transaction fee paid.
+    2. The [value of \$TRUST](https://docs.sageprotocol.xyz/architecture/7-trust-economics#%24trust-minting-phases-%26-pricing-mechanics) at the action’s timestamp.
+    3. The action's assigned weight.
   </Step>
   <Step title="Reward Minting">
-    Immediately following PoSC validation, users are granted the right to mint their proportional \$TRUST rewards, and can do so at their discretion.
+    Immediately following the PoSC evaluation, users are granted the right to mint their proportional \$TRUST rewards at their discretion.
   </Step>
 </Steps>
 

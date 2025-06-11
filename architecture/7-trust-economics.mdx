@@ -3,59 +3,32 @@ title: "$TRUST Mechanics"
 description: " "
 ---
 
-The Sage Protocol economy revolves around **\$TRUST**, a specialized token designed as crypto's first **Earned Mint Token (EMT)**. Unlike traditional tokens with arbitrary or speculative issuance, the minting and supply of \$TRUST are exclusively driven by verified onchain user contributions—directly aligning economic incentives with meaningful social activity and network growth.
+The Sage Protocol economy centers around \$TRUST, crypto’s first Earned Mint Token (EMT). Unlike traditional tokens with arbitrary or speculative issuance, \$TRUST tokens are minted solely from verified onchain user contributions. This directly ties economic rewards to genuine social activity and real network growth.
 
 ### **Earned Mint Token (EMT) Model**
 
-\$TRUST tokens strictly follow the [EMT model](/introduction/3-emt), ensuring minting occurs exclusively through user actions validated by Sage’s Proof of Social Contribution (PoSC) mechanism. This guarantees each issued token represents a meaningful, measurable social contribution within the Sage ecosystem.
+\$TRUST tokens follow the [EMT model](/introduction/3-emt) closely—meaning they're minted exclusively from user actions validated by Sage’s Proof of Social Contribution (PoSC). This ensures every token issued directly represents real, measurable social contributions.
 
 ### **\$TRUST Minting Phases & Pricing Mechanics**
 
 Token minting unfolds across two clearly defined phases, each governed by the protocol’s `MintConfig`:
 
-- **Phase 1: Fixed Mint Pricing (Bootstrap Phase)**\
-  Initially, tokens are minted at a fixed, stable price (e.g., \$0.000001 per \$TRUST). This strategy bootstraps early liquidity and incentivizes initial user participation, continuing until predefined liquidity conditions are met.
-- **Phase 2: Market-Driven Mint Pricing**\
-  After reaching sufficient liquidity and stable market valuation, Sage transitions to dynamic, market-based mint pricing. Token rewards then adjust transparently in response to real-time market valuations of \$TRUST, sustainably aligning token issuance with community growth and economic conditions.
+1. **Phase 1: Fixed Mint Pricing (Bootstrap Phase)**\
+   At first, tokens are minted at a fixed price (for example, \$0.000001 USD per \$TRUST). This approach helps build early liquidity and encourages initial participation until certain liquidity targets are reached. The reward calculation for Phase 1 is:
 
-### Current Eligible Actions and Action Weights
+   <Info>
+     \$TRUST reward = (Action’s Transaction Fee ÷ **Fixed \$TRUST Price**) × Action Weight
+   </Info>
+2. **Phase 2: Market-Driven Mint Pricing**\
+   Once liquidity and market pricing stabilize, Sage shifts to dynamic, market-based minting. Token rewards then adjust in real-time based on the current market price of \$TRUST, keeping token issuance aligned with community growth and market conditions. The reward calculation for Phase 2 is:
 
-Sage measures user contributions through a defined set of eligible actions and assigned weights. For the protocol's beta phase, all eligible actions are initially set with a uniform contribution weight of **1.0**. This approach provides a stable baseline, simplifying analysis and enabling accurate evaluation of user engagement patterns.
+   <Info>
+     \$TRUST reward = (Action’s Transaction Fee ÷ **Market \$TRUST Price**) × Action Weight
+   </Info>
 
-As the protocol collects data and community feedback, action weights will be refined to reflect the varying degrees of effort and ecosystem value associated with different actions. For example, actions like **content creation** will likely maintain a higher weight (such as **1.0**) given their intrinsic value and the significant effort involved. Conversely, simpler, lower-effort interactions, such as **liking content**, may be reduced to weights around **0.5** to more accurately represent their relative impact.
+### Eligible Actions and Action Weights
 
-In practice, action weights directly influence reward calculations. The precise reward amount is determined using the following formula: 
-
-\$TRUST reward = (Action’s Transaction Fee ÷ Market \$TRUST Price) × **Action’s Weight**.
-
-Below is the current set of eligible actions and their corresponding weights (beta only):
-
-| Category            | Action                                                             | Weight (beta) |
-| ------------------- | ------------------------------------------------------------------ | ------------- |
-| Content Creation    | User **creates content** (e.g., text post, image post, video post) | 1.0           |
-| Engagement Received | User's posted content **receives a like**                          | 1.0           |
-| Engagement Received | User's posted content **receives a bookmark**                      | 1.0           |
-| Engagement Received | User's posted content **receives a comment**                       | 1.0           |
-| Engagment Given     | User **likes** another user's post                                 | 1.0           |
-| Engagment Given     | User **bookmarks** another user's post                             | 1.0           |
-| Engagment Given     | User **comments** on another user's post                           | 1.0           |
-| Engagment Given     | User **reply's to a commen**t                                      | 1.0           |
-| Social Graph        | User **gains a follower**                                          | 1.0           |
-| Social Graph        | User **follows another user**                                      | 1.0           |
-| Social Graph        | User **establishes a** **friend**                                  | 1.0           |
-| Community           | User **creates a channel**                                         | 1.0           |
-| Community           | User **joins a channel**                                           | 1.0           |
-
-In addition to the current set of implemented actions, we've identified several others that we plan to integrate into the protocol as Sage evolves. These future actions are designed to capture more nuanced forms of user engagement and contributions, ensuring our incentive mechanisms remain comprehensive and responsive. Initially, Sage's core team will define these eligible actions and their associated weights, but as Sage moves toward full decentralization, these decisions will progressively shift to community governance. This means the community will ultimately determine which actions qualify for rewards and how their relative values should be weighted—ensuring incentives remain aligned with collective goals. 
-
-The following list highlights upcoming actions we expect to incorporate after thorough testing and validation during our beta phase.
-
-| Category             | Action                                              | Status     |
-| :------------------- | :-------------------------------------------------- | :--------- |
-| Community            | User's **channel gets a new member**                | In Testing |
-| **Social Graph**     | User **invites another user that accepts**          | In Testing |
-| Engagement Received  | User's posted content **is shared** by another user | In Testing |
-| **Engagement Given** | User **shares another user's post**                 | In Testing |
+Eligible actions, action weights, and their adjustments are transparently managed on-chain by the `Reward Module`, with historical configurations tracked by the `Reward Registry Module`. User interactions and contributions are captured by the `Analytics Module`, providing data-driven insights for ongoing weight refinements.
 
 ### **Supply Control & Treasury Management**
 

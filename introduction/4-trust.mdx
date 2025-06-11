@@ -3,22 +3,22 @@ title: "$TRUST"
 description: " "
 ---
 
-The economic fuel of Sage Protocol is the **\$TRUST** token, crypto's first [Earned Mint Token (EMT)](/introduction/3-emt). Unlike typical tokens, \$TRUST is minted solely through authentic social actions that have been verified by Sage’s [Proof of Social Contribution (PoSC)](/introduction/2-posc) engine. This creates a self-regulating economy with supply-demand dynamics that (1) encourage the creation of high-value / high-impact content, (2) support long-term economic sustainability, and (3) motivate timely user participation. 
+**\$TRUST** is crypto's first [Earned Mint Token (EMT)](/introduction/3-emt) and powers Sage Protocol's economy. Unlike traditional tokens, \$TRUST is minted exclusively through verified social actions using [Proof of Social Contribution (PoSC)](/introduction/2-posc). This creates a self-regulating economy, naturally balancing supply and demand to encourage high-quality content, support long-term economic sustainability, and motivate active and timely user participation.
 
 ### \$TRUST Minting Phases
 
-Sage Protocol structures \$TRUST minting across two distinct phases:
+Sage Protocol organizes \$TRUST minting into two clear phases:
 
 <Steps>
   <Step title="Phase 1: Fixed Mint Price (Bootstrap Phase)" iconType="regular">
-    Initially, as \$TRUST supply emerges exclusively from real user contributions, immediate liquidity and stable market pricing won't be present. To ensure predictable and fair rewards for early adopters, Sage will set a fixed mint price of **\$0.000001 USD** during its bootstrap phase. Rewards are calculated as:
+    Initially, since \$TRUST tokens are minted solely from user contributions, there won't be immediate liquidity or a stable market price. To ensure early adopters receive predictable and fair rewards, Sage sets a fixed mint price of **\$0.000001 USD** during this bootstrap phase. Phase 1 rewards are calculated as follows:
 
     <Info>
       \$TRUST reward = (Action’s Transaction Fee ÷ **Fixed \$TRUST Price**) × Action Weight
     </Info>
   </Step>
   <Step title="Phase 2: Market-driven Mint Price">
-    Once the protocol matures and \$TRUST achieves sufficient liquidity and a stable market valuation, Sage transitions to a dynamic, market-based mint price. Reward calculations are then tethered to dynamic market conditions and calculated as:
+    Once the protocol matures and \$TRUST reaches stable liquidity and market pricing, Sage shifts to a dynamic, market-based mint price. Rewards are then calculated based on the current market conditions as follows:
 
     <Info>
       \$TRUST reward = (Action’s Transaction Fee ÷ **Market \$TRUST Price**) × Action’s Weight
@@ -26,18 +26,51 @@ Sage Protocol structures \$TRUST minting across two distinct phases:
   </Step>
 </Steps>
 
-The transition from Phase 1 to Phase 2 naturally introduces natural token scarcity: as the market price of \$TRUST rises, fewer tokens are minted for the same action. This organically ties \$TRUST's circulating supply to network growth and economic conditions.
+Moving from Phase 1 to Phase 2 naturally creates token scarcity—as the market price of \$TRUST rises, fewer tokens are minted per action. This directly links the supply of \$TRUST to network growth and market conditions. For further details, see the [\$TRUST Mechanics](/architecture/7-trust-economics) section.
 
-<Tip>
-  For more details on \$TRUST see the [\$TRUST Mechanics](/architecture/7-trust-mechanics) section.
-</Tip>
+### Current Eligible Actions and Action Weights
+
+Sage tracks user contributions using clearly defined actions and assigned weights. During the beta phase, all actions start with a uniform weight of 1.0. This consistent baseline simplifies analysis and helps accurately measure user engagement.
+
+As we gather more data and community input, action weights will be adjusted to better match the effort and value associated with each activity. For example, high-effort actions like creating content will probably remain around a weight of 1.0, while simpler interactions, such as liking content, might be lowered to around 0.5 to reflect their relative effort and impact.
+
+Below is the current list of eligible actions and their beta-phase weights:
+
+| Category            | Action                                                             | Weight (beta) |
+| :------------------ | :----------------------------------------------------------------- | :------------ |
+| Content Creation    | User **creates content** (e.g., text post, image post, video post) | 1.0           |
+| Engagement Received | User's posted content **receives a like**                          | 1.0           |
+| Engagement Received | User's posted content **receives a bookmark**                      | 1.0           |
+| Engagement Received | User's posted content **receives a comment**                       | 1.0           |
+| Engagment Given     | User **likes** another user's post                                 | 1.0           |
+| Engagment Given     | User **bookmarks** another user's post                             | 1.0           |
+| Engagment Given     | User **comments** on another user's post                           | 1.0           |
+| Engagment Given     | User **reply's to a commen**t                                      | 1.0           |
+| Social Graph        | User **gains a follower**                                          | 1.0           |
+| Social Graph        | User **follows another user**                                      | 1.0           |
+| Social Graph        | User **establishes a** **friend**                                  | 1.0           |
+| Community           | User **creates a channel**                                         | 1.0           |
+| Community           | User **joins a channel**                                           | 1.0           |
+
+### Future Eligible Actions
+
+Alongside the currently implemented actions, we've identified additional actions we'll add as Sage evolves. These new actions will help us better capture nuanced forms of user engagement, making our incentive system even more responsive and comprehensive. Initially, Sage's core team will define these actions and their weights, but as we move toward full decentralization, this responsibility will shift to community governance. Ultimately, our community will decide which actions earn rewards and how they're valued, keeping incentives closely aligned with shared goals.
+
+Below are upcoming actions we plan to include after careful testing and validation during the beta phase.
+
+| Category            | Action                                              | Status     |
+| :------------------ | :-------------------------------------------------- | :--------- |
+| Community           | User's **channel gets a new member**                | In Testing |
+| Social Graph        | User **invites another user that accepts**          | In Testing |
+| Engagement Received | User's posted content **is shared** by another user | In Testing |
+| Engagement Given    | User **shares another user's post**                 | In Testing |
 
 ### Sybil Resistance & Anti-Gaming
 
-Tying reward issuance to validated actions and measurable transaction fees inherently discourages spam, manipulation, and low-quality activity. Beyond this natural safeguard, Sage builds in additional defenses that ensure authentic user engagement remains the primary path to earning \$TRUST.
+Rewarding actions based on validated activity and measurable transaction fees naturally discourages spam and manipulation. Beyond this built-in protection, Sage includes additional measures to ensure authentic engagement remains the main pathway to earning \$TRUST.
 
-Key anti-gaming defenses include:
+Key anti-gaming measures:
 
-- **Transparent Verifiability:** Every reward-eligible action is clearly recorded on the blockchain, ensuring accountability, full traceability, and making manipulation naturally cost-prohibitive.
-- **Single-Action Rewards:** Each unique action targeting a specific event (such as following another user) generates only one reward, effectively preventing repetitive or exploitative behavior.
-- **Adaptive Cost Scaling:** Transaction costs increase progressively for rapid, repetitive, or low-value actions, making manipulation prohibitively expensive and deterring large-scale gaming attacks.
+- **Transparent Verifiability:** Every eligible action is clearly recorded on-chain, ensuring accountability, traceability, and making manipulation costly.
+- **Single-Action Rewards:** Each unique event (e.g., following another user) earns a reward only once, preventing repetitive or exploitative actions.
+- **Adaptive Cost Scaling:** Transaction fees gradually increase for rapid, repetitive, or low-value actions, making large-scale manipulation financially impractical.
