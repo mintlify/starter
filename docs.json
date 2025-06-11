@@ -66,6 +66,11 @@
         "tab": "Barramento de Dados",
         "groups": [
           {
+            "group": "Gateway",
+            "icon": "network-wired",
+            "pages": ["barramento/gateway"]
+          },
+          {
             "group": "Busca",
             "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
           },
