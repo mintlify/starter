@@ -1,6 +1,6 @@
 ---
-title: 'Vanilla or React?'
-description: 'Which one should I use?'
+title: "Vanilla Client & React Wrapper"
+description: "Which one should I use?"
 ---
 
 ## Vanilla Client vs React Wrapper
@@ -8,6 +8,7 @@ description: 'Which one should I use?'
 The Sage SDK provides two ways to integrate Sage Protocol functionality into your applications. Both approaches offer identical capabilities—the React wrapper is simply a convenience layer built on top of the vanilla client.
 
 ### Vanilla Client
+
 The vanilla client provides direct access to all Sage Protocol methods. It's framework-agnostic and suitable for any JavaScript / TypeScript environment.
 
 **Setup:**
@@ -39,10 +40,10 @@ if (result.ok) {
 
 **When to Use**
 
-- Non-React applications: Vue, Angular, Svelte, or vanilla JavaScript
-- Server-side operations: Node.js backends or serverless functions
-- Library integration: Building your own wrapper or abstraction layer
-- Multiple clients: Applications that need multiple Sage client instances
+- **Non-React applications:** Vue, Angular, Svelte, or vanilla JavaScript
+- **Server-side operations:** Node.js backends or serverless functions
+- **Library integration:** Building your own wrapper or abstraction layer
+- **Multiple clients:** Applications that need multiple Sage client instances
 
 ### React Wrapper
 
@@ -93,14 +94,14 @@ function UserCreation() {
 
 **When to Use**
 
-- React applications
+- **React applications**
 
 ### Key Differences
 
 | Aspect       | Vanilla Client             | React Wrapper                      |
 | :----------- | :------------------------- | :--------------------------------- |
 | Import       | `@sageprotocol/sdk/client` | `@sageprotocol/sdk/react`          |
-| Setup        | Direct instantiation       | Provider + hooks                   |
+| Setup        | Direct instantiation       | Provider \+ hooks                  |
 | Methods      | `sageClient.methodName()`  | `const { methodName } = useHook()` |
 | Dependencies | None (beyond Sui)          | React required                     |
 

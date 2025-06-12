@@ -1,13 +1,13 @@
 ---
-title: 'Introduction'
-description: ' '
+title: "Introduction"
+description: " "
 ---
 
 The Sage Protocol SDK provides developers with a complete toolkit for building decentralized applications on Sui that leverage Sage's social primitives and economic incentives. This SDK handles all the complexity of blockchain interactions, letting you focus on building engaging user experiences.
 
 ## Installation
 
-Install the SDK using npm or yarn:
+Install the SDK:
 
 <CodeGroup>
 
@@ -15,15 +15,31 @@ Install the SDK using npm or yarn:
 pnpm i @sageprotocol/sdk
 ```
 
+
 ```bash yarn
 yarn add @sageprotocol/sdk
 ```
+
 
 ```bash npm
 npm i @sageprotocol/sdk
 ```
 
 </CodeGroup>
+
+## Core Architecture
+
+The Sage SDK offers two integration approaches:
+
+<Card title="Vanilla Client" icon="square-1" iconType="solid">
+  Direct programmatic access to all Sage Protocol functions. Ideal for server-side applications, custom integrations, or when you need fine-grained control over transaction management.
+</Card>
+
+<Card title="React Wrapper" icon="square-2" iconType="solid">
+  Provides React hooks and context providers that simplify state management and transaction handling in React applications. Built on top of the vanilla client with additional React-specific optimizations.
+</Card>
+
+Both approaches support testnet and mainnet deployments, allowing you to develop and test before going to production.
 
 ## Quick Start Example
 
@@ -83,20 +99,6 @@ function UserProfile() {
   </Step>
 </Steps>
 
-## Core Architecture
-
-The Sage SDK offers two integration approaches:
-
-<Card title="Vanilla Client" icon="square-1" iconType="solid">
-  Direct programmatic access to all Sage Protocol functions. Ideal for server-side applications, custom integrations, or when you need fine-grained control over transaction management.
-</Card>
-
-<Card title="React Wrapper" icon="square-2" iconType="solid">
-  Provides React hooks and context providers that simplify state management and transaction handling in React applications. Built on top of the vanilla client with additional React-specific optimizations.
-</Card>
-
-Both approaches support testnet and mainnet deployments, allowing you to develop and test before going to production.
-
 ## Key Concepts
 
 ### Application Isolation
@@ -137,18 +139,18 @@ if (result.ok) {
 
 The Sage SDK enables various decentralized social applications:
 
-- Community Platforms: Reddit-style discussion forums with tokenized engagement
-- Social Networks: Twitter-like platforms with user-owned profiles and relationships
-- Creator Platforms: Medium-style publishing with direct creator-audience connections
-- Gaming Communities: Discord-like spaces with integrated reputation and rewards
-- Professional Networks: LinkedIn-style platforms with verifiable professional identities
+- **Community Platforms:** Reddit-style discussion forums with tokenized engagement
+- **Social Networks:** Twitter-like platforms with user-owned profiles and relationships
+- **Creator Platforms:** Medium-style publishing with direct creator-audience connections
+- **Gaming Communities:** Discord-like spaces with integrated reputation and rewards
+- **Professional Networks:** LinkedIn-style platforms with verifiable professional identities
 
 ## What's Next
 
 This documentation covers the three core primitives you'll work with:
 
-[Channels](/sdk-reference/channel): Community spaces where users can post and interact
-[Posts](/sdk-reference/post): Content creation, commenting, and engagement
-[Users](/sdk-reference/user): Identity management, social connections, and profiles
+- [Channels](/sdk-reference/channel): Community spaces where users can post and interact
+- [Posts](/sdk-reference/post): Content creation, commenting, and engagement
+- [Users](/sdk-reference/user): Identity management, social connections, and profiles
 
 Each section provides comprehensive examples and patterns for both vanilla client and React implementations.
