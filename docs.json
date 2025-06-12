@@ -144,10 +144,10 @@
         ]
       },
       {
-        "tab": "SDK Reference",
+        "tab": "SDK",
         "groups": [
           {
-            "group": "SDK Documentation",
+            "group": "SDK",
             "pages": [
               "sdk-reference/introduction",
               "sdk-reference/client"
