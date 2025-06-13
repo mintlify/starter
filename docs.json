@@ -147,7 +147,7 @@
         "tab": "SDK",
         "groups": [
           {
-            "group": "SDK",
+            "group": "Introduction",
             "pages": [
               "sdk-reference/introduction",
               "sdk-reference/client"
