@@ -1,0 +1,130 @@
+---
+title: "Getting Started"
+description: " "
+---
+
+This guide will help you quickly set up and integrate the Sage SDK into your application. Follow these straightforward steps to begin building decentralized social experiences with Sage.
+
+### 1. Prerequisites
+
+Before installing the Sage SDK, ensure your environment meets these requirements:
+
+- **Node.js and npm:**
+
+  Install Node.js (**v18 or higher**) and npm ([nodejs.org](http://nodejs.org)).
+- **Sui Wallet:**
+
+  Obtain a Sui blockchain wallet (e.g., Suiet, Phantom, Slush). This wallet is required to sign and execute transactions.
+- **Invite Codes (temporary requirement):**
+
+  Currently, user creation requires valid invite codes and invite keys provided by Sage.
+- **Network Access:**
+
+  Choose your network environment:
+  - **mainnet:** production environment
+  - **testnet:** development and testing environment
+
+### 2. Installation
+
+Install the Sage SDK via your preferred package manager:
+
+<CodeGroup>
+
+```bash pnpm
+pnpm i @sageprotocol/sdk
+```
+
+
+```bash yarn
+yarn add @sageprotocol/sdk
+```
+
+
+```bash npm
+npm i @sageprotocol/sdk
+```
+
+</CodeGroup>
+
+### 3. Choose Your Integration Method
+
+The Sage SDK supports two integration methods:
+
+- **Direct JavaScript Integration: **Directly use the `SageClient` class for explicit SDK management.
+- **React Integration: **Use built-in React hooks and the `SageProvider` for state-managed React apps.
+
+This guide covers the Direct JavaScript Integration method. If using React, see the React Integration guide.
+
+### 4. Basic Setup (Direct Javascript Integration)
+
+<Steps>
+  <Step title="Import the SDK">
+    ```javascript
+    import { SageClient } from '@sageprotocol/sdk';
+    ```
+  </Step>
+  <Step title="Initialize the Client">
+    Create an instance of the `SageClient` and initialize it:
+
+    ```javascript
+    const sage = new SageClient({
+      network: 'testnet' // or 'mainnet'
+    });
+    
+    await sage.initialize();
+    ```
+  </Step>
+  <Step title="Setup Sui Wallet Integration">
+    Your application must handle wallet connections for transaction signing. Ensure users connect their Sui wallet and your app can request signatures.
+  </Step>
+</Steps>
+
+### 5. Creating Your First User
+
+Create a new Sage user (temporarily requires invite code):
+
+```javascript
+const result = await sage.createUser({
+  inviteCode: 'your-invite-code',
+  inviteKey: 'your-invite-key',
+  name: 'john-doe',
+  description: 'Web3 enthusiast',
+  self: walletAddress
+});
+
+if (result.ok) {
+  await signAndExecuteTransaction({ transaction: result.transaction });
+} else {
+  console.error('Error creating user:', result.err);
+}
+```
+
+### 6. Verify Successful Setup
+
+Once you've executed the transaction successfully, your user identity is created. You can confirm the creation by querying your Sage profile or performing another simple operation, such as creating a basic post:
+
+```javascript
+const postResult = await sage.postToUser({
+  amounts: [0, 0],
+  sharedUserId: 'target-user-shared-id',
+  title: 'Hello Sage!',
+  description: 'My first decentralized post',
+  data: 'Excited to join the Sage community!',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (postResult.ok) {
+  await signAndExecuteTransaction({ transaction: postResult.transaction });
+} else {
+  console.error('Error creating post:', postResult.err);
+}
+```
+
+### 7. Next Steps
+
+You’re now set up and ready to explore the full capabilities of Sage SDK. Proceed to:
+
+- [**Key Concepts**](#): Understand important SDK patterns and best practices.
+- [**Core Primitives**](#): Explore the features for managing users, channels, and posts.
+- [**API Reference**](#): See comprehensive SDK documentation for advanced usage.
