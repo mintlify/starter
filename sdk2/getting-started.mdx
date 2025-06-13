@@ -1,0 +1,58 @@
+---
+title: "Quick Start"
+description: "Description of your new file."
+---
+
+Install the SDK:
+
+<CodeGroup>
+
+```bash pnpm
+pnpm i @sageprotocol/sdk
+```
+
+
+```bash yarn
+yarn add @sageprotocol/sdk
+```
+
+
+```bash npm
+npm i @sageprotocol/sdk
+```
+
+</CodeGroup>
+
+The Sage SDK supports two integration methods:
+
+- **Direct JavaScript Integration:** Offers direct use of the SDK through the `SageClient`.
+- **React Integration:** Uses built-in React hooks and the `SageProvider` component for easy state management.
+
+<Info>
+  Both approaches offer similar capabilities:
+
+  - Use the same transaction result pattern (`{ ok, err?, transaction? }`)
+  - Require manual wallet integration for transaction signing
+  - Support the same networks (testnet/mainnet)
+  - Provide identical error handling and validation
+  - Offer the same performance characteristics
+
+  The React wrapper is simply a convenience layer built on top of the vanilla client.
+</Info>
+
+<Tabs>
+  <Tab title="Direct Javascript Integration">
+    When to use:
+
+    - **Non-React applications:** Vue, Angular, Svelte, or vanilla JavaScript
+    - **Server-side operations:** Node.js backends or serverless functions
+    - **Library integration:** Building your own wrapper or abstraction layer
+    - **Multiple clients:** Applications that need multiple Sage client instances
+    - 
+  </Tab>
+  <Tab title="Javascript Integration">
+    When to use:
+
+    - **React applications**
+  </Tab>
+</Tabs>
