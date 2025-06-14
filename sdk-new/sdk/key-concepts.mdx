@@ -5,7 +5,7 @@ description: " "
 
 Before diving into advanced SDK usage, it’s important to understand a few key concepts and patterns central to Sage Protocol and its SDK. This section covers essential architectural and usage details to ensure a smooth integration process.
 
-### Application Isolation and Context (`appId`)
+## Application Isolation and Context (`appId`)
 
 Sage Protocol isolates content and interactions per application by using a unique identifier (`appId`). Each application maintains distinct channels and posts, while user identities and social graphs remain global across all Sage-compatible apps.
 
@@ -14,7 +14,7 @@ Sage Protocol isolates content and interactions per application by using a uniqu
 - Users have one global identity and consistent social relationships everywhere.
 - Each app provides distinct, tailored content experiences to its community.
 
-### Invite-Based User Creation (Temporary)
+## Invite-Based User Creation (Temporary)
 
 Currently, Sage Protocol requires invite codes and keys for new user creation. Invite-based onboarding helps applications manage and control initial growth and user engagement quality.
 
@@ -23,7 +23,7 @@ Currently, Sage Protocol requires invite codes and keys for new user creation. I
 
 _(Note: Future protocol versions will make invite codes optional.)_
 
-### Transaction Patterns
+## Transaction Patterns
 
 All Sage SDK operations that write data to the blockchain follow a consistent transaction workflow, clearly divided into two steps:
 
@@ -53,7 +53,7 @@ if (result.ok) {
 
 This separation ensures security and user transparency for all blockchain interactions.
 
-### Error Handling
+## Error Handling
 
 The Sage SDK consistently returns results indicating success or error states. All responses use a structured pattern with two important properties:
 
@@ -76,7 +76,7 @@ if (result.ok) {
 
 Always verify transactions by checking the `ok` property before proceeding.
 
-### Event Monitoring and Querying
+## Event Monitoring and Querying
 
 Sage SDK provides powerful event monitoring capabilities. Events (such as user creation, posting, and channel updates) are emitted explicitly onchain, enabling:
 
@@ -85,7 +85,7 @@ Sage SDK provides powerful event monitoring capabilities. Events (such as user c
 
 You can query and listen for these events directly through the SDK.
 
-### React Context and Hooks
+## React Context and Hooks
 
 For React applications, Sage SDK provides built-in context and custom React hooks (`useUser`, `useChannel`, `usePost`). This allows streamlined integration and simple state management, significantly improving developer experience in React-based apps.
 
@@ -118,7 +118,7 @@ function ChannelComponent({ channelId }) {
 
 Using hooks simplifies interactions with Sage primitives and maintains clean, readable code.
 
-### Next Steps
+## Next Steps
 
 With these key concepts clear, you’re ready to explore Sage SDK’s powerful core primitives and fully leverage decentralized social experiences. Next, continue to:
 
