@@ -15,7 +15,7 @@ use sage_shared::posts;
 
 ## Structs
 
-### Struct `Post`
+### `Post`
 
 The primary data type for holding content with an `Channel` or `User`.
 
@@ -43,7 +43,7 @@ public struct Post has key
 
 ## Functions
 
-### Function `get_address`
+### `get_address`
 
 Gets address of `Post`.
 
@@ -61,7 +61,7 @@ public fun get_address(post: &Post): address
   ```
 </Expandable>
 
-### Function `get_app`
+### `get_app`
 
 Gets address of the `App` to which the `Post` was created.
 
@@ -79,7 +79,7 @@ public fun get_app(post: &Post): address
   ```
 </Expandable>
 
-### Function `get_author`
+### `get_author`
 
 Get wallet address of the author of the `Post`.
 
@@ -97,7 +97,7 @@ public fun get_author(post: &Post): address
   ```
 </Expandable>
 
-### Function `get_comments_count`
+### `get_comments_count`
 
 Get number of comments underneath the `Post`.
 
@@ -115,7 +115,7 @@ public fun get_comments_count(post: &Post): u64
   ```
 </Expandable>
 
-### Function `get_created_at`
+### `get_created_at`
 
 Get timestamp of when the `Post` was created.
 
@@ -133,7 +133,7 @@ public fun get_created_at(post: &Post): u64
   ```
 </Expandable>
 
-### Function `get_depth`
+### `get_depth`
 
 Get the depth of the `Post`.
 
@@ -151,7 +151,7 @@ public fun get_depth(post: &Post): u64
   ```
 </Expandable>
 
-### Function `get_likes_count`
+### `get_likes_count`
 
 Get the number of likes on the `Post`.
 
@@ -169,7 +169,7 @@ public fun get_likes_count(post: &Post): u64
   ```
 </Expandable>
 
-### Function `get_updated_at`
+### `get_updated_at`
 
 Get the timestamp of when the `Post` was last updated.
 

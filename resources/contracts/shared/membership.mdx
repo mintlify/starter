@@ -13,7 +13,7 @@ use sui::table;
 
 ## Structs
 
-### Struct `Member`
+### `Member`
 
 Data that represents a single member of a larger organization.
 
@@ -31,7 +31,7 @@ public struct Member has store
   ```
 </Expandable>
 
-### Struct `Membership`
+### `Membership`
 
 Table of individual members of an organization.
 
@@ -86,7 +86,7 @@ const EIsNotMember: u64 = 371;
 
 ## Functions
 
-### Function `assert_is_member`
+### `assert_is_member`
 
 Aborts with `EIsNotMember` if the address is not a member.
 
@@ -110,7 +110,7 @@ public fun assert_is_member(membership: &Membership, member_address: address)
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Creates a new `Membership` instance.
 
@@ -133,7 +133,7 @@ public fun create(ctx: &mut TxContext): Membership
   ```
 </Expandable>
 
-### Function `get_count`
+### `get_count`
 
 Get number of times the `Member` has joined the `Membership`.
 
@@ -152,7 +152,7 @@ public fun get_count(membership: &Membership, member_address: address): u64
   ```
 </Expandable>
 
-### Function `get_created_at`
+### `get_created_at`
 
 Get timestamp of when the `Member` first joined.
 
@@ -171,7 +171,7 @@ public fun get_created_at(membership: &Membership, member_address: address): u64
   ```
 </Expandable>
 
-### Function `get_member_length`
+### `get_member_length`
 
 Get the number of current `Member`s.
 
@@ -189,7 +189,7 @@ public fun get_member_length(membership: &Membership): u64
   ```
 </Expandable>
 
-### Function `get_type`
+### `get_type`
 
 Get whether the `Member` is an object or a wallet.
 
@@ -208,7 +208,7 @@ public fun get_type(membership: &Membership, member_address: address): u8
   ```
 </Expandable>
 
-### Function `get_updated_at`
+### `get_updated_at`
 
 Get timestamp of when the `Membership` was most recently updated.
 
@@ -227,7 +227,7 @@ public fun get_updated_at(membership: &Membership, member_address: address): u64
   ```
 </Expandable>
 
-### Function `is_member`
+### `is_member`
 
 Returns true or false depending on whether the address is a `Member`.
 
@@ -247,7 +247,7 @@ public fun is_member(membership: &Membership, member_address: address): bool
   ```
 </Expandable>
 
-### Function `object_join`
+### `object_join`
 
 Join a `Membership` as an object.
 
@@ -274,7 +274,7 @@ public fun object_join(membership: &mut Membership, obj_address: address, timest
   ```
 </Expandable>
 
-### Function `object_leave`
+### `object_leave`
 
 Leave a `Membership` as an object.
 
@@ -300,7 +300,7 @@ public fun object_leave(membership: &mut Membership, obj_address: address, times
   ```
 </Expandable>
 
-### Function `wallet_join`
+### `wallet_join`
 
 Join a `Membership` as a wallet.
 
@@ -327,7 +327,7 @@ public fun wallet_join(membership: &mut Membership, user_address: address, times
   ```
 </Expandable>
 
-### Function `wallet_leave`
+### `wallet_leave`
 
 Leave a `Membership` as a wallet.
 

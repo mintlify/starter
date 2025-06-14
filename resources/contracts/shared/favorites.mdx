@@ -13,7 +13,7 @@ use sui::table;
 
 ## Structs
 
-### Struct `Favorite`
+### `Favorite`
 
 Data on relationship created between a `User` and the content they want to favorite.
 
@@ -30,7 +30,7 @@ public struct Favorite has store
   ```
 </Expandable>
 
-### Struct `Favorites`
+### `Favorites`
 
 All of the relationships that exist between `User`s and the content they have favorited.
 
@@ -61,7 +61,7 @@ const EIsNotFavorite: u64 = 371;
 
 ## Functions
 
-### Function `add`
+### `add`
 
 Favorite the content.
 
@@ -107,7 +107,7 @@ public fun add(favorites: &mut Favorites, key: address, timestamp: u64): u64
   ```
 </Expandable>
 
-### Function `assert_has_not_favorited`
+### `assert_has_not_favorited`
 
 Aborts with `EAlreadyFavorited` if the content has already been favorited.
 
@@ -131,7 +131,7 @@ public fun assert_has_not_favorited(favorites: &Favorites, key: address)
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Creates a new instance of `Favorites`.
 
@@ -154,7 +154,7 @@ public fun create(ctx: &mut TxContext): Favorites
   ```
 </Expandable>
 
-### Function `get_count`
+### `get_count`
 
 Gets the number of times the content has been favorited.
 
@@ -173,7 +173,7 @@ public fun get_count(favorites: &Favorites, key: address): u64
   ```
 </Expandable>
 
-### Function `get_created_at`
+### `get_created_at`
 
 Get timestamp of when the content was first favorited.
 
@@ -192,7 +192,7 @@ public fun get_created_at(favorites: &Favorites, key: address): u64
   ```
 </Expandable>
 
-### Function `get_length`
+### `get_length`
 
 Get the number of favorites on the content currently.
 
@@ -210,7 +210,7 @@ public fun get_length(favorites: &Favorites): u64
   ```
 </Expandable>
 
-### Function `get_updated_at`
+### `get_updated_at`
 
 Get timestamp of when the content was most recently favorited.
 
@@ -229,7 +229,7 @@ public fun get_updated_at(favorites: &Favorites, key: address): u64
   ```
 </Expandable>
 
-### Function `is_favorite`
+### `is_favorite`
 
 Returns true or false based on whether the content has currently been favorited.
 
@@ -249,7 +249,7 @@ public fun is_favorite(favorites: &Favorites, key: address): bool
   ```
 </Expandable>
 
-### Function `remove`
+### `remove`
 
 Unfavorite the content.
 

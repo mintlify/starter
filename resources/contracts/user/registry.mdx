@@ -16,7 +16,7 @@ use sage_utils::string_helpers;
 
 ## Structs
 
-### Struct `UserRegistry`
+### `UserRegistry`
 
 Registry that contains a map to all `User`s.
 
@@ -52,7 +52,7 @@ const EUsernameRecordDoesNotExist: u64 = 371;
 
 ## Functions
 
-### Function `assert_user_address_exists`
+### `assert_user_address_exists`
 
 Aborts with `EAddressRecordDoesNotExist` when a wallet address is not associated with a `User`.
 
@@ -76,7 +76,7 @@ public fun assert_user_address_exists(user_registry: &UserRegistry, wallet_addre
   ```
 </Expandable>
 
-### Function `assert_user_name_exists`
+### `assert_user_name_exists`
 
 Aborts with `EUsernameRecordDoesNotExist` when the `User` name does not exist in the registry.
 
@@ -100,7 +100,7 @@ public fun assert_user_name_exists(user_registry: &UserRegistry, username: Strin
   ```
 </Expandable>
 
-### Function `get_owner_address_from_key`
+### `get_owner_address_from_key`
 
 Returns the wallet address for the `User` with the specified lowercase name.
 
@@ -119,7 +119,7 @@ public fun get_owner_address_from_key(user_registry: &UserRegistry, user_key: St
   ```
 </Expandable>
 
-### Function `get_owned_user_address_from_key`
+### `get_owned_user_address_from_key`
 
 Returns the address for the `OwnedUser` with the specified lowercase name.
 
@@ -138,7 +138,7 @@ public fun get_owned_user_address_from_key(user_registry: &UserRegistry, user_ke
   ```
 </Expandable>
 
-### Function `get_shared_user_address_from_key`
+### `get_shared_user_address_from_key`
 
 Returns the address for the `SharedUser` with the specified lowercase name.
 
@@ -157,7 +157,7 @@ public fun get_shared_user_address_from_key (user_registry: &UserRegistry, user_
   ```
 </Expandable>
 
-### Function `get_key_from_owner_address`
+### `get_key_from_owner_address`
 
 Returns the `User` lowercase name associated with the wallet address.
 
@@ -176,7 +176,7 @@ public fun get_key_from_owner_address(user_registry: &UserRegistry, user_address
   ```
 </Expandable>
 
-### Function `get_key_from_owned_user_address`
+### `get_key_from_owned_user_address`
 
 Returns the `User` lowercase name associated with the `OwnedUser` address.
 
@@ -195,7 +195,7 @@ public fun get_key_from_owned_user_address(user_registry: &UserRegistry, user_ad
   ```
 </Expandable>
 
-### Function `get_key_from_shared_user_address`
+### `get_key_from_shared_user_address`
 
 Returns the `User` lowercase name associated with the `SharedUser` address.
 
@@ -214,7 +214,7 @@ public fun get_key_from_shared_user_address(user_registry: &UserRegistry, user_a
   ```
 </Expandable>
 
-### Function `has_address_record`
+### `has_address_record`
 
 Returns true or false based on whether the wallet address has an associated `User`.
 
@@ -233,7 +233,7 @@ public fun has_address_record(user_registry: &UserRegistry, wallet_address: addr
   ```
 </Expandable>
 
-### Function `has_username_record`
+### `has_username_record`
 
 Returns true or false based on whether the specified lowercase `User` name is in use.
 

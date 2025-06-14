@@ -16,7 +16,7 @@ use sage_trust::trust_access;
 
 ## Structs
 
-### Struct `MintConfig`
+### `MintConfig`
 
 Manages the behavior of minting through admin controls, until they can be discontinued in favor of governance.
 
@@ -32,7 +32,7 @@ public struct MintConfig has key
   ```
 </Expandable>
 
-### Struct `ProtectedTreasury`
+### `ProtectedTreasury`
 
 Holds the `sui::coin::TreasuryCap` required for minting and burning TRUST.
 
@@ -49,7 +49,7 @@ public struct ProtectedTreasury has key
 
 ## Functions
 
-### Function `is_minting_enabled`
+### `is_minting_enabled`
 
 Returns true or false based on whether TRUST can be minted.
 
@@ -67,7 +67,7 @@ public fun is_minting_enabled(mint_config: &MintConfig): bool
   ```
 </Expandable>
 
-### Function `max_supply`
+### `max_supply`
 
 Returns the maximum possible TRUST that can be minted.
 
@@ -85,7 +85,7 @@ public fun max_supply(mint_config: &MintConfig): Option<u64>
   ```
 </Expandable>
 
-### Function `total_supply`
+### `total_supply`
 
 Returns the total amount of TRUST in circulation.
 

@@ -37,7 +37,7 @@ use sage_utils::string_helpers;
 
 ## Events
 
-### Event `ChannelFavoritesUpdate`
+### `ChannelFavoritesUpdate`
 
 Emitted when a `User` favorites or unfavorites a `Channel`.
 
@@ -55,7 +55,7 @@ public struct ChannelFavoritesUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `InviteCreated`
+### `InviteCreated`
 
 Emitted when a new `Invite` is created.
 
@@ -71,7 +71,7 @@ public struct InviteCreated has copy, drop
   ```
 </Expandable>
 
-### Event `PostFavoritesUpdate`
+### `PostFavoritesUpdate`
 
 Emitted when a `User` favorites or unfavorites a `Post`.
 
@@ -89,7 +89,7 @@ public struct PostFavoritesUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `UserCreated`
+### `UserCreated`
 
 Emitted when a new `User` is created.
 
@@ -112,7 +112,7 @@ public struct UserCreated has copy, drop
   ```
 </Expandable>
 
-### Event `UserFavoritesUpdate`
+### `UserFavoritesUpdate`
 
 Emitted when a `User` favorites or unfavorites a `User`.
 
@@ -130,7 +130,7 @@ public struct UserFavoritesUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `UserFollowsUpdate`
+### `UserFollowsUpdate`
 
 Emitted when a `User` follows or unfollows another `User`.
 
@@ -149,7 +149,7 @@ public struct UserFollowsUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `UserFriendUpdate`
+### `UserFriendUpdate`
 
 Emitted when a `User` confirms friendship or unfriends another `User`.
 
@@ -168,7 +168,7 @@ public struct UserFriendUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `UserFriendRequestUpdate`
+### `UserFriendRequestUpdate`
 
 Emitted when a `User` requests friendship with another `User`.
 
@@ -187,7 +187,7 @@ public struct UserFriendRequestUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `UserPostCreated`
+### `UserPostCreated`
 
 Emitted when a new `Post` is created for a `User`.
 
@@ -208,7 +208,7 @@ public struct UserPostCreated has copy, drop
   ```
 </Expandable>
 
-### Event `UserUpdated`
+### `UserUpdated`
 
 Emitted when a `User` is updated.
 
@@ -306,7 +306,7 @@ const EUserNameMismatch: u64 = 376;
 
 ## Functions
 
-### Function `add_favorite_channel`
+### `add_favorite_channel`
 
 Allows a `User` to add a favorite `Channel` within an `App`. Aborts with `ETypeMismatch` if `ChannelType` is not a `Channel`.
 
@@ -356,7 +356,7 @@ public fun add_favorite_channel<ChannelType: key> (app: &App, clock: &Clock, cha
   ```
 </Expandable>
 
-### Function `add_favorite_post`
+### `add_favorite_post`
 
 Allows a `User` to add a favorite `Post` within an `App`. Aborts with `ESuppliedAuthorMismatch` if the supplied `SharedUser` is not the author of the `Post`.
 
@@ -464,7 +464,7 @@ public fun add_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserOwne
   ```
 </Expandable>
 
-### Function `add_favorite_user`
+### `add_favorite_user`
 
 Allows a `User` to add a favorite `User` within an `App`.
 
@@ -508,7 +508,7 @@ public fun add_favorite_user(app: &App, clock: &Clock, owned_user: &mut UserOwne
   ```
 </Expandable>
 
-### Function `assert_user_description`
+### `assert_user_description`
 
 Aborts with `EInvalidUserDescription` if the description is invalid.
 
@@ -528,7 +528,7 @@ public fun assert_user_description(description: &String)
   ```
 </Expandable>
 
-### Function `assert_user_name`
+### `assert_user_name`
 
 Aborts with `EInvalidUsername` if the name is invalid.
 
@@ -552,7 +552,7 @@ public fun assert_user_name(name: &String)
   ```
 </Expandable>
 
-### Function `claim_reward`
+### `claim_reward`
 
 If `User` has an available claim on the `App` and for the specified epoch, then mints \$TRUST and transfers it to the `User`'s wallet. Aborts with `ENotSelf` if the `SharedUser` does not belong to the wallet address.
 
@@ -672,7 +672,7 @@ public fun claim_reward(app: &App, mint_config: &MintConfig, reward_witness_conf
   ```
 </Expandable>
 
-### Function `comment`
+### `comment`
 
 Create a comment on a `Post`. Aborts with `ESuppliedAuthorMismatch` if the supplied `SharedUser` is not the author of the parent `Post`.
 
@@ -783,7 +783,7 @@ public fun comment<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwn
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Create a new `User`. Aborts with `EInvalidUserDescription` or `EInvalidUsername` if the description or name is invalid, `EInviteRequired` if an `Invite` is required and not supplied, `EInviteDoesNotExist` if invite info was supplied but does not exist in the registry, `EInviteInvalid` if invite info was supplied but is not valid, or `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -932,7 +932,7 @@ public fun create<CoinType> (clock: &Clock, invite_config: &InviteConfig, user_r
   ```
 </Expandable>
 
-### Function `create_invite`
+### `create_invite`
 
 Create an invite for another wallet address. Aborts with `EInviteNotAllowed` if invites are required, or `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -988,7 +988,7 @@ public fun create_invite<CoinType> (invite_config: &InviteConfig, user_fees: &Us
   ```
 </Expandable>
 
-### Function `follow`
+### `follow`
 
 `User` follows another `User` within an `App`. Aborts with `ENoSelfJoin` if attempting to follow one's self, `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -1115,7 +1115,7 @@ public fun follow<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwne
   ```
 </Expandable>
 
-### Function `friend_user`
+### `friend_user`
 
 Creates a friend request between two `User`s if one does not exist, or creates a friendship if the other `User` had already requested to be friends. Aborts with `ENotSelf` if attempting to friend one's self, or `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -1296,7 +1296,7 @@ public fun friend_user<CoinType> (app: &App, clock: &Clock, reward_weights_regis
   ```
 </Expandable>
 
-### Function `like_post`
+### `like_post`
 
 `User` likes a `Post`. Aborts with `ESuppliedAuthorMismatch` if the `SharedUser` is not the author of the `Post`, or `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -1399,7 +1399,7 @@ public fun like_post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserO
   ```
 </Expandable>
 
-### Function `post`
+### `post`
 
 Creates a `Post` on the `User` and returns the `Post` address and timestamp that it was made. Aborts with `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -1523,7 +1523,7 @@ public fun post<CoinType> (app: &App, clock: &Clock, owned_user: &mut UserOwned,
   ```
 </Expandable>
 
-### Function `remove_favorite_channel`
+### `remove_favorite_channel`
 
 Removes a `Channel` from being a favorite within an `App`.
 
@@ -1567,7 +1567,7 @@ public fun remove_favorite_channel<ChannelType: key> (app: &App, clock: &Clock, 
   ```
 </Expandable>
 
-### Function `remove_favorite_post`
+### `remove_favorite_post`
 
 Removes a `Post` from being a favorite within an `App`.
 
@@ -1611,7 +1611,7 @@ public fun remove_favorite_post(app: &App, clock: &Clock, owned_user: &mut UserO
   ```
 </Expandable>
 
-### Function `remove_favorite_user`
+### `remove_favorite_user`
 
 Removes a `User` from being a favorite within an `App`.
 
@@ -1655,7 +1655,7 @@ public fun remove_favorite_user(app: &App, clock: &Clock, owned_user: &mut UserO
   ```
 </Expandable>
 
-### Function `remove_friend_request`
+### `remove_friend_request`
 
 Removes a friend request to the `User` if they do not wish to connect to the requester. Aborts with `ENotSelf` if the `SharedUser` does not belong to the wallet address or if the request is not affiliated with the provided `SharedUser`.
 
@@ -1709,7 +1709,7 @@ public fun remove_friend_request(app: &App, clock: &Clock, shared_user: &mut Use
   ```
 </Expandable>
 
-### Function `unfollow`
+### `unfollow`
 
 Unfollow a `User`. Aborts with `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -1777,7 +1777,7 @@ public fun unfollow<CoinType> (app: &App, clock: &Clock, shared_user: &mut UserS
   ```
 </Expandable>
 
-### Function `unfriend_user`
+### `unfriend_user`
 
 Removes friendship between `User`s. Aborts with `ENotSelf` if the wallet does not own the `OwnedUser` or `SharedUser`, or `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -1859,7 +1859,7 @@ public fun unfriend_user<CoinType> (app: &App, clock: &Clock, user_fees: &UserFe
   ```
 </Expandable>
 
-### Function `update`
+### `update`
 
 Updates metadata on the `OwnedUser`. Aborts with `EUserNameMismatch` if attempting to change the name, or `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 

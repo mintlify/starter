@@ -18,7 +18,7 @@ use sage_admin::apps;
 
 ## Structs
 
-### Struct `Royalties`
+### `Royalties`
 
 Holds the configuration for how royalties may be paid out when fees are collected within the protocol.
 
@@ -60,7 +60,7 @@ const EInvalidFeeValue: u64 = 370;
 
 ## Functions
 
-### Function `collect_payment`
+### `collect_payment`
 
 Transfers collected payments to the protocol treasury.
 
@@ -87,7 +87,7 @@ public fun collect_payment<CoinType>(custom_coin: Coin<CoinType>, sui_coin: Coin
   ```
 </Expandable>
 
-### Function `distribute_payment`
+### `distribute_payment`
 
 Transfers collected payments to the protocol treasury.
 

@@ -13,7 +13,7 @@ use sui::table;
 
 ## Structs
 
-### Struct `Posts`
+### `Posts`
 
 A collection of `Post` structs.
 
@@ -29,7 +29,7 @@ public struct Posts has store
 
 ## Functions
 
-### Function `add`
+### `add`
 
 Add a `Post` to the collection.
 
@@ -52,7 +52,7 @@ public fun add(posts: &mut Posts, post_timestamp: u64, post_address: address)
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Create a new `Posts` instance.
 
@@ -72,7 +72,7 @@ public fun create(ctx: &mut TxContext): Posts
   ```
 </Expandable>
 
-### Function `get_length`
+### `get_length`
 
 Get the total number of `Post`s in the collection.
 
@@ -90,7 +90,7 @@ public fun get_length(posts: &Posts): u64
   ```
 </Expandable>
 
-### Function `has_record`
+### `has_record`
 
 Returns true or false based on whether a `Post` exists at a timestamp.
 

@@ -23,7 +23,7 @@ use sage_shared::favorites;
 
 ## Structs
 
-### Struct `UserOwned`
+### `UserOwned`
 
 Represents the `User` data specific to identity and reputation.
 
@@ -69,7 +69,7 @@ const ENoAppFavorites: u64 = 370;
 
 ## Functions
 
-### Function `get_avatar`
+### `get_avatar`
 
 Returns the avatar for the `OwnedUser`.
 
@@ -87,7 +87,7 @@ public fun get_avatar(owned_user: &UserOwned): String
   ```
 </Expandable>
 
-### Function `get_banner`
+### `get_banner`
 
 Returns the banner for the `OwnedUser`.
 
@@ -105,7 +105,7 @@ public fun get_banner(owned_user: &UserOwned): String
   ```
 </Expandable>
 
-### Function `get_description`
+### `get_description`
 
 Returns the description for the `OwnedUser`.
 
@@ -123,7 +123,7 @@ public fun get_description(owned_user: &UserOwned): String
   ```
 </Expandable>
 
-### Function `get_key`
+### `get_key`
 
 Returns the lowercase name for the `OwnedUser`.
 
@@ -141,7 +141,7 @@ public fun get_key(owned_user: &UserOwned): String
   ```
 </Expandable>
 
-### Function `get_name`
+### `get_name`
 
 Returns the name for the `OwnedUser`.
 
@@ -159,7 +159,7 @@ public fun get_name(owned_user: &UserOwned): String
   ```
 </Expandable>
 
-### Function `get_owner`
+### `get_owner`
 
 Returns the wallet address associated with the `OwnedUser`.
 
@@ -177,7 +177,7 @@ public fun get_owner(owned_user: &UserOwned): address
   ```
 </Expandable>
 
-### Function `get_shared_user`
+### `get_shared_user`
 
 Returns the address for the `SharedUser` associated with the `OwnedUser`.
 
@@ -195,7 +195,7 @@ public fun get_shared_user(owned_user: &UserOwned): address
   ```
 </Expandable>
 
-### Function `get_channel_favorites_length`
+### `get_channel_favorites_length`
 
 Get the number of `Channel`s the `User` has favorited in the `App`.
 
@@ -234,7 +234,7 @@ public fun get_channel_favorites_length(app: &App, user: &UserOwned): u64
   ```
 </Expandable>
 
-### Function `get_post_favorites_length`
+### `get_post_favorites_length`
 
 Get the number of `Post`s the `User` has favorited in the `App`.
 
@@ -273,7 +273,7 @@ public fun get_post_favorites_length(app: &App, user: &UserOwned): u64
   ```
 </Expandable>
 
-### Function `get_user_favorites_length`
+### `get_user_favorites_length`
 
 Get the number of `User`s the `User` has favorited in the `App`.
 
@@ -312,7 +312,7 @@ public fun get_user_favorites_length(app: &App, user: &UserOwned): u64
   ```
 </Expandable>
 
-### Function `get_total_rewards`
+### `get_total_rewards`
 
 Get the total amount of \$TRUST rewards the `User` has been awarded through social actions.
 
@@ -331,7 +331,7 @@ public fun get_total_rewards(user: &UserOwned): u64
   ```
 </Expandable>
 
-### Function `has_analytics`
+### `has_analytics`
 
 Returns true or false based on whether the `OwnedUser` has analytics for the specified `App` and reward epoch.
 

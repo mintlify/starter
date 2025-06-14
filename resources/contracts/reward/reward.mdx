@@ -14,7 +14,7 @@ use sui::dynamic_field;
 
 ## Structs
 
-### Struct `RewardWeight`
+### `RewardWeight`
 
 Stores the weight of the `User` action.
 
@@ -28,7 +28,7 @@ public struct RewardWeight has copy, drop, store
   ```
 </Expandable>
 
-### Struct `RewardWeights`
+### `RewardWeights`
 
 All of the `RewardWeight`s that have been defined for the epoch.
 
@@ -46,7 +46,7 @@ public struct RewardWeights has key, store
 
 ## Functions
 
-### Function `field_exists`
+### `field_exists`
 
 Returns true or false depending on whether the `RewardWeight` has been defined for the epoch.
 
@@ -72,7 +72,7 @@ public fun field_exists(reward_weights: &RewardWeights, metric: String): bool
   ```
 </Expandable>
 
-### Function `get_end`
+### `get_end`
 
 Get the timestamp for the end of the reward epoch.
 
@@ -90,7 +90,7 @@ public fun get_end(reward_weights: &RewardWeights): u64
   ```
 </Expandable>
 
-### Function `get_start`
+### `get_start`
 
 Get the timestamp for the start of the reward epoch.
 
@@ -108,7 +108,7 @@ public fun get_start(reward_weights: &RewardWeights): u64
   ```
 </Expandable>
 
-### Function `get_weight`
+### `get_weight`
 
 Get the weight for the specified `User` action metric.
 
@@ -143,7 +143,7 @@ public fun get_weight(reward_weights: &RewardWeights, metric: String): u64
   ```
 </Expandable>
 
-### Function `is_current`
+### `is_current`
 
 Returns true or false depending on whether the `RewardWeights` is current or not.
 

@@ -13,7 +13,7 @@ use sui::table;
 
 ## Structs
 
-### Struct `Moderation`
+### `Moderation`
 
 Table of `User`s authorized to take moderator actions on a forum.
 
@@ -73,7 +73,7 @@ const EIsNotOwner: u64 = 372;
 
 ## Functions
 
-### Function `assert_is_moderator`
+### `assert_is_moderator`
 
 Aborts with `EIsNotModerator` if the user is not a moderator or owner.
 
@@ -97,7 +97,7 @@ public fun assert_is_moderator(moderation: &Moderation, user: address)
   ```
 </Expandable>
 
-### Function `assert_is_owner`
+### `assert_is_owner`
 
 Aborts with `EIsNotOwner` if the user is not the owner.
 
@@ -121,7 +121,7 @@ public fun assert_is_owner(moderation: &Moderation, user: address)
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Creates a new `Moderation` instance.
 
@@ -150,7 +150,7 @@ public fun create(ctx: &mut TxContext): (Moderation, u8, u8)
   ```
 </Expandable>
 
-### Function `get_length`
+### `get_length`
 
 Get number of moderators and owners.
 
@@ -168,7 +168,7 @@ public fun get_length(moderation: &Moderation): u64
   ```
 </Expandable>
 
-### Function `is_moderator`
+### `is_moderator`
 
 Returns true or false based on whether the address is a moderator.
 
@@ -187,7 +187,7 @@ public fun is_moderator(moderation: &Moderation, user: address): bool
   ```
 </Expandable>
 
-### Function `is_owner`
+### `is_owner`
 
 Returns true or false based on whether the address is the owner.
 
@@ -215,7 +215,7 @@ public fun is_owner(moderation: &Moderation, user: address): bool
   ```
 </Expandable>
 
-### Function `make_moderator`
+### `make_moderator`
 
 Adds the address as a moderator.
 
@@ -239,7 +239,7 @@ public fun make_moderator(moderation: &mut Moderation, user: address): (u8, u8)
   ```
 </Expandable>
 
-### Function `make_owner`
+### `make_owner`
 
 Adds the address as the owner.
 
@@ -263,7 +263,7 @@ public fun make_owner(moderation: &mut Moderation, user: address): (u8, u8)
   ```
 </Expandable>
 
-### Function `remove_moderator`
+### `remove_moderator`
 
 Removes the address as a moderator. Aborts with `EIsOwner` if attempting to remove the owner.
 

@@ -19,7 +19,7 @@ use sage_utils::string_helpers;
 
 ## Events
 
-### Event `AppCreated`
+### `AppCreated`
 
 Emitted when a new `App` is created.
 
@@ -36,7 +36,7 @@ public struct AppCreated has copy, drop
 
 ## Functions
 
-### Function `create_app`
+###  `create_app`
 
 Creates a new `App` within the protocol. Aborts with `sage_admin::access:ETypeMismatch` if the `owned_user` is the incorrect type.
 

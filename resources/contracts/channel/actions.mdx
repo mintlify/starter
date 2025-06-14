@@ -34,7 +34,7 @@ use sage_utils::string_helpers;
 
 ## Events
 
-### Event `ChannelCreated`
+### `ChannelCreated`
 
 Emitted when a new `Channel` is created.
 
@@ -56,7 +56,7 @@ public struct ChannelCreated has copy, drop
   ```
 </Expandable>
 
-### Event `ChannelFollowsUpdate`
+### `ChannelFollowsUpdate`
 
 Emitted when a `User` is follows or unfollows a `Channel`.
 
@@ -74,7 +74,7 @@ public struct ChannelFollowsUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `ChannelModerationUpdate`
+### `ChannelModerationUpdate`
 
 Emitted when a `Moderator` is added or removed from a `Channel`.
 
@@ -92,7 +92,7 @@ public struct ChannelModerationUpdate has copy, drop
   ```
 </Expandable>
 
-### Event `ChannelPostCreated`
+### `ChannelPostCreated`
 
 Emitted when a new `Post` is created for a `Channel`.
 
@@ -113,7 +113,7 @@ public struct ChannelPostCreated has copy, drop
   ```
 </Expandable>
 
-### Event `ChannelUpdated`
+### `ChannelUpdated`
 
 Emitted when a `Channel` is updated.
 
@@ -142,7 +142,7 @@ const EChannelNameMismatch: u64 = 370;
 
 ## Functions
 
-### Function `add_moderator_as_owner`
+### `add_moderator_as_owner`
 
 Adds a moderator to the channel. Aborts with `EIsNotOwner` if the transaction was not executed by the channel owner and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -212,7 +212,7 @@ public fun add_moderator_as_owner<CoinType> (channel: &mut Channel, channel_fees
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Creates a new `Channel`. Aborts with `EAppChannelRegistryMismatch` if the `ChannelRegistry` does not belong to the `App`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -372,7 +372,7 @@ public fun create<CoinType> (app: &App, channel_fees: &ChannelFees, channel_regi
   ```
 </Expandable>
 
-### Function `create_registry`
+### `create_registry`
 
 Creates a new channel registry for an `App`.
 
@@ -407,7 +407,7 @@ public fun create_registry(app_channel_registry: &mut AppChannelRegistry, app: &
   ```
 </Expandable>
 
-### Function `follow`
+### `follow`
 
 A `User` follows a `Channel`. Aborts with `EAppChannelMismatch` if the `Channel` does not belong to the `App`, `EIsMember` if the `User` already follows the `Channel`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -535,7 +535,7 @@ public fun follow<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Ch
   ```
 </Expandable>
 
-### Function `post`
+### `post`
 
 Creates a `Post` on the `Channel`. Aborts with `EIsNotMember` if the `User` is not following the `Channel`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -671,7 +671,7 @@ public fun post<CoinType> (app: &App, channel: &mut Channel, channel_fees: &Chan
   ```
 </Expandable>
 
-### Function `remove_moderator_as_owner`
+### `remove_moderator_as_owner`
 
 Removes a `User` as a `Moderator` on the `Channel`. Aborts with `EIsNotOwner` if the `User` is not owner of the `Channel`, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 
@@ -741,7 +741,7 @@ public fun remove_moderator_as_owner<CoinType> (channel: &mut Channel, channel_f
   ```
 </Expandable>
 
-### Function `unfollow`
+### `unfollow`
 
 `User` unfollows a `Channel`.
 
@@ -803,7 +803,7 @@ public fun unfollow<CoinType> (channel: &mut Channel, channel_fees: &ChannelFees
   ```
 </Expandable>
 
-### Function `update_as_owner`
+### `update_as_owner`
 
 Update `Channel` metadata. The lowercase value of the name cannot be edited, but the casing can. Aborts with `EIsNotModerator` if the `User` is not a moderator of the `Channel`, `EChannelNameMismatch` if anything about the name is changed other than casing, and `EIncorrectCoinType`, `EIncorrectCustomPayment`, or `EIncorrectSuiPayment` if the payment was incorrect.
 

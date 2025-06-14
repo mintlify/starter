@@ -17,7 +17,7 @@ use sage_admin::admin;
 
 ## Structs
 
-### Struct `App`
+### `App`
 
 Object that represents the application operating in the protocol, e.g. "Sage", "instagram-clone", "bucket", or "double-up". Developers may create different apps within the protocol to build social applications or augment their application with social capabilities.
 
@@ -33,7 +33,7 @@ public struct App has key
   ```
 </Expandable>
 
-### Struct `AppRegistry`
+### `AppRegistry`
 
 Registry that maintains a reference to every `App` on the protocol and maintains name-uniqueness.
 
@@ -50,7 +50,7 @@ public struct AppRegistry has key
 
 ## Functions
 
-### Function `get_address`
+### `get_address`
 
 Returns the address of the `App`'s id.
 
@@ -68,7 +68,7 @@ public fun get_address(app: &App): address
   ```
 </Expandable>
 
-### Function `get_name`
+### `get_name`
 
 Returns the name of the `App`.
 
@@ -86,7 +86,7 @@ public fun get_name(app: &App): String
   ```
 </Expandable>
 
-### Function `has_record`
+### `has_record`
 
 Returns `true` if the case-insensitive app name is already in use, and `false` otherwise.
 
@@ -105,7 +105,7 @@ public fun has_record(app: &App): bool
   ```
 </Expandable>
 
-### Function `has_rewards_enabled`
+### `has_rewards_enabled`
 
 Returns `true` if rewards are enabled in the `App`, and `false` otherwise.
 

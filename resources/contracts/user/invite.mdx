@@ -18,7 +18,7 @@ use sage_admin::admin;
 
 ## Structs
 
-### Struct `Invite`
+### `Invite`
 
 An invitation to join the protocol.
 
@@ -33,7 +33,7 @@ public struct Invite has copy, drop, store
   ```
 </Expandable>
 
-### Struct `InviteConfig`
+### `InviteConfig`
 
 Manages whether invites are required.
 
@@ -48,7 +48,7 @@ public struct InviteConfig has key
   ```
 </Expandable>
 
-### Struct `UserInviteRegistry`
+### `UserInviteRegistry`
 
 Collection of all outstanding invitations.
 
@@ -65,7 +65,7 @@ public struct UserInviteRegistry has key
 
 ## Events
 
-### Event `InviteDeleted`
+### `InviteDeleted`
 
 Fires when an `Invite` is deleted.
 
@@ -101,7 +101,7 @@ const EInviteNotAllowed: u64 = 372;
 
 ## Functions
 
-### Function `assert_invite_exists`
+### `assert_invite_exists`
 
 Aborts with `EInviteDoesNotExist` if the registry does not contain the invite key.
 
@@ -125,7 +125,7 @@ public fun assert_invite_exists(user_invite_registry: &UserInviteRegistry, invit
   ```
 </Expandable>
 
-### Function `assert_invite_not_required`
+### `assert_invite_not_required`
 
 Aborts with `EInviteNotAllowed` if invites are required.
 
@@ -147,7 +147,7 @@ public fun assert_invite_not_required(invite_config: &InviteConfig)
   ```
 </Expandable>
 
-### Function `assert_invite_is_valid`
+### `assert_invite_is_valid`
 
 Aborts with `EInviteInvalid` if the `Invite` is not valid.
 
@@ -173,7 +173,7 @@ public fun assert_invite_is_valid(invite_code: String, invite_key: String, invit
   ```
 </Expandable>
 
-### Function `get_destructured_invite`
+### `get_destructured_invite`
 
 Returns the stored hash and user wallet info.
 
@@ -199,7 +199,7 @@ public fun get_destructured_invite(user_invite_registry: &UserInviteRegistry, in
   ```
 </Expandable>
 
-### Function `has_record`
+### `has_record`
 
 Returns true or false based on whether the invite exists in the registry.
 
@@ -218,7 +218,7 @@ public fun has_record(user_invite_registry: &UserInviteRegistry, invite_key: Str
   ```
 </Expandable>
 
-### Function `is_invite_required`
+### `is_invite_required`
 
 Returns true or false based on whether invites are required.
 
@@ -236,7 +236,7 @@ public fun is_invite_required(invite_config: &InviteConfig): bool
   ```
 </Expandable>
 
-### Function `is_invite_valid`
+### `is_invite_valid`
 
 Returns true or false depending on whether the `Invite` is valid.
 

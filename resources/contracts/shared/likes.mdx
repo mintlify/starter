@@ -13,7 +13,7 @@ use sui::table;
 
 ## Structs
 
-### Struct `Likes`
+### `Likes`
 
 All of the relationships that exist between `User`s and the content they have liked.
 
@@ -43,7 +43,7 @@ const EAlreadyLiked: u64 = 370;
 
 ## Functions
 
-### Function `add`
+### `add`
 
 Like the content.
 
@@ -62,7 +62,7 @@ public fun add(likes: &mut Likes, key: address)
   ```
 </Expandable>
 
-### Function `assert_has_not_liked`
+### `assert_has_not_liked`
 
 Aborts with `EAlreadyLiked` if the content has already been liked.
 
@@ -86,7 +86,7 @@ public fun assert_has_not_liked(likes: &Likes, key: address)
   ```
 </Expandable>
 
-### Function `create`
+### `create`
 
 Creates a new instance of `Likes`.
 
@@ -108,7 +108,7 @@ public fun create(ctx: &mut TxContext): Likes
   ```
 </Expandable>
 
-### Function `get_length`
+### `get_length`
 
 Gets the number of times the content has been liked.
 
@@ -126,7 +126,7 @@ public fun get_length(likes: &Likes): u64
   ```
 </Expandable>
 
-### Function `has_liked`
+### `has_liked`
 
 Returns true or false based on whether the content has been liked.
 

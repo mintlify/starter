@@ -15,7 +15,7 @@ use sui::table;
 
 ## Structs
 
-### Struct `AppChannelRegistry`
+### `AppChannelRegistry`
 
 Registry that maps all `App`s to their respective `ChannelRegistry`.
 
@@ -30,7 +30,7 @@ public struct AppChannelRegistry has key
   ```
 </Expandable>
 
-### Struct `ChannelRegistry`
+### `ChannelRegistry`
 
 Registry that maps all `Channel`s for an `App`.
 
@@ -56,7 +56,7 @@ const EAppChannelRegistryMismatch: u64 = 370;
 
 ## Functions
 
-### Function `assert_app_channel_registry_match`
+### `assert_app_channel_registry_match`
 
 Aborts with `EAppChannelRegistryMismatch` if the `App` and `ChannelRegistry` do not correspond with each other.
 
@@ -75,7 +75,7 @@ public fun assert_app_channel_registry_match(channel_registry: &ChannelRegistry,
   ```
 </Expandable>
 
-### Function `borrow_channel_address`
+### `borrow_channel_address`
 
 Gets address of the `Channel` struct with the specified key.
 
@@ -94,7 +94,7 @@ public fun borrow_channel_address(channel_registry: &ChannelRegistry, channel_ke
   ```
 </Expandable>
 
-### Function `borrow_channel_registry_address`
+### `borrow_channel_registry_address`
 
 Gets address of `ChannelRegistry` struct with the specified `App` address.
 
@@ -113,7 +113,7 @@ public fun borrow_channel_registry_address(app_channel_registry: &AppChannelRegi
   ```
 </Expandable>
 
-### Function `has_record`
+### `has_record`
 
 Returns true or false based on whether the lowercase `Channel` name currently exists in the registry.
 
@@ -132,7 +132,7 @@ public fun has_record(channel_registry: &ChannelRegistry, channel_key: String): 
   ```
 </Expandable>
 
-### Function `has_channel_registry`
+### `has_channel_registry`
 
 Returns true or false based on whether the `App` has a `ChannelRegistry`.
 

@@ -14,7 +14,7 @@ use sage_reward::reward;
 
 ## Structs
 
-### Struct `RewardWeightsRegistry`
+### `RewardWeightsRegistry`
 
 Registry of all `RewardWeights` over time.
 
@@ -32,7 +32,7 @@ public struct RewardWeightsRegistry has key
 
 ## Functions
 
-### Function `borrow`
+### `borrow`
 
 Get an immutable reference to the `RewardWeights` during a specific epoch.
 
@@ -51,7 +51,7 @@ public fun borrow(reward_weights_registry: &RewardWeightsRegistry, timestamp: u6
   ```
 </Expandable>
 
-### Function `borrow_current`
+### `borrow_current`
 
 Get an immutable reference to the `RewardWeights` during the current epoch.
 
@@ -69,7 +69,7 @@ public fun borrow_current(reward_weights_registry: &RewardWeightsRegistry): &Rew
   ```
 </Expandable>
 
-### Function `get_current`
+### `get_current`
 
 Get the current reward epoch.
 
@@ -87,7 +87,7 @@ public fun get_current(reward_weights_registry: &RewardWeightsRegistry): u64
   ```
 </Expandable>
 
-### Function `get_length`
+### `get_length`
 
 Get the number of reward epochs that have occurred.
 

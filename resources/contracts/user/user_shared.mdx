@@ -21,7 +21,7 @@ use sage_user::user_witness;
 
 ## Structs
 
-### Struct `UserShared`
+### `UserShared`
 
 Represents the `User` data specific to social interactions.
 
@@ -42,7 +42,7 @@ public struct UserShared has key
 
 ## Functions
 
-### Function `get_key`
+### `get_key`
 
 Returns the lowercase name for the `SharedUser`.
 
@@ -60,7 +60,7 @@ public fun get_key(shared_user: &UserShared): String
   ```
 </Expandable>
 
-### Function `get_owner`
+### `get_owner`
 
 Returns the wallet address associated with the `SharedUser`.
 
@@ -78,7 +78,7 @@ public fun get_owner(shared_user: &UserShared): address
   ```
 </Expandable>
 
-### Function `get_owned_user`
+### `get_owned_user`
 
 Returns the address for the `OwnedUser` associated with the `SharedUser`.
 
@@ -96,7 +96,7 @@ public fun get_owned_user(shared_user: &UserShared): address
   ```
 </Expandable>
 
-### Function `has_analytics`
+### `has_analytics`
 
 Returns true or false based on whether the `SharedUser` has analytics for the specified `App` and reward epoch.
 
