@@ -1,0 +1,20 @@
+---
+title: "Following Channels"
+description: " "
+---
+
+Users must follow channels to participate actively (post, comment, like). Following establishes public membership within that community:
+
+```javascript
+const followChannelResult = await sageClient.followChannel({
+  channelId: 'channel-id',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (followChannelResult.ok) {
+  await signAndExecuteTransaction({ transaction: followChannelResult.transaction });
+} else {
+  console.error(followChannelResult.err);
+}
+```

@@ -1,0 +1,45 @@
+---
+title: "Creating Channels"
+description: " "
+---
+
+Channels in Sage Protocol function as decentralized community spaces for focused discussion, engagement, and content sharing. Each channel is blockchain-native, ensuring transparency, verifiability, and community ownership.
+
+## Creating Channels
+
+When you create a channel, you become its owner with full administrative rights:
+
+```javascript
+const createChannelResult = await sageClient.createChannel({
+  channelName: 'crypto-art',
+  description: '**Digital art** and NFT discussions',
+  avatar: 'avatar_blob_id',
+  banner: 'banner_blob_id',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (createChannelResult.ok) {
+  await signAndExecuteTransaction({ transaction: createChannelResult.transaction });
+} else {
+  console.error(createChannelResult.err);
+}
+```
+
+### Channel Naming Guidelines
+
+- Allowed characters: `a-z`, `A-Z`, `0-9`, and dashes (`-`)
+- Cannot start or end with a dash (`-`)
+- Examples: `web3-gaming`, `sui-defi`, `general-discussion`
+
+### Example Channel Use-cases
+
+- **Topic-based Communities**: `defi-protocols` for decentralized finance discussions.
+- **Project Channels**: `project-updates` for development announcements.
+- **Regional Groups**: `nyc-blockchain-meetups` for local blockchain events.
+
+### Channel Best Practices
+
+- **Clearly define and enforce community guidelines** using moderation tools to ensure high-quality engagement.
+- **Encourage meaningful discussions and contributions** by leveraging built-in incentives and PoSC rewards.
+- **Regularly update channel details and descriptions** to maintain clarity and relevance to your community.

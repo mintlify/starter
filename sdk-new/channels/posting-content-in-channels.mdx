@@ -1,0 +1,23 @@
+---
+title: "Posting Content in Channels"
+description: " "
+---
+
+Channel posts support rich markdown content including formatting, images, and embedded links. Only followers can post to channels:
+
+```javascript
+const postResult = await sageClient.postToChannel({
+  channelId: 'channel-id',
+  title: 'Understanding Sui vs Ethereum',
+  description: 'Performance and scalability comparison',
+  data: 'Sui offers significantly higher transaction throughput...',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (postResult.ok) {
+  await signAndExecuteTransaction({ transaction: postResult.transaction });
+} else {
+  console.error(postResult.err);
+}
+```

@@ -1,0 +1,46 @@
+---
+title: "Updating Channels"
+description: " "
+---
+
+Channel owners can update the description, avatar, or banner images of a channel. Channel names can be updated only by changing their casing (e.g., `name` to `NAME`):
+
+```javascript
+const updateChannelResult = await sageClient.updateChannel({
+  channelId: 'channel-id',
+  channelName: 'crypto-art', // Only casing changes allowed
+  description: '**Updated guidelines for community**',
+  avatar: 'updated_avatar_blob_id',
+  banner: 'updated_banner_blob_id',
+  self: walletAddress
+});
+
+if (updateChannelResult.ok) {
+  await signAndExecuteTransaction({ transaction: updateChannelResult.transaction });
+} else {
+  console.error(updateChannelResult.err);
+}
+```
+
+### Channel Update Strategy
+
+To update just specific fields (e.g., description), always include unchanged values explicitly to avoid unintended changes.
+
+Example:
+
+```javascript
+const updateChannelResult = await sageClient.updateChannel({
+  channelId: existingChannel.id,
+  channelName: existingChannel.name, // Preserve existing
+  avatar: existingChannel.avatar,    // Preserve existing
+  banner: existingChannel.banner,    // Preserve existing
+  description: '**Updated community rules and guidelines**', // New
+  self: walletAddress
+});
+
+if (updateChannelResult.ok) {
+  await signAndExecuteTransaction({ transaction: updateChannelResult.transaction });
+} else {
+  console.error(updateChannelResult.err);
+}
+```
