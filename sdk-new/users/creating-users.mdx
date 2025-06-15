@@ -1,0 +1,35 @@
+---
+title: "Creating Users"
+description: " "
+---
+
+Users are central to Sage Protocol’s decentralized social ecosystem. Every user maintains a global identity across all Sage-enabled apps while interacting uniquely within each application.
+
+## Creating Users
+
+Creating a user establishes a global identity within Sage. Currently, user creation requires invite codes and keys:
+
+```javascript
+const result = await sageClient.createUser({
+  inviteCode: 'your-invite-code',
+  inviteKey: 'your-invite-key',
+  name: 'john-doe',
+  description: 'Blockchain enthusiast',
+  self: walletAddress
+});
+
+if (result.ok) {
+  await signAndExecuteTransaction({ transaction: result.transaction });
+} else {
+  console.error(result.err);
+}
+```
+
+## User Identities Explained
+
+Sage generates two distinct user objects:
+
+- **Owned User Object**: Soulbound to your wallet. Authenticates your wallet as a valid protocol user, enabling you to create content, follow users, and perform other wallet-signed actions.
+- **Shared User Object**: Publicly referenced by others for social interactions (e.g., friending, following, or engaging with your content).
+
+(Users typically don’t need to distinguish these objects explicitly; this detail is primarily relevant for developers.)
