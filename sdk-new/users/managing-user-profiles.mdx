@@ -1,0 +1,21 @@
+---
+title: "Managing User Profiles"
+description: " "
+---
+
+Users can customize profiles to express their identities clearly. Updates support rich markdown and media assets:
+
+```javascript
+const updateResult = await sageClient.updateUser({
+  ownedUserId: 'your-owned-user-id',
+  avatar: 'https://example.com/avatar.png',
+  description: 'Passionate about decentralized apps and Web3.',
+  self: walletAddress
+});
+
+if (updateResult.ok) {
+  await signAndExecuteTransaction({ transaction: updateResult.transaction });
+} else {
+  console.error(updateResult.err);
+}
+```
