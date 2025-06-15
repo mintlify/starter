@@ -1,0 +1,23 @@
+---
+title: "Posting to User Profiles"
+description: " "
+---
+
+Users can directly post content onto other users' profiles. This feature is ideal for professional endorsements, community appreciation, or direct interactions:
+
+```javascript
+const postResult = await sageClient.postToUser({
+  sharedUserId: 'target-user-shared-id',
+  title: '🌟 Professional Recommendation',
+  description: 'Endorsement for exceptional work',
+  data: 'Your contributions to the project were outstanding!',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (postResult.ok) {
+  await signAndExecuteTransaction({ transaction: postResult.transaction });
+} else {
+  console.error(postResult.err);
+}
+```

@@ -1,0 +1,36 @@
+---
+title: "Managing Favorites"
+description: "Description of your new file."
+---
+
+Users can bookmark preferred channels, posts, and other users to maintain personalized collections.
+
+### Favorite Channels
+
+```javascript
+await sageClient.addFavoriteChannel({
+  channelId: 'target-channel-id',
+  ownedUserId: 'your-owned-user-id'
+});
+```
+
+### Favorite Posts
+
+```javascript
+await sageClient.addFavoritePost({
+  authorSharedUserId: 'author-shared-user-id',
+  postId: 'target-post-id',
+  ownedUserId: 'your-owned-user-id'
+});
+```
+
+### Favorite Users
+
+```javascript
+await sageClient.addFavoriteUser({
+  favoriteSharedUserId: 'favorite-user-shared-id',
+  ownedUserId: 'your-owned-user-id'
+});
+```
+
+Removing favorites follows a similar pattern (use corresponding `removeFavorite` methods).

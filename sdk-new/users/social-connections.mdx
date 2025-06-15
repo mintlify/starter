@@ -1,0 +1,42 @@
+---
+title: "Social Connections"
+description: " "
+---
+
+Sage currently supports two primary social relationship types:
+
+### Following Users (One-Way)
+
+Following another user is a one-way connection, similar to platforms like X:
+
+```javascript
+const followResult = await sageClient.followUser({
+  followSharedUserId: 'target-user-shared-id',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (followResult.ok) {
+  await signAndExecuteTransaction({ transaction: followResult.transaction });
+} else {
+  console.error(followResult.err);
+}
+```
+
+### Friendships (Two-Way)
+
+Friend relationships are mutual. You can send or accept friend requests, similar to Facebook:
+
+```javascript
+const friendResult = await sageClient.friendUser({
+  friendSharedUserId: 'friend-user-shared-id',
+  sharedUserId: 'your-shared-user-id',
+  self: walletAddress
+});
+
+if (friendResult.ok) {
+  await signAndExecuteTransaction({ transaction: friendResult.transaction });
+} else {
+  console.error(friendResult.err);
+}
+```

@@ -1,0 +1,20 @@
+---
+title: "Reward Claiming"
+description: " "
+---
+
+Users earn rewards in the form of \$TRUST tokens based on verified social contributions. Rewards accumulate in epochs, allowing users to claim them at convenient intervals:
+
+```javascript
+const claimResult = await sageClient.claimReward({
+  epoch: 'epoch-id',
+  ownedUserId: 'your-owned-user-id',
+  sharedUserId: 'your-shared-user-id'
+});
+
+if (claimResult.ok) {
+  await signAndExecuteTransaction({ transaction: claimResult.transaction });
+} else {
+  console.error(claimResult.err);
+}
+```
