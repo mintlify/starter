@@ -1,0 +1,21 @@
+---
+title: "Liking Posts"
+description: " "
+---
+
+Likes explicitly express appreciation and engagement. Likes improve content visibility and trigger incremental rewards.
+
+```javascript
+const likeResult = await sageClient.likePost({
+  authorSharedUserId: 'original-author-shared-id',
+  postId: 'target-post-id',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (likeResult.ok) {
+  await signAndExecuteTransaction({ transaction: likeResult.transaction });
+} else {
+  console.error(likeResult.err);
+}
+```

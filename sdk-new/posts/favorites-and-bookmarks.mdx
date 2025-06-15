@@ -1,0 +1,23 @@
+---
+title: "Favorites and Bookmarks"
+description: " "
+---
+
+Users can bookmark posts for easy reference:
+
+```javascript
+await sageClient.addFavoritePost({
+  authorSharedUserId: 'author-shared-user-id',
+  postId: 'favorite-post-id',
+  ownedUserId: 'your-owned-user-id'
+});
+```
+
+To remove bookmarks, use the corresponding removal method:
+
+```javascript
+await sageClient.removeFavoritePost({
+  postId: 'favorite-post-id',
+  ownedUserId: 'your-owned-user-id'
+});
+```

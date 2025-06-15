@@ -1,0 +1,66 @@
+---
+title: "Creating Posts"
+description: " "
+---
+
+Posts form the cornerstone of content interactions in Sage Protocol. Users create and engage with blockchain-native content across channels and user profiles, with each interaction transparently recorded onchain.
+
+Posts support rich markdown formatting, including text, headers, images, and embedded links.
+
+## Posting in Channels
+
+Users must follow a channel to create posts in it:
+
+```javascript
+const postResult = await sageClient.postToChannel({
+  channelId: 'channel-id',
+  title: 'Sui vs Ethereum: An In-Depth Analysis',
+  description: 'Comparing scalability, security, and more.',
+  data: 'Sui provides high throughput and low latency compared to Ethereum...',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (postResult.ok) {
+  await signAndExecuteTransaction({ transaction: postResult.transaction });
+} else {
+  console.error(postResult.err);
+}
+```
+
+## Posting on User Profiles
+
+Direct posts to user profiles, enabling personal interactions, endorsements, or recommendations:
+
+```javascript
+const postResult = await sageClient.postToUser({
+  sharedUserId: 'target-user-shared-id',
+  title: 'Professional Endorsement',
+  description: 'Recognizing outstanding contributions',
+  data: 'Thanks for your amazing support and mentorship!',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (postResult.ok) {
+  await signAndExecuteTransaction({ transaction: postResult.transaction });
+} else {
+  console.error(postResult.err);
+}
+```
+
+## Common Post Use Cases
+
+- **Technical Discussions:**\
+  Posts comparing technologies, discussing best practices, or sharing research.
+- **Community Updates:**\
+  Regular announcements, project news, or progress reports.
+- **Professional Endorsements:**\
+  Public recommendations or acknowledgments on user profiles.
+
+### Content Guidelines and Best Practices
+
+- **Markdown Formatting:** Posts support rich markdown. Ensure your app sanitizes user inputs thoroughly to prevent security risks like XSS attacks.
+- **Threaded Conversations:** Clearly indicate comment threads in your app UI to maintain context.
+- **Moderation:** Use built-in moderation tools to proactively manage content quality, enforce community standards, and quickly address inappropriate behavior.
+- **Encourage Meaningful Engagement:** Design interfaces and incentives to prompt thoughtful interactions, promoting community vibrancy.

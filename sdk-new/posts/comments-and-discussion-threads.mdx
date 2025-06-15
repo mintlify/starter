@@ -1,0 +1,37 @@
+---
+title: "Comments and Discussion Threads"
+description: " "
+---
+
+Comments on posts create threaded, hierarchical discussions. Comments themselves are blockchain-native posts linked explicitly to parent posts.
+
+## Creating Comments
+
+To comment, you must know the original post's ID and the author's shared user ID:
+
+```javascript
+const commentResult = await sageClient.commentOnPost({
+  authorSharedUserId: 'original-author-shared-id',
+  parentPostId: 'parent-post-id',
+  title: 'Great insights!',
+  description: 'Adding my perspective',
+  data: 'I completely agree with your points, especially regarding scalability...',
+  ownedUserId: 'your-owned-user-id',
+  self: walletAddress
+});
+
+if (commentResult.ok) {
+  await signAndExecuteTransaction({ transaction: commentResult.transaction });
+} else {
+  console.error(commentResult.err);
+}
+```
+
+### Threaded Discussions Example
+
+Threads follow a clear hierarchy, making discussions easy to follow:
+
+- 📝 Original Post: "Smart Contract Best Practices"
+  - 💬 Comment: "Excellent overview. How do you handle security audits?"
+    - 💬 Reply: "We regularly use automated auditing tools and professional auditors."
+  - 💬 Comment: "Here are additional resources for further reading..."
