@@ -1,13 +1,21 @@
 ---
 title: "Getting Started"
-description: "Description of your new file."
+description: " "
 ---
 
-The Sage SDK provides streamlined React hooks and context providers, making it effortless to integrate decentralized social features into React applications.
+This guide helps you quickly integrate decentralized social features into your React application using the Sage SDK. Follow these explicit steps to install, configure, and verify Sage integration with React.
 
-## 1. Installation and Setup
+## 1. Prerequisites
 
-Clearly instruct developers how to install the SDK React package:
+Ensure your React environment meets these explicit requirements:
+
+- **Node.js (v18 or higher) and npm/yarn:** ([nodejs.org](http://nodejs.org))
+- **React v18\+**
+- **Sui Blockchain Wallet Integration** (e.g., Suiet, Sui Wallet Kit) configured to handle user signing.
+
+## 2. Installation
+
+Install the Sage SDK using npm or yarn:
 
 ```
 npm install @sageprotocol/sdk
@@ -19,82 +27,100 @@ or
 yarn add @sageprotocol/sdk
 ```
 
-## 2. SageProvider Setup
+## 3. Configure SageProvider
 
-Explain how to use the `SageProvider` for global state management:
+Wrap your React app explicitly in the `SageProvider` to globally manage state and context for your application:
 
-```
-tsx
-```
+```typescript
+import React from 'react';
+import { SageProvider } from '@sageprotocol/sdk/react';
+import AppRoutes from './AppRoutes';
 
-CopyEdit
+function App() {
+  return (
+    <SageProvider
+      appId="your-app-id"                         // Required unique app identifier
+      channelRegistryId="your-channel-registry-id"// Required channel registry ID
+      network="testnet"                           // 'testnet' or 'mainnet'
+    >
+      <AppRoutes />
+    </SageProvider>
+  );
+}
 
-`import { SageProvider } from '@sageprotocol/sdk/react';  function App() {   return (     <SageProvider       appId="your-app-id"       channelRegistryId="your-channel-registry-id"       network="testnet" // or "mainnet"     >       <YourAppComponents />     </SageProvider>   ); } `
-
-Clearly outline each parameter explicitly:
-
-- `appId`: Unique identifier for your app.
-- `channelRegistryId`: Your channel registry.
-- `network`: Target blockchain environment.
-
-## 3. Using Sage Hooks
-
-Demonstrate explicitly how to use the key React hooks provided by Sage:
-
-### useUser Hook
-
-For user operations like creation, updating, and managing relationships:
-
-```
-tsx
+export default App;
 ```
 
-CopyEdit
+**Parameter Explanations**:
 
-`import { useUser } from '@sageprotocol/sdk/react';  function UserProfile({ walletAddress }) {   const { create, update, followUser } = useUser();    async function createUser() {     const result = await create({       amounts: [0, 0],       avatar: 0,       banner: 0,       description: "Blockchain enthusiast",       inviteCode: "invite-code",       inviteKey: "invite-key",       name: "john-doe",       self: walletAddress     });      if (result.ok) {       await signAndExecuteTransaction({ transaction: result.transaction });     } else {       console.error(result.err);     }   }    return <button onClick={createUser}>Create User</button>; } `
+- `appId`: Unique ID for isolating app-specific channels and posts.
+- `channelRegistryId`: Channel registry ID for your specific app.
+- `network`: The blockchain network to interact with (`mainnet` or `testnet`).
 
-### useChannel Hook
+## 4. Connecting a User's Wallet
 
-For managing channels, membership, and moderation:
+Ensure explicit handling of wallet connection, required for signing and executing transactions.
 
-```
-tsx
-```
+Example (using Suiet wallet as an example):
 
-CopyEdit
+```typescript
+import { useWallet } from '@suiet/wallet-kit';
 
-`import { useChannel } from '@sageprotocol/sdk/react';  function ChannelActions({ channelId, walletAddress, ownedUserId }) {   const { follow, unfollow, createChannel } = useChannel();    async function followChannel() {     const result = await follow({       amounts: [0, 0],       channelId,       ownedUserId,       self: walletAddress     });      if (result.ok) {       await signAndExecuteTransaction({ transaction: result.transaction });     } else {       console.error(result.err);     }   }    return <button onClick={followChannel}>Follow Channel</button>; } `
+function WalletConnectButton() {
+  const { connect, disconnect, account, connected } = useWallet();
 
-### usePost Hook
-
-For creating posts, commenting, and liking content:
-
-```
-tsx
-```
-
-CopyEdit
-
-`import { usePost } from '@sageprotocol/sdk/react';  function CreatePost({ channelId, walletAddress, ownedUserId }) {   const { postToChannel } = usePost();    async function submitPost() {     const result = await postToChannel({       amounts: [0, 0],       channelId,       title: "My First Sage Post",       description: "Excited to share this!",       data: "Hello, decentralized world!",       ownedUserId,       self: walletAddress     });      if (result.ok) {       await signAndExecuteTransaction({ transaction: result.transaction });     } else {       console.error(result.err);     }   }    return <button onClick={submitPost}>Post to Channel</button>; } `
-
-## 4. Managing Wallet Connections
-
-Clearly illustrate best practices for managing user wallet connections and transaction signing within a React app. Suggest popular Sui-compatible wallet integration libraries (e.g., Suiet, Sui Wallet Kit):
-
-- Explicit wallet integration guide
-- Recommended transaction signing patterns
-- Security and best-practices advice
-
-## 5. Error Handling in React
-
-Clearly illustrate how to manage and display errors consistently within React components:
-
-```
-tsx
+  return (
+    <div>
+      {connected ? (
+        <button onClick={disconnect}>Disconnect ({account.address})</button>
+      ) : (
+        <button onClick={connect}>Connect Wallet</button>
+      )}
+    </div>
+  );
+}
 ```
 
-CopyEdit
+## 5. Verify Sage SDK Integration (React Hooks)
 
-`function handleError(result) {   if (!result.ok) {     console.error(result.err);     // Display a clear UI notification to users   } } `
+Explicitly verify setup by creating your first user using Sage SDK’s `useUser` hook:
 
-## 
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function CreateUserButton() {
+  const { create } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function createUser() {
+    const result = await create({
+      amounts: [0, 0],                        // Required default amounts
+      avatar: 0,                              // Optional blob ID for avatar
+      banner: 0,                              // Optional blob ID for banner
+      description: "React and Web3 enthusiast",
+      inviteCode: "your-invite-code",         // Required invite code
+      inviteKey: "your-invite-key",           // Required invite key
+      name: "john-doe",                       // Globally unique username
+      self: account.address                   // User's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("User successfully created!");
+    } else {
+      console.error("Error creating user:", result.err);
+    }
+  }
+
+  return <button onClick={createUser}>Create Sage User</button>;
+}
+```
+
+## 6. Next Steps:
+
+With the Sage SDK correctly integrated into your React app, you're ready to build decentralized social experiences:
+
+- [**Users (React)**](#): Manage user identities, profiles, and interactions.
+- [**Channels (React)**](#): Set up community spaces, moderation, and content posting.
+- [**Posts (React)**](#): Create, comment, like, and manage blockchain-native content.

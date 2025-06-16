@@ -1,0 +1,56 @@
+---
+title: "Creating Users (React)"
+description: " "
+---
+
+Users are central to Sage Protocol’s decentralized social experiences. With the React hooks provided by Sage SDK, you can effortlessly handle user creation, profile management, social interactions, rewards, and more within your React application.
+
+Users require invite codes and keys for initial creation. Here’s a complete example using the `useUser` hook:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function CreateUserComponent() {
+  const { create } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleCreateUser() {
+    const result = await create({
+      amounts: [0, 0],                          // Required default
+      avatar: 0,                                // Optional blob ID
+      banner: 0,                                // Optional blob ID
+      description: "Web3 and React enthusiast", // User bio
+      inviteCode: "your-invite-code",           // Required invite code
+      inviteKey: "your-invite-key",             // Required invite key
+      name: "john-doe",                         // Unique username
+      self: account.address                     // Wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("User created successfully!");
+    } else {
+      console.error(result.err);
+    }
+  }
+
+  return <button onClick={handleCreateUser}>Create User</button>;
+}
+```
+
+### User Identities Explained (React)
+
+Sage creates two distinct user objects upon creation:
+
+- **Owned User Object**: Soulbound to the user's wallet.
+- **Shared User Object**: Publicly accessible identity for social interactions.
+
+_These are automatically handled by the SDK and typically require no manual intervention._
+
+## User Management Best Practices (React)
+
+- **Clearly guide wallet connection flows** explicitly and visibly.
+- **Sanitize user input** rigorously, especially markdown content.
+- **Provide explicit, clear user feedback** on transaction success or failure.
+- **Use provided hooks within **`SageProvider`**context explicitly**  for consistent state management.

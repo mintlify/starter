@@ -1,0 +1,35 @@
+---
+title: "Reward Claiming (React)"
+description: " "
+---
+
+Claim earned rewards clearly using Sage hooks:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function ClaimRewards({ ownedUserId, sharedUserId, epoch }) {
+  const { claimReward } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleClaimRewards() {
+    const result = await claimReward({
+      epoch,
+      appId: 'your-app-id',
+      network: 'testnet',
+      ownedUserId,
+      sharedUserId
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Rewards claimed!");
+    } else {
+      console.error(result.err);
+    }
+  }
+
+  return <button onClick={handleClaimRewards}>Claim Rewards</button>;
+}
+```

@@ -1,0 +1,37 @@
+---
+title: "Managing User Profiles (React)"
+description: " "
+---
+
+Easily update user profiles with Sage’s React hooks:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function UpdateProfile({ ownedUserId }) {
+  const { update } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleUpdateProfile() {
+    const result = await update({
+      amounts: [0, 0],                    // Required
+      avatar: 12345,                      // Updated avatar blob ID
+      banner: 67890,                      // Updated banner blob ID
+      description: "Updated bio here",
+      name: "john-doe",                   // Existing username (case-change only)
+      ownedUserId,                        // User’s owned ID
+      self: account.address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Profile updated successfully!");
+    } else {
+      console.error(result.err);
+    }
+  }
+
+  return <button onClick={handleUpdateProfile}>Update Profile</button>;
+}
+```
