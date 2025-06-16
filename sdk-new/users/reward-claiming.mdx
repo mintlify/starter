@@ -5,11 +5,13 @@ description: " "
 
 Users earn rewards in the form of \$TRUST tokens based on verified social contributions. Rewards accumulate in epochs, allowing users to claim them at convenient intervals:
 
-```javascript
+```typescript
 const claimResult = await sageClient.claimReward({
-  epoch: 'epoch-id',
-  ownedUserId: 'your-owned-user-id',
-  sharedUserId: 'your-shared-user-id'
+  epoch: 1704067200000,                 // Sui timestamp for the epoch period
+  appId: 'your-app-id',                 // Explicitly required
+  network: 'testnet',                   // Explicitly required, 'testnet' or 'mainnet'
+  ownedUserId: 'your-owned-user-id',    // Owned user object
+  sharedUserId: 'your-shared-user-id'   // Shared user object
 });
 
 if (claimResult.ok) {

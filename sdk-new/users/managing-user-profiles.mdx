@@ -3,14 +3,17 @@ title: "Managing User Profiles"
 description: " "
 ---
 
-Users can customize profiles to express their identities clearly. Updates support rich markdown and media assets:
+Users can update their profiles to clearly express their identities. Profile updates support rich markdown and media assets. All fields must be explicitly provided; if a field should remain unchanged, pass its existing value.
 
-```javascript
+```typescript
 const updateResult = await sageClient.updateUser({
-  ownedUserId: 'your-owned-user-id',
-  avatar: 'https://example.com/avatar.png',
-  description: 'Passionate about decentralized apps and Web3.',
-  self: walletAddress
+  amounts: [0, 0],                    // required, typically [0,0]
+  avatar: 12345,                      // Blob ID for user's avatar (must be an ID, not a URL)
+  banner: 67890,                      // Blob ID for user's banner (must be an ID, not a URL)
+  description: "Blockchain enthusiast and Web3 developer",
+  name: "john-doe",                   // Username casing updates only (no new names)
+  ownedUserId: 'your-owned-user-id',  // Required owned user object ID
+  self: walletAddress                 // User's wallet address
 });
 
 if (updateResult.ok) {

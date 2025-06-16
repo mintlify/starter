@@ -5,11 +5,11 @@ description: " "
 
 Users can leave channels anytime to stop receiving updates or participating:
 
-```javascript
+```typescript
 const unfollowChannelResult = await sageClient.unfollowChannel({
-  channelId: 'channel-id',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  amounts: [0, 0],                      // Required protocol fee (default: [0,0])
+  channelId: 'channel-id',              // Channel to unfollow
+  self: walletAddress                   // User's wallet address
 });
 
 if (unfollowChannelResult.ok) {

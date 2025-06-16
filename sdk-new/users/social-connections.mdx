@@ -9,11 +9,14 @@ Sage currently supports two primary social relationship types:
 
 Following another user is a one-way connection, similar to platforms like X:
 
-```javascript
+```typescript
 const followResult = await sageClient.followUser({
-  followSharedUserId: 'target-user-shared-id',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  amounts: [0, 0],                            // Required protocol fees (default: [0,0])
+  followSharedUserId: 'target-user-shared-id',// Target user's shared user object ID
+  ownedUserId: 'your-owned-user-id',          // Follower's owned user object ID
+  self: walletAddress,                        // Follower's wallet address
+  appId: 'your-app-id',                       // Required application ID
+  network: 'testnet'                          // 'testnet' or 'mainnet'
 });
 
 if (followResult.ok) {
@@ -27,11 +30,14 @@ if (followResult.ok) {
 
 Friend relationships are mutual. You can send or accept friend requests, similar to Facebook:
 
-```javascript
+```typescript
 const friendResult = await sageClient.friendUser({
-  friendSharedUserId: 'friend-user-shared-id',
-  sharedUserId: 'your-shared-user-id',
-  self: walletAddress
+  amounts: [0, 0],                              // Required protocol fees (default: [0,0])
+  friendSharedUserId: 'friend-user-shared-id',  // Target user's shared user object ID
+  sharedUserId: 'your-shared-user-id',          // Your shared user object ID
+  self: walletAddress,                          // Your wallet address
+  appId: 'your-app-id',                         // Required application ID
+  network: 'testnet'                            // 'testnet' or 'mainnet'
 });
 
 if (friendResult.ok) {

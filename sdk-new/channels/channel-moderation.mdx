@@ -3,15 +3,18 @@ title: "Channel Moderation"
 description: " "
 ---
 
-Channel owners can assign moderators to help maintain content quality, enforce guidelines, and manage user interactions:
-
 ## Adding Moderators
 
-```javascript
+Channel owners can assign moderators to help maintain content quality, enforce guidelines, and manage user interactions:
+
+```typescript
 const addModeratorResult = await sageClient.addModerator({
-  channelId: 'channel-id',
-  sharedUserId: 'moderator-user-shared-id',
-  self: walletAddress
+  amounts: [0, 0],                             // Required protocol fees
+  appId: 'your-app-id',                        // Explicitly required application ID
+  network: 'testnet',                          // 'testnet' or 'mainnet'
+  channelId: 'channel-id',                     // Channel to add moderator to
+  sharedUserId: 'moderator-user-shared-id',    // User to grant moderator role
+  self: walletAddress                          // Channel owner's wallet address
 });
 
 if (addModeratorResult.ok) {
@@ -23,11 +26,16 @@ if (addModeratorResult.ok) {
 
 ## Removing Moderators
 
-```javascript
+Channel owners can also remove moderators:
+
+```typescript
 const removeModeratorResult = await sageClient.removeModerator({
-  channelId: 'channel-id',
-  sharedUserId: 'moderator-user-shared-id',
-  self: walletAddress
+  amounts: [0, 0],                             // Required protocol fees
+  appId: 'your-app-id',                        // Explicitly required application ID
+  network: 'testnet',                          // 'testnet' or 'mainnet'
+  channelId: 'channel-id',                     // Channel to remove moderator from
+  sharedUserId: 'moderator-user-shared-id',    // User whose moderator role will be revoked
+  self: walletAddress                          // Channel owner's wallet address
 });
 
 if (removeModeratorResult.ok) {

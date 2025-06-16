@@ -3,16 +3,17 @@ title: "Updating Channels"
 description: " "
 ---
 
-Channel owners can update the description, avatar, or banner images of a channel. Channel names can be updated only by changing their casing (e.g., `name` to `NAME`):
+Channel owners can update the description, avatar, or banner images of a channel. Channel names can only be updated by changing their casing (e.g., from `crypto-art` to `CRYPTO-ART`):
 
-```javascript
+```typescript
 const updateChannelResult = await sageClient.updateChannel({
-  channelId: 'channel-id',
-  channelName: 'crypto-art', // Only casing changes allowed
-  description: '**Updated guidelines for community**',
-  avatar: 'updated_avatar_blob_id',
-  banner: 'updated_banner_blob_id',
-  self: walletAddress
+  amounts: [0, 0],                              // Required protocol fees
+  avatar: 12345,                                // Walrus blob ID for the updated avatar
+  banner: 67890,                                // Walrus blob ID for the updated banner
+  channelId: 'channel-id',                      // Channel to update
+  channelName: 'crypto-art',                    // Only casing changes allowed
+  description: '**Updated guidelines for community**', // Updated markdown description
+  self: walletAddress                           // Channel owner's wallet address
 });
 
 if (updateChannelResult.ok) {
@@ -24,18 +25,17 @@ if (updateChannelResult.ok) {
 
 ### Channel Update Strategy
 
-To update just specific fields (e.g., description), always include unchanged values explicitly to avoid unintended changes.
+To update specific fields (e.g., description only), explicitly include existing values for unchanged fields to avoid unintended overwrites:
 
-Example:
-
-```javascript
+```typescript
 const updateChannelResult = await sageClient.updateChannel({
-  channelId: existingChannel.id,
-  channelName: existingChannel.name, // Preserve existing
-  avatar: existingChannel.avatar,    // Preserve existing
-  banner: existingChannel.banner,    // Preserve existing
-  description: '**Updated community rules and guidelines**', // New
-  self: walletAddress
+  amounts: [0, 0],                             // Required protocol fees
+  avatar: existingChannel.avatar,              // Preserve existing avatar blob ID
+  banner: existingChannel.banner,              // Preserve existing banner blob ID
+  channelId: existingChannel.id,               // Channel ID remains unchanged
+  channelName: existingChannel.name,           // Preserve existing name (only casing changes allowed)
+  description: '**Updated community rules and guidelines**', // New description
+  self: walletAddress                          // Channel owner's wallet address
 });
 
 if (updateChannelResult.ok) {

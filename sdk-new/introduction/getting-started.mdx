@@ -59,23 +59,25 @@ This guide covers the Direct JavaScript Integration method. If using React, see 
 
 <Steps>
   <Step title="Import the SDK">
-    ```javascript
+    ```typescript
     import { SageClient } from '@sageprotocol/sdk';
     ```
   </Step>
   <Step title="Initialize the Client">
-    Create an instance of the `SageClient` and initialize it:
+    Create an instance of `SageClient` with explicitly required parameters (`appId` and `channelRegistryId`), then initialize it:
 
-    ```javascript
+    ```typescript
     const sage = new SageClient({
-      network: 'testnet' // or 'mainnet'
+      appId: 'your-app-id',                   // explicitly required unique app context
+      channelRegistryId: 'your-registry-id',  // required channel registry ID
+      network: 'testnet'                      // or 'mainnet' (default: 'mainnet')
     });
     
     await sage.initialize();
     ```
   </Step>
   <Step title="Setup Sui Wallet Integration">
-    Your application must handle wallet connections for transaction signing. Ensure users connect their Sui wallet and your app can request signatures.
+    Your application must handle wallet connections for transaction signing. Ensure your users connect their Sui wallet, and your app can request and execute signatures properly.
   </Step>
 </Steps>
 
@@ -84,12 +86,15 @@ This guide covers the Direct JavaScript Integration method. If using React, see 
 Create a new Sage user (temporarily requires invite code):
 
 ```javascript
-const result = await sage.createUser({
-  inviteCode: 'your-invite-code',
-  inviteKey: 'your-invite-key',
-  name: 'john-doe',
-  description: 'Web3 enthusiast',
-  self: walletAddress
+const result = await sageClient.createUser({
+  amounts: [0, 0],
+  avatar: 12345, // Walrus blob ID (optional, default 0)
+  banner: 67890, // Walrus blob ID (optional, default 0)
+  description: "Web3 enthusiast and developer",
+  inviteCode: "WELCOME123", // Currently required
+  inviteKey: "0x789.",      // Currently required
+  name: "john-doe",         // Globally unique username (a-z, A-Z, 0-9, dash; cannot start/end with dash)
+  self: '0xabc.'            // User's wallet address
 });
 
 if (result.ok) {
@@ -104,14 +109,14 @@ if (result.ok) {
 Once you've executed the transaction successfully, your user identity is created. You can confirm the creation by querying your Sage profile or performing another simple operation, such as creating a basic post:
 
 ```javascript
-const postResult = await sage.postToUser({
+const postResult = await sageClient.postToUser({
   amounts: [0, 0],
-  sharedUserId: 'target-user-shared-id',
-  title: 'Hello Sage!',
-  description: 'My first decentralized post',
-  data: 'Excited to join the Sage community!',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  data: 'Excited to join the Sage community!', // Main content in markdown format
+  description: 'My first decentralized post',  // Post summary in markdown format
+  ownedUserId: 'your-owned-user-id',           // Poster’s owned user object
+  self: walletAddress,                         // Wallet address of the poster
+  sharedUserId: 'target-user-shared-id',       // Target user's shared user object
+  title: 'Hello Sage!'                         // Post headline/title in markdown format
 });
 
 if (postResult.ok) {

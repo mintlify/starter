@@ -5,11 +5,14 @@ description: " "
 
 Users must follow channels to participate actively (post, comment, like). Following establishes public membership within that community:
 
-```javascript
+```typescript
 const followChannelResult = await sageClient.followChannel({
-  channelId: 'channel-id',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  amounts: [0, 0],                           // Required, typically [0, 0]
+  appId: 'your-app-id',                      // Required application ID
+  channelId: 'channel-id',                   // Channel to follow
+  network: 'testnet',                        // 'testnet' or 'mainnet'
+  ownedUserId: 'your-owned-user-id',         // Follower’s owned user object ID
+  self: walletAddress                        // Follower's wallet address
 });
 
 if (followChannelResult.ok) {

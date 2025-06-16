@@ -1,36 +1,46 @@
 ---
 title: "Managing Favorites"
-description: "Description of your new file."
+description: " "
 ---
 
-Users can bookmark preferred channels, posts, and other users to maintain personalized collections.
+Users can favorite preferred channels, posts, and other users to maintain personalized collections.
 
 ### Favorite Channels
 
-```javascript
+```typescript
 await sageClient.addFavoriteChannel({
-  channelId: 'target-channel-id',
-  ownedUserId: 'your-owned-user-id'
+  appId: 'your-app-id',                       // required
+  channelId: 'target-channel-id',             // required
+  network: 'testnet',                         // 'testnet' or 'mainnet', required
+  ownedUserId: 'your-owned-user-id'           // required
 });
 ```
 
 ### Favorite Posts
 
-```javascript
+```typescript
 await sageClient.addFavoritePost({
-  authorSharedUserId: 'author-shared-user-id',
-  postId: 'target-post-id',
-  ownedUserId: 'your-owned-user-id'
+  appId: 'your-app-id',                       // required
+  authorSharedUserId: 'author-shared-user-id',// required
+  network: 'testnet',                         // 'testnet' or 'mainnet', required
+  ownedUserId: 'your-owned-user-id',          // required
+  postId: 'target-post-id'                    // required
 });
 ```
 
 ### Favorite Users
 
-```javascript
+```typescript
 await sageClient.addFavoriteUser({
-  favoriteSharedUserId: 'favorite-user-shared-id',
-  ownedUserId: 'your-owned-user-id'
+  appId: 'your-app-id',                       // required
+  favoriteSharedUserId: 'favorite-user-shared-id', // required
+  network: 'testnet',                         // 'testnet' or 'mainnet', required
+  ownedUserId: 'your-owned-user-id'           // required
 });
 ```
 
-Removing favorites follows a similar pattern (use corresponding `removeFavorite` methods).
+**Removing favorites follows a similar pattern** using corresponding remove methods:
+
+- `removeFavoriteChannel`
+- `removeFavoritePost`
+- `removeFavoriteUser`

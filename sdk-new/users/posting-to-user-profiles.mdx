@@ -3,16 +3,17 @@ title: "Posting to User Profiles"
 description: " "
 ---
 
-Users can directly post content onto other users' profiles. This feature is ideal for professional endorsements, community appreciation, or direct interactions:
+Users can directly post content onto other users' profiles, ideal for endorsements, community appreciation, or personal interactions:
 
-```javascript
+```typescript
 const postResult = await sageClient.postToUser({
-  sharedUserId: 'target-user-shared-id',
-  title: '🌟 Professional Recommendation',
-  description: 'Endorsement for exceptional work',
-  data: 'Your contributions to the project were outstanding!',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  amounts: [0, 0],                               // Required protocol fee amounts, usually [0,0]
+  data: 'Your contributions to the project were outstanding!', // Main markdown content
+  description: 'Endorsement for exceptional work',             // Summary in markdown
+  ownedUserId: 'your-owned-user-id',             // Poster’s owned user object
+  self: walletAddress,                           // Wallet address of the poster
+  sharedUserId: 'target-user-shared-id',         // Target user's shared user object
+  title: '🌟 Professional Recommendation'        // Post headline/title in markdown
 });
 
 if (postResult.ok) {

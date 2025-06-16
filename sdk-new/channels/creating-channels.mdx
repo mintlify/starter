@@ -5,18 +5,25 @@ description: " "
 
 Channels in Sage Protocol function as decentralized community spaces for focused discussion, engagement, and content sharing. Each channel is blockchain-native, ensuring transparency, verifiability, and community ownership.
 
+## Channel Naming Guidelines
+
+- Allowed characters: `a-z`, `A-Z`, `0-9`, and dashes (`-`)
+- Cannot start or end with a dash (`-`)
+- Examples: `web3-gaming`, `sui-defi`, `general-discussion`
+
 ## Creating Channels
 
 When you create a channel, you become its owner with full administrative rights:
 
-```javascript
+```typescript
 const createChannelResult = await sageClient.createChannel({
-  channelName: 'crypto-art',
-  description: '**Digital art** and NFT discussions',
-  avatar: 'avatar_blob_id',
-  banner: 'banner_blob_id',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  amounts: [0, 0],                         // Protocol fees (default: [0,0])
+  avatar: 12345,                           // Walrus blob ID for channel avatar (optional, defaults to 0)
+  banner: 67890,                           // Walrus blob ID for channel banner (optional, defaults to 0)
+  channelName: 'crypto-art',               // Channel name (a-z, A-Z, 0-9, dash, no dash at start/end)
+  description: '**Digital art** and NFT discussions', // Markdown description
+  ownedUserId: 'your-owned-user-id',       // Creator's owned user ID
+  self: walletAddress                      // Creator's wallet address
 });
 
 if (createChannelResult.ok) {
@@ -26,12 +33,6 @@ if (createChannelResult.ok) {
 }
 ```
 
-### Channel Naming Guidelines
-
-- Allowed characters: `a-z`, `A-Z`, `0-9`, and dashes (`-`)
-- Cannot start or end with a dash (`-`)
-- Examples: `web3-gaming`, `sui-defi`, `general-discussion`
-
 ### Example Channel Use-cases
 
 - **Topic-based Communities**: `defi-protocols` for decentralized finance discussions.
@@ -40,6 +41,12 @@ if (createChannelResult.ok) {
 
 ### Channel Best Practices
 
-- **Clearly define and enforce community guidelines** using moderation tools to ensure high-quality engagement.
-- **Encourage meaningful discussions and contributions** by leveraging built-in incentives and PoSC rewards.
-- **Regularly update channel details and descriptions** to maintain clarity and relevance to your community.
+- **Clearly Define and Enforce Community Guidelines**
+
+  Communicate community guidelines and use built-in moderation tools to maintain high-quality interactions. See: [channel moderation](/sdk-new/channels/channel-moderation).
+- **Encourage Meaningful Discussions and Contributions **
+
+  Leverage built-in incentives and Proof of Social Contribution (PoSC) rewards to promote thoughtful, engaging interactions. Ensure users clearly understand how meaningful participation translates to tangible rewards.
+- **Regularly Update Channel Details**
+
+  Maintain accurate, current channel descriptions, avatars, and banners to keep your community informed and engaged. See: [updating channels](/sdk-new/channels/updating-channels).

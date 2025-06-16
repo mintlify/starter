@@ -9,10 +9,22 @@ Before diving into advanced SDK usage, it’s important to understand a few key 
 
 Sage Protocol isolates content and interactions per application by using a unique identifier (`appId`). Each application maintains distinct channels and posts, while user identities and social graphs remain global across all Sage-compatible apps.
 
-**What this means for you:**
+**What this means for you**:
 
 - Users have one global identity and consistent social relationships everywhere.
 - Each app provides distinct, tailored content experiences to its community.
+
+**Example of using appId when initializing the Sage SDK**:
+
+```typescript
+const sageClient = new SageClient({
+  appId: '0x123...', // Unique identifier for your application
+  channelRegistryId: '0x456...', // Registry managing channels for this specific app
+  network: 'testnet' // or 'mainnet'
+});
+```
+
+This setup clearly demonstrates how each application uses a distinct context (`appId`) to maintain content isolation while benefiting from global user identities and relationships.
 
 ## Invite-Based User Creation (Temporary)
 
@@ -25,29 +37,31 @@ _(Note: Future protocol versions will make invite codes optional.)_
 
 ## Transaction Patterns
 
-All Sage SDK operations that write data to the blockchain follow a consistent transaction workflow, clearly divided into two steps:
+All Sage SDK operations that write data to the blockchain follow a clear two-step process:
 
 1. **Construct Transaction**:\
-   SDK methods generate and return transaction objects ready for signing.
+   SDK methods generate and return transaction objects ready to be signed.
 2. **Sign and Execute Transaction**:\
-   Your application manages wallet interactions to securely sign and execute transactions.
+   Your application handles user wallet interactions to securely sign and execute these transactions.
 
 **Example workflow:**
 
 ```javascript
 const result = await sageClient.createUser({
   amounts: [0, 0],
-  name: "john-doe",
+  avatar: 0, // optional avatar blob ID
+  banner: 0, // optional banner blob ID
   description: "Web3 enthusiast",
   inviteCode: "your-invite-code",
   inviteKey: "your-invite-key",
+  name: "john-doe",
   self: walletAddress
 });
 
 if (result.ok) {
   await signAndExecuteTransaction({ transaction: result.transaction });
 } else {
-  console.error(result.err);
+  console.error('Error:', result.err);
 }
 ```
 
@@ -55,21 +69,19 @@ This separation ensures security and user transparency for all blockchain intera
 
 ## Error Handling
 
-The Sage SDK consistently returns results indicating success or error states. All responses use a structured pattern with two important properties:
+The Sage SDK consistently returns structured results indicating success or error states. Every SDK operation returns a result object containing:
 
-- `ok`: Indicates success (`true`) or failure (`false`).
-- `err`: Provides detailed error information when the transaction fails.
+- `ok`: A boolean indicating success (`true`) or failure (`false`).
+- `err`: Contains error details if the transaction fails.
 
-**Recommended handling pattern:**
+**Use the following recommended handling pattern:**
 
 ```javascript
 const result = await sageClient.someAction({ /* parameters */ });
 
 if (result.ok) {
-  // Handle successful transaction
   await signAndExecuteTransaction({ transaction: result.transaction });
 } else {
-  // Handle errors explicitly
   console.error('Error:', result.err);
 }
 ```
@@ -78,29 +90,49 @@ Always verify transactions by checking the `ok` property before proceeding.
 
 ## Event Monitoring and Querying
 
-Sage SDK provides powerful event monitoring capabilities. Events (such as user creation, posting, and channel updates) are emitted explicitly onchain, enabling:
+The Sage SDK provides powerful event-monitoring capabilities. Events (such as user creation, posting, and channel updates) are emitted explicitly onchain, enabling:
 
 - Real-time responsiveness in your app.
 - Precise analytics and user activity tracking.
 
-You can query and listen for these events directly through the SDK.
+**Example usage (monitoring new user registrations)**:
+
+```javascript
+// Monitor new user creation events
+const result = await sageClient.queryUserCreateEvents({});
+
+result.events.forEach(event => {
+  console.log(`New user created: ${event.userName} (User ID: ${event.userId})`);
+  console.log(`Owned User ID: ${event.userOwnedId}, Shared User ID: ${event.userSharedId}`);
+  if (event.referredBy) {
+    console.log(`Referred by user ID: ${event.referredBy}`);
+  }
+});
+
+// Continue querying from the last event fetched
+if (result.hasNextPage) {
+  const nextBatch = await sageClient.queryUserCreateEvents({
+    cursor: result.nextCursor
+  });
+}
+```
 
 ## React Context and Hooks
 
-For React applications, Sage SDK provides built-in context and custom React hooks (`useUser`, `useChannel`, `usePost`). This allows streamlined integration and simple state management, significantly improving developer experience in React-based apps.
+For React applications, Sage SDK provides built-in context and custom React hooks (`useUser`, `useChannel`, `usePost`). These simplify integration and state management, improving developer experience.
 
-**Example (React integration):**
+**Example using** `useChannel`:
 
 ```javascript
 import { useChannel } from '@sageprotocol/sdk/react';
 
-function ChannelComponent({ channelId }) {
-  const { follow, unfollow } = useChannel();
+function ChannelComponent({ channelId, userContext }) {
+  const { follow } = useChannel();
 
   const handleFollow = async () => {
     const result = await follow({
-      channelId,
       amounts: [0, 0],
+      channelId,
       ownedUserId: userContext.ownedUserId,
       self: userContext.walletAddress
     });
