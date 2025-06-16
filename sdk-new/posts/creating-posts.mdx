@@ -59,10 +59,7 @@ if (postResult.ok) {
 
 **Markdown Formatting:**
 
-- Posts support rich markdown formatting including text, headers, images, and links.
-- **Sanitize user inputs thoroughly** to prevent security risks like Cross-Site Scripting (XSS) attacks.
-
-  **Markdown Usage Example**:
+- Posts support rich markdown formatting including text, headers, images, and links. For example:
 
   ```markdown
   # Heading
@@ -70,17 +67,18 @@ if (postResult.ok) {
   ![Image description](https://example.com/image.png)  
   [Link](https://example.com)
   ```
+- **Sanitize user inputs thoroughly** to prevent security risks like Cross-Site Scripting (XSS) attacks.
 
-**Threaded Conversations:** 
+**Threaded Conversations:**
 
 - Clearly indicate comment threads within your app’s user interface to maintain conversational context.
 - Comments are implemented explicitly as linked blockchain-native posts.
 
-**Moderation:** 
+**Moderation:**
 
 - Use the built-in moderation tools (`addModerator`, `removeModerator`) provided by Sage to proactively manage content quality and quickly address inappropriate behavior.
 
-**Encourage Meaningful Engagement:** 
+**Encourage Meaningful Engagement:**
 
 - Design interfaces clearly communicating the incentives and potential rewards users earn for meaningful contributions and engagements.
 - Highlight how the Proof of Social Contribution (PoSC) mechanism transparently rewards valuable interactions.
