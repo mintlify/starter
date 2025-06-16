@@ -9,15 +9,18 @@ Comments on posts create threaded, hierarchical discussions. Comments themselves
 
 To comment, you must know the original post's ID and the author's shared user ID:
 
-```javascript
+```typescript
 const commentResult = await sageClient.commentOnPost({
-  authorSharedUserId: 'original-author-shared-id',
-  parentPostId: 'parent-post-id',
-  title: 'Great insights!',
-  description: 'Adding my perspective',
-  data: 'I completely agree with your points, especially regarding scalability...',
-  ownedUserId: 'your-owned-user-id',
-  self: walletAddress
+  amounts: [0, 0],                               // Required protocol fees
+  appId: 'your-app-id',                          // Required application ID
+  network: 'testnet',                            // 'testnet' or 'mainnet'
+  authorSharedUserId: 'original-author-shared-id', // Original post author's shared user object ID
+  parentPostId: 'parent-post-id',                // ID of the original post
+  title: 'Great insights!',                      // Comment title in markdown
+  description: 'Adding my perspective',          // Comment summary in markdown
+  data: 'I completely agree with your points, especially regarding scalability...', // Main markdown content
+  ownedUserId: 'your-owned-user-id',             // Commenter's owned user ID
+  self: walletAddress                            // Commenter's wallet address
 });
 
 if (commentResult.ok) {
