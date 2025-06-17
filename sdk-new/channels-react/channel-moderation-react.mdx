@@ -1,0 +1,70 @@
+---
+title: "Channel Moderation (React)"
+description: " "
+---
+
+Manage channel moderators easily through provided hooks.
+
+## Add Moderator
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function AddModerator({ channelId, moderatorSharedUserId }) {
+  const { addModerator } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleAddModerator() {
+    const result = await addModerator({
+      amounts: [0, 0],
+      appId: 'your-app-id',
+      network: 'testnet',
+      channelId,
+      sharedUserId: moderatorSharedUserId,
+      self: account.address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Moderator added!");
+    } else {
+      console.error(result.err);
+    }
+  }
+
+  return <button onClick={handleAddModerator}>Add Moderator</button>;
+}
+```
+
+## Remove Moderator
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function RemoveModerator({ channelId, moderatorSharedUserId }) {
+  const { removeModerator } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleRemoveModerator() {
+    const result = await removeModerator({
+      amounts: [0, 0],
+      appId: 'your-app-id',
+      network: 'testnet',
+      channelId,
+      sharedUserId: moderatorSharedUserId,
+      self: account.address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Moderator removed!");
+    } else {
+      console.error(result.err);
+    }
+  }
+
+  return <button onClick={handleRemoveModerator}>Remove Moderator</button>;
+}
+```

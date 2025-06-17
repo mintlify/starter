@@ -1,0 +1,34 @@
+---
+title: "Unfollowing Channels (React)"
+description: " "
+---
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function FollowChannel({ channelId, ownedUserId }) {
+  const { follow } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleFollow() {
+    const result = await follow({
+      amounts: [0, 0],
+      channelId,
+      ownedUserId,
+      self: account.address,
+      appId: 'your-app-id',
+      network: 'testnet'
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel followed successfully!");
+    } else {
+      console.error(result.err);
+    }
+  }
+
+  return <button onClick={handleFollow}>Follow Channel</button>;
+}
+```
