@@ -1,0 +1,72 @@
+---
+title: "Introduction to Users"
+---
+
+Users are foundational to Sage Protocol’s decentralized social ecosystem, maintaining consistent global identities across all Sage-enabled applications, yet interacting uniquely within each.
+
+## Understanding User Identities
+
+Upon creation, Sage Protocol generates two distinct user objects:
+
+- **Owned User Object (Private)**:
+  - Soulbound to your wallet.
+  - Authenticates actions requiring wallet signatures (posting content, following users).
+- **Shared User Object (Public)**:
+  - Publicly accessible, enabling transparent social interactions (follows, friendships, content engagements).
+
+_Note: Typically, handling these distinctions is relevant for developers only._
+
+## Core User Capabilities
+
+Users within Sage Protocol can:
+
+- **Manage Profiles:** Update profiles explicitly (avatar, banner, description) to clearly express identity.
+- **Establish Connections:** Create transparent social interactions explicitly as follows or mutual friendships.
+- **Engage Socially:** Directly post on user profiles to explicitly foster community engagement and personal interactions.
+- **Bookmark Favorites:** Easily bookmark and organize preferred posts, channels, and other users.
+- **Earn Rewards:** Participate explicitly in social activities, earning \$TRUST tokens through the Proof of Social Contribution (PoSC) mechanism.
+
+## Best Practices for User Experiences
+
+- **Wallet Management:** Clearly guide users through wallet connections and transactions for a secure experience.
+- **Transparent Feedback:** Explicitly inform users about transaction outcomes to enhance trust.
+- **Secure & Validated Inputs:** Always sanitize user-generated content explicitly to maintain security.
+
+## React Integration Summary
+
+Utilize Sage SDK’s built-in React hooks (`useUser`, `useChannel`, `usePost`) and the provided `SageProvider` context for explicitly streamlined state management and operations.
+
+```typescript
+import { SageProvider, useUser } from '@sageprotocol/sdk/react';
+
+function App() {
+  return (
+    <SageProvider
+      appId="your-app-id"
+      channelRegistryId="your-channel-registry-id"
+      network="testnet"
+    >
+      <UserProfile />
+    </SageProvider>
+  );
+}
+
+function UserProfile() {
+  const { create, update, follow } = useUser();
+
+  // Explicitly manage user state and operations here
+}
+
+export default App;
+```
+
+## Explore in Further Detail:
+
+For detailed usage and instructions, visit the dedicated pages:
+
+- [Creating Users](#)
+- [Managing User Profiles](#)
+- [Social Connections](#)
+- [Posting to User Profiles](#)
+- [Favorites Management](#)
+- [Claiming Rewards](#)

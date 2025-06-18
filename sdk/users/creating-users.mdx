@@ -3,10 +3,6 @@ title: "Creating Users"
 description: " "
 ---
 
-Users are foundational to Sage Protocol’s decentralized social ecosystem, maintaining global identities consistent across all Sage-enabled applications, yet interacting uniquely within each.
-
-## Creating a New User
-
 Establishing a user identity currently requires valid invite codes and keys. Using Sage’s React hooks simplifies the user creation process within your React application.
 
 **React Hook Example**:
@@ -48,59 +44,3 @@ function CreateUser() {
 
 export default CreateUser;
 ```
-
-## Understanding User Identities
-
-Sage Protocol generates two distinct user objects upon creation:
-
-- **Owned User Object**:
-  - Soulbound to your wallet.
-  - Authenticates your wallet to perform actions (creating content, following users, and other wallet-signed interactions).
-- **Shared User Object**:
-  - Publicly accessible by other users.
-  - Enables social interactions like follows, friendships, and content engagement.
-
-_Note_: Typically, only developers need to handle these distinctions directly.
-
-## Best Practices for User Management
-
-Follow these best practices for optimal user experiences and secure integrations:
-
-- **Wallet Connections & Signing**:\
-  Guide users explicitly through wallet connections and clearly explain each step of the signing process to enhance clarity and trust.
-- **Input Validation & Security**:\
-  Thoroughly validate and sanitize user inputs, particularly markdown content, to mitigate security risks such as Cross-Site Scripting (XSS).
-- **Clear User Feedback**:\
-  Provide users immediate, understandable feedback for successful interactions or errors. This boosts user confidence and interaction quality.
-- **Intuitive Social Interfaces**:\
-  Design interfaces that clearly manage social interactions (follows, friendships, favorites). Ensure easy, obvious pathways for users to engage socially.
-- **Explicit React State Management**:\
-  Use Sage SDK’s React hooks (`useUser`, `useChannel`, `usePost`) within the provided `SageProvider` context to reliably manage user-related state and operations.
-
-**Example setup in React**:
-
-```typescript
-import { SageProvider, useUser } from '@sageprotocol/sdk/react';
-
-function App() {
-  return (
-    <SageProvider
-      appId="your-app-id"
-      channelRegistryId="your-channel-registry-id"
-      network="testnet"
-    >
-      <UserProfile />
-    </SageProvider>
-  );
-}
-
-function UserProfile() {
-  const { create, update, follow } = useUser();
-
-  // Explicitly manage user state and operations here
-}
-
-export default App;
-```
-
-Following these guidelines ensures your React application provides a seamless, secure, and engaging decentralized social experience powered by Sage Protocol.

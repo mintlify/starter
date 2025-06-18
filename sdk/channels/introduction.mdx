@@ -1,0 +1,78 @@
+---
+title: "Introduction to Channels"
+description: " "
+---
+
+Channels in Sage Protocol are decentralized community spaces designed for focused discussions, meaningful engagement, and explicit content sharing. When creating a channel, ownership and full administrative privileges are automatically assigned to the creator.
+
+## Channel Naming Guidelines
+
+To maintain clarity and consistency, adhere explicitly to these naming conventions:
+
+- **Allowed characters:** `a-z`, `A-Z`, `0-9`, and dashes (`-`).
+- **Restrictions:** Channel names cannot explicitly start or end with a dash (`-`).
+- **Examples:** `web3-gaming`, `sui-defi`, `general-discussion`.
+
+## Example Channel Use-cases
+
+Channels are versatile community spaces suitable for various explicit use-cases:
+
+- **Topic-based Communities**: Example: `defi-protocols` for decentralized finance discussions.
+- **Project Channels**: Example:`project-updates` for development announcements.
+- **Regional Groups**: Example:`nyc-blockchain-meetups` for local blockchain events.
+
+## Core Channel Capabilities
+
+Channels support several critical community functions:
+
+- **Content Creation:** Only channel followers can explicitly post, ensuring genuine community engagement.
+- **Membership Management:** Follow/unfollow channels to manage participation.
+- **Moderation:** Channel owners manage moderators and enforce community standards clearly and transparently.
+- **Content Visibility & Rewards:** Posts and interactions improve content visibility and can directly trigger incremental rewards through the Proof of Social Contribution (PoSC) mechanism.
+
+## Best Practices for Channel Management
+
+- **Clearly Define and Enforce Community Guidelines**\
+  Explicitly communicate your community’s standards and use built-in moderation tools proactively to ensure quality interactions.
+- **Encourage Meaningful Discussions and Contributions**\
+  Clearly inform members about the built-in rewards and incentives explicitly linked to genuine, quality interactions.
+- **Regularly Update Channel Details**\
+  Explicitly maintain accurate descriptions, avatars, and banners, clearly reflecting the channel's purpose and ensuring ongoing member engagement.
+
+## React Integration Summary
+
+Channels explicitly integrate smoothly into React applications using Sage SDK’s built-in hooks:
+
+```typescript
+import { SageProvider, useChannel } from '@sageprotocol/sdk/react';
+
+function App() {
+  return (
+    <SageProvider
+      appId="your-app-id"
+      channelRegistryId="your-channel-registry-id"
+      network="testnet"
+    >
+      <Channel />
+    </SageProvider>
+  );
+}
+
+function Channel() {
+  const { createChannel, follow, unfollow, update } = useChannel();
+
+  // Explicitly manage channel-related actions here
+}
+
+export default App;
+```
+
+## Explore in Further Detail:
+
+For detailed usage and instructions, visit dedicated pages:
+
+- [Creating Channels](#)
+- [Managing Channel Membership](#)
+- [Channel Moderation](#)
+- [Updating Channels](#)
+- [Posting Content in Channels](#)

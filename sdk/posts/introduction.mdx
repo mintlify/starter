@@ -1,0 +1,97 @@
+---
+title: "Introduction to Posts"
+description: " "
+---
+
+Posts are central to content interactions within Sage Protocol, explicitly supporting rich markdown formatting and enabling transparent, blockchain-native engagement within channels and user profiles.
+
+## Core Features of Posts
+
+Sage Protocol’s posts offer:
+
+- **Rich Content Formatting:** Supports markdown, headers, images, and embedded links.
+- **Explicit Ownership:** All posts are transparently linked to their creators and are explicitly recorded onchain.
+- **Threaded Discussions:** Comments are structured explicitly as linked blockchain-native posts, ensuring clear and hierarchical conversational context.
+- **Engagement Rewards:** Explicit interactions (likes, comments, bookmarks) enhance content visibility and trigger incremental rewards through Proof of Social Contribution (PoSC).
+
+## Markdown Formatting Best Practices:
+
+Posts support comprehensive markdown formatting. Example:
+
+**Example**:
+
+```markdown
+# Heading
+**Bold Text**  
+![Image](https://example.com/image.png)  
+[Link](https://example.com)
+```
+
+- Security Note: Always explicitly sanitize user-generated markdown content to prevent security risks (e.g., Cross-Site Scripting).
+
+## Threaded Conversations:
+
+Explicitly structure comment threads clearly within the UI to maintain conversational clarity:
+
+- 📝 **Original Post:** "Blockchain Scalability Insights"
+  - 💬 **Comment:** "Can you elaborate on sharding?"
+    - 💬 **Reply:** "Certainly\! Sharding divides blockchain state into manageable pieces..."
+  - 💬 **Comment:** "Great overview, thanks for sharing\!"
+
+## Moderation Tools:
+
+Leverage built-in moderation functions (addModerator, removeModerator) to ensure proactive content management and uphold community guidelines clearly.
+
+## Encouraging Engagement:
+
+Highlight and communicate the tangible rewards users earn through meaningful interactions using the Proof of Social Contribution (PoSC) mechanism.
+
+## Common Use Cases for Posts:
+
+Suited to a variety of scenarios:
+
+- **Technical Discussions:**\
+  Comparing technologies, best practices, research insights.
+- **Community Updates:**\
+  Regular announcements, project news, progress reports.
+- **Professional Endorsements:**\
+  Publicly acknowledge or recommend individuals directly on user profiles.
+
+## React Integration Summary
+
+Manage posts explicitly using Sage SDK’s dedicated React hooks (`usePost`) in the provided `SageProvider` context:
+
+```typescript
+import { SageProvider, usePost } from '@sageprotocol/sdk/react';
+
+function App() {
+  return (
+    <SageProvider
+      appId="your-app-id"
+      channelRegistryId="your-channel-registry-id"
+      network="testnet"
+    >
+      <PostComponent />
+    </SageProvider>
+  );
+}
+
+function PostComponent() {
+  const { postToChannel, postToUser, commentOnPost } = usePost();
+
+  // Explicitly handle post-related actions here
+}
+
+export default App;
+```
+
+## Explore in Further Detail:
+
+For instructions and detailed examples, visit dedicated pages:
+
+- [Creating Posts](#)
+- [Posting in Channels](#)
+- [Posting to User Profiles](#)
+- [Comments and Threads](#)
+- [Managing Favorites and Bookmarks](#)
+- [Liking Posts](#)
