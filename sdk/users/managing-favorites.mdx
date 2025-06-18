@@ -1,0 +1,147 @@
+---
+title: "Managing Favorites"
+description: "Description of your new file."
+---
+
+Users can favorite channels, posts, and other users to easily maintain personalized collections. Sage SDK provides intuitive React hooks for these actions.
+
+## Favorite Channels
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function FavoriteChannel({ ownedUserId, channelId }) {
+  const { addFavoriteChannel } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleFavoriteChannel = async () => {
+    const result = await addFavoriteChannel({
+      appId: 'your-app-id',                   // required
+      network: 'testnet',                     // 'testnet' or 'mainnet', required
+      channelId,                              // channel ID to favorite
+      ownedUserId                             // your owned user ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel favorited successfully!");
+    } else {
+      console.error("Error favoriting channel:", result.err);
+    }
+  };
+
+  return <button onClick={handleFavoriteChannel}>Favorite Channel</button>;
+}
+
+export default FavoriteChannel;
+```
+
+## Favorite Posts
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function FavoritePost({ ownedUserId, authorSharedUserId, postId }) {
+  const { addFavoritePost } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleFavoritePost = async () => {
+    const result = await addFavoritePost({
+      appId: 'your-app-id',                   // required
+      network: 'testnet',                     // 'testnet' or 'mainnet', required
+      authorSharedUserId,                     // author's shared user ID
+      postId,                                 // post ID to favorite
+      ownedUserId                             // your owned user ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post favorited successfully!");
+    } else {
+      console.error("Error favoriting post:", result.err);
+    }
+  };
+
+  return <button onClick={handleFavoritePost}>Favorite Post</button>;
+}
+
+export default FavoritePost;
+```
+
+## Favorite Users
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function FavoriteUser({ ownedUserId, favoriteSharedUserId }) {
+  const { addFavoriteUser } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleFavoriteUser = async () => {
+    const result = await addFavoriteUser({
+      appId: 'your-app-id',                   // required
+      network: 'testnet',                     // 'testnet' or 'mainnet', required
+      favoriteSharedUserId,                   // user's shared ID to favorite
+      ownedUserId                             // your owned user ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("User favorited successfully!");
+    } else {
+      console.error("Error favoriting user:", result.err);
+    }
+  };
+
+  return <button onClick={handleFavoriteUser}>Favorite User</button>;
+}
+
+export default FavoriteUser;
+```
+
+## Removing Favorites
+
+Use corresponding removal methods provided by the same hooks, with similar patterns:
+
+- `removeFavoriteChannel`
+- `removeFavoritePost`
+- `removeFavoriteUser`
+
+**Example (Remove Favorite Post)**:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function RemoveFavoritePost({ ownedUserId, postId }) {
+  const { removeFavoritePost } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleRemoveFavorite = async () => {
+    const result = await removeFavoritePost({
+      postId,                                 // ID of the post to remove from favorites
+      ownedUserId                             // your owned user ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post removed from favorites!");
+    } else {
+      console.error("Error removing favorite:", result.err);
+    }
+  };
+
+  return <button onClick={handleRemoveFavorite}>Remove Favorite</button>;
+}
+
+export default RemoveFavoritePost;
+```
+
+## Important Notes:
+
+- `appId`**and ** `network`**Parameters** : Explicitly required in add operations for application and network context.
+- **Ownership IDs**: Clearly distinguish between "owned" (your user's ID) and "shared" (other users' IDs) objects when favoriting.
+- **Signing Transactions**: All favorite actions explicitly require transaction signing and execution via user wallets.

@@ -1,0 +1,50 @@
+---
+title: "Posting to User Profiles "
+description: " "
+---
+
+Users can post directly onto other users' profiles for interactions like endorsements, community appreciation, or personal engagement. Posts support rich markdown content.
+
+**React Hook Example for Posting to User Profiles**:
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function PostToUser({ targetSharedUserId, ownedUserId }) {
+  const { postToUser } = usePost();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handlePostToUser() {
+    const result = await postToUser({
+      amounts: [0, 0],                                  // Required protocol fee amounts
+      appId: 'your-app-id',                             // Required application ID
+      network: 'testnet',                               // 'testnet' or 'mainnet'
+      sharedUserId: targetSharedUserId,                 // Target user's shared user object ID
+      ownedUserId,                                      // Poster's owned user object ID
+      self: account.address,                            // Wallet address of the poster
+      title: '🌟 Professional Recommendation',           // Post headline/title (markdown supported)
+      description: 'Endorsement for exceptional work',  // Brief summary (markdown supported)
+      data: 'Your contributions to the project were outstanding!' // Main markdown content
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Posted to user profile successfully!");
+    } else {
+      console.error("Error posting to user profile:", result.err);
+    }
+  }
+
+  return <button onClick={handlePostToUser}>Post to User</button>;
+}
+
+export default PostToUser;
+```
+
+## Important Notes:
+
+- **Protocol Fees**: Explicitly set to `[0, 0]` by default.
+- `appId`**and ** `network`: Explicitly required for application context and blockchain network selection.
+- **Markdown Content**: Supported in `title`, `description`, and `data` fields.
+- **Transaction Execution**: Transactions must always be signed and executed explicitly via the user's connected walletdocssage_sdksage_sdk.

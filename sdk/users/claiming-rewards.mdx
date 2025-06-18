@@ -1,0 +1,49 @@
+---
+title: "Claiming Rewards"
+description: " "
+---
+
+Users earn \$TRUST token rewards based on verified social contributions. These rewards accumulate during defined epochs, allowing users to claim them at intervals convenient for them.
+
+**React Hook Example for Claiming Rewards**:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function ClaimRewards({ epoch, ownedUserId, sharedUserId }) {
+  const { claimReward } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleClaimRewards() {
+    const result = await claimReward({
+      epoch,                                  // Sui timestamp for the epoch period
+      appId: 'your-app-id',                   // Explicitly required
+      network: 'testnet',                     // Explicitly required: 'testnet' or 'mainnet'
+      ownedUserId,                            // User's owned user object ID
+      sharedUserId                            // User's shared user object ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Rewards claimed successfully!");
+    } else {
+      console.error("Error claiming rewards:", result.err);
+    }
+  }
+
+  return (
+    <button onClick={handleClaimRewards}>
+      Claim Rewards
+    </button>
+  );
+}
+
+export default ClaimRewards;
+```
+
+## Important Notes:
+
+- **Epoch Parameter**: A precise Sui timestamp (`epoch`) defines the reward period.
+- **Required Parameters**: Explicitly include `appId`, `network`, `ownedUserId`, and `sharedUserId` to accurately claim rewards.
+- **Transaction Signing**: All claims require explicit wallet signatures and transaction execution via user wallets.

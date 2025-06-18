@@ -1,0 +1,51 @@
+---
+title: "Updating User Profiles"
+description: " "
+---
+
+Users can clearly express their identities by updating their profiles. Profile updates support markdown formatting and media asset references. All fields must be explicitly provided—if a field is intended to remain unchanged, pass its current value.
+
+**React Hook Example for Profile Updates**:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function UpdateProfile({ ownedUserId, currentProfile }) {
+  const { update } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleUpdateProfile = async () => {
+    const result = await update({
+      amounts: [0, 0],                             // Required, typically [0, 0]
+      avatar: currentProfile.avatar,               // Blob ID for avatar (existing or new ID)
+      banner: currentProfile.banner,               // Blob ID for banner (existing or new ID)
+      description: "Blockchain enthusiast and Web3 developer",  // Markdown-supported description
+      name: currentProfile.name,                   // Username casing updates only
+      ownedUserId,                                 // User's owned object ID
+      self: account.address                        // User's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Profile updated successfully!");
+    } else {
+      console.error("Profile update error:", result.err);
+    }
+  };
+
+  return (
+    <button onClick={handleUpdateProfile}>
+      Update Profile
+    </button>
+  );
+}
+
+export default UpdateProfile;
+```
+
+### Important Notes:
+
+- **Complete Replacement:** All fields must be provided explicitly for every update. Any field left out or mistakenly changed could unintentionally overwrite existing valuessage_sdk.
+- **Username Casing Only:** Username updates are limited strictly to casing changes (e.g., "john-doe" to "John-Doe"). New usernames cannot be assigned through updatessage_sdk.
+- **Blob IDs for Media:** Avatar and banner images must use Walrus blob IDs (numeric IDs), not URLssage_sdk.

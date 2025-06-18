@@ -1,0 +1,163 @@
+---
+title: "Getting Started"
+description: " "
+---
+
+This guide will help you quickly set up and integrate the Sage SDK into your React application. Follow these steps to begin building decentralized social experiences with Sage.
+
+## 1. Prerequisites
+
+Ensure your environment meets these requirements:
+
+- **Node.js and npm:**
+
+  Install Node.js (**v18 or higher**) and npm ([nodejs.org](http://nodejs.org)).
+- **Sui Wallet:**
+
+  Obtain a Sui blockchain wallet (e.g., Suiet, Phantom, Slush) for transaction signing.
+- **Invite Codes (temporary requirement):**
+
+  Valid invite codes and invite keys are required for user creation and are provided by Sage.
+- **Network Access:**
+
+  Choose your network environment:
+  - **mainnet:** production environment
+  - **testnet:** development and testing environment
+
+## 2. Installation
+
+Install the Sage SDK via your preferred package manager:
+
+<CodeGroup>
+
+```bash pnpm
+pnpm i @sageprotocol/sdk
+```
+
+
+```bash yarn
+yarn add @sageprotocol/sdk
+```
+
+
+```bash npm
+npm i @sageprotocol/sdk
+```
+
+</CodeGroup>
+
+## 3. Choose Integration Method
+
+The Sage SDK supports two integration methods:
+
+- **React Integration**: Use built-in React hooks and the `SageProvider` for state-managed React apps.
+- **Direct JavaScript Integration**: Directly use the `SageClient` class for explicit SDK management.
+
+<Info>
+  The following steps cover the React Integration Setup. If you want to integrate directly, see the [Direct Javascript Integration Guide](#).
+</Info>
+
+## 4. React Direct Integration Setup
+
+Use built-in React hooks and the SageProvider to manage state in your React app:
+
+```typescript
+import { SageProvider } from '@sageprotocol/sdk/react';
+
+const App = () => (
+  <SageProvider
+    appId="your-app-id"                    // Unique app context (required)
+    channelRegistryId="your-registry-id"   // Channel registry ID (required)
+    network="testnet"                      // 'mainnet' or 'testnet' (default: 'mainnet')
+  >
+    {/* Your app components here */}
+  </SageProvider>
+);
+
+export default App;
+```
+
+Your React application must handle wallet connections for transaction signing. Ensure your users connect their Sui wallet, and your app can request and execute signatures properly.
+
+## 5. Create Your First User
+
+Create a new Sage user using React hooks (temporarily requires invite code):
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function CreateUserComponent() {
+  const { create } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleCreateUser = async () => {
+    const result = await create({
+      amounts: [0, 0],
+      avatar: 0, // optional, default is 0
+      banner: 0, // optional, default is 0
+      description: "Web3 and React enthusiast",
+      inviteCode: "WELCOME123", // Currently required
+      inviteKey: "0x789.",      // Currently required
+      name: "john-doe",
+      self: account.address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("User created successfully!");
+    } else {
+      console.error(result.err);
+    }
+  };
+
+  return <button onClick={handleCreateUser}>Create User</button>;
+}
+
+export default CreateUserComponent;
+```
+
+## 6. Verify Successful Setup (React Hook)
+
+After creating a user, verify your setup by creating a basic post:
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+const CreatePostComponent = ({ ownedUserId, sharedUserId }) => {
+  const { post } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  const handleCreatePost = async () => {
+    const result = await post({
+      amounts: [0, 0],
+      data: 'Excited to join the Sage community!', 
+      description: 'My first decentralized post',
+      ownedUserId,
+      self: account.address,
+      sharedUserId,
+      title: 'Hello Sage!'
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post created successfully!");
+    } else {
+      console.error(result.err);
+    }
+  };
+
+  return <button onClick={handleCreatePost}>Create Post</button>;
+};
+
+export default CreatePostComponent;
+```
+
+## 7. Next Steps
+
+You’re now set up and ready to explore the full capabilities of Sage SDK. Proceed to:
+
+- [**Key Concepts**](#): Understand important SDK patterns and best practices.
+- [**Core Primitives**](#): Explore the features for managing users, channels, and posts.
+- [**API Reference**](#): See comprehensive SDK documentation for advanced usage.
