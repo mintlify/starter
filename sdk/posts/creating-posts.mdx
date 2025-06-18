@@ -1,0 +1,124 @@
+---
+title: "Creating Posts"
+description: " "
+---
+
+Posts are central to Sage Protocol's content interactions, enabling rich markdown formatting and transparent blockchain-native interactions across channels and user profiles.
+
+## Posting in Channels
+
+Users must follow a channel before creating posts within it.
+
+**React Hook Example for Posting in Channels:**
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function CreateChannelPost({ channelId, ownedUserId }) {
+  const { postToChannel } = usePost();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleCreatePost() {
+    const result = await postToChannel({
+      amounts: [0, 0],                                // Required protocol fees
+      appId: 'your-app-id',                           // Required application ID
+      network: 'testnet',                             // 'testnet' or 'mainnet'
+      channelId,                                      // Target channel ID
+      title: 'Sui vs Ethereum: An In-Depth Analysis', // Post title in markdown
+      description: 'Comparing scalability, security, and more.', // Markdown summary
+      data: 'Sui provides high throughput and low latency compared to Ethereum...', // Main markdown content
+      ownedUserId,                                    // Poster's owned user ID
+      self: account.address                           // Poster's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel post created successfully!");
+    } else {
+      console.error("Error creating channel post:", result.err);
+    }
+  }
+
+  return <button onClick={handleCreatePost}>Create Channel Post</button>;
+}
+
+export default CreateChannelPost;
+```
+
+## Posting on User Profiles
+
+Users can directly post onto profiles for personal interactions, endorsements, or recommendations.
+
+**React Hook Example for Posting to User Profiles:**
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function PostToUser({ targetSharedUserId, ownedUserId }) {
+  const { postToUser } = usePost();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handlePostToUser() {
+    const result = await postToUser({
+      amounts: [0, 0],                                 // Required protocol fees
+      appId: 'your-app-id',                            // Required application ID
+      network: 'testnet',                              // 'testnet' or 'mainnet'
+      sharedUserId: targetSharedUserId,                // Target user's shared user ID
+      title: 'Professional Endorsement',               // Post title in markdown
+      description: 'Recognizing outstanding contributions', // Markdown summary
+      data: 'Thanks for your amazing support and mentorship!', // Main markdown content
+      ownedUserId,                                     // Poster's owned user ID
+      self: account.address                            // Poster's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Posted to user profile successfully!");
+    } else {
+      console.error("Error posting to user profile:", result.err);
+    }
+  }
+
+  return <button onClick={handlePostToUser}>Post to User</button>;
+}
+
+export default PostToUser;
+```
+
+### Content Guidelines and Best Practices
+
+**Markdown Formatting:**
+
+- Posts support rich markdown: text, headers, images, and embedded links.
+
+**Example**:
+
+```markdown
+# Heading
+**Bold Text**  
+![Image](https://example.com/image.png)  
+[Link](https://example.com)
+```
+
+- Always sanitize markdown inputs to prevent security risks like Cross-Site Scripting (XSS).
+
+**Threaded Conversations:**
+
+- Clearly visualize comment threads in the UI for conversational clarity.
+- Comments are structured as blockchain-native posts explicitly linked to parent posts.
+
+**Moderation:**
+
+- Leverage built-in moderation tools (`addModerator`, `removeModerator`) to proactively manage content quality.
+
+**Encouraging Engagement:**
+
+- Clearly display user incentives and rewards linked to valuable interactions via Proof of Social Contribution (PoSC).
+
+## Common Use Cases:
+
+- **Technical Discussions:** Comparing technologies, best practices, research sharing.
+- **Community Updates:** Announcements, news, progress reports.
+- **Professional Endorsements:** Public recommendations and acknowledgments.

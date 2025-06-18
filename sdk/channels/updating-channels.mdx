@@ -1,0 +1,47 @@
+---
+title: "Updating Channels"
+description: " "
+---
+
+Channel owners can update channel information including descriptions, avatars, banners, and the casing of channel names. Updates require explicitly providing all fields to avoid unintended overwrites; unchanged fields should retain existing values.
+
+**React Hook Example for Updating Channels:**
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function UpdateChannel({ channel }) {
+  const { update } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleUpdate() {
+    const result = await update({
+      amounts: [0, 0],                                // Required protocol fees
+      avatar: channel.avatar,                         // Existing or updated blob ID
+      banner: channel.banner,                         // Existing or updated blob ID
+      channelId: channel.id,                          // Channel ID
+      channelName: channel.name,                      // Casing updates only (e.g., 'crypto-art' → 'CRYPTO-ART')
+      description: '**Updated community guidelines and information**', // Markdown-supported description
+      self: account.address                           // Channel owner's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel updated successfully!");
+    } else {
+      console.error("Error updating channel:", result.err);
+    }
+  }
+
+  return <button onClick={handleUpdate}>Update Channel</button>;
+}
+
+export default UpdateChannel;
+```
+
+## Important Notes:
+
+- **Complete Replacement:** Updates are full replacements; explicitly provide all fields, using existing values for unchanged fieldsdocssage_sdk.
+- **Name Casing Restrictions:** Channel names can only be modified by changing letter casing, not by introducing new characters or wordssage_sdk.
+- **Transaction Signing:** All updates require explicit signing and execution via the owner's walletdocs.

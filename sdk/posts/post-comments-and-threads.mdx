@@ -1,0 +1,32 @@
+---
+title: "Post Comments and Threads"
+description: " "
+---
+
+Comments in Sage Protocol create explicit, threaded discussions as blockchain-native posts directly linked to parent posts. Threading ensures hierarchical, readable interactions.
+
+## Creating Comments
+
+To comment on a post, you must have the original post's ID and the author's shared user ID.
+
+**React Hook Example for Creating Comments:**
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function CreateComment({ parentPostId, authorSharedUserId, ownedUserId }) {
+  const { commentOnPost } = usePost();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleCreateComment() {
+    const result = await commentOnPost({
+      amounts: [0, 0],                                // Required protocol fees
+      appId: 'your-app-id',                           // Required application ID
+      network: 'testnet',                             // 'testnet' or 'mainnet'
+      authorSharedUserId,                             // Original post author's shared user ID
+      parentPostId,                                   // ID of the parent post
+      title: 'Great insights!',                       // Comment title in markdown
+      description: 'Adding my perspective',           // Comment summary in markdown
+      data: 'I completely agree with your points, especially regarding scalability...', // Main markdown
+```

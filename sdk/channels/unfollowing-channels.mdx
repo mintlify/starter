@@ -1,0 +1,37 @@
+---
+title: "Unfollowing Channels"
+description: " "
+---
+
+Users can easily leave channels at any time to stop receiving updates or participating.
+
+**React Hook Example for Unfollowing Channels**:
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function UnfollowChannel({ channelId }) {
+  const { unfollow } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleUnfollow() {
+    const result = await unfollow({
+      amounts: [0, 0],             // Required protocol fee (default: [0,0])
+      channelId,                   // Channel to unfollow
+      self: account.address        // User's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel unfollowed successfully!");
+    } else {
+      console.error("Error unfollowing channel:", result.err);
+    }
+  }
+
+  return <button onClick={handleUnfollow}>Unfollow Channel</button>;
+}
+
+export default UnfollowChannel;
+```

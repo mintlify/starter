@@ -1,0 +1,78 @@
+---
+title: "Moderating Channels"
+description: " "
+---
+
+Channel owners can assign and remove moderators to help maintain content quality, enforce guidelines, and manage user interactions effectively.
+
+## Adding Moderators
+
+**React Hook Example for Adding Moderators**:
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function AddModerator({ channelId, moderatorSharedUserId }) {
+  const { addModerator } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleAddModerator() {
+    const result = await addModerator({
+      amounts: [0, 0],                           // Required protocol fees
+      appId: 'your-app-id',                      // Explicitly required application ID
+      network: 'testnet',                        // 'testnet' or 'mainnet'
+      channelId,                                 // Channel ID to moderate
+      sharedUserId: moderatorSharedUserId,       // User's shared ID to grant moderator role
+      self: account.address                      // Channel owner's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Moderator added successfully!");
+    } else {
+      console.error("Error adding moderator:", result.err);
+    }
+  }
+
+  return <button onClick={handleAddModerator}>Add Moderator</button>;
+}
+
+export default AddModerator;
+```
+
+## Removing Moderators
+
+**React Hook Example for Removing Moderators**:
+
+```typescript
+import { useChannel } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function RemoveModerator({ channelId, moderatorSharedUserId }) {
+  const { removeModerator } = useChannel();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleRemoveModerator() {
+    const result = await removeModerator({
+      amounts: [0, 0],                           // Required protocol fees
+      appId: 'your-app-id',                      // Explicitly required application ID
+      network: 'testnet',                        // 'testnet' or 'mainnet'
+      channelId,                                 // Channel ID to moderate
+      sharedUserId: moderatorSharedUserId,       // User's shared ID whose moderator role will be revoked
+      self: account.address                      // Channel owner's wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Moderator removed successfully!");
+    } else {
+      console.error("Error removing moderator:", result.err);
+    }
+  }
+
+  return <button onClick={handleRemoveModerator}>Remove Moderator</button>;
+}
+
+export default RemoveModerator;
+```

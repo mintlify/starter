@@ -1,0 +1,47 @@
+---
+title: "Liking Posts"
+description: " "
+---
+
+Likes signal appreciation and enhance content visibility, triggering incremental rewards in Sage Protocol.
+
+**React Hook Example for Liking Posts:**
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function LikePost({ authorSharedUserId, postId, ownedUserId }) {
+  const { like } = usePost();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleLike() {
+    const result = await like({
+      amounts: [0, 0],                         // Required protocol fees
+      appId: 'your-app-id',                    // Explicitly required application ID
+      network: 'testnet',                      // 'testnet' or 'mainnet'
+      authorSharedUserId,                      // Original post author's shared user ID
+      postId,                                  // ID of the post to like
+      ownedUserId,                             // Liker’s owned user ID
+      self: account.address                    // Liker’s wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post liked successfully!");
+    } else {
+      console.error("Error liking post:", result.err);
+    }
+  }
+
+  return <button onClick={handleLike}>Like Post</button>;
+}
+
+export default LikePost;
+```
+
+## Important Notes
+
+- **Required Parameters**: Inclusion of `amounts`, `appId`, `network`, `authorSharedUserId`, `postId`, `ownedUserId`, and `self`.
+- **Reward Mechanism**: Likes enhance content visibility and trigger incremental rewards.
+- **Transaction Execution**: All transactions must be signed and executed via the user's connected wallets.

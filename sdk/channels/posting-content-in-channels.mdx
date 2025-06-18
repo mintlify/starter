@@ -1,0 +1,43 @@
+---
+title: "Posting Content in Channels"
+description: " "
+---
+
+Only users who follow channels can create posts within them. Channel posts support rich markdown content, including formatting, images, and embedded links.
+
+**React Hook Example for Posting Content in Channels**:
+
+```typescript
+import { usePost } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function PostToChannel({ channelId, ownedUserId }) {
+  const { postToChannel } = usePost();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handlePost() {
+    const result = await postToChannel({
+      amounts: [0, 0],                           // Required, typically [0, 0]
+      appId: 'your-app-id',                      // Explicitly required application ID
+      network: 'testnet',                        // Required network ('testnet' or 'mainnet')
+      channelId,                                 // Channel ID where post is created
+      data: 'Sui offers significantly higher transaction throughput...', // Main markdown content
+      description: 'Performance and scalability comparison',             // Markdown summary
+      title: 'Understanding Sui vs Ethereum',    // Post title in markdown
+      ownedUserId,                               // Poster’s owned user ID
+      self: account.address                      // Poster’s wallet address
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Posted to channel successfully!");
+    } else {
+      console.error("Error posting to channel:", result.err);
+    }
+  }
+
+  return <button onClick={handlePost}>Post Content</button>;
+}
+
+export default PostToChannel;
+```

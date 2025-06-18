@@ -1,0 +1,82 @@
+---
+title: "Post Favorites and Bookmarks"
+description: " "
+---
+
+Users can bookmark posts explicitly to easily revisit preferred content.
+
+## Adding a Favorite Post
+
+**React Hook Example for Adding Favorites:**
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function FavoritePost({ ownedUserId, authorSharedUserId, postId }) {
+  const { addFavoritePost } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleFavorite() {
+    const result = await addFavoritePost({
+      appId: 'your-app-id',                     // Required application ID
+      network: 'testnet',                       // 'testnet' or 'mainnet'
+      authorSharedUserId,                       // Author's shared user ID
+      postId,                                   // Post ID to bookmark
+      ownedUserId                               // Your owned user ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post bookmarked successfully!");
+    } else {
+      console.error("Error bookmarking post:", result.err);
+    }
+  }
+
+  return <button onClick={handleFavorite}>Bookmark Post</button>;
+}
+
+export default FavoritePost;
+```
+
+## Removing a Favorited Post
+
+**React Hook Example for Removing Favorites:**
+
+```typescript
+import { useUser } from '@sageprotocol/sdk/react';
+import { useWallet } from '@suiet/wallet-kit';
+
+function RemoveFavoritePost({ ownedUserId, postId }) {
+  const { removeFavoritePost } = useUser();
+  const { account, signAndExecuteTransaction } = useWallet();
+
+  async function handleRemoveFavorite() {
+    const result = await removeFavoritePost({
+      appId: 'your-app-id',                      // Required application ID
+      network: 'testnet',                        // 'testnet' or 'mainnet'
+      postId,                                    // Post ID to remove from bookmarks
+      ownedUserId                                // Your owned user ID
+    });
+
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post removed from bookmarks successfully!");
+    } else {
+      console.error("Error removing bookmark:", result.err);
+    }
+  }
+
+  return <button onClick={handleRemoveFavorite}>Remove Bookmark</button>;
+}
+
+export default RemoveFavoritePost;
+```
+
+## Important Notes
+
+### Verified Sage SDK Documentation Notes:
+
+- **Required Parameters:** Explicitly include `appId`, `network`, `authorSharedUserId`, `postId`, and `ownedUserId` for adding favorites. Removing favorites requires `appId`, `network`, `postId`, and `ownedUserId`.
+- **Explicit Transaction Signing:** Transactions must explicitly be signed and executed via the user's wallet.
