@@ -91,16 +91,16 @@ function CreateUserComponent() {
   const { create } = useUser();
   const { account, signAndExecuteTransaction } = useWallet();
 
-  const handleCreateUser = async () => {
+  async function handleCreateUser() {
     const result = await create({
-      amounts: [0, 0],
-      avatar: 0, // optional, default is 0
-      banner: 0, // optional, default is 0
-      description: "Web3 and React enthusiast",
-      inviteCode: "WELCOME123", // Currently required
-      inviteKey: "0x789.",      // Currently required
-      name: "john-doe",
-      self: account.address
+      amounts: [0, 0],                          // Required default amounts
+      avatar: 0,                                // Optional avatar blob ID
+      banner: 0,                                // Optional banner blob ID
+      description: "Web3 and React enthusiast", // User bio (markdown supported)
+      inviteCode: "your-invite-code",           // Required invite code
+      inviteKey: "your-invite-key",             // Required invite key
+      name: "john-doe",                         // Unique username
+      self: account.address                     // Wallet address
     });
 
     if (result.ok) {
@@ -109,13 +109,35 @@ function CreateUserComponent() {
     } else {
       console.error(result.err);
     }
-  };
+  }
 
   return <button onClick={handleCreateUser}>Create User</button>;
 }
 
 export default CreateUserComponent;
 ```
+
+<Accordion title="Direct Javascript Integration Example" icon="sparkles">
+  ```typescript
+  const result = await sageClient.createUser({
+    amounts: [0, 0],                           // required default amounts
+    avatar: 0,                                 // optional avatar blob ID (default 0)
+    banner: 0,                                 // optional banner blob ID (default 0)
+    description: "Web3 enthusiast and developer",
+    inviteCode: "WELCOME123",                  // required invite code
+    inviteKey: "0x789.",                       // required invite key
+    name: "john-doe",                          // globally unique username
+    self: walletAddress                        // user's wallet address
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log('User created successfully!');
+  } else {
+    console.error('Error creating user:', result.err);
+  }
+  ```
+</Accordion>
 
 ## 6. Verify Successful Setup (React Hook)
 
