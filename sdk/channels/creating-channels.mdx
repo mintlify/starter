@@ -17,13 +17,13 @@ function CreateChannel({ ownedUserId }) {
 
   async function handleCreateChannel() {
     const result = await createChannel({
-      amounts: [0, 0],                                   // Protocol fees (default: [0,0])
-      avatar: 12345,                                     // Walrus blob ID for avatar (optional, default 0)
-      banner: 67890,                                     // Walrus blob ID for banner (optional, default 0)
-      channelName: 'crypto-art',                         // Name: Allowed chars a-z, A-Z, 0-9, dashes
-      description: '**Digital art and NFT discussions**',// Markdown-supported description
-      ownedUserId,                                       // Creator's owned user ID
-      self: account.address                              // Creator's wallet address
+      amounts: [0, 0],   // Protocol fees (default: [0,0])
+      avatar: 12345,   // Walrus blob ID for avatar (optional, default 0)
+      banner: 67890,   // Walrus blob ID for banner (optional, default 0)
+      channelName: 'crypto-art',   // Name: Allowed chars a-z, A-Z, 0-9, dashes
+      description: '**Digital art and NFT discussions**',   // Markdown-supported description
+      ownedUserId,   // Creator's owned user ID
+      self: account.address   // Creator's wallet address
     });
 
     if (result.ok) {
