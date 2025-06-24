@@ -40,6 +40,39 @@ function LikePost({ authorSharedUserId, postId, ownedUserId }) {
 export default LikePost;
 ```
 
+<Accordion title="Direct JavaScript Example for Liking Posts" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                     // Required application ID
+    channelRegistryId: 'your-registry-id',    // Required channel registry ID
+    network: 'testnet'                        // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function likePost(authorSharedUserId, postId, ownedUserId, walletAddress) {
+    const result = await sageClient.likePost({
+      amounts: [0, 0],                        // Required protocol fees
+      authorSharedUserId,                     // Original post author's shared user ID
+      postId,                                 // ID of the post to like
+      ownedUserId,                            // Liker’s owned user ID
+      self: walletAddress                     // Liker’s wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post liked successfully!");
+    } else {
+      console.error("Error liking post:", result.err);
+    }
+  }
+  
+  likePost('author-shared-user-id', 'target-post-id', 'your-owned-user-id', walletAddress);
+  ```
+</Accordion>
+
 ## Important Notes
 
 - **Required Parameters**: Inclusion of `amounts`, `appId`, `network`, `authorSharedUserId`, `postId`, `ownedUserId`, and `self`.

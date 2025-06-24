@@ -30,3 +30,39 @@ function CreateComment({ parentPostId, authorSharedUserId, ownedUserId }) {
       description: 'Adding my perspective',           // Comment summary in markdown
       data: 'I completely agree with your points, especially regarding scalability...', // Main markdown
 ```
+
+<Accordion title="Direct JavaScript Example for Creating Comments" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                   // Required application ID
+    channelRegistryId: 'your-registry-id',  // Required channel registry ID
+    network: 'testnet'                      // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function createComment(parentPostId, authorSharedUserId, ownedUserId, walletAddress) {
+    const result = await sageClient.commentOnPost({
+      amounts: [0, 0],                                // Required protocol fees
+      authorSharedUserId,                             // Original post author's shared user ID
+      parentPostId,                                   // ID of the parent post
+      title: 'Great insights!',                       // Comment title in markdown
+      description: 'Adding my perspective',           // Comment summary in markdown
+      data: 'I completely agree with your points, especially regarding scalability...', // Main markdown content
+      ownedUserId,                                    // Commenter's owned user ID
+      self: walletAddress                             // Commenter's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Comment created successfully!");
+    } else {
+      console.error("Error creating comment:", result.err);
+    }
+  }
+  
+  createComment('parent-post-id', 'author-shared-user-id', 'your-owned-user-id', walletAddress);
+  ```
+</Accordion>

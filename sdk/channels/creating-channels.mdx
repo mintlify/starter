@@ -40,6 +40,41 @@ function CreateChannel({ ownedUserId }) {
 export default CreateChannel;
 ```
 
+<Accordion title="Direct JavaScript Example for Creating Channels" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                      // explicitly required unique app ID
+    channelRegistryId: 'your-registry-id',     // required channel registry ID
+    network: 'testnet'                         // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function createChannel() {
+    const result = await sageClient.createChannel({
+      amounts: [0, 0],                         // Protocol fees (default: [0,0])
+      avatar: 12345,                           // Walrus blob ID for avatar (optional)
+      banner: 67890,                           // Walrus blob ID for banner (optional)
+      channelName: 'crypto-art',               // Allowed characters: a-z, A-Z, 0-9, dash
+      description: '**Digital art and NFT discussions**', // Markdown-supported description
+      ownedUserId: 'your-owned-user-id',       // Creator's owned user ID
+      self: walletAddress                      // Creator's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel created successfully!");
+    } else {
+      console.error("Channel creation error:", result.err);
+    }
+  }
+  
+  createChannel();
+  ```
+</Accordion>
+
 ### Example Channel Use-cases
 
 - **Topic-based Communities**: `defi-protocols` for decentralized finance discussions.

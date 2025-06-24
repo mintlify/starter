@@ -40,6 +40,46 @@ function UpdateChannel({ channel }) {
 export default UpdateChannel;
 ```
 
+<Accordion title="Direct JavaScript Example for Updating Channels" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                      // Required application ID
+    channelRegistryId: 'your-registry-id',     // Required channel registry ID
+    network: 'testnet'                         // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function updateChannel(channel, walletAddress) {
+    const result = await sageClient.updateChannel({
+      amounts: [0, 0],                                     // Required protocol fees
+      avatar: channel.avatar,                              // Existing or updated blob ID
+      banner: channel.banner,                              // Existing or updated blob ID
+      channelId: channel.id,                               // Channel ID
+      channelName: channel.name,                           // Casing updates only
+      description: '**Updated community guidelines and information**', // Markdown-supported description
+      self: walletAddress                                  // Channel owner's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel updated successfully!");
+    } else {
+      console.error("Error updating channel:", result.err);
+    }
+  }
+  
+  updateChannel({
+    id: 'your-channel-id',
+    avatar: 12345,
+    banner: 67890,
+    name: 'crypto-art'
+  }, walletAddress);
+  ```
+</Accordion>
+
 ## Important Notes:
 
 - **Complete Replacement:** Updates are full replacements; explicitly provide all fields, using existing values for unchanged fieldsdocssage_sdk.

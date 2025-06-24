@@ -75,7 +75,7 @@ export default App;
 
 Your React application must handle wallet connections for transaction signing. Ensure your users connect their Sui wallet, and your app can request and execute signatures properly.
 
-<Accordion title="Direct Integration Example (Javascript)" icon="rectangle-code" iconType="sharp-solid">
+<Accordion title="Direct Javacript Integration Example" icon="rectangle-code" iconType="sharp-solid">
   ```javascript
   import { SageClient } from '@sageprotocol/sdk';
   
@@ -127,7 +127,7 @@ function CreateUserComponent() {
 export default CreateUserComponent;
 ```
 
-<Accordion title="Direct Integration Example (Javascript)" icon="rectangle-code" iconType="sharp-solid">
+<Accordion title="Direct Javacript Integration Example" icon="rectangle-code" iconType="sharp-solid">
   ```typescript
   const result = await sageClient.createUser({
     amounts: [0, 0],                           // required default amounts
@@ -186,7 +186,7 @@ const CreatePostComponent = ({ ownedUserId, sharedUserId }) => {
 export default CreatePostComponent;
 ```
 
-<Accordion title="Direct Integration Example (Javascript)" icon="rectangle-code" iconType="sharp-solid">
+<Accordion title="Direct Javacript Integration Example" icon="rectangle-code" iconType="sharp-solid">
   ```javascript
   const postResult = await sageClient.postToUser({
     amounts: [0, 0],                                // Required protocol fees

@@ -7,7 +7,7 @@ Users can bookmark posts explicitly to easily revisit preferred content.
 
 ## Adding a Favorite Post
 
-**React Hook Example for Adding Favorites:**
+**React Hook Example for Adding a Favorite Post:**
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -40,9 +40,40 @@ function FavoritePost({ ownedUserId, authorSharedUserId, postId }) {
 export default FavoritePost;
 ```
 
+<Accordion title="Direct JavaScript Example for Adding Favorite Posts" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                      // Required application ID
+    channelRegistryId: 'your-registry-id',     // Required channel registry ID
+    network: 'testnet'                         // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function addFavoritePost(ownedUserId, authorSharedUserId, postId) {
+    const result = await sageClient.addFavoritePost({
+      authorSharedUserId,                      // Author's shared user ID
+      postId,                                  // Post ID to bookmark
+      ownedUserId                              // Your owned user ID
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post bookmarked successfully!");
+    } else {
+      console.error("Error bookmarking post:", result.err);
+    }
+  }
+  
+  addFavoritePost('your-owned-user-id', 'author-shared-user-id', 'target-post-id');
+  ```
+</Accordion>
+
 ## Removing a Favorited Post
 
-**React Hook Example for Removing Favorites:**
+**React Hook Example for Removing a Favorite Post:**
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -74,9 +105,37 @@ function RemoveFavoritePost({ ownedUserId, postId }) {
 export default RemoveFavoritePost;
 ```
 
-## Important Notes
+<Accordion title="Direct JavaScript Example for Removing a Favorite Post" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                     // Required application ID
+    channelRegistryId: 'your-registry-id',    // Required channel registry ID
+    network: 'testnet'                        // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function removeFavoritePost(ownedUserId, postId) {
+    const result = await sageClient.removeFavoritePost({
+      postId,                                 // Post ID to remove from bookmarks
+      ownedUserId                             // Your owned user ID
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Post removed from bookmarks successfully!");
+    } else {
+      console.error("Error removing bookmark:", result.err);
+    }
+  }
+  
+  removeFavoritePost('your-owned-user-id', 'target-post-id');
+  ```
+</Accordion>
 
-### Verified Sage SDK Documentation Notes:
+## Important Notes
 
 - **Required Parameters:** Explicitly include `appId`, `network`, `authorSharedUserId`, `postId`, and `ownedUserId` for adding favorites. Removing favorites requires `appId`, `network`, `postId`, and `ownedUserId`.
 - **Explicit Transaction Signing:** Transactions must explicitly be signed and executed via the user's wallet.

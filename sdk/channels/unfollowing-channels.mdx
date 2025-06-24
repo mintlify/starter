@@ -35,3 +35,34 @@ function UnfollowChannel({ channelId }) {
 
 export default UnfollowChannel;
 ```
+
+<Accordion title="Direct JavaScript Example for Unfollowing Channels" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                     // Required application ID
+    channelRegistryId: 'your-registry-id',    // Required channel registry ID
+    network: 'testnet'                        // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function unfollowChannel(channelId, walletAddress) {
+    const result = await sageClient.unfollowChannel({
+      amounts: [0, 0],                        // Required protocol fee (default: [0,0])
+      channelId,                              // Channel to unfollow
+      self: walletAddress                     // User's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel unfollowed successfully!");
+    } else {
+      console.error("Error unfollowing channel:", result.err);
+    }
+  }
+  
+  unfollowChannel('your-channel-id', walletAddress);
+  ```
+</Accordion>

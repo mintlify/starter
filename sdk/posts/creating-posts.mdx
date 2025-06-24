@@ -46,6 +46,41 @@ function CreateChannelPost({ channelId, ownedUserId }) {
 export default CreateChannelPost;
 ```
 
+<Accordion title="Direct JavaScript Example for Posting in Channels" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                     // Required application ID
+    channelRegistryId: 'your-registry-id',    // Required channel registry ID
+    network: 'testnet'                        // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function postToChannel(channelId, ownedUserId, walletAddress) {
+    const result = await sageClient.postToChannel({
+      amounts: [0, 0],                                 // Required protocol fees
+      channelId,                                       // Target channel ID
+      title: 'Sui vs Ethereum: An In-Depth Analysis',  // Post title in markdown
+      description: 'Comparing scalability, security, and more.', // Markdown summary
+      data: 'Sui provides high throughput and low latency compared to Ethereum...', // Main markdown content
+      ownedUserId,                                     // Poster's owned user ID
+      self: walletAddress                              // Poster's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel post created successfully!");
+    } else {
+      console.error("Error creating channel post:", result.err);
+    }
+  }
+  
+  postToChannel('your-channel-id', 'your-owned-user-id', walletAddress);
+  ```
+</Accordion>
+
 ## Posting on User Profiles
 
 Users can directly post onto profiles for personal interactions, endorsements, or recommendations.
@@ -86,6 +121,41 @@ function PostToUser({ targetSharedUserId, ownedUserId }) {
 
 export default PostToUser;
 ```
+
+<Accordion title="Direct JavaScript Example for Posting to User Profiles" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                    // Required application ID
+    channelRegistryId: 'your-registry-id',   // Required channel registry ID
+    network: 'testnet'                       // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function postToUser(targetSharedUserId, ownedUserId, walletAddress) {
+    const result = await sageClient.postToUser({
+      amounts: [0, 0],                                  // Required protocol fees
+      sharedUserId: targetSharedUserId,                 // Target user's shared user ID
+      title: 'Professional Endorsement',                // Post title in markdown
+      description: 'Recognizing outstanding contributions', // Markdown summary
+      data: 'Thanks for your amazing support and mentorship!', // Main markdown content
+      ownedUserId,                                      // Poster's owned user ID
+      self: walletAddress                               // Poster's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Posted to user profile successfully!");
+    } else {
+      console.error("Error posting to user profile:", result.err);
+    }
+  }
+  
+  postToUser('target-shared-user-id', 'your-owned-user-id', walletAddress);
+  ```
+</Accordion>
 
 ### Content Guidelines and Best Practices
 

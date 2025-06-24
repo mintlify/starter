@@ -41,6 +41,38 @@ function AddModerator({ channelId, moderatorSharedUserId }) {
 export default AddModerator;
 ```
 
+<Accordion title="Direct Javascript Example for Adding Moderators" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                   // Explicitly required application ID
+    channelRegistryId: 'your-registry-id',  // Required channel registry ID
+    network: 'testnet'                      // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function addModerator(channelId, moderatorSharedUserId, walletAddress) {
+    const result = await sageClient.addChannelModerator({
+      amounts: [0, 0],                       // Required protocol fees
+      channelId,                             // Channel ID to moderate
+      sharedUserId: moderatorSharedUserId,   // Shared user ID to grant moderator role
+      self: walletAddress                    // Channel owner's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Moderator added successfully!");
+    } else {
+      console.error("Error adding moderator:", result.err);
+    }
+  }
+  
+  addModerator('your-channel-id', 'moderator-shared-user-id', walletAddress);
+  ```
+</Accordion>
+
 ## Removing Moderators
 
 **React Hook Example for Removing Moderators**:
@@ -55,12 +87,12 @@ function RemoveModerator({ channelId, moderatorSharedUserId }) {
 
   async function handleRemoveModerator() {
     const result = await removeModerator({
-      amounts: [0, 0],                           // Required protocol fees
-      appId: 'your-app-id',                      // Explicitly required application ID
-      network: 'testnet',                        // 'testnet' or 'mainnet'
-      channelId,                                 // Channel ID to moderate
-      sharedUserId: moderatorSharedUserId,       // User's shared ID whose moderator role will be revoked
-      self: account.address                      // Channel owner's wallet address
+      amounts: [0, 0],          // Required protocol fees
+      appId: 'your-app-id',     // Explicitly required application ID
+      network: 'testnet',       // 'testnet' or 'mainnet'
+      channelId,                // Channel ID to moderate
+      sharedUserId: moderatorSharedUserId,      // User's shared ID whose moderator role will be revoked
+      self: account.address     // Channel owner's wallet address
     });
 
     if (result.ok) {
@@ -76,3 +108,37 @@ function RemoveModerator({ channelId, moderatorSharedUserId }) {
 
 export default RemoveModerator;
 ```
+
+<Accordion title="Direct Javascript Example for Removing Moderators" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                   // Explicitly required application ID
+    channelRegistryId: 'your-registry-id',  // Required channel registry ID
+    network: 'testnet'                      // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function removeModerator(channelId, moderatorSharedUserId, walletAddress) {
+    const result = await sageClient.removeChannelModerator({
+      amounts: [0, 0],                       // Required protocol fees
+      channelId,                             // Channel ID to moderate
+      sharedUserId: moderatorSharedUserId,   // Shared user ID whose moderator role will be revoked
+      self: walletAddress                    // Channel owner's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Moderator removed successfully!");
+    } else {
+      console.error("Error removing moderator:", result.err);
+    }
+  }
+  
+  removeModerator('your-channel-id', 'moderator-shared-user-id', walletAddress);
+  ```
+</Accordion>
+
+## 

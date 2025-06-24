@@ -38,3 +38,37 @@ function FollowChannel({ channelId, ownedUserId }) {
 
 export default FollowChannel;
 ```
+
+<Accordion title="Direct JavaScript Example for Following Channels" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: 'your-app-id',                      // Required application ID
+    channelRegistryId: 'your-registry-id',     // Required channel registry ID
+    network: 'testnet'                         // 'testnet' or 'mainnet'
+  });
+  
+  await sageClient.initialize();
+  
+  async function followChannel(channelId, ownedUserId, walletAddress) {
+    const result = await sageClient.followChannel({
+      amounts: [0, 0],                         // Required, typically [0, 0]
+      channelId,                               // Channel ID to follow
+      ownedUserId,                             // Follower's owned user object ID
+      self: walletAddress                      // Follower's wallet address
+    });
+  
+    if (result.ok) {
+      await signAndExecuteTransaction({ transaction: result.transaction });
+      console.log("Channel followed successfully!");
+    } else {
+      console.error("Error following channel:", result.err);
+    }
+  }
+  
+  followChannel('your-channel-id', 'your-owned-user-id', walletAddress);
+  ```
+</Accordion>
+
+## 
