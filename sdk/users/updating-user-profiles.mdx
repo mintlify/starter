@@ -5,7 +5,7 @@ description: " "
 
 Users can clearly express their identities by updating their profiles. Profile updates support markdown formatting and media asset references. All fields must be explicitly provided—if a field is intended to remain unchanged, pass its current value.
 
-**React Hook Example for Profile Updates**:
+**Updating User Profiles using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -43,6 +43,27 @@ function UpdateProfile({ ownedUserId, currentProfile }) {
 
 export default UpdateProfile;
 ```
+
+<Accordion title="Updating User Profiles Using Direct JavaScript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const updateUserResult = await sageClient.updateUser({
+    amounts: [0, 0],                                   // Required, typically [0, 0]
+    avatar: currentProfile.avatar,                     // Existing or new avatar blob ID
+    banner: currentProfile.banner,                     // Existing or new banner blob ID
+    description: "Blockchain enthusiast and Web3 developer", // Markdown-supported description
+    name: currentProfile.name,                         // Username casing updates only
+    ownedUserId: 'your-owned-user-id',                 // User's owned user object ID
+    self: walletAddress                                // User's wallet address
+  });
+  
+  if (updateUserResult.ok) {
+    await signAndExecuteTransaction({ transaction: updateUserResult.transaction });
+    console.log("Profile updated successfully!");
+  } else {
+    console.error("Profile update error:", updateUserResult.err);
+  }
+  ```
+</Accordion>
 
 ### Important Notes:
 

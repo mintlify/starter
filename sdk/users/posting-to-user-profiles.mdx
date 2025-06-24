@@ -5,7 +5,7 @@ description: " "
 
 Users can post directly onto other users' profiles for interactions like endorsements, community appreciation, or personal engagement. Posts support rich markdown content.
 
-**React Hook Example for Posting to User Profiles**:
+**Posting to User Profiles Using React Integration**:
 
 ```typescript
 import { usePost } from '@sageprotocol/sdk/react';
@@ -42,9 +42,32 @@ function PostToUser({ targetSharedUserId, ownedUserId }) {
 export default PostToUser;
 ```
 
+<Accordion title="Posting to User Profiles Using Direct JavaScript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const postResult = await sageClient.postToUser({
+    amounts: [0, 0],                                // Required protocol fee amounts
+    appId: 'your-app-id',                           // Required application ID
+    network: 'testnet',                             // 'testnet' or 'mainnet'
+    sharedUserId: 'target-user-shared-id',          // Target user's shared user ID
+    ownedUserId: 'your-owned-user-id',              // Poster's owned user ID
+    self: walletAddress,                            // Poster's wallet address
+    title: '🌟 Professional Recommendation',         // Post title in markdown
+    description: 'Endorsement for exceptional work',// Markdown summary
+    data: 'Your contributions to the project were outstanding!' // Main markdown content
+  });
+  
+  if (postResult.ok) {
+    await signAndExecuteTransaction({ transaction: postResult.transaction });
+    console.log("Posted to user profile successfully!");
+  } else {
+    console.error('Error posting to user profile:', postResult.err);
+  }
+  ```
+</Accordion>
+
 ## Important Notes:
 
 - **Protocol Fees**: Explicitly set to `[0, 0]` by default.
-- `appId`**and ** `network`: Explicitly required for application context and blockchain network selection.
+- `appId` and `network`: Explicitly required for application context and blockchain network selection.
 - **Markdown Content**: Supported in `title`, `description`, and `data` fields.
 - **Transaction Execution**: Transactions must always be signed and executed explicitly via the user's connected walletdocssage_sdksage_sdk.

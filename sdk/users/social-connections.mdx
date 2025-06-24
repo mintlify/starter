@@ -9,7 +9,7 @@ Sage Protocol supports two primary types of social relationships, which you can 
 
 A one-way connection similar to platforms like X (Twitter), enabling you to follow other users:
 
-**React Hook Example for Following Users**:
+**Following a User Using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -45,11 +45,31 @@ function FollowUser({ ownedUserId, targetSharedUserId }) {
 export default FollowUser;
 ```
 
+<Accordion title="Following a User Using Direct JavaScript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.followUser({
+    amounts: [0, 0],                                 // Required protocol fees (default: [0,0])
+    appId: 'your-app-id',                            // Required application ID
+    network: 'testnet',                              // 'testnet' or 'mainnet', required
+    followSharedUserId: 'target-user-shared-id',     // Target user's shared user ID
+    ownedUserId: 'your-owned-user-id',               // Your owned user object ID
+    self: walletAddress                              // Your wallet address
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Successfully followed the user!");
+  } else {
+    console.error("Error following user:", result.err);
+  }
+  ```
+</Accordion>
+
 ## Friendships (Two-Way)
 
 A mutual connection, akin to friend relationships on platforms like Facebook. You can initiate a friendship or accept incoming friend requests:
 
-**React Hook Example for Friendships**:
+**Friending a User Using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -84,6 +104,26 @@ function FriendUser({ sharedUserId, friendSharedUserId }) {
 
 export default FriendUser;
 ```
+
+<Accordion title="Friending a User using Direct Javascript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const friendResult = await sageClient.friendUser({
+    amounts: [0, 0],                              // Required protocol fees (default: [0,0])
+    appId: 'your-app-id',                         // Required application ID
+    network: 'testnet',                           // 'testnet' or 'mainnet', required
+    friendSharedUserId: 'friend-user-shared-id',  // Target user's shared user object ID
+    sharedUserId: 'your-shared-user-id',          // Your shared user object ID
+    self: walletAddress                           // Your wallet address
+  });
+  
+  if (friendResult.ok) {
+    await signAndExecuteTransaction({ transaction: friendResult.transaction });
+    console.log("Friend request successful!");
+  } else {
+    console.error("Error sending friend request:", friendResult.err);
+  }
+  ```
+</Accordion>
 
 ## Important Notes:
 

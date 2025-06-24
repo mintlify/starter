@@ -7,6 +7,8 @@ Users can favorite channels, posts, and other users to easily maintain personali
 
 ## Favorite Channels
 
+**Favoriting a Channel using React Integration**:
+
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
 import { useWallet } from '@suiet/wallet-kit';
@@ -37,7 +39,27 @@ function FavoriteChannel({ ownedUserId, channelId }) {
 export default FavoriteChannel;
 ```
 
+<Accordion title="Favorite Channel Using Direct Javascript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.addFavoriteChannel({
+    appId: 'your-app-id',                 // Required
+    channelId: 'target-channel-id',       // Channel ID to favorite
+    network: 'testnet',                   // 'testnet' or 'mainnet', required
+    ownedUserId: 'your-owned-user-id'     // Your owned user ID
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Channel favorited successfully!");
+  } else {
+    console.error("Error favoriting channel:", result.err);
+  }
+  ```
+</Accordion>
+
 ## Favorite Posts
+
+**Favoriting a Post using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -70,7 +92,28 @@ function FavoritePost({ ownedUserId, authorSharedUserId, postId }) {
 export default FavoritePost;
 ```
 
+<Accordion title="Favoriting a Post Using Direct Javascript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.addFavoritePost({
+    appId: 'your-app-id',                     // Required
+    authorSharedUserId: 'author-shared-user-id', // Post author's shared user ID
+    postId: 'target-post-id',                 // Post ID to favorite
+    network: 'testnet',                       // 'testnet' or 'mainnet', required
+    ownedUserId: 'your-owned-user-id'         // Your owned user ID
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Post favorited successfully!");
+  } else {
+    console.error("Error favoriting post:", result.err);
+  }
+  ```
+</Accordion>
+
 ## Favorite Users
+
+**Favoriting a User using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -102,6 +145,24 @@ function FavoriteUser({ ownedUserId, favoriteSharedUserId }) {
 export default FavoriteUser;
 ```
 
+<Accordion title="Favoriting a User Using Direct Javascript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.addFavoriteUser({
+    appId: 'your-app-id',                     // Required
+    favoriteSharedUserId: 'favorite-user-shared-id', // Shared ID of the user to favorite
+    network: 'testnet',                       // 'testnet' or 'mainnet', required
+    ownedUserId: 'your-owned-user-id'         // Your owned user ID
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("User favorited successfully!");
+  } else {
+    console.error("Error favoriting user:", result.err);
+  }
+  ```
+</Accordion>
+
 ## Removing Favorites
 
 Use corresponding removal methods provided by the same hooks, with similar patterns:
@@ -110,7 +171,7 @@ Use corresponding removal methods provided by the same hooks, with similar patte
 - `removeFavoritePost`
 - `removeFavoriteUser`
 
-**Example (Remove Favorite Post)**:
+**Removing a Favorite Post Using React Integration:**
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -140,8 +201,26 @@ function RemoveFavoritePost({ ownedUserId, postId }) {
 export default RemoveFavoritePost;
 ```
 
+<Accordion title="Removing a Favorite Post Using Direct JavaScript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.removeFavoritePost({
+    appId: 'your-app-id',                 // Required application ID
+    network: 'testnet',                   // 'testnet' or 'mainnet', required
+    postId: 'favorite-post-id',           // Post ID to remove from favorites
+    ownedUserId: 'your-owned-user-id'     // Your owned user ID
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Post removed from favorites successfully!");
+  } else {
+    console.error("Error removing favorite post:", result.err);
+  }
+  ```
+</Accordion>
+
 ## Important Notes:
 
-- `appId`**and ** `network`**Parameters** : Explicitly required in add operations for application and network context.
+- `appId`\*\*and \*\* `network`**Parameters** : Explicitly required in add operations for application and network context.
 - **Ownership IDs**: Clearly distinguish between "owned" (your user's ID) and "shared" (other users' IDs) objects when favoriting.
 - **Signing Transactions**: All favorite actions explicitly require transaction signing and execution via user wallets.

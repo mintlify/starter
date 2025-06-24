@@ -5,7 +5,7 @@ description: " "
 
 Users earn \$TRUST token rewards based on verified social contributions. These rewards accumulate during defined epochs, allowing users to claim them at intervals convenient for them.
 
-**React Hook Example for Claiming Rewards**:
+**Claiming Rewards Using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -41,6 +41,25 @@ function ClaimRewards({ epoch, ownedUserId, sharedUserId }) {
 
 export default ClaimRewards;
 ```
+
+<Accordion title="Claiming Rewards Using Direct JavaScript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.claimReward({
+    epoch: 1704067200000,                     // Sui timestamp for the epoch period
+    appId: 'your-app-id',                     // Explicitly required application ID
+    network: 'testnet',                       // Explicitly required network ('testnet' or 'mainnet')
+    ownedUserId: 'your-owned-user-id',        // User's owned user object ID
+    sharedUserId: 'your-shared-user-id'       // User's shared user object ID
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Rewards claimed successfully!");
+  } else {
+    console.error("Error claiming rewards:", result.err);
+  }
+  ```
+</Accordion>
 
 ## Important Notes:
 

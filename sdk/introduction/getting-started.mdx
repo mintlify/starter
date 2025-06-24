@@ -53,10 +53,6 @@ The Sage SDK supports two integration methods:
 - **React Integration**: Use built-in React hooks and the `SageProvider` for state-managed React apps.
 - **Direct JavaScript Integration**: Directly use the `SageClient` class for explicit SDK management.
 
-<Info>
-  The following steps cover the React Integration Setup. If you want to integrate directly, see the [Direct Javascript Integration Guide](#).
-</Info>
-
 ## 4. React Direct Integration Setup
 
 Use built-in React hooks and the SageProvider to manage state in your React app:
@@ -78,6 +74,20 @@ export default App;
 ```
 
 Your React application must handle wallet connections for transaction signing. Ensure your users connect their Sui wallet, and your app can request and execute signatures properly.
+
+<Accordion title="Direct Integration Example (Javascript)" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sage = new SageClient({
+    appId: 'your-app-id',                   // explicitly required unique app context
+    channelRegistryId: 'your-registry-id',  // required channel registry ID
+    network: 'testnet'                      // or 'mainnet' (default: 'mainnet')
+  });
+  
+  await sage.initialize();
+  ```
+</Accordion>
 
 ## 5. Create Your First User
 
@@ -117,7 +127,7 @@ function CreateUserComponent() {
 export default CreateUserComponent;
 ```
 
-<Accordion title="Direct Javascript Integration Example" icon="sparkles">
+<Accordion title="Direct Integration Example (Javascript)" icon="rectangle-code" iconType="sharp-solid">
   ```typescript
   const result = await sageClient.createUser({
     amounts: [0, 0],                           // required default amounts
@@ -175,6 +185,29 @@ const CreatePostComponent = ({ ownedUserId, sharedUserId }) => {
 
 export default CreatePostComponent;
 ```
+
+<Accordion title="Direct Integration Example (Javascript)" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const postResult = await sageClient.postToUser({
+    amounts: [0, 0],                                // Required protocol fees
+    appId: 'your-app-id',                           // Required application ID
+    network: 'testnet',                             // 'testnet' or 'mainnet'
+    sharedUserId: 'target-user-shared-id',          // Target user's shared user object
+    title: 'Hello Sage!',                           // Post headline/title (markdown supported)
+    description: 'My first decentralized post',     // Summary description (markdown supported)
+    data: 'Excited to join the Sage community!',    // Main post content (markdown supported)
+    ownedUserId: 'your-owned-user-id',              // Poster's owned user object
+    self: walletAddress                             // Poster's wallet address
+  });
+  
+  if (postResult.ok) {
+    await signAndExecuteTransaction({ transaction: postResult.transaction });
+    console.log('Post created successfully!');
+  } else {
+    console.error('Error creating post:', postResult.err);
+  }
+  ```
+</Accordion>
 
 ## 7. Next Steps
 

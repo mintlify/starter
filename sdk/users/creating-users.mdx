@@ -5,7 +5,7 @@ description: " "
 
 Establishing a user identity currently requires valid invite codes and keys. Using Sage’s React hooks simplifies the user creation process within your React application.
 
-**React Hook Example**:
+**Creating a User with Invites Using React Integration**:
 
 ```typescript
 import { useUser } from '@sageprotocol/sdk/react';
@@ -44,3 +44,25 @@ function CreateUser() {
 
 export default CreateUser;
 ```
+
+<Accordion title="Creating a User with Invites Using Direct JavaScript Integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const createUserResult = await sageClient.createUser({
+    amounts: [0, 0],                           // Required; typically [0,0] by default
+    avatar: 0,                                 // Optional avatar blob ID (default: 0)
+    banner: 0,                                 // Optional banner blob ID (default: 0)
+    description: "Blockchain enthusiast",      // Supports markdown formatting
+    inviteCode: "your-invite-code",            // Required invite code
+    inviteKey: "your-invite-key",              // Required invite key
+    name: "john-doe",                          // Globally unique username
+    self: walletAddress                        // User's wallet address
+  });
+  
+  if (createUserResult.ok) {
+    await signAndExecuteTransaction({ transaction: createUserResult.transaction });
+    console.log("User created successfully!");
+  } else {
+    console.error("User creation error:", createUserResult.err);
+  }
+  ```
+</Accordion>

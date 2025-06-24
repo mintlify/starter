@@ -32,6 +32,20 @@ const App = () => (
 export default App;
 ```
 
+<Accordion title="Example Direct Javascript Integration using appId" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  import { SageClient } from '@sageprotocol/sdk';
+  
+  const sageClient = new SageClient({
+    appId: '0x123...',                    // Your application's unique identifier
+    channelRegistryId: '0x456...',        // Registry managing channels specific to your app
+    network: 'testnet'                    // 'mainnet' or 'testnet'
+  });
+  
+  await sageClient.initialize();
+  ```
+</Accordion>
+
 This structure demonstrates how applications utilize distinct contexts (`appId`) to maintain content isolation while benefiting from universal user identities.
 
 ## Invite-Based User Creation (Temporary)
@@ -79,6 +93,28 @@ function CreateUser() {
 export default CreateUser;
 ```
 
+<Accordion title="Example Direct JavaScript Integration for Creating Users with Invites" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.createUser({
+    amounts: [0, 0],                            // required default amounts
+    avatar: 0,                                  // optional avatar blob ID (default: 0)
+    banner: 0,                                  // optional banner blob ID (default: 0)
+    description: "Web3 enthusiast",             // profile description (markdown supported)
+    inviteCode: "your-invite-code",             // required invite code
+    inviteKey: "your-invite-key",               // required invite key
+    name: "john-doe",                           // globally unique username
+    self: walletAddress                         // user's wallet address
+  });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("User successfully created!");
+  } else {
+    console.error(result.err);
+  }
+  ```
+</Accordion>
+
 ## Transaction Patterns
 
 Sage SDK operations involving blockchain transactions follow a two-step pattern:
@@ -113,6 +149,21 @@ const UserActionComponent = () => {
 export default UserActionComponent;
 ```
 
+<Accordion title="Example transaction workflow using direct JavaScript integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.someAction({ /* parameters */ });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Transaction executed successfully!");
+  } else {
+    console.error(result.err);
+  }
+  ```
+
+  Replace `someAction` with the specific method name you're invoking from `sageClient`. This accurately represents the direct JavaScript integration pattern documented in your SDK.
+</Accordion>
+
 This approach ensures secure, transparent blockchain interactions.
 
 ## Error Handling
@@ -136,6 +187,21 @@ if (result.ok) {
 ```
 
 Always verify transactions by checking the `ok` property before proceeding.
+
+<Accordion title="Recommended Direct JavaScript Error Handling Pattern" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  const result = await sageClient.someAction({ /* parameters */ });
+  
+  if (result.ok) {
+    await signAndExecuteTransaction({ transaction: result.transaction });
+    console.log("Success!");
+  } else {
+    console.error("Error:", result.err);
+  }
+  ```
+
+  Replace `someAction` with the specific method you’re using from the `sageClient`.
+</Accordion>
 
 ## Event Monitoring and Querying
 
@@ -174,6 +240,29 @@ function UserEventsComponent() {
 
 export default UserEventsComponent;
 ```
+
+<Accordion title="Example: Querying new user creation events using direct JavaScript integration" icon="rectangle-code" iconType="sharp-solid">
+  ```javascript
+  // Monitor new user creation events
+  const result = await sageClient.queryUserCreateEvents({});
+  
+  result.events.forEach(event => {
+    console.log(`New user created: ${event.userName} (User ID: ${event.userId})`);
+    console.log(`Owned User ID: ${event.userOwnedId}, Shared User ID: ${event.userSharedId}`);
+    if (event.referredBy) {
+      console.log(`Referred by user ID: ${event.referredBy}`);
+    }
+  });
+  
+  // Continue querying from the last event fetched
+  if (result.hasNextPage) {
+    const nextBatch = await sageClient.queryUserCreateEvents({
+      cursor: result.nextCursor
+    });
+    // Process next batch similarly
+  }
+  ```
+</Accordion>
 
 ## React Context and Hooks
 
