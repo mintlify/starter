@@ -47,15 +47,18 @@
                 "group": "Guia de Estilo",
                 "icon": "palette",
                 "pages": [
-                  "guia-de-desenvolvimento/guia-de-estilo/conjuntos-de-dados-e-tabelas",
-                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas-tabelas"
+                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-datasets-e-tabelas",
+                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas"
                 ]
               },
               {
-                "group": "Contribuindo com o Projeto",
+                "group": "dbt",
                 "icon": "people-carry-box",
                 "pages": [
-                  "guia-de-desenvolvimento/contribuindo-com-o-projeto/instalacao-dbt"
+                  "guia-de-desenvolvimento/dbt/instalacao-dbt",
+                  "guia-de-desenvolvimento/dbt/estrutura-pastas",
+                  "guia-de-desenvolvimento/dbt/testes"
+
                 ]
               }
             ]

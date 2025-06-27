@@ -1,20 +1,10 @@
 ---
-title: "Convenções para Nomeação e Ordenamento de Colunas de Tabelas"
+title: "Nomenclatura e Organização de Campos"
 description: "Guia de boas práticas para nomear, ordenar e padronizar colunas de tabelas no Data Lake, promovendo clareza, consistência e facilidade de uso."
 ---
 
 
-## Quais variáveis manter, quais adicionar e quais remover
-
-Mantemos nossas tabelas parcialmente [`normalizadas`](https://www.guru99.com/database-normalization.html), e temos regras para quais variáveis incluirmos em produção. Elas são:
-
-*   Remover variáveis de nomes de entidades que já estão no Data Lake. Exemplo: retirar `nome_estabelecimento` da tabela que já inclui `id_cnes`.
-*   Remover variáveis já utilizadas como partição. Exemplo: remover `ano` e `data` se a tabela é particionada nessas duas dimensões.
-*   Manter todas as chaves primárias que já vêm com a tabela, mas (1) adicionar chaves estrangeiras relevantes (ex.  `id_municipio`) e (2) retirar chaves estrangeiras irrelevantes (e.g. `regiao`).
-
-> **Nota:** Busque sempre o equilíbrio entre normalização e performance de consulta. Evite redundâncias desnecessárias, mas mantenha colunas que facilitam análises frequentes.
-
-## Nomeação & Ordenamento dos Campos
+## Nomeação
 
 ### Padrão Geral de Nomeação
 
@@ -95,6 +85,9 @@ Padronize a ordem das colunas para facilitar a exploração e consistência:
 5. **Colunas de partição:** Colunas criadas para particionamento (geralmente ao final).
    - Ex: `ano_particao`, `mes_particao`, `data_particao`
 
+> **Exceção:** nos casos de tabelas estritamente normalizadas, manter as chaves primárias e estrageiras agrupadas no início.
+
+
 ## Representação dos Valores
 
 ### Limpando STRINGs
@@ -116,6 +109,17 @@ Padronize a ordem das colunas para facilitar a exploração e consistência:
 Tabelas particionadas são divididas em segmentos (partições) para facilitar o gerenciamento e consulta. Recomendamos particionar tabelas grandes. Veja mais na [documentação da Google Cloud](https://cloud.google.com/bigquery/docs/partitioned-tables).
 
 Em geral, o particionamento é feito sobre datas, criando-se as colunas: `ano_particao`, `mes_particao`, `data_particao` com formatos 'YYYY', 'MM', 'YYYY-MM-DD'. Essas colunas têm tratamento especial: normalmente não são incluídas em SELECTs finais, mas definem a estrutura da tabela e aparecem ao final da ordem de colunas.
+
+
+## Quais variáveis manter, quais adicionar e quais remover
+
+Mantemos nossas tabelas parcialmente [`normalizadas`](https://www.guru99.com/database-normalization.html), e temos regras para quais variáveis incluirmos em produção. Elas são:
+
+*   Remover variáveis já utilizadas como partição. Exemplo: remover `ano` e `data` se a tabela é particionada nessas duas dimensões.
+*   Manter todas as chaves primárias que já vêm com a tabela, mas (1) adicionar chaves estrangeiras relevantes (ex.  `id_municipio`) e (2) retirar chaves estrangeiras irrelevantes (e.g. `regiao`).
+
+> **Nota:** Busque sempre o equilíbrio entre normalização e performance de consulta. Evite redundâncias desnecessárias, mas mantenha colunas que facilitam análises frequentes.
+
 
 ## Referências
 
