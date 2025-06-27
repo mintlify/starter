@@ -9,6 +9,6 @@ A segurança do ambiente é reforçada com o uso do Google Cloud Armor, que atua
 
 O gerenciamento de certificados TLS é automatizado por meio de certificados gerenciados pelo GKE, assegurando comunicação segura via HTTPS sem a necessidade de manutenção manual dos certificados. O roteamento do tráfego é realizado pelo Istio Gateway, que distribui as requisições para os serviços internos conforme regras definidas, permitindo flexibilidade e controle detalhado sobre o fluxo de dados.
 
-Além disso, a solução contempla mecanismos de autenticação e autorização baseados em JWT, garantindo que apenas usuários ou sistemas autenticados possam acessar determinados serviços, conforme as necessidades de cada aplicação.
+Além disso, a solução contempla mecanismos de autenticação e autorização baseados em JWT, sendo que os tokens são emitidos pelo Identidade Carioca. Isso garante que apenas usuários ou sistemas autenticados possam acessar determinados serviços, conforme as necessidades de cada aplicação.
 
 Em resumo, a arquitetura combina práticas recomendadas de exposição de serviços, automação de segurança, gerenciamento de certificados e controle de acesso, utilizando recursos nativos do GCP e Istio para proporcionar um ambiente seguro, escalável e de fácil manutenção.

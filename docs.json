@@ -72,18 +72,22 @@
           },
           {
             "group": "Busca",
+            "icon": "magnifying-glass",
             "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
           },
           {
             "group": "eAí Agent",
+            "icon": "robot",
             "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
           },
           {
             "group": "Registro Municipal Integrado",
+            "icon": "database",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
           },
           {
             "group": "GO",
+            "icon": "briefcase",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
           }
         ]
