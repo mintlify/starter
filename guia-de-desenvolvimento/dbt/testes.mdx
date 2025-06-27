@@ -1,0 +1,53 @@
+---
+title: "Padrões de Testes dbt"
+description: "Guia de boas práticas para nomeação, organização e implementação de testes em projetos dbt no Data Lake."
+---
+
+## Convenções de Nomeação de Testes
+
+Todos os testes devem seguir o padrão:
+
+```
+{layer}_{dataset}_{table}__{column}__{test_name}
+```
+
+- `layer`: camada de dados (ex: raw, staging, mart)
+- `dataset`: domínio de negócio ou sistema (ex: saude, educacao)
+- `table`: tabela testada
+- `column`: coluna testada (ou 'table' para testes de tabela)
+- `test_name`: nome do teste
+
+**Exemplo:**
+- `mart_saude_fct_atendimentos__id_atendimento__unique`
+
+## Tipos de Testes Obrigatórios
+
+1. **Chave Primária:**
+   - Testes de unicidade e não nulo para a coluna identificadora principal.
+2. **Chave Estrangeira:**
+   - Testes de relacionamento para garantir integridade referencial.
+3. **Qualidade de Dados:**
+   - Testes para valores esperados, formatos válidos e faixas de valores.
+
+## Testes Customizados
+
+- Use arquivos SQL singulares para regras de negócio complexas.
+- Para restrições compostas, utilize testes de combinação única de colunas.
+
+## Severidade dos Testes
+
+- Configure a severidade dos testes conforme o impacto no negócio:
+  - `error`: falha crítica
+  - `warn`: alerta
+
+## Boas Práticas
+
+- Nomeie todos os testes de acordo com o padrão.
+- Documente o propósito de cada teste.
+- Utilize macros para testes genéricos reutilizáveis.
+- Mantenha os arquivos de teste próximos aos modelos testados.
+
+## Referências
+
+- [Guia oficial dbt](https://docs.getdbt.com/docs/build/tests)
+- [Padrões internos de testes](../rules/dbt-test-standards.mdc) 

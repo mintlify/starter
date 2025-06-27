@@ -48,7 +48,7 @@
                 "icon": "palette",
                 "pages": [
                   "guia-de-desenvolvimento/guia-de-estilo/conjuntos-de-dados-e-tabelas",
-                  "guia-de-desenvolvimento/guia-de-estilo/campos"
+                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas-tabelas"
                 ]
               },
               {

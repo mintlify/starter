@@ -1,0 +1,124 @@
+---
+title: "Convenções para Nomeação e Ordenamento de Colunas de Tabelas"
+description: "Guia de boas práticas para nomear, ordenar e padronizar colunas de tabelas no Data Lake, promovendo clareza, consistência e facilidade de uso."
+---
+
+
+## Quais variáveis manter, quais adicionar e quais remover
+
+Mantemos nossas tabelas parcialmente [`normalizadas`](https://www.guru99.com/database-normalization.html), e temos regras para quais variáveis incluirmos em produção. Elas são:
+
+*   Remover variáveis de nomes de entidades que já estão no Data Lake. Exemplo: retirar `nome_estabelecimento` da tabela que já inclui `id_cnes`.
+*   Remover variáveis já utilizadas como partição. Exemplo: remover `ano` e `data` se a tabela é particionada nessas duas dimensões.
+*   Manter todas as chaves primárias que já vêm com a tabela, mas (1) adicionar chaves estrangeiras relevantes (ex.  `id_municipio`) e (2) retirar chaves estrangeiras irrelevantes (e.g. `regiao`).
+
+> **Nota:** Busque sempre o equilíbrio entre normalização e performance de consulta. Evite redundâncias desnecessárias, mas mantenha colunas que facilitam análises frequentes.
+
+## Nomeação & Ordenamento dos Campos
+
+### Padrão Geral de Nomeação
+
+Todos os nomes de colunas devem seguir o padrão estruturado:
+
+`[id_][<entidade>_]<dimensão>[_<unidade>]`
+
+#### Componentes do padrão:
+
+- **`id_` (Prefixo opcional):**
+    - Use apenas para chaves primárias ou estrangeiras que referenciam entidades do Data Lake.
+    - Exemplo: `id_cnes`, `id_material`, `id_municipio`.
+    - **Exceção:** Para identificadores amplamente reconhecidos como `cpf` ou `cns`, o prefixo pode ser omitido para melhor legibilidade.
+    - **Racional:** Agrupa as chaves, facilitando a exploração em ferramentas de dados.
+
+- **`<entidade>_` (Prefixo opcional):**
+    - Indica a entidade de negócio da coluna, se diferente da entidade principal da tabela. Comum em tabelas desnormalizadas (camada Marts).
+    - Exemplo: Em uma tabela de `estoque`, a forma farmacêutica do material seria `material_forma_farmaceutica`. Em uma tabela de `material`, seria apenas `forma_farmaceutica`.
+    - **Recomendação:** Em tabelas altamente desnormalizadas, use sempre o prefixo da entidade para todas as colunas, facilitando buscas em BI.
+
+- **`<dimensão>` (Obrigatório):**
+    - Parte central do nome, descreve o atributo, métrica ou característica representada.
+    - Seja conciso e descritivo. Exemplo: `nome`, `nascimento_data`, `quantidade_atendimentos`, `valor_total`, `tipo_logradouro`.
+
+- **`_<unidade>` (Sufixo opcional):**
+    - Indica o tipo semântico ou unidade do dado. Melhora a legibilidade e entendimento.
+    - **Sufixos permitidos:**
+        - `_nome`: nomes ou descrições
+        - `_data`: datas
+        - `_datahora`: timestamps/datetime
+        - `_valor`: valores monetários ou numéricos gerais
+        - `_quantidade`: contagens ou quantidades
+        - `_proporcao`: porcentagens (0-100)
+        - `_taxa`: taxas
+        - `_razao`: razões
+        - `_indicador`: booleanos (True/False, 0/1)
+        - `_tipo`: tipos ou classificações
+        - `_sigla`: siglas ou códigos
+    - **Nota:** Unidades físicas como `_km` ou `_metro` podem aparecer em contextos específicos, mas priorize os sufixos semânticos acima.
+
+**Exemplos:**
+- `id_estabelecimento`: chave primária de estabelecimento
+- `estabelecimento_nome`: nome do estabelecimento
+- `atendimento_data`: data do atendimento
+- `ano`: ano (dimensão apenas, sem sufixo)
+- `id_municipio`: chave estrangeira para município
+- `atendimento_quantidade`: quantidade de atendimentos
+- `valor_total_pago_valor`: valor total pago
+- `ativo_indicador`: flag de ativo
+- `paciente_tipo_logradouro_sigla`: sigla do tipo de logradouro do paciente
+
+### Regras Gerais de Nomeação
+
+- Use nomes já presentes no repositório sempre que possível.
+- Seja intuitivo, claro e descritivo.
+- Use apenas letras minúsculas, sem acentos, conectadas por `_`.
+- Não inclua conectores como `de`, `da`, `dos`, `e`, `a`, `em`, etc.
+
+### Exceções
+
+- **Omissão do prefixo `id_`:** Para identificadores amplamente reconhecidos como `cpf` ou `cns`, o prefixo pode ser omitido.
+- **Colunas de partição:** Colunas como `ano_particao`, `mes_particao`, `data_particao` seguem padrão fixo e são tratadas de forma especial (ver seção de partição).
+- **Padrões externos:** Ao integrar dados de padrões externos (ex: GTFS), pode-se manter a nomenclatura original para interoperabilidade, especialmente em camadas Raw/Staging. Documente esses casos.
+
+## Ordenamento das Colunas
+
+Padronize a ordem das colunas para facilitar a exploração e consistência:
+
+1. **Chave primária:** Sempre primeiro.
+   - Ex: `id_atendimento`
+2. **Atributos principais da entidade:** Descrevem a entidade principal da tabela.
+   - Ex: `data_atendimento`, `tipo_atendimento`, `descricao_ocorrencia`
+3. **Grupos de chaves estrangeiras:** Agrupe chaves estrangeiras (`id_...`) com seus atributos descritivos correspondentes.
+   - Ordene por abrangência (ex: geografia antes de unidade específica).
+   - Exemplo grupo: `id_paciente`, `paciente_nome`, `paciente_data_nascimento`
+4. **Metadados de processamento:** Informações sobre carga, transformação e timestamps de origem.
+   - Ex: `data_carga`, `id_processamento_lote`, `fonte_dados_origem`, `data_atualizacao_origem`, `data_criacao_origem`
+5. **Colunas de partição:** Colunas criadas para particionamento (geralmente ao final).
+   - Ex: `ano_particao`, `mes_particao`, `data_particao`
+
+## Representação dos Valores
+
+### Limpando STRINGs
+
+*   Colunas categóricas: inicial maiúscula e resto minúsculo, com acentos.
+*   STRINGs não-estruturadas: manter igual aos dados originais.
+
+### Formatos de valores
+
+*   Decimal: formato americano, i.e. sempre `.` (ponto) ao invés de `,` (vírgula).
+*   Data: `YYYY-MM-DD`
+*   Horário (24h): `HH:MM:SS`
+*   Datetime ([ISO-8601](https://en.wikipedia.org/wiki/ISO_8601)): `YYYY-MM-DDTHH:MM:SS.sssZ`
+*   Valor nulo: `""` (csv), `NULL` (Python), `NA` (R), `.` ou `""` (Stata)
+*   Proporção/porcentagem: entre 0-100
+
+## Colunas de Particionamento da Tabela
+
+Tabelas particionadas são divididas em segmentos (partições) para facilitar o gerenciamento e consulta. Recomendamos particionar tabelas grandes. Veja mais na [documentação da Google Cloud](https://cloud.google.com/bigquery/docs/partitioned-tables).
+
+Em geral, o particionamento é feito sobre datas, criando-se as colunas: `ano_particao`, `mes_particao`, `data_particao` com formatos 'YYYY', 'MM', 'YYYY-MM-DD'. Essas colunas têm tratamento especial: normalmente não são incluídas em SELECTs finais, mas definem a estrutura da tabela e aparecem ao final da ordem de colunas.
+
+## Referências
+
+*   [https://docs.dados.rio/guia-desenvolvedores/manual-estilo/](https://docs.dados.rio/guia-desenvolvedores/manual-estilo/)
+*   [https://basedosdados.github.io/mais/style_data/#conjuntos-de-dados-dataset_id](https://basedosdados.github.io/mais/style_data/#conjuntos-de-dados-dataset_id)
+*   [Guia de Nomeação de Colunas dbt](../rules/dbt-column-naming.mdc) 

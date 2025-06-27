@@ -1,6 +1,6 @@
 ---
-title: "Conjuntos de Dados & Tabelas"
-description: "Esta sessão tem como objetivo orientar como organizar os dados no Data Lake de modo que seja possível identificar rapidamente a essência dos conjuntos de dados e tabelas disponíveis."
+title: "Nomenclatura e Organização de Conjuntos de Dados e Tabelas"
+description: "Guia de boas práticas para nomear e organizar datasets e tabelas no Data Lake, promovendo padronização, clareza e fácil identificação das informações."
 ---
 
 ## Conjuntos de Dados (Datasets)
@@ -23,7 +23,7 @@ Os dados em nosso BigQuery são organizado seguindo o padrão de design de dados
 | --------------------------------------------------- | ------------------------------------------------------------------------------ | ---------- |
 | <div align="center">Bronze ou _`Raw Staging`_</div> | <div align="center">`brutos_<data_source>_staging` </div>                      |            |
 | <div align="center">Bronze ou _`Raw`_</div>         | <div align="center">`brutos_<data_source>` </div>                              |            |
-| <div align="center">Prata ou _`Core`_</div>         | <div align="center">` saude_dados_mestres` <br /> <br /> `saude_<tema> `</div> |            |
+| <div align="center">Prata ou _`Core`_</div>         | <div align="center">` iplan_dados_mestres` <br /> <br /> `iplan_<tema> `</div> |            |
 | <div align="center">Ouro ou _`Analytics`_</div>     | <div align="center">`projeto_<tema>` </div>                                    |            |
 
 ### Camada de Gerenciamento
@@ -57,7 +57,7 @@ Para mantermos uma consistência nas nomeações, são necessárias algumas rest
 - Ter todas letras minúsculas (inclusive siglas), sem acentos, conectados por \_
 - Não incluir conectores como de, da, dos, e, a, em, etc.
 - o sufixo `_serie_historica` é reservado para as tabelas que contenham a série histórica. Nos casos das tabelas onde essa característica não é explicitada no nome, o entendimento é que a tabela representa a situação atual.
-- Não deve ser utilizado termos vagos como “Outros…”. Caso a categoria do seu conjunto não se encaixe em nenhuma das opções já existentes, é permitida a sugestão de novos termos.
+- Não deve ser utilizado termos vagos como "Outros…". Caso a categoria do seu conjunto não se encaixe em nenhuma das opções já existentes, é permitida a sugestão de novos termos.
 - Nenhuma palavra deve ser repetida no dataset_id ou table_id (ex: `saude_estoque.posicao` deve ser usado, e não `saude_estoque.estoque_posicao`)
 - O dataset_id pode ser ser nomeado como `saude_dados_mestres`, caso a tabela em questão seja uma dimensão referência para diversos temas no Data Lake.
 

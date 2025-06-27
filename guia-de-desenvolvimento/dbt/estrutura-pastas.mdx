@@ -1,0 +1,52 @@
+---
+title: "Estrutura de Pastas e Arquivos dbt"
+description: "Guia de organização de pastas, arquivos e convenções de nomenclatura para projetos dbt no Data Lake."
+---
+
+## Estrutura de Diretórios do Projeto
+
+```
+project_root/
+├── analyses/
+├── macros/
+├── models/
+│   ├── raw/
+│   ├── intermediate/
+│   └── marts/
+├── seeds/
+├── snapshots/
+└── tests/
+    ├── generic/
+    └── singular/
+```
+
+## Convenções de Nomenclatura de Arquivos
+
+- Modelos SQL: `{layer}_{dataset}_{table}.sql`
+- Configurações YAML: `{model}.yml`
+- Arquivos de fonte YAML: `_{layer}_{dataset}__sources.yml`
+- Testes: `{test_type}__{model}__{column}__{test_name}.sql`
+- Documentação: `{layer}_{dataset}_{table}.md`
+
+## Prefixos de Camada
+
+- `raw_`: dados brutos
+- `stg_`: staging
+- `int_`: intermediário
+- `fct_`: fatos
+- `dim_`: dimensões
+- `mart_`: marts
+
+## Boas Práticas
+
+1. Agrupe modelos relacionados na mesma pasta.
+2. Use subdiretórios em marts/ para domínios de negócio.
+3. Mantenha testes próximos aos modelos.
+4. Documente todos os modelos, colunas e testes.
+5. Use seeds apenas para dados de referência estáticos.
+6. Organize macros por função.
+
+## Referências
+
+- [Guia oficial dbt](https://docs.getdbt.com/docs/build/projects)
+- [Padrões internos de estrutura](../rules/dbt-folder-structure.mdc) 
