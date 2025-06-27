@@ -23,7 +23,9 @@ Todos os nomes de colunas devem seguir o padrão estruturado:
 - **`<entidade>_` (Prefixo opcional):**
     - Indica a entidade de negócio da coluna, se diferente da entidade principal da tabela. Comum em tabelas desnormalizadas (camada Marts).
     - Exemplo: Em uma tabela de `estoque`, a forma farmacêutica do material seria `material_forma_farmaceutica`. Em uma tabela de `material`, seria apenas `forma_farmaceutica`.
-    - **Recomendação:** Em tabelas altamente desnormalizadas, use sempre o prefixo da entidade para todas as colunas, facilitando buscas em BI.
+    - **Recomendação 1:** Em tabelas altamente desnormalizadas, use sempre o prefixo da entidade para todas as colunas, facilitando buscas em BI.
+    - **Recomendação 2:** O BigQuery permite trabalhar com estruturas aninhadas (Struct). Recomendamos utilizar essa tipagem para agrupar todas as dimensões de uma entidade estrangeria.
+
 
 - **`<dimensão>` (Obrigatório):**
     - Parte central do nome, descreve o atributo, métrica ou característica representada.
