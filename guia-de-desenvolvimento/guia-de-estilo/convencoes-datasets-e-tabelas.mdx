@@ -21,25 +21,43 @@ Os dados em nosso BigQuery são organizado seguindo o padrão de design de dados
 
 | Camada                                              | Nomenclatura                                                                   | Comentário |
 | --------------------------------------------------- | ------------------------------------------------------------------------------ | ---------- |
-| <div align="center">Bronze ou _`Raw Staging`_</div> | <div align="center">`brutos_<data_source>_staging` </div>                      |            |
-| <div align="center">Bronze ou _`Raw`_</div>         | <div align="center">`brutos_<data_source>` </div>                              |            |
-| <div align="center">Prata ou _`Core`_</div>         | <div align="center">` iplan_dados_mestres` <br /> <br /> `iplan_<tema> `</div> |            |
-| <div align="center">Ouro ou _`Analytics`_</div>     | <div align="center">`projeto_<tema>` </div>                                    |            |
+| <div align="left">`Bronze` ou _`Raw Staging`_</div> | <div align="left">`brutos_<data_source>_staging` </div>                      |            |
+| <div align="left">`Bronze` ou _`Raw`_</div>         | <div align="left">`brutos_<data_source>` </div>                              |            |
+| <div align="left">`Prata` ou _`Core`_</div>         | <div align="left">` iplan_dados_mestres` <br /> <br /> `iplan_<tema> `</div> | <div align="left"> Reservado para dimensões tranversais à Prefeitura </div>           |
+| <div align="left">`Ouro` ou _`Marts`_</div>         | <div align="left">`app_<tema>` <br /> <br /><br />  `gerenciamento_<tema>` <br /> <br /> `projeto_<tema>` </div> |   <div align="left">Reservado para execução e controle de processos e aplicações internas <br /> <br /> Reservado para integrações com aplicações <br /> <br /> Reservado para uso em BI e Data Science </div>         |
 
-### Camada de Gerenciamento
-
-Existe uma quarta camada lógica que utilizamos reservada para controlar a execução de processos internos (ex. dbt, reprocessamento, ...) e persistir resultados relacionados à execução ou situação dos processos internos do Data Lake (ingestão dos dados, disponibilidade da infraestrutura, ...). Esta camada reserva o prefixo `gerenciamento`. Nesta camada os datasets deve ser nomeados seguindo um dos padrões abaixo
-
-- `gerenciamento__<ferramenta>`
-- `gerenciamento__<finalidade>`
-
-Em casos específicos, onde uma ferramenta tem diversas finalidades, o dataset pode ser quebrado por finalidade:
-
-- `gerenciamento__<ferramenta>_<finalidade>`
 
 ### Camadas intermediárias de dados
 
-Camadas intermediárias de dados, utilizadas exclusivamente para cálculos ou agregações que sejam um passo na construção das tabelas das camadas prata ou ouro, são proibidas de serem materializadas no Data Lake. Para isso, usar o recurso de materialização efêmera do dbt (ref. [https://docs.getdbt.com/docs/build/materializations](https://docs.getdbt.com/docs/build/materializations) ).
+Camadas intermediárias de dados, utilizadas exclusivamente para cálculos ou agregações que sejam um passo na construção das tabelas das camadas prata ou ouro.
+
+<Warning> Datasets intermediários são proibidos de serem materializadas no ambiente de Prodção. Para isso, usar o recurso de materialização [efêmera do dbt](https://docs.getdbt.com/docs/build/materializations). </Warning>
+
+### Camada de Marts
+
+#### App
+Reservada para integrações com aplicações, onde os dados são consumidos diretamente por sistemas ou serviços específicos. Os datasets desta camada devem ser nomeados seguindo o padrão abaixo:
+
+- `app_<tema>`
+
+O termo `tema`deve indicar claramente a aplicação ou o domínio de uso dos dados, facilitando a identificação do proposito do dataset.
+
+#### Gerenciamento
+Reservada para controlar a execução de aplicações e processos internos (ex. dbt, reprocessamento, ...) e persistir resultados relacionados à execução ou situação dos processos internos do Data Lake (ingestão dos dados, disponibilidade da infraestrutura, ...). Esta camada reserva o prefixo `gerenciamento`. Nesta camada os datasets deve ser nomeados seguindo um dos padrões abaixo
+
+- `gerenciamento_<ferramenta>`
+- `gerenciamento_<finalidade>`
+
+Em casos específicos, onde uma ferramenta tem diversas finalidades, o dataset pode ser quebrado por finalidade:
+
+- `gerenciamento_<ferramenta>_<finalidade>`
+
+### Projeto
+Reservada para organizar dados relacionados a projetos específicos, geralmente voltados para análises, relatórios ou dashboards de um determinado tema ou área. Os datasets desta camada devem ser nomeados seguindo o padrão abaixo:
+
+- `projeto_<tema>`
+
+O termo `tema` deve ser substituido pelo assunto principal do projeto, de forma clara e objetiva.
 
 ## Tabelas
 
