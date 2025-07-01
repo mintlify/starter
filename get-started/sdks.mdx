@@ -44,7 +44,7 @@ const client = new PremAI({
   apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.chat.listModels();
+const response = await client.models.list();
 
 console.log(response.data);
 ```
@@ -55,39 +55,11 @@ from premai import PremAI
 client = PremAI(
     api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
 )
-response = client.chat.list_models()
+response = client.models.list()
 print(response.data)
 ```
 </CodeGroup>
 
-### List Internal Models
-
-List down all the models including the finetuned models.
-
-<CodeGroup>
-```javascript javascript/typescript
-import PremAI from 'premai';
-
-const client = new PremAI({
-  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
-});
-
-const response = await client.chat.listModelsInternal();
-
-console.log(response);
-```
-```python python
-import os
-from premai import PremAI
-
-client = PremAI(
-    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
-)
-
-response = client.chat.list_models_internal()
-print(response)
-```
-</CodeGroup>
 
 ### Chat Completions
 import PremChatCompletions from '/snippets/prem-chat-completions.mdx';
@@ -108,6 +80,33 @@ npm install openai
 ```
 ```bash python
 pip install openai
+```
+</CodeGroup>
+
+### List Models
+<CodeGroup>
+```javascript javascript/typescript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  baseURL: "https://studio.premai.io/api/v1/",
+  apiKey: process.env['PREMAI_API_KEY'], // This is the default and can be omitted
+});
+
+const response = await client.models.list();
+
+console.log(response.data);
+```
+```python python
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://studio.premai.io/api/v1/",
+    api_key=os.environ.get("PREMAI_API_KEY"),  # This is the default and can be omitted
+)
+response = client.models.list()
+print(response.data)
 ```
 </CodeGroup>
 
