@@ -48,7 +48,8 @@
                 "icon": "palette",
                 "pages": [
                   "guia-de-desenvolvimento/guia-de-estilo/convencoes-datasets-e-tabelas",
-                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas"
+                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas",
+                  "guia-de-desenvolvimento/guia-de-estilo/particoes"
                 ]
               },
               {
