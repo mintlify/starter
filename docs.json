@@ -40,7 +40,8 @@
                 "icon": "house-flood-water-circle-arrow-right",
                 "pages": [
                   "guia-de-desenvolvimento/tipos-de-pipeline/extracao-e-carga-de-dados",
-                  "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados"
+                  "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados",
+                  "guia-de-desenvolvimento/tipos-de-pipeline/criacao-de-pipelines"
                 ]
               },
               {
@@ -59,7 +60,6 @@
                   "guia-de-desenvolvimento/dbt/instalacao-dbt",
                   "guia-de-desenvolvimento/dbt/estrutura-pastas",
                   "guia-de-desenvolvimento/dbt/testes"
-
                 ]
               }
             ]
