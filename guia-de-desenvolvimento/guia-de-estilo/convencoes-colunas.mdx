@@ -17,19 +17,19 @@ Todos os nomes de colunas devem seguir o padrão estruturado:
 - **`id_` (Prefixo opcional):**
     - Use apenas para chaves primárias ou estrangeiras que referenciam entidades do Data Lake.
     - Exemplo: `id_cnes`, `id_material`, `id_municipio`.
-    - **Exceção:** Para identificadores amplamente reconhecidos como `cpf` ou `cns`, o prefixo pode ser omitido para melhor legibilidade.
-    - **Racional:** Agrupa as chaves, facilitando a exploração em ferramentas de dados.
+    <Note> **Exceção:** Para identificadores amplamente reconhecidos como `cpf` ou `cns`, o prefixo pode ser omitido para melhor legibilidade. </Note>
+    <Tip> **Racional:** Agrupa as chaves, facilitando a exploração em ferramentas de dados. </Tip>
 
 - **`<entidade>_` (Prefixo opcional):**
     - Indica a entidade de negócio da coluna, se diferente da entidade principal da tabela. Comum em tabelas desnormalizadas (camada Marts).
-    - Exemplo: Em uma tabela de `estoque`, a forma farmacêutica do material seria `material_forma_farmaceutica`. Em uma tabela de `material`, seria apenas `forma_farmaceutica`.
-    - **Recomendação 1:** Em tabelas altamente desnormalizadas, use sempre o prefixo da entidade para todas as colunas, facilitando buscas em BI.
-    - **Recomendação 2:** O BigQuery permite trabalhar com estruturas aninhadas (Struct). Recomendamos utilizar essa tipagem para agrupar todas as dimensões de uma entidade estrangeria.
+    - Exemplo: Em uma tabela de `corridas` do Taxi Rio, o nome do motorista seria `motorista_nome`. Em uma tabela de `motoristas` do Taxi Rio, seria apenas `nome`.
+    <Note> **Regra:** Em tabelas altamente desnormalizadas, use sempre o prefixo da entidade para todas as colunas, facilitando buscas em BI. </Note>
+    <Tip> **Recomendação:** O BigQuery permite trabalhar com estruturas aninhadas (Struct). Utilize essa tipagem para agrupar todas as dimensões de uma entidade estrangeria. </Tip>
 
 
 - **`<dimensão>` (Obrigatório):**
     - Parte central do nome, descreve o atributo, métrica ou característica representada.
-    - Seja conciso e descritivo. Exemplo: `nome`, `nascimento_data`, `quantidade_atendimentos`, `valor_total`, `tipo_logradouro`.
+    - Seja conciso e descritivo. Exemplo: `nome`, `nascimento`, `atendimento`, `logradouro`.
 
 - **`_<unidade>` (Sufixo opcional):**
     - Indica o tipo semântico ou unidade do dado. Melhora a legibilidade e entendimento.
@@ -39,13 +39,14 @@ Todos os nomes de colunas devem seguir o padrão estruturado:
         - `_datahora`: timestamps/datetime
         - `_valor`: valores monetários ou numéricos gerais
         - `_quantidade`: contagens ou quantidades
+        - `_particao`: reservado para campos que [particionam](/guia-de-desenvolvimento/guia-de-estilo/particoes.mdx) a tabela.
         - `_proporcao`: porcentagens (0-100)
         - `_taxa`: taxas
         - `_razao`: razões
         - `_indicador`: booleanos (True/False, 0/1)
         - `_tipo`: tipos ou classificações
         - `_sigla`: siglas ou códigos
-    - **Nota:** Unidades físicas como `_km` ou `_metro` podem aparecer em contextos específicos, mas priorize os sufixos semânticos acima.
+    <Note> **Nota:** Unidades físicas como `_km` ou `_metro` podem aparecer em contextos específicos, mas priorize os sufixos semânticos acima. </Note>
 
 **Exemplos:**
 - `id_estabelecimento`: chave primária de estabelecimento
@@ -67,8 +68,6 @@ Todos os nomes de colunas devem seguir o padrão estruturado:
 
 ### Exceções
 
-- **Omissão do prefixo `id_`:** Para identificadores amplamente reconhecidos como `cpf` ou `cns`, o prefixo pode ser omitido.
-- **Colunas de partição:** Colunas como `ano_particao`, `mes_particao`, `data_particao` seguem padrão fixo e são tratadas de forma especial (ver seção de partição).
 - **Padrões externos:** Ao integrar dados de padrões externos (ex: GTFS), pode-se manter a nomenclatura original para interoperabilidade, especialmente em camadas Raw/Staging. Documente esses casos.
 
 ## Ordenamento das Colunas
@@ -87,7 +86,7 @@ Padronize a ordem das colunas para facilitar a exploração e consistência:
 5. **Colunas de partição:** Colunas criadas para particionamento (geralmente ao final).
    - Ex: `ano_particao`, `mes_particao`, `data_particao`
 
-> **Exceção:** nos casos de tabelas estritamente normalizadas, manter as chaves primárias e estrageiras agrupadas no início.
+<Warning> **Exceção:** nos casos de tabelas estritamente normalizadas, manter as chaves primárias e estrageiras agrupadas no início. </Warning>
 
 
 ## Representação dos Valores
@@ -106,12 +105,6 @@ Padronize a ordem das colunas para facilitar a exploração e consistência:
 *   Valor nulo: `""` (csv), `NULL` (Python), `NA` (R), `.` ou `""` (Stata)
 *   Proporção/porcentagem: entre 0-100
 
-## Colunas de Particionamento da Tabela
-
-Tabelas particionadas são divididas em segmentos (partições) para facilitar o gerenciamento e consulta. Recomendamos particionar tabelas grandes. Veja mais na [documentação da Google Cloud](https://cloud.google.com/bigquery/docs/partitioned-tables).
-
-Em geral, o particionamento é feito sobre datas, criando-se as colunas: `ano_particao`, `mes_particao`, `data_particao` com formatos 'YYYY', 'MM', 'YYYY-MM-DD'. Essas colunas têm tratamento especial: normalmente não são incluídas em SELECTs finais, mas definem a estrutura da tabela e aparecem ao final da ordem de colunas.
-
 
 ## Quais variáveis manter, quais adicionar e quais remover
 
@@ -120,11 +113,11 @@ Mantemos nossas tabelas parcialmente [`normalizadas`](https://www.guru99.com/dat
 *   Remover variáveis já utilizadas como partição. Exemplo: remover `ano` e `data` se a tabela é particionada nessas duas dimensões.
 *   Manter todas as chaves primárias que já vêm com a tabela, mas (1) adicionar chaves estrangeiras relevantes (ex.  `id_municipio`) e (2) retirar chaves estrangeiras irrelevantes (e.g. `regiao`).
 
-> **Nota:** Busque sempre o equilíbrio entre normalização e performance de consulta. Evite redundâncias desnecessárias, mas mantenha colunas que facilitam análises frequentes.
+<Note> **Dica**: Busque sempre o equilíbrio entre normalização e performance de consulta. Evite redundâncias desnecessárias, mas mantenha colunas que facilitam análises frequentes. </Note>
 
 
 ## Referências
 
-*   [https://docs.dados.rio/guia-desenvolvedores/manual-estilo/](https://docs.dados.rio/guia-desenvolvedores/manual-estilo/)
-*   [https://basedosdados.github.io/mais/style_data/#conjuntos-de-dados-dataset_id](https://basedosdados.github.io/mais/style_data/#conjuntos-de-dados-dataset_id)
+*   [Escrtiório de Dados - Manual de Estilo](https://docs.dados.rio/guia-desenvolvedores/manual-estilo/)
+*   [Base dos Dados - Manual de Estilo](https://basedosdados.github.io/mais/style_data/#conjuntos-de-dados-dataset_id)
 *   [Guia de Nomeação de Colunas dbt](../rules/dbt-column-naming.mdc) 
