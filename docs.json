@@ -36,24 +36,16 @@
           {
             "group": "Architecture",
             "pages": [
-              "architecture/1-core-packages",
-              "architecture/2-access-control",
-              "architecture/3-administration",
-              "architecture/4-social-graph-and-identity",
-              "architecture/5-rewards-and-incentives",
-              "architecture/6-content-and-channels",
-              "architecture/7-trust-economics"
-            ]
-          },
-          {
-            "group": "Build",
-            "pages": [
-              "build/1-quickstart"
+              "architecture/1-social-graph-and-identity",
+              "architecture/2-rewards-and-incentives",
+              "architecture/3-content-and-channels",
+              "architecture/4-trust-economics"
             ]
           },
           {
             "group": "Resources",
             "pages": [
+              "resources/1-core-packages",
               {
                 "group": "Contracts",
                 "pages": [
@@ -138,7 +130,9 @@
                     ]
                   }
                 ]
-              }
+              },
+              "resources/2-access-control",
+              "resources/3-administration"
             ]
           }
         ]
