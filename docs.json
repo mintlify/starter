@@ -143,16 +143,48 @@
           {
             "group": "Introduction",
             "pages": [
-              "sdk-reference/introduction",
-              "sdk-reference/client"
+              "sdk/introduction/overview",
+              "sdk/introduction/getting-started",
+              "sdk/introduction/key-concepts"
             ]
           },
           {
-            "group": "Sections",
+            "group": "Primitives",
             "pages": [
-              "sdk-reference/channel",
-              "sdk-reference/post",
-              "sdk-reference/user"
+              {
+                "group": "Users",
+                "pages": [
+                  "sdk/users/introduction",
+                  "sdk/users/creating-users",
+                  "sdk/users/updating-user-profiles",
+                  "sdk/users/social-connections",
+                  "sdk/users/posting-to-user-profiles",
+                  "sdk/users/managing-favorites",
+                  "sdk/users/claiming-rewards"
+                ]
+              },
+              {
+                "group": "Posts",
+                "pages": [
+                  "sdk/posts/introduction",
+                  "sdk/posts/creating-posts",
+                  "sdk/posts/post-comments-and-threads",
+                  "sdk/posts/liking-posts",
+                  "sdk/posts/post-favorites-and-bookmarks"
+                ]
+              },
+              {
+                "group": "Channels",
+                "pages": [
+                  "sdk/channels/introduction",
+                  "sdk/channels/creating-channels",
+                  "sdk/channels/posting-content-in-channels",
+                  "sdk/channels/following-channels",
+                  "sdk/channels/unfollowing-channels",
+                  "sdk/channels/moderating-channels",
+                  "sdk/channels/updating-channels"
+                ]
+              }
             ]
           }
         ]
