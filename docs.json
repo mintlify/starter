@@ -90,6 +90,11 @@
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
           },
           {
+            "group": "Subpav OSA - SMS",
+            "icon": "health",
+            "openapi": "https://services.staging.app.dados.rio/subpav-osa-api/openapi.json"
+          },
+          {
             "group": "GO",
             "icon": "briefcase",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
