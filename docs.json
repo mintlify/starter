@@ -77,32 +77,32 @@
           {
             "group": "Busca",
             "icon": "magnifying-glass",
-            "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
+            "openapi": "/api-specs/busca-openapi.json"
           },
           {
             "group": "Servico de Busca",
             "icon": "magnifying-glass",
-            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-busca-search/refs/heads/staging/docs/openapi-v3.json"
+            "openapi": "/api-specs/servico-busca-openapi.json"
           },
           {
             "group": "Subpav OSA SMS",
             "icon": "database",
-            "openapi": "https://services.staging.app.dados.rio/subpav-osa-api/openapi.json"
+            "openapi": "/api-specs/subpav-osa-openapi.json"
           },
           {
             "group": "eAi Agent",
             "icon": "robot",
-            "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
+            "openapi": "/api-specs/eai-agent-openapi.json"
           },
           {
             "group": "Registro Municipal Integrado",
             "icon": "database",
-            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
+            "openapi": "/api-specs/rmi-openapi.json"
           },
           {
             "group": "GO",
             "icon": "briefcase",
-            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
+            "openapi": "/api-specs/go-openapi.json"
           }
         ]
       }

@@ -1,0 +1,1979 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "API para gerenciamento de dados de cidadãos do Rio de Janeiro, incluindo autodeclaração de informações e verificação de contato.",
+    "title": "API RMI",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Suporte RMI",
+      "url": "http://www.rio.rj.gov.br",
+      "email": "suporte@rio.rj.gov.br"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "paths": {
+    "/citizen/ethnicity/options": {
+      "get": {
+        "description": "Retorna a lista de opções válidas de etnia para autodeclaração. Esta lista é usada para validar as atualizações de etnia autodeclarada.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Listar opções de etnia",
+        "responses": {
+          "200": {
+            "description": "Lista de opções de etnia válidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/citizen/{cpf}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Recupera os dados do cidadão por CPF, combinando dados base com atualizações autodeclaradas. Dados autodeclarados têm precedência sobre dados base. Os resultados são armazenados em cache usando Redis com TTL configurável.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Obter dados do cidadão",
+        "parameters": [
+          {
+            "description": "CPF do cidadão (11 dígitos)",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 11,
+              "maxLength": 11
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados completos do cidadão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.Citizen"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formato de CPF inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cidadão não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/address": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Atualiza ou cria o endereço autodeclarado de um cidadão por CPF. Apenas o campo de endereço é atualizado.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Atualizar endereço autodeclarado",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/models.SelfDeclaredAddressInput"
+              }
+            }
+          },
+          "description": "Endereço autodeclarado",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/email": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Atualiza ou cria o email autodeclarado de um cidadão por CPF. Apenas o campo de email é atualizado.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Atualizar email autodeclarado",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/models.SelfDeclaredEmailInput"
+              }
+            }
+          },
+          "description": "Email autodeclarado",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/ethnicity": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Atualiza ou cria a etnia autodeclarada de um cidadão por CPF. Apenas o campo de etnia é atualizado. O valor deve ser uma das opções válidas retornadas pelo endpoint /citizen/ethnicity/options.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Atualizar etnia autodeclarada",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/models.SelfDeclaredRacaInput"
+              }
+            }
+          },
+          "description": "Etnia autodeclarada",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Etnia atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formato de CPF inválido ou valor de etnia inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cidadão não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/firstlogin": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Verifica se este é o primeiro login do usuário",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Obter status do primeiro login",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.UserConfigResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Define o status do primeiro login como falso para um usuário",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Atualizar status do primeiro login",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.UserConfigResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/maintenance-request": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Recupera os chamados do 1746 de um cidadão por CPF com paginação. Cada documento representa um chamado individual.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Obter chamados do 1746 do cidadão",
+        "parameters": [
+          {
+            "description": "CPF do cidadão (11 dígitos)",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 11,
+              "maxLength": 11
+            }
+          },
+          {
+            "description": "Número da página (padrão: 1)",
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "description": "Itens por página (padrão: 10, máximo: 100)",
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista paginada de chamados do 1746",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.PaginatedMaintenanceRequests"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formato de CPF inválido ou parâmetros de paginação inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/optin": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Verifica se o usuário optou por receber notificações",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Obter status de opt-in",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.UserConfigOptInResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Atualiza o status de opt-in do usuário para notificações",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Atualizar status de opt-in",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/models.UserConfigOptInResponse"
+              }
+            }
+          },
+          "description": "Status de opt-in",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.UserConfigOptInResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/phone": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Atualiza ou cria o telefone autodeclarado de um cidadão por CPF. Apenas o campo de telefone é atualizado (armazenado como pendente até verificado).",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Atualizar telefone autodeclarado",
+        "parameters": [
+          {
+            "description": "Número do CPF",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/models.SelfDeclaredPhoneInput"
+              }
+            }
+          },
+          "description": "Telefone autodeclarado",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/phone/validate": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Validates the verification code sent to the phone number",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Validate phone verification",
+        "parameters": [
+          {
+            "description": "CPF number",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/models.PhoneVerificationValidateRequest"
+              }
+            }
+          },
+          "description": "Verification code and phone",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizen/{cpf}/wallet": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Recupera os dados da carteira do cidadão por CPF, incluindo informações de saúde e outros dados da carteira.",
+        "tags": [
+          "citizen"
+        ],
+        "summary": "Obter dados da carteira do cidadão",
+        "parameters": [
+          {
+            "description": "CPF do cidadão (11 dígitos)",
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 11,
+              "maxLength": 11
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados da carteira do cidadão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/models.CitizenWallet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formato de CPF inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token de autenticação não fornecido ou inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acesso negado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cidadão não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "Verifica a saúde da API e suas dependências (MongoDB e Redis). Retorna status detalhado para cada serviço.",
+        "tags": [
+          "health"
+        ],
+        "summary": "Verificação de saúde",
+        "responses": {
+          "200": {
+            "description": "Todos os serviços estão saudáveis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.HealthResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Um ou mais serviços estão indisponíveis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.HealthResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/validate/phone": {
+      "post": {
+        "description": "Valida DDI, DDD e número para qualquer telefone internacional.",
+        "tags": [
+          "validation"
+        ],
+        "summary": "Valida número de telefone",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/handlers.PhoneValidationRequest"
+              }
+            }
+          },
+          "description": "Telefone a ser validado",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.PhoneValidationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/handlers.ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Operações relacionadas a cidadãos, incluindo consulta e atualização de dados autodeclarados",
+      "name": "citizen"
+    },
+    {
+      "description": "Operações de verificação de saúde da API",
+      "name": "health"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://services.staging.app.dados.rio/rmi/v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "handlers.ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "handlers.HealthResponse": {
+        "type": "object",
+        "properties": {
+          "services": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        }
+      },
+      "handlers.PhoneValidationRequest": {
+        "description": "Estrutura de entrada contendo o número de telefone a ser validado.",
+        "type": "object",
+        "required": [
+          "phone"
+        ],
+        "properties": {
+          "phone": {
+            "description": "Número de telefone em formato internacional ou nacional.\nexample: \"+55 11 99988-7766\"",
+            "type": "string"
+          }
+        }
+      },
+      "handlers.PhoneValidationResponse": {
+        "description": "Resultado da validação, contendo a decomposição (DDI, DDD, número) quando válida.",
+        "type": "object",
+        "properties": {
+          "ddd": {
+            "description": "DDD (código de área)",
+            "type": "string"
+          },
+          "ddi": {
+            "description": "DDI (código do país)",
+            "type": "string"
+          },
+          "e164": {
+            "description": "Representação E.164 do número",
+            "type": "string"
+          },
+          "message": {
+            "description": "Mensagem de retorno.",
+            "type": "string"
+          },
+          "numero": {
+            "description": "Número do assinante",
+            "type": "string"
+          },
+          "region": {
+            "description": "Região ISO 3166-1 alpha-2",
+            "type": "string"
+          },
+          "valid": {
+            "description": "Indica se o número é válido.",
+            "type": "boolean"
+          }
+        }
+      },
+      "handlers.SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Aluno": {
+        "type": "object",
+        "properties": {
+          "conceito": {
+            "type": "string"
+          },
+          "frequencia": {
+            "type": "number"
+          },
+          "indicador": {
+            "type": "boolean"
+          }
+        }
+      },
+      "models.AssistenciaSocial": {
+        "type": "object",
+        "properties": {
+          "cadunico": {
+            "$ref": "#/components/schemas/models.CadUnico"
+          },
+          "cras": {
+            "$ref": "#/components/schemas/models.CRAS"
+          }
+        }
+      },
+      "models.CRAS": {
+        "type": "object",
+        "properties": {
+          "endereco": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string"
+          }
+        }
+      },
+      "models.CadUnico": {
+        "type": "object",
+        "properties": {
+          "data_cadastro": {
+            "type": "string"
+          },
+          "data_limite_cadastro_atual": {
+            "type": "string"
+          },
+          "data_ultima_atualizacao": {
+            "type": "string"
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "status_cadastral": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Citizen": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "email": {
+            "$ref": "#/components/schemas/models.Email"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/models.Endereco"
+          },
+          "mae": {
+            "$ref": "#/components/schemas/models.Mae"
+          },
+          "menor_idade": {
+            "type": "boolean"
+          },
+          "nascimento": {
+            "$ref": "#/components/schemas/models.Nascimento"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "nome_social": {
+            "type": "string"
+          },
+          "obito": {
+            "$ref": "#/components/schemas/models.Obito"
+          },
+          "raca": {
+            "type": "string"
+          },
+          "sexo": {
+            "type": "string"
+          },
+          "telefone": {
+            "$ref": "#/components/schemas/models.Telefone"
+          }
+        }
+      },
+      "models.CitizenWallet": {
+        "type": "object",
+        "properties": {
+          "assistencia_social": {
+            "$ref": "#/components/schemas/models.AssistenciaSocial"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "documentos": {
+            "$ref": "#/components/schemas/models.Documentos"
+          },
+          "educacao": {
+            "$ref": "#/components/schemas/models.Educacao"
+          },
+          "saude": {
+            "$ref": "#/components/schemas/models.Saude"
+          }
+        }
+      },
+      "models.ClinicaFamilia": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "horario_atendimento": {
+            "type": "string"
+          },
+          "id_cnes": {
+            "type": "string"
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Documentos": {
+        "type": "object",
+        "properties": {
+          "cns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "models.Educacao": {
+        "type": "object",
+        "properties": {
+          "aluno": {
+            "$ref": "#/components/schemas/models.Aluno"
+          },
+          "escola": {
+            "$ref": "#/components/schemas/models.Escola"
+          }
+        }
+      },
+      "models.Email": {
+        "type": "object",
+        "properties": {
+          "alternativo": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "principal": {
+            "$ref": "#/components/schemas/models.EmailPrincipal"
+          }
+        }
+      },
+      "models.EmailPrincipal": {
+        "type": "object",
+        "properties": {
+          "origem": {
+            "type": "string"
+          },
+          "sistema": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Endereco": {
+        "type": "object",
+        "properties": {
+          "alternativo": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "principal": {
+            "$ref": "#/components/schemas/models.EnderecoPrincipal"
+          }
+        }
+      },
+      "models.EnderecoPrincipal": {
+        "type": "object",
+        "properties": {
+          "bairro": {
+            "type": "string"
+          },
+          "cep": {
+            "type": "string"
+          },
+          "complemento": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "logradouro": {
+            "type": "string"
+          },
+          "municipio": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "string"
+          },
+          "origem": {
+            "type": "string"
+          },
+          "sistema": {
+            "type": "string"
+          },
+          "tipo_logradouro": {
+            "type": "string"
+          }
+        }
+      },
+      "models.EquipeSaudeFamilia": {
+        "type": "object",
+        "properties": {
+          "enfermeiros": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/models.ProfissionalSaude"
+            }
+          },
+          "id_ine": {
+            "type": "string"
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "medicos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/models.ProfissionalSaude"
+            }
+          },
+          "nome": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Escola": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "horario_funcionamento": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string"
+          },
+          "whatsapp": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Mae": {
+        "type": "object",
+        "properties": {
+          "cpf": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "models.MaintenanceRequest": {
+        "type": "object",
+        "properties": {
+          "categoria": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "data_alvo_diagnostico": {
+            "type": "string"
+          },
+          "data_alvo_finalizacao": {
+            "type": "string"
+          },
+          "data_fim": {
+            "type": "string"
+          },
+          "data_inicio": {
+            "type": "string"
+          },
+          "data_real_diagnostico": {
+            "type": "string"
+          },
+          "dentro_prazo": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "id_bairro": {
+            "type": "string"
+          },
+          "id_chamado": {
+            "type": "string"
+          },
+          "id_logradouro": {
+            "type": "string"
+          },
+          "id_origem_ocorrencia": {
+            "type": "string"
+          },
+          "id_subtipo": {
+            "type": "string"
+          },
+          "id_territorialidade": {
+            "type": "string"
+          },
+          "id_tipo": {
+            "type": "string"
+          },
+          "id_unidade_organizacional": {
+            "type": "string"
+          },
+          "id_unidade_organizacional_mae": {
+            "type": "string"
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "justificativa_status": {},
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "nome_unidade_organizacional": {
+            "type": "string"
+          },
+          "numero_logradouro": {
+            "type": "integer"
+          },
+          "origem_ocorrencia": {
+            "type": "string"
+          },
+          "prazo_tipo": {
+            "type": "string"
+          },
+          "prazo_unidade": {
+            "type": "string"
+          },
+          "reclamacoes": {
+            "type": "integer"
+          },
+          "situacao": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "subtipo": {
+            "type": "string"
+          },
+          "tempo_prazo": {},
+          "tipo": {
+            "type": "string"
+          },
+          "tipo_situacao": {
+            "type": "string"
+          },
+          "total_chamados": {
+            "type": "integer"
+          },
+          "total_fechados": {
+            "type": "integer"
+          },
+          "unidade_organizacional_ouvidoria": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Nascimento": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string"
+          },
+          "municipio": {
+            "type": "string"
+          },
+          "municipio_id": {
+            "type": "string"
+          },
+          "pais": {
+            "type": "string"
+          },
+          "pais_id": {
+            "type": "string"
+          },
+          "uf": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Obito": {
+        "type": "object",
+        "properties": {
+          "ano": {
+            "type": "integer"
+          },
+          "indicador": {
+            "type": "boolean"
+          }
+        }
+      },
+      "models.PaginatedMaintenanceRequests": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/models.MaintenanceRequest"
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "models.PhoneVerificationValidateRequest": {
+        "type": "object",
+        "required": [
+          "code",
+          "ddd",
+          "ddi",
+          "valor"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "ddd": {
+            "type": "string"
+          },
+          "ddi": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "string"
+          }
+        }
+      },
+      "models.ProfissionalSaude": {
+        "type": "object",
+        "properties": {
+          "id_profissional_sus": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Saude": {
+        "type": "object",
+        "properties": {
+          "clinica_familia": {
+            "$ref": "#/components/schemas/models.ClinicaFamilia"
+          },
+          "equipe_saude_familia": {
+            "$ref": "#/components/schemas/models.EquipeSaudeFamilia"
+          }
+        }
+      },
+      "models.SelfDeclaredAddressInput": {
+        "type": "object",
+        "required": [
+          "bairro",
+          "cep",
+          "estado",
+          "logradouro",
+          "municipio",
+          "numero"
+        ],
+        "properties": {
+          "bairro": {
+            "type": "string"
+          },
+          "cep": {
+            "type": "string"
+          },
+          "complemento": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "logradouro": {
+            "type": "string"
+          },
+          "municipio": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "string"
+          },
+          "tipo_logradouro": {
+            "type": "string"
+          }
+        }
+      },
+      "models.SelfDeclaredEmailInput": {
+        "type": "object",
+        "required": [
+          "valor"
+        ],
+        "properties": {
+          "valor": {
+            "type": "string"
+          }
+        }
+      },
+      "models.SelfDeclaredPhoneInput": {
+        "type": "object",
+        "required": [
+          "ddi",
+          "valor"
+        ],
+        "properties": {
+          "ddd": {
+            "description": "DDD é obrigatório somente quando o DDI é 55 (Brasil)",
+            "type": "string"
+          },
+          "ddi": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "string"
+          }
+        }
+      },
+      "models.SelfDeclaredRacaInput": {
+        "type": "object",
+        "required": [
+          "valor"
+        ],
+        "properties": {
+          "valor": {
+            "type": "string"
+          }
+        }
+      },
+      "models.Telefone": {
+        "type": "object",
+        "properties": {
+          "alternativo": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "indicador": {
+            "type": "boolean"
+          },
+          "principal": {
+            "$ref": "#/components/schemas/models.TelefonePrincipal"
+          }
+        }
+      },
+      "models.TelefonePrincipal": {
+        "type": "object",
+        "properties": {
+          "ddd": {
+            "type": "string"
+          },
+          "ddi": {
+            "type": "string"
+          },
+          "origem": {
+            "type": "string"
+          },
+          "sistema": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "string"
+          }
+        }
+      },
+      "models.UserConfigOptInResponse": {
+        "type": "object",
+        "properties": {
+          "optin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "models.UserConfigResponse": {
+        "type": "object",
+        "properties": {
+          "firstlogin": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
