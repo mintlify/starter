@@ -96,7 +96,7 @@
           },
           {
             "group": "Subpav OSA - SMS",
-            "icon": "health",
+            "icon": "database",
             "openapi": "https://services.staging.app.dados.rio/subpav-osa-api/openapi.json"
           },
           {
