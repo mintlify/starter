@@ -80,12 +80,12 @@
             "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
           },
           {
-            "group": "Serviço de Busca",
+            "group": "Servico de Busca",
             "icon": "magnifying-glass",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-busca-search/refs/heads/staging/docs/openapi-v3.json"
           },
           {
-            "group": "eAí Agent",
+            "group": "eAi Agent",
             "icon": "robot",
             "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
           },
