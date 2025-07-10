@@ -95,7 +95,7 @@
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
           },
           {
-            "group": "Subpav OSA - SMS",
+            "group": "Subpav OSA SMS",
             "icon": "database",
             "openapi": "https://services.staging.app.dados.rio/subpav-osa-api/openapi.json"
           },
