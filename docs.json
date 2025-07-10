@@ -73,7 +73,12 @@
             "group": "Gateway",
             "icon": "network-wired",
             "pages": ["barramento/gateway"]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
           {
             "group": "Busca",
             "icon": "magnifying-glass",
