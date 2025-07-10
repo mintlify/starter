@@ -80,6 +80,11 @@
             "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
           },
           {
+            "group": "Servico de Busca",
+            "icon": "magnifying-glass",
+            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-busca-search/refs/heads/staging/docs/openapi-v3.json"
+          },
+          {
             "group": "eAi Agent",
             "icon": "robot",
             "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
@@ -88,11 +93,6 @@
             "group": "Registro Municipal Integrado",
             "icon": "database",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
-          },
-          {
-            "group": "Subpav OSA SMS",
-            "icon": "database",
-            "openapi": "https://services.staging.app.dados.rio/subpav-osa-api/openapi.json"
           },
           {
             "group": "GO",
