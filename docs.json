@@ -90,7 +90,7 @@
           },
           {
             "group": "Servico de Busca",
-            "icon": "magnifying-glass",
+            "icon": "magnifying-glass", 
             "openapi": "/api-specs/servico-busca-openapi.json"
           },
           {
@@ -105,7 +105,7 @@
           },
           {
             "group": "Registro Municipal Integrado",
-            "icon": "database",
+            "icon": "database", 
             "openapi": "/api-specs/rmi-openapi.json"
           },
           {
