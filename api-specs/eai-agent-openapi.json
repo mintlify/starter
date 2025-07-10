@@ -1,1 +1,3613 @@
-{"openapi":"3.1.0","info":{"title":"Agentic Search API","description":"API que gerencia os fluxos e ferramentas dos agentes de IA da Prefeitura do Rio de Janeiro","version":"0.1.0"},"servers":[{"url":"https://services.staging.app.dados.rio/eai-agent","description":"Staging"}],"paths":{"/health":{"get":{"tags":["Health"],"summary":"Health Check","operationId":"health_check_health_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/api/v1/letta/test-message":{"post":{"tags":["Letta"],"summary":"Test Send Message","description":"Endpoint para testar o envio de mensagens para o agente Letta.\n\nParâmetros:\n- agent_id: ID do agente para o qual a mensagem será enviada\n- message: Conteúdo da mensagem\n- name: Nome opcional do remetente\n\nRetorna:\n- response: Resposta do agente","operationId":"test_send_message_api_v1_letta_test_message_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/MessageRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/MessageResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/api/v1/letta/test-message-raw":{"post":{"tags":["Letta"],"summary":"Test Send Message Raw","description":"Endpoint para testar o envio de mensagens para o agente Letta e receber todos os tipos de mensagens.\nÚtil para fins de debug e análise detalhada das respostas do agente.\n\nParâmetros:\n- agent_id: ID do agente para o qual a mensagem será enviada\n- message: Conteúdo da mensagem\n- name: Nome opcional do remetente\n\nRetorna:\n- Dicionário contendo todas as mensagens do stream organizadas por tipo:\n    - system_messages: Mensagens do sistema\n    - user_messages: Mensagens do usuário\n    - reasoning_messages: Mensagens de raciocínio\n    - tool_call_messages: Mensagens de chamada de ferramentas\n    - tool_return_messages: Mensagens de retorno de ferramentas\n    - assistant_messages: Mensagens do assistente\n    - letta_usage_statistics: Estatísticas de uso do Letta\n    - error: Erro ocorrido durante o processamento, se houver","operationId":"test_send_message_raw_api_v1_letta_test_message_raw_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/MessageRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/RawMessageResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/api/v1/webhook/":{"post":{"tags":["Webhook"],"summary":"Receber Webhook","description":"Endpoint para receber eventos webhook.","operationId":"receber_webhook_api_v1_webhook__post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/WebhookEvent"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/api/v1/letta/tools/google_search":{"get":{"tags":["Letta Tools"],"summary":"Google Search","operationId":"Google_Search_api_v1_letta_tools_google_search_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"query","in":"query","required":true,"schema":{"type":"string","description":"Texto da consulta","title":"Query"},"description":"Texto da consulta"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/letta/tools/gpt_search":{"get":{"tags":["Letta Tools"],"summary":"Busca Com Gpt","operationId":"Busca_com_GPT_api_v1_letta_tools_gpt_search_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"query","in":"query","required":true,"schema":{"type":"string","description":"Texto da consulta","title":"Query"},"description":"Texto da consulta"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/letta/tools/public_services_grounded_search":{"get":{"tags":["Letta Tools"],"summary":"Busca Serviços Públicos","operationId":"Busca_Serviços_Públicos_api_v1_letta_tools_public_services_grounded_search_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"query","in":"query","required":true,"schema":{"type":"string","description":"Texto da consulta","title":"Query"},"description":"Texto da consulta"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/letta/tools/google_deep_research":{"get":{"tags":["Letta Tools"],"summary":"Google Deep Research","description":"Performs deep research on a given question using a multi-step agent.","operationId":"Google_Deep_Research_api_v1_letta_tools_google_deep_research_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"question","in":"query","required":true,"schema":{"type":"string","title":"Question"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"string","title":"Response Google Deep Research Api V1 Letta Tools Google Deep Research Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/system-prompt/agent-types":{"get":{"tags":["System Prompt"],"summary":"Get Agent Types","description":"Obtém os tipos de agentes disponíveis baseados nas tags que contêm 'agentic'.\n\nReturns:\n    List[str]: Lista de tags de agentes","operationId":"get_agent_types_api_v1_system_prompt_agent_types_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"items":{"type":"string"},"type":"array","title":"Response Get Agent Types Api V1 System Prompt Agent Types Get"}}}}},"security":[{"HTTPBearer":[]}]}},"/api/v1/system-prompt":{"get":{"tags":["System Prompt"],"summary":"Get System Prompt","description":"Obtém o system prompt atual para o tipo de agente especificado.\n\nArgs:\n    agent_type: Tipo do agente\n    db: Sessão do banco de dados\n\nReturns:\n    SystemPromptGetResponse: Resposta contendo o system prompt atual","operationId":"get_system_prompt_api_v1_system_prompt_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":false,"schema":{"type":"string","default":"agentic_search","title":"Agent Type"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SystemPromptGetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["System Prompt"],"summary":"Update System Prompt","description":"Atualiza o system prompt e/ou em todos os agentes existentes.\n\nArgs:\n    request: Dados para atualização do system prompt\n    db: Sessão do banco de dados\n\nReturns:\n    SystemPromptUpdateResponse: Resposta contendo o resultado da operação","operationId":"update_system_prompt_api_v1_system_prompt_post","security":[{"HTTPBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SystemPromptUpdateRequest"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SystemPromptUpdateResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/system-prompt/history":{"get":{"tags":["System Prompt"],"summary":"Get System Prompt History","description":"Obtém o histórico de versões de system prompts para um tipo de agente.\n\nArgs:\n    agent_type: Tipo do agente\n    limit: Limite de resultados\n    db: Sessão do banco de dados\n\nReturns:\n    SystemPromptHistoryResponse: Histórico de versões","operationId":"get_system_prompt_history_api_v1_system_prompt_history_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":false,"schema":{"type":"string","default":"agentic_search","title":"Agent Type"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","minimum":1,"description":"Limite de resultados","default":10,"title":"Limit"},"description":"Limite de resultados"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SystemPromptHistoryResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/system-prompt/by-id/{prompt_id}":{"get":{"tags":["System Prompt"],"summary":"Get System Prompt By Id","description":"Obtém um system prompt específico pelo ID.\n\nArgs:\n    prompt_id: ID do system prompt\n    db: Sessão do banco de dados\n\nReturns:\n    SystemPromptGetResponse: Resposta contendo o system prompt específico","operationId":"get_system_prompt_by_id_api_v1_system_prompt_by_id__prompt_id__get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"prompt_id","in":"path","required":true,"schema":{"type":"string","title":"Prompt Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SystemPromptGetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/system-prompt/reset":{"delete":{"tags":["System Prompt"],"summary":"Reset System Prompt","description":"Remove todos os system prompts históricos para o tipo de agente especificado\ne restaura para o valor padrão.\n\nArgs:\n    agent_type: Tipo do agente\n    update_agents: Se verdadeiro, também atualiza os agentes existentes\n    db: Sessão do banco de dados\n\nReturns:\n    SystemPromptResetResponse: Resposta contendo o resultado da operação","operationId":"reset_system_prompt_api_v1_system_prompt_reset_delete","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":true,"schema":{"type":"string","description":"Tipo do agente para resetar o prompt","title":"Agent Type"},"description":"Tipo do agente para resetar o prompt"},{"name":"update_agents","in":"query","required":false,"schema":{"type":"boolean","description":"Atualizar também os agentes existentes","default":false,"title":"Update Agents"},"description":"Atualizar também os agentes existentes"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SystemPromptResetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/external/tools/equipments":{"get":{"tags":["External Tools"],"summary":"Equipamentos","operationId":"Equipamentos_api_v1_external_tools_equipments_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"address","in":"query","required":true,"schema":{"type":"string","description":"Endereço","title":"Address"},"description":"Endereço"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/external/tools/equipments_category":{"get":{"tags":["External Tools"],"summary":"Categoria Dos Equipamentos","operationId":"Categoria_dos_Equipamentos_api_v1_external_tools_equipments_category_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}},"security":[{"HTTPBearer":[]}]}},"/api/v1/agent-config":{"get":{"tags":["Agent Config"],"summary":"Get Agent Config","description":"Obtém a configuração atual (ativa) para o tipo de agente especificado.","operationId":"get_agent_config_api_v1_agent_config_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":false,"schema":{"type":"string","default":"agentic_search","title":"Agent Type"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentConfigGetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["Agent Config"],"summary":"Update Agent Config","description":"Atualiza a configuração do agente e, opcionalmente, propaga para agentes existentes.","operationId":"update_agent_config_api_v1_agent_config_post","security":[{"HTTPBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentConfigUpdateRequest"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentConfigUpdateResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/agent-config/history":{"get":{"tags":["Agent Config"],"summary":"Get Agent Config History","description":"Obtém histórico de configurações.","operationId":"get_agent_config_history_api_v1_agent_config_history_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":false,"schema":{"type":"string","default":"agentic_search","title":"Agent Type"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","minimum":1,"description":"Limite de resultados","default":10,"title":"Limit"},"description":"Limite de resultados"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentConfigHistoryResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/agent-config/by-id/{config_id}":{"get":{"tags":["Agent Config"],"summary":"Get Agent Config By Id","description":"Obtém uma configuração específica pelo ID.","operationId":"get_agent_config_by_id_api_v1_agent_config_by_id__config_id__get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"config_id","in":"path","required":true,"schema":{"type":"string","title":"Config Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentConfigGetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/agent-config/reset":{"delete":{"tags":["Agent Config"],"summary":"Reset Agent Config","description":"Remove todas as configs e restaura padrão.","operationId":"reset_agent_config_api_v1_agent_config_reset_delete","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":true,"schema":{"type":"string","description":"Tipo do agente para resetar config","title":"Agent Type"},"description":"Tipo do agente para resetar config"},{"name":"update_agents","in":"query","required":false,"schema":{"type":"boolean","description":"Atualizar também os agentes existentes","default":false,"title":"Update Agents"},"description":"Atualizar também os agentes existentes"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentConfigResetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/agents/tests":{"delete":{"tags":["Agents"],"summary":"Delete Test Agents","description":"Remove todos os agentes que possuam a tag 'test'.","operationId":"delete_test_agents_api_v1_agents_tests_delete","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}},"security":[{"HTTPBearer":[]}]}},"/api/v1/unified-history":{"get":{"tags":["Unified History"],"summary":"Get Unified History","description":"Obtém o histórico unificado de alterações (system prompts e configurações)\npara um tipo de agente.\n\nArgs:\n    agent_type: Tipo do agente\n    limit: Limite de resultados (1-200)\n    db: Sessão do banco de dados\n\nReturns:\n    UnifiedHistoryResponse: Histórico unificado de alterações","operationId":"get_unified_history_api_v1_unified_history_get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":false,"schema":{"type":"string","description":"Tipo do agente","default":"agentic_search","title":"Agent Type"},"description":"Tipo do agente"},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"description":"Limite de resultados","default":50,"title":"Limit"},"description":"Limite de resultados"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnifiedHistoryResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/unified-history/version/{version_number}":{"get":{"tags":["Unified History"],"summary":"Get Version Details","description":"Obtém detalhes completos de uma versão específica do histórico unificado.\n\nArgs:\n    version_number: Número da versão\n    agent_type: Tipo do agente\n    db: Sessão do banco de dados\n\nReturns:\n    UnifiedVersionDetailsResponse: Detalhes completos da versão","operationId":"get_version_details_api_v1_unified_history_version__version_number__get","security":[{"HTTPBearer":[]}],"parameters":[{"name":"version_number","in":"path","required":true,"schema":{"type":"integer","title":"Version Number"}},{"name":"agent_type","in":"query","required":false,"schema":{"type":"string","description":"Tipo do agente","default":"agentic_search","title":"Agent Type"},"description":"Tipo do agente"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnifiedVersionDetailsResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/unified-reset":{"delete":{"tags":["Unified Reset"],"summary":"Unified Reset","description":"Reset completo e unificado: remove todo o histórico (prompts, configs e versões)\ne recria valores padrão com versionamento limpo.\n\nArgs:\n    agent_type: Tipo do agente para resetar\n    update_agents: Se deve atualizar os agentes existentes\n\nReturns:\n    UnifiedResetResponse: Resultado da operação","operationId":"unified_reset_api_v1_unified_reset_delete","security":[{"HTTPBearer":[]}],"parameters":[{"name":"agent_type","in":"query","required":true,"schema":{"type":"string","description":"Tipo do agente para resetar","title":"Agent Type"},"description":"Tipo do agente para resetar"},{"name":"update_agents","in":"query","required":false,"schema":{"type":"boolean","description":"Atualizar também os agentes existentes","default":false,"title":"Update Agents"},"description":"Atualizar também os agentes existentes"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnifiedResetResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/unified-save":{"post":{"tags":["Unified Save"],"summary":"Save Unified Changes","description":"Salva alterações unificadas em prompt e/ou configuração em uma única versão.\n\nReturns:\n    UnifiedSaveResponse: Resultado da operação","operationId":"save_unified_changes_api_v1_unified_save_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnifiedSaveRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnifiedSaveResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/admin/":{"get":{"tags":["Admin"],"summary":"Get Admin Panel","description":"Retorna a página principal do painel administrativo.\nA autenticação será gerenciada pelo frontend.","operationId":"get_admin_panel_admin__get","responses":{"200":{"description":"Successful Response","content":{"text/html":{"schema":{"type":"string"}}}}}}},"/admin/favicon.ico":{"get":{"tags":["Admin"],"summary":"Get Favicon","operationId":"get_favicon_admin_favicon_ico_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/admin/experiments/favicon.ico":{"get":{"tags":["Admin"],"summary":"Get Favicon","description":"Serve o favicon do admin.","operationId":"get_favicon_admin_experiments_favicon_ico_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/admin/experiments/static/{file_path}":{"get":{"tags":["Admin"],"summary":"Get Static File","description":"Serve arquivos estáticos.","operationId":"get_static_file_admin_experiments_static__file_path__get","parameters":[{"name":"file_path","in":"path","required":true,"schema":{"type":"string","title":"File Path"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/admin/experiments/auth":{"get":{"tags":["Admin"],"summary":"Get Auth Page","description":"Página de autenticação.","operationId":"get_auth_page_admin_experiments_auth_get","responses":{"200":{"description":"Successful Response","content":{"text/html":{"schema":{"type":"string"}}}}}}},"/admin/experiments/data":{"get":{"tags":["Admin"],"summary":"Get Datasets Data","description":"Dados dos datasets.","operationId":"get_datasets_data_admin_experiments_data_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/admin/experiments/":{"get":{"tags":["Admin"],"summary":"Get Datasets Page","description":"Página principal de visualização de datasets.","operationId":"get_datasets_page_admin_experiments__get","responses":{"200":{"description":"Successful Response","content":{"text/html":{"schema":{"type":"string"}}}}}}},"/admin/experiments/{dataset_id}/data":{"get":{"tags":["Admin"],"summary":"Get Dataset Data","description":"Dados de um dataset específico.","operationId":"get_dataset_data_admin_experiments__dataset_id__data_get","parameters":[{"name":"dataset_id","in":"path","required":true,"schema":{"type":"string","title":"Dataset Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/admin/experiments/{dataset_id}/examples":{"get":{"tags":["Admin"],"summary":"Get Dataset Examples","description":"Exemplos de um dataset específico.","operationId":"get_dataset_examples_admin_experiments__dataset_id__examples_get","parameters":[{"name":"dataset_id","in":"path","required":true,"schema":{"type":"string","title":"Dataset Id"}},{"name":"first","in":"query","required":false,"schema":{"type":"integer","default":1000,"title":"First"}},{"name":"after","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"After"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/admin/experiments/{dataset_id}/{experiment_id}/data":{"get":{"tags":["Admin"],"summary":"Get Experiment Data","description":"Dados de um experimento específico.","operationId":"get_experiment_data_admin_experiments__dataset_id___experiment_id__data_get","parameters":[{"name":"dataset_id","in":"path","required":true,"schema":{"type":"string","title":"Dataset Id"}},{"name":"experiment_id","in":"path","required":true,"schema":{"type":"string","title":"Experiment Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ExperimentData"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/admin/experiments/{dataset_id}/{experiment_id}/data_clean":{"get":{"tags":["Admin"],"summary":"Get Experiment Data Clean","description":"Dados de um experimento específico, limpos e organizados.\nSe number_of_random_experiments for fornecido, retorna um número aleatório de experimentos.\nSe filters for fornecido, aplica filtros específicos (JSON string).\nApenas para download!","operationId":"get_experiment_data_clean_admin_experiments__dataset_id___experiment_id__data_clean_get","parameters":[{"name":"dataset_id","in":"path","required":true,"schema":{"type":"string","title":"Dataset Id"}},{"name":"experiment_id","in":"path","required":true,"schema":{"type":"string","title":"Experiment Id"}},{"name":"number_of_random_experiments","in":"query","required":false,"schema":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Number Of Random Experiments"}},{"name":"filters","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Filters"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ExperimentData"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/admin/experiments/{dataset_id}/{experiment_id}":{"get":{"tags":["Admin"],"summary":"Get Experiment Page","description":"Página de visualização de um experimento específico.","operationId":"get_experiment_page_admin_experiments__dataset_id___experiment_id__get","parameters":[{"name":"dataset_id","in":"path","required":true,"schema":{"type":"string","title":"Dataset Id"}},{"name":"experiment_id","in":"path","required":true,"schema":{"type":"string","title":"Experiment Id"}}],"responses":{"200":{"description":"Successful Response","content":{"text/html":{"schema":{"type":"string"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/admin/experiments/{dataset_id}":{"get":{"tags":["Admin"],"summary":"Get Dataset Experiments Page","description":"Página de experimentos de um dataset específico.","operationId":"get_dataset_experiments_page_admin_experiments__dataset_id__get","parameters":[{"name":"dataset_id","in":"path","required":true,"schema":{"type":"string","title":"Dataset Id"}}],"responses":{"200":{"description":"Successful Response","content":{"text/html":{"schema":{"type":"string"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}}},"components":{"schemas":{"AgentConfigGetResponse":{"properties":{"config_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Config Id"},"agent_type":{"type":"string","title":"Agent Type"},"version":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Version"},"memory_blocks":{"anyOf":[{"items":{"additionalProperties":true,"type":"object"},"type":"array"},{"type":"null"}],"title":"Memory Blocks"},"tools":{"anyOf":[{"items":{"type":"string"},"type":"array"},{"type":"null"}],"title":"Tools"},"model_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Model Name"},"embedding_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Embedding Name"},"created_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Created At"}},"type":"object","required":["config_id","agent_type","version","memory_blocks","tools","model_name","embedding_name","created_at"],"title":"AgentConfigGetResponse"},"AgentConfigHistoryItem":{"properties":{"config_id":{"type":"string","title":"Config Id"},"version":{"type":"integer","title":"Version"},"is_active":{"type":"boolean","title":"Is Active"},"created_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Created At"},"updated_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Updated At"},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}],"title":"Metadata"},"tools":{"anyOf":[{"items":{"type":"string"},"type":"array"},{"type":"null"}],"title":"Tools"},"model_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Model Name"},"embedding_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Embedding Name"}},"type":"object","required":["config_id","version","is_active","created_at","updated_at","metadata","tools","model_name","embedding_name"],"title":"AgentConfigHistoryItem"},"AgentConfigHistoryResponse":{"properties":{"agent_type":{"type":"string","title":"Agent Type"},"configs":{"items":{"$ref":"#/components/schemas/AgentConfigHistoryItem"},"type":"array","title":"Configs"}},"type":"object","required":["agent_type","configs"],"title":"AgentConfigHistoryResponse"},"AgentConfigResetResponse":{"properties":{"success":{"type":"boolean","title":"Success"},"agent_type":{"type":"string","title":"Agent Type"},"agents_updated":{"additionalProperties":{"type":"boolean"},"type":"object","title":"Agents Updated","default":{}},"message":{"type":"string","title":"Message"}},"type":"object","required":["success","agent_type","message"],"title":"AgentConfigResetResponse"},"AgentConfigUpdateRequest":{"properties":{"agent_type":{"type":"string","title":"Agent Type","description":"Tipo do agente","default":"agentic_search"},"memory_blocks":{"anyOf":[{"items":{"additionalProperties":true,"type":"object"},"type":"array"},{"type":"null"}],"title":"Memory Blocks","description":"Memory blocks personalizados"},"tools":{"anyOf":[{"items":{"type":"string"},"type":"array"},{"type":"null"}],"title":"Tools","description":"Lista de ferramentas"},"model_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Model Name","description":"Nome do modelo LLM"},"embedding_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Embedding Name","description":"Nome do modelo de embedding"},"update_agents":{"type":"boolean","title":"Update Agents","description":"Atualizar agentes existentes","default":true},"tags":{"anyOf":[{"items":{"type":"string"},"type":"array"},{"type":"null"}],"title":"Tags","description":"Filtrar agentes por tags"},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}],"title":"Metadata","description":"Metadados adicionais (autor, motivo, etc.)"}},"type":"object","title":"AgentConfigUpdateRequest"},"AgentConfigUpdateResponse":{"properties":{"success":{"type":"boolean","title":"Success"},"config_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Config Id"},"agents_updated":{"additionalProperties":{"type":"boolean"},"type":"object","title":"Agents Updated","default":{}},"message":{"type":"string","title":"Message"}},"type":"object","required":["success","config_id","message"],"title":"AgentConfigUpdateResponse"},"ConfigInfo":{"properties":{"config_id":{"type":"string","title":"Config Id","description":"ID da configuração"},"memory_blocks":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Memory Blocks","description":"Blocos de memória"},"tools":{"items":{"type":"string"},"type":"array","title":"Tools","description":"Ferramentas"},"model_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Model Name","description":"Nome do modelo"},"embedding_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Embedding Name","description":"Nome do embedding"},"is_active":{"type":"boolean","title":"Is Active","description":"Se a configuração está ativa"},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata","description":"Metadados da configuração"},"created_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Created At","description":"Data de criação da configuração"},"updated_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Updated At","description":"Data de atualização da configuração"}},"type":"object","required":["config_id","is_active"],"title":"ConfigInfo","description":"Informações da configuração em uma versão."},"ExperimentData":{"properties":{"dataset_id":{"type":"string","title":"Dataset Id"},"experiment_id":{"type":"string","title":"Experiment Id"},"dataset_name":{"type":"string","title":"Dataset Name"},"experiment_name":{"type":"string","title":"Experiment Name"},"experiment_metadata":{"additionalProperties":true,"type":"object","title":"Experiment Metadata"},"experiment":{"items":{},"type":"array","title":"Experiment"}},"type":"object","required":["dataset_id","experiment_id","dataset_name","experiment_name","experiment_metadata","experiment"],"title":"ExperimentData","description":"Dados completos do experimento."},"HTTPValidationError":{"properties":{"detail":{"items":{"$ref":"#/components/schemas/ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"},"MessageRequest":{"properties":{"agent_id":{"type":"string","title":"Agent Id","description":"ID do agente para o qual a mensagem será enviada"},"message":{"type":"string","title":"Message","description":"Conteúdo da mensagem"},"name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Name","description":"Nome opcional do remetente"}},"type":"object","required":["agent_id","message"],"title":"MessageRequest","description":"Schema para requisição de envio de mensagem para o agente Letta.","example":{"agent_id":"agt_123456789","message":"Olá, como posso ajudar?","name":"Usuário"}},"MessageResponse":{"properties":{"response":{"type":"string","title":"Response","description":"Resposta do agente Letta"}},"type":"object","required":["response"],"title":"MessageResponse","description":"Schema para resposta do agente Letta.","example":{"response":"Olá! Sou o assistente Letta e estou aqui para ajudar."}},"PromptInfo":{"properties":{"prompt_id":{"type":"string","title":"Prompt Id","description":"ID do prompt"},"content":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Content","description":"Conteúdo completo do prompt"},"content_preview":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Content Preview","description":"Preview do conteúdo"},"is_active":{"type":"boolean","title":"Is Active","description":"Se o prompt está ativo"},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata","description":"Metadados do prompt"},"created_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Created At","description":"Data de criação do prompt"},"updated_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Updated At","description":"Data de atualização do prompt"}},"type":"object","required":["prompt_id","is_active"],"title":"PromptInfo","description":"Informações do system prompt em uma versão."},"RawMessageResponse":{"properties":{"system_messages":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"System Messages","description":"Lista de mensagens do sistema"},"user_messages":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"User Messages","description":"Lista de mensagens do usuário"},"reasoning_messages":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Reasoning Messages","description":"Lista de mensagens de raciocínio"},"tool_call_messages":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Tool Call Messages","description":"Lista de mensagens de chamada de ferramentas"},"tool_return_messages":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Tool Return Messages","description":"Lista de mensagens de retorno de ferramentas"},"assistant_messages":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Assistant Messages","description":"Lista de mensagens do assistente"},"letta_usage_statistics":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Letta Usage Statistics","description":"Lista de estatísticas de uso do Letta"},"ordered":{"anyOf":[{"items":{"additionalProperties":true,"type":"object"},"type":"array"},{"type":"null"}],"title":"Ordered","description":"Lista ordenada de mensagens conforme recebidas, cada item contendo 'type' e 'message'"},"error":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Error","description":"Erro ocorrido durante o processamento, se houver"}},"type":"object","title":"RawMessageResponse","description":"Schema para resposta bruta do agente Letta, contendo todos os tipos de mensagens.","example":{"assistant_messages":[{"content":"Olá! Como posso ajudar?","role":"assistant"}],"letta_usage_statistics":[{"tokens":{"completion":8,"prompt":10}}],"ordered":[{"message":{"content":"Olá","role":"user"},"type":"user_message"},{"message":{"content":"Olá! Como posso ajudar?","role":"assistant"},"type":"assistant_message"}],"reasoning_messages":[],"system_messages":[],"tool_call_messages":[],"tool_return_messages":[],"user_messages":[{"content":"Olá","role":"user"}]}},"SystemPromptGetResponse":{"properties":{"prompt":{"type":"string","title":"Prompt","description":"Texto do system prompt atual"},"agent_type":{"type":"string","title":"Agent Type","description":"Tipo de agente"},"version":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Version","description":"Versão do prompt"},"prompt_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Prompt Id","description":"ID do prompt no banco de dados"},"created_at":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}],"title":"Created At","description":"Data de criação do prompt"}},"type":"object","required":["prompt","agent_type"],"title":"SystemPromptGetResponse","description":"Schema para resposta da obtenção do system prompt atual.","example":{"agent_type":"agentic_search","created_at":"2023-05-16T14:30:15.123456","prompt":"Conteúdo atual do system prompt...","prompt_id":"f47ac10b-58cc-4372-a567-0e02b2c3d479","version":3}},"SystemPromptHistoryItem":{"properties":{"prompt_id":{"type":"string","title":"Prompt Id","description":"ID do prompt"},"version":{"type":"integer","title":"Version","description":"Versão do prompt"},"is_active":{"type":"boolean","title":"Is Active","description":"Se o prompt está ativo"},"created_at":{"type":"string","title":"Created At","description":"Data de criação formatada como string ISO"},"updated_at":{"type":"string","title":"Updated At","description":"Data de atualização formatada como string ISO"},"content":{"type":"string","title":"Content","description":"Conteúdo resumido do prompt"},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}],"title":"Metadata","description":"Metadados do prompt"}},"type":"object","required":["prompt_id","version","is_active","created_at","updated_at","content"],"title":"SystemPromptHistoryItem","description":"Item do histórico de system prompts."},"SystemPromptHistoryResponse":{"properties":{"agent_type":{"type":"string","title":"Agent Type","description":"Tipo de agente"},"prompts":{"items":{"$ref":"#/components/schemas/SystemPromptHistoryItem"},"type":"array","title":"Prompts","description":"Lista de prompts"}},"type":"object","required":["agent_type","prompts"],"title":"SystemPromptHistoryResponse","description":"Schema para resposta da obtenção do histórico de system prompts.","example":{"agent_type":"agentic_search","prompts":[{"content":"Fundamental Identity: You are EAí, the official...","created_at":"2023-05-16T14:30:15.123456","is_active":true,"metadata":{"author":"admin","reason":"Melhoria na resposta de emergência"},"prompt_id":"f47ac10b-58cc-4372-a567-0e02b2c3d479","updated_at":"2023-05-16T14:30:15.123456","version":3},{"content":"Fundamental Identity: You are EAí, the official...","created_at":"2023-05-10T09:15:30.123456","is_active":false,"metadata":{"author":"admin","reason":"Ajuste inicial"},"prompt_id":"a1b2c3d4-1234-5678-9abc-def0123456789","updated_at":"2023-05-10T09:15:30.123456","version":2}]}},"SystemPromptResetResponse":{"properties":{"success":{"type":"boolean","title":"Success","description":"Status geral da operação"},"agent_type":{"type":"string","title":"Agent Type","description":"Tipo de agente que foi resetado"},"agents_updated":{"additionalProperties":{"type":"boolean"},"type":"object","title":"Agents Updated","description":"Status da atualização dos agentes"},"message":{"type":"string","title":"Message","description":"Mensagem adicional sobre a operação","default":""}},"type":"object","required":["success","agent_type","agents_updated"],"title":"SystemPromptResetResponse","description":"Schema para resposta do reset de system prompt.","example":{"agent_type":"agentic_search","agents_updated":{"agt_123456789":true,"agt_987654321":true},"message":"System prompt resetado com sucesso para 2 agentes.","success":true}},"SystemPromptUpdateRequest":{"properties":{"new_prompt":{"type":"string","title":"New Prompt","description":"Novo texto para o system prompt"},"agent_type":{"type":"string","title":"Agent Type","description":"Tipo de agente a ser atualizado","default":"agentic_search"},"update_agents":{"type":"boolean","title":"Update Agents","description":"Se deve atualizar os agentes existentes","default":true},"tags":{"anyOf":[{"items":{"type":"string"},"type":"array"},{"type":"null"}],"title":"Tags","description":"Tags para filtrar os agentes a serem atualizados"},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}],"title":"Metadata","description":"Metadados adicionais para armazenar com o prompt"}},"type":"object","required":["new_prompt"],"title":"SystemPromptUpdateRequest","description":"Schema para requisição de atualização de system prompt.","example":{"agent_type":"agentic_search","metadata":{"author":"admin","reason":"Melhoria na resposta de emergência"},"new_prompt":"Novo conteúdo do system prompt...","tags":["agentic_search","user_123456"],"update_agents":true}},"SystemPromptUpdateResponse":{"properties":{"success":{"type":"boolean","title":"Success","description":"Status geral da operação"},"prompt_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Prompt Id","description":"ID do prompt criado no banco de dados"},"agents_updated":{"additionalProperties":{"type":"boolean"},"type":"object","title":"Agents Updated","description":"Status da atualização dos agentes"},"message":{"type":"string","title":"Message","description":"Mensagem adicional sobre a operação","default":""},"version":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Version","description":"Versão do prompt"}},"type":"object","required":["success","agents_updated"],"title":"SystemPromptUpdateResponse","description":"Schema para resposta da atualização de system prompt.","example":{"agents_updated":{"agt_123456789":true,"agt_987654321":true},"message":"System prompt atualizado com sucesso para 2 agentes.","prompt_id":"f47ac10b-58cc-4372-a567-0e02b2c3d479","success":true,"version":1}},"UnifiedHistoryItem":{"properties":{"version_id":{"type":"string","title":"Version Id","description":"ID único da versão"},"version_number":{"type":"integer","title":"Version Number","description":"Número sequencial da versão"},"change_type":{"type":"string","title":"Change Type","description":"Tipo da alteração: 'prompt', 'config', 'both'"},"created_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Created At","description":"Data de criação da versão"},"author":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Author","description":"Autor da alteração"},"reason":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Reason","description":"Motivo da alteração"},"description":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Description","description":"Descrição detalhada"},"preview":{"type":"string","title":"Preview","description":"Preview unificado da alteração"},"is_active":{"type":"boolean","title":"Is Active","description":"Se esta versão está atualmente ativa","default":false},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata","description":"Metadados da versão"},"prompt":{"anyOf":[{"$ref":"#/components/schemas/PromptInfo"},{"type":"null"}],"description":"Informações do prompt se aplicável"},"config":{"anyOf":[{"$ref":"#/components/schemas/ConfigInfo"},{"type":"null"}],"description":"Informações da config se aplicável"}},"type":"object","required":["version_id","version_number","change_type","preview"],"title":"UnifiedHistoryItem","description":"Item do histórico unificado."},"UnifiedHistoryResponse":{"properties":{"agent_type":{"type":"string","title":"Agent Type","description":"Tipo do agente"},"total_items":{"type":"integer","title":"Total Items","description":"Total de itens retornados"},"items":{"items":{"$ref":"#/components/schemas/UnifiedHistoryItem"},"type":"array","title":"Items","description":"Lista de itens do histórico"}},"type":"object","required":["agent_type","total_items","items"],"title":"UnifiedHistoryResponse","description":"Resposta do histórico unificado.","example":{"agent_type":"agentic_search","items":[{"author":"admin","change_type":"both","config":{"config_id":"def456","is_active":true,"metadata":{},"model_name":"gpt-4","tools":["google_search","public_services"]},"created_at":"2023-05-16T14:30:15.123456","is_active":true,"metadata":{"author":"admin","reason":"Melhoria completa"},"preview":"System Prompt: Você é EAí, assistente oficial... | Config: Tools: google_search, public_services...","prompt":{"content_preview":"Você é EAí, assistente oficial...","is_active":true,"metadata":{},"prompt_id":"abc123"},"reason":"Melhoria completa do sistema","version_id":"f47ac10b-58cc-4372-a567-0e02b2c3d479","version_number":3}],"total_items":3}},"UnifiedResetResponse":{"properties":{"success":{"type":"boolean","title":"Success","description":"Status geral da operação"},"agent_type":{"type":"string","title":"Agent Type","description":"Tipo do agente resetado"},"unified_version":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Unified Version","description":"Número da versão unificada criada"},"version_display":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Version Display","description":"Nome da versão no padrão eai-YYYY-MM-DD-vX"},"prompt_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Prompt Id","description":"ID do prompt padrão criado"},"config_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Config Id","description":"ID da configuração padrão criada"},"agents_updated":{"additionalProperties":{"type":"boolean"},"type":"object","title":"Agents Updated","description":"Status da atualização dos agentes"},"message":{"type":"string","title":"Message","description":"Mensagem informativa sobre a operação"}},"type":"object","required":["success","agent_type","message"],"title":"UnifiedResetResponse","description":"Schema para resposta do reset unificado.","example":{"agent_type":"agentic_search","agents_updated":{"agt_123456789":true,"agt_987654321":true},"config_id":"a1b2c3d4-1234-5678-9abc-def0123456789","message":"Reset unificado concluído com sucesso, 2/2 agentes foram atualizados","prompt_id":"f47ac10b-58cc-4372-a567-0e02b2c3d479","success":true,"unified_version":1,"version_display":"eai-2025-06-26-v1"}},"UnifiedSaveRequest":{"properties":{"agent_type":{"type":"string","title":"Agent Type","description":"Tipo do agente"},"prompt_content":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Prompt Content","description":"Conteúdo do system prompt"},"memory_blocks":{"anyOf":[{"items":{"additionalProperties":true,"type":"object"},"type":"array"},{"type":"null"}],"title":"Memory Blocks","description":"Memory blocks"},"tools":{"anyOf":[{"items":{"type":"string"},"type":"array"},{"type":"null"}],"title":"Tools","description":"Lista de ferramentas"},"model_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Model Name","description":"Nome do modelo"},"embedding_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Embedding Name","description":"Nome do embedding"},"update_agents":{"type":"boolean","title":"Update Agents","description":"Atualizar agentes existentes","default":false},"author":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Author","description":"Autor da alteração"},"reason":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Reason","description":"Motivo da alteração"}},"type":"object","required":["agent_type"],"title":"UnifiedSaveRequest","description":"Schema para salvar alterações unificadas."},"UnifiedSaveResponse":{"properties":{"success":{"type":"boolean","title":"Success"},"unified_version_number":{"type":"integer","title":"Unified Version Number"},"version_display":{"type":"string","title":"Version Display"},"change_type":{"type":"string","title":"Change Type"},"prompt_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Prompt Id"},"config_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Config Id"},"agents_updated":{"additionalProperties":{"type":"boolean"},"type":"object","title":"Agents Updated"},"message":{"type":"string","title":"Message"}},"type":"object","required":["success","unified_version_number","version_display","change_type","message"],"title":"UnifiedSaveResponse","description":"Schema para resposta do save unificado."},"UnifiedVersionDetailsResponse":{"properties":{"version_id":{"type":"string","title":"Version Id","description":"ID único da versão"},"version_number":{"type":"integer","title":"Version Number","description":"Número sequencial da versão"},"change_type":{"type":"string","title":"Change Type","description":"Tipo da alteração"},"created_at":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Created At","description":"Data de criação"},"author":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Author","description":"Autor da alteração"},"reason":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Reason","description":"Motivo da alteração"},"description":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Description","description":"Descrição detalhada"},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata","description":"Metadados da versão"},"prompt":{"anyOf":[{"$ref":"#/components/schemas/PromptInfo"},{"type":"null"}],"description":"Dados completos do prompt"},"config":{"anyOf":[{"$ref":"#/components/schemas/ConfigInfo"},{"type":"null"}],"description":"Dados completos da configuração"}},"type":"object","required":["version_id","version_number","change_type"],"title":"UnifiedVersionDetailsResponse","description":"Detalhes completos de uma versão específica.","example":{"author":"admin","change_type":"both","config":{"config_id":"def456","created_at":"2023-05-16T14:30:15.123456","embedding_name":"text-embedding-ada-002","is_active":true,"memory_blocks":[{"label":"core_memory","value":"..."}],"metadata":{"author":"admin"},"model_name":"gpt-4","tools":["google_search","public_services"]},"created_at":"2023-05-16T14:30:15.123456","description":"Atualização que incluiu melhorias no prompt e novas ferramentas","metadata":{"author":"admin","reason":"Melhoria completa"},"prompt":{"content":"Você é EAí, o assistente oficial da Prefeitura do Rio de Janeiro...","created_at":"2023-05-16T14:30:15.123456","is_active":true,"metadata":{"author":"admin"},"prompt_id":"abc123"},"reason":"Melhoria completa do sistema","version_id":"f47ac10b-58cc-4372-a567-0e02b2c3d479","version_number":3}},"ValidationError":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"WebhookEvent":{"properties":{"type":{"type":"string","title":"Type","description":"Tipo de evento recebido"},"data":{"additionalProperties":true,"type":"object","title":"Data","description":"Dados do evento"},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}],"title":"Metadata","description":"Metadados adicionais do evento"}},"type":"object","required":["type","data"],"title":"WebhookEvent","description":"Schema para eventos recebidos via webhook.","example":{"data":{"message":"Quero pagar meu IPTU!!","name":"João da Silva","user_number":"5531999999999"},"metadata":{"origin":"sistema_externo","timestamp":"2023-10-15T14:30:00Z"},"type":"message"}}},"securitySchemes":{"HTTPBearer":{"type":"http","scheme":"bearer"}}}}
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Agentic Search API",
+        "description": "API que gerencia os fluxos e ferramentas dos agentes de IA da Prefeitura do Rio de Janeiro",
+        "version": "0.1.0"
+    },
+    "servers": [
+        {
+            "url": "https://services.staging.app.dados.rio/eai-agent",
+            "description": "Staging"
+        }
+    ],
+    "paths": {
+        "/health": {
+            "get": {
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health Check",
+                "operationId": "health_check_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/letta/test-message": {
+            "post": {
+                "tags": [
+                    "Letta"
+                ],
+                "summary": "Test Send Message",
+                "description": "Endpoint para testar o envio de mensagens para o agente Letta.\n\nPar\u00e2metros:\n- agent_id: ID do agente para o qual a mensagem ser\u00e1 enviada\n- message: Conte\u00fado da mensagem\n- name: Nome opcional do remetente\n\nRetorna:\n- response: Resposta do agente",
+                "operationId": "test_send_message_api_v1_letta_test_message_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MessageRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/letta/test-message-raw": {
+            "post": {
+                "tags": [
+                    "Letta"
+                ],
+                "summary": "Test Send Message Raw",
+                "description": "Endpoint para testar o envio de mensagens para o agente Letta e receber todos os tipos de mensagens.\n\u00datil para fins de debug e an\u00e1lise detalhada das respostas do agente.\n\nPar\u00e2metros:\n- agent_id: ID do agente para o qual a mensagem ser\u00e1 enviada\n- message: Conte\u00fado da mensagem\n- name: Nome opcional do remetente\n\nRetorna:\n- Dicion\u00e1rio contendo todas as mensagens do stream organizadas por tipo:\n    - system_messages: Mensagens do sistema\n    - user_messages: Mensagens do usu\u00e1rio\n    - reasoning_messages: Mensagens de racioc\u00ednio\n    - tool_call_messages: Mensagens de chamada de ferramentas\n    - tool_return_messages: Mensagens de retorno de ferramentas\n    - assistant_messages: Mensagens do assistente\n    - letta_usage_statistics: Estat\u00edsticas de uso do Letta\n    - error: Erro ocorrido durante o processamento, se houver",
+                "operationId": "test_send_message_raw_api_v1_letta_test_message_raw_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MessageRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RawMessageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/webhook/": {
+            "post": {
+                "tags": [
+                    "Webhook"
+                ],
+                "summary": "Receber Webhook",
+                "description": "Endpoint para receber eventos webhook.",
+                "operationId": "receber_webhook_api_v1_webhook__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WebhookEvent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/letta/tools/google_search": {
+            "get": {
+                "tags": [
+                    "Letta Tools"
+                ],
+                "summary": "Google Search",
+                "operationId": "Google_Search_api_v1_letta_tools_google_search_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Texto da consulta",
+                            "title": "Query"
+                        },
+                        "description": "Texto da consulta"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/letta/tools/gpt_search": {
+            "get": {
+                "tags": [
+                    "Letta Tools"
+                ],
+                "summary": "Busca Com Gpt",
+                "operationId": "Busca_com_GPT_api_v1_letta_tools_gpt_search_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Texto da consulta",
+                            "title": "Query"
+                        },
+                        "description": "Texto da consulta"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/letta/tools/public_services_grounded_search": {
+            "get": {
+                "tags": [
+                    "Letta Tools"
+                ],
+                "summary": "Busca Servi\u00e7os P\u00fablicos",
+                "operationId": "Busca_Servi\u00e7os_P\u00fablicos_api_v1_letta_tools_public_services_grounded_search_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Texto da consulta",
+                            "title": "Query"
+                        },
+                        "description": "Texto da consulta"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/letta/tools/google_deep_research": {
+            "get": {
+                "tags": [
+                    "Letta Tools"
+                ],
+                "summary": "Google Deep Research",
+                "description": "Performs deep research on a given question using a multi-step agent.",
+                "operationId": "Google_Deep_Research_api_v1_letta_tools_google_deep_research_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "question",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Question"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "title": "Response Google Deep Research Api V1 Letta Tools Google Deep Research Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/system-prompt/agent-types": {
+            "get": {
+                "tags": [
+                    "System Prompt"
+                ],
+                "summary": "Get Agent Types",
+                "description": "Obt\u00e9m os tipos de agentes dispon\u00edveis baseados nas tags que cont\u00eam 'agentic'.\n\nReturns:\n    List[str]: Lista de tags de agentes",
+                "operationId": "get_agent_types_api_v1_system_prompt_agent_types_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get Agent Types Api V1 System Prompt Agent Types Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/system-prompt": {
+            "get": {
+                "tags": [
+                    "System Prompt"
+                ],
+                "summary": "Get System Prompt",
+                "description": "Obt\u00e9m o system prompt atual para o tipo de agente especificado.\n\nArgs:\n    agent_type: Tipo do agente\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    SystemPromptGetResponse: Resposta contendo o system prompt atual",
+                "operationId": "get_system_prompt_api_v1_system_prompt_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "agentic_search",
+                            "title": "Agent Type"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemPromptGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "System Prompt"
+                ],
+                "summary": "Update System Prompt",
+                "description": "Atualiza o system prompt e/ou em todos os agentes existentes.\n\nArgs:\n    request: Dados para atualiza\u00e7\u00e3o do system prompt\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    SystemPromptUpdateResponse: Resposta contendo o resultado da opera\u00e7\u00e3o",
+                "operationId": "update_system_prompt_api_v1_system_prompt_post",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SystemPromptUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemPromptUpdateResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/system-prompt/history": {
+            "get": {
+                "tags": [
+                    "System Prompt"
+                ],
+                "summary": "Get System Prompt History",
+                "description": "Obt\u00e9m o hist\u00f3rico de vers\u00f5es de system prompts para um tipo de agente.\n\nArgs:\n    agent_type: Tipo do agente\n    limit: Limite de resultados\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    SystemPromptHistoryResponse: Hist\u00f3rico de vers\u00f5es",
+                "operationId": "get_system_prompt_history_api_v1_system_prompt_history_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "agentic_search",
+                            "title": "Agent Type"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Limite de resultados",
+                            "default": 10,
+                            "title": "Limit"
+                        },
+                        "description": "Limite de resultados"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemPromptHistoryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/system-prompt/by-id/{prompt_id}": {
+            "get": {
+                "tags": [
+                    "System Prompt"
+                ],
+                "summary": "Get System Prompt By Id",
+                "description": "Obt\u00e9m um system prompt espec\u00edfico pelo ID.\n\nArgs:\n    prompt_id: ID do system prompt\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    SystemPromptGetResponse: Resposta contendo o system prompt espec\u00edfico",
+                "operationId": "get_system_prompt_by_id_api_v1_system_prompt_by_id__prompt_id__get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "prompt_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Prompt Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemPromptGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/system-prompt/reset": {
+            "delete": {
+                "tags": [
+                    "System Prompt"
+                ],
+                "summary": "Reset System Prompt",
+                "description": "Remove todos os system prompts hist\u00f3ricos para o tipo de agente especificado\ne restaura para o valor padr\u00e3o.\n\nArgs:\n    agent_type: Tipo do agente\n    update_agents: Se verdadeiro, tamb\u00e9m atualiza os agentes existentes\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    SystemPromptResetResponse: Resposta contendo o resultado da opera\u00e7\u00e3o",
+                "operationId": "reset_system_prompt_api_v1_system_prompt_reset_delete",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Tipo do agente para resetar o prompt",
+                            "title": "Agent Type"
+                        },
+                        "description": "Tipo do agente para resetar o prompt"
+                    },
+                    {
+                        "name": "update_agents",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "description": "Atualizar tamb\u00e9m os agentes existentes",
+                            "default": false,
+                            "title": "Update Agents"
+                        },
+                        "description": "Atualizar tamb\u00e9m os agentes existentes"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemPromptResetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/external/tools/equipments": {
+            "get": {
+                "tags": [
+                    "External Tools"
+                ],
+                "summary": "Equipamentos",
+                "operationId": "Equipamentos_api_v1_external_tools_equipments_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Endere\u00e7o",
+                            "title": "Address"
+                        },
+                        "description": "Endere\u00e7o"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/external/tools/equipments_category": {
+            "get": {
+                "tags": [
+                    "External Tools"
+                ],
+                "summary": "Categoria Dos Equipamentos",
+                "operationId": "Categoria_dos_Equipamentos_api_v1_external_tools_equipments_category_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agent-config": {
+            "get": {
+                "tags": [
+                    "Agent Config"
+                ],
+                "summary": "Get Agent Config",
+                "description": "Obt\u00e9m a configura\u00e7\u00e3o atual (ativa) para o tipo de agente especificado.",
+                "operationId": "get_agent_config_api_v1_agent_config_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "agentic_search",
+                            "title": "Agent Type"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgentConfigGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Agent Config"
+                ],
+                "summary": "Update Agent Config",
+                "description": "Atualiza a configura\u00e7\u00e3o do agente e, opcionalmente, propaga para agentes existentes.",
+                "operationId": "update_agent_config_api_v1_agent_config_post",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AgentConfigUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgentConfigUpdateResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agent-config/history": {
+            "get": {
+                "tags": [
+                    "Agent Config"
+                ],
+                "summary": "Get Agent Config History",
+                "description": "Obt\u00e9m hist\u00f3rico de configura\u00e7\u00f5es.",
+                "operationId": "get_agent_config_history_api_v1_agent_config_history_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "agentic_search",
+                            "title": "Agent Type"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Limite de resultados",
+                            "default": 10,
+                            "title": "Limit"
+                        },
+                        "description": "Limite de resultados"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgentConfigHistoryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agent-config/by-id/{config_id}": {
+            "get": {
+                "tags": [
+                    "Agent Config"
+                ],
+                "summary": "Get Agent Config By Id",
+                "description": "Obt\u00e9m uma configura\u00e7\u00e3o espec\u00edfica pelo ID.",
+                "operationId": "get_agent_config_by_id_api_v1_agent_config_by_id__config_id__get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "config_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Config Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgentConfigGetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agent-config/reset": {
+            "delete": {
+                "tags": [
+                    "Agent Config"
+                ],
+                "summary": "Reset Agent Config",
+                "description": "Remove todas as configs e restaura padr\u00e3o.",
+                "operationId": "reset_agent_config_api_v1_agent_config_reset_delete",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Tipo do agente para resetar config",
+                            "title": "Agent Type"
+                        },
+                        "description": "Tipo do agente para resetar config"
+                    },
+                    {
+                        "name": "update_agents",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "description": "Atualizar tamb\u00e9m os agentes existentes",
+                            "default": false,
+                            "title": "Update Agents"
+                        },
+                        "description": "Atualizar tamb\u00e9m os agentes existentes"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgentConfigResetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agents/tests": {
+            "delete": {
+                "tags": [
+                    "Agents"
+                ],
+                "summary": "Delete Test Agents",
+                "description": "Remove todos os agentes que possuam a tag 'test'.",
+                "operationId": "delete_test_agents_api_v1_agents_tests_delete",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/unified-history": {
+            "get": {
+                "tags": [
+                    "Unified History"
+                ],
+                "summary": "Get Unified History",
+                "description": "Obt\u00e9m o hist\u00f3rico unificado de altera\u00e7\u00f5es (system prompts e configura\u00e7\u00f5es)\npara um tipo de agente.\n\nArgs:\n    agent_type: Tipo do agente\n    limit: Limite de resultados (1-200)\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    UnifiedHistoryResponse: Hist\u00f3rico unificado de altera\u00e7\u00f5es",
+                "operationId": "get_unified_history_api_v1_unified_history_get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "Tipo do agente",
+                            "default": "agentic_search",
+                            "title": "Agent Type"
+                        },
+                        "description": "Tipo do agente"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 200,
+                            "minimum": 1,
+                            "description": "Limite de resultados",
+                            "default": 50,
+                            "title": "Limit"
+                        },
+                        "description": "Limite de resultados"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnifiedHistoryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/unified-history/version/{version_number}": {
+            "get": {
+                "tags": [
+                    "Unified History"
+                ],
+                "summary": "Get Version Details",
+                "description": "Obt\u00e9m detalhes completos de uma vers\u00e3o espec\u00edfica do hist\u00f3rico unificado.\n\nArgs:\n    version_number: N\u00famero da vers\u00e3o\n    agent_type: Tipo do agente\n    db: Sess\u00e3o do banco de dados\n\nReturns:\n    UnifiedVersionDetailsResponse: Detalhes completos da vers\u00e3o",
+                "operationId": "get_version_details_api_v1_unified_history_version__version_number__get",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "version_number",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Version Number"
+                        }
+                    },
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "Tipo do agente",
+                            "default": "agentic_search",
+                            "title": "Agent Type"
+                        },
+                        "description": "Tipo do agente"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnifiedVersionDetailsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/unified-reset": {
+            "delete": {
+                "tags": [
+                    "Unified Reset"
+                ],
+                "summary": "Unified Reset",
+                "description": "Reset completo e unificado: remove todo o hist\u00f3rico (prompts, configs e vers\u00f5es)\ne recria valores padr\u00e3o com versionamento limpo.\n\nArgs:\n    agent_type: Tipo do agente para resetar\n    update_agents: Se deve atualizar os agentes existentes\n\nReturns:\n    UnifiedResetResponse: Resultado da opera\u00e7\u00e3o",
+                "operationId": "unified_reset_api_v1_unified_reset_delete",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "agent_type",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Tipo do agente para resetar",
+                            "title": "Agent Type"
+                        },
+                        "description": "Tipo do agente para resetar"
+                    },
+                    {
+                        "name": "update_agents",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "description": "Atualizar tamb\u00e9m os agentes existentes",
+                            "default": false,
+                            "title": "Update Agents"
+                        },
+                        "description": "Atualizar tamb\u00e9m os agentes existentes"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnifiedResetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/unified-save": {
+            "post": {
+                "tags": [
+                    "Unified Save"
+                ],
+                "summary": "Save Unified Changes",
+                "description": "Salva altera\u00e7\u00f5es unificadas em prompt e/ou configura\u00e7\u00e3o em uma \u00fanica vers\u00e3o.\n\nReturns:\n    UnifiedSaveResponse: Resultado da opera\u00e7\u00e3o",
+                "operationId": "save_unified_changes_api_v1_unified_save_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnifiedSaveRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnifiedSaveResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/admin/": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Admin Panel",
+                "description": "Retorna a p\u00e1gina principal do painel administrativo.\nA autentica\u00e7\u00e3o ser\u00e1 gerenciada pelo frontend.",
+                "operationId": "get_admin_panel_admin__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/favicon.ico": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Favicon",
+                "operationId": "get_favicon_admin_favicon_ico_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/favicon.ico": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Favicon",
+                "description": "Serve o favicon do admin.",
+                "operationId": "get_favicon_admin_experiments_favicon_ico_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/static/{file_path}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Static File",
+                "description": "Serve arquivos est\u00e1ticos.",
+                "operationId": "get_static_file_admin_experiments_static__file_path__get",
+                "parameters": [
+                    {
+                        "name": "file_path",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "File Path"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/auth": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Auth Page",
+                "description": "P\u00e1gina de autentica\u00e7\u00e3o.",
+                "operationId": "get_auth_page_admin_experiments_auth_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/data": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Datasets Data",
+                "description": "Dados dos datasets.",
+                "operationId": "get_datasets_data_admin_experiments_data_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Datasets Page",
+                "description": "P\u00e1gina principal de visualiza\u00e7\u00e3o de datasets.",
+                "operationId": "get_datasets_page_admin_experiments__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/{dataset_id}/data": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Dataset Data",
+                "description": "Dados de um dataset espec\u00edfico.",
+                "operationId": "get_dataset_data_admin_experiments__dataset_id__data_get",
+                "parameters": [
+                    {
+                        "name": "dataset_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Dataset Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/{dataset_id}/examples": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Dataset Examples",
+                "description": "Exemplos de um dataset espec\u00edfico.",
+                "operationId": "get_dataset_examples_admin_experiments__dataset_id__examples_get",
+                "parameters": [
+                    {
+                        "name": "dataset_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Dataset Id"
+                        }
+                    },
+                    {
+                        "name": "first",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1000,
+                            "title": "First"
+                        }
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "After"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/{dataset_id}/{experiment_id}/data": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Experiment Data",
+                "description": "Dados de um experimento espec\u00edfico.",
+                "operationId": "get_experiment_data_admin_experiments__dataset_id___experiment_id__data_get",
+                "parameters": [
+                    {
+                        "name": "dataset_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Dataset Id"
+                        }
+                    },
+                    {
+                        "name": "experiment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Experiment Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExperimentData"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/{dataset_id}/{experiment_id}/data_clean": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Experiment Data Clean",
+                "description": "Dados de um experimento espec\u00edfico, limpos e organizados.\nSe number_of_random_experiments for fornecido, retorna um n\u00famero aleat\u00f3rio de experimentos.\nSe filters for fornecido, aplica filtros espec\u00edficos (JSON string).\nApenas para download!",
+                "operationId": "get_experiment_data_clean_admin_experiments__dataset_id___experiment_id__data_clean_get",
+                "parameters": [
+                    {
+                        "name": "dataset_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Dataset Id"
+                        }
+                    },
+                    {
+                        "name": "experiment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Experiment Id"
+                        }
+                    },
+                    {
+                        "name": "number_of_random_experiments",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Number Of Random Experiments"
+                        }
+                    },
+                    {
+                        "name": "filters",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Filters"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExperimentData"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/{dataset_id}/{experiment_id}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Experiment Page",
+                "description": "P\u00e1gina de visualiza\u00e7\u00e3o de um experimento espec\u00edfico.",
+                "operationId": "get_experiment_page_admin_experiments__dataset_id___experiment_id__get",
+                "parameters": [
+                    {
+                        "name": "dataset_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Dataset Id"
+                        }
+                    },
+                    {
+                        "name": "experiment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Experiment Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/experiments/{dataset_id}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get Dataset Experiments Page",
+                "description": "P\u00e1gina de experimentos de um dataset espec\u00edfico.",
+                "operationId": "get_dataset_experiments_page_admin_experiments__dataset_id__get",
+                "parameters": [
+                    {
+                        "name": "dataset_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Dataset Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AgentConfigGetResponse": {
+                "properties": {
+                    "config_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Config Id"
+                    },
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type"
+                    },
+                    "version": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Version"
+                    },
+                    "memory_blocks": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Memory Blocks"
+                    },
+                    "tools": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tools"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model Name"
+                    },
+                    "embedding_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Embedding Name"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "config_id",
+                    "agent_type",
+                    "version",
+                    "memory_blocks",
+                    "tools",
+                    "model_name",
+                    "embedding_name",
+                    "created_at"
+                ],
+                "title": "AgentConfigGetResponse"
+            },
+            "AgentConfigHistoryItem": {
+                "properties": {
+                    "config_id": {
+                        "type": "string",
+                        "title": "Config Id"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "title": "Version"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "title": "Is Active"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At"
+                    },
+                    "updated_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Updated At"
+                    },
+                    "metadata": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metadata"
+                    },
+                    "tools": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tools"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model Name"
+                    },
+                    "embedding_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Embedding Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "config_id",
+                    "version",
+                    "is_active",
+                    "created_at",
+                    "updated_at",
+                    "metadata",
+                    "tools",
+                    "model_name",
+                    "embedding_name"
+                ],
+                "title": "AgentConfigHistoryItem"
+            },
+            "AgentConfigHistoryResponse": {
+                "properties": {
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type"
+                    },
+                    "configs": {
+                        "items": {
+                            "$ref": "#/components/schemas/AgentConfigHistoryItem"
+                        },
+                        "type": "array",
+                        "title": "Configs"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "agent_type",
+                    "configs"
+                ],
+                "title": "AgentConfigHistoryResponse"
+            },
+            "AgentConfigResetResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type"
+                    },
+                    "agents_updated": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Agents Updated",
+                        "default": {}
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "agent_type",
+                    "message"
+                ],
+                "title": "AgentConfigResetResponse"
+            },
+            "AgentConfigUpdateRequest": {
+                "properties": {
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo do agente",
+                        "default": "agentic_search"
+                    },
+                    "memory_blocks": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Memory Blocks",
+                        "description": "Memory blocks personalizados"
+                    },
+                    "tools": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tools",
+                        "description": "Lista de ferramentas"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model Name",
+                        "description": "Nome do modelo LLM"
+                    },
+                    "embedding_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Embedding Name",
+                        "description": "Nome do modelo de embedding"
+                    },
+                    "update_agents": {
+                        "type": "boolean",
+                        "title": "Update Agents",
+                        "description": "Atualizar agentes existentes",
+                        "default": true
+                    },
+                    "tags": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tags",
+                        "description": "Filtrar agentes por tags"
+                    },
+                    "metadata": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metadata",
+                        "description": "Metadados adicionais (autor, motivo, etc.)"
+                    }
+                },
+                "type": "object",
+                "title": "AgentConfigUpdateRequest"
+            },
+            "AgentConfigUpdateResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "config_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Config Id"
+                    },
+                    "agents_updated": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Agents Updated",
+                        "default": {}
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "config_id",
+                    "message"
+                ],
+                "title": "AgentConfigUpdateResponse"
+            },
+            "ConfigInfo": {
+                "properties": {
+                    "config_id": {
+                        "type": "string",
+                        "title": "Config Id",
+                        "description": "ID da configura\u00e7\u00e3o"
+                    },
+                    "memory_blocks": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Memory Blocks",
+                        "description": "Blocos de mem\u00f3ria"
+                    },
+                    "tools": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Tools",
+                        "description": "Ferramentas"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model Name",
+                        "description": "Nome do modelo"
+                    },
+                    "embedding_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Embedding Name",
+                        "description": "Nome do embedding"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "title": "Is Active",
+                        "description": "Se a configura\u00e7\u00e3o est\u00e1 ativa"
+                    },
+                    "metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Metadata",
+                        "description": "Metadados da configura\u00e7\u00e3o"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At",
+                        "description": "Data de cria\u00e7\u00e3o da configura\u00e7\u00e3o"
+                    },
+                    "updated_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Updated At",
+                        "description": "Data de atualiza\u00e7\u00e3o da configura\u00e7\u00e3o"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "config_id",
+                    "is_active"
+                ],
+                "title": "ConfigInfo",
+                "description": "Informa\u00e7\u00f5es da configura\u00e7\u00e3o em uma vers\u00e3o."
+            },
+            "ExperimentData": {
+                "properties": {
+                    "dataset_id": {
+                        "type": "string",
+                        "title": "Dataset Id"
+                    },
+                    "experiment_id": {
+                        "type": "string",
+                        "title": "Experiment Id"
+                    },
+                    "dataset_name": {
+                        "type": "string",
+                        "title": "Dataset Name"
+                    },
+                    "experiment_name": {
+                        "type": "string",
+                        "title": "Experiment Name"
+                    },
+                    "experiment_metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Experiment Metadata"
+                    },
+                    "experiment": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Experiment"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "dataset_id",
+                    "experiment_id",
+                    "dataset_name",
+                    "experiment_name",
+                    "experiment_metadata",
+                    "experiment"
+                ],
+                "title": "ExperimentData",
+                "description": "Dados completos do experimento."
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "MessageRequest": {
+                "properties": {
+                    "agent_id": {
+                        "type": "string",
+                        "title": "Agent Id",
+                        "description": "ID do agente para o qual a mensagem ser\u00e1 enviada"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message",
+                        "description": "Conte\u00fado da mensagem"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name",
+                        "description": "Nome opcional do remetente"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "agent_id",
+                    "message"
+                ],
+                "title": "MessageRequest",
+                "description": "Schema para requisi\u00e7\u00e3o de envio de mensagem para o agente Letta.",
+                "example": {
+                    "agent_id": "agt_123456789",
+                    "message": "Ol\u00e1, como posso ajudar?",
+                    "name": "Usu\u00e1rio"
+                }
+            },
+            "MessageResponse": {
+                "properties": {
+                    "response": {
+                        "type": "string",
+                        "title": "Response",
+                        "description": "Resposta do agente Letta"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "response"
+                ],
+                "title": "MessageResponse",
+                "description": "Schema para resposta do agente Letta.",
+                "example": {
+                    "response": "Ol\u00e1! Sou o assistente Letta e estou aqui para ajudar."
+                }
+            },
+            "PromptInfo": {
+                "properties": {
+                    "prompt_id": {
+                        "type": "string",
+                        "title": "Prompt Id",
+                        "description": "ID do prompt"
+                    },
+                    "content": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Content",
+                        "description": "Conte\u00fado completo do prompt"
+                    },
+                    "content_preview": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Content Preview",
+                        "description": "Preview do conte\u00fado"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "title": "Is Active",
+                        "description": "Se o prompt est\u00e1 ativo"
+                    },
+                    "metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Metadata",
+                        "description": "Metadados do prompt"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At",
+                        "description": "Data de cria\u00e7\u00e3o do prompt"
+                    },
+                    "updated_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Updated At",
+                        "description": "Data de atualiza\u00e7\u00e3o do prompt"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "prompt_id",
+                    "is_active"
+                ],
+                "title": "PromptInfo",
+                "description": "Informa\u00e7\u00f5es do system prompt em uma vers\u00e3o."
+            },
+            "RawMessageResponse": {
+                "properties": {
+                    "system_messages": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "System Messages",
+                        "description": "Lista de mensagens do sistema"
+                    },
+                    "user_messages": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "User Messages",
+                        "description": "Lista de mensagens do usu\u00e1rio"
+                    },
+                    "reasoning_messages": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Reasoning Messages",
+                        "description": "Lista de mensagens de racioc\u00ednio"
+                    },
+                    "tool_call_messages": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Tool Call Messages",
+                        "description": "Lista de mensagens de chamada de ferramentas"
+                    },
+                    "tool_return_messages": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Tool Return Messages",
+                        "description": "Lista de mensagens de retorno de ferramentas"
+                    },
+                    "assistant_messages": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Assistant Messages",
+                        "description": "Lista de mensagens do assistente"
+                    },
+                    "letta_usage_statistics": {
+                        "items": {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Letta Usage Statistics",
+                        "description": "Lista de estat\u00edsticas de uso do Letta"
+                    },
+                    "ordered": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Ordered",
+                        "description": "Lista ordenada de mensagens conforme recebidas, cada item contendo 'type' e 'message'"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Error",
+                        "description": "Erro ocorrido durante o processamento, se houver"
+                    }
+                },
+                "type": "object",
+                "title": "RawMessageResponse",
+                "description": "Schema para resposta bruta do agente Letta, contendo todos os tipos de mensagens.",
+                "example": {
+                    "assistant_messages": [
+                        {
+                            "content": "Ol\u00e1! Como posso ajudar?",
+                            "role": "assistant"
+                        }
+                    ],
+                    "letta_usage_statistics": [
+                        {
+                            "tokens": {
+                                "completion": 8,
+                                "prompt": 10
+                            }
+                        }
+                    ],
+                    "ordered": [
+                        {
+                            "message": {
+                                "content": "Ol\u00e1",
+                                "role": "user"
+                            },
+                            "type": "user_message"
+                        },
+                        {
+                            "message": {
+                                "content": "Ol\u00e1! Como posso ajudar?",
+                                "role": "assistant"
+                            },
+                            "type": "assistant_message"
+                        }
+                    ],
+                    "reasoning_messages": [],
+                    "system_messages": [],
+                    "tool_call_messages": [],
+                    "tool_return_messages": [],
+                    "user_messages": [
+                        {
+                            "content": "Ol\u00e1",
+                            "role": "user"
+                        }
+                    ]
+                }
+            },
+            "SystemPromptGetResponse": {
+                "properties": {
+                    "prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "description": "Texto do system prompt atual"
+                    },
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo de agente"
+                    },
+                    "version": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Version",
+                        "description": "Vers\u00e3o do prompt"
+                    },
+                    "prompt_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Prompt Id",
+                        "description": "ID do prompt no banco de dados"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At",
+                        "description": "Data de cria\u00e7\u00e3o do prompt"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "prompt",
+                    "agent_type"
+                ],
+                "title": "SystemPromptGetResponse",
+                "description": "Schema para resposta da obten\u00e7\u00e3o do system prompt atual.",
+                "example": {
+                    "agent_type": "agentic_search",
+                    "created_at": "2023-05-16T14:30:15.123456",
+                    "prompt": "Conte\u00fado atual do system prompt...",
+                    "prompt_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                    "version": 3
+                }
+            },
+            "SystemPromptHistoryItem": {
+                "properties": {
+                    "prompt_id": {
+                        "type": "string",
+                        "title": "Prompt Id",
+                        "description": "ID do prompt"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "title": "Version",
+                        "description": "Vers\u00e3o do prompt"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "title": "Is Active",
+                        "description": "Se o prompt est\u00e1 ativo"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "title": "Created At",
+                        "description": "Data de cria\u00e7\u00e3o formatada como string ISO"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "title": "Updated At",
+                        "description": "Data de atualiza\u00e7\u00e3o formatada como string ISO"
+                    },
+                    "content": {
+                        "type": "string",
+                        "title": "Content",
+                        "description": "Conte\u00fado resumido do prompt"
+                    },
+                    "metadata": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metadata",
+                        "description": "Metadados do prompt"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "prompt_id",
+                    "version",
+                    "is_active",
+                    "created_at",
+                    "updated_at",
+                    "content"
+                ],
+                "title": "SystemPromptHistoryItem",
+                "description": "Item do hist\u00f3rico de system prompts."
+            },
+            "SystemPromptHistoryResponse": {
+                "properties": {
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo de agente"
+                    },
+                    "prompts": {
+                        "items": {
+                            "$ref": "#/components/schemas/SystemPromptHistoryItem"
+                        },
+                        "type": "array",
+                        "title": "Prompts",
+                        "description": "Lista de prompts"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "agent_type",
+                    "prompts"
+                ],
+                "title": "SystemPromptHistoryResponse",
+                "description": "Schema para resposta da obten\u00e7\u00e3o do hist\u00f3rico de system prompts.",
+                "example": {
+                    "agent_type": "agentic_search",
+                    "prompts": [
+                        {
+                            "content": "Fundamental Identity: You are EA\u00ed, the official...",
+                            "created_at": "2023-05-16T14:30:15.123456",
+                            "is_active": true,
+                            "metadata": {
+                                "author": "admin",
+                                "reason": "Melhoria na resposta de emerg\u00eancia"
+                            },
+                            "prompt_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                            "updated_at": "2023-05-16T14:30:15.123456",
+                            "version": 3
+                        },
+                        {
+                            "content": "Fundamental Identity: You are EA\u00ed, the official...",
+                            "created_at": "2023-05-10T09:15:30.123456",
+                            "is_active": false,
+                            "metadata": {
+                                "author": "admin",
+                                "reason": "Ajuste inicial"
+                            },
+                            "prompt_id": "a1b2c3d4-1234-5678-9abc-def0123456789",
+                            "updated_at": "2023-05-10T09:15:30.123456",
+                            "version": 2
+                        }
+                    ]
+                }
+            },
+            "SystemPromptResetResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Status geral da opera\u00e7\u00e3o"
+                    },
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo de agente que foi resetado"
+                    },
+                    "agents_updated": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Agents Updated",
+                        "description": "Status da atualiza\u00e7\u00e3o dos agentes"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message",
+                        "description": "Mensagem adicional sobre a opera\u00e7\u00e3o",
+                        "default": ""
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "agent_type",
+                    "agents_updated"
+                ],
+                "title": "SystemPromptResetResponse",
+                "description": "Schema para resposta do reset de system prompt.",
+                "example": {
+                    "agent_type": "agentic_search",
+                    "agents_updated": {
+                        "agt_123456789": true,
+                        "agt_987654321": true
+                    },
+                    "message": "System prompt resetado com sucesso para 2 agentes.",
+                    "success": true
+                }
+            },
+            "SystemPromptUpdateRequest": {
+                "properties": {
+                    "new_prompt": {
+                        "type": "string",
+                        "title": "New Prompt",
+                        "description": "Novo texto para o system prompt"
+                    },
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo de agente a ser atualizado",
+                        "default": "agentic_search"
+                    },
+                    "update_agents": {
+                        "type": "boolean",
+                        "title": "Update Agents",
+                        "description": "Se deve atualizar os agentes existentes",
+                        "default": true
+                    },
+                    "tags": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tags",
+                        "description": "Tags para filtrar os agentes a serem atualizados"
+                    },
+                    "metadata": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metadata",
+                        "description": "Metadados adicionais para armazenar com o prompt"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "new_prompt"
+                ],
+                "title": "SystemPromptUpdateRequest",
+                "description": "Schema para requisi\u00e7\u00e3o de atualiza\u00e7\u00e3o de system prompt.",
+                "example": {
+                    "agent_type": "agentic_search",
+                    "metadata": {
+                        "author": "admin",
+                        "reason": "Melhoria na resposta de emerg\u00eancia"
+                    },
+                    "new_prompt": "Novo conte\u00fado do system prompt...",
+                    "tags": [
+                        "agentic_search",
+                        "user_123456"
+                    ],
+                    "update_agents": true
+                }
+            },
+            "SystemPromptUpdateResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Status geral da opera\u00e7\u00e3o"
+                    },
+                    "prompt_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Prompt Id",
+                        "description": "ID do prompt criado no banco de dados"
+                    },
+                    "agents_updated": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Agents Updated",
+                        "description": "Status da atualiza\u00e7\u00e3o dos agentes"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message",
+                        "description": "Mensagem adicional sobre a opera\u00e7\u00e3o",
+                        "default": ""
+                    },
+                    "version": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Version",
+                        "description": "Vers\u00e3o do prompt"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "agents_updated"
+                ],
+                "title": "SystemPromptUpdateResponse",
+                "description": "Schema para resposta da atualiza\u00e7\u00e3o de system prompt.",
+                "example": {
+                    "agents_updated": {
+                        "agt_123456789": true,
+                        "agt_987654321": true
+                    },
+                    "message": "System prompt atualizado com sucesso para 2 agentes.",
+                    "prompt_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                    "success": true,
+                    "version": 1
+                }
+            },
+            "UnifiedHistoryItem": {
+                "properties": {
+                    "version_id": {
+                        "type": "string",
+                        "title": "Version Id",
+                        "description": "ID \u00fanico da vers\u00e3o"
+                    },
+                    "version_number": {
+                        "type": "integer",
+                        "title": "Version Number",
+                        "description": "N\u00famero sequencial da vers\u00e3o"
+                    },
+                    "change_type": {
+                        "type": "string",
+                        "title": "Change Type",
+                        "description": "Tipo da altera\u00e7\u00e3o: 'prompt', 'config', 'both'"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At",
+                        "description": "Data de cria\u00e7\u00e3o da vers\u00e3o"
+                    },
+                    "author": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Author",
+                        "description": "Autor da altera\u00e7\u00e3o"
+                    },
+                    "reason": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Reason",
+                        "description": "Motivo da altera\u00e7\u00e3o"
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description",
+                        "description": "Descri\u00e7\u00e3o detalhada"
+                    },
+                    "preview": {
+                        "type": "string",
+                        "title": "Preview",
+                        "description": "Preview unificado da altera\u00e7\u00e3o"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "title": "Is Active",
+                        "description": "Se esta vers\u00e3o est\u00e1 atualmente ativa",
+                        "default": false
+                    },
+                    "metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Metadata",
+                        "description": "Metadados da vers\u00e3o"
+                    },
+                    "prompt": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/PromptInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Informa\u00e7\u00f5es do prompt se aplic\u00e1vel"
+                    },
+                    "config": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ConfigInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Informa\u00e7\u00f5es da config se aplic\u00e1vel"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "version_id",
+                    "version_number",
+                    "change_type",
+                    "preview"
+                ],
+                "title": "UnifiedHistoryItem",
+                "description": "Item do hist\u00f3rico unificado."
+            },
+            "UnifiedHistoryResponse": {
+                "properties": {
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo do agente"
+                    },
+                    "total_items": {
+                        "type": "integer",
+                        "title": "Total Items",
+                        "description": "Total de itens retornados"
+                    },
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/UnifiedHistoryItem"
+                        },
+                        "type": "array",
+                        "title": "Items",
+                        "description": "Lista de itens do hist\u00f3rico"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "agent_type",
+                    "total_items",
+                    "items"
+                ],
+                "title": "UnifiedHistoryResponse",
+                "description": "Resposta do hist\u00f3rico unificado.",
+                "example": {
+                    "agent_type": "agentic_search",
+                    "items": [
+                        {
+                            "author": "admin",
+                            "change_type": "both",
+                            "config": {
+                                "config_id": "def456",
+                                "is_active": true,
+                                "metadata": {},
+                                "model_name": "gpt-4",
+                                "tools": [
+                                    "google_search",
+                                    "public_services"
+                                ]
+                            },
+                            "created_at": "2023-05-16T14:30:15.123456",
+                            "is_active": true,
+                            "metadata": {
+                                "author": "admin",
+                                "reason": "Melhoria completa"
+                            },
+                            "preview": "System Prompt: Voc\u00ea \u00e9 EA\u00ed, assistente oficial... | Config: Tools: google_search, public_services...",
+                            "prompt": {
+                                "content_preview": "Voc\u00ea \u00e9 EA\u00ed, assistente oficial...",
+                                "is_active": true,
+                                "metadata": {},
+                                "prompt_id": "abc123"
+                            },
+                            "reason": "Melhoria completa do sistema",
+                            "version_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                            "version_number": 3
+                        }
+                    ],
+                    "total_items": 3
+                }
+            },
+            "UnifiedResetResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Status geral da opera\u00e7\u00e3o"
+                    },
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo do agente resetado"
+                    },
+                    "unified_version": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unified Version",
+                        "description": "N\u00famero da vers\u00e3o unificada criada"
+                    },
+                    "version_display": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Version Display",
+                        "description": "Nome da vers\u00e3o no padr\u00e3o eai-YYYY-MM-DD-vX"
+                    },
+                    "prompt_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Prompt Id",
+                        "description": "ID do prompt padr\u00e3o criado"
+                    },
+                    "config_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Config Id",
+                        "description": "ID da configura\u00e7\u00e3o padr\u00e3o criada"
+                    },
+                    "agents_updated": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Agents Updated",
+                        "description": "Status da atualiza\u00e7\u00e3o dos agentes"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message",
+                        "description": "Mensagem informativa sobre a opera\u00e7\u00e3o"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "agent_type",
+                    "message"
+                ],
+                "title": "UnifiedResetResponse",
+                "description": "Schema para resposta do reset unificado.",
+                "example": {
+                    "agent_type": "agentic_search",
+                    "agents_updated": {
+                        "agt_123456789": true,
+                        "agt_987654321": true
+                    },
+                    "config_id": "a1b2c3d4-1234-5678-9abc-def0123456789",
+                    "message": "Reset unificado conclu\u00eddo com sucesso, 2/2 agentes foram atualizados",
+                    "prompt_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                    "success": true,
+                    "unified_version": 1,
+                    "version_display": "eai-2025-06-26-v1"
+                }
+            },
+            "UnifiedSaveRequest": {
+                "properties": {
+                    "agent_type": {
+                        "type": "string",
+                        "title": "Agent Type",
+                        "description": "Tipo do agente"
+                    },
+                    "prompt_content": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Prompt Content",
+                        "description": "Conte\u00fado do system prompt"
+                    },
+                    "memory_blocks": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Memory Blocks",
+                        "description": "Memory blocks"
+                    },
+                    "tools": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tools",
+                        "description": "Lista de ferramentas"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model Name",
+                        "description": "Nome do modelo"
+                    },
+                    "embedding_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Embedding Name",
+                        "description": "Nome do embedding"
+                    },
+                    "update_agents": {
+                        "type": "boolean",
+                        "title": "Update Agents",
+                        "description": "Atualizar agentes existentes",
+                        "default": false
+                    },
+                    "author": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Author",
+                        "description": "Autor da altera\u00e7\u00e3o"
+                    },
+                    "reason": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Reason",
+                        "description": "Motivo da altera\u00e7\u00e3o"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "agent_type"
+                ],
+                "title": "UnifiedSaveRequest",
+                "description": "Schema para salvar altera\u00e7\u00f5es unificadas."
+            },
+            "UnifiedSaveResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "unified_version_number": {
+                        "type": "integer",
+                        "title": "Unified Version Number"
+                    },
+                    "version_display": {
+                        "type": "string",
+                        "title": "Version Display"
+                    },
+                    "change_type": {
+                        "type": "string",
+                        "title": "Change Type"
+                    },
+                    "prompt_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Prompt Id"
+                    },
+                    "config_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Config Id"
+                    },
+                    "agents_updated": {
+                        "additionalProperties": {
+                            "type": "boolean"
+                        },
+                        "type": "object",
+                        "title": "Agents Updated"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "unified_version_number",
+                    "version_display",
+                    "change_type",
+                    "message"
+                ],
+                "title": "UnifiedSaveResponse",
+                "description": "Schema para resposta do save unificado."
+            },
+            "UnifiedVersionDetailsResponse": {
+                "properties": {
+                    "version_id": {
+                        "type": "string",
+                        "title": "Version Id",
+                        "description": "ID \u00fanico da vers\u00e3o"
+                    },
+                    "version_number": {
+                        "type": "integer",
+                        "title": "Version Number",
+                        "description": "N\u00famero sequencial da vers\u00e3o"
+                    },
+                    "change_type": {
+                        "type": "string",
+                        "title": "Change Type",
+                        "description": "Tipo da altera\u00e7\u00e3o"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At",
+                        "description": "Data de cria\u00e7\u00e3o"
+                    },
+                    "author": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Author",
+                        "description": "Autor da altera\u00e7\u00e3o"
+                    },
+                    "reason": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Reason",
+                        "description": "Motivo da altera\u00e7\u00e3o"
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description",
+                        "description": "Descri\u00e7\u00e3o detalhada"
+                    },
+                    "metadata": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Metadata",
+                        "description": "Metadados da vers\u00e3o"
+                    },
+                    "prompt": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/PromptInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Dados completos do prompt"
+                    },
+                    "config": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ConfigInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Dados completos da configura\u00e7\u00e3o"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "version_id",
+                    "version_number",
+                    "change_type"
+                ],
+                "title": "UnifiedVersionDetailsResponse",
+                "description": "Detalhes completos de uma vers\u00e3o espec\u00edfica.",
+                "example": {
+                    "author": "admin",
+                    "change_type": "both",
+                    "config": {
+                        "config_id": "def456",
+                        "created_at": "2023-05-16T14:30:15.123456",
+                        "embedding_name": "text-embedding-ada-002",
+                        "is_active": true,
+                        "memory_blocks": [
+                            {
+                                "label": "core_memory",
+                                "value": "..."
+                            }
+                        ],
+                        "metadata": {
+                            "author": "admin"
+                        },
+                        "model_name": "gpt-4",
+                        "tools": [
+                            "google_search",
+                            "public_services"
+                        ]
+                    },
+                    "created_at": "2023-05-16T14:30:15.123456",
+                    "description": "Atualiza\u00e7\u00e3o que incluiu melhorias no prompt e novas ferramentas",
+                    "metadata": {
+                        "author": "admin",
+                        "reason": "Melhoria completa"
+                    },
+                    "prompt": {
+                        "content": "Voc\u00ea \u00e9 EA\u00ed, o assistente oficial da Prefeitura do Rio de Janeiro...",
+                        "created_at": "2023-05-16T14:30:15.123456",
+                        "is_active": true,
+                        "metadata": {
+                            "author": "admin"
+                        },
+                        "prompt_id": "abc123"
+                    },
+                    "reason": "Melhoria completa do sistema",
+                    "version_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                    "version_number": 3
+                }
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            },
+            "WebhookEvent": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "title": "Type",
+                        "description": "Tipo de evento recebido"
+                    },
+                    "data": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Data",
+                        "description": "Dados do evento"
+                    },
+                    "metadata": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metadata",
+                        "description": "Metadados adicionais do evento"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "type",
+                    "data"
+                ],
+                "title": "WebhookEvent",
+                "description": "Schema para eventos recebidos via webhook.",
+                "example": {
+                    "data": {
+                        "message": "Quero pagar meu IPTU!!",
+                        "name": "Jo\u00e3o da Silva",
+                        "user_number": "5531999999999"
+                    },
+                    "metadata": {
+                        "origin": "sistema_externo",
+                        "timestamp": "2023-10-15T14:30:00Z"
+                    },
+                    "type": "message"
+                }
+            }
+        },
+        "securitySchemes": {
+            "HTTPBearer": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
