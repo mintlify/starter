@@ -46,6 +46,12 @@
             ]
           },
           {
+            "group": "Inference 🏃‍♂️",
+            "pages": [
+              "inference/self-host"
+            ]
+          },
+          {
             "group": "Evaluations 📈",
             "pages": [
               "evaluations/overview",
