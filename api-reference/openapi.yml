@@ -267,7 +267,10 @@ paths:
                         type: string
                         description: Authrorization url for provider using OAUTH2
                         example: https://provider/authenticate?redirect_url=https://api.teal.com/auth&state=state&scope=read
-
+                  - type: object
+                    properties:
+                      mfa_method:
+                         "$ref": "#/components/schemas/MfaMethod"
         "400":
           "$ref": "#/components/responses/BadRequest"
         "401":
@@ -1238,6 +1241,75 @@ components:
           description: Employee name for which this account is linked to
           type: string
           example: Amazon
+    MfaMethod:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          Code: "#/components/schemas/CodeMfa"
+          Date: "#/components/schemas/DateMfa"
+          PasswordWithPositions: "#/components/schemas/PasswordWithPositions"
+      oneOf:
+        - "$ref": "#/components/schemas/CodeMfa"
+        - "$ref": "#/components/schemas/DateMfa"
+        - "$ref": "#/components/schemas/PasswordWithPositions"
+    CodeMfa:
+      type: object
+      required:
+        - type
+        - source
+      properties:
+        type:
+          type: string
+          enum: [ Code ]
+        source:
+          type: string
+          enum: [ SMS, EMAIL, AUTHENTICATOR_APP ]
+      example:
+        type: Code
+        source: AUTHENTICATOR_APP
+    DateMfa:
+      type: object
+      required:
+        - type
+        - format
+        - message
+      properties:
+        type:
+          type: string
+          enum: [ Date ]
+        format:
+          type: string
+          example: "yyyy-mm-dd"
+        message:
+          type: string
+          example: "Date of birth"
+      example:
+        type: Date
+        format: "yyyy-mm-dd"
+        message: "Date of birth"
+    PasswordWithPositions:
+      type: object
+      required:
+        - type
+        - positions
+        - message
+      properties:
+        type:
+          type: string
+          enum: [ PasswordWithPositions ]
+        positions:
+          type: array
+          items:
+            type: integer
+          example: [ 1, 2, 3 ]
+        message:
+          type: string
+          example: "Memorable word"
+      example:
+        type: PasswordWithPositions
+        positions: [ 1, 2, 3 ]
+        message: "Memorable word"
     Entry:
       type: object
       properties:
@@ -1715,6 +1787,7 @@ components:
           type: number
           description: The total deductions
           example: 1000
+
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
