@@ -1,0 +1,50 @@
+---
+title: Metrics
+description: Learn about the metrics available in Prem.
+---
+
+# Metrics
+Traditional deterministic metrics used for language models (such as token accuracy) are insufficient for evaluating LLMs. Therefore, we define several abstract evaluation concepts as:
+
+- **Correctness**: Measures the factual accuracy and correctness of the response
+- **Conciseness**: Measures how concise and to-the-point the response is without unnecessary information
+- **Hallucination**: Measures whether the response contains made-up or fabricated information
+<img src="https://static.premai.io/prem-saas-docs/evaluations/metrics/metrics.png" alt="Image of the metrics" />
+
+
+
+
+ Each metric has its own defined rules. In case of metrics like: token-accuracy has code based rules. For metrics like above, we have natural language conditioned rules called Rubrics.
+
+
+# Evaluation Rules
+
+You can edit evaluation metrics by rules the LLM should follow and rules the LLM should not follow.
+
+Just hover over each rule, and click on the pencil icon to edit it. When you're done, click on the checkmark icon to save your changes.
+
+<img src="https://static.premai.io/prem-saas-docs/evaluations/metrics/change-rules.gif" alt="Gif of changing evaluation rules" />
+
+
+# Create Your Own Metrics
+
+You can create your own metrics by clicking on the **Create Metric** button. 
+- Give your metric a name
+- Write a description for your metric
+- Click **Generate Rules** to generate the rules for your metric
+<img src="https://static.premai.io/prem-saas-docs/evaluations/metrics/create-metric.gif" alt="Gif of creating a new metric" />
+
+So now when you are creating a new evaluation, you can select your custom metric from the list.
+
+<img src="https://static.premai.io/prem-saas-docs/evaluations/metrics/choose-custom-metric.gif" alt="Image of selecting a custom metric" />
+
+<CardGroup cols={2}>
+<Card title="Get Started with Evaluations" icon="chart-simple" href="/evaluations/get-started">
+    Click here to learn how to create your own evaluation.
+</Card>
+
+<Card title="Bring Your Own Evaluation" icon="chart-simple" href="/evaluations/bring-your-own-eval">
+    Click here to learn how to bring your own evaluation to Prem.
+</Card>
+</CardGroup>
+

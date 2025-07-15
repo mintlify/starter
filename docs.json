@@ -55,7 +55,9 @@
             "group": "Evaluations 📈",
             "pages": [
               "evaluations/overview",
-              "evaluations/get-started"
+              "evaluations/get-started",
+              "evaluations/bring-your-own-eval",
+              "evaluations/metrics"
             ]
           },
           {

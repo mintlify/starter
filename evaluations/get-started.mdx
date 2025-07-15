@@ -7,42 +7,19 @@ description: Learn how to evaluate a model in Prem.
 <Note>
     You can only evaluate a model if you have a snapshot of your dataset.
 </Note>
+<Steps>
+    <Step title="Create an New Evaluation">
 
-## Create an New Evaluation
-To create a new evaluation, you need to have a fine-tuned model. If you don't have a fine-tuned model, you can create one by following the steps in the [Fine-Tuning](/finetuning/overview) section.
-
-<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-1-create-evaluations.gif" alt="Gif of creating a new evaluation" />
-
-You need to fill out the following fields:
-
-- **Evaluation Prompt**: The prompt to use for the evaluation.
-
-### Example of an Evaluation Prompt
-
-> Convert medical reports into ICD-10 codes.
->
-> You will be given a textual medical report. The model must return a list of ICD-10 codes.
->
-> Evaluate:
->
-> Are the codes valid and from the ICD-10 standard?
-> Do the codes align with the diagnosis mentioned in the report?
-> Are there unnecessary or incorrect codes predicted?
-
-- [Dataset](/datasets/overview): The dataset to use for the evaluation.
-- [Snapshot](/datasets/create-snapshot): The snapshot of the dataset to use for the evaluation.
--  Models: You can select multiple models to evaluate.
-
-Once you have filled out the fields click the "Create Evaluation" button.
-
-## Check Your Results
-
-Once you have created an evaluation, you can check your results by clicking on the evaluation and each datapoint to get more details.
-
-<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-2-check-results.png" alt="Image of checking your results" />
----
-
-<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-2-check-results.gif" alt="Gif of checking your results" />
+        <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-1-create-eval.gif" alt="Gif of creating a new evaluation" />
+    </Step>
+    <Step title="Browse and Choose Metrics">
+        <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-2-browse-metrics.gif" alt="Image of filling out the fields" />
+    </Step>
+    <Step title="Check your results">
+    Once you have created an evaluation, you can check your results by clicking on the evaluation and each datapoint to get more details.
+        <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-3-checkresults.gif" alt="Image of checking your results" />
+    </Step>
+</Steps>
 
 ### Here are Some Results to Keep in Mind:
 - **Average Score**: The average score of the evaluation for the model.
@@ -53,11 +30,15 @@ Once you have created an evaluation, you can check your results by clicking on t
 - **Predicted Assistant Message**: The predicted assistant message from the model.
 - **Model Score**: The score of the model chosen for the evaluation.
 - **Score Reason**: The reasoning behind the score.
-<img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-3-evaluation-result-details.png" alt="Image of checking your results details" />
 
+## Other Options
 
-## Next Step: Fine-Tuned Model → Playground
+<Card title="Bring Your Own Evaluation" icon="chart-simple" href="/evaluations/bring-your-own-eval">
+    Click here to learn how to bring your own evaluation to Prem.
+</Card>
 
 <Card title="Fine-Tuned Model → Playground" icon="play" href="/playground/overview">
     Click here to learn how to use your fine-tuned model in the playground.
 </Card>
+
+
