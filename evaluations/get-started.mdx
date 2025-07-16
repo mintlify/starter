@@ -4,6 +4,7 @@ description: Learn how to evaluate a model in Prem.
 ---
 
 # Start Here ↓
+
 <Note>
     You can only evaluate a model if you have a snapshot of your dataset.
 </Note>
@@ -16,12 +17,29 @@ description: Learn how to evaluate a model in Prem.
         <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-2-browse-metrics.gif" alt="Image of filling out the fields" />
     </Step>
     <Step title="Check your results">
-    Once you have created an evaluation, you can check your results by clicking on the evaluation and each datapoint to get more details.
+    Once your evaluation is done you can check your results.
+         <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-4-result.png" alt="Image of checking your results" />
+
+         You can click on each metric to organize the results. 
+         
+         To get more details on each datapoint, click on the percentage under the model name.
+
+
         <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-3-checkresults.gif" alt="Image of checking your results" />
+
+       **The results will look something like this:**
+        <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/step-5-details.png" alt="Image of checking your details" />
+
+           <Tip>
+        Click **Model Results Tab** to see additional details of the evaluation based on the model and metric.
+        <img src="https://static.premai.io/prem-saas-docs/evaluations/get-started/additional-details.png" alt="Image of checking your details" />
+       </Tip>
     </Step>
+
 </Steps>
 
 ### Here are Some Results to Keep in Mind:
+
 - **Average Score**: The average score of the evaluation for the model.
 - **Model Name**: The name of the model the evaluation was run on.
 - **System Prompt**: The system prompt used for the evaluation.
@@ -33,12 +51,24 @@ description: Learn how to evaluate a model in Prem.
 
 ## Other Options
 
-<Card title="Bring Your Own Evaluation" icon="chart-simple" href="/evaluations/bring-your-own-eval">
-    Click here to learn how to bring your own evaluation to Prem.
+<CardGroup cols={3}>
+<Card
+  title="Bring Your Own Evaluation"
+  icon="chart-simple"
+  href="/evaluations/bring-your-own-eval"
+>
+  Click here to learn how to bring your own evaluation to Prem.
 </Card>
 
-<Card title="Fine-Tuned Model → Playground" icon="play" href="/playground/overview">
-    Click here to learn how to use your fine-tuned model in the playground.
+<Card title="Evaluation Metrics" icon="chart-simple" href="/evaluations/metrics">
+Create your own custom evaluation metrics and rules.
 </Card>
 
-
+<Card
+  title="Fine-Tuned Model → Playground"
+  icon="play"
+  href="/playground/overview"
+>
+  Click here to learn how to use your fine-tuned model in the playground.
+</Card>
+</CardGroup>
