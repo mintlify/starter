@@ -28,6 +28,17 @@
             ]
           },
           {
+            "group": "Guides 📚",
+            "pages": [
+              {
+                "group": "Finetuning",
+                "pages": [
+                  "guides/lora-finetuning"
+                ]
+              }
+            ]
+          },
+          {
             "group": "Datasets 🗃️",
             "pages": [
               "datasets/overview",
@@ -80,7 +91,7 @@
             ]
           },
           {
-            "group": "Cookbook 🍳",
+            "group": "CookBook 🍳",
             "pages": [
               {
                 "group": "Integrations",
