@@ -1,0 +1,70 @@
+---
+title: LoRA Fine-Tuning
+description: How to fine-tune LLMs within minutes using LoRA.
+---
+
+# What is LoRA
+
+LoRA, or Low-Rank Adaptation, is a technique designed to make fine-tuning Large Language Models (LLMs) much more efficient.
+
+In traditional fine-tuning, you have to update all the parameters of an LLM, which can be slow and resource-intensive.
+
+With LoRA, instead of changing the entire model, you add a few small, trainable components to the base LLM. These components are trained for your specific task, 
+allowing the model to adapt quickly without needing to retrain everything from scratch.
+
+## When to use LoRA
+
+Because LoRA only updates a small part of the model, it's much faster than standard fine-tuning. 
+As a general rule, if regular fine-tuning of an LLM on a large dataset would take around 30 minutes, 
+LoRA can often get the job done in 10 minutes or less. This makes it a great choice when you want to 
+adapt a model quickly and efficiently, without needing deep expertise in machine learning.
+
+Below is a table comparing when to use LoRA versus full fine-tuning:
+
+| Scenario | LoRA | Full Fine-tuning | Real-world Example |
+|----------|---------|-------------------|-------------------|
+| **Quick adaptation** 🚀 | ✅ | ❌ | Customizing a chatbot for your company's tone and style |
+| **Limited computational resources** 💻 | ✅ | ❌ | Small startup fine-tuning on a laptop or basic GPU |
+| **Small to medium datasets** 📊 | ✅ | ❌ | Training on 1,000-10,000 customer support tickets |
+| **Fast experimentation** 🧪 | ✅ | ❌ | Testing different prompt styles for marketing content |
+| **Domain-specific tasks** 🎯 | ✅ | ⚠️ | Adapting a model for legal document analysis |
+| **Massive datasets** 📈 | ❌ | ✅ | Training on millions of medical research papers |
+| **Fundamental behavior change** 🔄 | ❌ | ✅ | Teaching a general model to code in a new programming language |
+| **Maximum performance** 🏆 | ⚠️ | ✅ | Building a state-of-the-art translation system |
+| **Budget constraints** 💰 | ✅ | ❌ | Bootstrapped companies with limited cloud computing budget |
+| **Time-sensitive projects** ⏰ | ✅ | ❌ | Launching a customer service bot in a week |
+
+**Legend:**
+- ✅ = Recommended approach
+- ❌ = Not recommended
+- ⚠️ = Possible but may have limitations
+
+
+# Using LoRA in Prem Studio
+
+<Steps>
+    <Step title="Create a New Fine-Tuning Job">
+    <img src="https://static.premai.io/prem-saas-docs/guides/lora-ft-p1.gif" alt="GIF of clicking to create a new FT Job" />
+
+     To get started, click the **+ Create Fine-Tuning Job** button in the top right corner of the page.
+     Fill in the name, select your dataset, and set the fine-tuning type to `Non Reasoning`. Note that LoRA is not supported
+     for Reasoning Fine-Tuning. Once you've configured these settings, click the **Create Fine-Tuning Job** button.
+    </Step>
+    <Step title="Configure Your LoRA Settings">
+    <img src="https://static.premai.io/prem-saas-docs/guides/lora-ft-p2.gif" alt="GIF of starting LoRA FT Job" />
+       - Choose the model you want to fine-tune and toggle on the LoRA option.
+       - Click the **Start Experiments** button.
+       - A confirmation dialog will appear asking you to confirm starting the experiments.
+        <Tip>
+             Gemma models (specifically Gemma 3 1B and Gemma 3 4B) are not available for LoRA fine-tuning.
+        </Tip>
+
+        <Note>
+            For complex tasks, you may need to increase the number of epochs to achieve the best results.
+       </Note>
+
+    </Step>
+
+</Steps>
+
+Once you've started the process, your LoRA fine-tuning job will complete in just a few minutes. 
