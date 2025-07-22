@@ -1,0 +1,198 @@
+---
+title: Upload Datasets and Models to Hugging Face
+description: Learn how to upload Prem datasets and finetuned models to Hugging Face
+---
+
+Prem Studio offers seamless integration with Hugging Face. Whether you upload your own datasets, generate new ones, or fine-tune models using various techniques, you can easily export your final dataset snapshots and finetuned models directly to Hugging Face.
+
+## Uploading Prem Datasets to Hugging Face
+
+Let's start with uploading datasets to Hugging Face. By now you might have learned that you can [store versions of datasets in the form of snapshots](/datasets/create-snapshot). Let's see how we can download the snapshot and upload it to Hugging Face.
+
+<Steps>
+    <Step title="Download Your Dataset Snapshot">
+    <img src="https://static.premai.io/prem-saas-docs/guides/download-snapshots.gif" alt="GIF of downloading dataset snapshot" />
+
+     In the top right of the datasets page, you will see a **Snapshots** button. Click it to view a list of available snapshots. Download the snapshot of your choice by clicking the download icon.
+     This will download a zip file to your `Downloads` folder. When you unzip it, you will see three files:
+     `train.jsonl`, `validation.jsonl`, and `full.jsonl`.
+    </Step>
+    <Step title="Upload Dataset to Hugging Face">
+    <Info>
+    Ensure you are logged in to your environment with the Hugging Face CLI.
+    Make sure you have `huggingface_hub` installed using pip and you have logged in using the following command:
+    ```bash
+    huggingface-cli login
+    ```
+    </Info>
+
+    Now that you have your dataset files, you'll need to use Python to upload them to Hugging Face. The code below loads your dataset files and creates a proper Hugging Face dataset structure with multiple splits (train, validation, and full).
+
+    Copy this Python code, which loads your dataset and uploads it to Hugging Face. Remember to provide the correct path to your dataset files. You can upload all three splits (train, validation, and full) or just the ones you need.
+
+    ```python
+    import json
+    from datasets import Dataset, DatasetDict
+
+    def load_jsonl(file_path):
+        """Load data from a JSONL file"""
+        data = []
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    data.append(json.loads(line))
+        return data
+
+    # Load your dataset files
+    train_data = load_jsonl("train.jsonl")  # Update with your actual file path
+    val_data = load_jsonl("validation.jsonl")
+    full_data = load_jsonl("full.jsonl")
+
+    # Create Hugging Face datasets
+    train_dataset = Dataset.from_list(train_data)
+    val_dataset = Dataset.from_list(val_data)
+    full_dataset = Dataset.from_list(full_data)
+
+    # Create DatasetDict with multiple splits
+    dataset_dict = DatasetDict({
+        "train": train_dataset,
+        "validation": val_dataset,
+        "full": full_dataset
+    })
+
+    # Change this to your organization or personal account name
+    repo_name = "your-username/your-dataset-name"
+
+    print(f"Uploading to Hugging Face Hub: {repo_name}")
+    dataset_dict.push_to_hub(repo_name)
+    ```
+    </Step>
+
+</Steps>
+
+## Uploading Prem Fine-Tuned Models to Hugging Face
+
+Prem Studio offers both Reasoning and Non-Reasoning fine-tuning. In Non-Reasoning fine-tuning, there are two fine-tuning methods: LoRA and Full fine-tuning. If you don't know what LoRA is, [you can check that out here quickly](/guides/lora-finetuning). Here are some key differences:
+
+- **LoRA fine-tuning** downloads only the additional adapter weights that were trained on top of the base model. They are available with both reasoning and non-reasoning fine-tuning.
+- **Full fine-tuning** downloads the complete model with all updated parameters. Note that these can be very large files. They are available only for non-reasoning fine-tuning.
+
+In both cases, downloading model checkpoints from Prem Studio is straightforward. Just follow the steps shown below:
+
+<img
+  src="https://static.premai.io/prem-saas-docs/guides/download-models.gif"
+  alt="Download model checkpoints from Prem Studio"
+/>
+
+In this guide, we'll show you how to upload model checkpoints fine-tuned using both LoRA and full fine-tuning methods.
+
+### Uploading LoRA Fine-Tuned Models to Hugging Face
+
+LoRA (Low-Rank Adaptation) creates lightweight adapter files that work with a base model. When uploading LoRA models, you're essentially uploading these adapter weights that can be loaded on top of the original base model.
+
+Here's how to upload your LoRA fine-tuned model:
+<Warning>
+When uploading LoRA checkpoints, you'll need the `base_model_id` from Hugging Face that corresponds to the model you fine-tuned. You can find the base model name in your fine-tuning page, then use the table below to get the correct Hugging Face model ID.
+
+<img
+  src="/images/guides/model_list.png"
+  alt="Model selection in fine-tuning interface"
+/>
+</Warning>
+
+```python
+from peft import PeftModel
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# Path to your downloaded LoRA adapter (this will be a folder with adapter files)
+adapter_path = "path/to/your/adapter/weights"
+
+# The base model ID that was used for LoRA fine-tuning
+base_model_id = "Qwen/Qwen2.5-1.5B"
+
+print(f"Using base model: {base_model_id}")
+
+# Load the base model and tokenizer
+base_model = AutoModelForCausalLM.from_pretrained(
+    base_model_id,
+    torch_dtype="auto",
+    device_map="auto"
+)
+
+tokenizer = AutoTokenizer.from_pretrained(base_model_id)
+
+# Load the LoRA adapter on top of the base model
+model = PeftModel.from_pretrained(base_model, adapter_path)
+
+# Change this to your organization or personal account name
+repo_name = "your-username/your-model-name-lora"
+
+print(f"Uploading LoRA adapter to: {repo_name}")
+model.push_to_hub(repo_name)
+tokenizer.push_to_hub(repo_name)
+```
+
+| **Model Name**    | **Hugging Face Model ID**                              |
+| ----------------- | ------------------------------------------------------ |
+| llama3.2-1b       | `meta-llama/Llama-3.2-1B`           |
+| llama3.2-3b       | `meta-llama/Llama-3.2-3B`          |
+| llama3.1-8b       | `meta-llama/Llama-3.1-8B`          |
+| qwen2.5-0.5b      | `Qwen/Qwen2.5-0.5B`                |
+| qwen2.5-1.5b      | `Qwen/Qwen2.5-1.5B`                |
+| qwen2.5-3b        | `Qwen/Qwen2.5-3B`                  |
+| qwen2.5-7b        | `Qwen/Qwen2.5-7B`                  |
+| gemma3-1b         | `google/gemma-3-1b-it`             |
+| gemma3-4b         | `google/gemma-3-4b-it`             |
+| smolllm-135m      | `HuggingFaceTB/SmolLM-135M`        |
+| smolllm-360m      | `HuggingFaceTB/SmolLM-360M`        |
+| smolllm-1.7b      | `HuggingFaceTB/SmolLM-1.7B`        |
+| phi-3.5-mini      | `microsoft/Phi-3.5-mini-instruct`  |
+| phi-4-mini        | `microsoft/Phi-4-mini-instruct`    |
+| qwen2.5-math-1.5b | `Qwen/Qwen2.5-Math-1.5B`           |
+| qwen2.5-math-7b   | `Qwen/Qwen2.5-Math-7B`             |
+
+
+### Uploading Full Fine-Tuned Models to Hugging Face
+
+Full fine-tuning creates a complete model with all parameters updated for your specific task. This approach gives you maximum flexibility but results in larger file sizes.
+
+Here's how to upload your full fine-tuned model:
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# Path to your downloaded full model (this will be a folder with all model files)
+downloaded_model_path = "fa39a708-12da-4506-bfa4-197dc0213408"
+
+print(f"Loading model from: {downloaded_model_path}")
+
+# Load the fine-tuned model and tokenizer
+model = AutoModelForCausalLM.from_pretrained(
+    downloaded_model_path,
+    torch_dtype="auto",
+    device_map="auto"
+)
+
+tokenizer = AutoTokenizer.from_pretrained(downloaded_model_path)
+
+# Change this to your organization or personal account name
+repo_name = "your-username/your-model-name-full"
+
+print(f"Uploading full model to: {repo_name}")
+model.push_to_hub(repo_name)
+tokenizer.push_to_hub(repo_name)
+```
+
+## What Happens After Upload?
+
+Once your datasets or models are uploaded to Hugging Face, they become part of the Hugging Face ecosystem. This means:
+
+- **Easy sharing**: Your datasets and models can be easily shared with colleagues or the community
+- **Version control**: Hugging Face automatically handles versioning of your uploads
+- **Integration**: Your models can be used with popular ML frameworks like Transformers, Datasets, and more
+- **Discoverability**: Public repositories can be discovered by the ML community
+
+<Note>
+Remember to set appropriate visibility (private or public) for your repositories based on your needs. You can always change this later in your Hugging Face repository settings.
+</Note>

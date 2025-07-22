@@ -31,6 +31,12 @@
             "group": "Guides 📚",
             "pages": [
               {
+                "group": "General",
+                "pages": [
+                  "guides/upload-to-hf"
+                ]
+              },
+              {
                 "group": "Finetuning",
                 "pages": [
                   "guides/lora-finetuning"
