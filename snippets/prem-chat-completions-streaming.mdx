@@ -7,7 +7,7 @@ const client = new PremAI({
 });
 
 // Create a chat completion
-const response = await client.chat.completions.create({
+const response = await client.chat.completions({
     kidmodel: "llama3.2-3b", //Or any other model you want to use
     messages: [{
         role: "user",
@@ -29,7 +29,7 @@ client = PremAI(
 )
 
 # Create completion
-response = client.chat.completions.create(
+response = client.chat.completions(
     messages=[{
         "role": "user",
         "content": "Write a one-sentence bedtime story about a unicorn."
@@ -50,7 +50,7 @@ client = AsyncPremAI(
 )
 
 # Create completion
-response = await client.chat.completions.create(
+response = await client.chat.completions(
     messages=[{
         "role": "user",
         "content": "Write a one-sentence bedtime story about a unicorn."

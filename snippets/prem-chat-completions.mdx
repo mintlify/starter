@@ -41,7 +41,7 @@ client = AsyncPremAI(
 )
 
 # Create a chat completion
-response = await client.chat.completions.create(
+response = await client.chat.completions(
     messages=[{
         "role": "user",
         "content": "Write a one-sentence bedtime story about a unicorn."
