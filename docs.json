@@ -47,6 +47,12 @@
                 "pages": [
                   "guides/finetuning/lora-finetuning"
                 ]
+              },
+              {
+                "group": "Evaluation",
+                "pages": [
+                  "guides/evaluation/writing-good-metrics"
+                ]
               }
             ]
           },
