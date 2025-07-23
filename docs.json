@@ -33,13 +33,19 @@
               {
                 "group": "General",
                 "pages": [
-                  "guides/upload-to-hf"
+                  "guides/general/upload-to-hf"
+                ]
+              },
+              {
+                "group": "Datasets",
+                "pages": [
+                  "guides/datasets/synthetic-data"
                 ]
               },
               {
                 "group": "Finetuning",
                 "pages": [
-                  "guides/lora-finetuning"
+                  "guides/finetuning/lora-finetuning"
                 ]
               }
             ]
