@@ -37,6 +37,12 @@
                 ]
               },
               {
+                "group": "Datasets",
+                "pages": [
+                  "guides/synthetic-data"
+                ]
+              },
+              {
                 "group": "Finetuning",
                 "pages": [
                   "guides/lora-finetuning"
