@@ -39,6 +39,7 @@
               {
                 "group": "Datasets",
                 "pages": [
+                  "guides/datasets/enrichment",
                   "guides/datasets/synthetic-data"
                 ]
               },

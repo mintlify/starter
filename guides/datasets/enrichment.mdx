@@ -1,0 +1,116 @@
+---
+title: Enrich Your Dataset to Improve Fine-Tuning Results
+description: Learn how to increase your dataset size using Prem Studio's data enrichment tools for better model training and generalization.
+---
+
+## 🧠 Why This Matters
+
+A small dataset can limit a model’s ability to generalize and perform well on unseen data — especially in domain-specific tasks.
+
+With Prem Studio, you can enrich your dataset using synthetic data generation strategies. This allows you to:
+- 📈 Expand your dataset size with low human effort
+- 🧠 Introduce diversity into training examples
+- 🚀 Improve model performance and generalization during fine-tuning
+- 🧪 Prototype quickly, even with minimal real data
+
+In this guide, we’ll show you how to enrich an existing dataset with synthetic data — using a customer support chatbot use case.
+
+
+## 💼 Use Case: Fine-Tuning a Customer Support Chatbot
+
+Imagine you’re building a domain-specific chatbot to answer product-related queries for an e-commerce company. You’ve collected only 50 QA pairs from past support tickets — not enough for robust fine-tuning.
+
+Instead of manually creating more data, you can enrich your dataset using synthetic generation in Prem Studio.
+
+This guide shows you how.
+
+
+## ⚙️ Step-by-Step: Enrich Your Dataset with Synthetic Data
+
+<Steps>
+<Step title="Select Your Dataset and Perform a 50/50 Split">
+<img src="https://static.premai.io/prem-saas-docs/guides/datasets/select-dataset-and-split.gif" alt="GIF of opening a dataset and creating a validation split" />
+
+
+From the sidebar, go to **Datasets** and open your 50-row dataset.
+
+Split it **50/50**: 25 datapoints for training and 25 for validation.
+This ensures your evaluation is based on a meaningful validation size, despite the small dataset.
+
+Only examples in the **Training** and **Uncategorized** buckets will be used during enrichment.
+<Warning>
+It’s not mandatory, but we highly recommend splitting your dataset into training and validation sets before running enrichment. This helps avoid data leakage and ensures more reliable evaluations.
+See our [Dataset Best Practices Guide](/guides/dataset-best-practices) for more.
+</Warning>
+</Step>
+
+<Step title="Launch the Enrichment Workflow">
+<img src="https://static.premai.io/prem-saas-docs/guides/datasets/click-enrich.gif" alt="GIF of clicking enrich dataset button" />
+In the top right corner, click **Enrich Dataset**. Then choose **Seed data enhancement**.
+You’ll be enriching the 25 training datapoints to boost generalizability.
+</Step>
+
+<Step title="Define Enrichment Settings and (Optional) Instructions">
+<img src="https://static.premai.io/prem-saas-docs/guides/datasets/custom-instructions-enrich.gif" alt="GIF of setting enrichment arguments and instructions" />
+
+Set the following:
+
+- **New pairs to generate:** `500`
+- **Creativity:** `0.1` (lower creativity = safer, more consistent results)
+
+Use a higher value if your use case requires more creative outputs (e.g. roleplaying).
+
+- **Instructions (optional):**
+```
+Keep answers short and helpful. Focus on product-related questions, shipping issues, return policies, and discount inquiries.
+Avoid repetitive or overly technical questions.
+```
+</Step>
+
+<Step title="Review and Approve Synthetic Examples">
+Click **Generate**. Review the 500 synthetic examples.
+Approve the ones you'd like to keep.
+</Step>
+
+<Step title="Add Synthetic Datapoint to Training Bucket">
+<img src="https://static.premai.io/prem-saas-docs/guides/datasets/synthetic-to-training-bucket.gif" alt="GIF of moving synthetic datapoints to training bucket" />
+In case the data quality matches your expectations, you can continue by adding all the datapoints to the **Training** bucket.
+
+<Warning>
+This happens automatically when using the **Autosplit** functionality if "Allow synthetic data in Validation" is **not selected** — even if you apply a split like 80/20 or 70/30.
+</Warning>
+</Step>
+
+</Steps>
+
+Once enrichment is complete, your dataset will contain both original and synthetic entries — ready to be used for model fine-tuning.
+
+
+## 📊 Example Before and After Enrichment
+
+| Type       | Question | Answer |
+|------------|----------|--------|
+| Original   | How can I track my order? | You can track it using the link in your confirmation email. |
+| Synthetic  | Where do I check the status of my shipment? | Use the tracking link in the confirmation email we sent you. |
+| Synthetic  | Can I know where my package is? | Yes, the tracking link in your confirmation email shows real-time updates. |
+
+## 📊 Dataset Size: Before vs After
+
+Started with 50 original examples.
+	•	Split: 25 training / 25 validation
+	•	After enrichment: +500 synthetic datapoints → 550 total (525 in training + 25 in validation)
+
+
+## 📦 What’s Next?
+
+With your enriched dataset, you can now:
+- Fine-tune a model with higher data diversity ([Fine-Tuning Guide](../../finetuning/get-started))
+- Evaluate model generalization with [agentic evaluation](../../evaluations/get-started)
+
+
+## 💡 Pro Tips
+
+- Always enrich **after** splitting to avoid data leakage.
+- Use instructions to control output tone, complexity, topic, or QA structure.
+- Review synthetic data for consistency — quality > quantity.
+- Avoid over-relying on synthetic examples for evaluation.
