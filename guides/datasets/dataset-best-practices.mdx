@@ -1,0 +1,86 @@
+---
+title: "Build Better Datasets: Best Practices to Get You Started"
+description: "Discover key dataset practices to improve model performance in Prem Studio — from splitting strategies to validation integrity."
+---
+
+## 🧠 Why This Matters
+
+Good models start with good data. Whether you're fine-tuning, evaluating, or experimenting, following a few simple best practices can make a big difference.
+
+This guide helps you:
+- ✅ Avoid common mistakes in dataset preparation.
+- 📊 Set up reliable validation processes.
+- 🔍 Understand how much data is enough.
+- 🛠️ Use your synthetic data effectively — without biasing your results.
+
+These are the foundations you’ll want to get right before you train or evaluate anything in Prem Studio.
+
+## ✅ Key Best Practices
+
+<Steps>
+    <Step title="Always Have a Validation Dataset">
+    A validation dataset is essential if you want to measure model quality.
+
+    - Use it during fine-tuning to quickly monitor the model performance.
+    - Use it to benchmark different models with our agentic evaluator.
+
+    <Note>
+        If you're not using a validation dataset, you won’t be able to run evaluations in Prem Studio.
+    </Note>
+    </Step>
+
+    <Step title="Avoid Using Synthetic Data for Validation">
+    Synthetic data is great for training, but avoid using it for validation:
+
+    - It can inflate performance metrics.
+    - It might not capture the full complexity of real-world inputs.
+
+    <Warning>
+        Only use high-quality, real data in your validation set to ensure reliable results.
+    </Warning>
+    </Step>
+
+    <Step title="How Much Data Do You Actually Need?">
+    The amount of data you need depends on the complexity of your task. Text classification or simple QA tasks may require fewer examples, while nuanced or open-ended tasks typically need more.
+
+    As a rule of thumb:
+    - Start with a few hundred **training** examples to test your setup.
+    - Start with a few dozens **validation** examples.
+
+    <Note>
+    Having too few validation examples can lead to noisy evaluation results — both during fine-tuning (unreliable loss function) and during agentic evaluation, where a small sample may be insufficient to draw meaningful conclusions.
+    </Note>
+
+    After initial fine-tuning, you can assess whether more data is needed by:
+    - Reviewing the training loss curve.
+    - Running evaluations on your validation set.
+    - Checking performance with agentic evaluation tools in Prem Studio.
+
+    If performance plateaus early or generalization is poor, consider expanding your dataset with more examples or better coverage. If you don't have more data, you can use [enrich your dataset](../../datasets/enrich-dataset) using synthetic data augmentation to increase the size of your dataset.
+    </Step>
+
+    <Step title="Split Before You Augment">
+    <img src="https://static.premai.io/prem-saas-docs/guides/datasets/split-before-augment.gif" alt="GIF showing autosplit before data augmentation" />
+    Don’t augment your dataset and then split it — that leads to data leakage.
+
+    - First, split your dataset into training and validation sets.
+    - Then apply synthetic augmentation only to the training split.
+
+    <Warning>
+        If you augment before splitting, you risk **data leakage** — original datapoints used to generate synthetic examples may end up in your validation set. This compromises evaluation by leaking information from training into validation, leading to inflated and misleading metrics.
+    </Warning>
+    </Step>
+</Steps>
+
+## 📦 What’s Next?
+
+Now that your dataset follows these practices, you’re ready to:
+- Fine-tune a model using [Prem Studio Fine-Tuning](../../finetuning/get-started)
+- Run robust evaluations with your validation set ([Evaluation Guide](../../evaluations/get-started))
+- Enrich your dataset if needed ([Enrichment Guide](../../datasets/enrich-dataset))
+
+## 💡 Pro Tips
+
+- Name your dataset clearly to reflect its purpose or use case.
+- Use autosplit for quick, clean train/validaiton separation.
+- Periodically re-check your validation set to make sure it reflects real-world data.

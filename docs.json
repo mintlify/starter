@@ -39,6 +39,7 @@
               {
                 "group": "Datasets",
                 "pages": [
+                  "guides/datasets/dataset-best-practices",
                   "guides/datasets/synthetic-data"
                 ]
               },
