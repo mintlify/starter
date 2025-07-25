@@ -47,7 +47,8 @@
               {
                 "group": "Finetuning",
                 "pages": [
-                  "guides/finetuning/lora-finetuning"
+                  "guides/finetuning/lora-finetuning",
+                  "guides/finetuning/choose-reason-vs-non-reason"
                 ]
               },
               {
@@ -111,7 +112,7 @@
             ]
           },
           {
-            "group": "CookBook 🍳",
+            "group": "Cookbook 🍳",
             "pages": [
               {
                 "group": "Integrations",

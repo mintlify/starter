@@ -1,0 +1,134 @@
+---
+title: Choose Reasoning vs Non-Reasoning
+description: How to choose between reasoning and non-reasoning fine-tuning to optimize your model's performance.
+---
+
+When fine-tuning an LLM in Prem Studio, you'll need to decide between **reasoning** and **non-reasoning** approaches. This choice significantly impacts your model's behavior, training time, and performance on different types of tasks.
+
+## What's the Difference?
+
+**Reasoning Fine-Tuning** teaches models to show their thinking process step-by-step before arriving at an answer. The model learns to break down complex problems, consider multiple perspectives, and explain its reasoning.
+
+**Non-Reasoning Fine-Tuning** focuses on direct input-output mapping. The model learns to provide answers quickly without showing intermediate steps or explanations.
+
+## When to Use Each Approach
+
+| Scenario | Reasoning | Non-Reasoning | Example Use Case |
+|----------|-----------|---------------|------------------|
+| **Complex problem-solving** 🧮 | ✅ | ❌ | Mathematical word problems, multi-step analysis |
+| **Fast response times needed** ⚡ | ❌ | ✅ | Chatbots, real-time translation, autocomplete |
+| **Transparency required** 🔍 | ✅ | ❌ | Medical diagnosis support, legal research |
+| **Simple classification tasks** 🏷️ | ❌ | ✅ | Sentiment analysis, content moderation |
+| **Educational applications** 📚 | ✅ | ❌ | Tutoring systems, homework help |
+| **High-volume API calls** 📈 | ❌ | ✅ | Content generation, summarization at scale |
+| **Debugging model decisions** 🔧 | ✅ | ❌ | Understanding why a model made specific choices |
+| **Creative writing** ✍️ | ❌ | ✅ | Story generation, marketing copy |
+
+## When to Choose Non-Reasoning
+
+<Steps>
+    <Step title="Speed-Critical Applications">
+    Choose non-reasoning when response time is crucial:
+
+    - **Real-time chat**: Customer support bots, conversational AI
+    - **High-throughput processing**: Batch content generation, data labeling
+    - **Interactive applications**: Autocomplete, instant search suggestions
+    </Step>
+
+    <Step title="Simple, Direct Tasks">
+    When the task has a clear input-output relationship:
+
+    - **Classification**: Sentiment analysis, topic categorization
+    - **Format conversion**: JSON to text, data transformation
+    - **Pattern matching**: Named entity recognition, keyword extraction
+
+    <Note>
+        Non-reasoning fine-tuning typically converges faster and requires less computational resources.
+    </Note>
+    </Step>
+
+    <Step title="Creative or Stylistic Tasks">
+    When the process matters less than the final output:
+
+    - Creative writing and content generation
+    - Style transfer and tone adjustment
+    - Language translation where fluency matters more than showing steps
+    </Step>
+</Steps>
+
+## When to Choose Reasoning
+
+<Steps>
+    <Step title="Complex Multi-Step Tasks">
+    Choose reasoning when your task requires breaking down problems into smaller steps:
+
+    - **Mathematical problems**: "Solve this equation step by step"
+    - **Analysis tasks**: "Analyze this business case and recommend actions"
+    - **Research questions**: "Compare these theories and explain the differences"
+
+    <Note>
+        Reasoning fine-tuning typically takes longer but produces more explainable and trustworthy outputs for complex tasks.
+    </Note>
+    </Step>
+
+    <Step title="High-Stakes Decisions">
+    When accuracy and explainability matter more than speed:
+
+    - Medical or legal applications where decisions need justification
+    - Financial analysis where reasoning must be auditable
+    - Educational tools where learning the process is important
+
+    <Warning>
+        Use reasoning fine-tuning only when you can provide high-quality training data with step-by-step explanations.
+    </Warning>
+    </Step>
+
+    <Step title="Debugging and Interpretability">
+    When you need to understand why a model made specific decisions:
+
+    - Model behavior analysis
+    - Identifying bias or errors in reasoning
+    - Building trust with end users who need to understand outputs
+    </Step>
+</Steps>
+
+## Hybrid Approach: When You're Unsure
+
+If you're uncertain which approach to use, consider these strategies:
+
+1. **Start with Non-Reasoning** for faster iteration and baseline performance
+2. **Test with Reasoning** if initial results lack the depth or accuracy you need
+3. **Use both approaches** for different parts of your application (reasoning for complex queries, non-reasoning for simple ones)
+
+## Implementation in Prem Studio
+
+<Steps>
+    <Step title="Select Your Fine-Tuning Type">
+    When creating a fine-tuning job in Prem Studio:
+
+    - Choose **"Reasoning"** for tasks requiring step-by-step thinking
+    - Choose **"Non-Reasoning"** for direct input-output mapping
+
+    <img src="/images/guides/choosing_ft_type.png" alt="Choosing Fine-Tuning Type" style={{maxWidth: '100%', margin: '16px 0'}} />
+    </Step>
+
+    <Step title="After this it's all the same">
+    **For Reasoning**: You have only two models to choose from. Those are:
+    - Qwen 2.5 7B reasoning
+    - Qwen 2.5 3B reasoning
+
+    <img src="/images/guides/reasoning_models.png" alt="Reasoning Models" style={{maxWidth: '100%', margin: '16px 0'}} />
+
+    **For Non-Reasoning**: You have a lot of models to choose from, ranging from Qwen, Gemma, Llama, Phi models.
+    <img src="/images/guides/non_reasoning_models.png" alt="Reasoning Models" style={{maxWidth: '100%', margin: '16px 0'}} />
+
+    </Step>
+</Steps>
+
+## Output from reasoning vs non-reasoning models
+
+The output from reasoning models is a bit different from the output from non-reasoning models.
+In reasoning models, it will first show it's thought process under `<think> </think>` tag, and
+then it will show the final answer under `<answer> </answer>` tag. Here is an example:
+
+<img src="https://static.premai.io/prem-saas-docs/guides/finetuning/reasoning_model_output.gif" alt="GIF showing reasoning model output in Prem Studio" style={{maxWidth: '100%', margin: '16px 0'}} />
