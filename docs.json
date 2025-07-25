@@ -56,6 +56,12 @@
                 "pages": [
                   "guides/evaluation/writing-good-metrics"
                 ]
+              },
+              {
+                "group": "Inference",
+                "pages": [
+                  "guides/inference/json-output"
+                ]
               }
             ]
           },

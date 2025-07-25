@@ -1,0 +1,419 @@
+---
+title: "Structured JSON Output with Prem SDK"
+description: "This guide shows you how to prompt LLMs to return structured JSON outputs using both Prem Python and TypeScript SDKs."
+---
+
+## Why Use Structured Output?
+
+Structured output lets you define the exact format you expect in the model's response, making it easier to parse, validate, and integrate downstream.
+
+## Prerequisites
+
+- An API key from Prem Studio
+- Python ≥ 3.8 or Node.js ≥ 18
+- premai or openai SDK installed
+
+## Supported Models
+- gemma3-1b
+- gemma3-4b
+- llama3.1-8b
+- llama3.2-1b
+- llama3.2-3b
+- phi-4
+- phi-4-mini
+- qwen2.5-0.5b
+- qwen2.5-1.5b
+- qwen2.5-3b
+- qwen2.5-7b
+- qwen2.5-math-1.5b
+- qwen2.5-math-7b
+- smollm-1.7b
+- smollm-135m
+- smollm-360m
+- gpt-4o
+- gpt-4o-mini
+
+## Generate Structured Output with Prem
+This quick guide is gonna show you how to extract structured data from a raw CV using the Prem SDK. You'll define a clear schema (e.g. name, email, education, work experience) and let the model return a clean JSON object that matches it.
+
+Why it's useful:
+It turns messy, unstructured CV text into structured data automatically — no regex, no manual parsing.
+
+When to use it:
+Perfect for dev teams building HR tools, job platforms, or internal automation scripts that need to process and understand user-submitted resumes.
+
+<Steps>
+    <Step title="Setup Environment">
+        <CodeGroup>
+            ```bash javascript/typescript
+            npm install premai
+            npm install --save-dev @types/node
+            export PREMAI_API_KEY=your_api_key
+            ```
+            ```bash python
+            pip install premai pydantic
+            export PREMAI_API_KEY=your_api_key
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Define Output Structure and Example Text to Parse">
+        <CodeGroup>
+            ```javascript javascript/typescript
+            type PersonCV = {
+                name: string;
+                email?: string;
+                phone?: string;
+                address?: string;
+                education?: string[];
+                work_experience?: string[];
+                skills?: string[];
+                awards_and_honors?: string[];
+            };
+
+            const schema = {
+                name: "PersonCV",
+                schema: {
+                    type: "object",
+                    properties: {
+                    name: { type: "string" },
+                    email: { type: "string" },
+                    phone: { type: "string" },
+                    address: { type: "string" },
+                    education: { type: "array", items: { type: "string" } },
+                    work_experience: { type: "array", items: { type: "string" } },
+                    skills: { type: "array", items: { type: "string" } },
+                    awards_and_honors: { type: "array", items: { type: "string" } }
+                    },
+                    required: ["name"]
+                }
+            };
+
+            const cvText = `
+                John Doe
+                123 Main Street, Anytown, USA | john.doe@email.com | 555-123-4567
+
+                Education
+                Bachelor of Science in Computer Science, University of Example, 2020-2024
+                Relevant Coursework: Data Structures, Algorithms, Database Management
+
+                Work Experience
+                Software Engineer Intern, Example Corp, Summer 2023
+                - Assisted in developing and testing software applications.
+                - Wrote and maintained technical documentation.
+
+                Skills
+                Programming Languages: Python, Java, C++
+                Databases: SQL, NoSQL
+                Operating Systems: Windows, Linux
+
+                Awards and Honors
+                Dean's List, University of Example, 2021-2024
+                `;
+            ```
+            ```python python
+            from pydantic import BaseModel
+
+
+            class PersonCV(BaseModel):
+                name: str
+                email: str | None = None
+                phone: str | None = None
+                address: str | None = None
+                education: list[str] | None = None
+                work_experience: list[str] | None = None
+                skills: list[str] | None = None
+                awards_and_honors: list[str] | None = None
+
+            cv_text = """
+                John Doe
+                123 Main Street, Anytown, USA | john.doe@email.com | 555-123-4567
+
+                Education
+                Bachelor of Science in Computer Science, University of Example, 2020-2024
+                Relevant Coursework: Data Structures, Algorithms, Database Management
+
+                Work Experience
+                Software Engineer Intern, Example Corp, Summer 2023
+                -	Assisted in developing and testing software applications.
+                -	Wrote and maintained technical documentation.
+
+                Skills
+                Programming Languages: Python, Java, C++
+                Databases: SQL, NoSQL
+                Operating Systems: Windows, Linux
+
+                Awards and Honors
+                Dean's List, University of Example, 2021-2024
+            """
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Initialize Client">
+        <CodeGroup>
+            ```javascript javascript/typescript
+            import PremAI from "premai";
+
+            const client = new PremAI({
+                apiKey: process.env.PREMAI_API_KEY || "",
+            });
+            ```
+            ```python python
+            import os
+            from premai import PremAI
+
+            client = PremAI(api_key=os.getenv("PREMAI_API_KEY"))
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Format Messages and Send Request with Expected Output Schema">
+        <CodeGroup>
+            ```javascript javascript/typescript
+            const messages: ChatCompletionsParams.Message[] = [
+                { role: "system", content: "You are a helpful assistant that can parse a person's info and return a structured object." },
+                { role: "user", content: cvText }
+            ] as any;
+
+            const response = await client.chat.completions({
+                model: "phi-4",
+                messages,
+                response_format: {
+                    type: "json_schema",
+                    json_schema: schema
+                },
+            });
+            ```
+            ```python python
+            messages = [
+                {"role": "system", "content": "You are a helpful assistant that can parse a person's info and return a structured object."},
+                {"role": "user", "content": cv_text}
+            ]
+
+            response = client.chat.completions(
+                model="phi-4",
+                messages=messages,
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": PersonCV.name,
+                        "schema": PersonCV.model_json_schema(),
+                    },
+                },
+            )
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Parse the Output">
+        <CodeGroup>
+
+            ```javascript javascript/typescript
+            const raw = response.choices[0].message.content || "";
+
+            const start = raw.indexOf("{");
+            const end = raw.lastIndexOf("}") + 1;
+            const content = raw.slice(start, end);
+
+            const parsed: PersonCV = JSON.parse(content);
+
+            console.log(JSON.stringify(parsed, null, 2));
+            ```
+            ```python python
+            import json
+
+            content = response.choices[0].message.content
+
+            start = content.find("{")
+            end = content.rfind("}") + 1
+            json_content = content[start:end]
+
+            output = json.loads(json_content)
+            parsed = PersonCV.model_validate(output)
+
+            print(json.dumps(parsed.model_dump(), indent=2))
+            ```
+        </CodeGroup>
+        <Note>
+        In the code above, the lines using `find("{")` and `rfind("}")` are a simple safeguard to extract only the JSON portion from the model's output. Sometimes, the response may include extra text before or after the JSON block. This ensures that only the valid JSON is parsed, avoiding potential `json.loads()` errors.
+        </Note>
+    </Step>
+
+
+</Steps>
+
+
+
+## Full Copy-Paste Example
+<CodeGroup>
+```javascript javascript/typescript
+import { ChatCompletionsParams } from "premai/resources/chat";
+import PremAI from "premai";
+
+type PersonCV = {
+    name: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    education?: string[];
+    work_experience?: string[];
+    skills?: string[];
+    awards_and_honors?: string[];
+};
+
+const schema = {
+    name: "PersonCV",
+    schema: {
+        type: "object",
+        properties: {
+        name: { type: "string" },
+        email: { type: "string" },
+        phone: { type: "string" },
+        address: { type: "string" },
+        education: { type: "array", items: { type: "string" } },
+        work_experience: { type: "array", items: { type: "string" } },
+        skills: { type: "array", items: { type: "string" } },
+        awards_and_honors: { type: "array", items: { type: "string" } }
+        },
+        required: ["name"]
+    }
+};
+
+const cvText = `
+    John Doe
+    123 Main Street, Anytown, USA | john.doe@email.com | 555-123-4567
+
+    Education
+    Bachelor of Science in Computer Science, University of Example, 2020-2024
+    Relevant Coursework: Data Structures, Algorithms, Database Management
+
+    Work Experience
+    Software Engineer Intern, Example Corp, Summer 2023
+    - Assisted in developing and testing software applications.
+    - Wrote and maintained technical documentation.
+
+    Skills
+    Programming Languages: Python, Java, C++
+    Databases: SQL, NoSQL
+    Operating Systems: Windows, Linux
+
+    Awards and Honors
+    Dean's List, University of Example, 2021-2024
+`;
+
+const client = new PremAI({
+    apiKey: process.env.PREMAI_API_KEY || "",
+});
+
+const messages: ChatCompletionsParams.Message[] = [
+    { role: "system", content: "You are a helpful assistant that can parse a person's info and return a structured object." },
+    { role: "user", content: cvText }
+] as any;
+
+const response = await client.chat.completions({
+    model: "phi-4",
+    messages,
+    response_format: {
+        type: "json_schema",
+        json_schema: schema
+    },
+});
+
+const raw = response.choices[0].message.content || "";
+
+const start = raw.indexOf("{");
+const end = raw.lastIndexOf("}") + 1;
+const content = raw.slice(start, end);
+
+const parsed: PersonCV = JSON.parse(content);
+
+console.log(JSON.stringify(parsed, null, 2));
+
+```
+
+```python python
+import os
+from pydantic import BaseModel
+from premai import PremAI
+import json
+
+
+class PersonCV(BaseModel):
+    name: str
+    email: str | None = None
+    phone: str | None = None
+    address: str | None = None
+    education: list[str] | None = None
+    work_experience: list[str] | None = None
+    skills: list[str] | None = None
+    awards_and_honors: list[str] | None = None
+
+cv_text = """
+    John Doe
+    123 Main Street, Anytown, USA | john.doe@email.com | 555-123-4567
+
+    Education
+    Bachelor of Science in Computer Science, University of Example, 2020-2024
+    Relevant Coursework: Data Structures, Algorithms, Database Management
+
+    Work Experience
+    Software Engineer Intern, Example Corp, Summer 2023
+    -	Assisted in developing and testing software applications.
+    -	Wrote and maintained technical documentation.
+
+    Skills
+    Programming Languages: Python, Java, C++
+    Databases: SQL, NoSQL
+    Operating Systems: Windows, Linux
+
+    Awards and Honors
+    Dean's List, University of Example, 2021-2024
+"""
+
+client = PremAI(api_key=os.getenv("PREMAI_API_KEY"))
+
+messages = [
+    {"role": "system", "content": "You are a helpful assistant that can parse a person's info and return a structured object."},
+    {"role": "user", "content": cv_text}
+]
+
+response = client.chat.completions(
+    model="phi-4",
+    messages=messages,
+    response_format={
+        "type": "json_schema",
+        "json_schema": {
+            "name": PersonCV.__name__,
+            "schema": PersonCV.model_json_schema(),
+        },
+    },
+)
+
+content = response.choices[0].message.content
+
+start = content.find("{")
+end = content.rfind("}") + 1
+json_content = content[start:end]
+
+output = json.loads(json_content)
+parsed = PersonCV.model_validate(output)
+
+print(json.dumps(parsed.model_dump(), indent=2))
+```
+</CodeGroup>
+
+
+
+## Pro Tips
+
+- If you run into JSON parsing errors, try using the [instructor](https://python.useinstructor.com/) and [json-repair](https://github.com/mangiucugna/json_repair) package — they can help you automatically fix malformed model outputs.
+- If the model doesn't follow your schema correctly, simplify the schema by reducing nesting or optional fields.
+- Be explicit in your instructions (e.g., "Return only valid JSON without any explanation or extra text.")
+- Include examples in your prompt (few-shot prompting) to help the model understand the expected format more accurately.
+
+## Other Common Use-Cases
+
+- Extracting metadata from documents
+- Structured answers for UI rendering
+- Converting text into application-specific formats
