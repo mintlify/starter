@@ -1,3 +1,4 @@
 .qodo
 .DS_Store
 .direnv/
+.cursor/

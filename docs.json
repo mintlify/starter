@@ -40,22 +40,26 @@
                 "icon": "house-flood-water-circle-arrow-right",
                 "pages": [
                   "guia-de-desenvolvimento/tipos-de-pipeline/extracao-e-carga-de-dados",
-                  "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados"
+                  "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados",
+                  "guia-de-desenvolvimento/tipos-de-pipeline/criacao-de-pipelines"
                 ]
               },
               {
                 "group": "Guia de Estilo",
                 "icon": "palette",
                 "pages": [
-                  "guia-de-desenvolvimento/guia-de-estilo/conjuntos-de-dados-e-tabelas",
-                  "guia-de-desenvolvimento/guia-de-estilo/campos"
+                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-datasets-e-tabelas",
+                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas",
+                  "guia-de-desenvolvimento/guia-de-estilo/particoes"
                 ]
               },
               {
-                "group": "Contribuindo com o Projeto",
+                "group": "dbt",
                 "icon": "people-carry-box",
                 "pages": [
-                  "guia-de-desenvolvimento/contribuindo-com-o-projeto/instalacao-dbt"
+                  "guia-de-desenvolvimento/dbt/instalacao-dbt",
+                  "guia-de-desenvolvimento/dbt/estrutura-pastas",
+                  "guia-de-desenvolvimento/dbt/testes"
                 ]
               }
             ]
@@ -69,6 +73,15 @@
             "group": "Gateway",
             "icon": "network-wired",
             "pages": ["barramento/gateway"]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Introdução",
+            "pages": ["api-reference"]
           },
           {
             "group": "Busca",
@@ -76,13 +89,23 @@
             "openapi": "https://services.staging.app.dados.rio/busca/openapi.json"
           },
           {
-            "group": "eAí Agent",
+            "group": "Servico de Busca",
+            "icon": "magnifying-glass", 
+            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-busca-search/refs/heads/staging/docs/openapi-v3.json"
+          },
+          {
+            "group": "Subpav OSA SMS",
+            "icon": "database",
+            "openapi": "https://services.staging.app.dados.rio/subpav-osa-api/openapi.json"
+          },
+          {
+            "group": "eAi Agent",
             "icon": "robot",
             "openapi": "https://services.staging.app.dados.rio/eai-agent/openapi.json"
           },
           {
             "group": "Registro Municipal Integrado",
-            "icon": "database",
+            "icon": "database", 
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-rmi/refs/heads/staging/docs/openapi-v3.json"
           },
           {

@@ -1,0 +1,71 @@
+---
+title: "Particionamento de Tabelas"
+description: "Guia de boas práticas para particionar tabelas no Data Lake, incluindo recomendações de quando e como particionar para otimizar performance e custos."
+---
+
+
+## Colunas de Particionamento da Tabela
+
+O particionamento é uma técnica que divide uma tabela grande em partes menores (partições) com base em uma ou mais colunas. Cada partição contém um subconjunto específico dos dados, como por exemplo:
+
+- Todos os registros de um determinado mês
+- Todos os registros de uma região específica
+- Todos os registros de um determinado ano
+
+Os dados de cada partição são fisicamente armazenados e persistidos de forma agrupada no sistema de arquivos, permitindo que o banco de dados acesse diretamente apenas os arquivos relevantes para uma consulta.
+
+Esta divisão traz benefícios importantes:
+
+- Melhora a performance das consultas, pois o sistema pode ignorar partições irrelevantes
+- Facilita o gerenciamento dos dados (backup, exclusão, atualização)
+- Reduz custos de processamento ao trabalhar apenas com as partições necessárias
+- Permite melhor controle de acesso aos dados
+
+Em geral, o particionamento é feito sobre datas, criando-se as colunas: `<dimensão>_data_particao` com formatos 'YYYY-MM-DD'. 
+
+
+## Quando usar partições
+
+O particionamento de tabelas é recomendado nos seguintes cenários:
+
+- **Grandes volumes de dados:** Quando a tabela possui muitos registros e consultas frequentes, o particionamento reduz o volume de dados lido e melhora a performance.
+- **Consultas filtrando por uma coluna específica:** Se a maioria das consultas utiliza filtros em uma coluna (geralmente datas), particionar por essa coluna traz ganhos significativos de eficiência.
+- **Gerenciamento do ciclo de vida dos dados:** Particionamento facilita a definição de políticas de expiração automática de dados antigos, reduzindo custos de armazenamento.
+- **Necessidade de exclusão ou atualização em blocos:** Permite operações de exclusão, atualização ou backup em partições específicas, sem afetar a tabela inteira.
+- **Controle de custos:** Consultas que leem apenas partições relevantes consomem menos recursos, otimizando o custo de uso do BigQuery.
+
+<Tip> **Dica:** Se a granularidade desejada for maior do que o limite de partições permite, combine particionamento com clustering para obter melhores resultados. </Tip>
+
+
+## Regra Geral de Particionamento
+
+A regra mais importante ao escolher a coluna de particionamento é:
+
+> Particione pela coluna mais frequentemente utilizada nas cláusulas WHERE das consultas SQL.
+
+Isso maximiza os benefícios do particionamento, pois permite que o mecanismo de consulta descarte rapidamente partições irrelevantes que precisam ser escaneados
+
+Por exemplo, se a maioria das consultas filtra por data de criação, particione por esse campo.
+
+
+
+## Limitações do BigQuery
+
+Ao utilizar particionamento de tabelas no BigQuery, é importante estar atento às seguintes limitações e restrições:
+
+- **Apenas uma coluna de particionamento:** O BigQuery não permite particionamento por múltiplas colunas. Cada tabela pode ser particionada por apenas uma coluna.
+- **Tipos de coluna suportados:**
+  - Para particionamento por data/hora, a coluna deve ser do tipo `DATE`, `TIMESTAMP` ou `DATETIME` (não pode ser campo repetido ou aninhado/STRUCT).
+  - Para particionamento por intervalo de inteiros, a coluna deve ser do tipo `INTEGER` (também não pode ser campo repetido ou aninhado/STRUCT).
+- **Limite de partições por tabela:** Cada tabela pode ter no máximo **10.000 partições**. Caso precise de mais granularidade, utilize o recurso de clustering em conjunto com particionamento.
+- **Limite de partições modificadas por job:** Cada operação de carga ou consulta pode modificar até **4.000 partições** por vez.
+- **Limite diário de modificações em partições:**
+  - Para tabelas particionadas por data/hora: até **30.000 modificações** por dia.
+  - Para tabelas particionadas por tempo de ingestão: até **5.000 modificações** por dia.
+- **Limite de partições em particionamento por intervalo:** O número máximo de intervalos (partições) em tabelas particionadas por intervalo de inteiros também é **10.000**.
+- **Atualizações de metadados:** Até **50 operações de atualização de metadados** por tabela particionada a cada 10 segundos.
+- **Não suporta SQL legado:** Não é possível consultar ou gravar resultados em tabelas particionadas usando o modo Legacy SQL, apenas GoogleSQL (Standard SQL).
+- **Coluna de particionamento deve ser top-level:** Não é permitido particionar por campos dentro de STRUCTs (apenas colunas de nível superior).
+
+## Referências
+- [Documentação oficial do BigQuery](https://cloud.google.com/bigquery/docs/partitioned-tables).

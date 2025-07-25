@@ -1,0 +1,53 @@
+---
+title: "Padrões de YAML dbt"
+description: "Guia de boas práticas para configuração, documentação e testes em arquivos YAML de modelos dbt no Data Lake."
+---
+
+## Bloco de Configuração do Modelo
+
+Todo arquivo YAML de modelo deve conter uma descrição e um bloco de configuração:
+
+```yaml
+models:
+  - name: nome_do_modelo
+    description: "Descrição da tabela"
+    config:
+      alias: nome_do_modelo
+      schema: camada  # raw, intermediate, marts
+      materialized: view  # para modelos raw
+```
+
+## Notação para Campos Estruturados (Structs)
+
+- Use notação ponto para campos aninhados:
+  - Correto: `struct.campo`, `struct.nested.campo`
+  - Incorreto: definir subcampos como colunas separadas
+
+## Atributos Obrigatórios de Campo
+
+Cada campo deve conter:
+- `name`: nome do campo
+- `description`: descrição clara em português
+- `data_type`: tipo de dado (string, integer, date, timestamp, boolean)
+- `quote`: true para campos string
+
+## Padrões de Testes
+
+- Nome dos testes deve seguir o padrão definido em [Padrões de Testes dbt](./testes.mdx)
+- Exemplos de testes para chaves primárias, estrangeiras e qualidade de dados
+
+## Organização dos Arquivos
+
+- Um arquivo YAML por modelo
+- Arquivo YAML ao lado do SQL correspondente
+- Nome do arquivo: `{model}.yml`
+
+## Documentação
+
+- Todas as descrições devem estar em português brasileiro
+- Incluir propósito, contexto de negócio, valores válidos e referência do sistema de origem
+
+## Referências
+
+- [Guia oficial dbt](https://docs.getdbt.com/docs/build/yaml)
+- [Padrões internos de YAML](../rules/dbt-yaml-standards.mdc) 
