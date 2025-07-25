@@ -33,7 +33,8 @@
               {
                 "group": "General",
                 "pages": [
-                  "guides/general/upload-to-hf"
+                  "guides/general/upload-to-hf",
+                  "guides/general/serve-models-to-vllm"
                 ]
               },
               {

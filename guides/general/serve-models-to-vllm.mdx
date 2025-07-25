@@ -1,0 +1,205 @@
+---
+title: Locally serve OpenAI compatible Prem Fine-tuned Models
+description: Learn how to deploy Prem fine-tuned models as OpenAI compatible API all locally.
+---
+
+You can deploy your fine-tuned models locally or on your own infrastructure as OpenAI-compatible APIs using vLLM. This allows you to serve your custom models with the same interface as OpenAI's API, making integration seamless.
+
+## What is vLLM?
+
+vLLM is a fast and memory-efficient inference engine for large language models. It provides:
+
+- **High throughput** serving with PagedAttention
+- **OpenAI-compatible API** for easy integration
+- **Support for popular models** including fine-tuned versions
+- **Efficient memory management** for better resource utilization
+
+## Why Use vLLM for Serving?
+
+- **Cost-effective**: Run models locally without API costs
+- **Privacy**: Keep your data and models on your infrastructure
+- **Speed**: Optimized inference with batching and caching
+- **Compatibility**: Drop-in replacement for OpenAI API calls
+- **Control**: Full control over model deployment and scaling
+
+## Prerequisites
+
+Before starting, ensure you have:
+- Your fine-tuned model checkpoints. Optionally, you can upload them to Hugging Face (following our [upload guide](/guides/general/upload-to-hf))
+- Python 3.8 or higher
+- CUDA-compatible GPU (recommended for better performance)
+- Sufficient GPU memory for your model size
+
+## Installation and Setup
+
+<Steps>
+    <Step title="Install vLLM">
+    Install vLLM using pip. For GPU support, make sure you have the appropriate CUDA drivers installed:
+
+    ```bash
+    pip install vllm
+    ```
+
+    <Note>
+        If you encounter installation issues, check the [vLLM installation guide](https://docs.vllm.ai/en/latest/getting_started/installation.html) for your specific system configuration.
+    </Note>
+    </Step>
+
+    <Step title="Verify Your Model Access">
+    If you uploaded your model to Hugging Face, ensure your Hugging Face model is accessible. For private repositories, make sure you're logged in:
+
+    ```bash
+    huggingface-cli login
+    ```
+    </Step>
+</Steps>
+
+## Serving Full Fine-Tuned Models
+
+Full fine-tuned models contain all the updated parameters and can be served directly with vLLM.
+
+<Steps>
+    <Step title="Start the vLLM Server">
+    Launch your fine-tuned model as an OpenAI-compatible API server:
+
+    ```bash
+    vllm serve your-username/your-model-name-full \
+        --host 0.0.0.0 \
+        --port 8000 \
+        --served-model-name my-custom-model
+    ```
+
+    <Info>
+        Replace `your-username/your-model-name-full` with either your local model path or your actual Hugging Face model repository name from the upload guide.
+    </Info>
+    <Info>
+        For more options, see the [vLLM documentation](https://docs.vllm.ai/en/stable/serving/openai_compatible_server.html).
+    </Info>
+    </Step>
+
+    <Step title="Test Your API">
+    Once the server starts, test it with a simple API call:
+
+    ```bash
+    curl http://localhost:8000/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -d '{
+            "model": "my-custom-model",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "Hello, how are you?"
+                }
+            ],
+            "max_tokens": 50
+        }'
+    ```
+    </Step>
+</Steps>
+
+## Serving LoRA Fine-Tuned Models
+
+LoRA models require the base model plus the adapter weights. vLLM supports LoRA serving with some additional configuration.
+
+<Steps>
+    <Step title="Start vLLM with LoRA Support">
+    For LoRA models, specify both the base model and the LoRA adapter:
+
+    ```bash
+    vllm serve Qwen/Qwen2.5-1.5B \
+        --enable-lora \
+        --lora-modules my-custom-lora=your-username/your-model-name-lora \
+        --host 0.0.0.0 \
+        --port 8000
+    ```
+
+    <Note>
+        Replace `Qwen/Qwen2.5-1.5B` with the appropriate base model ID from the [model mapping table](/guides/general/upload-to-hf#uploading-lora-fine-tuned-models-to-hugging-face) in the upload guide.
+    </Note>
+    </Step>
+
+    <Step title="Test LoRA Model API">
+    Test your LoRA model by specifying the LoRA name in the API call:
+
+    ```bash
+    curl http://localhost:8000/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -d '{
+            "model": "my-custom-lora",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "What can you help me with?"
+                }
+            ],
+            "max_tokens": 100
+        }'
+    ```
+    </Step>
+</Steps>
+
+## Using Your API in Applications
+
+Once your model is serving, you can use it exactly like OpenAI's API in your applications:
+
+### Python Example
+
+```python
+import openai
+
+# Configure the client to use your local vLLM server
+client = openai.OpenAI(
+    base_url="http://localhost:8000/v1",
+    api_key="not-needed-for-local-server"
+)
+
+# Use your custom model
+response = client.chat.completions.create(
+    model="my-custom-model",  # or "my-custom-lora" for LoRA models
+    messages=[
+        {"role": "user", "content": "Explain machine learning in simple terms"}
+    ],
+    max_tokens=150,
+    temperature=0.7
+)
+
+print(response.choices[0].message.content)
+```
+
+### JavaScript Example
+
+```javascript
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+    baseURL: 'http://localhost:8000/v1',
+    apiKey: 'not-needed-for-local-server',
+});
+
+async function getChatCompletion() {
+    const completion = await openai.chat.completions.create({
+        model: 'my-custom-model',
+        messages: [
+            { role: 'user', content: 'Write a short poem about AI' }
+        ],
+        max_tokens: 100,
+    });
+
+    console.log(completion.choices[0].message.content);
+}
+
+getChatCompletion();
+```
+
+## What's Next?
+
+Now that your model is serving as an OpenAI-compatible API:
+
+- **Scale your deployment** with load balancers and multiple instances
+- **Monitor performance** with logging and metrics collection
+- **Integrate with applications** using the familiar OpenAI API interface
+- **Experiment with different models** from your Prem Studio fine-tuning jobs
+
+<Note>
+Remember to keep your models updated by re-uploading improved versions to Hugging Face and restarting your vLLM servers with the new model versions.
+</Note>
