@@ -91,7 +91,7 @@
             ]
           },
           {
-            "group": "Other Guides 📚",
+            "group": "User Guides 📚",
             "pages": [
               "guides/general/upload-to-hf",
               "guides/general/serve-models-to-vllm"
