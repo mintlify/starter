@@ -36,7 +36,7 @@
               "datasets/autosplit-dataset",
               "datasets/create-snapshot",
               {
-                "group": "Dataset Guides",
+                "group": "Guides",
                 "icon": "newspaper",
                 "pages": [
                   "datasets/dataset-best-practices",
@@ -52,7 +52,7 @@
               "finetuning/get-started",
               "finetuning/experiments",
               {
-                "group": "Fine-Tuning Guides",
+                "group": "Guides",
                 "icon": "newspaper",
                 "pages": [
                   "guides/finetuning/lora-finetuning",
@@ -66,7 +66,7 @@
             "pages": [
               "inference/self-host",
               {
-                "group": "Inference Guides",
+                "group": "Guides",
                 "icon": "newspaper",
                 "pages": [
                   "guides/inference/json-output"
@@ -82,7 +82,7 @@
               "evaluations/bring-your-own-eval",
               "evaluations/metrics",
               {
-                "group": "Evaluation Guides",
+                "group": "Guides",
                 "icon": "newspaper",
                 "pages": [
                   "guides/evaluation/writing-good-metrics"
