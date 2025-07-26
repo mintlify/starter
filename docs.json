@@ -28,51 +28,21 @@
             ]
           },
           {
-            "group": "Guides 📚",
-            "pages": [
-              {
-                "group": "General",
-                "pages": [
-                  "guides/general/upload-to-hf",
-                  "guides/general/serve-models-to-vllm"
-                ]
-              },
-              {
-                "group": "Datasets",
-                "pages": [
-                  "guides/datasets/dataset-best-practices",
-                  "guides/datasets/synthetic-data"
-                ]
-              },
-              {
-                "group": "Finetuning",
-                "pages": [
-                  "guides/finetuning/lora-finetuning",
-                  "guides/finetuning/choose-reason-vs-non-reason"
-                ]
-              },
-              {
-                "group": "Evaluation",
-                "pages": [
-                  "guides/evaluation/writing-good-metrics"
-                ]
-              },
-              {
-                "group": "Inference",
-                "pages": [
-                  "guides/inference/json-output"
-                ]
-              }
-            ]
-          },
-          {
             "group": "Datasets 🗃️",
             "pages": [
               "datasets/overview",
               "datasets/get-started",
               "datasets/enrich-dataset",
               "datasets/autosplit-dataset",
-              "datasets/create-snapshot"
+              "datasets/create-snapshot",
+              {
+                "group": "Dataset Guides",
+                "icon": "newspaper",
+                "pages": [
+                  "datasets/dataset-best-practices",
+                  "datasets/synthetic-data"
+                ]
+              }
             ]
           },
           {
@@ -80,13 +50,28 @@
             "pages": [
               "finetuning/overview",
               "finetuning/get-started",
-              "finetuning/experiments"
+              "finetuning/experiments",
+              {
+                "group": "Fine-Tuning Guides",
+                "icon": "newspaper",
+                "pages": [
+                  "guides/finetuning/lora-finetuning",
+                  "guides/finetuning/choose-reason-vs-non-reason"
+                ]
+              }
             ]
           },
           {
             "group": "Inference 🏃‍♂️",
             "pages": [
-              "inference/self-host"
+              "inference/self-host",
+              {
+                "group": "Inference Guides",
+                "icon": "newspaper",
+                "pages": [
+                  "guides/inference/json-output"
+                ]
+              }
             ]
           },
           {
@@ -95,7 +80,21 @@
               "evaluations/overview",
               "evaluations/get-started",
               "evaluations/bring-your-own-eval",
-              "evaluations/metrics"
+              "evaluations/metrics",
+              {
+                "group": "Evaluation Guides",
+                "icon": "newspaper",
+                "pages": [
+                  "guides/evaluation/writing-good-metrics"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Other Guides 📚",
+            "pages": [
+              "guides/general/upload-to-hf",
+              "guides/general/serve-models-to-vllm"
             ]
           },
           {
