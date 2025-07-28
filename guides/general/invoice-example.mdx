@@ -1,0 +1,214 @@
+---
+title: Save OpenAI Cost by Using Prem LLMs
+description: Learn how to save OpenAI costs by using Prem LLMs with a real-world invoice parsing example.
+---
+
+In this comprehensive guide, we'll demonstrate how to significantly reduce OpenAI costs by leveraging Prem's fine-tuned models through a practical invoice parsing example. You'll learn the complete workflow from data preparation to deployment, showcasing substantial cost savings while maintaining high accuracy.
+
+## Data Collection and Preparation
+
+For this example, we use this [invoice dataset](https://github.com/premAI-io/InvoiceDataExtractor/blob/main/createJsonlDataset/invoiceDataset.jsonl) that instructs the LLM to extract important information from invoices based on user prompts. Here's a sample from our dataset:
+
+<img src="/images/guides/invoice_dataset_sample.png" alt="Invoice dataset sample showing input and expected output" />
+
+<Info>
+If you're new to working with datasets in Prem Studio, check out our [dataset getting started guide](/datasets/get-started) to learn the fundamentals of dataset management.
+</Info>
+
+We upload the dataset to Prem Studio and configure an 80-20 split (80% for training, 20% for validation). Once uploaded, we create a snapshot of this dataset for our fine-tuning process.
+
+<Tip>
+Learn more about creating and managing dataset snapshots in our [detailed snapshot guide](/datasets/create-snapshot).
+</Tip>
+
+## Fine-Tuning the Model
+
+With our dataset snapshot ready, we navigate to the fine-tuning section and create a new fine-tuning job:
+
+<img src="/images/guides/invoice_create_ft.png" alt="Creating a new fine-tuning job in Prem Studio" />
+
+For this invoice parsing task, we select a **non-reasoning model** since we don't need the model to explain why it's extracting specific fields—the user's prompt already provides clear guidance on what to extract.
+
+<Info>
+Not sure whether to choose reasoning or non-reasoning fine-tuning? Our guide on [choosing between reasoning and non-reasoning models](/guides/finetuning/choose-reason-vs-non-reason) will help you make the right decision.
+</Info>
+
+After clicking **Create Finetuning Job**, Prem Studio analyzes our dataset and provides model recommendations:
+
+<img src="/images/guides/invoice_start_ft.png" alt="Model recommendations and dataset analysis" />
+
+Prem Studio recommends the Qwen 2.5 7B model based on our specific task requirements, along with smaller variants (3B, 1B, 0.5B parameters). The right panel shows a detailed analysis of our dataset, providing insights into its qualitative aspects.
+
+### Customizing Your Experiment
+
+You can customize your fine-tuning experiment by:
+
+1. **Adjusting hyperparameters**: Modify batch size, epochs, and learning rate (we recommend keeping the default values for optimal results)
+2. **Adding multiple models**: Click **+ Add** to include additional model variants in your experiment
+3. **Choosing fine-tuning method**: Select between LoRA and full fine-tuning
+
+<Tip>
+New to LoRA fine-tuning? Check out our comprehensive [LoRA fine-tuning guide](/guides/finetuning/lora-finetuning) to understand this efficient training method.
+</Tip>
+
+Click **Start Experiment** to begin the fine-tuning process. Once complete, you'll see the results in the **Experiments** page:
+
+<img src="/images/guides/invoice_finish_ft.png" alt="Fine-tuning results showing loss curves and model performance" />
+
+The results show our fine-tuning progress, including the loss curve trending downward—a positive indicator of successful training. With our model now fine-tuned, we can proceed to evaluation.
+
+## Evaluating Model Performance
+
+Prem's Agentic Evaluation system allows you to establish custom quality checks for your models using natural language descriptions, even without extensive testing infrastructure.
+
+<Info>
+Learn more about Prem's evaluation capabilities in our [evaluation overview](/evaluations/overview).
+</Info>
+
+### Creating Custom Metrics
+
+Navigate to the **Metrics** section and click **+ Create Metric**. For our invoice parsing evaluation, we define the following criteria:
+
+```markdown
+Ensure the invoice is in correct JSON format, matches the ground truth or reference output,
+and always contains all the keys that the user requested.
+```
+
+<img src="/images/guides/invoice_metric_def.png" alt="Creating custom evaluation metrics" />
+
+Paste this metric description and click **Generate Rules**. Prem will automatically generate specific judging criteria that define what the LLM should and shouldn't do.
+
+<Tip>
+Metrics can be edited anytime as your evaluation logic evolves with your product. For best practices on writing effective metrics, see our guide on [writing good evaluation metrics](/guides/evaluation/writing-good-metrics).
+</Tip>
+
+### Running the Evaluation
+
+Configure your evaluation by selecting:
+
+1. **Models to evaluate**: GPT-4o, GPT-4o-mini, and all our Prem fine-tuned Qwen models
+2. **Dataset snapshot**: The validation dataset we created earlier
+3. **Metrics**: Prem's built-in metrics (Conciseness, Hallucination) plus our custom "Invoice Verification" metric
+
+<img src="/images/guides/invoice_start_eval.png" alt="Configuring evaluation parameters" />
+
+Click **Create Evaluation** to start the assessment process.
+
+### Understanding Evaluation Results
+
+Once evaluation completes, you'll see comprehensive results:
+
+<img src="/images/guides/invoice_eval_results.png" alt="Evaluation results showing model performance comparison" />
+
+The results reveal that our Prem fine-tuned Qwen 7B model significantly outperforms both GPT-4o and GPT-4o-mini. Remarkably, the fine-tuned Qwen 2.5 1B model achieves performance comparable to GPT-4o while using far fewer parameters.
+
+#### Interpreting the Results
+
+The evaluation interface provides:
+
+1. **Evaluation Leaderboard**: Overall performance summary across all models and metrics
+2. **Detailed Metric Tables**: Separate tabs for each evaluation metric
+3. **Individual Datapoint Analysis**: Click any row to see detailed results
+
+When you click on a specific datapoint, you'll see:
+
+**Datapoint Details**: System prompt, user message, and ground truth assistant response
+<img src="/images/guides/invoice_eval_datapoint_detail.png" alt="Detailed datapoint information" />
+
+**Model Results**: Performance breakdown for each model on that specific datapoint, including scoring rationale
+<img src="/images/guides/invoice_eval_details.png" alt="Individual model performance details" />
+
+Our results confirm that Prem fine-tuned Qwen 7B and 1.5B models achieve the best performance across all metrics.
+
+## Testing in Prem Playground
+
+While evaluations are running or after completion, you can empirically test your model in the Prem Playground:
+
+<img src="/images/guides/invoice_test_playground.png" alt="Testing the fine-tuned model in Prem Playground" />
+
+<Info>
+Learn more about using the playground effectively in our [playground overview](/playground/overview).
+</Info>
+
+## Deployment and Cost Analysis
+
+### Production Deployment
+
+Prem models are automatically deployed on Prem's infrastructure, eliminating deployment complexity. For custom infrastructure needs, you can download the fine-tuned model weights for self-hosting.
+
+<Tip>
+For self-hosting options and deployment strategies, check out our [inference self-hosting guide](/inference/self-host).
+</Tip>
+
+Here's how to use your fine-tuned model in production:
+
+<CodeGroup>
+```bash javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'], // Get your API key from /apiKeys
+});
+
+const response = await client.chat.completions({
+    messages: [{
+        role: 'user',
+        content: 'Extract the invoice number from the following invoice: ...'
+    }],
+    model: 'your-finetuned-model-id' // Choose from available models
+});
+
+console.log(response.choices[0].message.content);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY"),  # Get your API key from /apiKeys
+)
+response = client.chat.completions(
+    messages=[{
+        "role": "user",
+        "content": "Extract the invoice number from the following invoice: ..."
+    }],
+    model="your-finetuned-model-id",  # Choose from available models
+)
+
+print(response.choices[0].message.content)
+```
+</CodeGroup>
+
+### Cost Comparison Analysis
+
+Serving fine-tuned models at scale in production pipelines can become prohibitively expensive with OpenAI, where inference costs reach `$15.00` per million output tokens for GPT-4o and `$1.20` for GPT-4o-mini.
+
+In contrast, Prem offers flat inference rates for any hosted or fine-tuned model that are extremely economical:
+
+| **Model Type** | **Input (per 1M tokens)** | **Output (per 1M tokens)** | **Total Inference Cost** |
+| --- | --- | --- | --- |
+| Prem SLM (all sizes) | **$0.10** | **$0.30** | **$0.40** |
+| OpenAI GPT-4o | $5.00 | $15.00 | $20.00 |
+| OpenAI GPT-4o-mini | $0.30 | $1.20 | $1.50 |
+
+### Real-World Savings Example
+
+For an inference server processing 10M tokens monthly:
+
+- **Prem SLM**: $4.00 total
+- **GPT-4o-mini**: $15.00 total
+- **GPT-4o**: $200.00 total
+
+**Result**: Prem delivers **~50× cost savings** versus GPT-4o and **~4× savings** versus GPT-4o-mini—a dramatic reduction in operational expenses while maintaining superior performance for your specific use case.
+
+## Next Steps
+
+Now that you've seen how to achieve better performance at lower costs, consider exploring:
+
+- [Uploading your models to Hugging Face](/guides/general/upload-to-hf) for broader distribution
+- [Advanced fine-tuning techniques](/finetuning/overview) for other use cases
+- [Custom evaluation strategies](/evaluations/bring-your-own-eval) for your specific domain
+
+<Note>
+This example demonstrates the complete Prem workflow from data preparation through production deployment. The same principles apply to other domain-specific tasks where fine-tuned models can deliver superior performance at significantly lower costs than general-purpose APIs.
+</Note>

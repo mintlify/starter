@@ -94,8 +94,9 @@
           {
             "group": "User Guides 📚",
             "pages": [
-              "guides/general/upload-to-hf",
-              "guides/general/serve-models-to-vllm"
+              "guides/general/invoice-example",
+              "guides/general/serve-models-to-vllm",
+              "guides/general/upload-to-hf"
             ]
           },
           {
