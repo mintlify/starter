@@ -39,8 +39,9 @@
                 "group": "Guides",
                 "icon": "newspaper",
                 "pages": [
-                  "datasets/dataset-best-practices",
-                  "datasets/synthetic-data"
+                  "guides/datasets/dataset-best-practices",
+                  "guides/datasets/synthetic-data",
+                  "guides/datasets/enrichment"
                 ]
               }
             ]
