@@ -2,9 +2,20 @@
 title: Datasets Overview
 description: Learn how to create and use datasets to fine-tune your models.
 ---
+
 <Note>
-Check out the [Get Started](/datasets/get-started) guide to learn how to create and use datasets.
+  Check out the [Get Started](/datasets/get-started) guide to learn how to
+  create and use datasets.
 </Note>
+
+<iframe
+  className="w-full aspect-video rounded-xl"
+  src="https://www.youtube.com/embed/jxwYfXjHkqU"
+  title="YouTube video player"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+></iframe>
 
 ## What Are Datasets?
 
@@ -18,21 +29,17 @@ A dataset for fine-tuning is a collection of examples in JSONL format (JSON Line
 
 Each line in your JSONL file contains a JSON object with a single field called "messages". This field holds an array of 3 message objects, each with:
 
-
     - A `"role"` field (identifying who is speaking)
 
     - A `"content"` field (containing the actual text)
 
-
 The Three Roles
-
 
     - `"system"`: Provides context and instructions that guide the model's behavior
 
     - `"user"`: Represents what a human user would say or ask
 
     - `"assistant"`: Contains the ideal response you want the model to learn to generate
-
 
 Example Format
 
@@ -58,13 +65,25 @@ Download this test dataset [here](https://github.com/prem-ai/datasets/blob/main/
   <Card title="Create a Dataset" icon="database" href="/datasets/get-started">
     Learn how to create a dataset.
   </Card>
-  <Card title="Create a Snapshot" icon="camera" href="/datasets/create-snapshot">
+  <Card
+    title="Create a Snapshot"
+    icon="camera"
+    href="/datasets/create-snapshot"
+  >
     Save a snapshot of your dataset.
   </Card>
-  <Card title="Enrich a Dataset" icon="sparkles" href="/datasets/enrich-dataset">
+  <Card
+    title="Enrich a Dataset"
+    icon="sparkles"
+    href="/datasets/enrich-dataset"
+  >
     Enrich your dataset with additional synthetic data.
   </Card>
-  <Card title="Autosplit a Dataset" icon="arrows-split-up-and-left" href="/datasets/autosplit-dataset">
+  <Card
+    title="Autosplit a Dataset"
+    icon="arrows-split-up-and-left"
+    href="/datasets/autosplit-dataset"
+  >
     Automatically split your dataset into training, validation, and test sets.
   </Card>
 </CardGroup>
