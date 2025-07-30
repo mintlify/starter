@@ -105,6 +105,9 @@
       "href": "https://dashboard.mintlify.com"
     }
   },
+  "contextual": {
+    "options": ["copy"]
+  },
   "footer": {
     "socials": {
       "x": "https://x.com/mintlify",
