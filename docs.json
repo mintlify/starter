@@ -41,7 +41,8 @@
                 "pages": [
                   "guia-de-desenvolvimento/tipos-de-pipeline/extracao-e-carga-de-dados",
                   "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados",
-                  "guia-de-desenvolvimento/tipos-de-pipeline/criacao-de-pipelines"
+                  "guia-de-desenvolvimento/tipos-de-pipeline/criacao-de-pipelines",
+                  "guia-de-desenvolvimento/tipos-de-pipeline/migracao-de-pipeline"
                 ]
               },
               {
