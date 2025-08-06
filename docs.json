@@ -113,6 +113,16 @@
             "group": "GO",
             "icon": "briefcase",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-go-api/refs/heads/staging/docs/openapi-v3.json"
+          },
+          {
+            "group": "Surkai",
+            "icon": "briefcase",
+            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-eai-agent-surkai/refs/heads/staging/docs/swagger/swagger.json"
+          },
+          {
+            "group": "EAI Gateway",
+            "icon": "briefcase",
+            "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-eai-agent-gateway/refs/heads/staging/docs/swagger.json"
           }
         ]
       }
