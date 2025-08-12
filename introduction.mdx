@@ -1,171 +1,82 @@
 ---
 title: Introdução
-description: "Bem-vindo à documentação de integração da Prefeitura do Rio de Janeiro"
+description: "Infraestrutura de integração municipal para conectar secretarias e sistemas da Prefeitura do Rio de Janeiro"
+icon: "house-circle-check"
 ---
 
-# Documentação de Integração da Prefeitura do Rio
+# Infraestrutura de Integração Municipal
 
-Esta documentação descreve a infraestrutura de integração desenvolvida pela IplanRio para a Prefeitura do Rio de Janeiro, conectando os diversos sistemas e secretarias municipais.
+A IplanRio desenvolve e mantém a infraestrutura de integração que conecta as secretarias municipais da Prefeitura do Rio de Janeiro, permitindo compartilhamento seguro de dados e serviços entre SMS, SME, SMTR, SMSURB, SMF, SEOP e demais órgãos municipais.
 
-## Visão Geral
+## Componentes da Infraestrutura
 
-A **Infraestrutura de Integração da Prefeitura do Rio** é um ecossistema completo que conecta, processa e disponibiliza dados e serviços entre as diferentes secretarias municipais. Nossa plataforma oferece uma arquitetura moderna, segura e escalável para integração de sistemas, processamento de dados e disponibilização de APIs.
+Nossa plataforma municipal integra dados e sistemas através de três componentes principais:
 
-Esta documentação serve como guia central para desenvolvedores, arquitetos e gestores que trabalham com a infraestrutura de integração da Prefeitura.
-
----
-
-## Nossa Infraestrutura
-
-Nossa plataforma de integração é composta por quatro pilares principais:
-
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card
     title="Data Lake"
     icon="database"
-    href="/data-lake"
+    href="/data-lake/overview"
   >
-    Centralização, tratamento e disponibilização de dados estratégicos das secretarias municipais.
+    Processamento de dados municipais com pipelines ETL/ELT, modelos dbt e governança LGPD para análises estratégicas das secretarias.
   </Card>
   <Card
-    title="Barramento de APIs"
+    title="APIs Municipais"
     icon="plug"
-    href="/barramento"
+    href="/api-reference"
   >
-    Plataforma unificada para exposição e consumo de APIs entre sistemas municipais.
+    APIs padronizadas para busca de dados, registro municipal integrado e serviços inter-secretarias com autenticação OAuth2.
   </Card>
   <Card
-    title="MCP (Message Control Platform)"
-    icon="message"
-    href="/mcp"
+    title="Ferramentas de Desenvolvimento"
+    icon="wrench"
+    href="/ferramentas/claude-code-usuario"
   >
-    Sistema de mensageria para comunicação assíncrona entre serviços municipais.
-  </Card>
-  <Card
-    title="Autenticação e Segurança"
-    icon="shield"
-    href="/auth"
-  >
-    Infraestrutura de autenticação e autorização para todos os serviços municipais.
+    Claude Code para assistência em desenvolvimento e documentação técnica da infraestrutura municipal.
   </Card>
 </CardGroup>
 
----
+## Casos de Uso por Secretaria
 
-## Primeiros Passos
+### Integração de Dados entre Secretarias
+- **SMS + SME**: Dados de saúde escolar para planejamento de políticas públicas
+- **SMF + Todas**: Dados financeiros para orçamento e transparência municipal
 
-Comece sua jornada com nossa infraestrutura seguindo estes guias essenciais:
+### Processamento de Dados Municipais
+- **Pipelines ETL**: Censo escolar (SME), dados de saúde (SMS), receita municipal (SMF)
+- **Transformações dbt**: Modelos analíticos para tomada de decisão municipal
+- **APIs de Consulta**: Busca unificada de informações municipais
 
-<CardGroup cols={2}>
-  <Card
-    title="Arquitetura da Integração"
-    icon="server"
-    href="/arquitetura"
-  >
-    Entenda como os diferentes componentes se integram e funcionam juntos.
-  </Card>
-  <Card
-    title="Guia de Desenvolvimento"
-    icon="code"
-    href="/desenvolvimento"
-  >
-    Configure seu ambiente e aprenda as melhores práticas de desenvolvimento.
-  </Card>
-  <Card
-    title="Segurança e Autenticação"
-    icon="key"
-    href="/seguranca"
-  >
-    Aprenda sobre nossos protocolos de segurança e como autenticar suas aplicações.
-  </Card>
-  <Card
-    title="Padrões de Integração"
-    icon="book"
-    href="/padroes"
-  >
-    Conheça os padrões e convenções para integração com nossos serviços.
-  </Card>
-</CardGroup>
-
----
-
-## Recursos e Ferramentas
-
-Explore nossas ferramentas e recursos disponíveis:
+## Começar a Desenvolver
 
 <CardGroup cols={2}>
+  <Card
+    title="Configuração do Ambiente"
+    icon="gear"
+    href="/data-lake/overview"
+  >
+    Configure seu ambiente de desenvolvimento para trabalhar com dados e APIs municipais.
+  </Card>
+  <Card
+    title="Infraestrutura do Data Lake"
+    icon="cloud"
+    href="/data-lake/infraestrutura"
+  >
+    Configure e gerencie a infraestrutura de processamento de dados municipais.
+  </Card>
   <Card
     title="APIs Disponíveis"
-    icon="api"
-    href="/apis"
+    icon="code"
+    href="/api-reference"
   >
-    Documentação completa de todas as APIs disponíveis no barramento.
-  </Card>
-  <Card
-    title="Pipelines de Dados"
-    icon="code-branch"
-    href="/pipelines"
-  >
-    Acesse e contribua com os pipelines de ETL/ELT do Data Lake.
-  </Card>
-  <Card
-    title="Modelos de Dados"
-    icon="database"
-    href="/modelos"
-  >
-    Documentação dos modelos de dados e schemas utilizados.
-  </Card>
-  <Card
-    title="Monitoramento"
-    icon="chart-line"
-    href="/monitoramento"
-  >
-    Ferramentas e dashboards para monitoramento da infraestrutura.
+    Explore as APIs municipais para busca, integração e serviços inter-secretarias.
   </Card>
 </CardGroup>
 
----
+## Governança Municipal
 
-## Contribuindo
+**Mantenedor**: IplanRio (Instituto Pereira Passos)  
+**Compliance**: LGPD para proteção de dados dos cidadãos  
+**Acesso**: Baseado em permissões por secretaria  
+**Suporte**: Comunidade técnica municipal no Discord
 
-Faça parte da evolução da nossa infraestrutura:
-
-<CardGroup cols={2}>
-  <Card
-    title="Guia de Contribuição"
-    icon="code-pull-request"
-    href="/contribuindo"
-  >
-    Aprenda como contribuir com novos recursos e melhorias.
-  </Card>
-  <Card
-    title="Comunidade"
-    icon="users"
-    href="/comunidade"
-  >
-    Participe de nossa comunidade de desenvolvedores e compartilhe conhecimento.
-  </Card>
-</CardGroup>
-
----
-
-## Suporte
-
-Precisa de ajuda? Estamos aqui para apoiar:
-
-<CardGroup cols={2}>
-  <Card
-    title="FAQ"
-    icon="question"
-    href="/faq"
-  >
-    Respostas para as perguntas mais frequentes.
-  </Card>
-  <Card
-    title="Contato"
-    icon="envelope"
-    href="/contato"
-  >
-    Entre em contato com nossa equipe de suporte.
-  </Card>
-</CardGroup>

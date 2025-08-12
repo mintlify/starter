@@ -1,0 +1,150 @@
+---
+title: "Claude Code - Administração"
+description: "Administração automatizada de usuários Claude Code para secretarias municipais"
+icon: "user-gear"
+---
+
+IplanRio administra o acesso ao Claude Code para secretarias municipais usando scripts automatizados no projeto GCP `rj-ia-desenvolvimento`.
+
+## Pré-requisitos
+
+- Acesso administrativo ao projeto GCP `rj-ia-desenvolvimento`
+- Google Cloud CLI configurado
+- Script [create-claude-user.sh](../create-claude-user.sh) disponível/
+
+## Criação de Usuários
+
+### Script Automatizado
+
+Use o script automatizado para provisionar usuários:
+
+```bash
+# Tornar o script executável (primeira vez)
+chmod +x create-claude-user.sh
+
+# Criar service account para funcionário municipal
+./create-claude-user.sh joao.silva@prefeitura.rio
+```
+
+**Resultado esperado:**
+```
+Criando service account para joao.silva@prefeitura.rio...
+Service account criado: claude-joao-silva@rj-ia-desenvolvimento.iam.gserviceaccount.com
+Chave salva em: claude-joao-silva-key.json
+
+Envie o arquivo claude-joao-silva-key.json para o usuário de forma segura.
+```
+
+### Processo de Aprovação
+
+1. **Usuário solicita acesso** via canal #dev-ia
+3. **Administrador executa** o script de criação
+4. **Chave é enviada** de forma segura ao usuário
+5. **Usuário configura** conforme guia de usuário
+
+## Gerenciamento de Usuários
+
+### Listar Usuários Ativos
+
+```bash
+# Listar todos os service accounts do Claude Code
+gcloud iam service-accounts list --filter="email:claude-*"
+
+# Verificar chaves de um usuário específico
+gcloud iam service-accounts keys list \
+    --iam-account="claude-joao-silva@rj-ia-desenvolvimento.iam.gserviceaccount.com"
+```
+
+### Desativar Usuário
+
+```bash
+# Desabilitar service account temporariamente
+gcloud iam service-accounts disable claude-joao-silva@rj-ia-desenvolvimento.iam.gserviceaccount.com
+
+# Reativar service account
+gcloud iam service-accounts enable claude-joao-silva@rj-ia-desenvolvimento.iam.gserviceaccount.com
+```
+
+### Remover Usuário
+
+```bash
+# Deletar service account completamente
+gcloud iam service-accounts delete claude-joao-silva@rj-ia-desenvolvimento.iam.gserviceaccount.com
+```
+
+
+### Auditoria Municipal
+
+- **Controle de acesso:** Apenas funcionários municipais com email @prefeitura.rio
+- **Aprovação obrigatória:** Secretaria deve aprovar solicitação antes da criação
+- **Logs centralizados:** Todos os acessos são registrados para auditoria
+- **Revisão periódica:** IplanRio revisa usuários ativos trimestralmente
+
+## Troubleshooting
+
+### Script Não Executa
+
+```bash
+# Verificar permissões do script
+ls -la create-claude-user.sh
+
+# Tornar executável se necessário
+chmod +x create-claude-user.sh
+```
+
+### Service Account Falha na Criação
+
+```bash
+# Verificar se já existe
+gcloud iam service-accounts list --filter="email:claude-joao-silva*"
+
+# Verificar projeto configurado
+gcloud config get-value project
+```
+
+### Usuário Não Consegue Usar
+
+```bash
+# Testar permissões do service account
+gcloud auth activate-service-account --key-file=claude-joao-silva-key.json
+gcloud ai models list --region=us-east5
+```
+
+## Arquivos de Suporte
+
+### create-claude-user.sh
+
+```bash
+#!/bin/bash
+# create-claude-user.sh
+
+USER_EMAIL="$1"
+if [ -z "$USER_EMAIL" ]; then
+    echo "Uso: $0 <user-email@prefeitura.rio>"
+    exit 1
+fi
+
+# Extrair nome do usuário do email
+USER_NAME=$(echo $USER_EMAIL | cut -d'@' -f1 | tr '.' '-')
+
+echo "Criando service account para $USER_EMAIL..."
+
+# Criar service account específico do usuário
+gcloud iam service-accounts create "claude-$USER_NAME" \
+    --display-name="Claude Code - $USER_EMAIL" \
+    --description="Service account for Claude Code access - $USER_EMAIL"
+
+# Dar permissões
+gcloud projects add-iam-policy-binding rj-ia-desenvolvimento \
+    --member="serviceAccount:claude-$USER_NAME@rj-ia-desenvolvimento.iam.gserviceaccount.com" \
+    --role="roles/aiplatform.user"
+
+# Gerar chave
+gcloud iam service-accounts keys create "claude-$USER_NAME-key.json" \
+    --iam-account="claude-$USER_NAME@rj-ia-desenvolvimento.iam.gserviceaccount.com"
+
+echo "Service account criado: claude-$USER_NAME@rj-ia-desenvolvimento.iam.gserviceaccount.com"
+echo "Chave salva em: claude-$USER_NAME-key.json"
+echo ""
+echo "Envie o arquivo claude-$USER_NAME-key.json para o usuário de forma segura."
+```

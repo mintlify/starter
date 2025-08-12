@@ -1,0 +1,103 @@
+---
+title: "Claude Code - Guia do Usuário"
+description: "Como solicitar e usar o Claude Code com Vertex AI na IPLANRIO"
+icon: "user"
+---
+
+Este guia explica como usuários da IPLANRIO podem solicitar acesso e usar o Claude Code com Google Vertex AI.
+
+## Como Solicitar Acesso
+
+### 1. Faça a Solicitação no Discord
+
+Para obter acesso ao Claude Code, siga estes passos:
+
+1. **Acesse o canal `#dev-ia`** no Discord da IPLANRIO
+2. **Faça sua solicitação** usando o seguinte template:
+
+```
+🤖 Solicitação de Acesso - Claude Code
+
+**Nome:** [Seu nome completo]
+**Email:** [seu.email@prefeitura.rio]
+**Área/Projeto:** [Ex: Escritório de Dados, SMS, etc.]
+**Justificativa:** [Para que você pretende usar o Claude Code]
+
+Exemplos de uso:
+- Desenvolvimento de pipelines dbt
+- Análise e otimização de consultas SQL
+- Revisão e documentação de código Python
+- Criação de testes automatizados
+```
+
+3. **Aguarde aprovação** da equipe de administração
+4. **Receba suas credenciais** via canal privado ou email seguro
+
+### 2. O que Você Receberá
+
+Após aprovação, você receberá:
+
+- ✅ Arquivo de credenciais: `claude-[seu-nome]-key.json`
+- ✅ Instruções específicas de configuração
+- ✅ Acesso ao projeto `rj-ia-desenvolvimento`
+
+## Configuração Inicial
+
+### Pré-requisitos
+
+- Google Cloud CLI instalado
+- Node.js ou Python (para instalar Claude Code)
+- Arquivo de credenciais recebido da administração
+
+### 1. Instalar Claude Code
+
+```bash
+# Via npm (recomendado)
+npm install -g @anthropic-ai/claude-code
+```
+
+### 2. Configurar Credenciais e Vertex AI
+
+```bash
+# Salvar o arquivo de credenciais em local seguro
+mkdir -p ~/.config/claude
+mv claude-[seu-nome]-key.json ~/.config/claude/
+
+# Configurar variáveis de ambiente para Vertex AI
+export GOOGLE_APPLICATION_CREDENTIALS=~/.config/claude/claude-[seu-nome]-key.json
+export CLAUDE_CODE_USE_VERTEX=1
+export ANTHROPIC_VERTEX_PROJECT_ID=rj-ia-desenvolvimento
+export ANTHROPIC_VERTEX_REGION=us-east5
+```
+
+
+### 3. Verificar Configuração
+
+```bash
+# Testar configuração com settings
+claude 
+
+# Dentro do Claude voce deve ver isso 
+> /status
+> API Configuration 
+>  L API Provider: Google Vertex AI
+>  L GCP Project: rj-ia-desenvolvimento
+>  L Default region: us-east5
+
+# Teste qualquer query
+> Olá, isso funciona?
+> Sim, funciona perfeitamente! 😊
+```
+
+### 4. Configurar Variáveis de Ambiente Permanentes
+
+Para não precisar configurar as variáveis toda vez, adicione ao seu `.bashrc` ou `.zshrc`:
+
+```bash
+# Claude Code Configuration
+export GOOGLE_APPLICATION_CREDENTIALS=~/.config/claude/claude-[seu-nome]-key.json
+export CLAUDE_CODE_USE_VERTEX=1
+export ANTHROPIC_VERTEX_PROJECT_ID=rj-ia-desenvolvimento
+export ANTHROPIC_VERTEX_REGION=us-east5
+```
+

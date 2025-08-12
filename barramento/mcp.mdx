@@ -1,0 +1,32 @@
+---
+title: Model Context Protocol (MCP)
+description: "Protocolo de contexto para modelos de linguagem da Prefeitura do Rio de Janeiro"
+---
+
+O Model Context Protocol (MCP) é um protocolo aberto que padroniza como as aplicações da Prefeitura do Rio fornecem contexto para modelos de linguagem (LLMs). Desenvolvido e mantido pela IplanRio, o MCP funciona como uma porta USB-C para aplicações de IA, fornecendo uma maneira padronizada de conectar modelos de IA a diferentes fontes de dados e ferramentas.
+
+## Por que MCP?
+
+O MCP ajuda a construir agentes e fluxos de trabalho complexos sobre LLMs, fornecendo:
+
+- Integrações pré-construídas que seu LLM pode usar diretamente
+- Flexibilidade para alternar entre provedores e fornecedores de LLM
+- Melhores práticas para proteger seus dados dentro da infraestrutura municipal
+
+## Arquitetura
+
+### Componentes da Arquitetura
+
+- **Hosts MCP**: Aplicações que desejam acessar dados através do MCP
+- **Clientes MCP**: Clientes do protocolo que mantêm conexões com servidores
+- **Servidores MCP**: Programas leves que expõem capacidades específicas através do MCP
+- **Fontes de Dados**: Arquivos, bancos de dados e serviços acessíveis via MCP
+
+## Recursos
+
+### Tipos de Recursos
+
+- **Recursos**: Expor dados e conteúdo dos servidores para LLMs
+- **Prompts**: Criar templates e fluxos de trabalho reutilizáveis
+- **Ferramentas**: Permitir que LLMs realizem ações através do servidor
+- **Sampling**: Permitir que servidores solicitem completions de LLMs

@@ -1,0 +1,81 @@
+---
+title: Data Lake Municipal
+description: "Infraestrutura de dados da Prefeitura do Rio de Janeiro para integração entre secretarias"
+---
+
+O Data Lake Municipal centraliza e processa dados estratégicos das secretarias da Prefeitura do Rio, permitindo análises integradas e tomada de decisões baseadas em dados para SMS, SME, SMTR, SMF e demais órgãos municipais.
+
+## Para Secretarias Municipais
+
+### Casos de Uso por Secretaria
+
+- **SMS (Saúde)**: Agregação de dados de atendimentos, vacinação e indicadores epidemiológicos para gestão de políticas públicas de saúde
+- **SME (Educação)**: Processamento do censo escolar, análise de desempenho acadêmico e planejamento de recursos educacionais
+- **SMTR (Transportes)**: Análise de dados de mobilidade urbana, otimização de rotas e monitoramento de transporte público
+- **SMF (Fazenda)**: Consolidação de receitas municipais, análise fiscal e suporte à gestão orçamentária
+
+## Arquitetura da Plataforma
+
+### Camadas de Dados
+
+- **Bronze**: Dados brutos das secretarias em formato original para preservação histórica
+- **Silver**: Dados limpos e normalizados seguindo padrões municipais de qualidade e governança
+- **Gold**: Dados agregados e enriquecidos prontos para análises estratégicas e relatórios gerenciais
+
+### Fluxo de Dados Municipal
+
+1. **Ingestão**: Coleta automatizada de dados dos sistemas das secretarias
+2. **Transformação**: Processamento via dbt com validações de qualidade e conformidade LGPD
+3. **Disponibilização**: Acesso controlado aos dados através de APIs e interfaces analíticas
+
+## Começar a Desenvolver
+
+<CardGroup cols={2}>
+  <Card
+    title="Infraestrutura"
+    icon="server"
+    href="/data-lake/infraestrutura"
+  >
+    Arquitetura técnica e componentes da plataforma municipal.
+  </Card>
+  <Card
+    title="Tipos de Pipeline"
+    icon="pipeline"
+    href="/data-lake/tipos-de-pipeline/extracao-e-carga-de-dados"
+  >
+    Padrões de ETL/ELT para ingestão e transformação de dados municipais.
+  </Card>
+  <Card
+    title="dbt na Prefeitura"
+    icon="code"
+    href="/data-lake/dbt/instalacao-dbt"
+  >
+    Configuração e uso do dbt para transformações de dados municipais.
+  </Card>
+  <Card
+    title="Guias de Estilo"
+    icon="book"
+    href="/data-lake/guia-de-estilo/convencoes-datasets-e-tabelas"
+  >
+    Convenções de nomenclatura e organização de dados municipais.
+  </Card>
+</CardGroup>
+
+## Recursos Técnicos
+
+### Pipelines de Dados
+- [Extração e Carga](/data-lake/tipos-de-pipeline/extracao-e-carga-de-dados): Ingestão de dados das secretarias
+- [Transformação](/data-lake/tipos-de-pipeline/transformacao-dos-dados): Processamento e limpeza de dados municipais
+- [Criação de Pipelines](/data-lake/tipos-de-pipeline/criacao-de-pipelines): Desenvolvimento de novos fluxos de dados
+
+### Modelagem dbt
+- [Instalação](/data-lake/dbt/instalacao-dbt): Configuração do ambiente dbt municipal
+- [Estrutura de Pastas](/data-lake/dbt/estrutura-pastas): Organização de modelos por secretaria
+- [Padrões YAML](/data-lake/dbt/padroes-yaml): Documentação e configuração de modelos
+- [Testes](/data-lake/dbt/testes): Validação de qualidade e integridade dos dados
+
+### Convenções Municipais
+- [Datasets e Tabelas](/data-lake/guia-de-estilo/convencoes-datasets-e-tabelas): Nomenclatura padronizada
+- [Colunas](/data-lake/guia-de-estilo/convencoes-colunas): Definições de campos e tipos de dados
+- [Partições](/data-lake/guia-de-estilo/particoes): Estratégias de particionamento para performance
+

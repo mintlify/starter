@@ -32,25 +32,31 @@
         "tab": "Data Lake",
         "groups": [
           {
+            "group": "Visão Geral",
+            "pages": [
+              "data-lake/overview"
+            ]
+          },
+          {
             "group": "Guia de Desenvolvimento",
             "pages": [
-              "guia-de-desenvolvimento/infraestrutura",
+              "data-lake/infraestrutura",
               {
                 "group": "Tipos de Pipeline",
                 "icon": "house-flood-water-circle-arrow-right",
                 "pages": [
-                  "guia-de-desenvolvimento/tipos-de-pipeline/extracao-e-carga-de-dados",
-                  "guia-de-desenvolvimento/tipos-de-pipeline/transformacao-dos-dados",
-                  "guia-de-desenvolvimento/tipos-de-pipeline/criacao-de-pipelines"
+                  "data-lake/tipos-de-pipeline/extracao-e-carga-de-dados",
+                  "data-lake/tipos-de-pipeline/transformacao-dos-dados",
+                  "data-lake/tipos-de-pipeline/criacao-de-pipelines"
                 ]
               },
               {
                 "group": "Guia de Estilo",
                 "icon": "palette",
                 "pages": [
-                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-datasets-e-tabelas",
-                  "guia-de-desenvolvimento/guia-de-estilo/convencoes-colunas",
-                  "guia-de-desenvolvimento/guia-de-estilo/particoes"
+                  "data-lake/guia-de-estilo/convencoes-datasets-e-tabelas",
+                  "data-lake/guia-de-estilo/convencoes-colunas",
+                  "data-lake/guia-de-estilo/particoes"
                 ]
               },
               {
@@ -64,22 +70,13 @@
                 "group": "dbt",
                 "icon": "people-carry-box",
                 "pages": [
-                  "guia-de-desenvolvimento/dbt/instalacao-dbt",
-                  "guia-de-desenvolvimento/dbt/estrutura-pastas",
-                  "guia-de-desenvolvimento/dbt/testes"
+                  "data-lake/dbt/instalacao-dbt",
+                  "data-lake/dbt/estrutura-pastas",
+                  "data-lake/dbt/padroes-yaml",
+                  "data-lake/dbt/testes"
                 ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Barramento de Dados",
-        "groups": [
-          {
-            "group": "Gateway",
-            "icon": "network-wired",
-            "pages": ["barramento/gateway"]
           }
         ]
       },
@@ -88,7 +85,7 @@
         "groups": [
           {
             "group": "Introdução",
-            "pages": ["api-reference"]
+            "pages": ["api-reference/overview"]
           },
           {
             "group": "Busca",
@@ -129,6 +126,18 @@
             "group": "EAI Gateway",
             "icon": "briefcase",
             "openapi": "https://raw.githubusercontent.com/prefeitura-rio/app-eai-agent-gateway/refs/heads/staging/docs/swagger.json"
+          }
+        ]
+      },
+      {
+        "tab": "Ferramentas",
+        "groups": [
+          {
+            "group": "Claude Code",
+            "pages": [
+              "ferramentas/claude-code-usuario",
+              "ferramentas/claude-code-admin"
+            ]
           }
         ]
       }
