@@ -147,21 +147,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Site IplanRio",
-          "href": "https://www.iplan.rio/",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Discord IplanRio",
-          "href": "https://discord.gg/myFqCKr3",
-          "icon": "discord"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/iplan_simples_azul.svg",
@@ -170,21 +156,25 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "",
+        "icon": "globe",
+        "href": "https://www.iplan.rio/"
+      },
+      {
+        "label": "",
+        "icon": "github",
+        "href": "https://github.com/prefeitura-rio"
+      },
+      {
+        "label": "",
+        "icon": "discord",
+        "href": "https://discord.gg/myFqCKr3"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/prefeitura-rio"
     }
   }
 }

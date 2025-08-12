@@ -1,6 +1,6 @@
 ---
 name: technical-docs-writer
-description: Use this agent when you need to create, update, or improve technical documentation that is both comprehensive and concise. Examples: <example>Context: User needs documentation for a new API endpoint they just implemented. user: 'I just created a new authentication endpoint for our municipal services API. Can you help me document it?' assistant: 'I'll use the technical-docs-writer agent to create comprehensive yet concise documentation for your authentication endpoint.' <commentary>Since the user needs technical documentation written, use the technical-docs-writer agent to create clear, complete documentation.</commentary></example> <example>Context: User has complex dbt models that need documentation. user: 'These dbt models for our data transformation pipeline are getting complex. We need proper documentation before the next sprint review.' assistant: 'Let me use the technical-docs-writer agent to create thorough documentation for your dbt models that covers all the essential details without being verbose.' <commentary>The user needs technical documentation for dbt models, so use the technical-docs-writer agent to create comprehensive yet concise documentation.</commentary></example>
+description: "Use this agent when you need to create, update, or improve technical documentation that is both comprehensive and concise."
 model: sonnet
 color: blue
 ---
