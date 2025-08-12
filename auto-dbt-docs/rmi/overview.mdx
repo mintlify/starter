@@ -1,0 +1,54 @@
+---
+title: "Visão Geral - RMI (Registro Municipal Integrado)"
+description: "Sistema unificado de registro municipal para dados de pessoas físicas e jurídicas"
+icon: "address-book"
+---
+
+# RMI (Registro Municipal Integrado)
+
+Sistema unificado de registro municipal para dados de pessoas físicas e jurídicas
+
+## Sobre o Sistema
+
+Este sistema faz parte da infraestrutura de integração da Prefeitura do Rio de Janeiro, desenvolvido e mantido pelo IplanRio.
+
+### Datasets Principais
+
+- `crm_dados_mestres`
+- `crm_eventos`
+
+## Governança de Dados
+
+### LGPD e Proteção de Dados
+
+O sistema está em conformidade com a Lei Geral de Proteção de Dados (LGPD) e implementa as seguintes medidas:
+
+- Controle de acesso baseado em perfis municipais
+- Auditoria de todas as operações de consulta
+- Políticas de retenção de dados definidas
+- Criptografia de dados sensíveis
+
+### Campos de Dados Pessoais
+
+- `cpf`
+- `nome`
+- `email`
+- `telefone`
+
+## Arquitetura
+
+O sistema segue a arquitetura de Data Lake da Prefeitura do Rio, com camadas bem definidas:
+
+1. **Raw Layer**: Dados brutos dos sistemas origem
+2. **Intermediate Layer**: Transformações e limpeza
+3. **Marts Layer**: Dados consolidados para consumo
+
+## Acesso e Permissões
+
+- **Acesso**: Restrito a serviços municipais autorizados
+- **Autenticação**: Integrada com o sistema de autenticação municipal
+- **Auditoria**: Todas as consultas são registradas para compliance
+
+## Suporte
+
+Para dúvidas ou suporte, entre em contato com a equipe de dados do IplanRio.

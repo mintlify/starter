@@ -1,0 +1,125 @@
+---
+title: "Pessoa Juridica"
+description: "Modelo contendo informações cadastrais e societárias de pessoas jurídicas (empresas)"
+icon: "address-book"
+---
+
+Modelo contendo informações cadastrais e societárias de pessoas jurídicas (empresas)
+
+## Informações do Schema
+
+- **Dataset**: `crm_dados_mestres`
+- **Tabela**: `pessoa_juridica`
+- **Projeto**: rj-crm-registry
+- **Última Atualização**: 2025-08-12 13:26
+
+
+
+## Colunas (61 total)
+
+
+| Coluna | Tipo | Descrição | Testes |
+|--------|------|-----------|--------|
+| `cnpj` | `string` | Cadastro Nacional da Pessoa Jurídica (CNPJ) | - |
+| `nome_empresarial` | `string` | Razão social da empresa | - |
+| `nome_fantasia` | `string` | Nome fantasia da empresa (se existir) | - |
+| `capital_social` | `integer` | Valor do capital social da empresa (em centavos) | - |
+| `cnae_fiscal` | `string` | Código do CNAE fiscal principal | - |
+| `cnae_secundarias` | `string` | Códigos dos CNAEs secundários (separados por vírgula) | - |
+| `nire` | `string` | Número de Identificação do Registro de Empresas (NIRE) | - |
+| `tipo_orgao_registro` | `string` | Tipo do órgão de registro (Junta Comercial, Cartório, etc) | - |
+| `porte_empresa` | `string` | Porte da empresa (MEI, EPP, etc) | - |
+| `indicador_matriz` | `string` | Indica se é matriz (1) ou filial (2) | - |
+| `data_inicio_atividade` | `date` | Data de início das atividades | - |
+| `data_situacao_cadastral` | `date` | Data da última atualização da situação cadastral | - |
+| `data_situacao_especial` | `date` | Data da situação especial (se aplicável) | - |
+| `data_inclusao_responsavel` | `date` | Data de inclusão do responsável | - |
+| `situacao_cadastral` | `string` | Situação cadastral atual (Ativa, Baixada, etc) | - |
+| `natureza_juridica` | `string` | Código da natureza jurídica | - |
+| `situacao_especial` | `string` | Situação especial (se aplicável) | - |
+| `motivo_situacao` | `string` | Motivo da situação cadastral | - |
+| `id_ente_federativo` | `string` | Identificador do ente federativo responsável | - |
+| `ente_federativo` | `string` | Nome do ente federativo responsável | - |
+| `telefone.ddd` | `string[]` | DDD dos telefones da empresa | - |
+| `telefone.telefone` | `string[]` | Números de telefone da empresa | - |
+| `email` | `string` | E-mail da empresa | - |
+| `endereco_uf` | `string` | UF do endereço da empresa | - |
+| `endereco_cep` | `string` | CEP do endereço da empresa | - |
+| `endereco_municipio` | `string` | Município do endereço da empresa | - |
+| `endereco_bairro` | `string` | Bairro do endereço da empresa | - |
+| `endereco_tipo_logradouro` | `string` | Tipo de logradouro (Rua, Avenida, etc) | - |
+| `endereco_logradouro` | `string` | Nome do logradouro | - |
+| `endereco_numero` | `string` | Número do endereço | - |
+| `endereco_complemento` | `string` | Complemento do endereço | - |
+| `endereco_nome_cidade_exterior` | `string` | Nome da cidade no exterior (se aplicável) | - |
+| `tipo_crc_contador_pf` | `string` | Tipo de CRC do contador pessoa física | - |
+| `classificacao_crc_contador_pf` | `string` | Classificação do CRC do contador pessoa física | - |
+| `sequencial_crc_contador_pf` | `string` | Número sequencial do CRC do contador pessoa física | - |
+| `contador_pf` | `string` | Nome do contador pessoa física | - |
+| `uf_crc_contador_pf` | `string` | UF do CRC do contador pessoa física | - |
+| `contador_pj` | `string` | Nome do contador pessoa jurídica | - |
+| `tipo_crc_contador_pj` | `string` | Tipo de CRC do contador pessoa jurídica | - |
+| `classificacao_crc_contador_pj` | `string` | Classificação do CRC do contador pessoa jurídica | - |
+| `uf_crc_contador_pj` | `string` | UF do CRC do contador pessoa jurídica | - |
+| `sequencial_crc_contador_pj` | `string` | Número sequencial do CRC do contador pessoa jurídica | - |
+| `cpf_responsavel` | `string` | CPF do responsável pela empresa | - |
+| `qualificacao_responsavel` | `string` | Qualificação do responsável | - |
+| `tipos_unidade` | `string[]` | Tipos de unidade da empresa | - |
+| `formas_atuacao` | `string[]` | Formas de atuação da empresa | - |
+| `numero_socios` | `integer` | Número total de sócios | - |
+| `socios.codigo_pais` | `string[]` | Código do país do sócio (para estrangeiros) | - |
+| `socios.cpf_socio` | `string[]` | CPF do sócio (para pessoas físicas) | - |
+| `socios.cnpj_socio` | `string[]` | CNPJ do sócio (para pessoas jurídicas) | - |
+| `socios.cpf_representante_legal` | `string[]` | CPF do representante legal (se aplicável) | - |
+| `socios.data_situacao_especial` | `date[]` | Data da situação especial do sócio | - |
+| `socios.nome_socio_estrangeiro` | `string[]` | Nome do sócio estrangeiro | - |
+| `socios.qualificacao_representante_legal` | `string[]` | Qualificação do representante legal | - |
+| `socios.qualificacao_socio` | `string[]` | Qualificação do sócio | - |
+| `socios.tipo` | `string[]` | Tipo de sócio (pessoa física ou jurídica) | - |
+| `sucessoes.evento_sucedida` | `string[]` | Evento que originou a sucessão | - |
+| `sucessoes.data_evento_sucedida` | `date[]` | Data do evento que originou a sucessão | - |
+| `sucessoes.data_processamento` | `date[]` | Data de processamento da sucessão | - |
+| `sucessoes.sucessoras` | `string[]` | CNPJs das empresas sucessoras | - |
+| `cnpj_particao` | `integer` | Partição do CNPJ para distribuição de dados | - |
+
+
+
+## Governança de Dados
+
+
+### Contexto Municipal
+- **Casos de Uso**: Integração de dados municipais
+- **LGPD**: Sistema em conformidade com a Lei Geral de Proteção de Dados
+- **Controle de Acesso**: Apenas serviços municipais autorizados
+
+### Campos de Dados Pessoais
+
+
+- `cpf`
+
+- `nome`
+
+- `email`
+
+- `telefone`
+
+
+
+
+## Consultas Comuns
+
+```sql
+-- Consulta básica
+SELECT *
+FROM `rj-crm-registry.crm_dados_mestres.pessoa_juridica`
+LIMIT 100;
+```
+
+
+```sql
+-- Filtrar por período
+SELECT *
+FROM `rj-crm-registry.crm_dados_mestres.pessoa_juridica`
+WHERE data_particao >= '2024-01-01'
+LIMIT 100;
+```

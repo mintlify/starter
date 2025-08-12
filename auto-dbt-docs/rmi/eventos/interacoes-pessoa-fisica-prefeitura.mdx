@@ -1,0 +1,104 @@
+---
+title: "Interacoes Pessoa Fisica Prefeitura"
+description: "**Fact table - Interações Cidadão-Prefeitura Unificada**
+
+Consolida interações dos sistemas 1746 e SMS com ontologia padronizada 
+e 19 campos essenciais.
+
+**Fontes de dados:**
+- 1746: Chamados e solicitações de serviços urbanos (~3.4M registros)
+- SMS: Episódios assistenciais de saúde (~102.7M registros)
+
+**Particionamento:** Por data_particao (diário)
+**Clustering:** Por sistema_origem, tipo_interacao, categoria_interacao
+"
+icon: "address-book"
+---
+
+**Fact table - Interações Cidadão-Prefeitura Unificada**
+
+Consolida interações dos sistemas 1746 e SMS com ontologia padronizada 
+e 19 campos essenciais.
+
+**Fontes de dados:**
+- 1746: Chamados e solicitações de serviços urbanos (~3.4M registros)
+- SMS: Episódios assistenciais de saúde (~102.7M registros)
+
+**Particionamento:** Por data_particao (diário)
+**Clustering:** Por sistema_origem, tipo_interacao, categoria_interacao
+
+
+## Informações do Schema
+
+- **Dataset**: `crm_eventos`
+- **Tabela**: `interacoes_pessoa_fisica_prefeitura`
+- **Projeto**: rj-crm-registry
+- **Última Atualização**: 2025-08-12 13:26
+
+
+
+## Colunas (18 total)
+
+
+| Coluna | Tipo | Descrição | Testes |
+|--------|------|-----------|--------|
+| `id_interacao` | `unknown` | UUID único da interação gerado automaticamente | 2 teste(s) |
+| `cpf_cidadao` | `unknown` | CPF do cidadão (11 dígitos, obrigatório) | 1 teste(s) |
+| `sistema_origem` | `unknown` | Sistema fonte da interação | 2 teste(s) |
+| `protocolo_origem` | `unknown` | ID/protocolo original no sistema fonte | 1 teste(s) |
+| `tipo_interacao` | `unknown` | Tipo de interação segundo ontologia simplificada (SOLICITACAO, CONSUMO, COMUNICACAO, CADASTRO) | 2 teste(s) |
+| `categoria_interacao` | `unknown` | Categoria da interação por domínio do serviço público | 2 teste(s) |
+| `canal_interacao` | `unknown` | Canal específico utilizado na interação | 2 teste(s) |
+| `modalidade_interacao` | `unknown` | Modalidade da interação (DIGITAL ou FISICO) | 2 teste(s) |
+| `data_interacao` | `unknown` | Data da interação (usado para análises) | 1 teste(s) |
+| `datahora_inicio` | `unknown` | Timestamp de início da interação | 1 teste(s) |
+| `data_particao` | `unknown` | Data para particionamento BigQuery (deve igual data_interacao) | 1 teste(s) |
+| `bairro_interacao` | `unknown` | Bairro da interação (quando disponível) | - |
+| `endereco_interacao` | `unknown` | Endereço estruturado da interação (quando disponível) | - |
+| `coordenadas` | `unknown` | Coordenadas geográficas da interação (quando disponível) | - |
+| `desfecho_interacao` | `unknown` | Resultado da interação (quando disponível) | 1 teste(s) |
+| `dados_origem` | `unknown` | Dados originais preservados em JSON para flexibilidade | 1 teste(s) |
+| `_datalake_loaded_at` | `unknown` | Timestamp de carregamento no datalake | 1 teste(s) |
+| `_schema_version` | `unknown` | Versão do schema (1.1) | 1 teste(s) |
+
+
+
+## Governança de Dados
+
+
+### Contexto Municipal
+- **Casos de Uso**: Integração de dados municipais
+- **LGPD**: Sistema em conformidade com a Lei Geral de Proteção de Dados
+- **Controle de Acesso**: Apenas serviços municipais autorizados
+
+### Campos de Dados Pessoais
+
+
+- `cpf`
+
+- `nome`
+
+- `email`
+
+- `telefone`
+
+
+
+
+## Consultas Comuns
+
+```sql
+-- Consulta básica
+SELECT *
+FROM `rj-crm-registry.crm_eventos.interacoes_pessoa_fisica_prefeitura`
+LIMIT 100;
+```
+
+
+```sql
+-- Filtrar por período
+SELECT *
+FROM `rj-crm-registry.crm_eventos.interacoes_pessoa_fisica_prefeitura`
+WHERE data_particao >= '2024-01-01'
+LIMIT 100;
+```

@@ -1,0 +1,163 @@
+---
+title: "Pessoa Fisica"
+description: "Modelo contendo informações de pessoas físicas com dados cadastrais dentro da Prefeitura"
+icon: "address-book"
+---
+
+Modelo contendo informações de pessoas físicas com dados cadastrais dentro da Prefeitura
+
+## Informações do Schema
+
+- **Dataset**: `crm_dados_mestres`
+- **Tabela**: `pessoa_fisica`
+- **Projeto**: rj-crm-registry
+- **Última Atualização**: 2025-08-12 13:26
+
+
+## Configuração
+
+- **Materialização**: table
+
+
+## Colunas (95 total)
+
+
+| Coluna | Tipo | Descrição | Testes |
+|--------|------|-----------|--------|
+| `cpf` | `string` | Cadastro de Pessoa Física (CPF) do indivíduo | - |
+| `nome` | `string` | Nome completo da pessoa física | - |
+| `nome_social` | `string` | Nome social do indivíduo, se houver | - |
+| `sexo` | `string` | Sexo do indivíduo ('masculino', 'feminino', 'não informado') | - |
+| `nascimento` | `record` | Estrutura com informações de nascimento do indivíduo | - |
+| `nascimento.data` | `date` | Data de nascimento do indivíduo | - |
+| `nascimento.municipio_id` | `string` | Identificador do município de nascimento | - |
+| `nascimento.municipio` | `string` | Município de nascimento | - |
+| `nascimento.uf` | `string` | UF de nascimento | - |
+| `nascimento.pais_id` | `string` | Identificador do país de nascimento | - |
+| `nascimento.pais` | `string` | País de nascimento | - |
+| `mae` | `record` | Estrutura com informações da mãe do indivíduo | - |
+| `mae.nome` | `string` | Nome da mãe do indivíduo | - |
+| `mae.cpf` | `string` | CPF da mãe do indivíduo (se disponível) | - |
+| `menor_idade` | `boolean` | Indica se o indivíduo é menor de 18 anos | - |
+| `raca` | `string` | Raça/etnia da pessoa física | - |
+| `obito` | `record` | Estrutura com informações de óbito do indivíduo | - |
+| `obito.indicador` | `boolean` | Indicador se o indivíduo está falecido | - |
+| `obito.ano` | `integer` | Ano do óbito do indivíduo | - |
+| `documentos` | `record` | Estrutura com documentos de identificação do indivíduo | - |
+| `documentos.cns` | `string[]` | Cartão Nacional de Saúde (CNS) do indivíduo | - |
+| `endereco` | `record` | Estrutura com informações de endereço do indivíduo | - |
+| `endereco.indicador` | `boolean` | Indicador se há endereço cadastrado | - |
+| `endereco.principal` | `record` | Endereço principal do indivíduo (struct com origem, sistema, cep, estado, municipio, tipo_logradouro, logradouro, numero, complemento, bairro) | - |
+| `endereco.principal.origem` | `string` | Endereço principal do indivíduo | - |
+| `endereco.principal.sistema` | `string` | Sistema que cadastrou o endereço principal | - |
+| `endereco.principal.cep` | `string` | CEP do endereço principal | - |
+| `endereco.principal.estado` | `string` | Estado do endereço principal | - |
+| `endereco.principal.municipio` | `string` | Município do endereço principal | - |
+| `endereco.principal.tipo_logradouro` | `string` | Tipo de logradouro do endereço principal | - |
+| `endereco.principal.logradouro` | `string` | Logradouro do endereço principal | - |
+| `endereco.principal.numero` | `string` | Número do endereço principal | - |
+| `endereco.principal.complemento` | `string` | Complemento do endereço principal | - |
+| `endereco.principal.bairro` | `string` | Bairro do endereço principal | - |
+| `endereco.principal.latitude` | `string` | Latitude do endereço principal | - |
+| `endereco.principal.longitude` | `string` | Longitude do endereço principal | - |
+| `endereco.principal.pluscode` | `string` | Google pluscode do endereço principal | - |
+| `endereco.alternativo` | `record[]` | Lista de endereços alternativos do indivíduo (structs com origem, sistema, cep, estado, municipio, tipo_logradouro, logradouro, numero, complemento, bairro) | - |
+| `endereco.alternativo.origem` | `string` | Órgão que cadastrou o endereço alternativo | - |
+| `endereco.alternativo.sistema` | `string` | Sistema que cadastrou o endereço alternativo | - |
+| `endereco.alternativo.cep` | `string` | CEP do endereço alternativo | - |
+| `endereco.alternativo.estado` | `string` | Estado do endereço alternativo | - |
+| `endereco.alternativo.municipio` | `string` | Município do endereço alternativo | - |
+| `endereco.alternativo.tipo_logradouro` | `string` | Tipo de logradouro do endereço alternativo | - |
+| `endereco.alternativo.logradouro` | `string` | Logradouro do endereço alternativo | - |
+| `endereco.alternativo.numero` | `string` | Número do endereço alternativo | - |
+| `endereco.alternativo.complemento` | `string` | Complemento do endereço alternativo | - |
+| `endereco.alternativo.bairro` | `string` | Bairro do endereço alternativo | - |
+| `endereco.alternativo.latitude` | `string` | Latitude do endereço alternativo | - |
+| `endereco.alternativo.longitude` | `string` | Longitude do endereço alternativo | - |
+| `endereco.alternativo.pluscode` | `string` | Google pluscode do endereço alternativo | - |
+| `email` | `record` | Estrutura com informações de e-mail do indivíduo | - |
+| `email.indicador` | `boolean` | Indicador se há e-mail cadastrado | - |
+| `email.principal` | `record` | E-mail principal do indivíduo (struct com origem, sistema, valor) | - |
+| `email.principal.origem` | `string` | Órgão que cadastrou o e-mail principal | - |
+| `email.principal.sistema` | `string` | Sistema que cadastrou o e-mail principal | - |
+| `email.principal.valor` | `string` | Valor do e-mail principal | - |
+| `email.alternativo` | `record[]` | Lista de e-mails alternativos do indivíduo (structs com origem, sistema, valor) | - |
+| `email.alternativo.origem` | `string` | Órgão que cadastrou o e-mail alternativo | - |
+| `email.alternativo.sistema` | `string` | Sistema que cadastrou o e-mail alternativo | - |
+| `email.alternativo.valor` | `string` | Valor do e-mail alternativo | - |
+| `telefone` | `record` | Estrutura com informações de telefone do indivíduo | - |
+| `telefone.indicador` | `boolean` | Indicador se há telefone cadastrado | - |
+| `telefone.principal` | `record` | Telefone principal do indivíduo (struct com origem, sistema, ddi, ddd, valor) | - |
+| `telefone.principal.origem` | `string` | Órgão que cadastrou o telefone principal | - |
+| `telefone.principal.sistema` | `string` | Sistema que cadastrou o telefone principal | - |
+| `telefone.principal.ddi` | `string` | Código DDI do telefone principal | - |
+| `telefone.principal.ddd` | `string` | Código DDD do telefone principal | - |
+| `telefone.principal.valor` | `string` | Número do telefone principal | - |
+| `telefone.alternativo` | `record[]` | Lista de telefones alternativos do indivíduo (structs com origem, sistema, ddi, ddd, valor) | - |
+| `telefone.alternativo.origem` | `string` | Órgão que cadastrou o telefone alternativo | - |
+| `telefone.alternativo.sistema` | `string` | Sistema que cadastrou o telefone alternativo | - |
+| `telefone.alternativo.ddi` | `string` | Código DDI do telefone alternativo | - |
+| `telefone.alternativo.ddd` | `string` | Código DDD do telefone alternativo | - |
+| `telefone.alternativo.valor` | `string` | Número do telefone alternativo | - |
+| `saude` | `record` | Estrutura com informações de saúde do indivíduo | - |
+| `saude.clinica_familia` | `record` | Estrutura com informações da clínica da família vinculada | - |
+| `saude.clinica_familia.indicador` | `boolean` | Indicador se está vinculado a uma clínica da família | - |
+| `saude.clinica_familia.id_cnes` | `string` | Identificador CNES da clínica da família | - |
+| `saude.clinica_familia.nome` | `string` | Nome da clínica da família | - |
+| `saude.clinica_familia.telefone` | `string` | Telefone da clínica da família | - |
+| `saude.equipe_saude_familia` | `record` | Estrutura com informações da equipe de saúde da família vinculada | - |
+| `saude.equipe_saude_familia.indicador` | `boolean` | Indicador se está vinculado a uma equipe de saúde da família | - |
+| `saude.equipe_saude_familia.id_ine` | `string` | Identificador INE da equipe de saúde da família | - |
+| `saude.equipe_saude_familia.nome` | `string` | Nome da equipe de saúde da família | - |
+| `saude.equipe_saude_familia.telefone` | `string` | Telefone da equipe de saúde da família | - |
+| `saude.equipe_saude_familia.medicos` | `record[]` | Lista de médicos da equipe de saúde da família | - |
+| `saude.equipe_saude_familia.medicos.id_profissional_sus` | `string` | Identificador do profissional SUS | - |
+| `saude.equipe_saude_familia.medicos.nome` | `string` | Nome do médico | - |
+| `saude.equipe_saude_familia.enfermeiros` | `record[]` | Lista de enfermeiros da equipe de saúde da família | - |
+| `saude.equipe_saude_familia.enfermeiros.id_profissional_sus` | `string` | Identificador do profissional SUS | - |
+| `saude.equipe_saude_familia.enfermeiros.nome` | `string` | Nome do enfermeiro | - |
+| `datalake` | `record` | Estrutura com metadados do data lake | - |
+| `datalake.last_updated` | `timestamp` | Timestamp da última atualização do registro no data lake | - |
+| `cpf_particao` | `integer` | Partição do CPF para distribuição de dados | - |
+
+
+
+## Governança de Dados
+
+
+### Contexto Municipal
+- **Casos de Uso**: Integração de dados municipais
+- **LGPD**: Sistema em conformidade com a Lei Geral de Proteção de Dados
+- **Controle de Acesso**: Apenas serviços municipais autorizados
+
+### Campos de Dados Pessoais
+
+
+- `cpf`
+
+- `nome`
+
+- `email`
+
+- `telefone`
+
+
+
+
+## Consultas Comuns
+
+```sql
+-- Consulta básica
+SELECT *
+FROM `rj-crm-registry.crm_dados_mestres.pessoa_fisica`
+LIMIT 100;
+```
+
+
+```sql
+-- Filtrar por período
+SELECT *
+FROM `rj-crm-registry.crm_dados_mestres.pessoa_fisica`
+WHERE data_particao >= '2024-01-01'
+LIMIT 100;
+```

@@ -1,0 +1,23 @@
+projects:
+  rmi:
+    display_name: "RMI (Registro Municipal Integrado)"
+    repository: "prefeitura-rio/queries-rj-crm-registry"
+    project_name: "rj-crm-registry"
+    branch: "master"
+    description: "Sistema unificado de registro municipal para dados de pessoas físicas e jurídicas"
+    icon: "database"
+    data_structure:
+      - name: "Dados Mestres"
+        icon: "address-book"
+        models:
+          - name: "Pessoa Física"
+            path: "models/core/rmi_dados_mestres/pessoa_fisica"
+          # - name: "Pessoa Jurídica"
+          #   path: "models/core/rmi_dados_mestres/pessoa_juridica"
+          # - name: "Endereços"
+          #   path: "models/core/rmi_dados_mestres/enderecos"
+      - name: "Eventos de Vida"
+        icon: "heart-pulse"
+        models:
+          - name: "Pessoa Física - Interações Prefeitura"
+            path: "models/core/rmi_eventos/interacoes_pessoa_fisica_prefeitura"
