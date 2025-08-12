@@ -133,6 +133,12 @@
         "tab": "Ferramentas",
         "groups": [
           {
+            "group": "Visão Geral",
+            "pages": [
+              "ferramentas/overview"
+            ]
+          },
+          {
             "group": "Claude Code",
             "pages": [
               "ferramentas/claude-code-usuario",
@@ -159,7 +165,7 @@
   },
   "logo": {
     "light": "/logo/iplan_simples_azul.svg",
-    "dark": "/logo/iplan_simples_branca.svg"
+    "dark": "/logo/iplan_simples_branca.png"
   },
   "navbar": {
     "links": [
