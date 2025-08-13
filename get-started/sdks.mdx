@@ -60,6 +60,103 @@ print(response.data)
 ```
 </CodeGroup>
 
+### Check Model Status
+This is useful to check if a model is running or not. If it is not running, you can load it up using the `load` method.
+
+<Note>
+The model name can be replaced with the name of your fine-tuned models as well.
+</Note>
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'] // This is the default and can be omitted
+});
+
+const response = await client.models.check_status(model="llama3.2-3b");
+
+console.log(response);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY")  # This is the default and can be omitted
+)
+response = client.models.check_status(model="llama3.2-3b")
+print(response)
+```
+</CodeGroup>
+
+
+### Load Model
+This is useful to load up a model for inference.
+
+<Note>
+The model name can be replaced with the name of your fine-tuned models as well.
+</Note>
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'] // This is the default and can be omitted
+});
+
+const response = await client.models.load(model="llama3.2-3b"); // Or any other model you want to load up
+
+const modelStatus = await client.models.check_status(model="llama3.2-3b");
+
+console.log(modelStatus);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY")  # This is the default and can be omitted
+)
+response = client.models.load(
+    model="llama3.2-3b", # Or any other model you want to load up
+)
+modelStatus = client.models.check_status(model="llama3.2-3b")
+print(modelStatus.data)
+```
+</CodeGroup>
+
+### Unload Model
+This is useful to unload a model from the server.
+
+<Note>
+The model name can be replaced with the name of your fine-tuned models as well.
+</Note>
+<CodeGroup>
+```javascript javascript/typescript
+import PremAI from 'premai';
+
+const client = new PremAI({
+  apiKey: process.env['PREMAI_API_KEY'] // This is the default and can be omitted
+});
+
+const response = await client.models.unload(model="llama3.2-3b"); // Or any other model you want to load up
+
+console.log(response);
+```
+```python python
+import os
+from premai import PremAI
+
+client = PremAI(
+    api_key=os.environ.get("PREMAI_API_KEY")  # This is the default and can be omitted
+)
+response = client.models.unload(
+    model="llama3.2-3b", # Or any other model you want to load up
+)
+print(response)
+```
+</CodeGroup>
 
 ### Chat Completions
 import PremChatCompletions from '/snippets/prem-chat-completions.mdx';
