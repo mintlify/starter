@@ -22,7 +22,7 @@
           {
             "group": "Get started",
             "pages": [
-              "introduction",
+              "index",
               "get-started/quick-start",
               "get-started/sdks"
             ]
@@ -146,10 +146,18 @@
             ]
           },
           {
-            "group": "Chat",
+            "group": "Chat API",
             "pages": [
-              "api-reference/chat-completions/post-v1chatcompletions",
-              "api-reference/models/get-v1models"
+              "api-reference/chat-completions/post-chatcompletions",
+              "api-reference/chat-completions/post-chatmodelup",
+              "api-reference/chat-completions/post-chatmodeldown",
+              "api-reference/chat-completions/post-chatmodelrunning"
+            ]
+          },
+          {
+            "group": "Models API",
+            "pages": [
+              "api-reference/models/get-models"
             ]
           }
         ]
@@ -175,7 +183,11 @@
     "dark": "/images/logos/White.svg"
   },
   "api": {
-    "openapi": "https://studio.premai.io/api/openapi.json"
+    "openapi": "https://studio.premai.io/api/openapi.json",
+    "examples": {
+      "languages": ["curl", "python", "javascript"],
+      "defaults": "required"
+    }
   },
   "navbar": {
     "links": [
