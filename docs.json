@@ -148,16 +148,16 @@
           {
             "group": "Chat API",
             "pages": [
-              "api-reference/chat-completions/post-chatcompletions",
-              "api-reference/chat-completions/post-chatmodelup",
-              "api-reference/chat-completions/post-chatmodeldown",
-              "api-reference/chat-completions/post-chatmodelrunning"
+              "api-reference/chat-completions/post-chatcompletions"
             ]
           },
           {
             "group": "Models API",
             "pages": [
-              "api-reference/models/get-models"
+              "api-reference/models/get-models",
+              "api-reference/models/post-chatmodelup",
+              "api-reference/models/post-chatmodeldown",
+              "api-reference/models/post-chatmodelrunning"
             ]
           }
         ]
