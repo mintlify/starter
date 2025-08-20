@@ -14,24 +14,10 @@ Structured output lets you define the exact format you expect in the model's res
 - premai or openai SDK installed
 
 ## Supported Models
-- gemma3-1b
-- gemma3-4b
-- llama3.1-8b
-- llama3.2-1b
-- llama3.2-3b
-- phi-4
-- phi-4-mini
-- qwen2.5-0.5b
-- qwen2.5-1.5b
-- qwen2.5-3b
-- qwen2.5-7b
-- qwen2.5-math-1.5b
-- qwen2.5-math-7b
-- smollm-1.7b
-- smollm-135m
-- smollm-360m
-- gpt-4o
-- gpt-4o-mini
+
+The list of supported models is constantly evolving. For the most up-to-date list of models that support structured JSON output, please visit the [models list page](https://studio.premai.io/models).
+
+Models that support JSON output are clearly marked with a <span style={{display: 'inline-block', backgroundColor: '#0ea5e9', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '500'}}>json</span> tag on the models page.
 
 ## Generate Structured Output with Prem
 This quick guide is gonna show you how to extract structured data from a raw CV using the Prem SDK. You'll define a clear schema (e.g. name, email, education, work experience) and let the model return a clean JSON object that matches it.
@@ -51,7 +37,7 @@ Perfect for dev teams building HR tools, job platforms, or internal automation s
             export PREMAI_API_KEY=your_api_key
             ```
             ```bash python
-            pip install premai pydantic
+            pip install premai pydantic json-repair
             export PREMAI_API_KEY=your_api_key
             ```
         </CodeGroup>
@@ -113,6 +99,7 @@ Perfect for dev teams building HR tools, job platforms, or internal automation s
             ```
             ```python python
             from pydantic import BaseModel
+            import json_repair
 
 
             class PersonCV(BaseModel):
@@ -162,6 +149,7 @@ Perfect for dev teams building HR tools, job platforms, or internal automation s
             ```python python
             import os
             from premai import PremAI
+            import json_repair
 
             client = PremAI(api_key=os.getenv("PREMAI_API_KEY"))
             ```
@@ -221,22 +209,16 @@ Perfect for dev teams building HR tools, job platforms, or internal automation s
             console.log(JSON.stringify(parsed, null, 2));
             ```
             ```python python
-            import json
-
             content = response.choices[0].message.content
 
-            start = content.find("{")
-            end = content.rfind("}") + 1
-            json_content = content[start:end]
-
-            output = json.loads(json_content)
+            output = json_repair.loads(content)
             parsed = PersonCV.model_validate(output)
 
-            print(json.dumps(parsed.model_dump(), indent=2))
+            print(parsed.model_dump_json(indent=2))
             ```
         </CodeGroup>
         <Note>
-        In the code above, the lines using `find("{")` and `rfind("}")` are a simple safeguard to extract only the JSON portion from the model's output. Sometimes, the response may include extra text before or after the JSON block. This ensures that only the valid JSON is parsed, avoiding potential `json.loads()` errors.
+        The `json_repair.loads()` function automatically handles malformed JSON and extracts valid JSON from text that may contain extra content before or after the JSON block. This is much more robust than using `json.loads()` and manual string extraction, which can fail with malformed JSON responses.
         </Note>
     </Step>
 
@@ -336,7 +318,7 @@ console.log(JSON.stringify(parsed, null, 2));
 import os
 from pydantic import BaseModel
 from premai import PremAI
-import json
+import json_repair
 
 
 class PersonCV(BaseModel):
@@ -392,14 +374,10 @@ response = client.chat.completions(
 
 content = response.choices[0].message.content
 
-start = content.find("{")
-end = content.rfind("}") + 1
-json_content = content[start:end]
-
-output = json.loads(json_content)
+output = json_repair.loads(content)
 parsed = PersonCV.model_validate(output)
 
-print(json.dumps(parsed.model_dump(), indent=2))
+print(parsed.model_dump_json(indent=2))
 ```
 </CodeGroup>
 
@@ -407,7 +385,8 @@ print(json.dumps(parsed.model_dump(), indent=2))
 
 ## Pro Tips
 
-- If you run into JSON parsing errors, try using the [instructor](https://python.useinstructor.com/) and [json-repair](https://github.com/mangiucugna/json_repair) package — they can help you automatically fix malformed model outputs.
+- We use the [json-repair](https://github.com/mangiucugna/json_repair) package to automatically handle malformed JSON and extract valid JSON from model responses, making the parsing much more robust than using `json.loads()`.
+- For even more advanced structured output handling, consider using the [instructor](https://python.useinstructor.com/) package which provides additional validation and retry mechanisms.
 - If the model doesn't follow your schema correctly, simplify the schema by reducing nesting or optional fields.
 - Be explicit in your instructions (e.g., "Return only valid JSON without any explanation or extra text.")
 - Include examples in your prompt (few-shot prompting) to help the model understand the expected format more accurately.
