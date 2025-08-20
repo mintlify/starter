@@ -1,0 +1,479 @@
+---
+title: "Function Calling with Prem SDK"
+description: "This guide shows you how to use function calling capabilities with LLMs using both Prem Python and TypeScript SDKs."
+---
+
+## Why Use Function Calling?
+
+Function calling lets you extend LLM capabilities by allowing models to invoke external functions and tools. This enables your applications to perform actions like fetching real-time data, interacting with APIs, or executing computations based on the model's reasoning.
+
+## Prerequisites
+
+- An API key from Prem Studio
+- Python ≥ 3.8 or Node.js ≥ 18
+- premai or openai SDK installed
+
+## Supported Models
+
+The list of supported models is constantly evolving. For the most up-to-date list of models that support function calling, please visit the [models list page](https://studio.premai.io/models).
+
+Models that support function calling are clearly marked with a <span style={{display: 'inline-block', backgroundColor: '#10b981', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '500'}}>tools</span> tag on the models page.
+
+## Generate Function Calls with Prem
+This quick guide shows you how to implement a weather assistant that can fetch current weather information using function calling. You'll define a weather function, let the model decide when to call it, and handle the tool responses.
+
+Why it's useful:
+It enables your AI assistant to perform real-world actions and access live data — not just generate text responses.
+
+When to use it:
+Perfect for building AI assistants, chatbots, or automation tools that need to interact with external APIs, databases, or perform calculations based on user queries.
+
+<Steps>
+    <Step title="Setup Environment">
+        <CodeGroup>
+            ```bash javascript/typescript
+            npm install premai
+            npm install --save-dev @types/node
+            export PREMAI_API_KEY=your_api_key
+            ```
+            ```bash python
+            pip install premai json-repair
+            export PREMAI_API_KEY=your_api_key
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Define Function Schema and Mock Implementation">
+        <CodeGroup>
+            ```javascript javascript/typescript
+
+            const tools = [
+                {
+                    type: "function",
+                    function: {
+                        name: "get_current_weather",
+                        description: "Get the current weather in a given location",
+                        parameters: {
+                            type: "object",
+                            properties: {
+                                location: {
+                                    type: "string",
+                                    description: "The city and state, e.g. San Francisco, CA",
+                                },
+                                unit: {
+                                    type: "string",
+                                    enum: ["celsius", "fahrenheit"]
+                                },
+                            },
+                            required: ["location"],
+                        },
+                    },
+                }
+            ];
+
+            // Mock function implementation
+            function getCurrentWeather(location: string, unit: string = "celsius"): object {
+                // In a real app, you'd call a weather API here
+                return {
+                    location: location,
+                    temperature: unit === "celsius" ? "15°C" : "59°F",
+                    condition: "Partly cloudy",
+                    humidity: "65%"
+                };
+            }
+            ```
+            ```python python
+            import json
+            import json_repair
+
+            tools = [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_current_weather",
+                        "description": "Get the current weather in a given location",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "location": {
+                                    "type": "string",
+                                    "description": "The city and state, e.g. San Francisco, CA",
+                                },
+                                "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                            },
+                            "required": ["location"],
+                        },
+                    },
+                }
+            ]
+
+            def get_current_weather(location: str, unit: str = "celsius") -> dict:
+                """Mock function implementation"""
+                # In a real app, you'd call a weather API here
+                return {
+                    "location": location,
+                    "temperature": "15°C" if unit == "celsius" else "59°F",
+                    "condition": "Partly cloudy",
+                    "humidity": "65%"
+                }
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Initialize Client">
+        <CodeGroup>
+            ```javascript javascript/typescript
+            import PremAI from "premai";
+
+            const client = new PremAI({
+                apiKey: process.env.PREMAI_API_KEY || "",
+            });
+            ```
+            ```python python
+            import os
+            from premai import PremAI
+
+            client = PremAI(api_key=os.getenv("PREMAI_API_KEY"))
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Send Initial Request with Tools">
+        <CodeGroup>
+            ```javascript javascript/typescript
+            const messages: ChatCompletionsParams.Message[] = [
+                { role: "user", content: "What's the weather like in Boston today?" }
+            ] as any;
+
+            const response = await client.chat.completions({
+                model: "claude-4-sonnet",
+                messages,
+                tools,
+                tool_choice: "auto"
+            });
+            ```
+            ```python python
+            messages = [
+                {"role": "user", "content": "What's the weather like in Boston today?"}
+            ]
+
+            response = client.chat.completions(
+                model="claude-4-sonnet",
+                messages=messages,
+                tools=tools,
+                tool_choice="auto"
+            )
+            ```
+        </CodeGroup>
+    </Step>
+
+    <Step title="Handle Tool Calls and Execute Functions">
+        <CodeGroup>
+            ```javascript javascript/typescript
+            // Check if the model wants to call a function
+            if (response.choices[0].message.tool_calls) {
+                // Add the assistant's response to conversation
+                messages.push({
+                    role: "assistant",
+                    content: response.choices[0].message.content,
+                    tool_calls: response.choices[0].message.tool_calls
+                });
+
+                // Execute each tool call
+                for (const toolCall of response.choices[0].message.tool_calls) {
+                    const functionName = toolCall.function.name;
+                    const functionArgs = JSON.parse(toolCall.function.arguments);
+
+                    let result: object;
+                    if (functionName === "get_current_weather") {
+                        result = getCurrentWeather(functionArgs.location, functionArgs.unit);
+                    } else {
+                        result = { error: "Unknown function" };
+                    }
+
+                    // Add the function result to conversation
+                    messages.push({
+                        role: "tool",
+                        tool_call_id: toolCall.id,
+                        content: JSON.stringify(result),
+                        name: functionName
+                    });
+                }
+
+                // Get final response with function results
+                const finalResponse = await client.chat.completions({
+                    model: "claude-4-sonnet",
+                    messages,
+                    tools
+                });
+
+                console.log(finalResponse.choices[0].message.content);
+            } else {
+                console.log(response.choices[0].message.content);
+            }
+            ```
+            ```python python
+            # Check if the model wants to call a function
+            if response.choices[0].message.tool_calls:
+                # Add the assistant's response to conversation
+                messages.append({
+                    "role": "assistant",
+                    "content": response.choices[0].message.content,
+                    "tool_calls": response.choices[0].message.tool_calls
+                })
+
+                # Execute each tool call
+                for tool_call in response.choices[0].message.tool_calls:
+                    function_name = tool_call['function']['name']
+                    function_args = json_repair.loads(tool_call['function']['arguments'])
+
+                    if function_name == "get_current_weather":
+                        result = get_current_weather(
+                            function_args.get("location"),
+                            function_args.get("unit", "celsius")
+                        )
+                    else:
+                        result = {"error": "Unknown function"}
+
+                    # Add the function result to conversation
+                    messages.append({
+                        "role": "tool",
+                        "tool_call_id": tool_call['id'],
+                        "content": json.dumps(result),
+                        "name": function_name
+                    })
+
+                # Get final response with function results
+                final_response = client.chat.completions(
+                    model="claude-4-sonnet",
+                    messages=messages,
+                    tools=tools
+                )
+
+                print(final_response.choices[0].message.content)
+            else:
+                print(response.choices[0].message.content)
+            ```
+        </CodeGroup>
+        <Note>
+        The `json_repair.loads()` function automatically handles malformed JSON in function arguments, which is more robust than using `JSON.parse()` or `json.loads()` directly, as models sometimes generate slightly malformed JSON.
+        </Note>
+    </Step>
+
+</Steps>
+
+## Full Copy-Paste Example
+<CodeGroup>
+```javascript javascript/typescript
+import { ChatCompletionsParams } from "premai/resources/chat";
+import PremAI from "premai";
+
+const tools = [
+    {
+        type: "function",
+        function: {
+            name: "get_current_weather",
+            description: "Get the current weather in a given location",
+            parameters: {
+                type: "object",
+                properties: {
+                    location: {
+                        type: "string",
+                        description: "The city and state, e.g. San Francisco, CA",
+                    },
+                    unit: {
+                        type: "string",
+                        enum: ["celsius", "fahrenheit"]
+                    },
+                },
+                required: ["location"],
+            },
+        },
+    }
+];
+
+// Mock function implementation
+function getCurrentWeather(location: string, unit: string = "celsius"): object {
+    // In a real app, you'd call a weather API here
+    return {
+        location: location,
+        temperature: unit === "celsius" ? "15°C" : "59°F",
+        condition: "Partly cloudy",
+        humidity: "65%"
+    };
+}
+
+const client = new PremAI({
+    apiKey: process.env.PREMAI_API_KEY || "",
+});
+
+const messages: ChatCompletionsParams.Message[] = [
+    { role: "user", content: "What's the weather like in Boston today?" }
+] as any;
+
+const response = await client.chat.completions({
+    model: "claude-4-sonnet",
+    messages,
+    tools,
+    tool_choice: "auto"
+});
+
+// Check if the model wants to call a function
+if (response.choices[0].message.tool_calls) {
+    // Add the assistant's response to conversation
+    messages.push({
+        role: "assistant",
+        content: response.choices[0].message.content,
+        tool_calls: response.choices[0].message.tool_calls
+    });
+
+    // Execute each tool call
+    for (const toolCall of response.choices[0].message.tool_calls) {
+        const functionName = toolCall.function.name;
+        const functionArgs = JSON.parse(toolCall.function.arguments);
+
+        let result: object;
+        if (functionName === "get_current_weather") {
+            result = getCurrentWeather(functionArgs.location, functionArgs.unit);
+        } else {
+            result = { error: "Unknown function" };
+        }
+
+        // Add the function result to conversation
+        messages.push({
+            role: "tool",
+            tool_call_id: toolCall.id,
+            content: JSON.stringify(result),
+            name: functionName
+        });
+    }
+
+    // Get final response with function results
+    const finalResponse = await client.chat.completions({
+        model: "claude-4-sonnet",
+        messages,
+        tools
+    });
+
+    console.log(finalResponse.choices[0].message.content);
+} else {
+    console.log(response.choices[0].message.content);
+}
+```
+
+```python python
+import os
+import json
+import json_repair
+from premai import PremAI
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_current_weather",
+            "description": "Get the current weather in a given location",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The city and state, e.g. San Francisco, CA",
+                    },
+                    "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                },
+                "required": ["location"],
+            },
+        },
+    }
+]
+
+def get_current_weather(location: str, unit: str = "celsius") -> dict:
+    """Mock function implementation"""
+    # In a real app, you'd call a weather API here
+    return {
+        "location": location,
+        "temperature": "15°C" if unit == "celsius" else "59°F",
+        "condition": "Partly cloudy",
+        "humidity": "65%"
+    }
+
+client = PremAI(api_key=os.getenv("PREMAI_API_KEY"))
+
+messages = [
+    {"role": "user", "content": "What's the weather like in Boston today?"}
+]
+
+response = client.chat.completions(
+    model="claude-4-sonnet",
+    messages=messages,
+    tools=tools,
+    tool_choice="auto"
+)
+
+# Check if the model wants to call a function
+if response.choices[0].message.tool_calls:
+    # Add the assistant's response to conversation
+    messages.append({
+        "role": "assistant",
+        "content": response.choices[0].message.content,
+        "tool_calls": response.choices[0].message.tool_calls
+    })
+
+    # Execute each tool call
+    for tool_call in response.choices[0].message.tool_calls:
+        function_name = tool_call['function']['name']
+        function_args = json_repair.loads(tool_call['function']['arguments'])
+
+        if function_name == "get_current_weather":
+            result = get_current_weather(
+                function_args.get("location"),
+                function_args.get("unit", "celsius")
+            )
+        else:
+            result = {"error": "Unknown function"}
+
+        # Add the function result to conversation
+        messages.append({
+            "role": "tool",
+            "tool_call_id": tool_call['id'],
+            "content": json.dumps(result),
+            "name": function_name
+        })
+
+    # Get final response with function results
+    final_response = client.chat.completions(
+        model="claude-4-sonnet",
+        messages=messages,
+        tools=tools
+    )
+
+    print(final_response.choices[0].message.content)
+else:
+    print(response.choices[0].message.content)
+```
+</CodeGroup>
+
+## Pro Tips
+
+- We use the [json-repair](https://github.com/mangiucugna/json_repair) package to automatically handle malformed JSON in function arguments, making the parsing much more robust than using `json.loads()`.
+- Always validate function arguments before executing functions to prevent errors or security issues.
+- Use descriptive function names and detailed descriptions to help the model understand when to call each function.
+- Set `tool_choice: "auto"` to let the model decide when to use functions, or set it to `"none"` to disable function calling for a specific request.
+- For production applications, implement proper error handling and logging for function executions.
+- Consider implementing rate limiting and authentication for external API calls within your functions.
+
+## Common Use-Cases
+
+- Building AI assistants that can fetch real-time data (weather, stock prices, news)
+- Creating chatbots that can interact with databases or APIs
+- Implementing AI agents that can perform calculations or data processing
+- Developing automation tools that can execute actions based on natural language commands
+
+## Tool Choice Options
+
+You can control when and how the model uses functions with the `tool_choice` parameter:
+
+- `"auto"` (default): Model decides whether to call functions
+- `"none"`: Model will not call any functions
+- `{"type": "function", "function": {"name": "function_name"}}`: Force the model to call a specific function

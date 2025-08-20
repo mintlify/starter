@@ -70,7 +70,8 @@
                 "group": "Guides",
                 "icon": "newspaper",
                 "pages": [
-                  "guides/inference/json-output"
+                  "guides/inference/json-output",
+                  "guides/inference/function-calling"
                 ]
               }
             ]
