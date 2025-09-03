@@ -158,7 +158,14 @@
               "api-reference/models/get-models",
               "api-reference/models/post-chatmodelup",
               "api-reference/models/post-chatmodeldown",
-              "api-reference/models/post-chatmodelrunning"
+              "api-reference/models/get-chatmodelrunning"
+            ]
+          },
+          {
+            "group": "Traces API",
+            "pages": [
+              "api-reference/traces/get-trace",
+              "api-reference/traces/post-traces"
             ]
           }
         ]
