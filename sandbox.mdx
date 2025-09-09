@@ -50,7 +50,41 @@ curl --request POST \
 }
 ```
 
-## 2. Create a user `/users`
+## 2 Configure Client Settings `/configuration`
+
+Configure client-wide settings that affect sandbox behavior, such as payroll lookback periods and recurring checks.
+
+```bash
+curl --request PUT \
+  --url https://api.sandbox.goteal.co/configuration \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "payslip_upload_enabled": true,
+  "payroll_period_months": 12,
+  "recurring_checks_enabled": true,
+  "recurring_check_frequency": "HOURLY",
+  "recurring_check_end_date": "2025-01-10T00:00Z"
+}'
+```
+
+**Response Example:**
+
+```json
+{
+  "payslip_upload_enabled": true,
+  "payroll_period_months": 12,
+  "client_logo": null,
+  "client_callback_url": null,
+  "recurring_checks_enabled": true,
+  "recurring_check_frequency": "HOURLY",
+  "recurring_check_end_date": "2025-01-10T00:00:00.000Z"
+}
+```
+
+In sandbox, you can test the `HOURLY` frequency (not available in production). The `payroll_period_months` setting affects how much historical payroll data is generated when creating accounts.
+
+## 3. Create a user `/users`
 
 Now you need to create a user selecting a user ID from the following users:
 
@@ -78,7 +112,7 @@ The field `email` does not have to be a real email address. It can be the user's
 }
 ```
 
-## 3. Generating a user token `/user-tokens`
+## 4. Generating a user token `/user-tokens`
 
 After creating a webhook, generate a token to authenticate subsequent actions for that user. The token ensures that actions such as account connection and payslip uploads are securely attributed to the correct user.
 
@@ -101,7 +135,7 @@ curl --request POST \
 }
 ```
 
-## 4. Connecting a Payroll Account `/accounts`
+## 5. Connecting a Payroll Account `/accounts`
 
 This simulates the user connecting their payroll account for automatic data retrieval.
 
@@ -134,7 +168,7 @@ matches the `payroll_period_months` configuration. If this is set on both the cl
 precedence. For example, if it is set to 7 months, we'll return 8 payroll submissions (including the current month). If it is not set we'll
 take a default of 36 months. To simulate a gap in the payroll, the `Shape` provider will leave a 3 month gap from the time of the request. 
 
-## 5. Retrieve submitted Payroll information `/entries/connections`
+## 6. Retrieve submitted Payroll information `/entries/connections`
 
 Retrieve latest payroll for a connected account. For sandbox, we'll always return new payroll where the `pay_date` is set to the current day. For `Shape` provider we will still maintain a 3 month gap.
 
@@ -295,7 +329,7 @@ curl --location --request POST 'https://api.sandbox.goteal.co/entries/connection
 }
 ```
 
-## 6. Extract Payroll information from a payslip `/entries/payslips`
+## 7. Extract Payroll information from a payslip `/entries/payslips`
 
 This request simulates the user uploading a payslip to extract payroll information.
 Extracting payslip information can be done using the endpoint below but will usually
@@ -364,7 +398,7 @@ curl --location --request POST 'https://api.sandbox.goteal.co/entries/payslips' 
 }
 ```
 
-## 7. Retrieving Payroll Data `/payroll`
+## 8. Retrieving Payroll Data `/payroll`
 
 Retrieve the payroll data submitted through the connected account or document upload.
 
@@ -436,7 +470,7 @@ curl --request GET \
 }
 ```
 
-## 8. WebApp usage
+## 9. WebApp usage
 
 Teal's webapp can be tested by accessing ```https://app.sandbox.goteal.co/``` in the browser. Use the generated bearer
 token in order to identify the user ```https://app.sandbox.goteal.co/?jwt=<bearer-token>```. The webapp uses the same API
@@ -450,7 +484,7 @@ mechanism as the mentioned above, therefore the data will be retrieved in the sa
 
 <img src="/images/webapp/payslip-submission.gif" alt="payslip submission" width="100%"/>
 
-## 9. Cleanup: Deleting a User `/users`
+## 10. Cleanup: Deleting a User `/users`
 
 After testing, clean up by deleting the test user and their associated data.
 

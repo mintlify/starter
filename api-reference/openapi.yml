@@ -1028,6 +1028,40 @@ paths:
           "$ref": "#/components/responses/UnauthorizedApiKey"
         "404":
           "$ref": "#/components/responses/ResourceNotFound"
+  "/configuration":
+    get:
+      summary: Returns the client configuration
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientConfiguration"
+        "401":
+          "$ref": "#/components/responses/UnauthorizedApiKey"
+        "404":
+          "$ref": "#/components/responses/ResourceNotFound"
+    put:
+      summary: Updates the client configuration
+      description: Partial updates supported; omitted fields preserve their existing values.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ClientConfiguration"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientConfiguration"
+        "400":
+          "$ref": "#/components/responses/BadRequest"
+        "401":
+          "$ref": "#/components/responses/UnauthorizedApiKey"
 components:
   responses:
     UnauthorizedApiKey:
@@ -1159,6 +1193,37 @@ components:
           example: https://api.sandbox.goteal.co/r/ZwgQkNEMZ4QDkQ
         created_at:
           "$ref": "#/components/schemas/Date"
+    ClientConfiguration:
+      type: object
+      properties:
+        payslip_upload_enabled:
+          type: boolean
+          description: Determines if payslip upload via documents is enabled
+          example: true
+        payroll_period_months:
+          type: integer
+          format: int32
+          description: Lookback period of the payroll to search on account creation
+          example: 24
+        client_logo:
+          type: string
+          description: Client logo asset or URL
+          example: image.png
+        client_callback_url:
+          type: string
+          description: Callback URL for client application
+          example: https://app.client.com/callback
+        recurring_checks_enabled:
+          type: boolean
+          description: Determines if recurring checks are enabled client-wide
+          example: true
+        recurring_check_frequency:
+          type: string
+          description: Frequency of the recurring check for the client. Available frequencies in production are [WEEKLY, MONTHLY]. Sandbox allows HOURLY frequency in addition.
+          example: WEEKLY
+        recurring_check_end_date:
+          "$ref": "#/components/schemas/Date"
+          description: End date of the recurring check schedule client-wide
     Accounts:
       type: object
       required: [payroll_provider]

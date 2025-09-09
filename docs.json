@@ -85,6 +85,13 @@
             ]
           },
           {
+            "group": "Configuration",
+            "pages": [
+              "api-reference/configuration/get",
+              "api-reference/configuration/update"
+            ]
+          },
+          {
             "group": "Webhooks",
             "pages": [
               "api-reference/webhooks/create",

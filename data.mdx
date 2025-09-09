@@ -91,6 +91,29 @@ curl --request GET \
 
 The response data of the above document request will be JSON containing the Base-64 encoded file contents. This can be decoded and transformed back into PDF format.
 
+### Configuration `/configuration`
+
+Configuration represents client-wide settings that control behavior across all users and accounts, including payslip uploads, payroll lookback, and recurring check scheduling.
+
+**Example:** Update client configuration
+```bash
+curl --request PUT \
+  --url https://api.sandbox.goteal.co/configuration \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-KEY: <api-key>' \
+  --data '{
+  "payslip_upload_enabled": true,
+  "payroll_period_months": 24,
+  "client_logo": "https://cdn.client.com/logo.png",
+  "client_callback_url": "https://app.client.com/callback",
+  "recurring_checks_enabled": true,
+  "recurring_check_frequency": "MONTHLY",
+  "recurring_check_end_date": "2025-01-10T00:00Z"
+}'
+```
+
+Use GET `/configuration` to retrieve the current client configuration. If no configuration exists yet, the endpoint returns 404 ("Client configuration not yet configured"). Use PUT `/configuration` to create or update configuration; updates are partial—omitted fields keep their existing values. Validation rules: `recurring_check_frequency` must be one of [WEEKLY, MONTHLY, HOURLY]; `recurring_check_end_date` must be a valid ISO8601 UTC datetime. Some user-level settings (see Users API) can override these client-level defaults.
+
 ## 2. Data Delivery
 
 Data delivery mechanisms are designed to ensure timely, secure, and efficient access to financial data, facilitating seamless integration and real-time processing.
