@@ -93,7 +93,7 @@ The response data of the above document request will be JSON containing the Base
 
 ### Configuration `/configuration`
 
-Configuration represents client-wide settings that control behavior across all users and accounts, including payslip uploads, payroll lookback, and recurring check scheduling.
+Configuration represents client-wide settings that control behavior across all users and accounts.
 
 **Example:** Update client configuration
 ```bash
@@ -112,7 +112,7 @@ curl --request PUT \
 }'
 ```
 
-Use GET `/configuration` to retrieve the current client configuration. If no configuration exists yet, the endpoint returns 404 ("Client configuration not yet configured"). Use PUT `/configuration` to create or update configuration; updates are partial—omitted fields keep their existing values. Validation rules: `recurring_check_frequency` must be one of [WEEKLY, MONTHLY, HOURLY]; `recurring_check_end_date` must be a valid ISO8601 UTC datetime. Some user-level settings (see Users API) can override these client-level defaults.
+Use GET `/configuration` to retrieve the current client configuration. Use PUT `/configuration` to create or update configuration; updates are partial—omitted fields keep their existing values. Validation rules: `recurring_check_frequency` must be one of [WEEKLY, MONTHLY]; `recurring_check_end_date` must be a valid ISO8601 UTC datetime. Some user-level settings (see Users API) can override these client-level defaults.
 
 ## 2. Data Delivery
 
