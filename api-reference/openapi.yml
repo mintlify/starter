@@ -1198,7 +1198,7 @@ components:
       properties:
         payslip_upload_enabled:
           type: boolean
-          description: Determines if payslip upload via documents is enabled
+          description: Determines if payslip upload via documents is allowed as a fallback if there is not connection to payroll providers
           example: true
         payroll_period_months:
           type: integer
@@ -1211,7 +1211,7 @@ components:
           example: image.png
         client_callback_url:
           type: string
-          description: Callback URL for client application
+          description: Callback URL for client application. This will be redirected to once the user completes their journey on Teal's platform
           example: https://app.client.com/callback
         recurring_checks_enabled:
           type: boolean
