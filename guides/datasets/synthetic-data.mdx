@@ -5,80 +5,114 @@ description: Learn how to transform raw text documents into structured question-
 
 ## 🧠 Why This Matters
 
-Don’t have a ready-made QA dataset? You don’t need one anymore.
+Creating high-quality QA datasets is often a bottleneck. With synthetic QA generation, you can:
+- Convert any text source into structured QA pairs.
+- Quickly scale your dataset with minimal manual effort.
+- Prepare reliable data for fine-tuning or evaluating small and large language models (SLMs/LLMs).
 
-Whether you’re fine-tuning a model or building a knowledge assistant, having QA data is essential. But not everyone has the time or resources to create it from scratch.
+---
 
-This feature lets you:
-- ✅ Convert any textual content into usable QA pairs.
-- 🚀 Instantly scale your training data, even from a few documents.
-- 🔄 Reuse your documentation, whitepapers, or reports to fuel model training.
-- 🛠️ Prepare data for model fine-tuning — natively supported in Prem Studio.
+**Example use case - Structured Output from Receipts**
+In this guide we will see how to synthetically generate QA pairs from a set of receipts.
+We’ll use **20 invoice receipts** from [this dataset](https://github.com/JensWalter/my-receipts). Each file will generate **1 Synthetic QA pair**, producing a structured JSON output that extracts key fields (date, total amount, business name, etc.).
 
-
-## 📁 What You’ll Need
-
-To get started, you only need:
-- A set of text-based input files (e.g. .pdf, .txt, .docx, .html)
-- A Prem Studio account
-- Optionally: Custom instructions to guide the QA generation process
-
-In this example, we’ll use 5 input files about crypto concepts and trends.
+This type of dataset is crucial for fine-tuning models that need to **reliably extract structured data** from semi-structured sources (like receipts, tickets, or invoices).
 
 
 ## ⚙️ Step-by-Step: Using QA Generation in Prem Studio
 
 <Steps>
-    <Step title="Create Dataset from the Datasets Section">
-    <img src="https://static.premai.io/prem-saas-docs/guides/datasets/nav-to-sd.gif" alt="GIF of navigating to synthetic data" />
-    From the left sidebar, click on **Datasets**, then **+ Create dataset** (top right), and select the option **Synthetic Data**.
+    <Step title="Create a New Dataset">
+        <img src="https://static.premai.io/prem-saas-docs/guides/datasets/nav-to-sd.gif" alt="GIF of navigating to synthetic data" />
+        From the left sidebar, go to **Datasets** → **+ Create dataset** → **Synthetic Data**.
     </Step>
 
     <Step title="Upload Your Input Files">
-    <img src="https://static.premai.io/prem-saas-docs/guides/datasets/upload-files.gif" alt="GIF of uploading input files" />
-    Drag and drop your documents (PDFs, DOCX, TXT, HTML). In our example, we use 5 crypto-related files.
+        <img src="https://static.premai.io/prem-saas-docs/guides/datasets/upload-files.gif" alt="GIF of uploading input files" />
+        Drag and drop your text files (PDF, DOCX, TXT, HTML).
+        📌 In this example, we use 20 invoice receipts.
     </Step>
 
-    <Step title="(Optional) Add Custom Instructions">
-    <img src="https://static.premai.io/prem-saas-docs/guides/datasets/custom-instructions-sd.gif" alt="GIF of entering instructions" />
-    Tailor the output with extra instructions, e.g.:
-    ```
-    Only create questions related to blockchain, DeFi, and crypto tokens. Avoid generic or repetitive questions. Keep answers short and factual.
-    ```
+    <Step title="Configure Advanced Settings (Optional but Recommended)">
+        <img src="https://static.premai.io/prem-saas-docs/guides/datasets/advanced-settings.png" alt="Advanced Settings" />
+        This step lets you **steer the QA generation** toward your expected output. It includes:
+
+        - **Rules & Constraints** → enforce requirements.
+        - **QA Examples (up to 3)** → provide few-shot examples to guide generation.
+        - **Question/Answer Guidance** → define QA formats.
+        - **Creativity Level** → adjust diversity of generated QAs.
+
+        For our receipts example:
+
+        **Rules & Constraints**:
+        ```text
+        - Always include the full extracted text in the question.
+        - Clearly instruct extraction into the given JSON schema.
+        - Only output the JSON object (no extra text).
+        - Fill fields only if explicitly present in the text.
+        - If a field is missing, leave it empty but keep the key.
+        - Strictly follow the schema.
+        - Never infer, guess, or fabricate information.
+        ```
+
+        **Question Format**
+        ```text
+        {EXTRACTED_TEXT}
+        Task: Extract all the information available in the text and present it in the JSON format below.
+        Do not infer or invent details — only include what is explicitly stated.
+        JSON Schema:
+        {
+            "DateTime": "YYYY-MM-DD HH:MM:SS",
+            "Total Amount": "number",
+            "Currency": "string",
+            "Business Name": "string",
+            "Business Location": "string"
+        }
+        ```
+
+        **Answer Format**
+        ```json
+        {
+            "DateTime": "<transaction_datetime_if_present>",
+            "Total Amount": "<total_amount_if_present>",
+            "Currency": "<currency_code_if_present>",
+            "Business Name": "<business_name_if_present>",
+            "Business Location": "<city_state_country_if_present>"
+        }
+        ```
+
+        **Creativity**: set to 0
     </Step>
 
-    <Step title="Generate Your Dataset">
-    <img src="https://static.premai.io/prem-saas-docs/guides/datasets/click-generate-sd.gif" alt="GIF of generating dataset" />
-    Click **Generate Dataset** and let Prem Studio do the rest. In our example, we generate 100 QA pairs from 5 documents in under a minute.
+    <Step title="4. Review & Generate">
+        Before starting, you’ll see a **recap** of your setup:
+        - Data sources (your input files).
+        - Generation settings (QA per file, creativity level, etc.).
+        - Estimated cost.
+        Click Create dataset to start the process.
+        <img src="https://static.premai.io/prem-saas-docs/guides/datasets/recap-synth-data-gen.png" alt="Recap Synthetic Data Generation Task" />
+
     </Step>
 
     <Step title="Review Your Synthetic Dataset">
-    <img src="https://static.premai.io/prem-saas-docs/guides/datasets/review-dataset.gif" alt="GIF of reviewing and editing the datapoints" />
-    Click **Generate Dataset** and let Prem Studio do the rest. In our example, we generate 100 QA pairs from 5 documents in under a minute.
+    Once generated, preview your QAs directly in Prem Studio.
+    From the UI, you can also **edit or delete datapoints** to refine the dataset before using it.
     </Step>
 
+
 </Steps>
-
-
-Once the process is complete, you’ll be able to preview the generated dataset, edit any entries, and use it directly in Prem Studio’s fine-tuning and evaluation tools.
-Example Outputs:
-
-| Question | Answer |
-|----------|---------|
-| What is a blockchain? | A decentralized, distributed ledger that records transactions. |
-| What is the main purpose of tokens in DeFi? | To facilitate decentralized financial operations. |
-| How do smart contracts work? | They execute predefined actions automatically based on conditions. |
 
 
 ## 📦 What’s Next?
 
 You can now:
 - Preview and edit the generated data
-- Fine-tune a model on it (see our [fine-tuning guide](../../finetuning/get-started))
-- Evaluate the models on it (see our [evaluation guide](../../evaluations/get-started))
+- Fine-tune your model with it (see our [fine-tuning guide](../../finetuning/get-started))
+- Evaluate models against it (see our [evaluation guide](../../evaluations/get-started))
 
 
 ## 💡 Pro Tips
-- Upload diverse content to get a wide range of QA pairs.
-- Use domain-specific instructions to control the output style.
-- Start small (5–10 files) to experiment, then scale up.
+-  Always define advanced settings if you expect strict outputs.
+- Start small (10–20 docs) to validate your setup, then scale up.
+- Use domain-specific schemas (invoices, medical records, support tickets, etc.).
+- Keep creativity low when extracting structured data.
