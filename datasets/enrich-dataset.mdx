@@ -1,73 +1,77 @@
 ---
 title: Enrich a Dataset
-description: Learn how to enrich a dataset with synthetic data.
+description: Learn how to expand your dataset with synthetic data.
 ---
 
-# What Does It Mean To Enrich a Dataset?
+# What Does It Mean to Enrich a Dataset?
+Enriching a dataset means **adding synthetic datapoints** to increase its size and diversity. This helps make your dataset more representative of real-world scenarios and improves model training.
 
-Enriching a dataset means adding synthetic data to your dataset. This is useful to increase the size of your dataset and to make it more representative of the real world.
+For advanced use cases and practical examples, see our [Enrichment Guide](/guides/datasets/enrichment).
 
-# Quick Start: How To Enrich a Dataset
-
+# Quick Start: How to Enrich a Dataset
 <Steps>
-    <Step title="Click ✨ Enrich to get started">
-    The Enrich window will open up.
-        <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-1-click-enrich.gif" alt="GIF of clicking the enrich dataset button" />
-    </Step>
-    <Step title="Select The Number of Datapoints You Want To Generate">
-    You can specify the number of datapoints you want to generate.
+  <Step title="Step 1: Open Enrich">
+    Click the **✨ Enrich** button to open the enrichment window.
 
-    Use the slider to add anywhere from 10 to 1000 additional datapoints to your dataset.
-        <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-2-add-datapoints.gif" alt="GIF of selecting the number of datapoints you want to generate" />
-    </Step>
-    <Step title="Change The Creativity">
-    Use the slider to set the creativity anywhere between 0 and 1.
+    <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-1-click-enrich.gif" alt="GIF of clicking the enrich dataset button" />
 
-    - Higher values produce more diverse but potentially less relevant results.
-    - Lower values produce more relevant but potentially less diverse results.
+    <Note>
+      If your dataset hasn’t been split yet, you’ll see a reminder about creating a validation set to avoid data leakage. This is not a blocker. For details, check our [Best Practices](/guides/datasets/dataset-best-practices).
+    </Note>
+  </Step>
 
-        <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-3-add-creativity.gif" alt="GIF of selecting a dataset" />
-    </Step>
-    <Step title="Add Instructions For The Augmentation (Optional) and Start the Data Augmentation">
-    You can add instructions for the augmentation to guide the AI on how to generate the data.
+  <Step title="Step 2: Choose Number of Datapoints">
+    Use the slider to set how many additional datapoints you want to generate (from **10 to 10000**).
 
+  </Step>
 
+  <Step title="Step 3: Advanced Settings (Optional)">
+    You can guide the enrichment process with additional parameters:
 
-    <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-4-add-instructions.gif" alt="GIF of adding instructions for the augmentation" />
+    - **Creativity (Temperature)** –
+      - Higher values → more diverse but less predictable results.
+      - Lower values → more consistent and relevant results.
+    - **User Instructions** – Add custom instructions to control style, tone, or constraints.
 
-    ### To Write Effective AI Augmentation Instructions, Consider These Suggestions:
-    1. Be specific about the desired output format and structure
-    2. Include examples of desired transformations
-    3. Define boundaries (what's acceptable vs. not acceptable)
-    4. Specify tone, style, and voice requirements
-    5. Include domain-specific terminology or conventions
-    6. State the purpose of the augmentation to align with goals
-    7. Indicate data diversity requirements (e.g., "vary sentence structure")
-    8. Provide clear constraints on length, complexity, or technical level
-    9.  Mention how to handle edge cases or unusual inputs
-    10. Request consistent formatting for easier processing
+    <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-3-add-creativity.gif" alt="GIF of adjusting creativity and instructions" />
 
-    For instance, rather than "Generate more customer service responses," try:
-    "Generate 5 additional professional customer service responses that address the customer's concern about shipping delays, use a sympathetic tone, offer specific solutions, and keep responses between 50-75 words."
-    </Step>
-    <Step title="Check Your Results">
-        <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-5-results.png" alt="GIF of waiting for the data augmentation to complete" />
-        You see the amount of that were generated.
-        <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-5-results.gif" alt="GIF of waiting for the data augmentation to complete" />
-        Comb through the results and get ready for the next step.
-    </Step>
+    ### Writing Effective Instructions
+    For best results, consider:
+    1. Be specific about output format and structure.
+    2. Provide examples of desired outputs.
+    3. Define acceptable boundaries and tone.
+    4. Include domain-specific terminology.
+    5. State the purpose of augmentation clearly.
+    6. Indicate diversity needs (e.g., vary sentence structure).
+    7. Set limits on length, complexity, or style.
+    8. Explain how to handle edge cases.
+
+    **Example**
+    Instead of:
+    > "Generate more customer service responses"
+    Try:
+    > "Generate professional customer service responses about shipping delays, using a sympathetic tone, offering specific solutions, and keeping responses 50–75 words long."
+
+    For deeper use cases, refer to the [Enrichment Guide](/guides/datasets/enrichment).
+  </Step>
+
+  <Step title="Step 4: Review Results">
+    Once enrichment is complete, review the new datapoints that were generated.
+
+    <img src="https://static.premai.io/prem-saas-docs/datasets/enrich-dataset/step-5-results.gif" alt="GIF of reviewing enrichment results" />
+
+    Make sure the outputs meet your expectations before moving on.
+  </Step>
 </Steps>
 
-
 # Next Steps
-
-Now that you have a larger dataset, you can use it to train your model.
+Now that your dataset is larger and more diverse, you can use it to train or prepare your model further.
 
 <CardGroup cols={2}>
-    <Card title="Create A Snapshot" icon="camera" href="/datasets/create-snapshot">
-        Create a snapshot of your dataset to save your current state.
-    </Card>
-    <Card title="Autosplit A Dataset" icon="split" href="/datasets/autosplit-dataset">
-       Automatically split your dataset into training, validation, and test sets.
-    </Card>
+  <Card title="Create a Snapshot" icon="camera" href="/datasets/create-snapshot">
+    Save the current version of your dataset as a snapshot.
+  </Card>
+  <Card title="Autosplit a Dataset" icon="split" href="/datasets/autosplit-dataset">
+    Automatically split your dataset into training, validation, and test sets.
+  </Card>
 </CardGroup>
