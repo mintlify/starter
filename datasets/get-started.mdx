@@ -1,83 +1,76 @@
 ---
 title: Get Started With Datasets
-description: Learn how to create, manage, and use datasets in Prem.
+description: Learn how to upload, generate, manage, and use datasets in Prem.
 ---
 
 # Creating a Dataset
+In Prem, you can build datasets in two ways:
+- **Upload an existing dataset** in `JSONL` format.
+- **Generate synthetic datasets** directly from different input sources such as files, YouTube videos, websites, or a mix of sources.
 
+## Uploading a Dataset
 <Steps>
-    <Step title="Click + Create To Create a Dataset">
+  <Step title="Create a Dataset">
+      Click the **+ Create Dataset** button in the top-right corner of the page.
+
     <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/step-0-createDataset.gif" alt="GIF of clicking the create a dataset button" />
+  </Step>
 
-     To create a dataset, click the **+ Create Dataset** button in the top right corner of the page.
+  <Step title="Upload a File">
 
-     you have some options here:
-     - Upload a JSONL file with conversation datapoints
-     - Generate synthetic data from text and pdf files
+    - Enter a name for your dataset.
+    - Upload your `JSONL` file.
+    - Click **Confirm** to create the dataset.
 
-    </Step>
-    <Step title="Upload a File">
     <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/step-2-upload-dataset.gif" alt="GIF of uploading a file" />
-       - Choose a name for your dataset.
-       - Write a system prompt for your dataset.
-       - Upload a `JSONL` file.
-       - Click **Confirm** to create the dataset.
-        <Tip>
-             Refer to our [Datasets](/datasets/overview) documentation for more information on the `JSONL` file format.
-        </Tip>
-
-        <Note>
-            When you upload a `JSONL` file, Prem will automatically create a system prompt for you that you can edit.
-       </Note>
-
-    </Step>
-
+    <Tip>
+      Refer to our [Datasets](/datasets/overview) documentation for more information on the `JSONL` file format.
+    </Tip>
+  </Step>
 </Steps>
 
-## Upload with Synthetic Data Generation
+## Generate a Dataset with Synthetic Data Generation
+Synthetic data generation lets you create datasets from various input sources beyond JSONL. You can import documents, scrape websites, process YouTube videos, or combine multiple sources into one dataset.
 
-You may have unstructured data stored in different file types that are not in the `JSONL` format. This is where our synthetic data generation comes in. You can upload these files to Prem and generate synthetic data based on your files.
+<Steps>
+  <Step title="Step 1: Define Dataset and Sources">
+    - Enter a descriptive dataset name.
+    - Choose one or more data sources:
+      - **Files Only**: PDF, DOCX, TXT, HTML, PPTX
+      - **YouTube Videos**: individual videos or playlists
+      - **Web Scraping**: one or more website URLs
+      - **Mixed Sources**: combine multiple input types
+    - Set the number of QA pairs to generate from each source.
 
+    <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/synthetic-gen/step-1-input-sources.gif" alt="Synthetic Dataset Generation - Input sources selection" />
+  </Step>
 
+  <Step title="Step 2: Set Optional Guidance (Optional)">
+    Get control of the generation process by setting additional parameters:
+    - **Rules & Constraints** – add conditions for the generated content (e.g., enforce style, define tone, restrict scope).
+    - **QA Guidance** – provide example pairs or specify output formats.
+    - **Creativity Level** – adjust the model’s temperature to balance consistency vs. variety.
 
-    You can import the following files:
-    - PDF files
-    - TXT files
-    - DOC files
-    - DOCX files
-    - HTML files
-    - PPT files
+    <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/synthetic-gen/step-2-advanced-settings.gif" alt="Synthetic Dataset Generation - Define advanced settings" />
+  </Step>
 
-    <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/synthetic gen/upload-file.gif" alt="GIF of uploading a file with synthetic data generation" />
-    <Steps>
-        <Step title="Choose a name for your dataset">
-            Enter a descriptive name for your dataset that will help you identify it later.
-        </Step>
-        <Step title="Write a system prompt for your dataset">
-            Create a system prompt that will guide the synthetic data generation process.
-        </Step>
-        <Step title="Upload your file">
-            Upload your file (PDF, TXT, DOC, DOCX, HTML, or PPT) that will be used to generate synthetic data.
-        </Step>
-        <Step title="Click Confirm">
-            Review your settings and click **Confirm** to start the synthetic data generation process.
-        </Step>
-    </Steps>
+  <Step title="Step 3: Review and Create Dataset">
+    Review a recap of your settings from the previous steps.
+    Click **Create Dataset** to start the generation process.
+
+    <img src="https://static.premai.io/prem-saas-docs/datasets/get-started/synthetic-gen/step-3-summary.png" alt="Synthetic Dataset Generation - Summary" />
+  </Step>
+</Steps>
 
 ### Options for Synthetic Data Generation
+When generating synthetic datasets, you can configure:
+- **Data Sources** – files, YouTube videos, websites, or a mix.
+- **Synthetic Pairs Configuration** – number of QA pairs per input.
+- **Rules & Constraints** – optional rules to shape the outputs.
+- **QA Guidance** – add examples or output specifications.
+- **Creativity Level** – control the randomness of the generation.
 
-### Types of Pairs to Generate
-QA: Generate question-answer pairs from your content. You can create multiple pairs per file.
-
-Summary: Generate one summary per file. The number of synthetic pairs equals the number of files uploaded.
-
-### New Pairs to Generate
-
-For QA pairs, you can generate multiple question-answer pairs per file. The minimum is set to the number of files uploaded, and you can increase it in increments based on your file count.
-
-### User Instructions (optional)
-
-You can add user instructions to the synthetic data generation process. This will be added to the system prompt for each pair.
+For deeper explanations and advanced usage, see our user guide on how to [Generate Dataset from Text Files](/guides/datasets/synthetic-data).
 
 ---
 
