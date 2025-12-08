@@ -1,0 +1,77 @@
+---
+title: 'sendBundle'
+description: 'Atomic bundle submission of multiple signed transactions executed in sequence. All transactions fail if any single transaction fails.'
+---
+
+<Warning>
+  By default, API Keys do not have `sendBundle` enabled. Please contact customer service to enable this feature for your API key.
+</Warning>
+
+<Note>
+  **Strong Atomicity:** All transactions in the bundle are executed atomically in sequence. If any transaction in the bundle fails, the entire bundle will be rejected and no transactions will be processed.
+</Note>
+
+## Request
+
+### Endpoint:
+<Badge color="green">POST</Badge> `/`
+
+### JSON-RPC Parameters:
+
+<ParamField path="params[0]" type="array" required>
+  Array of fully signed transactions, Base64 encoded strings. **Maximum 5 transactions per bundle.**
+</ParamField>
+
+<ParamField path="params[1]" type="object" required>
+  Encoding configuration object
+
+  <Expandable title="params[1] properties" defaultOpen>
+    <ParamField path="encoding" type="string" required>
+      Transaction encoding format, must be `base64`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## JSON-RPC Response Result
+
+<ResponseField name="result" type="string" required>
+  Bundle ID used to identify this bundle. This is the SHA-256 hash of the bundle transaction signatures.
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell Request(cURL)
+curl -X POST 'https://ny.rpc.blockrush.io' \
+  -H 'Content-Type: application/json' \
+  -H 'x-api-key: <YOUR_API_KEY>' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "sendBundle",
+    "params": [
+      [
+        "<base64_encoded_tx_001>",
+        "<base64_encoded_tx_002>",
+        "<base64_encoded_tx_003>",
+        "<base64_encoded_tx_004>",
+        "<base64_encoded_tx_005>"
+      ],
+      { "encoding": "base64" }
+    ]
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response (200)
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "<bundle_signature>"
+}
+```
+
+</ResponseExample>

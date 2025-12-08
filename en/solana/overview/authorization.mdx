@@ -1,0 +1,21 @@
+<Note>
+  Most of our service endpoint APIs require an `API key` for authentication. To obtain an `API key`, please [contact us](https://blockrush.io/contact) directly and we'll set you up with the appropriate access credentials.
+</Note>
+
+## Request and Response Format
+
+* Protocol: HTTP/HTTPS
+* Timezone: UTC
+* Response Format: JSON (the health endpoint returns plain text "ok")
+* Header:
+
+```shell
+Content-Type: application/json
+x-api-key: <YOUR_API_KEY>
+```
+
+<Note>
+The health endpoint does not require `x-api-key` header, all other write operation endpoints require it.
+</Note>
+
+

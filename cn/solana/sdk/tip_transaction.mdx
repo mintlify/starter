@@ -1,0 +1,22 @@
+---
+title: '小费交易'
+description: '如何为交易添加小费。'
+---
+import Rust from '/snippets/cn/tip_transaction_rust.mdx';
+import JavaScript from '/snippets/cn/tip_transaction_javascript.mdx';
+
+
+使用我们的 SWQoS，您可以使用默认的优先费用（无需特别设置），使用小费作为优先选项。在构建交易时，您需要向交易中添加一个小费转账指令，以加速交易打包进区块。
+
+示例代码生成的 base64 编码交易数据可以直接通过 SDK 方法调用，例如传递给 `send_transaction`。
+
+
+
+<Tabs>
+  <Tab title="Rust">
+    <Rust />
+  </Tab>
+  <Tab title="JS & TS">
+    <JavaScript />
+  </Tab>
+</Tabs>

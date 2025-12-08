@@ -1,0 +1,35 @@
+---
+title: '健康检查'
+description: '检查当前 API 端点的健康状态。'
+---
+
+## 请求
+
+### 端点：
+<Badge color="green">GET</Badge> <Badge color="green">POST</Badge> `/health`
+
+### 参数：
+
+*无*
+
+## 响应
+
+<ResponseField name="result" type="string" required>
+  固定返回 "OK" 表示端点可用
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell 请求(cURL)
+  curl --request GET \
+    --url http://ny.rpc.blockrush.io/health
+```
+
+</RequestExample>
+
+<ResponseExample>
+```plaintext 响应 (200)
+ok
+```
+</ResponseExample>

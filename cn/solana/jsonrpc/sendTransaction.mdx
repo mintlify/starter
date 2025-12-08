@@ -1,0 +1,63 @@
+---
+title: 'sendTransaction'
+description: '代理 Solana 的 sendTransaction JSON-RPC，直接将单笔已签名交易转发给质押验证者进行处理。'
+---
+
+## 请求
+
+### 端点：
+<Badge color="green">POST</Badge> `/`
+
+### JSON-RPC 参数：
+
+<ParamField path="params[0]" type="string" required>
+  完全签名的交易，Base64 编码字符串
+</ParamField>
+
+<ParamField path="params[1]" type="object" required>
+  编码配置对象
+
+   <Expandable title="params[1] 属性" defaultOpen>
+    <ParamField path="encoding" type="string" required>
+      交易编码格式，必须为 `base64`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## JSON-RPC 响应结果
+
+<ResponseField name="result" type="string" required>
+  交易签名。结果格式与 [Solana RPC 文档](https://solana.com/docs/rpc/http/sendtransaction)一致
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell 请求(cURL)
+curl -X POST 'https://ny.rpc.blockrush.io' \
+  -H 'Content-Type: application/json' \
+  -H 'x-api-key: <YOUR_API_KEY>' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "sendTransaction",
+    "params": [
+      "<base64_encoded_tx>",
+      { "encoding": "base64" }
+    ]
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 响应 (200)
+{
+  "jsonrpc": "2.0",
+  "result": "<tx_signature>",
+  "id": 1
+}
+```
+
+</ResponseExample>

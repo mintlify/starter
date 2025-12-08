@@ -1,0 +1,45 @@
+| Endpoint Name    | Method  | Description                                        |
+|------------------|---------|---------------------------------------------------|
+| sendTransaction  | POST    | Native Solana JSON-RPC sendTransaction method     |
+| submitBatch      | POST    | Non-atomic batch submission of multiple signed transactions (each transaction processed independently) |
+| sendBundle       | POST    | Atomic bundle submission of multiple signed transactions (all fail if any transaction fails) |
+
+## Request Body
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "<method_name>",
+  "params": [
+    "<param1>",
+    "<param2>",
+    ...
+  ]
+}
+```
+
+## Response Body
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": "...",
+  "id": 1
+}
+```
+
+
+## API Comparison and Recommendations
+
+| Requirement                       | Recommended Endpoint         | Description                          |
+|----------------------------|------------------|-------------------------------|
+| Single transaction direct send               | sendTransaction  | Simplest path, returns transaction signature        |
+| Multiple transactions, high throughput, mutually independent  | submitBatch      | Non-atomic, failure of one does not affect others         |
+| Multiple transactions, require strong consistency        | sendBundle       | All fail if any fails            |
+| Health check and operations             | health           | Returns ok                       |
+
+## Best Practices
+
+* Choose the geographically closest endpoint to reduce latency
+* For batch submissions, balance between atomicity (sendBundle) and throughput (submitBatch) according to requirements

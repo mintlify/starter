@@ -1,0 +1,24 @@
+---
+title: 'Transaction Fees & Tips'
+---
+import TipAddresses from '/snippets/tip_addresses.mdx';
+
+## Tips
+
+When constructing transactions, you need to add a tip transfer instruction to one of the official BlockRush tipping addresses into the transaction for speeding up inclusion in blocks.
+
+Here is our official tipping addresses:
+
+<TipAddresses />
+
+* The **minimum required tip** is based on [your plan](./ratelimits).
+* **Higher tip amounts may improve your transaction's inclusion speed.**
+
+## Priority Fee
+
+Priority fees on Solana are additional fees that users can pay to validators to prioritize their transactions during network congestion. These fees help ensure faster transaction processing when the network is experiencing high demand.
+
+When using BlockRush's SWQoS (Solana Write Quality of Service) along with tips, you can maintain the standard base-level priority fee without artificially inflating it. Our service architecture is designed to optimize transaction routing and inclusion, meaning that the combination of our SWQoS infrastructure and tip payments already provides the necessary incentives for timely transaction processing. 
+
+In practice, this means you don't need to compete by setting unusually high priority fees—the base priority fee is sufficient when leveraging our optimized service with appropriate tip payments.
+

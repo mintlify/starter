@@ -1,0 +1,28 @@
+```javascript
+const ixs = {your instructions ixs};
+const keypair = {your_actual_keypair};
+const TIP_AMOUNT = 1_000_000; // 0.001 SOL;
+const BLOCKRUSH_TIP = new PublicKey("AhMVT9KWLGjBbzvdqQkTt4vHwpawnGNoGSqaqXYftNDR");
+
+// 添加小费支付指令
+ixs.push(
+    SystemProgram.transfer({
+        fromPubkey: keypair.publicKey,
+        toPubkey: BLOCKRUSH_TIP,
+        lamports: TIP_AMOUNT,
+    }),
+);
+
+// 编译并签名交易指令
+const messageV0 = new TransactionMessage({
+    payerKey: keypair.publicKey,
+    recentBlockhash: latestBlockhash.blockhash,
+    instructions: ixs,
+}).compileToV0Message();
+const transaction = new VersionedTransaction(messageV0);
+transaction.sign([keypair]);
+
+// 获取完全签名交易的 Base64 编码字符串
+const transactionRaw = Buffer.from(transaction.serialize()).toString('base64');
+```
+

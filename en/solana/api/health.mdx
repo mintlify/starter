@@ -1,0 +1,35 @@
+---
+title: 'Health'
+description: 'Check the health status of the current API endpoint.'
+---
+
+## Request
+
+### Endpoint:
+<Badge color="green">GET</Badge> <Badge color="green">POST</Badge> `/health`
+
+### Parameters:
+
+*None*
+
+## Response
+
+<ResponseField name="result" type="string" required>
+  Fixed as "OK" to indicate the endpoint is available
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell Request(cURL)
+  curl --request GET \
+    --url http://ny.rpc.blockrush.io/health
+```
+
+</RequestExample>
+
+<ResponseExample>
+```plaintext Response (200)
+ok
+```
+</ResponseExample>

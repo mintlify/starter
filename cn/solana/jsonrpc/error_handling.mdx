@@ -1,0 +1,41 @@
+---
+title: '错误处理'
+---
+
+错误响应通常包含错误描述和可选的错误代码。建议记录请求 ID/错误信息以便排查问题。
+
+## 成功情况：
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": "3TEjEHSHPfNp5frqxVW...",
+  "id": 1
+}
+```
+
+## 失败情况：
+
+API 密钥无效或缺失
+```json
+{
+  "jsonrpc": "2.0",
+  "error":  { "code": -32602, message: "Invalid API Key. ", data: null },
+  "id": 1
+}
+```
+
+方法错误：
+
+```json
+{
+  "jsonrpc": "2.0",
+  "error":  { "code": -32601, message: "Method no found.", data: null },
+  "id": 1
+}
+```
+
+## 速率限制
+
+HTTP 状态码返回 429。
+

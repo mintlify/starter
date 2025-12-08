@@ -1,0 +1,25 @@
+---
+title: '授权认证'
+---
+
+<Note>
+  我们的大部分服务端点 API 需要 `API 密钥` 进行身份验证。要获取 `API 密钥`，请直接[联系我们](https://blockrush.io/contact)，我们将为您设置相应的访问凭证。
+</Note>
+
+## 请求和响应格式
+
+* 协议：HTTP/HTTPS
+* 时区：UTC
+* 响应格式：JSON（健康检查端点返回纯文本 "ok"）
+* 请求头：
+
+```shell
+Content-Type: application/json
+x-api-key: <YOUR_API_KEY>
+```
+
+<Note>
+健康检查端点不需要 `x-api-key` 请求头，其他所有写操作端点都需要。
+</Note>
+
+

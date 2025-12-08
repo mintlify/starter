@@ -1,0 +1,77 @@
+---
+title: 'sendBundle'
+description: '原子捆绑提交多笔已签名交易并按顺序执行。任一交易失败则全部交易失败。'
+---
+
+<Warning>
+  默认情况下，API 密钥未启用 `sendBundle` 功能。请联系客服为您的 API 密钥启用此功能。
+</Warning>
+
+<Note>
+  **强原子性：** 捆绑中的所有交易都将按顺序原子性执行。如果捆绑中的任何一笔交易失败，整个捆绑将被拒绝，不会处理任何交易。
+</Note>
+
+## 请求
+
+### 端点：
+<Badge color="green">POST</Badge> `/`
+
+### JSON-RPC 参数：
+
+<ParamField path="params[0]" type="array" required>
+  完全签名的交易数组，Base64 编码字符串。**每个捆绑最多 5 笔交易。**
+</ParamField>
+
+<ParamField path="params[1]" type="object" required>
+  编码配置对象
+
+  <Expandable title="params[1] 属性" defaultOpen>
+    <ParamField path="encoding" type="string" required>
+      交易编码格式，必须为 `base64`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## JSON-RPC 响应结果
+
+<ResponseField name="result" type="string" required>
+  用于标识此捆绑的捆绑 ID。这是捆绑交易签名的 SHA-256 哈希值。
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell 请求(cURL)
+curl -X POST 'https://ny.rpc.blockrush.io' \
+  -H 'Content-Type: application/json' \
+  -H 'x-api-key: <YOUR_API_KEY>' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "sendBundle",
+    "params": [
+      [
+        "<base64_encoded_tx_001>",
+        "<base64_encoded_tx_002>",
+        "<base64_encoded_tx_003>",
+        "<base64_encoded_tx_004>",
+        "<base64_encoded_tx_005>"
+      ],
+      { "encoding": "base64" }
+    ]
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 响应 (200)
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "<bundle_signature>"
+}
+```
+
+</ResponseExample>

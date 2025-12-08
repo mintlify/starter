@@ -1,0 +1,84 @@
+---
+title: 'submitBatch'
+description: '非原子批量提交多笔已签名交易。每笔交易独立处理，一笔失败不影响其他交易。'
+---
+
+<Note>
+  **非原子性：** 批次中的每笔交易都是独立确认和执行的。如果一笔交易失败，不会影响批次中其他交易的处理。
+</Note>
+
+## 请求
+
+### 端点：
+<Badge color="green">POST</Badge> `/submit-batch`
+
+### JSON-RPC 参数：
+
+<ParamField path="transactions" type="array" required>
+  完全签名的交易数组，Base64 编码字符串。**每批最多 5 笔交易。**
+</ParamField>
+
+<ParamField path="options" type="array" required>
+  为将来使用保留的字段。当前必须为空数组 `[]`
+</ParamField>
+
+## JSON-RPC 响应结果
+
+<ResponseField name="code" type="number" required>
+  响应状态码。`1` 表示成功
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  响应消息。成功提交时返回 `"success"`
+</ResponseField>
+
+<ResponseField name="signatures" type="array" required>
+  与提交的交易对应的交易签名数组，顺序一致
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell 请求(cURL)
+curl -X POST 'https://ny.rpc.blockrush.io/submit-batch' \
+  -H 'Content-Type: application/json' \
+  -H 'x-api-key: <YOUR_API_KEY>' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "params": {
+      "options": [],
+      "transactions": [
+        "<base64_encoded_tx_001>",
+        "<base64_encoded_tx_002>",
+        "<base64_encoded_tx_003>",
+        "<base64_encoded_tx_004>",
+        "<base64_encoded_tx_005>"
+      ]
+    }
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 响应 (200)
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "code": 1,
+    "message": "success",
+    "signatures": [
+      "<tx_001_signature>",
+      "<tx_002_signature>",
+      "<tx_003_signature>",
+      "<tx_004_signature>",
+      "<tx_005_signature>"
+    ]
+  }
+}
+```
+
+</ResponseExample>

@@ -1,68 +1,107 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "BlockRush Document",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#EB4BC2",
+    "light": "#eea4fb",
+    "dark": "#ba22a8"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Guides",
-        "groups": [
+        "language": "en",
+        "href": "/en/index",
+        "default": true,
+        "pages": [
+          "en/index",
           {
-            "group": "Getting started",
+            "group": "SOLANA",
+            "icon": "link",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              {
+                "group": "Overview",
+                "pages": [
+                  "en/solana/overview/introduction",
+                  "en/solana/overview/regions",
+                  "en/solana/overview/authorization",
+                  "en/solana/overview/ratelimits",
+                  "en/solana/overview/fees"
+                ]
+              },
+              {
+                "group": "API Reference",
+                "pages": [
+                  "en/solana/api/overview",
+                  "en/solana/api/health"
+                ]
+              },
+              {
+                "group": "JSON-RPC Reference",
+                "pages": [
+                  "en/solana/jsonrpc/overview",
+                  "en/solana/jsonrpc/error_handling",
+                  "en/solana/jsonrpc/sendTransaction",
+                  "en/solana/jsonrpc/submitBatch",
+                  "en/solana/jsonrpc/sendBundle"
+                ]
+              },
+              {
+                "group": "SDK",
+                "pages": [
+                  "en/solana/sdk/quickstart",
+                  "en/solana/sdk/tip_transaction"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
+        "language": "cn",
+        "href": "/cn/index",
+        "default": false,
+        "pages": [
+          "cn/index",
           {
-            "group": "API documentation",
+            "group": "SOLANA",
+            "icon": "link",
             "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              {
+                "group": "总览",
+                "pages": [
+                  "cn/solana/overview/introduction",
+                  "cn/solana/overview/regions",
+                  "cn/solana/overview/authorization",
+                  "cn/solana/overview/ratelimits",
+                  "cn/solana/overview/fees"
+                ]
+              },
+              {
+                "group": "API 参考",
+                "pages": [
+                  "cn/solana/api/overview",
+                  "cn/solana/api/health"
+                ]
+              },
+              {
+                "group": "JSON-RPC 参考",
+                "pages": [
+                  "cn/solana/jsonrpc/overview",
+                  "cn/solana/jsonrpc/error_handling",
+                  "cn/solana/jsonrpc/sendTransaction",
+                  "cn/solana/jsonrpc/submitBatch",
+                  "cn/solana/jsonrpc/sendBundle"
+                ]
+              },
+              {
+                "group": "SDK",
+                "pages": [
+                  "cn/solana/sdk/quickstart",
+                  "cn/solana/sdk/tip_transaction"
+                ]
+              }
             ]
           }
         ]
@@ -71,14 +110,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Official Website",
+          "href": "https://blockrush.io",
+          "icon": "earth"
         }
       ]
     }
@@ -90,14 +124,14 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Contact",
+        "href": "https://blockrush.io/contact"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Benchmark",
+      "href": "https://blockrush.io/benchmark/v1.html"
     }
   },
   "contextual": {
@@ -114,9 +148,9 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "website": "https://blockrush.io",
+      "x": "https://x.com/BlockRush_io",
+      "telegram": "https://t.me/+mXxIaRJqmrQ2NDMx"
     }
   }
 }

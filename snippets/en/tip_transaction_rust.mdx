@@ -1,0 +1,29 @@
+```rust
+pub const MEMO_PROGRAM_ID: &str = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr";
+pub const BLOCKRUSH_TIP_WALLET: &str = "AhMVT9KWLGjBbzvdqQkTt4vHwpawnGNoGSqaqXYftNDR";
+pub const DEFAULT_TIP_AMOUNT: u64 = 1_000_000; // 0.001 SOL
+
+pub fn create_blockrush_tip_ix(pubkey: Pubkey, tip_amount:u64) -> Instruction {
+    let tip_ix =
+        instruction::transfer(
+            &pubkey,
+            &Pubkey::from_str(BLOCKRUSH_TIP_WALLET).unwrap(),
+            tip_amount,
+        );
+    tip_ix
+}
+
+fn create_memo_tx_with_tip(msg: &[u8], payer: &Keypair, blockhash: Hash) -> Transaction {
+    let memo = Pubkey::from_str(MEMO_PROGRAM_ID).unwrap();
+    let instruction = Instruction::new_with_bytes(memo, msg, vec![]);
+    let mut instructions = vec![instruction];
+    let tip_ix = create_blockrush_tip_ix(payer.pubkey(), TIP_AMOUNT);
+    instructions.push(tip_ix);
+    let message = Message::new(&instructions, Some(&payer.pubkey()));
+    Transaction::new(&[payer], message, blockhash)
+}
+
+let test_tx = create_memo_tx_with_tip(b"this is a demo tx", &keypair, latest_hash);
+let serialized_test_tx = bincode::serialize(&test_tx)?;
+let base64_test_tx = BASE64_STANDARD.encode(&serialized_test_tx);
+```

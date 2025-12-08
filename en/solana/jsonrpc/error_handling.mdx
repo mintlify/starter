@@ -1,0 +1,41 @@
+---
+title: 'Error Handling'
+---
+
+Error responses typically include error descriptions and optional error codes. It is recommended to record request ID/error information for troubleshooting.
+
+## Success Case:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": "3TEjEHSHPfNp5frqxVW...",
+  "id": 1
+}
+```
+
+## Failure Cases:
+
+API key invalid or missing
+```json
+{
+  "jsonrpc": "2.0",
+  "error":  { "code": -32602, message: "Invalid API Key. ", data: null },
+  "id": 1
+}
+```
+
+Method Error:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "error":  { "code": -32601, message: "Method no found.", data: null },
+  "id": 1
+}
+```
+
+## Rate Limits
+
+HTTP code returns 429.
+

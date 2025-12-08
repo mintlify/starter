@@ -1,0 +1,63 @@
+---
+title: 'sendTransaction'
+description: Proxy Solana's sendTransaction JSON-RPC, directly forwarding a single signed transaction to Staked Validator for processing.
+---
+
+## Request
+
+### Endpoint:
+<Badge color="green">POST</Badge> `/`
+
+### JSON-RPC Parameters:
+
+<ParamField path="params[0]" type="string" required>
+  Fully signed transaction, Base64 encoded string
+</ParamField>
+
+<ParamField path="params[1]" type="object" required>
+  Encoding configuration object
+
+   <Expandable title="params[1] properties" defaultOpen>
+    <ParamField path="encoding" type="string" required>
+      Transaction encoding format, must be `base64`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## JSON-RPC Response Result
+
+<ResponseField name="result" type="string" required>
+  Transaction signature. The result format matches the [Solana RPC documentation](https://solana.com/docs/rpc/http/sendtransaction)
+</ResponseField>
+
+
+<RequestExample dropdown>
+
+```shell Request(cURL)
+curl -X POST 'https://ny.rpc.blockrush.io' \
+  -H 'Content-Type: application/json' \
+  -H 'x-api-key: <YOUR_API_KEY>' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "sendTransaction",
+    "params": [
+      "<base64_encoded_tx>",
+      { "encoding": "base64" }
+    ]
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response (200)
+{
+  "jsonrpc": "2.0",
+  "result": "<tx_signature>",
+  "id": 1
+}
+```
+
+</ResponseExample>

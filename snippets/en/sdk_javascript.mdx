@@ -1,0 +1,41 @@
+Explore BlockRush JavaScript/TypeScript JSON-RPC SDK, a high-performance library designed for Node.js and browser environments to interact with BlockRush infrastructure on Solana.
+
+## Download
+
+* [blockrush-nodejs-sdk-0.0.2.tgz](https://zero402-public.s3.ap-southeast-1.amazonaws.com/static/sdk/blockrush-nodejs-sdk-0.0.2.tgz)
+
+## Environment
+
+Node.js 20+, modern browsers (supporting fetch/AbortController)
+
+## Security Recommendations
+
+Do not hardcode production API Keys in the browser. Use backend-issued short-term tokens or proxy forwarding for client-side applications.
+
+## Quick Start
+
+```javascript
+import { BlockrushSDK, Region } from "@blockrush/sdk";
+
+// Initialize SDK with your API key and preferred region
+const sdk = new BlockrushSDK({
+  region: Region.JP,
+  api_key: "YOUR_API_KEY", // Use environment variables in production
+});
+
+// Example: Send a single transaction
+const res = await sdk.send_transaction(
+  "Base64 string of fully signed transaction"
+);
+console.log(res);
+
+// Example: Submit batch transactions
+const res2 = await sdk.submit_batch([
+  "Base64 string of fully signed transaction 1",
+  "Base64 string of fully signed transaction 2",
+]);
+console.log(res2);
+
+// Clean up resources when done
+sdk.destroy();
+```

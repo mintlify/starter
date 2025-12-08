@@ -1,0 +1,27 @@
+```javascript
+const ixs = {your instructions ixs};
+const keypair = {your_actual_keypair};
+const TIP_AMOUNT = 1_000_000; // 0.001 SOL;
+const BLOCKRUSH_TIP = new PublicKey("AhMVT9KWLGjBbzvdqQkTt4vHwpawnGNoGSqaqXYftNDR");
+
+// Append Tip payment instruction
+ixs.push(
+    SystemProgram.transfer({
+        fromPubkey: keypair.publicKey,
+        toPubkey: BLOCKRUSH_TIP,
+        lamports: TIP_AMOUNT,
+    }),
+);
+
+// Compile and sign transaction instructions
+const messageV0 = new TransactionMessage({
+    payerKey: keypair.publicKey,
+    recentBlockhash: latestBlockhash.blockhash,
+    instructions: ixs,
+}).compileToV0Message();
+const transaction = new VersionedTransaction(messageV0);
+transaction.sign([keypair]);
+
+// Get Base64 encoded string of fully signed transaction
+const transactionRaw = Buffer.from(transaction.serialize()).toString('base64');
+```

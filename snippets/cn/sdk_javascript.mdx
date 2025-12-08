@@ -1,0 +1,42 @@
+探索 BlockRush JavaScript/TypeScript JSON-RPC SDK，这是一个为 Node.js 和浏览器环境设计的高性能库，用于与 Solana 上的 BlockRush 基础设施进行交互。
+
+## 下载
+
+* [blockrush-nodejs-sdk-0.0.2.tgz](https://zero402-public.s3.ap-southeast-1.amazonaws.com/static/sdk/blockrush-nodejs-sdk-0.0.2.tgz)
+
+## 环境要求
+
+Node.js 20+，现代浏览器（支持 fetch/AbortController）
+
+## 安全建议
+
+不要在浏览器中硬编码生产环境的 API 密钥。对于客户端应用，使用后端签发的短期令牌或代理转发。
+
+## 快速开始
+
+```javascript
+import { BlockrushSDK, Region } from "@blockrush/sdk";
+
+// 使用您的 API 密钥和首选区域初始化 SDK
+const sdk = new BlockrushSDK({
+  region: Region.JP,
+  api_key: "YOUR_API_KEY", // 在生产环境中使用环境变量
+});
+
+// 示例：发送单笔交易
+const res = await sdk.send_transaction(
+  "完全签名交易的 Base64 字符串"
+);
+console.log(res);
+
+// 示例：提交批量交易
+const res2 = await sdk.submit_batch([
+  "完全签名交易 1 的 Base64 字符串",
+  "完全签名交易 2 的 Base64 字符串",
+]);
+console.log(res2);
+
+// 完成后清理资源
+sdk.destroy();
+```
+

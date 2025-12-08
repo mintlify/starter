@@ -1,0 +1,42 @@
+探索 BlockRush Rust JSON-RPC，这是一个高性能 SDK，旨在利用 Rust 的强大功能与 Solana 上的 BlockRush 基础设施进行交互。
+
+## 下载
+
+* [blockrush-sdk-0.1.0.crate](https://zero402-public.s3.ap-southeast-1.amazonaws.com/static/sdk/blockrush-sdk-0.1.0.crate)
+
+## 环境要求
+
+Rust 1.75+, Tokio 异步运行时
+
+## 功能建议
+在生产环境中启用 rustls 或 native-tls，使用连接池和超时控制
+
+## 依赖和导入
+
+```toml
+[dependencies]  
+blockrush-sdk = { path = "path/to/blockrush-sdk-0.1.0.crate" }  
+tokio = { version = "1", features = ["full"] }  
+serde = { version = "1", features = ["derive"] }  
+serde_json = "1"  
+```
+
+## 快速开始
+
+```rust
+#[tokio::test]  
+async fn test_blockrush_sdk() {  
+    let sdk = BlockrushSdk::new(Region::JP, "xxxxxx").await.unwrap();  
+    assert_eq!(sdk.region(), Region::JP);  
+
+    let tx_data = "ASN=".to_string();  
+
+    let resp: SdkResponse<serde_json::Value> = sdk.send_transaction(tx_data).await.unwrap();  
+    println!("{:?}", resp.body);  
+
+    let resp2: SdkResponse<serde_json::Value> = sdk.submit_batch(&vec!["ASN=".to_string()]).await.unwrap();  
+    println!("{:?}", resp2.body);  
+}
+```
+
+
