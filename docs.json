@@ -31,6 +31,26 @@
                 ]
               },
               {
+                "group": "SDK",
+                "pages": [
+                  "en/solana/sdk/overview",
+                  {
+                    "group": "JS & TS",
+                    "pages": [
+                      "en/solana/sdk/js/quickstart",
+                      "en/solana/sdk/js/tip_transaction"
+                    ]
+                  },
+                  {
+                    "group": "Rust",
+                    "pages": [
+                      "en/solana/sdk/rust/quickstart",
+                      "en/solana/sdk/rust/tip_transaction"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "API Reference",
                 "pages": [
                   "en/solana/api/overview",
@@ -69,6 +89,26 @@
                   "cn/solana/overview/authorization",
                   "cn/solana/overview/ratelimits",
                   "cn/solana/overview/fees"
+                ]
+              },
+              {
+                "group": "SDK",
+                "pages": [
+                  "cn/solana/sdk/overview",
+                  {
+                    "group": "JS & TS",
+                    "pages": [
+                      "cn/solana/sdk/js/quickstart",
+                      "cn/solana/sdk/js/tip_transaction"
+                    ]
+                  },
+                  {
+                    "group": "Rust",
+                    "pages": [
+                      "cn/solana/sdk/rust/quickstart",
+                      "cn/solana/sdk/rust/tip_transaction"
+                    ]
+                  }
                 ]
               },
               {
