@@ -33,21 +33,7 @@
               {
                 "group": "SDK",
                 "pages": [
-                  "en/solana/sdk/overview",
-                  {
-                    "group": "JS & TS",
-                    "pages": [
-                      "en/solana/sdk/js/quickstart",
-                      "en/solana/sdk/js/tip_transaction"
-                    ]
-                  },
-                  {
-                    "group": "Rust",
-                    "pages": [
-                      "en/solana/sdk/rust/quickstart",
-                      "en/solana/sdk/rust/tip_transaction"
-                    ]
-                  }
+                  "en/solana/sdk/overview"
                 ]
               },
               {
@@ -94,21 +80,7 @@
               {
                 "group": "SDK",
                 "pages": [
-                  "cn/solana/sdk/overview",
-                  {
-                    "group": "JS & TS",
-                    "pages": [
-                      "cn/solana/sdk/js/quickstart",
-                      "cn/solana/sdk/js/tip_transaction"
-                    ]
-                  },
-                  {
-                    "group": "Rust",
-                    "pages": [
-                      "cn/solana/sdk/rust/quickstart",
-                      "cn/solana/sdk/rust/tip_transaction"
-                    ]
-                  }
+                  "cn/solana/sdk/overview"
                 ]
               },
               {
