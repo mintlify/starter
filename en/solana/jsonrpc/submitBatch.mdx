@@ -22,7 +22,11 @@ description: 'Non-atomic batch submission of multiple signed transactions. Each 
   Reserved field for future use. Currently must be an empty array `[]`
 </ParamField>
 
-## JSON-RPC Response Result
+## Response Result
+
+<Note>
+  **Response body format hint:** Response body format hint: This request is not a standard JSON-RPC response, and its response does not include standard JSON-RPC response wrapping.
+</Note>
 
 <ResponseField name="code" type="number" required>
   Response status code. `1` indicates success
@@ -65,19 +69,15 @@ curl -X POST 'https://ny.rpc.blockrush.io/submit-batch' \
 
 ```json Response (200)
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "result": {
-    "code": 1,
-    "message": "success",
-    "signatures": [
-      "<tx_001_signature>",
-      "<tx_002_signature>",
-      "<tx_003_signature>",
-      "<tx_004_signature>",
-      "<tx_005_signature>"
-    ]
-  }
+  "code": 1,
+  "message": "success"
+  "signatures": [
+    "<tx_001_signature>",
+    "<tx_002_signature>",
+    "<tx_003_signature>",
+    "<tx_004_signature>",
+    "<tx_005_signature>"
+  ]
 }
 ```
 

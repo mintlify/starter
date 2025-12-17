@@ -31,6 +31,26 @@
                 ]
               },
               {
+                "group": "SDK",
+                "pages": [
+                  "en/solana/sdk/overview",
+                  {
+                    "group": "JS & TS",
+                    "pages": [
+                      "en/solana/sdk/js/quickstart",
+                      "en/solana/sdk/js/tip_transaction"
+                    ]
+                  },
+                  {
+                    "group": "Rust",
+                    "pages": [
+                      "en/solana/sdk/rust/quickstart",
+                      "en/solana/sdk/rust/tip_transaction"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "API Reference",
                 "pages": [
                   "en/solana/api/overview",
@@ -45,13 +65,6 @@
                   "en/solana/jsonrpc/sendTransaction",
                   "en/solana/jsonrpc/submitBatch",
                   "en/solana/jsonrpc/sendBundle"
-                ]
-              },
-              {
-                "group": "SDK",
-                "pages": [
-                  "en/solana/sdk/quickstart",
-                  "en/solana/sdk/tip_transaction"
                 ]
               }
             ]
@@ -79,6 +92,26 @@
                 ]
               },
               {
+                "group": "SDK",
+                "pages": [
+                  "cn/solana/sdk/overview",
+                  {
+                    "group": "JS & TS",
+                    "pages": [
+                      "cn/solana/sdk/js/quickstart",
+                      "cn/solana/sdk/js/tip_transaction"
+                    ]
+                  },
+                  {
+                    "group": "Rust",
+                    "pages": [
+                      "cn/solana/sdk/rust/quickstart",
+                      "cn/solana/sdk/rust/tip_transaction"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "API 参考",
                 "pages": [
                   "cn/solana/api/overview",
@@ -93,13 +126,6 @@
                   "cn/solana/jsonrpc/sendTransaction",
                   "cn/solana/jsonrpc/submitBatch",
                   "cn/solana/jsonrpc/sendBundle"
-                ]
-              },
-              {
-                "group": "SDK",
-                "pages": [
-                  "cn/solana/sdk/quickstart",
-                  "cn/solana/sdk/tip_transaction"
                 ]
               }
             ]
