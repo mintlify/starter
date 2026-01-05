@@ -16,114 +16,21 @@ ClickHouse's columnar architecture, vectorized processing, and cloud-native desi
 make it uniquely suited for analytical workloads that require both speed and scale.
 Broadly, the most common use cases for ClickHouse Cloud are:
 
-<style>
-{`
-  .use-case-cards {
-    display: grid !important;
-    grid-template-columns: repeat(4, 288px);
-    gap: 1rem;
-    justify-content: center;
-    margin: 0 auto;
-  }
-
-  .use-case-cards .fern-card {
-    padding: 0 !important;
-    width: 288px !important;
-    overflow: hidden;
-    margin: 0 !important;
-  }
-
-  .use-case-cards .my-6 {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  .use-case-cards .fern-card > div {
-    padding: 0 !important;
-  }
-  .use-case-cards .fern-card img {
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    display: block !important;
-  }
-  .use-case-cards .fern-card > * {
-    padding: 0 1rem 1rem 1rem;
-  }
-
-  /* Black background for images in light mode */
-  @media (prefers-color-scheme: light) {
-    .use-case-cards .fern-card img {
-      background-color: #000000 !important;
-    }
-  }
-
-  /* Fallback for light mode without media query support */
-  :root:not([data-theme="dark"]) .use-case-cards .fern-card img,
-  html:not(.dark) .use-case-cards .fern-card img {
-    background-color: #000000 !important;
-  }
-
-  /* 2 cards per row on medium screens */
-  @media (max-width: 1440px) {
-    .use-case-cards {
-      grid-template-columns: repeat(2, 288px) !important;
-    }
-    .use-case-cards .fern-card {
-      margin: 0 !important;
-    }
-  }
-
-  /* 1 card per row on small screens */
-  @media (max-width: 768px) {
-    .use-case-cards {
-      grid-template-columns: repeat(1, 288px) !important;
-    }
-    .use-case-cards .fern-card {
-      margin: 0 !important;
-    }
-  }
-`}
-</style>
-
-<div className="use-case-cards">
-    <Card
-        title="Real-time analytics"
-        src="/assets/design-elements/rt-analytics.svg"
-        imagePosition="top"
-        imageWidth="288px"
-        imageHeight="auto"
-    >
-        Deliver instant insights and dashboards at scale.
-        Analyze billions of rows in real time with millisecond results.
-    </Card>
-    <Card
-        title="Observability"
-        src="/assets/design-elements/observability.svg"
-        imagePosition="top"
-        imageWidth="288px"
-        imageHeight="auto"
-    >
-        Store and query logs, metrics and traces at scale using ClickStack,
-        the open source observability stack powered by ClickHouse.
-    </Card>
-    <Card
-        title="Data warehousing"
-        src="/assets/design-elements/data-warehousing.svg"
-        imagePosition="top"
-        imageWidth="288px"
-        imageHeight="auto"
-    >
-        Analyze and explore data instantly for insights and apps.
-        Scale faster by offloading heavy workloads.
-    </Card>
-    <Card
-        title="ML & GenAI"
-        src="/assets/design-elements/machine-learning.svg"
-        imagePosition="top"
-        imageWidth="288px"
-        imageHeight="auto"
-    >
-        Power machine learning and GenAI with blazing-fast vector search,
-        instant aggregations, and scalable training.
-    </Card>
-</div>
+<Columns cols={4}>
+    <Tile href="/cloud/getting-started/use_cases/01_real-time-analytics" title="Real-time analytics">
+        <img src="/images/rt-analytics.svg" className="block dark:hidden" />
+        <img src="/images/rt-analytics.svg" className="hidden dark:block" />
+    </Tile>
+    <Tile href="/cloud/getting-started/use_cases/02_observability" title="Observability">
+        <img src="/images/observability.svg" className="block dark:hidden" />
+        <img src="/images/observability.svg" className="hidden dark:block" />
+    </Tile>
+    <Tile href="/cloud/getting-started/use_cases/03_data_warehousing" title="Data warehousing">
+        <img src="/images/data-warehousing.svg" className="block dark:hidden" />
+        <img src="/images/data-warehousing.svg" className="hidden dark:block" />
+    </Tile>
+    <Tile href="/cloud/getting-started/use_cases/04_machine_learning_and_genAI/01_machine_learning" title="AI & Generative ML">
+        <img src="/images/machine-learning.svg" className="block dark:hidden" />
+        <img src="/images/machine-learning.svg" className="hidden dark:block" />
+    </Tile>
+</Columns>

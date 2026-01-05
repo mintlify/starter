@@ -24,6 +24,584 @@
         ]
       },
       {
+        "product": "Get started",
+        "description": "Quick start guides and core concepts for ClickHouse.",
+        "tabs": [
+          {
+            "tab": "About",
+            "icon": "circle-info",
+            "pages": [
+              "docs/get-started/about/intro",
+              "docs/get-started/about/olap",
+              "docs/get-started/about/why-clickhouse-is-so-fast",
+              "docs/get-started/about/distinctive-features",
+              "docs/get-started/about/deployment-modes"
+            ]
+          },
+          {
+            "tab": "Install",
+            "icon": "server",
+            "pages": [
+              {
+                "group": "Install",
+                "expanded": false,
+                "pages": [
+                  "docs/get-started/oss/install/install",
+                  "docs/get-started/oss/install/debian_ubuntu",
+                  "docs/get-started/oss/install/redhat",
+                  "docs/get-started/oss/install/other_linux",
+                  "docs/get-started/oss/install/macos",
+                  "docs/get-started/oss/install/windows",
+                  "docs/get-started/oss/install/docker",
+                  "docs/get-started/oss/install/quick-install-curl",
+                  "docs/get-started/oss/install/advanced"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Quick starts",
+            "icon": "bolt-lightning",
+            "pages": [
+              "docs/get-started/quick-starts/home",
+              {
+                "group": "Quick starts",
+                "pages": [
+                  "docs/get-started/quick-starts/ingest-data-into-clickhouse",
+                  "docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse",
+                  "docs/get-started/quick-starts/updating-data-with-replacingmergetree"
+                ]
+              },
+              {
+                "group": "Self-managed",
+                "pages": [
+                  "docs/get-started/oss/oss",
+                  "docs/get-started/oss/starter_guides/creating-tables",
+                  "docs/get-started/oss/starter_guides/inserting-data",
+                  "docs/get-started/oss/starter_guides/writing-queries",
+                  "docs/get-started/oss/starter_guides/mutations",
+                  "docs/get-started/oss/starter_guides/generating-test-data",
+                  "docs/get-started/oss/starter_guides/troubleshooting"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Concepts",
+            "icon": "lightbulb",
+            "pages": [
+              "docs/get-started/concepts/glossary",
+              "docs/get-started/concepts/parts",
+              "docs/get-started/concepts/partitions",
+              "docs/get-started/concepts/merges",
+              "docs/get-started/concepts/primary-indexes",
+              "docs/get-started/concepts/query-parallelism",
+              "docs/get-started/concepts/academic_overview"
+            ]
+          },
+          {
+            "tab": "Sample datasets",
+            "icon": "database",
+            "pages": [
+              "docs/get-started/sample-datasets/github",
+              "docs/get-started/sample-datasets/nyc-taxi",
+              "docs/get-started/sample-datasets/cell-towers",
+              "docs/get-started/sample-datasets/uk-price-paid",
+              "docs/get-started/sample-datasets/stackoverflow",
+              "docs/get-started/sample-datasets/hacker-news",
+              "docs/get-started/sample-datasets/hacker-news-vector-search",
+              "docs/get-started/sample-datasets/youtube-dislikes",
+              "docs/get-started/sample-datasets/covid19",
+              "docs/get-started/sample-datasets/noaa",
+              "docs/get-started/sample-datasets/environmental-sensors",
+              "docs/get-started/sample-datasets/nypd_complaint_data",
+              "docs/get-started/sample-datasets/amazon-reviews",
+              "docs/get-started/sample-datasets/laion",
+              "docs/get-started/sample-datasets/laion5b",
+              "docs/get-started/sample-datasets/dbpedia",
+              "docs/get-started/sample-datasets/menus",
+              "docs/get-started/sample-datasets/foursquare-os-places",
+              "docs/get-started/sample-datasets/tw-weather",
+              "docs/get-started/sample-datasets/ontime",
+              "docs/get-started/sample-datasets/star-schema",
+              "docs/get-started/sample-datasets/tpch",
+              "docs/get-started/sample-datasets/tpcds",
+              "docs/get-started/sample-datasets/brown-benchmark",
+              "docs/get-started/sample-datasets/amplab-benchmark",
+              "docs/get-started/sample-datasets/criteo",
+              "docs/get-started/sample-datasets/wikistat",
+              "docs/get-started/sample-datasets/github-events",
+              "docs/get-started/sample-datasets/anon_web_analytics_metrica"
+            ]
+          },
+          {
+            "tab": "Development",
+            "icon": "brackets-curly",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "docs/get-started/development/developer-instruction",
+                  "docs/get-started/development/architecture"
+                ]
+              },
+              {
+                "group": "Building",
+                "pages": [
+                  "docs/get-started/development/build",
+                  "docs/get-started/development/build-osx",
+                  "docs/get-started/development/build-cross-osx",
+                  "docs/get-started/development/build-cross-arm",
+                  "docs/get-started/development/build-cross-riscv",
+                  "docs/get-started/development/build-cross-s390x",
+                  "docs/get-started/development/build-cross-loongarch"
+                ]
+              },
+              {
+                "group": "Contributing",
+                "pages": [
+                  "docs/get-started/development/tests",
+                  "docs/get-started/development/continuous-integration",
+                  "docs/get-started/development/contrib",
+                  "docs/get-started/development/style",
+                  "docs/get-started/development/building_and_benchmarking_deflate_qpl",
+                  "docs/get-started/development/integrating_rust_libraries",
+                  "docs/get-started/development/profile-guided-optimization"
+                ]
+              },
+              {
+                "group": "Roadmap",
+                "pages": [
+                  "docs/get-started/development/roadmap"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelogs",
+            "icon": "code-merge",
+            "dropdowns": [
+              {
+                "dropdown": "Cloud",
+                "icon": "cloud",
+                "pages": [
+                  "docs/get-started/changelogs/cloud/01_changelog"
+                ]
+              },
+              {
+                "dropdown": "Open Source",
+                "icon": "database",
+                "pages": [
+                  "docs/get-started/changelogs/oss/2025",
+                  "docs/get-started/changelogs/oss/2024",
+                  "docs/get-started/changelogs/oss/2023",
+                  "docs/get-started/changelogs/oss/2022",
+                  "docs/get-started/changelogs/oss/2021",
+                  "docs/get-started/changelogs/oss/2020",
+                  "docs/get-started/changelogs/oss/2019",
+                  "docs/get-started/changelogs/oss/2018",
+                  "docs/get-started/changelogs/oss/2017",
+                  "docs/get-started/changelogs/oss/security-changelog"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Guides",
+        "description": "Best practices, tutorials, and how-to guides.",
+        "tabs": [
+          {
+            "tab": "Best practices",
+            "icon": "badge-check",
+            "groups": [
+              {
+                "group": "General best practices",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/best_practices/choosing_a_primary_key",
+                  "docs/guides/best_practices/select_data_type",
+                  "docs/guides/best_practices/use_materialized_views",
+                  "docs/guides/best_practices/minimize_optimize_joins",
+                  "docs/guides/best_practices/partitioning_keys",
+                  "docs/guides/best_practices/selecting_an_insert_strategy",
+                  "docs/guides/best_practices/using_data_skipping_indices",
+                  "docs/guides/best_practices/avoid_mutations",
+                  "docs/guides/best_practices/avoid_optimize_final",
+                  "docs/guides/best_practices/avoidnullablecolumns",
+                  "docs/guides/best_practices/json_type"
+                ]
+              },
+              {
+                "group": "Cloud best practices",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/best_practices/multitenancy",
+                  "docs/guides/cloud/best_practices/usagelimits"
+                ]
+              },
+              {
+                "group": "OSS best practices",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/best_practices/sizing-and-hardware-recommendations",
+                  "docs/guides/oss/best_practices/tips"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Data modelling",
+            "icon": "sitemap",
+            "pages": [
+              "docs/guides/data_modelling/schema-design",
+              "docs/guides/data_modelling/sparse-primary-indexes",
+              "docs/guides/data_modelling/denormalization",
+              "docs/guides/data_modelling/backfilling",
+              {
+                "group": "Compression",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/data_modelling/compression/compression-in-clickhouse",
+                  "docs/guides/data_modelling/compression/compression-modes"
+                ]
+              },
+              {
+                "group": "Dictionaries",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/data_modelling/dictionaries/index",
+                  "docs/guides/data_modelling/dictionaries/defining_dictionaries"
+                ]
+              },
+              {
+                "group": "Materialized views",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/data_modelling/materialized_views/incremental-materialized-view",
+                  "docs/guides/data_modelling/materialized_views/refreshable-materialized-view",
+                  "docs/guides/data_modelling/materialized_views/cascading-materialized-views"
+                ]
+              },
+              {
+                "group": "Projections",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/data_modelling/projections/1_projections",
+                  "docs/guides/data_modelling/materialized-views-versus-projections"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Operations",
+            "icon": "gears",
+            "groups": [
+              {
+                "group": "Insert",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/operations/insert/asyncinserts",
+                  "docs/guides/operations/insert/bulkinserts",
+                  "docs/guides/operations/insert/deduplication",
+                  "docs/guides/operations/insert/deduplicating-inserts-on-retries",
+                  "docs/guides/operations/insert/transactions"
+                ]
+              },
+              {
+                "group": "Select",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/operations/select/joining-tables"
+                ]
+              },
+              {
+                "group": "Update",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/operations/update/overview",
+                  "docs/guides/operations/update/on-fly-mutations",
+                  "docs/guides/operations/update/replacing-merge-tree",
+                  "docs/guides/operations/update/update_mutations"
+                ]
+              },
+              {
+                "group": "Delete",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/operations/delete/overview",
+                  "docs/guides/operations/delete/delete_mutations",
+                  "docs/guides/operations/delete/drop_partition",
+                  "docs/guides/operations/delete/lightweight-delete",
+                  "docs/guides/operations/delete/truncate",
+                  "docs/guides/operations/delete/ttl"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Performance & monitoring",
+            "icon": "gauge-high",
+            "pages": [
+              "docs/guides/performance_and_monitoring/query-optimization",
+              "docs/guides/performance_and_monitoring/query-cache",
+              "docs/guides/performance_and_monitoring/query-condition-cache",
+              "docs/guides/performance_and_monitoring/prewhere",
+              "docs/guides/performance_and_monitoring/analyzer",
+              "docs/guides/performance_and_monitoring/understanding-query-execution-with-the-analyzer",
+              "docs/guides/performance_and_monitoring/skipping-indexes",
+              "docs/guides/performance_and_monitoring/skipping-indexes-examples",
+              "docs/guides/performance_and_monitoring/userspace-page-cache",
+              "docs/guides/performance_and_monitoring/performance-test",
+              "docs/guides/performance_and_monitoring/sampling-query-profiler",
+              "docs/guides/performance_and_monitoring/debugging-memory-issues"
+            ]
+          },
+          {
+            "tab": "Use cases",
+            "icon": "lightbulb-on",
+            "groups": [
+              {
+                "group": "Time series",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/use_case_guides/time-series/time-series-filling-gaps"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "ClickHouse Cloud",
+            "icon": "cloud",
+            "groups": [
+              {
+                "group": "General",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/cloud-compatibility"
+                ]
+              },
+              {
+                "group": "SQL console",
+                "icon": "rectangle-code",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/SQL_console/connection_details",
+                  "docs/guides/cloud/SQL_console/query-endpoints"
+                ]
+              },
+              {
+                "group": "Backups",
+                "icon": "copy",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/backups/01_review-and-restore-backups",
+                  "docs/guides/cloud/backups/02_configurable-backups",
+                  {
+                    "group": "Bring Your Own Backup",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/backups/03_bring_your_own_backup/01_export-backups-to-own-cloud-account",
+                      "docs/guides/cloud/backups/03_bring_your_own_backup/02_backup_restore_from_ui",
+                      "docs/guides/cloud/backups/03_bring_your_own_backup/03_backup_restore_using_commands"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Data sources",
+                "icon": "sourcetree",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/data_sources/01_cloud-endpoints-api",
+                  "docs/guides/cloud/data_sources/02_accessing-s3-data-securely"
+                ]
+              },
+              {
+                "group": "Infrastructure",
+                "icon": "triangle",
+                "expanded": false,
+                "pages": [
+                  {
+                    "group": "Deployment modes",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/infrastructure/01_deployment_options/02_clickhouse-private",
+                      "docs/guides/cloud/infrastructure/01_deployment_options/03_clickhouse-government",
+                      {
+                        "group": "Bring Your Own Cloud (BYOC)",
+                        "expanded": false,
+                        "pages": [
+                          "docs/guides/cloud/infrastructure/01_deployment_options/byoc/01_overview",
+                          "docs/guides/cloud/infrastructure/01_deployment_options/byoc/02_architecture",
+                          {
+                            "group": "Onboarding",
+                            "expanded": false,
+                            "pages": [
+                              "docs/guides/cloud/infrastructure/01_deployment_options/byoc/03_onboarding/01_aws"
+                            ]
+                          },
+                          {
+                            "group": "FAQ",
+                            "expanded": false,
+                            "pages": [
+                              "docs/guides/cloud/infrastructure/01_deployment_options/byoc/04_faq/01_aws"
+                            ]
+                          },
+                          {
+                            "group": "Observability",
+                            "expanded": false,
+                            "pages": [
+                              "docs/guides/cloud/infrastructure/01_deployment_options/byoc/05_observability/01_aws"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Security",
+                "icon": "lock",
+                "expanded": false,
+                "pages": [
+                  {
+                    "group": "Cloud access management",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/security/01_cloud_access_management/01_manage-my-account",
+                      "docs/guides/cloud/security/01_cloud_access_management/02_manage-cloud-users",
+                      "docs/guides/cloud/security/01_cloud_access_management/03_manage-sql-console-role-assignments",
+                      "docs/guides/cloud/security/01_cloud_access_management/04_manage-database-users",
+                      "docs/guides/cloud/security/01_cloud_access_management/04_saml-sso-setup",
+                      "docs/guides/cloud/security/01_cloud_access_management/05_common-access-management-queries"
+                    ]
+                  },
+                  {
+                    "group": "Connectivity",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/security/02_connectivity/01_setting-ip-filters",
+                      {
+                        "group": "Private networking",
+                        "expanded": false,
+                        "pages": [
+                          "docs/guides/cloud/security/02_connectivity/private_networking/02_aws-privatelink",
+                          "docs/guides/cloud/security/02_connectivity/private_networking/03_gcp-private-service-connect",
+                          "docs/guides/cloud/security/02_connectivity/private_networking/04_azure-privatelink"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Data security",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/security/03_data-masking",
+                      "docs/guides/cloud/security/04_cmek"
+                    ]
+                  },
+                  {
+                    "group": "Compliance",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/security/06_compliance/hipaa-onboarding",
+                      "docs/guides/cloud/security/06_compliance/pci-onboarding"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Self-managed",
+            "icon": "server",
+            "groups": [
+              {
+                "group": "Deployment and scaling",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/deployment_and_scaling/terminology",
+                  "docs/guides/oss/deployment_and_scaling/shards",
+                  "docs/guides/oss/deployment_and_scaling/scaling-clusters",
+                  "docs/guides/oss/deployment_and_scaling/separation-storage-compute",
+                  "docs/guides/oss/deployment_and_scaling/cluster-discovery",
+                  {
+                    "group": "Backup",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/backup/00_overview",
+                      "docs/guides/oss/deployment_and_scaling/backup/01_local_disk",
+                      "docs/guides/oss/deployment_and_scaling/backup/02_s3_endpoint",
+                      "docs/guides/oss/deployment_and_scaling/backup/03_azure_blob_storage",
+                      "docs/guides/oss/deployment_and_scaling/backup/04_alternative_methods"
+                    ]
+                  },
+                  {
+                    "group": "Keeper",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/keeper/index",
+                      "docs/guides/oss/deployment_and_scaling/keeper/ssl-zookeeper"
+                    ]
+                  },
+                  {
+                    "group": "Monitoring",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/monitoring/monitoring",
+                      "docs/guides/oss/deployment_and_scaling/monitoring/opentelemetry"
+                    ]
+                  },
+                  {
+                    "group": "Examples",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/examples/01_1_shard_2_replicas",
+                      "docs/guides/oss/deployment_and_scaling/examples/02_2_shards_1_replica",
+                      "docs/guides/oss/deployment_and_scaling/examples/03_2_shards_2_replicas"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Server configuration",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/server_config/configuration-files",
+                  "docs/guides/oss/server_config/storing-data",
+                  "docs/guides/oss/server_config/named-collections",
+                  "docs/guides/oss/server_config/workload-scheduling",
+                  "docs/guides/oss/server_config/quotas",
+                  "docs/guides/oss/server_config/caches",
+                  "docs/guides/oss/server_config/composable-protocols",
+                  "docs/guides/oss/server_config/allocation-profiling",
+                  "docs/guides/oss/server_config/startup-scripts"
+                ]
+              },
+              {
+                "group": "Settings",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/settings/overview",
+                  "docs/guides/oss/settings/settings-query-level",
+                  "docs/guides/oss/settings/settings-users",
+                  "docs/guides/oss/settings/settings-profiles",
+                  "docs/guides/oss/settings/constraints-on-settings",
+                  "docs/guides/oss/settings/query-complexity",
+                  "docs/guides/oss/settings/permissions-for-queries",
+                  "docs/guides/oss/settings/memory-overcommit",
+                  "docs/guides/oss/settings/server-overload",
+                  "docs/guides/oss/settings/tcp-connection-limits"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
         "product": "Cloud",
         "description": "Serverless hosted DBMS solution.",
         "tabs": [
@@ -40,13 +618,15 @@
             "groups": [
               {
                 "group": "Quick Start",
+                "icon": "bolt-lightning",
                 "pages": [
-                  "docs/cloud/getting-started/intro",
+                  "docs/get-started/cloud/intro",
                   "docs/cloud/getting-started/quick-start"
                 ]
               },
               {
                 "group": "Use cases",
+                "icon": "bullseye-arrow",
                 "pages": [
                   "docs/cloud/getting-started/use_cases/00_overview",
                   "docs/cloud/getting-started/use_cases/01_real-time-analytics",
@@ -63,6 +643,7 @@
               },
               {
                 "group": "Migration guides",
+                "icon": "arrow-down-from-arc",
                 "pages": [
                   "docs/cloud/getting-started/migration_guides/01_overview",
                   {
@@ -134,8 +715,11 @@
             "pages": [
               "docs/cloud/features/01_cloud_tiers",
               "docs/cloud/features/02_integrations",
+              "docs/cloud/reference/02_architecture",
+              "docs/cloud/reference/05_supported-regions",
               {
                 "group": "SQL console",
+                "icon": "rectangle-code",
                 "expanded": false,
                 "pages": [
                   "docs/cloud/features/03_sql_console_features/01_sql-console",
@@ -147,6 +731,7 @@
               },
               {
                 "group": "Infrastructure",
+                "icon": "triangle",
                 "expanded": false,
                 "pages": [
                   {
@@ -165,6 +750,7 @@
               },
               {
                 "group": "Admin",
+                "icon": "sliders",
                 "expanded": false,
                 "pages": [
                   {
@@ -181,6 +767,7 @@
               "docs/cloud/features/06_security",
               {
                 "group": "Monitoring",
+                "icon": "eye",
                 "expanded": false,
                 "pages": [
                   "docs/cloud/features/07_monitoring/advanced_dashboard",
@@ -193,380 +780,116 @@
             ]
           },
           {
-            "tab": "Guides",
-            "icon": "book",
-            "pages": [
-              {
-                "group": "SQL console",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/guides/SQL_console/connection_details",
-                  "docs/cloud/guides/SQL_console/query-endpoints"
-                ]
-              },
-              {
-                "group": "Backups",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/guides/backups/01_review-and-restore-backups",
-                  "docs/cloud/guides/backups/02_configurable-backups",
-                  {
-                    "group": "Bring Your Own Backup",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/guides/backups/03_bring_your_own_backup/01_export-backups-to-own-cloud-account",
-                      "docs/cloud/guides/backups/03_bring_your_own_backup/02_backup_restore_from_ui",
-                      "docs/cloud/guides/backups/03_bring_your_own_backup/03_backup_restore_using_commands"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Best practices",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/guides/best_practices/multitenancy",
-                  "docs/cloud/guides/best_practices/usagelimits"
-                ]
-              },
-              "docs/cloud/guides/cloud-compatibility",
-              {
-                "group": "Data sources",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/guides/data_sources/01_cloud-endpoints-api",
-                  "docs/cloud/guides/data_sources/02_accessing-s3-data-securely"
-                ]
-              },
-              {
-                "group": "Infrastructure",
-                "expanded": false,
-                "pages": [
-                  {
-                    "group": "Deployment modes",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/guides/infrastructure/01_deployment_options/02_clickhouse-private",
-                      "docs/cloud/guides/infrastructure/01_deployment_options/03_clickhouse-government",
-                      {
-                        "group": "Bring Your Own Cloud (BYOC)",
-                        "expanded": false,
-                        "pages": [
-                          "docs/cloud/guides/infrastructure/01_deployment_options/byoc/01_overview",
-                          "docs/cloud/guides/infrastructure/01_deployment_options/byoc/02_architecture",
-                          {
-                            "group": "Onboarding",
-                            "expanded": false,
-                            "pages": [
-                              "docs/cloud/guides/infrastructure/01_deployment_options/byoc/03_onboarding/01_aws"
-                            ]
-                          },
-                          {
-                            "group": "FAQ",
-                            "expanded": false,
-                            "pages": [
-                              "docs/cloud/guides/infrastructure/01_deployment_options/byoc/04_faq/01_aws"
-                            ]
-                          },
-                          {
-                            "group": "Observability",
-                            "expanded": false,
-                            "pages": [
-                              "docs/cloud/guides/infrastructure/01_deployment_options/byoc/05_observability/01_aws"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Security",
-                "expanded": false,
-                "pages": [
-                  {
-                    "group": "Cloud access management",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/guides/security/01_cloud_access_management/01_manage-my-account",
-                      "docs/cloud/guides/security/01_cloud_access_management/02_manage-cloud-users",
-                      "docs/cloud/guides/security/01_cloud_access_management/03_manage-sql-console-role-assignments",
-                      "docs/cloud/guides/security/01_cloud_access_management/04_manage-database-users",
-                      "docs/cloud/guides/security/01_cloud_access_management/04_saml-sso-setup",
-                      "docs/cloud/guides/security/01_cloud_access_management/05_common-access-management-queries"
-                    ]
-                  },
-                  {
-                    "group": "Connectivity",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/guides/security/02_connectivity/01_setting-ip-filters",
-                      {
-                        "group": "Private networking",
-                        "expanded": false,
-                        "pages": [
-                          "docs/cloud/guides/security/02_connectivity/private_networking/02_aws-privatelink",
-                          "docs/cloud/guides/security/02_connectivity/private_networking/03_gcp-private-service-connect",
-                          "docs/cloud/guides/security/02_connectivity/private_networking/04_azure-privatelink"
-                        ]
-                      }
-                    ]
-                  },
-                  "docs/cloud/guides/security/03_data-masking",
-                  "docs/cloud/guides/security/04_cmek",
-                  {
-                    "group": "Compliance",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/guides/security/06_compliance/hipaa-onboarding",
-                      "docs/cloud/guides/security/06_compliance/pci-onboarding"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
             "tab": "Cloud reference",
             "icon": "cloud",
             "pages": [
-              {
-                "group": "Changelogs",
-                "pages": [
-                  "docs/cloud/reference/01_changelog/01_changelog"
-                ]
-              },
-              "docs/cloud/reference/02_architecture",
-              {
-                "group": "Billing",
-                "pages": [
-                  "docs/cloud/reference/03_billing/01_billing_overview",
-                  {
-                    "group": "Marketplace",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/reference/03_billing/02_marketplace/overview",
-                      "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-committed",
-                      "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-payg",
-                      "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-committed",
-                      "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-payg",
-                      "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-committed",
-                      "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-payg",
-                      "docs/cloud/reference/03_billing/02_marketplace/migrate-marketplace-payg-committed"
-                    ]
-                  },
-                  {
-                    "group": "ClickPipes",
-                    "expanded": false,
-                    "pages": [
-                      "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_cdc",
-                      "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_streaming_and_object_storage"
-                    ]
-                  },
-                  "docs/cloud/reference/03_billing/04_network-data-transfer",
-                  "docs/cloud/reference/03_billing/05_payment-thresholds",
-                  "docs/cloud/reference/03_billing/06_billing_compliance"
-                ]
-              },
-              "docs/cloud/reference/05_supported-regions",
               "docs/cloud/reference/06_service-uptime",
-              "docs/cloud/reference/08_settings",
+              "docs/cloud/reference/11_account-close"
+            ]
+          },
+          {
+            "tab": "Billing",
+            "icon": "credit-card",
+            "pages": [
+              "docs/cloud/reference/03_billing/01_billing_overview",
               {
-                "group": "Security",
+                "group": "Marketplace",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/reference/03_billing/02_marketplace/overview",
+                  "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-committed",
+                  "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-payg",
+                  "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-committed",
+                  "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-payg",
+                  "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-committed",
+                  "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-payg",
+                  "docs/cloud/reference/03_billing/02_marketplace/migrate-marketplace-payg-committed"
+                ]
+              },
+              {
+                "group": "ClickPipes",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_cdc",
+                  "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_streaming_and_object_storage"
+                ]
+              },
+              "docs/cloud/reference/03_billing/04_network-data-transfer",
+              "docs/cloud/reference/03_billing/05_payment-thresholds",
+              "docs/cloud/reference/03_billing/06_billing_compliance"
+            ]
+          },
+          {
+            "tab": "Changelogs",
+            "icon": "clock-rotate-left",
+            "pages": [
+              "docs/cloud/reference/01_changelog/01_changelog"
+            ]
+          },
+          {
+            "tab": "Security",
+            "icon": "lock",
+            "groups": [
+              {
+                "group": "Cloud access management",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/01_cloud_access_management/01_manage-my-account",
+                  "docs/guides/cloud/security/01_cloud_access_management/02_manage-cloud-users",
+                  "docs/guides/cloud/security/01_cloud_access_management/03_manage-sql-console-role-assignments",
+                  "docs/guides/cloud/security/01_cloud_access_management/04_manage-database-users",
+                  "docs/guides/cloud/security/01_cloud_access_management/04_saml-sso-setup",
+                  "docs/guides/cloud/security/01_cloud_access_management/05_common-access-management-queries"
+                ]
+              },
+              {
+                "group": "Connectivity",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/02_connectivity/01_setting-ip-filters",
+                  {
+                    "group": "Private networking",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/security/02_connectivity/private_networking/02_aws-privatelink",
+                      "docs/guides/cloud/security/02_connectivity/private_networking/03_gcp-private-service-connect",
+                      "docs/guides/cloud/security/02_connectivity/private_networking/04_azure-privatelink"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Data security",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/03_data-masking",
+                  "docs/guides/cloud/security/04_cmek"
+                ]
+              },
+              {
+                "group": "Compliance",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/06_compliance/hipaa-onboarding",
+                  "docs/guides/cloud/security/06_compliance/pci-onboarding"
+                ]
+              },
+              {
+                "group": "Reference",
                 "expanded": false,
                 "pages": [
                   "docs/cloud/reference/09_security/01_console-roles",
                   "docs/cloud/reference/09_security/02_audit-logging",
-                  "docs/cloud/reference/09_security/03_compliance-overview"
+                  "docs/cloud/reference/09_security/03_compliance-overview",
+                  "docs/cloud/reference/10_personal-data-access"
                 ]
-              },
-              "docs/cloud/reference/10_personal-data-access",
-              "docs/cloud/reference/data-resiliency",
-              "docs/cloud/reference/11_account-close"
+              }
             ]
           },
           {
             "tab": "API reference",
             "icon": "code",
             "openapi": "api-reference/cloud/cloud-openapi.json"
-          }
-        ]
-      },
-      {
-        "product": "Open Source",
-        "description": "Open Source ClickHouse",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/oss/home"
-            ]
-          },
-          {
-            "tab": "Get started",
-            "icon": "rocket",
-            "groups": [
-              {
-                "group": "About ClickHouse",
-                "expanded": false,
-                "pages": [
-                  "docs/oss/get_started/about/intro",
-                  "docs/oss/get_started/about/olap",
-                  "docs/oss/get_started/about/why-clickhouse-is-so-fast",
-                  "docs/oss/get_started/about/distinctive-features",
-                  "docs/oss/get_started/about/deployment-modes"
-                ]
-              },
-              {
-                "group": "Starter guides",
-                "expanded": false,
-                "pages": [
-                  "docs/oss/get_started/oss",
-                  "docs/oss/get_started/starter_guides/creating-tables",
-                  "docs/oss/get_started/starter_guides/inserting-data",
-                  "docs/oss/get_started/starter_guides/writing-queries",
-                  "docs/oss/get_started/starter_guides/mutations",
-                  "docs/oss/get_started/starter_guides/generating-test-data",
-                  "docs/oss/get_started/starter_guides/troubleshooting"
-                ]
-              },
-              {
-                "group": "Install",
-                "expanded": false,
-                "pages": [
-                  "docs/oss/get_started/install/install",
-                  "docs/oss/get_started/install/debian_ubuntu",
-                  "docs/oss/get_started/install/redhat",
-                  "docs/oss/get_started/install/other_linux",
-                  "docs/oss/get_started/install/macos",
-                  "docs/oss/get_started/install/windows",
-                  "docs/oss/get_started/install/docker",
-                  "docs/oss/get_started/install/quick-install-curl",
-                  "docs/oss/get_started/install/advanced"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Concepts",
-            "icon": "lightbulb",
-            "pages": [
-              "docs/common_pages/concepts/glossary",
-              "docs/common_pages/concepts/parts",
-              "docs/common_pages/concepts/partitions",
-              "docs/common_pages/concepts/merges",
-              "docs/common_pages/concepts/primary-indexes",
-              "docs/common_pages/concepts/query-parallelism",
-              "docs/common_pages/concepts/academic_overview"
-            ]
-          },
-          {
-            "tab": "Guides",
-            "icon": "book",
-            "groups": [
-              {
-                "group": "Best practices",
-                "expanded": false,
-                "pages": [
-                  "docs/common_pages/best_practices/choosing_a_primary_key",
-                  "docs/common_pages/best_practices/select_data_type",
-                  "docs/common_pages/best_practices/use_materialized_views",
-                  "docs/common_pages/best_practices/minimize_optimize_joins",
-                  "docs/common_pages/best_practices/partitioning_keys",
-                  "docs/common_pages/best_practices/selecting_an_insert_strategy",
-                  "docs/common_pages/best_practices/using_data_skipping_indices",
-                  "docs/common_pages/best_practices/avoid_mutations",
-                  "docs/common_pages/best_practices/avoid_optimize_final",
-                  "docs/common_pages/best_practices/avoidnullablecolumns",
-                  "docs/common_pages/best_practices/json_type"
-                ]
-              },
-              {
-                "group": "OSS best practices",
-                "expanded": false,
-                "pages": [
-                  "docs/oss/oss_specific_guides/best_practices/sizing-and-hardware-recommendations",
-                  "docs/oss/oss_specific_guides/best_practices/tips"
-                ]
-              },
-              {
-                "group": "Data modelling",
-                "expanded": false,
-                "pages": [
-                  "docs/common_pages/general_guides/data_modelling/schema-design",
-                  "docs/common_pages/general_guides/data_modelling/sparse-primary-indexes",
-                  "docs/common_pages/general_guides/data_modelling/materialized-views-versus-projections",
-                  "docs/common_pages/general_guides/data_modelling/denormalization",
-                  "docs/common_pages/general_guides/data_modelling/backfilling"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Development",
-            "icon": "brackets-curly",
-            "groups": [
-              {
-                "group": "Introduction",
-                "pages": [
-                  "docs/oss/development/developer-instruction",
-                  "docs/oss/development/architecture"
-                ]
-              },
-              {
-                "group": "Building",
-                "pages": [
-                  "docs/oss/development/build",
-                  "docs/oss/development/build-osx",
-                  "docs/oss/development/build-cross-osx",
-                  "docs/oss/development/build-cross-arm",
-                  "docs/oss/development/build-cross-riscv",
-                  "docs/oss/development/build-cross-s390x",
-                  "docs/oss/development/build-cross-loongarch"
-                ]
-              },
-              {
-                "group": "Contributing",
-                "pages": [
-                  "docs/oss/development/tests",
-                  "docs/oss/development/continuous-integration",
-                  "docs/oss/development/contrib",
-                  "docs/oss/development/style",
-                  "docs/oss/development/building_and_benchmarking_deflate_qpl",
-                  "docs/oss/development/integrating_rust_libraries",
-                  "docs/oss/development/profile-guided-optimization"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Changelog",
-            "icon": "code-merge",
-            "groups": [
-              {
-                "group": "Changelog",
-                "pages": [
-                  "docs/oss/changelogs/2025",
-                  "docs/oss/changelogs/2024",
-                  "docs/oss/changelogs/2023",
-                  "docs/oss/changelogs/2022",
-                  "docs/oss/changelogs/2021",
-                  "docs/oss/changelogs/2020",
-                  "docs/oss/changelogs/2019",
-                  "docs/oss/changelogs/2018",
-                  "docs/oss/changelogs/2017"
-                ]
-              },
-              {
-                "group": "Other",
-                "pages": [
-                  "docs/oss/changelogs/security-changelog",
-                  "docs/oss/changelogs/roadmap"
-                ]
-              }
-            ]
           }
         ]
       },

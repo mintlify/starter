@@ -1,0 +1,51 @@
+---
+sidebarTitle: 'Home'
+title: 'Quick starts explorer'
+description: 'Explore quick start guides to get up and running with ClickHouse'
+keywords: ['quick starts', 'explore', 'getting started', 'tutorials']
+mode: 'frame'
+---
+
+import { QuickStartsGrid } from '/snippets/components/QuickStartsGrid/QuickStartsGrid.jsx'
+
+
+## Quick start guides
+
+{/* Define quick-starts data */}
+export const quickStartsData = [
+  {
+    id: 'build-etl-pipeline-using-clickhouse',
+    title: 'Build an ETL pipeline using ClickHouse',
+    description: 'Learn how to ingest data from CSV and parquet files into ClickHouse Cloud',
+    href: '/get-started/quick-starts/build-etl-pipeline-using-clickhouse',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+  },
+  {
+    id: 'ingest-data-into-clickhouse',
+    title: 'Ingest data into ClickHouse',
+    description: 'Learn how to ingest data from CSV and parquet files into ClickHouse Cloud',
+    href: '/get-started/quick-starts/ingest-data-into-clickhouse',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+  },
+  {
+    id: 'query-json-s3-using-chdb',
+    title: 'Getting started with chDB',
+    description: 'chDB is an in-process SQL OLAP Engine powered by ClickHouse',
+    href: '/get-started/quick-starts/query-json-s3-using-chdb',
+    useCases: ['Real-time analytics'],
+    products: ['chdb'],
+  },
+  {
+    id: 'updating-data-with-replacingmergetree',
+    title: 'Update data using the ReplacingMergeTree engine',
+    description: 'Learn how to update data using the ReplacingMergeTree engine',
+    href: '/get-started/quick-starts/updating-data-with-replacingmergetree',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+  },
+];
+
+{/* Render the QuickStartsGrid component */}
+<QuickStartsGrid quickStartsData={quickStartsData} />
