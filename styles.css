@@ -777,24 +777,11 @@ html:not(.dark) .hero-aside .product-item img {
         font-weight: 600 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.1em !important;
-        color: rgba(0, 0, 0, 0.4) !important;
         margin-bottom: 0.25rem !important;
         pointer-events: none !important;
         display: flex !important;
         align-items: center !important;
         line-height: 1 !important;
-    }
-
-    /* Dark mode header styles */
-    :is(.dark) .product-dropdown-header,
-    [data-theme='dark'] .product-dropdown-header {
-        color: rgba(255, 255, 255, 0.4) !important;
-    }
-
-    /* Light mode header styles */
-    html:not(.dark) .product-dropdown-header,
-    html:not([data-theme="dark"]) .product-dropdown-header {
-        color: rgba(0, 0, 0, 0.4) !important;
     }
 }
 
@@ -1108,6 +1095,15 @@ html.dark .dark\:bg-primary-light,
     filter: none !important;
 }
 
+/* Language Clients - Dark */
+:is(.dark) a[href*="/language-client"] .nav-dropdown-products-selector-item::before,
+:is(.dark) a[href*="/clients"] .nav-dropdown-products-selector-item::before,
+:is([data-theme="dark"]) a[href*="/language-client"] .nav-dropdown-products-selector-item::before,
+:is([data-theme="dark"]) a[href*="/clients"] .nav-dropdown-products-selector-item::before {
+    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/language-clients-dark.svg") !important;
+    filter: none !important;
+}
+
 /* Default (Light) product icons */
 
 /* Home - Light - Disable custom icon to use native circle-left */
@@ -1171,6 +1167,13 @@ a[href*="/get-started"] .nav-dropdown-products-selector-item::before {
 /* Guides - Light */
 a[href*="/guides"] .nav-dropdown-products-selector-item::before {
     background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/guides-light.svg") !important;
+}
+
+/* Language Clients - Light */
+a[href*="/language-client"] .nav-dropdown-products-selector-item::before,
+a[href*="/clients"] .nav-dropdown-products-selector-item::before {
+    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/language-clients-dark.svg") !important;
+    filter: invert(1) hue-rotate(180deg) !important;
 }
 
 
@@ -1292,11 +1295,6 @@ html.dark .nav-dropdown-products-selector-item p:last-child {
 
 /* Light mode adjustments */
 @media (prefers-color-scheme: light) {
-    .nav-dropdown-products-selector-item {
-        background-color: rgba(0, 0, 0, 0.02) !important;
-        border-color: rgba(0, 0, 0, 0.08) !important;
-    }
-
     .nav-dropdown-products-selector-content>a.link:hover .nav-dropdown-products-selector-item,
     .nav-dropdown-products-selector-item:hover {
         background-color: rgba(0, 0, 0, 0.04) !important;

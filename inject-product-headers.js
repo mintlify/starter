@@ -8,7 +8,8 @@
 
   function createHeader(text) {
     const header = document.createElement('div');
-    header.className = 'product-dropdown-header';
+    const slug = getSlug(text);
+    header.className = `product-dropdown-header product-dropdown-header-${slug}`;
     header.textContent = text;
     header.setAttribute('data-header', text);
     return header;
