@@ -14,6 +14,10 @@
     return header;
   }
 
+  function getSlug(text) {
+    return text.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+  }
+
   function restructureMenu() {
     // Find the main menu container
     const menu = document.querySelector('[data-radix-menu-content]');
@@ -34,14 +38,14 @@
     const allLinks = Array.from(container.querySelectorAll('a'));
     if (allLinks.length === 0) return;
 
-    // Define categories based on href
-    // Note: We use specific paths to avoid partial matches on things like "/cloud/home"
-    const leftColHrefs = [
-      '/docs/common_pages/home', // Specific home link
-      '/get-started',
-      '/guides',
-      '/reference',
-      '/support'
+    // Define categories based on slugs (generated from text content)
+    // "Home", "Get Started", "Guides", "Reference", "Support center"
+    const leftCategories = [
+      'home',
+      'get-started',
+      'guides',
+      'reference',
+      'support-center'
     ];
 
     // Create column containers
@@ -56,26 +60,30 @@
     const integrationsHeader = createHeader('Integrations');
 
     // Categorize and append items
-    let hasProductDocs = false;
     let hasIntegrations = false;
-
-    // Helper to find partial matches for flexibility
-    const isLeft = (href) => leftColHrefs.some(path => href.includes(path));
-
-    // We need to preserve event listeners, so we append the existing elements
-    // But we need to group them.
-    // Since we are moving elements, we need a stable list first.
 
     // Group items for the Right Column to insert headers correctly
     const rightItems = [];
 
     allLinks.forEach(link => {
-      const href = link.getAttribute('href') || '';
+      // Extract title text only (not the description)
+      // Try the title class first, then fall back to first paragraph, then link text
+      const titleEl = link.querySelector('.nav-dropdown-products-selector-item-title') ||
+        link.querySelector('.flex.flex-col > p:first-child') ||
+        link.querySelector('p:first-child');
+      const text = titleEl ? titleEl.textContent : (link.textContent || '');
+      const slug = getSlug(text);
 
-      if (isLeft(href)) {
+      // Add unique class
+      if (slug) {
+        link.classList.add(`product-link-${slug}`);
+      }
+
+      // Categorize based on slug
+      if (leftCategories.includes(slug)) {
         leftCol.appendChild(link);
       } else {
-        rightItems.push(link);
+        rightItems.push({ link, slug });
       }
     });
 
@@ -83,11 +91,15 @@
     if (rightItems.length > 0) {
       rightCol.appendChild(productDocsHeader);
 
-      rightItems.forEach(link => {
+      rightItems.forEach(item => {
+        const { link, slug } = item;
         const href = link.getAttribute('href') || '';
 
-        // Inject Integrations header before clickpipes
-        if (href.includes('/clickpipes') && !hasIntegrations) {
+        // Inject Integrations header before clickpipes or if slug suggests it
+        // Keeping href check for 'clickpipes' as a fallback or if text is different,
+        // but let's try to rely on slug if possible. 
+        // Assuming "ClickPipes" -> "clickpipes"
+        if ((slug === 'clickpipes') && !hasIntegrations) {
           rightCol.appendChild(integrationsHeader);
           hasIntegrations = true;
         }
@@ -97,13 +109,6 @@
     }
 
     // Clear the original container and append new columns
-    // We strictly only want our two columns in there now
-    // NOTE: This might be destructive if there are other elements like decorative pseudo-elements
-    // managed by the framework, but usually safe for inner content of a radio group.
-
-    // Move any non-link children that are NOT the ones we just moved?
-    // The Mintlify structure usually just has the links. 
-    // Let's be safe: we are replacing the CONTENT of the container.
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }

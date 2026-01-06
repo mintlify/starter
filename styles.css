@@ -520,8 +520,9 @@ html:not(.dark) .hero-aside .product-item img {
 
     /* Column 2 (Right) specific adjustments */
     .product-col-right {
-        gap: 0.25rem !important;
-        /* Tighter gap for the list-style items */
+        gap: 0.5rem !important;
+        /* Add top gap equivalent to Home item height + margin */
+        padding-top: calc(54px + 0.75rem) !important;
     }
 
     /* Individual product items in dropdown */
@@ -637,10 +638,10 @@ html:not(.dark) .hero-aside .product-item img {
     .product-col-right a>* {
         background-color: transparent !important;
         border: none !important;
-        border-radius: 0 !important;
-        padding: 0.125rem 0.5rem !important;
+        border-radius: 0.5rem !important;
+        padding: 0.5rem 0.75rem !important;
         transition: background-color 0.2s ease-in-out !important;
-        gap: 0.375rem !important;
+        gap: 0.5rem !important;
         min-height: auto !important;
         height: auto !important;
     }
@@ -691,58 +692,54 @@ html:not(.dark) .hero-aside .product-item img {
         font-weight: 500 !important;
     }
 
-    /* SPECIAL STYLING: Home Item (Left Column) */
-    .product-col-left a[href*="/common_pages/home"],
-    .product-col-left a[href*="/common_pages/home"] {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-        margin-bottom: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
+    /* SPECIAL STYLING: Home Item (Left Column) - using stable class selector */
+    a.product-link-home {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        margin-bottom: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        display: block !important;
     }
 
-    html:not(.dark) .product-col-left a[href*="/common_pages/home"],
-    html:not(.dark) .product-col-left a[href*="/common_pages/home"] {
-        border-bottom-color: rgba(0, 0, 0, 0.05) !important;
+    html:not(.dark) a.product-link-home {
+        border-bottom-color: rgba(0, 0, 0, 0.08) !important;
     }
 
     /* Hide description for Home item */
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item-description,
-    .product-col-left a[href*="/common_pages/home"] p:last-child,
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item-description,
-    .product-col-left a[href*="/common_pages/home"] p:last-child {
+    a.product-link-home p.nav-dropdown-products-selector-item-description {
         display: none !important;
     }
 
-    /* Adjust Home item layout */
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item,
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item {
-        align-items: center !important;
-        height: auto !important;
-        padding-top: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
-        gap: 8px !important;
-        /* Reduced gap for closer icon */
+    a.product-link-home .nav-dropdown-products-selector-item>div.flex.flex-col>p:last-child {
+        display: none !important;
     }
 
-    /* Force native SVG icon visibility for Home item */
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item .nav-dropdown-products-selector-item-icon svg,
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item .nav-dropdown-products-selector-item-icon svg {
+    /* Force icon SVG visible (it's being hidden somewhere) */
+    a.product-link-home .nav-dropdown-products-selector-item-icon svg {
         display: block !important;
-        background-color: currentColor !important;
-        /* Ensure it takes color */
+        width: 1rem !important;
+        height: 1rem !important;
     }
 
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item::before,
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item::before {
-        width: 20px !important;
-        height: 20px !important;
-        min-width: 20px !important;
+    /* Fix flex alignment - prevent centering by resetting flex */
+    a.product-link-home .nav-dropdown-products-selector-item-icon {
+        flex: 0 0 auto !important;
     }
 
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item-title,
-    .product-col-left a[href*="/common_pages/home"] .nav-dropdown-products-selector-item-title {
-        font-size: 0.875rem !important;
-        /* Reduced from 0.9rem */
+    a.product-link-home .nav-dropdown-products-selector-item>div.flex.flex-col {
+        flex: 0 1 auto !important;
+    }
+
+    /* Home item title styling */
+    a.product-link-home p.nav-dropdown-products-selector-item-title {
+        font-size: 0.9rem !important;
         font-weight: 600 !important;
+    }
+
+    /* Hide the checkmark on Home item */
+    a.product-link-home .nav-dropdown-products-selector-item>svg.lucide-check {
+        display: none !important;
     }
 
     /* Column 2 - List item hover state */

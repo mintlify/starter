@@ -26,7 +26,7 @@
         "icon": "circle-left",
         "description": "Explore docs by use case, product or learning goal.",
         "pages": [
-          "docs/common_pages/home"
+          "/"
         ]
       },
       {
