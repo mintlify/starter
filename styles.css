@@ -448,15 +448,16 @@ html:not(.dark) .hero-aside .product-item img {
 /* Product selector dropdown styling - Desktop only */
 @media (min-width: 1024px) {
 
-    /* Dropdown container - make it wider with backdrop blur */
+    /* Dropdown container - make it scale to content with backdrop blur */
     [data-testid="product-dropdown-content"],
     [class*="dropdown-content"],
     [class*="popover-content"]:has([class*="product"]) {
-        min-width: 1100px !important;
-        max-width: 1400px !important;
+        width: fit-content !important;
+        max-width: 900px !important;
         border-radius: 1.5rem !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
+        overflow: hidden !important;
     }
 
     /* Add backdrop overlay when product dropdown is open */
@@ -503,7 +504,7 @@ html:not(.dark) .hero-aside .product-item img {
         gap: 0.5rem !important;
         padding: 1rem !important;
         height: auto !important;
-        min-height: 400px !important;
+        min-height: auto !important;
         width: 100% !important;
         justify-content: flex-start !important;
         align-items: stretch !important;
@@ -514,15 +515,18 @@ html:not(.dark) .hero-aside .product-item img {
     .product-col-right {
         display: flex !important;
         flex-direction: column !important;
-        gap: 0.5rem !important;
         flex: 1 1 50% !important;
     }
 
-    /* Column 2 (Right) specific adjustments */
-    .product-col-right {
-        gap: 0.5rem !important;
-        /* Add top gap equivalent to Home item height + margin */
-        padding-top: calc(54px + 0.75rem) !important;
+    /* Column 1 (Left) - Add right border separator */
+    .product-col-left {
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding-right: 1rem !important;
+        margin-right: 0.5rem !important;
+    }
+
+    html:not(.dark) .product-col-left {
+        border-right-color: rgba(0, 0, 0, 0.08) !important;
     }
 
     /* Individual product items in dropdown */
@@ -544,11 +548,11 @@ html:not(.dark) .hero-aside .product-item img {
         display: flex !important;
         flex-direction: row !important;
         align-items: flex-start !important;
-        padding: 0.625rem 0.875rem !important;
+        padding: 0.5rem 0.75rem !important;
         background-color: transparent !important;
         border: 1px solid transparent !important;
         transition: all 0.2s ease-in-out !important;
-        gap: 0.75rem !important;
+        gap: 0.5rem !important;
     }
 
     /* Left col items should expand */
@@ -653,12 +657,6 @@ html:not(.dark) .hero-aside .product-item img {
         min-width: 24px !important;
     }
 
-    /* Column 2 - Hide descriptions for cleaner list */
-    .product-col-right .nav-dropdown-products-selector-item-description,
-    .product-col-right .nav-dropdown-products-selector-item p:last-child {
-        display: none !important;
-    }
-
     /* Column 2 - Adjust title styling for list */
     .product-col-right .nav-dropdown-products-selector-item-title,
     [data-radix-menu-content] a[href*="/clickstack"] .nav-dropdown-products-selector-item-title,
@@ -694,52 +692,23 @@ html:not(.dark) .hero-aside .product-item img {
 
     /* SPECIAL STYLING: Home Item (Left Column) - using stable class selector */
     a.product-link-home {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        margin-bottom: 0.75rem !important;
-        padding-bottom: 0.75rem !important;
         flex: 0 0 auto !important;
         width: 100% !important;
         display: block !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        margin-bottom: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
     }
 
     html:not(.dark) a.product-link-home {
         border-bottom-color: rgba(0, 0, 0, 0.08) !important;
     }
 
-    /* Hide description for Home item */
-    a.product-link-home p.nav-dropdown-products-selector-item-description {
-        display: none !important;
-    }
-
-    a.product-link-home .nav-dropdown-products-selector-item>div.flex.flex-col>p:last-child {
-        display: none !important;
-    }
-
-    /* Force icon SVG visible (it's being hidden somewhere) */
+    /* Simplified Home item icon styling */
     a.product-link-home .nav-dropdown-products-selector-item-icon svg {
         display: block !important;
-        width: 1rem !important;
-        height: 1rem !important;
-    }
-
-    /* Fix flex alignment - prevent centering by resetting flex */
-    a.product-link-home .nav-dropdown-products-selector-item-icon {
-        flex: 0 0 auto !important;
-    }
-
-    a.product-link-home .nav-dropdown-products-selector-item>div.flex.flex-col {
-        flex: 0 1 auto !important;
-    }
-
-    /* Home item title styling */
-    a.product-link-home p.nav-dropdown-products-selector-item-title {
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
-    }
-
-    /* Hide the checkmark on Home item */
-    a.product-link-home .nav-dropdown-products-selector-item>svg.lucide-check {
-        display: none !important;
+        width: 1.25rem !important;
+        height: 1.25rem !important;
     }
 
     /* Column 2 - List item hover state */
@@ -1207,7 +1176,6 @@ a[href*="/clients"] .nav-dropdown-products-selector-item::before {
     align-items: flex-start !important;
     justify-content: flex-start !important;
     gap: 12px !important;
-    padding: 16px !important;
     text-align: left !important;
 
     /* Transparent by default */
@@ -1400,6 +1368,19 @@ body.clickpipes_home .hero-text {
 :is(.dark) a:hover {
     color: #FAFF69;
     opacity: 0.8;
+}
+
+/* Override yellow links for product selector items */
+[data-theme='dark'] .product-selector-radio-group a,
+[data-theme='dark'] [role="radiogroup"] a,
+[data-theme='dark'] .nav-dropdown-products-selector-content a,
+.dark .product-selector-radio-group a,
+.dark [role="radiogroup"] a,
+.dark .nav-dropdown-products-selector-content a,
+:is(.dark) .product-selector-radio-group a,
+:is(.dark) [role="radiogroup"] a,
+:is(.dark) .nav-dropdown-products-selector-content a {
+    color: inherit !important;
 }
 
 /* Beta Badge */

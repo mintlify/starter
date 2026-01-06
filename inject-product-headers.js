@@ -80,6 +80,30 @@
         link.classList.add(`product-link-${slug}`);
       }
 
+      // Simplify Home item structure
+      if (slug === 'home') {
+        const icon = link.querySelector('.nav-dropdown-products-selector-item-icon');
+        const iconClone = icon ? icon.cloneNode(true) : null;
+
+        // Create simplified structure
+        const simpleContent = document.createElement('div');
+        simpleContent.className = 'nav-dropdown-products-selector-item-simple';
+        simpleContent.style.cssText = 'display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem;';
+
+        if (iconClone) {
+          simpleContent.appendChild(iconClone);
+        }
+
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = text;
+        titleSpan.style.cssText = 'font-size: 0.9rem; font-weight: 600;';
+        simpleContent.appendChild(titleSpan);
+
+        // Replace link content
+        link.innerHTML = '';
+        link.appendChild(simpleContent);
+      }
+
       // Categorize based on slug
       if (leftCategories.includes(slug)) {
         leftCol.appendChild(link);
