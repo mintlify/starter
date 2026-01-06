@@ -69,7 +69,8 @@
                 "pages": [
                   "docs/get-started/quick-starts/ingest-data-into-clickhouse",
                   "docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse",
-                  "docs/get-started/quick-starts/updating-data-with-replacingmergetree"
+                  "docs/get-started/quick-starts/updating-data-with-replacingmergetree",
+                  "docs/get-started/quick-starts/query-json-s3-using-chdb"
                 ]
               },
               {

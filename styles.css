@@ -960,6 +960,20 @@ html.dark .dark\:bg-primary-light,
     filter: none !important;
 }
 
+/* Get started - Dark */
+:is(.dark) a[href*="/get-started"] .nav-dropdown-products-selector-item::before,
+:is([data-theme="dark"]) a[href*="/get-started"] .nav-dropdown-products-selector-item::before {
+    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/get-started-dark.svg") !important;
+    filter: none !important;
+}
+
+/* Guides - Dark */
+:is(.dark) a[href*="/guides"] .nav-dropdown-products-selector-item::before,
+:is([data-theme="dark"]) a[href*="/guides"] .nav-dropdown-products-selector-item::before {
+    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/guides-dark.svg") !important;
+    filter: none !important;
+}
+
 /* Default (Light) product icons */
 
 /* Home - Light */
@@ -1013,6 +1027,16 @@ a[href*="/reference"] .nav-dropdown-products-selector-item::before {
 /* Support center - Light */
 a[href*="/support"] .nav-dropdown-products-selector-item::before {
     background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/support-dark.svg") !important;
+}
+
+/* Get started - Light */
+a[href*="/get-started"] .nav-dropdown-products-selector-item::before {
+    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/get-started-light.svg") !important;
+}
+
+/* Guides - Light */
+a[href*="/guides"] .nav-dropdown-products-selector-item::before {
+    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/guides-light.svg") !important;
 }
 
 

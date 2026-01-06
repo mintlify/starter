@@ -82,7 +82,7 @@ def extract_quickstart_data(file_path: Path, base_dir: Path) -> Dict[str, Any]:
 
     # Generate href from relative path
     rel_path = file_path.relative_to(base_dir)
-    href = '/' + str(rel_path.parent / file_path.stem).replace('\\', '/')
+    href = '/docs/' + str(rel_path.parent / file_path.stem).replace('\\', '/')
 
     # Extract fields with defaults
     quickstart = {
@@ -138,7 +138,7 @@ def generate_badges(use_cases: List[str], products: List[str]) -> str:
     badges = []
 
     # Add link badge first (gray)
-    badges.append('<a href="/docs/get-started/quick-starts/home"><Badge size="lg" color="gray" icon="house">Quick Starts</Badge></a>')
+    badges.append('<a href="/docs/get-started/quick-starts/home"><Badge size="lg" color="gray" icon="house"></Badge></a>')
 
     # Add use case badges (blue)
     for use_case in use_cases:
