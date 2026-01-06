@@ -494,18 +494,19 @@ html:not(.dark) .hero-aside .product-item img {
         line-height: 1.5 !important;
     }
 
-    /* Product selector radio group - 3x3 grid layout */
+    /* Product selector radio group - 2 column layout */
     .product-selector-radio-group,
     [class*="product-selector"] [role="radiogroup"],
     [class*="ProductSelector"] {
         display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.75rem !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
         padding: 1rem !important;
-        height: 248px !important;
+        height: auto !important;
+        min-height: 400px !important;
         width: 100% !important;
-        justify-items: center !important;
-        align-items: center !important;
+        justify-items: stretch !important;
+        align-items: start !important;
     }
 
     /* Individual product items in dropdown */
@@ -607,59 +608,124 @@ html:not(.dark) .hero-aside .product-item img {
         color: #a3a3a3 !important;
     }
 
-    /* Grid positioning for specific products */
-    .product-selector-radio-group>a[href*="home"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="home"] {
-        grid-column: 1;
-        grid-row: 1;
+    /* Grid positioning for 2-column layout */
+
+    /* Column 1 - Navigation items (5 items) */
+    [data-radix-menu-content] a[href*="/home"],
+    [role="radiogroup"] a[href*="/home"] {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
     }
 
-    .product-selector-radio-group>a[href*="cloud"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="cloud"] {
-        grid-column: 1;
-        grid-row: 2;
+    [data-radix-menu-content] a[href*="/get-started"],
+    [role="radiogroup"] a[href*="/get-started"] {
+        grid-column: 1 !important;
+        grid-row: 2 !important;
     }
 
-    .product-selector-radio-group>a[href*="open-source"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="open-source"] {
-        grid-column: 1;
-        grid-row: 3;
+    [data-radix-menu-content] a[href*="/guides"],
+    [role="radiogroup"] a[href*="/guides"] {
+        grid-column: 1 !important;
+        grid-row: 3 !important;
     }
 
-    .product-selector-radio-group>a[href*="clickpipes"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="clickpipes"] {
-        grid-column: 2;
-        grid-row: 1;
+    [data-radix-menu-content] a[href*="/reference"],
+    [role="radiogroup"] a[href*="/reference"] {
+        grid-column: 1 !important;
+        grid-row: 4 !important;
     }
 
-    .product-selector-radio-group>a[href*="clickstack"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="clickstack"] {
-        grid-column: 2;
-        grid-row: 2;
+    [data-radix-menu-content] a[href*="/support"],
+    [role="radiogroup"] a[href*="/support"] {
+        grid-column: 1 !important;
+        grid-row: 5 !important;
     }
 
-    .product-selector-radio-group>a[href*="chdb"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="chdb"] {
-        grid-column: 2;
-        grid-row: 3;
+    /* Column 2 - Product docs header then products */
+    [data-radix-menu-content] .product-dropdown-header[data-header="Product docs"],
+    [role="radiogroup"] .product-dropdown-header[data-header="Product docs"] {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
     }
 
-    .product-selector-radio-group>a[href*="integrations"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="integrations"] {
-        grid-column: 3;
-        grid-row: 1;
+    [data-radix-menu-content] a[href*="/cloud"],
+    [role="radiogroup"] a[href*="/cloud"] {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
     }
 
-    .product-selector-radio-group>a[href*="reference"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="reference"] {
-        grid-column: 3;
-        grid-row: 2;
+    [data-radix-menu-content] a[href*="/clickstack"],
+    [role="radiogroup"] a[href*="/clickstack"] {
+        grid-column: 2 !important;
+        grid-row: 3 !important;
     }
 
-    .product-selector-radio-group>a[href*="support"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="support"] {
-        grid-column: 3;
-        grid-row: 3;
+    [data-radix-menu-content] a[href*="/chdb"],
+    [role="radiogroup"] a[href*="/chdb"] {
+        grid-column: 2 !important;
+        grid-row: 4 !important;
+    }
+
+    /* Integrations header */
+    [data-radix-menu-content] .product-dropdown-header[data-header="Integrations"],
+    [role="radiogroup"] .product-dropdown-header[data-header="Integrations"] {
+        grid-column: 2 !important;
+        grid-row: 5 !important;
+    }
+
+    [data-radix-menu-content] a[href*="/clickpipes"],
+    [role="radiogroup"] a[href*="/clickpipes"] {
+        grid-column: 2 !important;
+        grid-row: 6 !important;
+    }
+
+    [data-radix-menu-content] a[href*="/language-client"],
+    [data-radix-menu-content] a[href*="/clients"],
+    [role="radiogroup"] a[href*="/language-client"],
+    [role="radiogroup"] a[href*="/clients"] {
+        grid-column: 2 !important;
+        grid-row: 7 !important;
+    }
+
+    [data-radix-menu-content] a[href*="/integrations"],
+    [role="radiogroup"] a[href*="/integrations"] {
+        grid-column: 2 !important;
+        grid-row: 8 !important;
+    }
+
+    /* Hide items we don't want to show */
+    .product-selector-radio-group>a[href*="/open-source"],
+    .product-selector-radio-group>a[href*="/oss"],
+    [class*="product-selector"] [role="radiogroup"]>a[href*="/open-source"],
+    [class*="product-selector"] [role="radiogroup"]>a[href*="/oss"] {
+        display: none !important;
+    }
+
+    /* Product dropdown headers styling */
+    .product-dropdown-header {
+        padding: 0.75rem 1rem 0.5rem !important;
+        font-size: 0.6875rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.1em !important;
+        color: rgba(0, 0, 0, 0.4) !important;
+        margin-bottom: 0.25rem !important;
+        pointer-events: none !important;
+        display: flex !important;
+        align-items: center !important;
+        line-height: 1 !important;
+    }
+
+    /* Dark mode header styles */
+    :is(.dark) .product-dropdown-header,
+    [data-theme='dark'] .product-dropdown-header {
+        color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    /* Light mode header styles */
+    html:not(.dark) .product-dropdown-header,
+    html:not([data-theme="dark"]) .product-dropdown-header {
+        color: rgba(0, 0, 0, 0.4) !important;
     }
 }
 
@@ -1049,7 +1115,7 @@ a[href*="/guides"] .nav-dropdown-products-selector-item::before {
 /* Mintlify Product Selector Dropdown Container */
 .nav-dropdown-products-selector-content {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(180px, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(180px, 1fr)) !important;
     gap: 12px !important;
     padding: 20px !important;
     max-width: 900px !important;

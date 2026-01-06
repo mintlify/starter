@@ -14,6 +14,11 @@
     }
   },
   "favicon": "/favicon.svg",
+  "scripts": [
+    {
+      "src": "/inject-product-headers.js"
+    }
+  ],
   "navigation": {
     "products": [
       {
@@ -596,899 +601,6 @@
                   "docs/guides/oss/settings/memory-overcommit",
                   "docs/guides/oss/settings/server-overload",
                   "docs/guides/oss/settings/tcp-connection-limits"
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "product": "Cloud",
-        "description": "Serverless hosted DBMS solution.",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/cloud/home"
-            ]
-          },
-          {
-            "tab": "Get started",
-            "icon": "rocket",
-            "groups": [
-              {
-                "group": "Quick Start",
-                "icon": "bolt-lightning",
-                "pages": [
-                  "docs/get-started/cloud/intro",
-                  "docs/cloud/getting-started/quick-start"
-                ]
-              },
-              {
-                "group": "Use cases",
-                "icon": "bullseye-arrow",
-                "pages": [
-                  "docs/cloud/getting-started/use_cases/00_overview",
-                  "docs/cloud/getting-started/use_cases/01_real-time-analytics",
-                  "docs/cloud/getting-started/use_cases/02_observability",
-                  "docs/cloud/getting-started/use_cases/03_data_warehousing",
-                  {
-                    "group": "Machine learning & generative AI",
-                    "pages": [
-                      "docs/cloud/getting-started/use_cases/04_machine_learning_and_genAI/01_machine_learning",
-                      "docs/cloud/getting-started/use_cases/04_machine_learning_and_genAI/02_agent_facing_analytics"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Migration guides",
-                "icon": "arrow-down-from-arc",
-                "pages": [
-                  "docs/cloud/getting-started/migration_guides/01_overview",
-                  {
-                    "group": "PostgreSQL",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/02_postgres/01_overview",
-                      {
-                        "group": "Migration guide",
-                        "pages": [
-                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/01_migration_guide_part1",
-                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/02_migration_guide_part2",
-                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/03_migration_guide_part3"
-                        ]
-                      },
-                      "docs/cloud/getting-started/migration_guides/02_postgres/appendix"
-                    ]
-                  },
-                  {
-                    "group": "BigQuery",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/03_bigquery/01_overview",
-                      "docs/cloud/getting-started/migration_guides/03_bigquery/02_migrating-to-clickhouse-cloud",
-                      "docs/cloud/getting-started/migration_guides/03_bigquery/03_loading-data"
-                    ]
-                  },
-                  {
-                    "group": "Snowflake",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/04_snowflake/01_overview",
-                      "docs/cloud/getting-started/migration_guides/04_snowflake/02_migration_guide",
-                      "docs/cloud/getting-started/migration_guides/04_snowflake/03_sql_translation_reference"
-                    ]
-                  },
-                  {
-                    "group": "Elasticsearch",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/05_elastic/01_overview"
-                    ]
-                  },
-                  {
-                    "group": "Redshift",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/06_redshift/01_overview",
-                      "docs/cloud/getting-started/migration_guides/06_redshift/02_migration_guide",
-                      "docs/cloud/getting-started/migration_guides/06_redshift/03_sql_translation_reference"
-                    ]
-                  },
-                  {
-                    "group": "OSS to Cloud",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/07_OSS_to_Cloud/01_clickhouse-to-cloud"
-                    ]
-                  },
-                  {
-                    "group": "Other methods",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/08_other_methods/01_clickhouse-local-etl",
-                      "docs/cloud/getting-started/migration_guides/08_other_methods/02_etl-tool-to-clickhouse",
-                      "docs/cloud/getting-started/migration_guides/08_other_methods/03_object-storage-to-clickhouse"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Features",
-            "icon": "list-check",
-            "pages": [
-              "docs/cloud/features/01_cloud_tiers",
-              "docs/cloud/features/02_integrations",
-              "docs/cloud/reference/02_architecture",
-              "docs/cloud/reference/05_supported-regions",
-              {
-                "group": "SQL console",
-                "icon": "rectangle-code",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/features/03_sql_console_features/01_sql-console",
-                  "docs/cloud/features/03_sql_console_features/02_query-insights",
-                  "docs/cloud/features/03_sql_console_features/03_query-endpoints",
-                  "docs/cloud/features/03_sql_console_features/04_dashboards",
-                  "docs/cloud/features/03_sql_console_features/hyperdx"
-                ]
-              },
-              {
-                "group": "Infrastructure",
-                "icon": "triangle",
-                "expanded": false,
-                "pages": [
-                  {
-                    "group": "Automatic scaling",
-                    "pages": [
-                      "docs/cloud/features/04_infrastructure/automatic_scaling/01_auto_scaling",
-                      "docs/cloud/features/04_infrastructure/automatic_scaling/02_make_before_break"
-                    ]
-                  },
-                  "docs/cloud/features/04_infrastructure/deployment-options",
-                  "docs/cloud/features/04_infrastructure/replica-aware-routing",
-                  "docs/cloud/features/04_infrastructure/shared-catalog",
-                  "docs/cloud/features/04_infrastructure/shared-merge-tree",
-                  "docs/cloud/features/04_infrastructure/warehouses"
-                ]
-              },
-              {
-                "group": "Admin",
-                "icon": "sliders",
-                "expanded": false,
-                "pages": [
-                  {
-                    "group": "Cloud API",
-                    "pages": [
-                      "docs/cloud/features/05_admin_features/api/api-overview",
-                      "docs/cloud/features/05_admin_features/api/openapi",
-                      "docs/cloud/features/05_admin_features/api/postman"
-                    ]
-                  },
-                  "docs/cloud/features/05_admin_features/upgrades"
-                ]
-              },
-              "docs/cloud/features/06_security",
-              {
-                "group": "Monitoring",
-                "icon": "eye",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/features/07_monitoring/advanced_dashboard",
-                  "docs/cloud/features/07_monitoring/notifications",
-                  "docs/cloud/features/07_monitoring/prometheus"
-                ]
-              },
-              "docs/cloud/features/08_backups",
-              "docs/cloud/features/09_support"
-            ]
-          },
-          {
-            "tab": "Cloud reference",
-            "icon": "cloud",
-            "pages": [
-              "docs/cloud/reference/06_service-uptime",
-              "docs/cloud/reference/11_account-close"
-            ]
-          },
-          {
-            "tab": "Billing",
-            "icon": "credit-card",
-            "pages": [
-              "docs/cloud/reference/03_billing/01_billing_overview",
-              {
-                "group": "Marketplace",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/reference/03_billing/02_marketplace/overview",
-                  "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-committed",
-                  "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-payg",
-                  "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-committed",
-                  "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-payg",
-                  "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-committed",
-                  "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-payg",
-                  "docs/cloud/reference/03_billing/02_marketplace/migrate-marketplace-payg-committed"
-                ]
-              },
-              {
-                "group": "ClickPipes",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_cdc",
-                  "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_streaming_and_object_storage"
-                ]
-              },
-              "docs/cloud/reference/03_billing/04_network-data-transfer",
-              "docs/cloud/reference/03_billing/05_payment-thresholds",
-              "docs/cloud/reference/03_billing/06_billing_compliance"
-            ]
-          },
-          {
-            "tab": "Changelogs",
-            "icon": "clock-rotate-left",
-            "pages": [
-              "docs/cloud/reference/01_changelog/01_changelog"
-            ]
-          },
-          {
-            "tab": "Security",
-            "icon": "lock",
-            "groups": [
-              {
-                "group": "Cloud access management",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/cloud/security/01_cloud_access_management/01_manage-my-account",
-                  "docs/guides/cloud/security/01_cloud_access_management/02_manage-cloud-users",
-                  "docs/guides/cloud/security/01_cloud_access_management/03_manage-sql-console-role-assignments",
-                  "docs/guides/cloud/security/01_cloud_access_management/04_manage-database-users",
-                  "docs/guides/cloud/security/01_cloud_access_management/04_saml-sso-setup",
-                  "docs/guides/cloud/security/01_cloud_access_management/05_common-access-management-queries"
-                ]
-              },
-              {
-                "group": "Connectivity",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/cloud/security/02_connectivity/01_setting-ip-filters",
-                  {
-                    "group": "Private networking",
-                    "expanded": false,
-                    "pages": [
-                      "docs/guides/cloud/security/02_connectivity/private_networking/02_aws-privatelink",
-                      "docs/guides/cloud/security/02_connectivity/private_networking/03_gcp-private-service-connect",
-                      "docs/guides/cloud/security/02_connectivity/private_networking/04_azure-privatelink"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Data security",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/cloud/security/03_data-masking",
-                  "docs/guides/cloud/security/04_cmek"
-                ]
-              },
-              {
-                "group": "Compliance",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/cloud/security/06_compliance/hipaa-onboarding",
-                  "docs/guides/cloud/security/06_compliance/pci-onboarding"
-                ]
-              },
-              {
-                "group": "Reference",
-                "expanded": false,
-                "pages": [
-                  "docs/cloud/reference/09_security/01_console-roles",
-                  "docs/cloud/reference/09_security/02_audit-logging",
-                  "docs/cloud/reference/09_security/03_compliance-overview",
-                  "docs/cloud/reference/10_personal-data-access"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "API reference",
-            "icon": "code",
-            "openapi": "api-reference/cloud/cloud-openapi.json"
-          }
-        ]
-      },
-      {
-        "product": "ClickPipes",
-        "description": "Managed integration platform for data ingestion",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/clickpipes/home"
-            ]
-          },
-          {
-            "tab": "Cloud object stores",
-            "icon": "cloud",
-            "pages": [
-              {
-                "group": "Object storage ClickPipes",
-                "expanded": false,
-                "pages": [
-                  "docs/clickpipes/cloud-object-stores/object-storage/01_create_clickpipe_for_object_storage",
-                  "docs/clickpipes/cloud-object-stores/object-storage/02_reference",
-                  "docs/clickpipes/cloud-object-stores/object-storage/03_faq"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Databases & data lakehouses",
-            "icon": "database",
-            "pages": [
-              {
-                "group": "Postgres",
-                "expanded": false,
-                "pages": [
-                  "docs/clickpipes/database-datalake/postgres/index",
-                  "docs/clickpipes/database-datalake/postgres/deduplication",
-                  "docs/clickpipes/database-datalake/postgres/ordering_keys",
-                  "docs/clickpipes/database-datalake/postgres/toast",
-                  "docs/clickpipes/database-datalake/postgres/connecting-to-postgresql",
-                  "docs/clickpipes/database-datalake/postgres/inserting-data",
-                  "docs/clickpipes/database-datalake/postgres/schema-changes",
-                  "docs/clickpipes/database-datalake/postgres/faq",
-                  "docs/clickpipes/database-datalake/postgres/parallel_initial_load",
-                  "docs/clickpipes/database-datalake/postgres/lifecycle",
-                  {
-                    "group": "Operations",
-                    "pages": [
-                      "docs/clickpipes/database-datalake/postgres/add_table",
-                      "docs/clickpipes/database-datalake/postgres/pause_and_resume",
-                      "docs/clickpipes/database-datalake/postgres/remove_table",
-                      "docs/clickpipes/database-datalake/postgres/table_resync",
-                      "docs/clickpipes/database-datalake/postgres/resync",
-                      "docs/clickpipes/database-datalake/postgres/controlling_sync",
-                      "docs/clickpipes/database-datalake/postgres/scaling"
-                    ]
-                  },
-                  {
-                    "group": "Source",
-                    "pages": [
-                      "docs/clickpipes/database-datalake/postgres/source/rds",
-                      "docs/clickpipes/database-datalake/postgres/source/aurora",
-                      "docs/clickpipes/database-datalake/postgres/source/supabase",
-                      "docs/clickpipes/database-datalake/postgres/source/google-cloudsql",
-                      "docs/clickpipes/database-datalake/postgres/source/azure-flexible-server-postgres",
-                      "docs/clickpipes/database-datalake/postgres/source/neon-postgres",
-                      "docs/clickpipes/database-datalake/postgres/source/crunchy-postgres",
-                      "docs/clickpipes/database-datalake/postgres/source/generic",
-                      "docs/clickpipes/database-datalake/postgres/source/timescale",
-                      "docs/clickpipes/database-datalake/postgres/source/planetscale"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "MongoDB",
-                "expanded": false,
-                "icon": "rectangle-beta",
-                "pages": [
-                  "docs/clickpipes/database-datalake/mongodb/index",
-                  "docs/clickpipes/database-datalake/mongodb/datatypes",
-                  "docs/clickpipes/database-datalake/mongodb/quickstart",
-                  "docs/clickpipes/database-datalake/mongodb/lifecycle",
-                  "docs/clickpipes/database-datalake/mongodb/faq",
-                  {
-                    "group": "Operations",
-                    "pages": [
-                      "docs/clickpipes/database-datalake/mongodb/add_table",
-                      "docs/clickpipes/database-datalake/mongodb/remove_table",
-                      "docs/clickpipes/database-datalake/mongodb/pause_and_resume",
-                      "docs/clickpipes/database-datalake/mongodb/table_resync",
-                      "docs/clickpipes/database-datalake/mongodb/resync"
-                    ]
-                  },
-                  {
-                    "group": "Source",
-                    "pages": [
-                      "docs/clickpipes/database-datalake/mongodb/source/atlas",
-                      "docs/clickpipes/database-datalake/mongodb/source/generic"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "MySQL",
-                "expanded": false,
-                "pages": [
-                  "docs/clickpipes/database-datalake/mysql/index",
-                  "docs/clickpipes/database-datalake/mysql/faq",
-                  "docs/clickpipes/database-datalake/mysql/datatypes",
-                  "docs/clickpipes/database-datalake/mysql/parallel_initial_load",
-                  "docs/clickpipes/database-datalake/mysql/schema-changes",
-                  "docs/clickpipes/database-datalake/mysql/lifecycle",
-                  {
-                    "group": "Operations",
-                    "pages": [
-                      "docs/clickpipes/database-datalake/mysql/add_table",
-                      "docs/clickpipes/database-datalake/mysql/pause_and_resume",
-                      "docs/clickpipes/database-datalake/mysql/remove_table",
-                      "docs/clickpipes/database-datalake/mysql/table_resync",
-                      "docs/clickpipes/database-datalake/mysql/resync",
-                      "docs/clickpipes/database-datalake/mysql/controlling_sync"
-                    ]
-                  },
-                  {
-                    "group": "Source",
-                    "pages": [
-                      "docs/clickpipes/database-datalake/mysql/source/rds",
-                      "docs/clickpipes/database-datalake/mysql/source/aurora",
-                      "docs/clickpipes/database-datalake/mysql/source/gcp",
-                      "docs/clickpipes/database-datalake/mysql/source/generic",
-                      "docs/clickpipes/database-datalake/mysql/source/rds_maria",
-                      "docs/clickpipes/database-datalake/mysql/source/generic_maria"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Amazon databases",
-            "icon": "aws",
-            "pages": [
-              {
-                "group": "AWS",
-                "expanded": false,
-                "pages": [
-                  "docs/clickpipes/amazon-databases/kinesis",
-                  "docs/clickpipes/amazon-databases/secure-kinesis",
-                  "docs/clickpipes/amazon-databases/secure-rds",
-                  "docs/clickpipes/amazon-databases/aws-privatelink"
-                ]
-              },
-              "docs/clickpipes/amazon-databases/dynamodb"
-            ]
-          },
-          {
-            "tab": "Event streams",
-            "icon": "stream",
-            "pages": [
-              {
-                "group": "Kafka ClickPipes",
-                "expanded": false,
-                "pages": [
-                  "docs/clickpipes/event-streams/kafka/01_create-kafka-clickpipe",
-                  "docs/clickpipes/event-streams/kafka/02_schema-registries",
-                  "docs/clickpipes/event-streams/kafka/03_reference",
-                  "docs/clickpipes/event-streams/kafka/04_best_practices",
-                  "docs/clickpipes/event-streams/kafka/05_faq"
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "product": "ClickStack",
-        "description": "The ClickHouse observability stack",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/clickstack/home"
-            ]
-          },
-          {
-            "tab": "Get started",
-            "icon": "rocket",
-            "groups": [
-              {
-                "group": "Introduction",
-                "pages": [
-                  "docs/clickstack/overview",
-                  "docs/clickstack/getting-started"
-                ]
-              },
-              {
-                "group": "Sample datasets",
-                "pages": [
-                  "docs/clickstack/example-datasets/sample-data",
-                  "docs/clickstack/example-datasets/kubernetes",
-                  "docs/clickstack/example-datasets/local-data",
-                  "docs/clickstack/example-datasets/remote-demo-data"
-                ]
-              },
-              {
-                "group": "Architecture",
-                "pages": [
-                  "docs/clickstack/architecture"
-                ]
-              },
-              {
-                "group": "Integration quick start",
-                "pages": [
-                  "docs/clickstack/integration-examples/nginx-logs",
-                  "docs/clickstack/integration-examples/nginx-traces",
-                  "docs/clickstack/integration-examples/redis-logs",
-                  "docs/clickstack/integration-examples/redis-metrics"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Features",
-            "icon": "list-check",
-            "pages": [
-              {
-                "group": "Deployment options",
-                "pages": [
-                  "docs/clickstack/deployment/all-in-one",
-                  "docs/clickstack/deployment/hyperdx-clickhouse-cloud",
-                  "docs/clickstack/deployment/helm",
-                  "docs/clickstack/deployment/docker-compose",
-                  "docs/clickstack/deployment/hyperdx-only",
-                  "docs/clickstack/deployment/local-mode-only"
-                ]
-              },
-              "docs/clickstack/search",
-              "docs/clickstack/dashboards",
-              "docs/clickstack/event_patterns",
-              "docs/clickstack/event_deltas",
-              "docs/clickstack/alerts"
-            ]
-          },
-          {
-            "tab": "Guides",
-            "icon": "book",
-            "pages": [
-              {
-                "group": "Ingesting data",
-                "pages": [
-                  "docs/clickstack/ingesting-data/overview"
-                ]
-              },
-              {
-                "group": "Migration guides",
-                "pages": [
-                  {
-                    "group": "Migrating from Elastic",
-                    "pages": [
-                      "docs/clickstack/migration/elastic/intro",
-                      "docs/clickstack/migration/elastic/concepts",
-                      "docs/clickstack/migration/elastic/types",
-                      "docs/clickstack/migration/elastic/search",
-                      "docs/clickstack/migration/elastic/migrating-data",
-                      "docs/clickstack/migration/elastic/migrating-agents",
-                      "docs/clickstack/migration/elastic/migrating-sdks"
-                    ]
-                  }
-                ]
-              },
-              "docs/clickstack/production",
-              "docs/clickstack/ttl"
-            ]
-          },
-          {
-            "tab": "API reference",
-            "icon": "code",
-            "openapi": "api-reference/hyperdx/hyperdx-openapi.json"
-          }
-        ]
-      },
-      {
-        "product": "chDB",
-        "description": "Fast, reliable, and scalable in-process database",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/chdb/home"
-            ]
-          },
-          {
-            "tab": "Get started",
-            "icon": "rocket",
-            "pages": [
-              "docs/chdb/index",
-              "docs/chdb/getting-started"
-            ]
-          },
-          {
-            "tab": "Language integrations",
-            "icon": "laptop-code",
-            "pages": [
-              "docs/chdb/install/python",
-              "docs/chdb/install/nodejs",
-              "docs/chdb/install/go",
-              "docs/chdb/install/rust",
-              "docs/chdb/install/bun",
-              "docs/chdb/install/c"
-            ]
-          },
-          {
-            "tab": "Developer guides",
-            "icon": "book",
-            "pages": [
-              "docs/chdb/guides/jupysql",
-              "docs/chdb/guides/querying-pandas",
-              "docs/chdb/guides/querying-apache-arrow",
-              "docs/chdb/guides/querying-s3-bucket",
-              "docs/chdb/guides/querying-parquet",
-              "docs/chdb/guides/query-remote-clickhouse",
-              "docs/chdb/guides/clickhouse-local"
-            ]
-          },
-          {
-            "tab": "Technical reference",
-            "icon": "gears",
-            "pages": [
-              "docs/chdb/reference/data-formats",
-              "docs/chdb/reference/sql-reference",
-              "docs/chdb/api/python"
-            ]
-          }
-        ]
-      },
-      {
-        "product": "Integrations",
-        "description": "100+ ClickHouse integrations",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/integrations/home"
-            ]
-          },
-          {
-            "tab": "Language clients",
-            "icon": "laptop-code",
-            "pages": [
-              "docs/integrations/language-clients/go/index",
-              "docs/integrations/language-clients/js",
-              {
-                "group": "Java",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/language-clients/java/client"
-                ]
-              },
-              {
-                "group": "Python",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/language-clients/python/index",
-                  "docs/integrations/language-clients/python/driver-api",
-                  "docs/integrations/language-clients/python/additional-options",
-                  "docs/integrations/language-clients/python/advanced-querying",
-                  "docs/integrations/language-clients/python/advanced-inserting",
-                  "docs/integrations/language-clients/python/advanced-usage",
-                  "docs/integrations/language-clients/python/sqlalchemy"
-                ]
-              },
-              "docs/integrations/language-clients/rust",
-              "docs/integrations/language-clients/csharp",
-              "docs/integrations/language-clients/cpp",
-              {
-                "group": "Third-party clients",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/language-clients/third-party/moose-olap",
-                  "docs/integrations/language-clients/third-party/client-libraries"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Data ingestion",
-            "icon": "arrows-to-dot",
-            "groups": [
-              {
-                "group": "AWS",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/data-ingestion/AWS/integrating-s3-with-clickhouse",
-                  "docs/integrations/data-ingestion/AWS/performance",
-                  "docs/integrations/data-ingestion/AWS/glue"
-                ]
-              },
-              {
-                "group": "GCP",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/data-ingestion/GCP/index",
-                  {
-                    "group": "Google Dataflow",
-                    "expanded": false,
-                    "pages": [
-                      "docs/integrations/data-ingestion/GCP/google-dataflow/dataflow",
-                      "docs/integrations/data-ingestion/GCP/google-dataflow/java-runner",
-                      "docs/integrations/data-ingestion/GCP/google-dataflow/templates",
-                      {
-                        "group": "Dataflow templates",
-                        "expanded": false,
-                        "pages": [
-                          "docs/integrations/data-ingestion/GCP/google-dataflow/templates/bigquery-to-clickhouse"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Azure",
-                "expanded": false,
-                "pages": [
-                  {
-                    "group": "Azure Data Factory",
-                    "expanded": false,
-                    "pages": [
-                      "docs/integrations/data-ingestion/azure/azure-data-factory/overview",
-                      "docs/integrations/data-ingestion/azure/azure-data-factory/using_azureblobstorage",
-                      "docs/integrations/data-ingestion/azure/azure-data-factory/using_http_interface"
-                    ]
-                  },
-                  "docs/integrations/data-ingestion/azure/azure-synapse"
-                ]
-              },
-              {
-                "group": "Standalone Integrations",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/data-ingestion/etl-tools/airbyte-and-clickhouse",
-                  "docs/integrations/data-ingestion/etl-tools/apache-beam",
-                  {
-                    "group": "Apache Spark",
-                    "expanded": false,
-                    "pages": [
-                      "docs/integrations/data-ingestion/apache-spark/index",
-                      "docs/integrations/data-ingestion/apache-spark/spark-jdbc",
-                      "docs/integrations/data-ingestion/apache-spark/spark-native-connector"
-                    ]
-                  },
-                  "docs/integrations/data-ingestion/etl-tools/bladepipe-and-clickhouse",
-                  {
-                    "group": "dbt",
-                    "expanded": false,
-                    "pages": [
-                      "docs/integrations/data-ingestion/etl-tools/dbt/index",
-                      "docs/integrations/data-ingestion/etl-tools/dbt/features-and-configurations"
-                    ]
-                  },
-                  "docs/integrations/data-ingestion/emqx/index",
-                  "docs/integrations/data-ingestion/jdbc-with-clickhouse",
-                  {
-                    "group": "Kafka",
-                    "expanded": false,
-                    "pages": [
-                      "docs/integrations/data-ingestion/kafka/index",
-                      "docs/integrations/data-ingestion/kafka/kafka-clickhouse-connect-sink",
-                      "docs/integrations/data-ingestion/kafka/confluent/confluent-cloud",
-                      "docs/integrations/data-ingestion/kafka/confluent/custom-connector",
-                      "docs/integrations/data-ingestion/kafka/msk/index",
-                      "docs/integrations/data-ingestion/kafka/kafka-vector",
-                      "docs/integrations/data-ingestion/kafka/kafka-table-engine",
-                      "docs/integrations/data-ingestion/kafka/confluent/index",
-                      "docs/integrations/data-ingestion/kafka/confluent/kafka-connect-http",
-                      "docs/integrations/data-ingestion/kafka/kafka-connect-jdbc",
-                      "docs/integrations/data-ingestion/kafka/kafka-table-engine-named-collections"
-                    ]
-                  },
-                  "docs/integrations/data-ingestion/s3-minio",
-                  "docs/integrations/data-ingestion/mysql",
-                  "docs/integrations/data-ingestion/etl-tools/nifi-and-clickhouse",
-                  "docs/integrations/data-ingestion/postgresql/connecting-to-postgresql",
-                  "docs/integrations/data-ingestion/etl-tools/vector-to-clickhouse"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Data visualization",
-            "icon": "chart-simple",
-            "groups": [
-              {
-                "group": "ClickHouse integrations",
-                "pages": [
-                  "docs/integrations/data-visualization/clickhouse/powerbi-and-clickhouse",
-                  "docs/integrations/data-visualization/clickhouse/splunk-and-clickhouse",
-                  "docs/integrations/data-visualization/clickhouse/quicksight-and-clickhouse",
-                  "docs/integrations/data-visualization/clickhouse/superset-and-clickhouse",
-                  {
-                    "group": "Tableau",
-                    "expanded": false,
-                    "pages": [
-                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-and-clickhouse",
-                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-online-and-clickhouse",
-                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-connection-tips",
-                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-analysis-tips",
-                      {
-                        "group": "Grafana",
-                        "expanded": false,
-                        "pages": [
-                          "docs/integrations/data-visualization/clickhouse/grafana/index",
-                          "docs/integrations/data-visualization/clickhouse/grafana/query-builder",
-                          "docs/integrations/data-visualization/clickhouse/grafana/config"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Partner integrations",
-                "pages": [
-                  "docs/integrations/data-visualization/partner/lightdash-and-clickhouse",
-                  "docs/integrations/data-visualization/partner/looker-and-clickhouse",
-                  "docs/integrations/data-visualization/partner/looker-studio-and-clickhouse",
-                  "docs/integrations/data-visualization/partner/metabase-and-clickhouse",
-                  "docs/integrations/data-visualization/partner/omni-and-clickhouse"
-                ]
-              },
-              {
-                "group": "Community integrations",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/data-visualization/community-integrations/astrato-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/chartbrew-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/databrain-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/deepnote",
-                  "docs/integrations/data-visualization/community-integrations/dot-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/draxlr-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/embeddable-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/explo-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/fabi-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/hashboard-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/luzmo-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/mitzu-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/rocketbi-and-clickhouse",
-                  "docs/integrations/data-visualization/community-integrations/zingdata-and-clickhouse"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "SQL clients",
-            "icon": "database",
-            "pages": [
-              "docs/integrations/data-integrations/sql-clients/datagrip",
-              "docs/integrations/data-integrations/sql-clients/dbeaver",
-              "docs/integrations/data-integrations/sql-clients/dbvisualizer",
-              "docs/integrations/data-integrations/sql-clients/jupysql",
-              "docs/integrations/data-integrations/sql-clients/qstudio",
-              "docs/integrations/data-integrations/sql-clients/tablum",
-              "docs/integrations/data-integrations/sql-clients/marimo"
-            ]
-          },
-          {
-            "tab": "Data integration",
-            "icon": "plug",
-            "groups": [
-              {
-                "group": "Integrations",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/data-integrations/integrations/retool",
-                  "docs/integrations/data-integrations/integrations/easypanel",
-                  "docs/integrations/data-integrations/integrations/splunk"
-                ]
-              },
-              {
-                "group": "Interfaces",
-                "expanded": false,
-                "pages": [
-                  "docs/integrations/data-integrations/drivers-and-interfaces/http",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/native-clients-interfaces-index",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/jdbc",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/mysql",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/odbc",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/postgresql",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/prometheus",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/ssh",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/grpc",
-                  "docs/integrations/data-integrations/drivers-and-interfaces/arrowflight"
                 ]
               }
             ]
@@ -2493,6 +1605,906 @@
             "icon": "house",
             "pages": [
               "docs/support/home"
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Cloud",
+        "description": "Serverless hosted DBMS solution.",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "docs/cloud/home"
+            ]
+          },
+          {
+            "tab": "Get started",
+            "icon": "rocket",
+            "groups": [
+              {
+                "group": "Quick Start",
+                "icon": "bolt-lightning",
+                "pages": [
+                  "docs/get-started/cloud/intro",
+                  "docs/cloud/getting-started/quick-start"
+                ]
+              },
+              {
+                "group": "Use cases",
+                "icon": "bullseye-arrow",
+                "pages": [
+                  "docs/cloud/getting-started/use_cases/00_overview",
+                  "docs/cloud/getting-started/use_cases/01_real-time-analytics",
+                  "docs/cloud/getting-started/use_cases/02_observability",
+                  "docs/cloud/getting-started/use_cases/03_data_warehousing",
+                  {
+                    "group": "Machine learning & generative AI",
+                    "pages": [
+                      "docs/cloud/getting-started/use_cases/04_machine_learning_and_genAI/01_machine_learning",
+                      "docs/cloud/getting-started/use_cases/04_machine_learning_and_genAI/02_agent_facing_analytics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Migration guides",
+                "icon": "arrow-down-from-arc",
+                "pages": [
+                  "docs/cloud/getting-started/migration_guides/01_overview",
+                  {
+                    "group": "PostgreSQL",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/02_postgres/01_overview",
+                      {
+                        "group": "Migration guide",
+                        "pages": [
+                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/01_migration_guide_part1",
+                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/02_migration_guide_part2",
+                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/03_migration_guide_part3"
+                        ]
+                      },
+                      "docs/cloud/getting-started/migration_guides/02_postgres/appendix"
+                    ]
+                  },
+                  {
+                    "group": "BigQuery",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/03_bigquery/01_overview",
+                      "docs/cloud/getting-started/migration_guides/03_bigquery/02_migrating-to-clickhouse-cloud",
+                      "docs/cloud/getting-started/migration_guides/03_bigquery/03_loading-data"
+                    ]
+                  },
+                  {
+                    "group": "Snowflake",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/04_snowflake/01_overview",
+                      "docs/cloud/getting-started/migration_guides/04_snowflake/02_migration_guide",
+                      "docs/cloud/getting-started/migration_guides/04_snowflake/03_sql_translation_reference"
+                    ]
+                  },
+                  {
+                    "group": "Elasticsearch",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/05_elastic/01_overview"
+                    ]
+                  },
+                  {
+                    "group": "Redshift",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/06_redshift/01_overview",
+                      "docs/cloud/getting-started/migration_guides/06_redshift/02_migration_guide",
+                      "docs/cloud/getting-started/migration_guides/06_redshift/03_sql_translation_reference"
+                    ]
+                  },
+                  {
+                    "group": "OSS to Cloud",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/07_OSS_to_Cloud/01_clickhouse-to-cloud"
+                    ]
+                  },
+                  {
+                    "group": "Other methods",
+                    "pages": [
+                      "docs/cloud/getting-started/migration_guides/08_other_methods/01_clickhouse-local-etl",
+                      "docs/cloud/getting-started/migration_guides/08_other_methods/02_etl-tool-to-clickhouse",
+                      "docs/cloud/getting-started/migration_guides/08_other_methods/03_object-storage-to-clickhouse"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "icon": "list-check",
+            "pages": [
+              "docs/cloud/features/01_cloud_tiers",
+              "docs/cloud/features/02_integrations",
+              "docs/cloud/reference/02_architecture",
+              "docs/cloud/reference/05_supported-regions",
+              {
+                "group": "SQL console",
+                "icon": "rectangle-code",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/features/03_sql_console_features/01_sql-console",
+                  "docs/cloud/features/03_sql_console_features/02_query-insights",
+                  "docs/cloud/features/03_sql_console_features/03_query-endpoints",
+                  "docs/cloud/features/03_sql_console_features/04_dashboards",
+                  "docs/cloud/features/03_sql_console_features/hyperdx"
+                ]
+              },
+              {
+                "group": "Infrastructure",
+                "icon": "triangle",
+                "expanded": false,
+                "pages": [
+                  {
+                    "group": "Automatic scaling",
+                    "pages": [
+                      "docs/cloud/features/04_infrastructure/automatic_scaling/01_auto_scaling",
+                      "docs/cloud/features/04_infrastructure/automatic_scaling/02_make_before_break"
+                    ]
+                  },
+                  "docs/cloud/features/04_infrastructure/deployment-options",
+                  "docs/cloud/features/04_infrastructure/replica-aware-routing",
+                  "docs/cloud/features/04_infrastructure/shared-catalog",
+                  "docs/cloud/features/04_infrastructure/shared-merge-tree",
+                  "docs/cloud/features/04_infrastructure/warehouses"
+                ]
+              },
+              {
+                "group": "Admin",
+                "icon": "sliders",
+                "expanded": false,
+                "pages": [
+                  {
+                    "group": "Cloud API",
+                    "pages": [
+                      "docs/cloud/features/05_admin_features/api/api-overview",
+                      "docs/cloud/features/05_admin_features/api/openapi",
+                      "docs/cloud/features/05_admin_features/api/postman"
+                    ]
+                  },
+                  "docs/cloud/features/05_admin_features/upgrades"
+                ]
+              },
+              "docs/cloud/features/06_security",
+              {
+                "group": "Monitoring",
+                "icon": "eye",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/features/07_monitoring/advanced_dashboard",
+                  "docs/cloud/features/07_monitoring/notifications",
+                  "docs/cloud/features/07_monitoring/prometheus"
+                ]
+              },
+              "docs/cloud/features/08_backups",
+              "docs/cloud/features/09_support"
+            ]
+          },
+          {
+            "tab": "Cloud reference",
+            "icon": "cloud",
+            "pages": [
+              "docs/cloud/reference/06_service-uptime",
+              "docs/cloud/reference/11_account-close"
+            ]
+          },
+          {
+            "tab": "Billing",
+            "icon": "credit-card",
+            "pages": [
+              "docs/cloud/reference/03_billing/01_billing_overview",
+              {
+                "group": "Marketplace",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/reference/03_billing/02_marketplace/overview",
+                  "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-committed",
+                  "docs/cloud/reference/03_billing/02_marketplace/aws-marketplace-payg",
+                  "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-committed",
+                  "docs/cloud/reference/03_billing/02_marketplace/azure-marketplace-payg",
+                  "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-committed",
+                  "docs/cloud/reference/03_billing/02_marketplace/gcp-marketplace-payg",
+                  "docs/cloud/reference/03_billing/02_marketplace/migrate-marketplace-payg-committed"
+                ]
+              },
+              {
+                "group": "ClickPipes",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_cdc",
+                  "docs/cloud/reference/03_billing/03_clickpipes/clickpipes_for_streaming_and_object_storage"
+                ]
+              },
+              "docs/cloud/reference/03_billing/04_network-data-transfer",
+              "docs/cloud/reference/03_billing/05_payment-thresholds",
+              "docs/cloud/reference/03_billing/06_billing_compliance"
+            ]
+          },
+          {
+            "tab": "Changelogs",
+            "icon": "clock-rotate-left",
+            "pages": [
+              "docs/cloud/reference/01_changelog/01_changelog"
+            ]
+          },
+          {
+            "tab": "Security",
+            "icon": "lock",
+            "groups": [
+              {
+                "group": "Cloud access management",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/01_cloud_access_management/01_manage-my-account",
+                  "docs/guides/cloud/security/01_cloud_access_management/02_manage-cloud-users",
+                  "docs/guides/cloud/security/01_cloud_access_management/03_manage-sql-console-role-assignments",
+                  "docs/guides/cloud/security/01_cloud_access_management/04_manage-database-users",
+                  "docs/guides/cloud/security/01_cloud_access_management/04_saml-sso-setup",
+                  "docs/guides/cloud/security/01_cloud_access_management/05_common-access-management-queries"
+                ]
+              },
+              {
+                "group": "Connectivity",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/02_connectivity/01_setting-ip-filters",
+                  {
+                    "group": "Private networking",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/cloud/security/02_connectivity/private_networking/02_aws-privatelink",
+                      "docs/guides/cloud/security/02_connectivity/private_networking/03_gcp-private-service-connect",
+                      "docs/guides/cloud/security/02_connectivity/private_networking/04_azure-privatelink"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Data security",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/03_data-masking",
+                  "docs/guides/cloud/security/04_cmek"
+                ]
+              },
+              {
+                "group": "Compliance",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/cloud/security/06_compliance/hipaa-onboarding",
+                  "docs/guides/cloud/security/06_compliance/pci-onboarding"
+                ]
+              },
+              {
+                "group": "Reference",
+                "expanded": false,
+                "pages": [
+                  "docs/cloud/reference/09_security/01_console-roles",
+                  "docs/cloud/reference/09_security/02_audit-logging",
+                  "docs/cloud/reference/09_security/03_compliance-overview",
+                  "docs/cloud/reference/10_personal-data-access"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API reference",
+            "icon": "code",
+            "openapi": "api-reference/cloud/cloud-openapi.json"
+          }
+        ]
+      },
+      {
+        "product": "ClickStack",
+        "description": "The ClickHouse observability stack",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "docs/clickstack/home"
+            ]
+          },
+          {
+            "tab": "Get started",
+            "icon": "rocket",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "docs/clickstack/overview",
+                  "docs/clickstack/getting-started"
+                ]
+              },
+              {
+                "group": "Sample datasets",
+                "pages": [
+                  "docs/clickstack/example-datasets/sample-data",
+                  "docs/clickstack/example-datasets/kubernetes",
+                  "docs/clickstack/example-datasets/local-data",
+                  "docs/clickstack/example-datasets/remote-demo-data"
+                ]
+              },
+              {
+                "group": "Architecture",
+                "pages": [
+                  "docs/clickstack/architecture"
+                ]
+              },
+              {
+                "group": "Integration quick start",
+                "pages": [
+                  "docs/clickstack/integration-examples/nginx-logs",
+                  "docs/clickstack/integration-examples/nginx-traces",
+                  "docs/clickstack/integration-examples/redis-logs",
+                  "docs/clickstack/integration-examples/redis-metrics"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "icon": "list-check",
+            "pages": [
+              {
+                "group": "Deployment options",
+                "pages": [
+                  "docs/clickstack/deployment/all-in-one",
+                  "docs/clickstack/deployment/hyperdx-clickhouse-cloud",
+                  "docs/clickstack/deployment/helm",
+                  "docs/clickstack/deployment/docker-compose",
+                  "docs/clickstack/deployment/hyperdx-only",
+                  "docs/clickstack/deployment/local-mode-only"
+                ]
+              },
+              "docs/clickstack/search",
+              "docs/clickstack/dashboards",
+              "docs/clickstack/event_patterns",
+              "docs/clickstack/event_deltas",
+              "docs/clickstack/alerts"
+            ]
+          },
+          {
+            "tab": "Guides",
+            "icon": "book",
+            "pages": [
+              {
+                "group": "Ingesting data",
+                "pages": [
+                  "docs/clickstack/ingesting-data/overview"
+                ]
+              },
+              {
+                "group": "Migration guides",
+                "pages": [
+                  {
+                    "group": "Migrating from Elastic",
+                    "pages": [
+                      "docs/clickstack/migration/elastic/intro",
+                      "docs/clickstack/migration/elastic/concepts",
+                      "docs/clickstack/migration/elastic/types",
+                      "docs/clickstack/migration/elastic/search",
+                      "docs/clickstack/migration/elastic/migrating-data",
+                      "docs/clickstack/migration/elastic/migrating-agents",
+                      "docs/clickstack/migration/elastic/migrating-sdks"
+                    ]
+                  }
+                ]
+              },
+              "docs/clickstack/production",
+              "docs/clickstack/ttl"
+            ]
+          },
+          {
+            "tab": "API reference",
+            "icon": "code",
+            "openapi": "api-reference/hyperdx/hyperdx-openapi.json"
+          }
+        ]
+      },
+      {
+        "product": "chDB",
+        "description": "Fast, reliable, and scalable in-process database",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "docs/chdb/home"
+            ]
+          },
+          {
+            "tab": "Get started",
+            "icon": "rocket",
+            "pages": [
+              "docs/chdb/index",
+              "docs/chdb/getting-started"
+            ]
+          },
+          {
+            "tab": "Language integrations",
+            "icon": "laptop-code",
+            "pages": [
+              "docs/chdb/install/python",
+              "docs/chdb/install/nodejs",
+              "docs/chdb/install/go",
+              "docs/chdb/install/rust",
+              "docs/chdb/install/bun",
+              "docs/chdb/install/c"
+            ]
+          },
+          {
+            "tab": "Developer guides",
+            "icon": "book",
+            "pages": [
+              "docs/chdb/guides/jupysql",
+              "docs/chdb/guides/querying-pandas",
+              "docs/chdb/guides/querying-apache-arrow",
+              "docs/chdb/guides/querying-s3-bucket",
+              "docs/chdb/guides/querying-parquet",
+              "docs/chdb/guides/query-remote-clickhouse",
+              "docs/chdb/guides/clickhouse-local"
+            ]
+          },
+          {
+            "tab": "Technical reference",
+            "icon": "gears",
+            "pages": [
+              "docs/chdb/reference/data-formats",
+              "docs/chdb/reference/sql-reference",
+              "docs/chdb/api/python"
+            ]
+          }
+        ]
+      },
+      {
+        "product": "ClickPipes",
+        "description": "Managed integration platform for data ingestion",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "docs/clickpipes/home"
+            ]
+          },
+          {
+            "tab": "Cloud object stores",
+            "icon": "cloud",
+            "pages": [
+              {
+                "group": "Object storage ClickPipes",
+                "expanded": false,
+                "pages": [
+                  "docs/clickpipes/cloud-object-stores/object-storage/01_create_clickpipe_for_object_storage",
+                  "docs/clickpipes/cloud-object-stores/object-storage/02_reference",
+                  "docs/clickpipes/cloud-object-stores/object-storage/03_faq"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Databases & data lakehouses",
+            "icon": "database",
+            "pages": [
+              {
+                "group": "Postgres",
+                "expanded": false,
+                "pages": [
+                  "docs/clickpipes/database-datalake/postgres/index",
+                  "docs/clickpipes/database-datalake/postgres/deduplication",
+                  "docs/clickpipes/database-datalake/postgres/ordering_keys",
+                  "docs/clickpipes/database-datalake/postgres/toast",
+                  "docs/clickpipes/database-datalake/postgres/connecting-to-postgresql",
+                  "docs/clickpipes/database-datalake/postgres/inserting-data",
+                  "docs/clickpipes/database-datalake/postgres/schema-changes",
+                  "docs/clickpipes/database-datalake/postgres/faq",
+                  "docs/clickpipes/database-datalake/postgres/parallel_initial_load",
+                  "docs/clickpipes/database-datalake/postgres/lifecycle",
+                  {
+                    "group": "Operations",
+                    "pages": [
+                      "docs/clickpipes/database-datalake/postgres/add_table",
+                      "docs/clickpipes/database-datalake/postgres/pause_and_resume",
+                      "docs/clickpipes/database-datalake/postgres/remove_table",
+                      "docs/clickpipes/database-datalake/postgres/table_resync",
+                      "docs/clickpipes/database-datalake/postgres/resync",
+                      "docs/clickpipes/database-datalake/postgres/controlling_sync",
+                      "docs/clickpipes/database-datalake/postgres/scaling"
+                    ]
+                  },
+                  {
+                    "group": "Source",
+                    "pages": [
+                      "docs/clickpipes/database-datalake/postgres/source/rds",
+                      "docs/clickpipes/database-datalake/postgres/source/aurora",
+                      "docs/clickpipes/database-datalake/postgres/source/supabase",
+                      "docs/clickpipes/database-datalake/postgres/source/google-cloudsql",
+                      "docs/clickpipes/database-datalake/postgres/source/azure-flexible-server-postgres",
+                      "docs/clickpipes/database-datalake/postgres/source/neon-postgres",
+                      "docs/clickpipes/database-datalake/postgres/source/crunchy-postgres",
+                      "docs/clickpipes/database-datalake/postgres/source/generic",
+                      "docs/clickpipes/database-datalake/postgres/source/timescale",
+                      "docs/clickpipes/database-datalake/postgres/source/planetscale"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "MongoDB",
+                "expanded": false,
+                "icon": "rectangle-beta",
+                "pages": [
+                  "docs/clickpipes/database-datalake/mongodb/index",
+                  "docs/clickpipes/database-datalake/mongodb/datatypes",
+                  "docs/clickpipes/database-datalake/mongodb/quickstart",
+                  "docs/clickpipes/database-datalake/mongodb/lifecycle",
+                  "docs/clickpipes/database-datalake/mongodb/faq",
+                  {
+                    "group": "Operations",
+                    "pages": [
+                      "docs/clickpipes/database-datalake/mongodb/add_table",
+                      "docs/clickpipes/database-datalake/mongodb/remove_table",
+                      "docs/clickpipes/database-datalake/mongodb/pause_and_resume",
+                      "docs/clickpipes/database-datalake/mongodb/table_resync",
+                      "docs/clickpipes/database-datalake/mongodb/resync"
+                    ]
+                  },
+                  {
+                    "group": "Source",
+                    "pages": [
+                      "docs/clickpipes/database-datalake/mongodb/source/atlas",
+                      "docs/clickpipes/database-datalake/mongodb/source/generic"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "MySQL",
+                "expanded": false,
+                "pages": [
+                  "docs/clickpipes/database-datalake/mysql/index",
+                  "docs/clickpipes/database-datalake/mysql/faq",
+                  "docs/clickpipes/database-datalake/mysql/datatypes",
+                  "docs/clickpipes/database-datalake/mysql/parallel_initial_load",
+                  "docs/clickpipes/database-datalake/mysql/schema-changes",
+                  "docs/clickpipes/database-datalake/mysql/lifecycle",
+                  {
+                    "group": "Operations",
+                    "pages": [
+                      "docs/clickpipes/database-datalake/mysql/add_table",
+                      "docs/clickpipes/database-datalake/mysql/pause_and_resume",
+                      "docs/clickpipes/database-datalake/mysql/remove_table",
+                      "docs/clickpipes/database-datalake/mysql/table_resync",
+                      "docs/clickpipes/database-datalake/mysql/resync",
+                      "docs/clickpipes/database-datalake/mysql/controlling_sync"
+                    ]
+                  },
+                  {
+                    "group": "Source",
+                    "pages": [
+                      "docs/clickpipes/database-datalake/mysql/source/rds",
+                      "docs/clickpipes/database-datalake/mysql/source/aurora",
+                      "docs/clickpipes/database-datalake/mysql/source/gcp",
+                      "docs/clickpipes/database-datalake/mysql/source/generic",
+                      "docs/clickpipes/database-datalake/mysql/source/rds_maria",
+                      "docs/clickpipes/database-datalake/mysql/source/generic_maria"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Amazon databases",
+            "icon": "aws",
+            "pages": [
+              {
+                "group": "AWS",
+                "expanded": false,
+                "pages": [
+                  "docs/clickpipes/amazon-databases/kinesis",
+                  "docs/clickpipes/amazon-databases/secure-kinesis",
+                  "docs/clickpipes/amazon-databases/secure-rds",
+                  "docs/clickpipes/amazon-databases/aws-privatelink"
+                ]
+              },
+              "docs/clickpipes/amazon-databases/dynamodb"
+            ]
+          },
+          {
+            "tab": "Event streams",
+            "icon": "stream",
+            "pages": [
+              {
+                "group": "Kafka ClickPipes",
+                "expanded": false,
+                "pages": [
+                  "docs/clickpipes/event-streams/kafka/01_create-kafka-clickpipe",
+                  "docs/clickpipes/event-streams/kafka/02_schema-registries",
+                  "docs/clickpipes/event-streams/kafka/03_reference",
+                  "docs/clickpipes/event-streams/kafka/04_best_practices",
+                  "docs/clickpipes/event-streams/kafka/05_faq"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Language clients",
+        "description": "Language client docs",
+        "pages": [
+          "docs/language-clients/index",
+          {
+            "group": "Go",
+            "expanded": false,
+            "pages": [
+              "docs/integrations/language-clients/go/index"
+            ]
+          },
+          "docs/integrations/language-clients/js",
+          {
+            "group": "Java",
+            "expanded": false,
+            "pages": [
+              "docs/integrations/language-clients/java/client"
+            ]
+          },
+          {
+            "group": "Python",
+            "expanded": false,
+            "pages": [
+              "docs/integrations/language-clients/python/index",
+              "docs/integrations/language-clients/python/driver-api",
+              "docs/integrations/language-clients/python/additional-options",
+              "docs/integrations/language-clients/python/advanced-querying",
+              "docs/integrations/language-clients/python/advanced-inserting",
+              "docs/integrations/language-clients/python/advanced-usage",
+              "docs/integrations/language-clients/python/sqlalchemy"
+            ]
+          },
+          "docs/integrations/language-clients/rust",
+          "docs/integrations/language-clients/csharp",
+          "docs/integrations/language-clients/cpp",
+          {
+            "group": "Third-party clients",
+            "expanded": false,
+            "pages": [
+              "docs/integrations/language-clients/third-party/moose-olap",
+              "docs/integrations/language-clients/third-party/client-libraries"
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Data integrations",
+        "description": "100+ ClickHouse integrations",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "docs/integrations/home"
+            ]
+          },
+          {
+            "tab": "Data ingestion",
+            "icon": "arrows-to-dot",
+            "groups": [
+              {
+                "group": "AWS",
+                "expanded": false,
+                "pages": [
+                  "docs/integrations/data-ingestion/AWS/integrating-s3-with-clickhouse",
+                  "docs/integrations/data-ingestion/AWS/performance",
+                  "docs/integrations/data-ingestion/AWS/glue"
+                ]
+              },
+              {
+                "group": "GCP",
+                "expanded": false,
+                "pages": [
+                  "docs/integrations/data-ingestion/GCP/index",
+                  {
+                    "group": "Google Dataflow",
+                    "expanded": false,
+                    "pages": [
+                      "docs/integrations/data-ingestion/GCP/google-dataflow/dataflow",
+                      "docs/integrations/data-ingestion/GCP/google-dataflow/java-runner",
+                      "docs/integrations/data-ingestion/GCP/google-dataflow/templates",
+                      {
+                        "group": "Dataflow templates",
+                        "expanded": false,
+                        "pages": [
+                          "docs/integrations/data-ingestion/GCP/google-dataflow/templates/bigquery-to-clickhouse"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Azure",
+                "expanded": false,
+                "pages": [
+                  {
+                    "group": "Azure Data Factory",
+                    "expanded": false,
+                    "pages": [
+                      "docs/integrations/data-ingestion/azure/azure-data-factory/overview",
+                      "docs/integrations/data-ingestion/azure/azure-data-factory/using_azureblobstorage",
+                      "docs/integrations/data-ingestion/azure/azure-data-factory/using_http_interface"
+                    ]
+                  },
+                  "docs/integrations/data-ingestion/azure/azure-synapse"
+                ]
+              },
+              {
+                "group": "Standalone Integrations",
+                "expanded": false,
+                "pages": [
+                  "docs/integrations/data-ingestion/etl-tools/airbyte-and-clickhouse",
+                  "docs/integrations/data-ingestion/etl-tools/apache-beam",
+                  {
+                    "group": "Apache Spark",
+                    "expanded": false,
+                    "pages": [
+                      "docs/integrations/data-ingestion/apache-spark/index",
+                      "docs/integrations/data-ingestion/apache-spark/spark-jdbc",
+                      "docs/integrations/data-ingestion/apache-spark/spark-native-connector"
+                    ]
+                  },
+                  "docs/integrations/data-ingestion/etl-tools/bladepipe-and-clickhouse",
+                  {
+                    "group": "dbt",
+                    "expanded": false,
+                    "pages": [
+                      "docs/integrations/data-ingestion/etl-tools/dbt/index",
+                      "docs/integrations/data-ingestion/etl-tools/dbt/features-and-configurations"
+                    ]
+                  },
+                  "docs/integrations/data-ingestion/emqx/index",
+                  "docs/integrations/data-ingestion/jdbc-with-clickhouse",
+                  {
+                    "group": "Kafka",
+                    "expanded": false,
+                    "pages": [
+                      "docs/integrations/data-ingestion/kafka/index",
+                      "docs/integrations/data-ingestion/kafka/kafka-clickhouse-connect-sink",
+                      "docs/integrations/data-ingestion/kafka/confluent/confluent-cloud",
+                      "docs/integrations/data-ingestion/kafka/confluent/custom-connector",
+                      "docs/integrations/data-ingestion/kafka/msk/index",
+                      "docs/integrations/data-ingestion/kafka/kafka-vector",
+                      "docs/integrations/data-ingestion/kafka/kafka-table-engine",
+                      "docs/integrations/data-ingestion/kafka/confluent/index",
+                      "docs/integrations/data-ingestion/kafka/confluent/kafka-connect-http",
+                      "docs/integrations/data-ingestion/kafka/kafka-connect-jdbc",
+                      "docs/integrations/data-ingestion/kafka/kafka-table-engine-named-collections"
+                    ]
+                  },
+                  "docs/integrations/data-ingestion/s3-minio",
+                  "docs/integrations/data-ingestion/mysql",
+                  "docs/integrations/data-ingestion/etl-tools/nifi-and-clickhouse",
+                  "docs/integrations/data-ingestion/postgresql/connecting-to-postgresql",
+                  "docs/integrations/data-ingestion/etl-tools/vector-to-clickhouse"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Data visualization",
+            "icon": "chart-simple",
+            "groups": [
+              {
+                "group": "ClickHouse integrations",
+                "pages": [
+                  "docs/integrations/data-visualization/clickhouse/powerbi-and-clickhouse",
+                  "docs/integrations/data-visualization/clickhouse/splunk-and-clickhouse",
+                  "docs/integrations/data-visualization/clickhouse/quicksight-and-clickhouse",
+                  "docs/integrations/data-visualization/clickhouse/superset-and-clickhouse",
+                  {
+                    "group": "Tableau",
+                    "expanded": false,
+                    "pages": [
+                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-and-clickhouse",
+                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-online-and-clickhouse",
+                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-connection-tips",
+                      "docs/integrations/data-visualization/clickhouse/tableau/tableau-analysis-tips",
+                      {
+                        "group": "Grafana",
+                        "expanded": false,
+                        "pages": [
+                          "docs/integrations/data-visualization/clickhouse/grafana/index",
+                          "docs/integrations/data-visualization/clickhouse/grafana/query-builder",
+                          "docs/integrations/data-visualization/clickhouse/grafana/config"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Partner integrations",
+                "pages": [
+                  "docs/integrations/data-visualization/partner/lightdash-and-clickhouse",
+                  "docs/integrations/data-visualization/partner/looker-and-clickhouse",
+                  "docs/integrations/data-visualization/partner/looker-studio-and-clickhouse",
+                  "docs/integrations/data-visualization/partner/metabase-and-clickhouse",
+                  "docs/integrations/data-visualization/partner/omni-and-clickhouse"
+                ]
+              },
+              {
+                "group": "Community integrations",
+                "expanded": false,
+                "pages": [
+                  "docs/integrations/data-visualization/community-integrations/astrato-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/chartbrew-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/databrain-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/deepnote",
+                  "docs/integrations/data-visualization/community-integrations/dot-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/draxlr-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/embeddable-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/explo-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/fabi-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/hashboard-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/luzmo-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/mitzu-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/rocketbi-and-clickhouse",
+                  "docs/integrations/data-visualization/community-integrations/zingdata-and-clickhouse"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "SQL clients",
+            "icon": "database",
+            "pages": [
+              "docs/integrations/data-integrations/sql-clients/datagrip",
+              "docs/integrations/data-integrations/sql-clients/dbeaver",
+              "docs/integrations/data-integrations/sql-clients/dbvisualizer",
+              "docs/integrations/data-integrations/sql-clients/jupysql",
+              "docs/integrations/data-integrations/sql-clients/qstudio",
+              "docs/integrations/data-integrations/sql-clients/tablum",
+              "docs/integrations/data-integrations/sql-clients/marimo"
+            ]
+          },
+          {
+            "tab": "Data integration",
+            "icon": "plug",
+            "groups": [
+              {
+                "group": "Integrations",
+                "expanded": false,
+                "pages": [
+                  "docs/integrations/data-integrations/integrations/retool",
+                  "docs/integrations/data-integrations/integrations/easypanel",
+                  "docs/integrations/data-integrations/integrations/splunk"
+                ]
+              },
+              {
+                "group": "Interfaces",
+                "expanded": false,
+                "pages": [
+                  "docs/integrations/data-integrations/drivers-and-interfaces/http",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/native-clients-interfaces-index",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/jdbc",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/mysql",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/odbc",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/postgresql",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/prometheus",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/ssh",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/grpc",
+                  "docs/integrations/data-integrations/drivers-and-interfaces/arrowflight"
+                ]
+              }
             ]
           }
         ]
