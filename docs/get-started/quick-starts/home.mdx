@@ -1,5 +1,6 @@
 ---
-sidebarTitle: 'Home'
+sidebarTitle: 'Explorer'
+icon: 'house'
 title: 'Quick starts explorer'
 description: 'Explore quick start guides to get up and running with ClickHouse'
 keywords: ['quick starts', 'explore', 'getting started', 'tutorials']
@@ -7,9 +8,6 @@ mode: 'frame'
 ---
 
 import { QuickStartsGrid } from '/snippets/components/QuickStartsGrid/QuickStartsGrid.jsx'
-
-
-## Quick start guides
 
 {/* Define quick-starts data */}
 export const quickStartsData = [
@@ -26,6 +24,14 @@ export const quickStartsData = [
     title: 'Ingest data into ClickHouse',
     description: 'Learn how to ingest data from CSV and parquet files into ClickHouse Cloud',
     href: '/docs/get-started/quick-starts/ingest-data-into-clickhouse',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+  },
+  {
+    id: 'query-and-visualize-data-using-dashboards',
+    title: 'Query and visualize data using dashboards in ClickHouse Cloud',
+    description: 'Learn how to query your data in your Cloud service and visualize it using the dashboards feature',
+    href: '/docs/get-started/quick-starts/query-and-visualize-data-using-dashboards',
     useCases: ['Data warehousing', 'Real-time analytics'],
     products: ['Cloud'],
   },

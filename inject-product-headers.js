@@ -63,7 +63,8 @@
     // Categorize and append items
     let hasIntegrations = false;
 
-    // Group items for the Right Column to insert headers correctly
+    // Group items for both columns
+    const leftItems = {};
     const rightItems = [];
 
     allLinks.forEach(link => {
@@ -106,9 +107,17 @@
 
       // Categorize based on slug
       if (leftCategories.includes(slug)) {
-        leftCol.appendChild(link);
+        leftItems[slug] = link;
       } else {
         rightItems.push({ link, slug });
+      }
+    });
+
+    // Append left column items in desired order: Get Started, Guides, Reference, Support Center, Home
+    const leftOrder = ['get-started', 'guides', 'reference', 'support-center', 'home'];
+    leftOrder.forEach(slug => {
+      if (leftItems[slug]) {
+        leftCol.appendChild(leftItems[slug]);
       }
     });
 

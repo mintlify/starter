@@ -657,6 +657,13 @@ html:not(.dark) .hero-aside .product-item img {
         min-width: 24px !important;
     }
 
+    /* Column 2 - Hide descriptions */
+    .product-col-right .nav-dropdown-products-selector-item-description,
+    .product-col-right .nav-dropdown-products-selector-item p:last-child,
+    .product-col-right .nav-dropdown-products-selector-item .flex.flex-col p:last-child {
+        display: none !important;
+    }
+
     /* Column 2 - Adjust title styling for list */
     .product-col-right .nav-dropdown-products-selector-item-title,
     [data-radix-menu-content] a[href*="/clickstack"] .nav-dropdown-products-selector-item-title,
@@ -695,9 +702,7 @@ html:not(.dark) .hero-aside .product-item img {
         flex: 0 0 auto !important;
         width: 100% !important;
         display: block !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        margin-bottom: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
+        margin-top: 0.6rem;
     }
 
     html:not(.dark) a.product-link-home {
@@ -707,8 +712,8 @@ html:not(.dark) .hero-aside .product-item img {
     /* Simplified Home item icon styling */
     a.product-link-home .nav-dropdown-products-selector-item-icon svg {
         display: block !important;
-        width: 1.25rem !important;
-        height: 1.25rem !important;
+        width: 12px !important;
+        height: 12px !important;
     }
 
     /* Column 2 - List item hover state */

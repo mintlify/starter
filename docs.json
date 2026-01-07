@@ -23,7 +23,7 @@
     "products": [
       {
         "product": "Home",
-        "icon": "circle-left",
+        "icon": "house",
         "description": "Explore docs by use case, product or learning goal.",
         "pages": [
           "/"
@@ -77,18 +77,6 @@
                   "docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse",
                   "docs/get-started/quick-starts/updating-data-with-replacingmergetree",
                   "docs/get-started/quick-starts/query-json-s3-using-chdb"
-                ]
-              },
-              {
-                "group": "Self-managed",
-                "pages": [
-                  "docs/get-started/oss/oss",
-                  "docs/get-started/oss/starter_guides/creating-tables",
-                  "docs/get-started/oss/starter_guides/inserting-data",
-                  "docs/get-started/oss/starter_guides/writing-queries",
-                  "docs/get-started/oss/starter_guides/mutations",
-                  "docs/get-started/oss/starter_guides/generating-test-data",
-                  "docs/get-started/oss/starter_guides/troubleshooting"
                 ]
               }
             ]
