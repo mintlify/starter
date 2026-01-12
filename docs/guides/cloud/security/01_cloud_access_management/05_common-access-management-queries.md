@@ -15,7 +15,7 @@ If you are working with self-managed ClickHouse please see [SQL users and roles]
 
 This article shows the basics of defining SQL users and roles and applying those privileges and permissions to databases, tables, rows, and columns.
 
-## Admin user [#admin-user]
+## Admin user 
 
 ClickHouse Cloud services have an admin user, `default`, that is created when the service is created.  The password is provided at service creation, and it can be reset by ClickHouse Cloud users that have the **Admin** role.
 
@@ -36,13 +36,13 @@ When using the SQL Console, your SQL statements will not be run as the `default`
 These automatically generated SQL Console users have the `default` role.
 </Note>
 
-## Passwordless authentication [#passwordless-authentication]
+## Passwordless authentication 
 
 There are two roles available for SQL console: `sql_console_admin` with identical permissions to `default_role` and `sql_console_read_only` with read-only permissions. 
 
 Admin users are assigned the `sql_console_admin` role by default, so nothing changes for them. However, the `sql_console_read_only` role allows non-admin users to be granted read-only or full access to any instance. An admin needs to configure this access. The roles can be adjusted using the `GRANT` or `REVOKE` commands to better fit instance-specific requirements, and any modifications made to these roles will be persisted.
 
-### Granular access control [#granular-access-control]
+### Granular access control 
 
 This access control functionality can also be configured manually for user-level granularity. Before assigning the new `sql_console_*` roles to users, SQL console user-specific database roles matching the namespace `sql-console-role:<email>` should be created. For example: 
 

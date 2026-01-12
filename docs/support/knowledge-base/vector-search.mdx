@@ -8,7 +8,7 @@ keywords: ['Vector Search']
 
 
 
-## ClickHouse for Vector Search! [#clickhouse-for-vector-search]
+## ClickHouse for Vector Search!
 
 Yes, ClickHouse can perform vector search.
 
@@ -21,13 +21,13 @@ The main advantages of using ClickHouse for vector search compared to using more
 
 Here is a quick tutorial on how to use ClickHouse for vector search.
 
-## 1. Create embeddings [#1-create-embeddings]
+## 1. Create embeddings
 
 Your data (documents, images, or structured data) must be converted to _embeddings_. We recommend creating embeddings using the [OpenAI Embeddings API](https://platform.openai.com/docs/api-reference/embeddings) or using the open-source Python library [SentenceTransformers](https://www.sbert.net/).
 
 You can think of an embedding as a large array of floating-point numbers that represent your data. [Check out this guide from OpenAI to learn more about embeddings](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings).
 
-## 2. Store the embeddings [#2-store-the-embeddings]
+## 2. Store the embeddings
 
 Once you have generated embeddings, you need to store them in ClickHouse. Each embedding should be stored in a separate row and can include metadata for filtering, aggregations, or analytics. Here's an example of a table that can store images with captions:
 
@@ -41,7 +41,7 @@ CREATE TABLE images
 ENGINE = MergeTree;
 ```
 
-## 3. Search for related embeddings [#3-search-for-related-embeddings]
+## 3. Search for related embeddings
 
 Let's say you want to search for pictures of dogs in your dataset. You can use a distance function like `cosineDistance` to take an embedding of a dog image and search for related images:
 
@@ -61,7 +61,7 @@ LIMIT 10
 
 This query returns the `_file` names and `caption` of the top 10 images most likely to be related to your provided dog image.
 
-## Further Reading [#further-reading]
+## Further Reading
 
 To follow a more in-depth tutorial on vector search using ClickHouse, please see:
 

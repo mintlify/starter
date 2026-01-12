@@ -9,12 +9,12 @@ doc_type: 'reference'
 
 import {DeprecatedBadge} from '/snippets/components/DeprecatedBadge/DeprecatedBadge.jsx'
 
-## Observability [#observability]
+## Observability 
 
-### Built-in monitoring tools [#built-in-monitoring-tools]
+### Built-in monitoring tools 
 ClickHouse BYOC provides several approaches for various use cases.
 
-#### Observability dashboard [#observability-dashboard]
+#### Observability dashboard 
 
 ClickHouse Cloud includes an advanced observability dashboard that displays metrics such as memory usage, query rates, and I/O. This can be accessed in the **Monitoring** section of ClickHouse Cloud web console interface.
 
@@ -24,7 +24,7 @@ ClickHouse Cloud includes an advanced observability dashboard that displays metr
 
 <br />
 
-#### Advanced dashboard [#advanced-dashboard]
+#### Advanced dashboard 
 
 You can customize a dashboard using metrics from system tables like `system.metrics`, `system.events`, and `system.asynchronous_metrics` and more to monitor server performance and resource utilization in detail.
 
@@ -34,7 +34,7 @@ You can customize a dashboard using metrics from system tables like `system.metr
 
 <br />
 
-#### Access the BYOC Prometheus stack [#prometheus-access]
+#### Access the BYOC Prometheus stack 
 ClickHouse BYOC deploys a Prometheus stack on your Kubernetes cluster. You may access and scrape the metrics from there and integrate them with your own monitoring stack.
 
 Contact ClickHouse support to enable the Private Load balancer and ask for the URL. Please note that this URL is only accessible via private network and does not support authentication
@@ -44,7 +44,7 @@ Contact ClickHouse support to enable the Private Load balancer and ask for the U
 https://prometheus-internal.<subdomain>.<region>.aws.clickhouse-byoc.com/query
 ```
 
-#### Prometheus Integration [#prometheus-integration]
+#### Prometheus Integration 
 
 <DeprecatedBadge/>
 

@@ -12,7 +12,7 @@ keywords: ['EMQX ClickHouse integration', 'MQTT ClickHouse connector', 'EMQX Clo
 ---
 
 
-## Connecting EMQX [#connecting-emqx]
+## Connecting EMQX 
 
 [EMQX](https://www.emqx.com/en/try?product=enterprise) is an open source MQTT broker with a high-performance real-time message processing engine, powering event streaming for IoT devices at massive scale. As the most scalable MQTT broker, EMQX can help you connect any device, at any scale. Move and process your IoT data anywhere.
 
@@ -22,14 +22,14 @@ With the infrastructure provided by cloud providers, EMQX Cloud serves dozens of
 
 <img src="/images/integrations/data-ingestion/emqx/emqx-cloud-artitecture.png" alt="EMQX Cloud Architecture diagram showing cloud infrastructure components"/>
 
-### Assumptions [#assumptions]
+### Assumptions 
 
 * You are familiar with the [MQTT protocol](https://mqtt.org/), which is designed as an extremely lightweight publish/subscribe messaging transport protocol.
 * You are using EMQX or EMQX Cloud for real-time message processing engine, powering event streaming for IoT devices at massive scale.
 * You have prepared a Clickhouse Cloud instance to persist device data.
 * We are using [MQTT X](https://mqttx.app/)  as an MQTT client testing tool to connect the deployment of EMQX Cloud to publish MQTT data. Or other methods connecting to the MQTT broker will do the job as well.
 
-## Get your ClickHouse Cloud service [#get-your-clickhouse-cloudservice]
+## Get your ClickHouse Cloud service 
 
 During this setup, we deployed the ClickHouse instance on AWS in N. Virginia (us-east -1), while an EMQX Cloud instance was also deployed in the same region.
 
@@ -68,11 +68,11 @@ PRIMARY KEY (client_id, timestamp)
 
 <img src="/images/integrations/data-ingestion/emqx/clickhouse_cloud_6.png" alt="ClickHouse Cloud Create Database and Table SQL query execution"/>
 
-## Create an MQTT service on EMQX Cloud [#create-an-mqtt-service-on-emqx-cloud]
+## Create an MQTT service on EMQX Cloud 
 
 Creating a dedicated MQTT broker on EMQX Cloud is as easy as a few clicks.
 
-### Get an account [#get-an-account]
+### Get an account 
 
 EMQX Cloud provides a 14-day free trial for both standard deployment and professional deployment for every account.
 
@@ -80,7 +80,7 @@ Start at the [EMQX Cloud sign up](https://accounts.emqx.com/signup?continue=http
 
 <img src="/images/integrations/data-ingestion/emqx/emqx_cloud_sign_up.png" alt="EMQX Cloud Signup Page with registration form"/>
 
-### Create an MQTT cluster [#create-an-mqtt-cluster]
+### Create an MQTT cluster 
 
 Once logged in, click on "Cloud console" under the account menu and you will be able to see the green button to create a new deployment.
 
@@ -96,7 +96,7 @@ Now click the panel to go to the cluster view. On this dashboard, you will see t
 
 <img src="/images/integrations/data-ingestion/emqx/emqx_cloud_overview.png" alt="EMQX Cloud Overview Dashboard showing broker metrics"/>
 
-### Add client credential [#add-client-credential]
+### Add client credential 
 
 EMQX Cloud does not allow anonymous connections by default，so you need add a client credential so you can use the MQTT client tool to send data to this broker.
 
@@ -106,7 +106,7 @@ Click 'Authentication & ACL' on the left menu and click 'Authentication' in the 
 
 Click 'Confirm' and now we have a fully managed MQTT broker ready.
 
-### Enable NAT gateway [#enable-nat-gateway]
+### Enable NAT gateway 
 
 Before we can start setting up the ClickHouse integration, we need to enable the NAT gateway first. By default, the MQTT broker is deployed in a private VPC, which can not send data to third-party systems over the public network.
 
@@ -116,7 +116,7 @@ Go back to the Overview page and scroll down to the bottom of the page where you
 
 Once it has been created, you will find the public IP address in the widget. Please note that if you select "Connect from a specific location" during ClickHouse Cloud setup, you will need to add this IP address to the whitelist.
 
-## Integration EMQX Cloud with ClickHouse Cloud [#integration-emqx-cloud-with-clickhouse-cloud]
+## Integration EMQX Cloud with ClickHouse Cloud 
 
 The [EMQX Cloud Data Integrations](https://docs.emqx.com/en/cloud/latest/rule_engine/introduction.html#general-flow) is used to configure the rules for handling and responding to EMQX message flows and device events. The Data Integrations not only provides a clear and flexible "configurable" architecture solution, but also simplifies the development process, improves user usability, and reduces the coupling degree between the business system and EMQX Cloud. It also provides a superior infrastructure for customization of EMQX Cloud's proprietary capabilities.
 
@@ -126,7 +126,7 @@ EMQX Cloud offers more than 30 native integrations with popular data systems. Cl
 
 <img src="/images/integrations/data-ingestion/emqx/data_integration_clickhouse.png" alt="EMQX Cloud ClickHouse Data Integration connector details"/>
 
-### Create ClickHouse resource [#create-clickhouse-resource]
+### Create ClickHouse resource 
 
 Click "Data Integrations" on the left menu and click "View All Resources". You will find the ClickHouse in the Data Persistence section or you can search for ClickHouse.
 
@@ -140,7 +140,7 @@ Click the ClickHouse card to create a new resource.
 
 <img src="/images/integrations/data-ingestion/emqx/data_integration_resource.png" alt="EMQX Cloud ClickHouse Resource Setup form with connection details"/>
 
-### Create a new rule [#create-a-new-rule]
+### Create a new rule 
 
 During the creation of the resource, you will see a popup, and clicking 'New' will leads you to the rule creation page.
 
@@ -175,7 +175,7 @@ You can use the SQL test to test and see the results.
 
 Now click on the "NEXT" button. This step is to tell EMQX Cloud how to insert refined data into your ClickHouse database.
 
-### Add a response action [#add-a-response-action]
+### Add a response action 
 
 If you have only one resource, you don't need to modify the 'Resource' and 'Action Type'.
 You only need to set the SQL template. Here's the example used for this tutorial:
@@ -188,7 +188,7 @@ INSERT INTO temp_hum (client_id, timestamp, topic, temp, hum) VALUES ('${client_
 
 This is a template for inserting data into Clickhouse, you can see the variables are used here.
 
-### View rules details [#view-rules-details]
+### View rules details 
 
 Click "Confirm" and "View Details". Now, everything should be well set. You can see the data integration works from rule details page.
 
@@ -196,13 +196,13 @@ Click "Confirm" and "View Details". Now, everything should be well set. You can 
 
 All the MQTT messages sent to the `temp_hum/emqx` topic will be persisted into your ClickHouse Cloud database.
 
-## Saving Data into ClickHouse [#saving-data-into-clickhouse]
+## Saving Data into ClickHouse 
 
 We will simulate temperature and humidity data and report these data to EMQX Cloud via the MQTT X and then use the EMQX Cloud Data Integrations to save the data into ClickHouse Cloud.
 
 <img src="/images/integrations/data-ingestion/emqx/work-flow.png" alt="EMQX Cloud to ClickHouse Workflow diagram showing data flow"/>
 
-### Publish MQTT messages to EMQX Cloud [#publish-mqtt-messages-to-emqx-cloud]
+### Publish MQTT messages to EMQX Cloud 
 
 You can use any MQTT client or SDK to publish the message. In this tutorial, we will use [MQTT X](https://mqttx.app/), a user friendly MQTT client application provided by EMQ.
 
@@ -235,13 +235,13 @@ The data sent to EMQX Cloud should be processed by the rule engine and inserted 
 
 <img src="/images/integrations/data-ingestion/emqx/mqttx-publish.png" alt="MQTTX Publish MQTT Messages interface showing message composition"/>
 
-### View rules monitoring [#view-rules-monitoring]
+### View rules monitoring 
 
 Check the rule monitoring and add one to the number of success.
 
 <img src="/images/integrations/data-ingestion/emqx/rule_monitor.png" alt="EMQX Cloud Rule Monitoring dashboard showing message processing metrics"/>
 
-### Check the data persisted [#check-the-data-persisted]
+### Check the data persisted 
 
 Now it's time to take a look at the data on the ClickHouse Cloud. Ideally, the data you send using MQTTX will go to the EMQX Cloud and persist to the ClickHouse Cloud's database with the help of native data integration.
 
@@ -254,6 +254,6 @@ SELECT * FROM emqx.temp_hum;
 
 <img src="/images/integrations/data-ingestion/emqx/clickhouse_result.png" alt="ClickHouse Query Results showing persisted IoT data"/>
 
-### Summary [#summary]
+### Summary 
 
 You didn't write any piece of code, and now have the MQTT data move from EMQX cloud to ClickHouse Cloud. With EMQX Cloud and ClickHouse Cloud, you don't need to manage the infra and just focus on writing you IoT applications with data storied securely in ClickHouse Cloud.

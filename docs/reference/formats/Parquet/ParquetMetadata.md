@@ -6,7 +6,7 @@ title: 'ParquetMetadata'
 doc_type: 'reference'
 ---
 
-## Description [#description]
+## Description 
 
 Special format for reading Parquet file metadata (https://parquet.apache.org/docs/file-format/metadata/). It always outputs one row with the next structure/content:
 - `num_columns` - the number of columns
@@ -45,7 +45,7 @@ Special format for reading Parquet file metadata (https://parquet.apache.org/doc
       - `min` - the minimum value of the column chunk
       - `max` - the maximum column of the column chunk
 
-## Example usage [#example-usage]
+## Example usage 
 
 Example:
 

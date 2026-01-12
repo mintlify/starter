@@ -1,3 +1,6 @@
+---
+sidebarTitle: "JDBC client v0.8x"
+---
 
 <Note>
 `clickhouse-jdbc` implements the standard JDBC interface using the latest java client.
@@ -61,7 +64,7 @@ In 0.8 we tried to make the driver more strictly follow the JDBC specification, 
 
 **Driver Class**: `com.clickhouse.jdbc.ClickHouseDriver`
 
-**URL Syntax**: `jdbc:(ch|clickhouse)[:<protocol>]://endpoint1[,endpoint2,...][/<database>][?param1=value1&param2=value2][#tag1,tag2,...]`, for example:
+**URL Syntax**: `jdbc:(ch|clickhouse)[:<protocol>]://endpoint1[,endpoint2,...][/<database>][?param1=value1&param2=value2]`, for example:
 
 - `jdbc:clickhouse:http://localhost:8123`
 - `jdbc:clickhouse:https://localhost:8443?ssl=true`

@@ -9,23 +9,23 @@ doc_type: 'guide'
 
 chDB-bun provides experimental FFI (Foreign Function Interface) bindings for chDB, enabling you to run ClickHouse queries directly in your Bun applications with zero external dependencies.
 
-## Installation [#installation]
+## Installation 
 
-### Step 1: Install system dependencies [#install-system-dependencies]
+### Step 1: Install system dependencies 
 
 First, install the required system dependencies:
 
-#### Install libchdb [#install-libchdb]
+#### Install libchdb 
 
 ```bash
 curl -sL https://lib.chdb.io | bash
 ```
 
-#### Install build tools [#install-build-tools]
+#### Install build tools 
 
 You'll need either `gcc` or `clang` installed on your system:
 
-### Step 2: Install chDB-bun [#install-chdb-bun]
+### Step 2: Install chDB-bun 
 
 ```bash
 # Install from the GitHub repository
@@ -38,11 +38,11 @@ bun install
 bun run build
 ```
 
-## Usage [#usage]
+## Usage 
 
 chDB-bun supports two query modes: ephemeral queries for one-time operations and persistent sessions for maintaining database state.
 
-### Ephemeral queries [#ephemeral-queries]
+### Ephemeral queries 
 
 For simple, one-off queries that don't require persistent state:
 
@@ -66,7 +66,7 @@ const systemInfo = query("SELECT * FROM system.functions LIMIT 5", "CSV");
 console.log(systemInfo);
 ```
 
-### Persistent sessions [#persistent-sessions]
+### Persistent sessions 
 
 For complex operations that require maintaining state across queries:
 

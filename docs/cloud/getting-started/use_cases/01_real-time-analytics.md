@@ -11,7 +11,7 @@ doc_type: 'guide'
 <iframe width="758" height="426" src="https://www.youtube.com/embed/SnFff0KYwuo?si=aNpGzSobzFhUlyX5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </Frame>
 
-## What is real-time analytics? [#what-is-real-time-analytics]
+## What is real-time analytics? 
 
 Real-time analytics refers to data processing that delivers insights to end users
 and customers as soon as the data is generated. It differs from traditional or 
@@ -43,7 +43,7 @@ Organizations can discover insights about their customers by aggregating and
 analyzing events like this. This has traditionally been done using batch analytics,
 and in the next section, we’ll compare batch and real-time analytics.
 
-## Real-Time analytics vs batch analytics [#real-time-analytics-vs-batch-analytics]
+## Real-Time analytics vs batch analytics 
 
 The diagram below shows what a typical batch analytics system would look like 
 from the perspective of an individual event:
@@ -66,13 +66,13 @@ happens, as shown in the following diagram:
 We can now derive insights from events almost as soon as they’re generated. But 
 why is this useful?
 
-## Benefits of real-time analytics [#benefits-of-real-time-analytics]
+## Benefits of real-time analytics 
 
 In today's fast-paced world, organizations rely on real-time analytics to stay 
 agile and responsive to ever-changing conditions. A real-time analytics system 
 can benefit a business in many ways.
 
-### Better decision-making [#better-decision-making]
+### Better decision-making 
 
 Decision-making can be improved by having access to actionable insights via 
 real-time analytics. When business operators can see events as they’re happening,
@@ -84,7 +84,7 @@ quickly as possible so that we can revert the changes if necessary. With a less
 real-time approach, we might have to wait until the next day to do this 
 analysis, by which type we’ll have a lot of unhappy users.
 
-### New products and revenue streams [#new-products-and-revenue-streams]
+### New products and revenue streams 
 
 Real-time analytics can help businesses generate new revenue streams. Organizations
 can develop new data-centered products and services that give users access to 
@@ -95,19 +95,19 @@ In addition, existing applications can be made stickier, increasing user
 engagement and retention. This will result in more application use, creating more
 revenue for the organization.
 
-### Improved customer experience [#improved-customer-experience]
+### Improved customer experience 
 
 With real-time analytics, businesses can gain instant insights into customer 
 behavior, preferences, and needs. This lets businesses offer timely assistance, 
 personalize interactions, and create more engaging experiences that keep 
 customers returning.
 
-## Real-time analytics use cases [#real-time-analytics-use-cases]
+## Real-time analytics use cases 
 
 The actual value of real-time analytics becomes evident when we consider its 
 practical applications. Let’s examine some of them.
 
-### Fraud detection [#fraud-detection]
+### Fraud detection 
 
 Fraud detection is about detecting fraudulent patterns, ranging from fake accounts
 to payment fraud. We want to detect this fraud as quickly as possible, flagging 
@@ -135,7 +135,7 @@ fraud detection:
 > fits perfectly with the needs of applications where data is continuously 
 > analyzed for patterns that might indicate fraud.
 
-### Time-sensitive decision making [#ftime-sensitive-decision-making]
+### Time-sensitive decision making 
 
 Time-sensitive decision-making refers to situations where users or organizations 
 need to make informed choices quickly based on the most current information 

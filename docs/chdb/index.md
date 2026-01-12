@@ -10,7 +10,7 @@ doc_type: 'guide'
 chDB is a fast in-process SQL OLAP Engine powered by [ClickHouse](https://github.com/clickhouse/clickhouse).
 You can use it when you want to get the power of ClickHouse in a programming language without needing to connect to a ClickHouse server.
 
-## Key features [#key-features]
+## Key features 
 
 - **In-process SQL OLAP Engine** - Powered by ClickHouse, no need to install ClickHouse server
 - **Multiple data formats** - Input & Output support for Parquet, CSV, JSON, Arrow, ORC and [70+ more formats](/interfaces/formats)
@@ -18,7 +18,7 @@ You can use it when you want to get the power of ClickHouse in a programming lan
 - **Rich Python Ecosystem Integration** - Native support for Pandas, Arrow, DB API 2.0, seamlessly fits into existing data science workflows
 - **Zero dependencies** - No need for external database installations
 
-## What languages are supported by chDB? [#what-languages-are-supported-by-chdb]
+## What languages are supported by chDB? 
 
 chDB has the following language bindings:
 
@@ -29,7 +29,7 @@ chDB has the following language bindings:
 * [Bun](install/bun.md)
 * [C and C++](install/c.md)
 
-## How do I get started? [#how-do-i-get-started]
+## How do I get started? 
 
 * If you're using [Go](install/go.md), [Rust](install/rust.md), [NodeJS](install/nodejs.md), [Bun](install/bun.md) or [C and C++](install/c.md), take a look at the corresponding language pages.
 * If you're using Python, see the [getting started developer guide](getting-started.md) or the [chDB on-demand course](https://learn.clickhouse.com/user_catalog_class/show/1901178). There are also guides showing how to do common tasks like:
@@ -41,15 +41,15 @@ chDB has the following language bindings:
   * [Querying remote ClickHouse](guides/query-remote-clickhouse.md)
   * [Using clickhouse-local database](guides/clickhouse-local.md)
 
-## An introductory video [#an-introductory-video]
+## An introductory video 
 
 You can listen to a brief project introduction to chDB, courtesy of Alexey Milovidov, the original creator of ClickHouse:
 
-<div class='vimeo-container'>
+<Frame>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cuf_hYn7dqU?si=SzUm7RW4Ae5-YwFo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+</Frame>
 
-## Performance benchmarks [#performance-benchmarks]
+## Performance benchmarks 
 
 chDB delivers exceptional performance across different scenarios:
 
@@ -59,7 +59,7 @@ chDB delivers exceptional performance across different scenarios:
 
 <img src="/images/chdb/df_bench.png" alt="DataFrame benchmark results"/>
 
-## About chDB [#about-chdb]
+## About chDB 
 
 - Read the full story about the birth of the chDB project on [blog](https://clickhouse.com/blog/chdb-embedded-clickhouse-rocket-engine-on-a-bicycle)
 - Read about chDB and its use cases on the [Blog](https://clickhouse.com/blog/welcome-chdb-to-clickhouse)
@@ -67,6 +67,6 @@ chDB delivers exceptional performance across different scenarios:
 - Discover chDB in your browser using [codapi examples](https://antonz.org/trying-chdb/)
 - More examples see (https://github.com/chdb-io/chdb/tree/main/examples)
 
-## License [#license]
+## License 
 
 chDB is available under the Apache License, Version 2.0. See [LICENSE](https://github.com/chdb-io/chdb/blob/main/LICENSE.txt) for more information.

@@ -25,7 +25,7 @@ It contains approximately 40 hours of data captured from the ClickHouse version 
 Because the dataset is replayed from midnight each day, the exact visualizations may vary depending on when you explore the demo.
 </Note>
 
-## Demo scenario [#demo-scenario]
+## Demo scenario 
 
 In this demo, we investigate an incident involving an e-commerce website that sells telescopes and related accessories.
 
@@ -33,20 +33,20 @@ The customer support team has reported that users are experiencing issues comple
 
 Using HyperDX, the SRE team will analyze logs, traces, and metrics to diagnose and resolve the issue—then review session data to confirm whether their conclusions align with actual user behavior.
 
-## Open Telemetry Demo [#otel-demo]
+## Open Telemetry Demo 
 
 This demo uses a [ClickStack maintained fork](https://github.com/ClickHouse/opentelemetry-demo) of the official OpenTelemetry demo.
 
 <Demo />
 
-## Demo steps [#demo-steps]
+## Demo steps 
 
 **We have instrumented this demo with [ClickStack SDKs](/use-cases/observability/clickstack/sdks), deploying the services in Kubernetes, from which metrics and logs have also been collected.**
 
 <Steps>
 
 <Step>
-### Connect to the demo server [#connect-to-the-demo-server]
+### Connect to the demo server 
 
 <Note title="Local-Only mode">
 This step can be skipped if you clicked `Connect to Demo Server` when deploying in Local Mode. If using this mode, sources will be prefixed with `Demo_` e.g. `Demo_Logs`
@@ -68,7 +68,7 @@ Rename the connection to `Demo` and complete the subsequent form with the follow
 </Step>
 
 <Step>
-### Modify the sources [#modify-sources]
+### Modify the sources 
 
 <Note title="Local-Only mode">
 This step can be skipped if you clicked `Connect to Demo Server` when deploying in Local Mode. If using this mode, sources will be prefixed with `Demo_` e.g. `Demo_Logs`
@@ -85,7 +85,7 @@ You may need to reload the page to ensure the full list of databases is listed i
 </Step>
 
 <Step>
-### Adjust the time frame [#adjust-the-timeframe]
+### Adjust the time frame 
 
 Adjust the time to show all data from the previous `1 day` using the time picker in the top right.
 
@@ -100,7 +100,7 @@ The location of the bars will differ depending on when you query the dataset.
 </Step>
 
 <Step>
-### Filter to errors [#filter-to-errors]
+### Filter to errors 
 
 To highlight occurrences of errors, use the `SeverityText` filter and select `error` to display only error-level entries.
 
@@ -111,7 +111,7 @@ The error should be more apparent:
 </Step>
 
 <Step>
-### Identify the error patterns [#identify-error-patterns]
+### Identify the error patterns 
 
 With HyperDX's Clustering feature, you can automatically identify errors and group them into meaningful patterns. This accelerates user analysis when dealing with large volumes of log and traces. To use it, select `Event Patterns` from the `Analysis Mode` menu on the left panel.
 
@@ -124,7 +124,7 @@ Note that these error clusters likely originate from different services.
 </Step>
 
 <Step>
-### Explore an error pattern [#explore-error-pattern]
+### Explore an error pattern 
 
 Click the most obvious error clusters which correlates with our reported issue of users being able to complete payments: `Failed to place order`.
 
@@ -141,7 +141,7 @@ Select any of the resulting errors. The logs metadata will be shown in detail. S
 </Step>
 
 <Step>
-### Explore the infrastructure [#explore-the-infrastructure]
+### Explore the infrastructure 
 
 We've identified a cache-related error that's likely causing payment failures. We still need to identify where this issue is originating from in our microservice architecture.
 
@@ -156,7 +156,7 @@ The issue does not seem to infrastructure related - no metrics have appreciably 
 </Step>
 
 <Step>
-### Explore a trace [#explore-a-trace]
+### Explore a trace 
 
 In ClickStack, traces are also automatically correlated with both logs and metrics. Let's explore the trace linked to our selected log to identify the service responsible.
 
@@ -171,7 +171,7 @@ By scrolling to the bottom of the view we can see that the `payment` service is 
 </Step>
 
 <Step>
-### Searching traces [#searching-traces] 
+### Searching traces  
 
 We have established users are failing to complete purchases due to a cache issue in the payment service. Let's explore the traces for this service in more detail to see if we can learn more about the root cause.
 
@@ -190,7 +190,7 @@ If we apply event clustering to the traces by selecting `Event Patterns`, we can
 </Step>
 
 <Step>
-### Explore infrastructure for a trace [#explore-infrastructure-for-a-trace]
+### Explore infrastructure for a trace 
 
 Switch to the results view by clicking on `Results table`. Filter to errors using the `StatusCode` filter and `Error` value. 
 
@@ -205,7 +205,7 @@ By correlating traces with metrics we can see that memory and CPU increased with
 </Step>
 
 <Step>
-### Event deltas for faster resolution [#event-deltas-for-faster-resolution] 
+### Event deltas for faster resolution  
 
 Event Deltas help surface anomalies by attributing changes in performance or error rates to specific subsets of data—making it easier to quickly pinpoint the root cause. 
 
@@ -230,7 +230,7 @@ With analysis performed on the subset of data, we can see most performance spike
 </Step>
 
 <Step>
-### Using charts for more context [#using-charts-for-more-context]
+### Using charts for more context 
 
 In ClickStack, we can chart any numeric value from logs, traces, or metrics for greater context. 
 
@@ -266,7 +266,7 @@ Note than once the error occurs responses return in `0s`.
 </Step>
 
 <Step>
-### Exploring metrics more context [#exploring-metrics-for-more-context]
+### Exploring metrics more context 
 
 Finally, let's plot the cache size as a metric to see how it behaved over time, thus giving us more context.
 
@@ -293,7 +293,7 @@ In summary, by exploring logs, traces and finally metrics we have concluded:
 </Step>
 
 <Step>
-### Using sessions [#using-sessions] 
+### Using sessions  
 
 Sessions allow us to replay the user experience, offering a visual account of how an error occurred from the user's perspective. While not typically used to diagnose root causes, they are valuable for confirming issues reported to customer support and can serve as a starting point for deeper investigation.
 
@@ -312,7 +312,7 @@ Search for `SpanAttributes.userEmail: Braulio` to find our customer's session. S
 </Step>
 
 <Step>
-### Replaying sessions [#replaying-sessions] 
+### Replaying sessions  
 
 Sessions can be replayed by pressing the ▶️ button. Switching between `Highlighted` and `All Events` allows varying degrees of span granularity, with the former highlighting key events and errors. 
 

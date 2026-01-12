@@ -23,14 +23,14 @@ Before attempting to scale up, consider:
 
 **Increasing the scale will proportionally increase your ClickPipes compute costs.** If you're scaling up just for the initial loads, it's important to scale down after the snapshot is finished to avoid unexpected charges. For more details on pricing, see [Postgres CDC Pricing](/cloud/reference/billing/clickpipes).
 
-## Prerequisites for this process [#prerequisites]
+## Prerequisites for this process 
 
 Before you get started you will need:
 
 1. [ClickHouse API key](/cloud/manage/openapi) with Admin permissions on the target ClickHouse Cloud service.
 2. A DB ClickPipe (Postgres, MySQL or MongoDB) provisioned in the service at some point in time. CDC infrastructure gets created along with the first ClickPipe, and the scaling endpoints become available from that point onwards.
 
-## Steps to scale DB ClickPipes [#cdc-scaling-steps]
+## Steps to scale DB ClickPipes 
 
 Set the following environment variables before running any commands:
 

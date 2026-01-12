@@ -8,11 +8,11 @@ title: 'Advanced Usage'
 doc_type: 'reference'
 ---
 
-## Raw API [#raw-api]
+## Raw API 
 
 For use cases which do not require transformation between ClickHouse data and native or third party data types and structures, the ClickHouse Connect client provides methods for direct usage of the ClickHouse connection.
 
-### Client `raw_query` method [#client-rawquery-method]
+### Client `raw_query` method 
 
 The `Client.raw_query` method allows direct usage of the ClickHouse HTTP query interface using the client connection. The return value is an unprocessed `bytes` object. It offers a convenient wrapper with parameter binding, error handling, retries, and settings management using a minimal interface:
 
@@ -27,10 +27,10 @@ The `Client.raw_query` method allows direct usage of the ClickHouse HTTP query i
 
 It is the caller's responsibility to handle the resulting `bytes` object. Note that the `Client.query_arrow` is just a thin wrapper around this method using the ClickHouse `Arrow` output format.
 
-### Client `raw_stream` method [#client-rawstream-method]
+### Client `raw_stream` method 
 The `Client.raw_stream` method has the same API as the `raw_query` method, but returns an `io.IOBase` object which can be used as a generator/stream source of `bytes` objects. It is currently utilized by the `query_arrow_stream` method.
 
-### Client `raw_insert` method [#client-rawinsert-method]
+### Client `raw_insert` method 
 
 The `Client.raw_insert` method allows direct inserts of `bytes` objects or `bytes` object generators using the client connection. Because it does no processing of the insert payload, it is highly performant. The method provides options to specify settings and insert format:
 
@@ -44,7 +44,7 @@ The `Client.raw_insert` method allows direct inserts of `bytes` objects or `byte
 
 It is the caller's responsibility to ensure that the `insert_block` is in the specified format and uses the specified compression method. ClickHouse Connect uses these raw inserts for file uploads and PyArrow Tables, delegating parsing to the ClickHouse server.
 
-## Saving query results as files [#saving-query-results-as-files]
+## Saving query results as files 
 
 You can stream files directly from ClickHouse to the local file system using the `raw_stream` method. For example, if you'd like to save the results of a query to a CSV file, you could use the following code snippet:
 
@@ -74,7 +74,7 @@ The code above yields an `output.csv` file with the following content:
 
 Similarly, you could save data in [TabSeparated](/interfaces/formats/TabSeparated) and other formats. See [Formats for Input and Output Data](/interfaces/formats) for an overview of all available format options.
 
-## Multithreaded, multiprocess, and async/event driven use cases [#multithreaded-multiprocess-and-asyncevent-driven-use-cases]
+## Multithreaded, multiprocess, and async/event driven use cases 
 
 ClickHouse Connect works well in multithreaded, multiprocess, and event-loop-driven/asynchronous applications. All query and insert processing occurs within a single thread, so operations are generally thread-safe. (Parallel processing of some operations at a low level is a possible future enhancement to overcome the performance penalty of a single thread, but even in that case thread safety will be maintained.)
 
@@ -82,7 +82,7 @@ Because each query or insert executed maintains state in its own `QueryContext` 
 
 Additionally, in an application that has two or more queries and/or inserts "in flight" at the same time, there are two further considerations to keep in mind. The first is the ClickHouse "session" associated with the query/insert, and the second is the HTTP connection pool used by ClickHouse Connect Client instances.
 
-## AsyncClient wrapper [#asyncclient-wrapper]
+## AsyncClient wrapper 
 
 ClickHouse Connect provides an async wrapper over the regular `Client`, so that it is possible to use the client in an `asyncio` environment.
 
@@ -112,7 +112,7 @@ Note: Unlike the regular `Client`, the `AsyncClient` enforces `autogenerate_sess
 
 See also: [run_async example](https://github.com/ClickHouse/clickhouse-connect/blob/main/examples/run_async.py).
 
-## Managing ClickHouse session IDs [#managing-clickhouse-session-ids]
+## Managing ClickHouse session IDs 
 
 Each ClickHouse query occurs within the context of a ClickHouse "session". Sessions are currently used for two purposes:
 - To associate specific ClickHouse settings with multiple queries (see the [user settings](/operations/settings/settings.md)). The ClickHouse `SET` command is used to change the settings for the scope of a user session.
@@ -135,7 +135,7 @@ Alternatively, pass `autogenerate_session_id=False` directly to `get_client(...)
 
 In this case ClickHouse Connect does not send a `session_id`; the server does not treat separate requests as belonging to the same session. Temporary tables and session-level settings will not persist across requests.
 
-## Customizing the HTTP connection pool [#customizing-the-http-connection-pool]
+## Customizing the HTTP connection pool 
 
 ClickHouse Connect uses `urllib3` connection pools to handle the underlying HTTP connection to the server. By default, all client instances share the same connection pool, which is sufficient for the majority of use cases. This default pool maintains up to 8 HTTP Keep Alive connections to each ClickHouse server used by the application.
 

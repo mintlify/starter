@@ -6,7 +6,7 @@ title: 'varSamp'
 doc_type: 'reference'
 ---
 
-## varSamp [#varsamp]
+## varSamp 
 
 Calculate the sample variance of a data set.
 

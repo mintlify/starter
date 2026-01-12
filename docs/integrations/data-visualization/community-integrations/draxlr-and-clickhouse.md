@@ -19,10 +19,10 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 Draxlr offers an intuitive interface for connecting to your ClickHouse database, enabling your team to explore, visualize, and publish insights within minutes. This guide will walk you through the steps to establish a successful connection.
 
-## 1. Get your ClickHouse credentials [#1-get-your-clickhouse-credentials]
+## 1. Get your ClickHouse credentials 
 <GatherYourDetailsHttp />
 
-## 2.  Connect Draxlr to ClickHouse [#2--connect-draxlr-to-clickhouse]
+## 2.  Connect Draxlr to ClickHouse 
 
 1. Click on the **Connect a Database** button on the navbar.
 
@@ -38,7 +38,7 @@ Draxlr offers an intuitive interface for connecting to your ClickHouse database,
 
 6. Click on the **Next** button and wait for the connection to be established. You will see the tables page if the connection is successful.
 
-## 4. Explore your data [#4-explore-your-data]
+## 4. Explore your data 
 
 1. Click on one of the tables in the list.
 
@@ -52,7 +52,7 @@ Draxlr offers an intuitive interface for connecting to your ClickHouse database,
 
   <img src="/images/integrations/data-visualization/draxlr_05.png" alt="Draxlr graph visualization options for ClickHouse data" />
 
-## 4. Using SQL queries [#4-using-sql-queries]
+## 4. Using SQL queries 
 
 1. Click on the Explore button on the navbar.
 
@@ -62,7 +62,7 @@ Draxlr offers an intuitive interface for connecting to your ClickHouse database,
 
 3. Click on the **Execute Query** button to see the results.
 
-## 4. Saving you query [#4-saving-you-query]
+## 4. Saving you query 
 
 1. After executing your query, click on the **Save Query** button.
 
@@ -74,7 +74,7 @@ Draxlr offers an intuitive interface for connecting to your ClickHouse database,
 
 4. Click on the **Save** button to save the query.
 
-## 5. Building dashboards [#5-building-dashboards]
+## 5. Building dashboards 
 
 1. Click on the **Dashboards** button on the navbar.
 
@@ -86,5 +86,5 @@ Draxlr offers an intuitive interface for connecting to your ClickHouse database,
 
 4. You can select a query from the list of saved queries and choose the visualization type then click on the **Add Dashboard Item** button.
 
-## Learn more [#learn-more]
+## Learn more 
 To know more about Draxlr you can visit [Draxlr documentation](https://draxlr.notion.site/draxlr/Draxlr-Docs-d228b23383f64d00a70836ff9643a928) site.

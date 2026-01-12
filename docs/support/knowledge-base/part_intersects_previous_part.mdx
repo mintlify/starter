@@ -8,7 +8,7 @@ keywords: ['Part Intersects', 'system.replicas']
 
 
 
-## Why it occurs [#why-it-occurs]
+## Why it occurs
 
 When this error occurs, a table shows as readonly and the error states intersecting parts. 
 
@@ -26,11 +26,11 @@ The error message looks like:
 Code: 49. DB::Exception: Part XXXXX intersects previous part YYYYY. It is a bug or a result of manual intervention in the ZooKeeper data. (LOGICAL_ERROR) (version 21.12.4.1 (official build))
 ```
 
-## Cause of the Error [#cause-of-the-error]
+## Cause of the Error
 
 This error can be caused by a race condition between `mergeSelectingTask` and queue reinitialization.
 
-## Solution [#solution]
+## Solution
 
 Execute the following queries on all replicas:
 
@@ -55,7 +55,7 @@ You should upgrade to the latest version of ClickHouse
 :::
 
 
-## Additional resources [#additional-resources]
+## Additional resources
 
 Related PRs and GitHub issues:
 
@@ -64,5 +64,5 @@ Related PRs and GitHub issues:
 - [ClickHouse/ClickHouse#31060](https://github.com/ClickHouse/ClickHouse/pull/31060)
 - [ClickHouse/ClickHouse#35863](https://github.com/ClickHouse/ClickHouse/issues/35863)
 
-## Versions affected: [#versions-affected]
+## Versions affected:
 ClickHouse v 22.12 and prior

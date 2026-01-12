@@ -12,7 +12,7 @@ keywords: ['materialized views', 'projections', 'differences']
 projections. In this article we will explore the key differences between the two and why you 
 may want to pick one over the other in certain scenarios.
 
-## Summary of key differences [#key-differences]
+## Summary of key differences 
 
 The table below summarizes the key differences between materialized views and projections for various aspects of consideration.
 
@@ -34,9 +34,9 @@ The table below summarizes the key differences between materialized views and pr
 | [`optimize_read_in_order`](/operations/settings/settings#optimize_read_in_order) | Yes.                                                                                                                                                                                                                                                                                                                                                                     | Yes.                                                                                                                                                                                                                                                                                                   |
 | Lightweight updates and deletes                                                  | Yes.                                                                                                                                                                                                                                                                                                                                                                     | No.                                                                                                                                                                                                                                                                                                    |
 
-## Comparing materialized views and projections [#choose-between]
+## Comparing materialized views and projections 
 
-### When to choose materialized views [#choosing-materialized-views]
+### When to choose materialized views 
 
 You should consider using materialized views when:
 
@@ -45,21 +45,21 @@ You should consider using materialized views when:
 - You want **explicit schema control**: You require a separate, distinct target table with its own schema and engine for the pre-computed results, offering greater flexibility for data modelling.
 - You want to **filter at ingestion**: You need to filter data _before_ it's materialized, reducing the volume of data written to the target table.
 
-### When to avoid materialized views [#avoid-materialized-views]
+### When to avoid materialized views 
 
 You should consider avoiding use of materialized views when:
 
 - **Source data is frequently updated or deleted**: Without additional strategies for handling consistency between the source and target tables, incremental materialized views could become stale and inconsistent.
 - **Simplicity and automatic optimization are preferred**: If you want to avoid managing separate target tables.
 
-### When to choose projections [#choosing-projections]
+### When to choose projections 
 
 You should consider using projections when:
 
 - **Optimizing queries for a single table**: Your primary goal is to speed up queries on a single base table by providing alternative sorting orders, optimizing filters on columns which are not part of the primary-key, or pre-computing aggregations for a single table.
 - You want **query transparency**: you want queries to target the original table without modification, relying on ClickHouse to pick the best data layout for a given query.
 
-### When to avoid projections [#avoid-projections]
+### When to avoid projections 
 
 You should consider avoiding the use of projections when:
 
@@ -69,7 +69,7 @@ You should consider avoiding the use of projections when:
 - `FINAL` queries are essential: Projections do not work with `FINAL` queries, which are sometimes used for deduplication.
 - You need [parallel replicas](/deployment-guides/parallel-replicas) as they are not supported with projections.
 
-## Summary [#summary]
+## Summary 
 
 Materialized views and projections are both powerful tools in your toolkit for 
 optimizing queries and transforming data, and in general, we recommend not to view

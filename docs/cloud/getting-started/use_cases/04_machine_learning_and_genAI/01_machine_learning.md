@@ -7,7 +7,7 @@ sidebarTitle: 'Machine learning'
 doc_type: 'guide'
 ---
 
-## The machine learning data layer [#machine-learning-data-layer]
+## The machine learning data layer 
 
 You’ve probably heard the lore that 80% of a machine learning practitioner's time is spent cleaning data.
 Regardless of whether this myth holds true or not, what does remain true is that data is at the heart of the machine learning problem, from start to finish.
@@ -40,7 +40,7 @@ Most modern general-purpose databases come with vector support out-of-the-box (o
 In other words, there may be no need for a net new database to specifically handle vectors in those architectures at all.
 The importance boils down to whether the vector-specific convenience features (e.g. inbuilt embedding models) are mission-critical and worth the cost.
 
-### Data exploration [#data-exploration]
+### Data exploration 
 
 After defining the machine learning problem, goals, and success criteria, a common first step is to explore the relevant data that will be used for model training and evaluation.
 
@@ -64,7 +64,7 @@ While users can transform data directly in ClickHouse or prior to insertion usin
 This allows embedded ClickHouse to be exposed as a Python module and used to transform and manipulate large data frames within notebooks.
 Data engineers can therefore perform transformation work to be performed client-side, with results potentially materialized as feature tables in a centralized ClickHouse instance.
 
-### Data preparation and feature extraction [#data-preparation-and-feature-extraction]
+### Data preparation and feature extraction 
 
 Data is then prepared: cleaned, transformed, and used to extract the features by which the model will be trained and evaluated.
 This component is sometimes called a feature generation or extraction pipeline, and is another slice of the machine learning data layer where new tools are often introduced.
@@ -76,7 +76,7 @@ These are automatically triggered when new data is inserted into ClickHouse sour
 When these transformations require aggregations over a complete dataset that may not fit into memory, leveraging ClickHouse ensures you don’t have to try and retrofit this step to work with data frames on your local machine.
 For those datasets that are more convenient to evaluate locally, [ClickHouse local](/operations/utilities/clickhouse-local) is a great alternative, along with [chDB](/chdb), that allow users to leverage ClickHouse with standard Python data libraries like Pandas.
 
-### Training and evaluation [#training-and-evaluation]
+### Training and evaluation 
 
 At this point, features will have been split into training, validation, and test sets.
 These data sets are versioned, and then utilized by their respective stages.
@@ -100,7 +100,7 @@ Furthermore, materialized views allow data to be transformed at insert time, thu
 These views can exploit the same range of analytical and statistical functions ideal for data analysis and summarization.
 Should any of ClickHouse’s existing analytical functions be insufficient or custom libraries need to be integrated, users can also utilize User Defined Functions (UDFs).
 
-#### Offline feature store [#offline-feature-store]
+#### Offline feature store 
 
 An offline feature store is used for model training.
 This generally means that the features themselves are produced through batch-process data transformation pipelines (as described in the above section), and there are typically no strict latency requirements on the availability of those features.
@@ -114,7 +114,7 @@ As described earlier, training pipelines often need the state of features at spe
 In addition to simplifying syntax, this approach is highly performant on large datasets through the use of a sort and merge algorithm.
 This allows feature groups to be built quickly, reducing data preparation time prior to training.
 
-#### Online feature store [#online-feature-store]
+#### Online feature store 
 
 Online feature stores are used to store the latest version of features used for inference and are applied in real-time.
 This means that these features need to be calculated with minimal latency, as they’re used as part of a real-time machine learning service.
@@ -137,7 +137,7 @@ ClickHouse efficiently processes streaming and historical data, and has the unli
 In considering the tradeoffs between using a feature store product in this stage versus leveraging a real-time data warehouse directly, it’s worth emphasizing that convenience features such as versioning can be achieved through age-old database paradigms such as table or schema design.
 Other functionality, such as converting feature definitions to SQL statements, may provide greater flexibility as part of the application or business logic, rather than existing in an opinionated layer of abstraction.
 
-### Inference [#inference]
+### Inference 
 
 Model inference is the process of running a trained model to receive an output.
 When inference is triggered by database actions - for instance, inserting a new record, or querying records - the inference step could be managed via bespoke jobs or application code.
@@ -146,7 +146,7 @@ On the other hand, it could be managed in the data layer itself. ClickHouse [Use
 This provides the ability to pass incoming data to a model, receive the output, and store these results along with the ingested data automatically - all without having to spin up other processes or jobs.
 This also provides a single interface, SQL, by which to manage this step.
 
-### Vector store [#vector-store]
+### Vector store 
 
 A vector store is a specific type of database that is optimized for storing and retrieving vectors, typically embeddings of a piece of data (such as text or images) that numerically capture their underlying meaning.
 Vectors are at the core of today’s generative AI wave and are used in countless applications.
@@ -159,7 +159,7 @@ The issue with this new class of tools is that many general-purpose databases, i
 ClickHouse, in particular, is designed for high-performance large-scale analytics - allowing you to perform non-approximate vector comparisons very effectively.
 This means that you can achieve precise results, rather than having to rely on approximations, all without sacrificing speed.
 
-### Observability [#observability]
+### Observability 
 
 Once your machine learning application is live, it will generate data, including logs and tracing data, that offer valuable insights into model behavior, performance, and potential areas for improvement.
 

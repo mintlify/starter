@@ -15,13 +15,13 @@ Language SDKs are responsible for collecting telemetry from within your applicat
 
 In browser-based environments, SDKs may also be responsible for collecting **session data**, including UI events, clicks, and navigation thus enabling replays of user sessions. 
 
-## How it works [#how-it-works]
+## How it works 
 
 1. Your application uses a ClickStack SDK (e.g., Node.js, Python, Go). These SDKs are based on the OpenTelemetry SDKs with additional features and usability enhancements.
 2. The SDK collects and exports traces and logs via OTLP (HTTP or gRPC).
 3. The OpenTelemetry collector receives the telemetry and writes it to ClickHouse via the configured exporters.
 
-## Supported languages [#supported-languages]
+## Supported languages 
 
 <Note title="OpenTelemetry compatibility">
 While ClickStack offers its own language SDKs with enhanced telemetry and features, you can also use their existing OpenTelemetry SDKs seamlessly.
@@ -44,7 +44,7 @@ While ClickStack offers its own language SDKs with enhanced telemetry and featur
 | React Native | React Native mobile applications | [Documentation](/use-cases/observability/clickstack/sdks/react-native) |
 | Ruby | Ruby on Rails applications and web services | [Documentation](/use-cases/observability/clickstack/sdks/ruby-on-rails) |
 
-## Securing with API key [#securing-api-key]
+## Securing with API key 
 
 In order to send data to ClickStack via the OTel collector, SDKs will need to specify an ingestion API key. This can either be set using an `init` function in the SDK or an `OTEL_EXPORTER_OTLP_HEADERS` environment variable:
 
@@ -60,7 +60,7 @@ For most [language SDKs](/use-cases/observability/clickstack/sdks) and telemetry
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 ```
 
-## Kubernetes integration [#kubernetes-integration]
+## Kubernetes integration 
 
 All SDKs support automatic correlation with Kubernetes metadata (pod name, namespace, etc.) when running in a Kubernetes environment. This allows you to:
 

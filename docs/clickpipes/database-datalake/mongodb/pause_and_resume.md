@@ -9,7 +9,7 @@ keywords: ['clickpipes', 'mongodb', 'cdc', 'data ingestion', 'real-time sync']
 
 There are scenarios where it would be useful to pause a MongoDB ClickPipe. For example, you may want to run some analytics on existing data in a static state. Or, you might be performing upgrades on MongoDB. Here is how you can pause and resume a MongoDB ClickPipe.
 
-## Steps to pause a MongoDB ClickPipe [#pause-clickpipe-steps]
+## Steps to pause a MongoDB ClickPipe 
 
 1. In the Data Sources tab, click on the MongoDB ClickPipe you wish to pause.
 2. Head over to the **Settings** tab.
@@ -26,7 +26,7 @@ There are scenarios where it would be useful to pause a MongoDB ClickPipe. For e
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/pause_status.png"/>
 
-## Steps to resume a MongoDB ClickPipe [#resume-clickpipe-steps]
+## Steps to resume a MongoDB ClickPipe 
 1. In the Data Sources tab, click on the MongoDB ClickPipe you wish to resume. The status of the mirror should be **Paused** initially.
 2. Head over to the **Settings** tab.
 3. Click on the **Resume** button.

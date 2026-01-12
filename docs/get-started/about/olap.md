@@ -16,7 +16,7 @@ doc_type: 'reference'
 
 **Online** — …in real-time.
 
-## OLAP from the business perspective [#olap-from-the-business-perspective]
+## OLAP from the business perspective 
 
 In recent years business people have started to realize the value of data. Companies who make their decisions blindly more often than not fail to keep up with the competition. The data-driven approach of successful companies forces them to collect all data that might be even remotely useful for making business decisions, and imposes on them a need for mechanisms which allow them to analyze this data in a timely manner. Here's where OLAP database management systems (DBMS) come in.
 
@@ -24,7 +24,7 @@ In a business sense, OLAP allows companies to continuously plan, analyze, and re
 
 ClickHouse is an OLAP database management system that is pretty often used as a backend for those SaaS solutions for analyzing domain-specific data. However, some businesses are still reluctant to share their data with third-party providers and so an in-house data warehouse scenario is also viable.
 
-## OLAP from the technical perspective [#olap-from-the-technical-perspective]
+## OLAP from the technical perspective 
 
 All database management systems could be classified into two groups: OLAP (Online **Analytical** Processing) and OLTP (Online **Transactional** Processing). The former focuses on building reports, each based on large volumes of historical data, but by doing it less frequently. The latter usually handles a continuous stream of transactions, constantly modifying the current state of data.
 

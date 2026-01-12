@@ -9,9 +9,9 @@ doc_type: 'guide'
 
 chDB-go provides Go bindings for chDB, enabling you to run ClickHouse queries directly in your Go applications with zero external dependencies.
 
-## Installation [#installation]
+## Installation 
 
-### Step 1: Install libchdb [#install-libchdb]
+### Step 1: Install libchdb 
 
 First, install the chDB library:
 
@@ -19,7 +19,7 @@ First, install the chDB library:
 curl -sL https://lib.chdb.io | bash
 ```
 
-### Step 2: Install chdb-go [#install-chdb-go]
+### Step 2: Install chdb-go 
 
 Install the Go package:
 
@@ -33,9 +33,9 @@ Or add it to your `go.mod`:
 go get github.com/chdb-io/chdb-go
 ```
 
-## Usage [#usage]
+## Usage 
 
-### Command line interface [#cli]
+### Command line interface 
 
 chDB-go includes a CLI for quick queries:
 
@@ -50,9 +50,9 @@ chDB-go includes a CLI for quick queries:
 ./chdb-go --path /tmp/chdb
 ```
 
-### Go Library - quick start [#quick-start]
+### Go Library - quick start 
 
-#### Stateless queries [#stateless-queries]
+#### Stateless queries 
 
 For simple, one-off queries:
 
@@ -74,7 +74,7 @@ func main() {
 }
 ```
 
-#### Stateful queries with session [#stateful-queries]
+#### Stateful queries with session 
 
 For complex queries with persistent state:
 
@@ -127,7 +127,7 @@ func main() {
 }
 ```
 
-#### SQL driver interface [#sql-driver]
+#### SQL driver interface 
 
 chDB-go implements Go's `database/sql` interface:
 
@@ -166,7 +166,7 @@ func main() {
 }
 ```
 
-#### Query streaming for large datasets [#query-streaming]
+#### Query streaming for large datasets 
 
 For processing large datasets that don't fit in memory, use streaming queries:
 
@@ -233,14 +233,14 @@ func main() {
 - **Cancellation support** - Can cancel long-running queries with `Cancel()`
 - **Error handling** - Check for errors during streaming with `Error()`
 
-## API documentation [#api-documentation]
+## API documentation 
 
 chDB-go provides both high-level and low-level APIs:
 
 - **[High-Level API Documentation](https://github.com/chdb-io/chdb-go/blob/main/chdb.md)** - Recommended for most use cases
 - **[Low-Level API Documentation](https://github.com/chdb-io/chdb-go/blob/main/lowApi.md)** - For advanced use cases requiring fine-grained control
 
-## System requirements [#requirements]
+## System requirements 
 
 - Go 1.21 or later
 - Compatible with Linux, macOS

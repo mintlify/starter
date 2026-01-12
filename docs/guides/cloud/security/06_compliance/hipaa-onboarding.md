@@ -18,12 +18,12 @@ For more information about ClickHouse's compliance program and third party audit
 
 This page describes the process for enabling deployment of HIPAA compliant services in ClickHouse Cloud.
 
-## Enable and deploy HIPAA compliant services [#enable-hipaa-compliant-services]
+## Enable and deploy HIPAA compliant services 
 
 <Steps>
 
 <Step>
-### Sign up for Enterprise services [#sign-up-for-enterprise]
+### Sign up for Enterprise services 
 
 1. Select your organization name in the lower left corner of the console.
 2. Click **Billing**.
@@ -34,7 +34,7 @@ This page describes the process for enabling deployment of HIPAA compliant servi
 </Step>
 
 <Step>
-### Enable HIPAA for your organization [#enable-hipaa]
+### Enable HIPAA for your organization 
 
 1. Select your organization name in the lower left corner of the console.
 2. Click **Organization details**.
@@ -65,7 +65,7 @@ This page describes the process for enabling deployment of HIPAA compliant servi
 </Step>
 
 <Step>
-### Deploy services to HIPAA compliant regions [#deploy-hippa-services]
+### Deploy services to HIPAA compliant regions 
 
 1. Select **New service** in the upper left corner of the home screen in the console
 2. Change the **Region type** to **HIPAA compliant**
@@ -84,7 +84,7 @@ For a complete listing of HIPAA compliant cloud providers and services, review o
 
 </Steps>
 
-## Migrate existing services [#migrate-to-hipaa]
+## Migrate existing services 
 
 Customers are strongly encouraged to deploy services to compliant environments where required. The process to migrate services from a standard region to a HIPAA compliant region involves restoring from a backup and may require some downtime.
 

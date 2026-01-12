@@ -8,22 +8,22 @@ doc_type: 'guide'
 keywords: ['kafka best practices', 'clickpipes', 'compression', 'authentication', 'scaling']
 ---
 
-## Message Compression [#compression]
+## Message Compression 
 
 We strongly recommend using compression for your Kafka topics. Compression can result in a significant saving in data transfer costs with virtually no performance hit.
 To learn more about message compression in Kafka, we recommend starting with this [guide](https://www.confluent.io/blog/apache-kafka-message-compression/).
 
-## Limitations [#limitations]
+## Limitations 
 
 - [`DEFAULT`](/sql-reference/statements/create/table#default) is not supported.
 
-## Delivery semantics [#delivery-semantics]
+## Delivery semantics 
 ClickPipes for Kafka provides `at-least-once` delivery semantics (as one of the most commonly used approaches). We'd love to hear your feedback on delivery semantics [contact form](https://clickhouse.com/company/contact?loc=clickpipes). If you need exactly-once semantics, we recommend using our official [`clickhouse-kafka-connect`](https://clickhouse.com/blog/real-time-event-streaming-with-kafka-connect-confluent-cloud-clickhouse) sink.
 
-## Authentication [#authentication]
+## Authentication 
 For Apache Kafka protocol data sources, ClickPipes supports [SASL/PLAIN](https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html) authentication with TLS encryption, as well as `SASL/SCRAM-SHA-256` and `SASL/SCRAM-SHA-512`. Depending on the streaming source (Redpanda, MSK, etc) will enable all or a subset of these auth mechanisms based on compatibility. If you auth needs differ please [give us feedback](https://clickhouse.com/company/contact?loc=clickpipes).
 
-### IAM [#iam]
+### IAM 
 
 <Note>
 IAM Authentication for the MSK ClickPipe is a beta feature.
@@ -74,7 +74,7 @@ Below is an example of the required IAM policy for Apache Kafka APIs for MSK:
 }
 ```
 
-#### Configuring a trusted relationship [#configuring-a-trusted-relationship]
+#### Configuring a trusted relationship 
 
 If you are authenticating to MSK with a IAM role ARN, you will need to add a trusted relationship between your ClickHouse Cloud instance so the role can be assumed.
 
@@ -98,26 +98,26 @@ Role-based access only works for ClickHouse Cloud instances deployed to AWS.
 }
 ```
 
-### Custom Certificates [#custom-certificates]
+### Custom Certificates 
 ClickPipes for Kafka supports the upload of custom certificates for Kafka brokers which use non-public server certificates.
 Upload of client certificates and keys is also supported for mutual TLS (mTLS) based authentication.
 
-## Performance [#performance]
+## Performance 
 
-### Batching [#batching]
+### Batching 
 ClickPipes inserts data into ClickHouse in batches. This is to avoid creating too many parts in the database which can lead to performance issues in the cluster.
 
 Batches are inserted when one of the following criteria has been met:
 - The batch size has reached the maximum size (100,000 rows or 32MB per 1GB of pod memory)
 - The batch has been open for a maximum amount of time (5 seconds)
 
-### Latency [#latency]
+### Latency 
 
 Latency (defined as the time between the Kafka message being produced and the message being available in ClickHouse) will be dependent on a number of factors (i.e. broker latency, network latency, message size/format). The [batching](#batching) described in the section above will also impact latency. We always recommend testing your specific use case with typical loads to determine the expected latency.
 
 ClickPipes does not provide any guarantees concerning latency. If you have specific low-latency requirements, please [contact us](https://clickhouse.com/company/contact?loc=clickpipes).
 
-### Scaling [#scaling]
+### Scaling 
 
 ClickPipes for Kafka is designed to scale horizontally and vertically. By default, we create a consumer group with one consumer. This can be configured during ClickPipe creation, or at any other point under **Settings** -> **Advanced Settings** -> **Scaling**.
 
@@ -128,7 +128,7 @@ Regardless number of running consumers, fault tolerance is available by design.
 If a consumer or its underlying infrastructure fails,
 the ClickPipe will automatically restart the consumer and continue processing messages.
 
-### Benchmarks [#benchmarks]
+### Benchmarks 
 
 Below are some informal benchmarks for ClickPipes for Kafka that can be used to get a general idea of the baseline performance. It's important to know that many factors can impact performance, including message size, data types, and data format. Your mileage may vary, and what we show here is not a guarantee of actual performance.
 

@@ -15,15 +15,15 @@ ClickHouse Cloud supports single-sign on (SSO) via security assertion markup lan
 
 We currently support service provider-initiated SSO SSO, multiple organizations using separate connections, and just-in-time provisioning. We do not yet support a system for cross-domain identity management (SCIM) or attribute mapping.
 
-## Before you begin [#before-you-begin]
+## Before you begin 
 
 You will need Admin permissions in your IdP and the **Admin** role in your ClickHouse Cloud organization. After setting up your connection within your IdP, contact us with the information requested in the procedure below to complete the process.
 
 We recommend setting up a **direct link to your organization** in addition to your SAML connection to simplify the login process. Each IdP handles this differently. Read on for how to do this for your IdP.
 
-## How to configure your IdP [#how-to-configure-your-idp]
+## How to configure your IdP 
 
-### Steps [#steps]
+### Steps 
 
 <details>
    <summary>  Get your organization ID  </summary>
@@ -112,7 +112,7 @@ We recommend setting up a **direct link to your organization** in addition to yo
    
 </details>
 
-### Configure Okta SAML [#configure-okta-saml]
+### Configure Okta SAML 
 
 You will configure two App Integrations in Okta for each ClickHouse organization: one SAML app and one bookmark to house your direct link.
 
@@ -199,7 +199,7 @@ You will configure two App Integrations in Okta for each ClickHouse organization
    
 </details>
 
-### Configure Google SAML [#configure-google-saml]
+### Configure Google SAML 
 
 You will configure one SAML app in Google for each organization and must provide your users the direct link (`https://console.clickhouse.cloud/?connection={organizationId}`) to bookmark if using multi-org SSO.
 
@@ -246,7 +246,7 @@ You will configure one SAML app in Google for each organization and must provide
        
 </details>
 
-### Configure Azure (Microsoft) SAML [#configure-azure-microsoft-saml]
+### Configure Azure (Microsoft) SAML 
 
 Azure (Microsoft) SAML may also be referred to as Azure Active Directory (AD) or Microsoft Entra.
 
@@ -299,7 +299,7 @@ Azure (Microsoft) SAML may also be referred to as Azure Active Directory (AD) or
 
 </details>
 
-### Configure Duo SAML [#configure-duo-saml]
+### Configure Duo SAML 
 
 <details>
    <summary> Create a Generic SAML Service Provider for Duo </summary>
@@ -326,21 +326,21 @@ Azure (Microsoft) SAML may also be referred to as Azure Active Directory (AD) or
    
 </details>
 
-## How it works [#how-it-works]
+## How it works 
 
-### User management with SAML SSO [#user-management-with-saml-sso]
+### User management with SAML SSO 
 
 For more information on managing user permissions and restricting access to only SAML connections, refer to [Manage cloud users](/cloud/security/manage-cloud-users).
 
-### Service provider-initiated SSO [#service-provider-initiated-sso]
+### Service provider-initiated SSO 
 
 We only utilize service provider-initiated SSO. This means users go to `https://console.clickhouse.cloud` and enter their email address to be redirected to the IdP for authentication. Users already authenticated via your IdP can use the direct link to automatically log in to your organization without entering their email address at the login page.
 
-### Multi-org SSO [#multi-org-sso]
+### Multi-org SSO 
 
 ClickHouse Cloud supports multi-organization SSO by providing a separate connection for each organization. Use the direct link (`https://console.clickhouse.cloud/?connection={organizationid}`) to log in to each respective organization. Be sure to log out of one organization before logging into another.
 
-## Additional information [#additional-information]
+## Additional information 
 
 Security is our top priority when it comes to authentication. For this reason, we made a few decisions when implementing SSO that we need you to know.
 
@@ -348,7 +348,7 @@ Security is our top priority when it comes to authentication. For this reason, w
 
 - **We do not automatically link SSO and non-SSO accounts.** You may see multiple accounts for your users in your ClickHouse user list even if they are using the same email address.
 
-## Troubleshooting Common Issues [#troubleshooting-common-issues]
+## Troubleshooting Common Issues 
 
 | Error | Cause | Solution | 
 |:------|:------|:---------|

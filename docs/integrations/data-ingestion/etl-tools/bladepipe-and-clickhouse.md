@@ -16,7 +16,7 @@ import {PartnerBadge} from '/snippets/components/PartnerBadge/PartnerBadge.jsx'
 
 ClickHouse is one of BladePipe's pre-built connectors, allowing users to integrate data from various sources into ClickHouse automatically. This page will show how to load data into ClickHouse in real time step by step.
 
-## Supported sources [#supported-sources]
+## Supported sources 
 Currently BladePipe supports for data integration to ClickHouse from the following sources:
 - MySQL/MariaDB/AuroraMySQL
 - Oracle
@@ -33,7 +33,7 @@ More sources are to be supported.
 
 <Step>
 
-## Download and run BladePipe [#1-run-bladepipe]
+## Download and run BladePipe 
 1. Log in to <a href="https://www.bladepipe.com/" target="_blank">BladePipe Cloud</a>.
 
 2. Follow the instructions in <a href="https://doc.bladepipe.com/productOP/byoc/installation/install_worker_docker" target="_blank">Install Worker (Docker)</a> or <a href="https://doc.bladepipe.com/productOP/byoc/installation/install_worker_binary" target="_blank">Install Worker (Binary)</a> to download and install a BladePipe Worker.
@@ -46,7 +46,7 @@ More sources are to be supported.
 
 <Step>
 
-## Add ClickHouse as a target [#2-add-clickhouse-as-a-target]
+## Add ClickHouse as a target 
 
   :::note
   1. BladePipe supports ClickHouse version `20.12.3.3` or above.
@@ -65,7 +65,7 @@ More sources are to be supported.
 
 <Step>
 
-## Add MySQL as a source [#3-add-mysql-as-a-source]
+## Add MySQL as a source 
 In this tutorial, we use a MySQL instance as the source, and explain the process of loading MySQL data to ClickHouse.
 
 <Note>
@@ -84,7 +84,7 @@ To use MySQL as a source, make sure that the user has the <a href="https://doc.b
 
 <Step>
 
-## Create a pipeline [#4-create-a-pipeline]
+## Create a pipeline 
 
 1. In BladePipe, click "DataJob" > "Create DataJob".
 
@@ -107,7 +107,7 @@ To use MySQL as a source, make sure that the user has the <a href="https://doc.b
 
 <Step>
 
-## Verify the data [#5-verify-the-data]
+## Verify the data 
 1. Stop data write in MySQL instance and wait for ClickHouse to merge data.
 <Note>
 Due to the unpredictable timing of ClickHouse's automatic merging, you can manually trigger a merging by running the `OPTIMIZE TABLE xxx FINAL;` command. Note that there is a chance that this manual merging may not always succeed.

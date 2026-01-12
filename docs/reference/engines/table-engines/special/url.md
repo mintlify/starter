@@ -38,7 +38,7 @@ If `CompressionMethod` is not specified, it defaults to `auto`. This means Click
 
 For example, for engine expression `URL('http://localhost/test.gzip')`, `gzip` compression method is applied, but for `URL('http://localhost/test.fr')`, no compression is enabled because the suffix `fr` does not match any compression methods above.
 
-## Usage [#using-the-engine-in-the-clickhouse-server]
+## Usage 
 
 `INSERT` and `SELECT` queries are transformed to `POST` and `GET` requests,
 respectively. For processing `POST` requests, the remote server must support
@@ -46,7 +46,7 @@ respectively. For processing `POST` requests, the remote server must support
 
 You can limit the maximum number of HTTP GET redirect hops using the [max_http_get_redirects](/operations/settings/settings#max_http_get_redirects) setting.
 
-## Example [#example]
+## Example 
 
 **1.** Create a `url_engine_table` table on the server :
 
@@ -91,7 +91,7 @@ SELECT * FROM url_engine_table
 └───────┴───────┘
 ```
 
-## Details of Implementation [#details-of-implementation]
+## Details of Implementation 
 
 - Reads and writes can be parallel
 - Not supported:
@@ -99,7 +99,7 @@ SELECT * FROM url_engine_table
   - Indexes.
   - Replication.
 
-## Virtual columns [#virtual-columns]
+## Virtual columns 
 
 - `_path` — Path to the `URL`. Type: `LowCardinality(String)`.
 - `_file` — Resource name of the `URL`. Type: `LowCardinality(String)`.
@@ -107,7 +107,7 @@ SELECT * FROM url_engine_table
 - `_time` — Last modified time of the file. Type: `Nullable(DateTime)`. If the time is unknown, the value is `NULL`.
 - `_headers` - HTTP response headers. Type: `Map(LowCardinality(String), LowCardinality(String))`.
 
-## Storage settings [#storage-settings]
+## Storage settings 
 
 - [engine_url_skip_empty_files](/operations/settings/settings.md#engine_url_skip_empty_files) - allows to skip empty files while reading. Disabled by default.
 - [enable_url_encoding](/operations/settings/settings.md#enable_url_encoding) - allows to enable/disable decoding/encoding path in uri. Enabled by default.

@@ -28,7 +28,7 @@ UPDATE [db.]table [ON CLUSTER cluster] SET column1 = expr1 [, ...] [IN PARTITION
 The `filter_expr` must be of type `UInt8`. This query updates values of the specified columns to the values of the corresponding expressions in rows for which the `filter_expr` takes a non-zero value.
 Values are cast to the column type using the `CAST` operator. Updating columns used in the calculation of the primary or partition keys is not supported.
 
-## Examples [#examples]
+## Examples 
 
 ```sql
 UPDATE hits SET Title = 'Updated Title' WHERE EventDate = today();
@@ -36,7 +36,7 @@ UPDATE hits SET Title = 'Updated Title' WHERE EventDate = today();
 UPDATE wikistat SET hits = hits + 1, time = now() WHERE path = 'ClickHouse';
 ```
 
-## Lightweight updates do not update data immediately [#lightweight-update-does-not-update-data-immediately]
+## Lightweight updates do not update data immediately 
 
 Lightweight `UPDATE` is implemented using **patch parts** - a special kind of data part that contains only the updated columns and rows.
 A lightweight `UPDATE` creates patch parts but does not immediately modify the original data physically in storage.
@@ -46,17 +46,17 @@ The updated values are:
 - **Immediately visible** in `SELECT` queries through patches application
 - **Physically materialized** only during subsequent merges and mutations
 - **Automatically cleaned up** once all active parts have the patches materialized
-## Lightweight updates requirements [#lightweight-update-requirements]
+## Lightweight updates requirements 
 
 Lightweight updates are supported for [`MergeTree`](/engines/table-engines/mergetree-family/mergetree), [`ReplacingMergeTree`](/engines/table-engines/mergetree-family/replacingmergetree), [`CollapsingMergeTree`](/engines/table-engines/mergetree-family/collapsingmergetree) engines and their [`Replicated`](/engines/table-engines/mergetree-family/replication.md) and [`Shared`](/cloud/reference/shared-merge-tree) versions.
 
 To use lightweight updates, materialization of `_block_number` and `_block_offset` columns must be enabled using table settings [`enable_block_number_column`](/operations/settings/merge-tree-settings#enable_block_number_column) and [`enable_block_offset_column`](/operations/settings/merge-tree-settings#enable_block_offset_column).
 
-## Lightweight deletes [#lightweight-delete]
+## Lightweight deletes 
 
 A [lightweight `DELETE`](/sql-reference/statements/delete) query can be run as a lightweight `UPDATE` instead of a `ALTER UPDATE` mutation. The implementation of lightweight `DELETE` is controlled by setting [`lightweight_delete_mode`](/operations/settings/settings#lightweight_delete_mode).
 
-## Performance considerations [#performance-considerations]
+## Performance considerations 
 
 **Advantages of lightweight updates:**
 - The latency of the update is comparable to the latency of the `INSERT ... SELECT ...` query
@@ -70,12 +70,12 @@ A [lightweight `DELETE`](/sql-reference/statements/delete) query can be run as a
 - Small updates which are too frequent may lead to a "too many parts" error. It is recommended to batch several updates into a single query, for example by putting ids for updates in a single `IN` clause in the `WHERE` clause
 - Lightweight updates are designed to update small amounts of rows (up to about 10% of the table). If you need to update a larger amount, it is recommended to use the [`ALTER TABLE ... UPDATE`](/sql-reference/statements/alter/update) mutation
 
-## Concurrent operations [#concurrent-operations]
+## Concurrent operations 
 
 Lightweight updates don't wait for currently running merges/mutations to complete unlike heavy mutations.
 The consistency of concurrent lightweight updates is controlled by settings [`update_sequential_consistency`](/operations/settings/settings#update_sequential_consistency) and [`update_parallel_mode`](/operations/settings/settings#update_parallel_mode).
 
-## Update permissions [#update-permissions]
+## Update permissions 
 
 `UPDATE` requires the `ALTER UPDATE` privilege. To enable `UPDATE` statements on a specific table for a given user, run:
 
@@ -83,7 +83,7 @@ The consistency of concurrent lightweight updates is controlled by settings [`up
 GRANT ALTER UPDATE ON db.table TO username;
 ```
 
-## Details of the implementation [#details-of-the-implementation]
+## Details of the implementation 
 
 Patch parts are the same as the regular parts, but contain only updated columns and several system columns:
 - `_part` - the name of the original part
@@ -118,7 +118,7 @@ For these two cases there are two ways to apply patch parts respectively:
 
 The join mode is slower and requires more memory than the merge mode, but it is used less often.
 
-## Related Content [#related-content]
+## Related Content 
 
 - [`ALTER UPDATE`](/sql-reference/statements/alter/update) - Heavy `UPDATE` operations
 - [Lightweight `DELETE`](/sql-reference/statements/delete) - Lightweight `DELETE` operations

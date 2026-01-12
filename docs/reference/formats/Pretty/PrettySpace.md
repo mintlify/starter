@@ -13,13 +13,13 @@ doc_type: 'reference'
 
 import CommonPrettyFormatSettings from '/snippets/products/reference/formats/Pretty/_snippets/common-pretty-format-settings.mdx';
 
-## Description [#description]
+## Description 
 
 Differs from the [`PrettyCompact`](./PrettyCompact.md) format in that whitespace 
 (space characters) is used for displaying the table instead of a grid.
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 
 
 <PrettyFormatSettings/>

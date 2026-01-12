@@ -9,7 +9,7 @@ keywords: ['clickpipes', 'mysql', 'cdc', 'data ingestion', 'real-time sync']
 
 In some cases, it makes sense to exclude specific tables from a MySQL ClickPipe - for example, if a table isn't needed for your analytics workload, skipping it can reduce storage and replication costs in ClickHouse.
 
-## Steps to remove specific tables [#remove-tables-steps]
+## Steps to remove specific tables 
 
 The first step is to remove the table from the pipe. This can be done by the following steps:
 

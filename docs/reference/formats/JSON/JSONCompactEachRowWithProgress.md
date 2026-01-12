@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 This format combines the compact row-by-row output of JSONCompactEachRow with streaming progress
 information.
@@ -25,7 +25,7 @@ Key features:
 - Supports totals and extremes
 - Values keep their native types (numbers as numbers, strings as strings)
 
-## Example usage [#example-usage]
+## Example usage 
 
 ```sql title="Query"
 SELECT *
@@ -45,4 +45,4 @@ FORMAT JSONCompactEachRowWithProgress
 {"rows_before_limit_at_least":5}
 ```
 
-## Format settings [#format-settings]
+## Format settings 

@@ -30,7 +30,7 @@ column_name QBit(element_type, dimension)
 * `element_type` – the type of each vector element. The allowed types are `BFloat16`, `Float32` and `Float64`
 * `dimension` – the number of elements in each vector
 
-## Creating QBit [#creating-qbit]
+## Creating QBit 
 
 Using the `QBit` type in table column definition:
 
@@ -47,7 +47,7 @@ SELECT vec FROM test ORDER BY id;
 └──────────────────────────┘
 ```
 
-## QBit subcolumns [#qbit-subcolumns]
+## QBit subcolumns 
 
 `QBit` implements a subcolumn access pattern that allows you to access individual bit planes of the stored vectors. Each bit position can be accessed using the `.N` syntax, where `N` is the bit position:
 
@@ -71,7 +71,7 @@ The number of accessible subcolumns depends on the element type:
 * `Float32`: 32 subcolumns (1-32)
 * `Float64`: 64 subcolumns (1-64)
 
-## Vector search functions [#vector-search-functions]
+## Vector search functions 
 
 These are the distance functions for vector similarity search that use `QBit` data type:
 

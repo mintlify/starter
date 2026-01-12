@@ -8,17 +8,17 @@ keywords: ['Read Consistency']
 
 
 
-## Question [#question]
+## Question
 
 I'm writing data into ClickHouse Cloud and need to be able, when reading data, to guarantee that I'm getting the latest complete information.
 
-## Answer [#answer]
+## Answer
 
-### Talking to the same node [#talking-to-the-same-node]
+### Talking to the same node
 
 If you are using the native protocol, or a session to do your write/read, you should then be connected to the same replica: in this scenario, you're reading directly from the node where you're writing, and so your read will always be consistent.
 
-### Talking to a random node [#talking-to-a-random-node]
+### Talking to a random node
 
 If you can't guarantee you're talking to the same node (for example, talking to the node via HTTPS calls which get shuffled via a load balancer), you can either:
 

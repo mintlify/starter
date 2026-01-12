@@ -20,7 +20,7 @@ This is the dashboard:
 
 You can checkout [the Dashboard via this link.](https://demo.rocket.bi/dashboard/sales-dashboard-7?token=7eecf750-cbde-4c53-8fa8-8b905fec667e)
 
-## Install [#install]
+## Install 
 
 Start RocketBI with our pre-built docker images.
 
@@ -38,7 +38,7 @@ Open browser, go to ```localhost:5050```, login with this account: ```hello@gmai
 
 To build from source or advanced configuration you could check it here [Rocket.BI Readme](https://github.com/datainsider-co/rocket-bi/blob/main/README.md)
 
-## Let's build the dashboard [#lets-build-the-dashboard]
+## Let's build the dashboard 
 
 In Dashboard, you will find your reportings, start visualization by clicking **+New**
 
@@ -49,9 +49,9 @@ You can build **unlimited dashboards** & draw **unlimited charts** in a dashboar
 
 See hi-res tutorial on Youtube: [https://www.youtube.com/watch?v=TMkdMHHfvqY](https://www.youtube.com/watch?v=TMkdMHHfvqY)
 
-### Build the chart controls [#build-the-chart-controls]
+### Build the chart controls 
 
-#### Create a metrics control [#create-a-metrics-control]
+#### Create a metrics control 
 In the Tab filter, select metric fields you want to use. Make sure to keep check on aggregation setting.
 
 <img src="/images/integrations/data-visualization/rocketbi_03.png" alt="Rocket BI metrics control configuration panel showing selected fields and aggregation settings" />
@@ -61,7 +61,7 @@ Rename filters & Save Control to Dashboard
 
 <img src="/images/integrations/data-visualization/rocketbi_04.png" alt="Metrics control with renamed filters ready to save to dashboard" />
 
-#### Create a date type control [#create-a-date-type-control]
+#### Create a date type control 
 Choose a Date field as Main Date column:
 
 <img src="/images/integrations/data-visualization/rocketbi_05.png" alt="Date field selection interface in Rocket BI showing available date columns" />
@@ -76,9 +76,9 @@ Rename filters & Save Control to Dashboard
 
 <img src="/images/integrations/data-visualization/rocketbi_07.png" alt="Date range control with renamed filters ready to save to dashboard" />
 
-### Now, let build the Charts [#now-let-build-the-charts]
+### Now, let build the Charts 
 
-#### Pie chart: sales metrics by regions [#pie-chart-sales-metrics-by-regions]
+#### Pie chart: sales metrics by regions 
 Choose Adding new chart, then Select Pie Chart
 
 <img src="/images/integrations/data-visualization/rocketbi_08.png" alt="Chart type selection panel with pie chart option highlighted" />
@@ -115,7 +115,7 @@ Save & Add the Chart to Dashboard
 
 <img src="/images/integrations/data-visualization/rocketbi_14.png" alt="Dashboard view showing the newly added pie chart with other controls" />
 
-#### Use date control in a time-series chart [#use-date-control-in-a-time-series-chart]
+#### Use date control in a time-series chart 
 Let Use a Stacked Column Chart
 
 <img src="/images/integrations/data-visualization/rocketbi_15.png" alt="Stacked column chart creation interface with time-series data" />

@@ -2,105 +2,217 @@
 mode: "custom"
 max-toc-depth: 3
 slug: home
+sidebarTitle: "Introduction"
 ---
 
-{/* Hero Section */}
-<section className="hero">
-  <div className="hero-text">
-    <h1>Start building with <span className="tilted"><span className="tilted-content">ClickHouse</span></span></h1>
-    <p>Docs for the fastest analytical database</p>
-  </div>
-  <div className="hero-aside">
-    <div className="product-grid">
-      <a href="/docs/cloud/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/cloud-dark.svg" alt="Cloud" noZoom/>
-        <h3>Cloud</h3>
-      </a>
+export const ButtonGroup = ({options = [], selected, onClick, fillWidth = false, type = 'default', ...props}) => {
+    return (
+        <div
+            className={`
+        inline-flex flex-row items-center justify-center gap-1
+        ${type === 'default' ? 'border border-white/10 bg-[#f5f5f5] dark:bg-[#1a1a1a] p-1' : 'p-0'}
+        ${fillWidth ? 'w-full' : 'w-auto'}
+        rounded-lg relative z-20
+      `}
+            {...props}
+        >
+            {options.map(({ value, label, ...buttonProps }) => (
+                <button
+                    key={value}
+                    onClick={() => onClick?.(value)}
+                    aria-pressed={value === selected}
+                    className={`
+            flex items-center justify-center
+            px-4 py-2 rounded-md
+            font-medium text-sm
+            border-none cursor-pointer
+            transition-all duration-200
+            ${fillWidth ? 'flex-1' : ''}
+            ${
+                        value === selected
+                            ? 'bg-[#e5e5e5] text-gray-900 dark:bg-[#3a3a3a] dark:text-white'
+                            : 'bg-transparent text-gray-400 hover:bg-[#f0f0f0] hover:text-gray-900 dark:hover:bg-[#2a2a2a] dark:hover:text-white'
+                    }
+          `}
+                    {...buttonProps}
+                >
+                    {label}
+                </button>
+            ))}
+        </div>
+    );
+}
 
-      <a href="/docs/oss/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/oss-dark.svg" alt="Open Source" noZoom/>
-        <h3>Open Source</h3>
-      </a>
+export const HeroCard = ({ filename, title, description, href }) => {
 
-      <a href="/docs/clickstack/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/clickstack-dark.svg" alt="ClickStack" noZoom/>
-        <h3>ClickStack</h3>
-      </a>
+    const darkFilename = filename.replace(/(\.[^.]+)$/, "--dark$1");
 
-      <a href="/docs/chdb/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/chdb-dark.svg" alt="chDB" noZoom/>
-        <h3>chDB</h3>
-      </a>
+    return (
+        <a className="group cursor-pointer pb-8 p-4 rounded-lg bg-[#f9f9f9] border border-gray-200 dark:bg-[#282828] dark:border-[#323232]" href={href}>
+            <img
+                src={`https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/${filename}`}
+                className="block dark:hidden pointer-events-none group-hover:scale-105 transition-all duration-100 border border-gray-300 w-full h-48 object-cover rounded-lg"
+            />
+            <img
+                src={`https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/${darkFilename}`}
+                className="pointer-events-none group-hover:scale-105 transition-all duration-100 hidden dark:block border border-[#494949] w-full h-48 object-cover rounded-lg"
+            />
+            <h3 className="mt-5 text-gray-900 dark:text-[#FFFFFF] text-2xl font-semibold">
+                {title}
+            </h3>
+            <span className="block mt-4 text-[14px] font-normal text-gray-600 dark:text-white">{description}</span>
+        </a>
+    );
+};
 
-      <a href="/docs/clickpipes/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/clickpipes-dark.svg" alt="ClickPipes" noZoom/>
-        <h3>ClickPipes</h3>
-      </a>
+export const ContentSwitcher = () => {
+    const [selected, setSelected] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('contentSwitcherTab') || 'usecase';
+        }
+        return 'usecase';
+    });
 
-      <a href="/docs/integrations/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/integrations-dark.svg" alt="Integrations" noZoom/>
-        <h3>Integrations</h3>
-      </a>
+    const handleSelection = (value) => {
+        setSelected(value);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('contentSwitcherTab', value);
+        }
+    };
 
-      <a href="/docs/reference/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/reference-dark.svg" alt="Reference" noZoom/>
-        <h3>Reference</h3>
-      </a>
+    return (
+        <>
+            <div className="flex justify-between items-center mt-8">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-zinc-50">
+                    {selected === 'goal' && 'Explore by goal'}
+                    {selected === 'usecase' && 'Explore by use case'}
+                    {selected === 'product' && 'Explore by product'}
+                </h2>
+                <ButtonGroup
+                    options={[
+                        { value: 'goal', label: 'Goal' },
+                        { value: 'usecase', label: 'Use case' },
+                        { value: 'product', label: 'Product' },
+                    ]}
+                    selected={selected}
+                    onClick={handleSelection}
+                />
+            </div>
 
-      <a href="/docs/support/home" className="product-item">
-        <img src="https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/support-dark.svg" alt="Support" noZoom/>
-        <h3>Support center</h3>
-      </a>
+            {/* Goal Section */}
+            {selected === 'goal' && (
+                <div className="px-6 lg:px-0 mt-12 lg:mt-12 grid sm:grid-cols-3 gap-x-6 gap-y-4">
+                    <HeroCard
+                        filename="cli"
+                        title="Get started"
+                        description="I'm new here, I want to get started or explore ClickHouse product docs."
+                        href="/installation"
+                    />
+                    <HeroCard
+                        filename="editor"
+                        title="Guides"
+                        description="I want to learn core concepts, find instructions or advice for a particular task or use case or explore advanced features."
+                        href="/editor/index"
+                    />
+                    <HeroCard
+                        filename="components"
+                        title="Reference"
+                        description="I know what I want to do - I just need the details."
+                        href="/docs/reference/home"
+                    />
+                </div>
+            )}
+
+            {/* Use Case Section */}
+            {selected === 'usecase' && (
+                <div className="px-6 lg:px-0 mt-12 lg:mt-12 grid sm:grid-cols-4 gap-x-6 gap-y-4">
+                    <HeroCard
+                        filename="rt-analytics.svg"
+                        title="Real-time analytics"
+                        description="Ingest millions of rows per second. Handle the most heavily concurrent workloads. All without compromising query speed."
+                        href="/installation"
+                    />
+                    <HeroCard
+                        filename="observability.svg"
+                        title="Observability"
+                        description="Lightning-fast queries and powerful aggregations on logs, metrics, traces, session replays and errors with unmatched resource efficiency for even your highest-cardinality OTel data. All in one stack - powered by ClickHouse."
+                        href="/editor/index"
+                    />
+                    <HeroCard
+                        filename="data-warehousing.svg"
+                        title="Data warehousing"
+                        description="Say goodbye to loading spinners and lengthy report wait times. For Data warehousing, ClickHouse unlocks faster queries at a fraction of the cost."
+                        href="/components/accordions"
+                    />
+                    <HeroCard
+                        filename="machine-learning.svg"
+                        title="Machine Learning & GenAI"
+                        description="The ultimate real-time database to power Machine Learning workloads. With ClickHouse, it's easier than ever to unleash GenAI on your analytics data."
+                        href="/installation"
+                    />
+                </div>
+            )}
+
+            {/* Product Section */}
+            {selected === 'product' && (
+                <div className="px-6 lg:px-0 mt-12 lg:mt-12 grid sm:grid-cols-3 gap-x-6 gap-y-4">
+                    <HeroCard
+                        filename="sql-console.svg"
+                        title="ClickHouse Cloud"
+                        description="Explore product docs for ClickHouse Cloud, a serverless offering that takes care of the details so you can spend more time getting insight out of the fastest database on earth."
+                        href="/installation"
+                    />
+                    <HeroCard
+                        filename="clickstack.png"
+                        title="ClickStack"
+                        description="Explore product docs for ClickStack - the all in one observability stack powered by ClickHouse, giving you lightning-fast queries and powerful aggregations on logs, metrics, traces, session replays and errors with unmatched resource efficiency for even your highest-cardinality OTel data."
+                        href="/editor/index"
+                    />
+                    <HeroCard
+                        filename="chdb.svg"
+                        title="chDB"
+                        description="Explore product docs for chDB - a fast, reliable, and scalable in-process database. Experience the power of ClickHouse, in-process. With unparalleled performance, reliability, and scalability for any data-intensive application."
+                        href="/components/accordions"
+                    />
+                </div>
+            )}
+        </>
+    );
+};
+
+<div className="relative">
+    <div className="absolute -top-14 left-0 right-0 opacity-80">
+        <img
+            src="/images/background-light.svg"
+            className="block dark:hidden pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+        <img
+            src="/images/background-dark.svg"
+            className="hidden dark:block pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
     </div>
-  </div>
-</section>
 
-{/* Docs tour */}
-<section className="sidekick divider">
-    <div className="docs-tour-cards">
-        <div className="docs-tour-card">
-            <img src="/images/get_started.png" alt="Get started" noZoom="true"/>
-            <div className="docs-tour-card-content">
-                <h3>Get started</h3>
-                <p>New here? Get started with these resources:</p>
-                <ul>
-                    <li><a href="/open-source/intro">What is ClickHouse?</a></li>
-                    <li><a href="/open-source/concepts/why-clickhouse-is-so-fast">Why is ClickHouse so fast?</a></li>
-                    <li><a href="/cloud/get-started/cloud/use-cases/overview">Use cases</a></li>
-                    <li><a href="/open-source/getting-started/example-datasets/amazon-reviews">Sample datasets</a></li>
-                    <li><a href="/open-source/install">Install options</a></li>
-                </ul>
-            </div>
+    <div className="relative z-10 px-4 py-16 lg:py-12 lg:pb-24 max-w-6xl mx-auto">
+        <h1 className="block text-[34px] font-medium text-center text-gray-900 dark:text-zinc-50 tracking-tight">
+            Start building with ClickHouse
+        </h1>
+
+        <div className="max-w-xl mx-auto px-4 mt-4 text-lg text-center text-gray-500 dark:text-zinc-500">
+            Docs for speed, clarity, and getting things done.
         </div>
 
-        <div className="docs-tour-card">
-            <img src="/images/learn.png" alt="Learn" noZoom="true"/>
-            <div className="docs-tour-card-content">
-                <h3>Learn</h3>
-                <p>Taking your next steps? Learn more with these resources:</p>
-                <ul>
-                    <li><a href="/open-source/parts">Core concepts</a></li>
-                    <li><a href="/open-source/best-practices/choosing-a-primary-key">Best practices</a></li>
-                    <li><a href="/open-source/optimize/query-optimization">Performance and optimization guides</a></li>
-                    <li><a href="/cloud/integrations/migration/overview">Migration guides</a></li>
-                </ul>
-            </div>
+        <div className="flex items-center justify-center gap-3 mx-auto mt-8">
+            <button className="flex pointer-events-auto items-center text-sm leading-6 h-9 pl-3.5 pr-3 text-gray-500 dark:text-white/50 dark:brightness-[1.1] dark:hover:brightness-[1.25] justify-between truncate gap-2 min-w-[43px] w-[400px] bg-gray-950/[0.03] dark:bg-white/[0.03] hover:bg-gray-950/10 dark:hover:bg-white/10 rounded-full shadow-none border border-white/10">
+                <div class="flex items-center gap-2 min-w-[42px]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search min-w-4 flex-none text-gray-700 hover:text-gray-800 dark:text-gray-400 hover:dark:text-gray-200"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><div class="truncate min-w-0">Search...</div></div>
+                <span class="flex-none text-xs font-semibold">⌘{/* */}K</span>
+            </button>
+            <button type="button" class="flex-none hidden lg:flex items-center justify-center gap-1.5 pl-3 pr-3.5 h-9 rounded-xl shadow-none bg-background-light dark:bg-background-dark border border-white/10" id="assistant-entry" aria-label="Toggle assistant panel" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" class="size-4 shrink-0 text-gray-700 hover:text-gray-800 dark:text-[#fdff75]"><g fill="currentColor"><path d="M5.658,2.99l-1.263-.421-.421-1.263c-.137-.408-.812-.408-.949,0l-.421,1.263-1.263,.421c-.204,.068-.342,.259-.342,.474s.138,.406,.342,.474l1.263,.421,.421,1.263c.068,.204,.26,.342,.475,.342s.406-.138,.475-.342l.421-1.263,1.263-.421c.204-.068,.342-.259,.342-.474s-.138-.406-.342-.474Z" fill="currentColor" data-stroke="none" stroke="none"></path><polygon points="9.5 2.75 11.412 7.587 16.25 9.5 11.412 11.413 9.5 16.25 7.587 11.413 2.75 9.5 7.587 7.587 9.5 2.75" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polygon></g></svg><span class="text-sm text-gray-500 dark:text-white/50 whitespace-nowrap">Ask AI</span></button>
         </div>
 
-        <div className="docs-tour-card">
-            <img src="/images/reference.png" alt="Reference" noZoom="true"/>
-            <div className="docs-tour-card-content">
-                <h3>Reference</h3>
-                <p>Already an expert? These are the docs you'll need:</p>
-                <ul>
-                    <li><a href="/reference/sql-reference/statements">SQL reference</a></li>
-                    <li><a href="/reference/sql-reference/data-types/int-uint">Data types</a></li>
-                    <li><a href="/reference/engines">Engines</a></li>
-                    <li><a href="/reference/sql-reference/functions/overview">Functions</a></li>
-                    <li><a href="/reference/operations/settings/settings">Settings</a></li>
-                </ul>
-            </div>
-        </div>
+        <a className="block text-center text-gray-900 dark:text-[#fdff75] my-6 text-xs font-normal" href="/docs/get-started/quick-starts/create-your-first-service-on-cloud">Get started with ClickHouse Cloud →</a>
+        <ContentSwitcher />
     </div>
-</section>
+</div>
 

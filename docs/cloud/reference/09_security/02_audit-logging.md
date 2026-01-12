@@ -7,19 +7,19 @@ doc_type: 'reference'
 keywords: ['audit logging', 'security', 'compliance', 'logs', 'monitoring']
 ---
 
-## Console audit log events [#console-audit-log-events]
+## Console audit log events 
 
 The different types of events captured for the organization are grouped in 3 categories: **Organization**, **Service** and **User**. For more information about the audit log and how to export or add an API integration, review the [console audit log](/cloud/security/audit-logging/console-audit-log) documentation in the Guides section above.
 
 The following events are recorded to the audit log.
 
-### Organization [#organization]
+### Organization 
 
 - Organization created
 - Organization deleted
 - Organization name changed
 
-### Service [#service]
+### Service 
 
 - Service created
 - Service deleted
@@ -29,7 +29,7 @@ The following events are recorded to the audit log.
 - Service IP access list changed
 - Service password reset
 
-### User [#user]
+### User 
 
 - User role changed
 - User removed from organization

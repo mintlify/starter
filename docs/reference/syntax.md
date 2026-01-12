@@ -11,7 +11,7 @@ doc_type: 'reference'
 In this section, we will take a look at ClickHouse's SQL syntax. 
 ClickHouse uses a syntax based on SQL but offers a number of extensions and optimizations.
 
-## Query Parsing [#query-parsing]
+## Query Parsing 
 
 There are two types of parsers in ClickHouse:
 - _A full SQL parser_ (a recursive descent parser).
@@ -54,19 +54,19 @@ The rest of this section covers the full parser.
 For more information about format parsers, see the [Formats](../interfaces/formats.md) section.
 </Note>
 
-## Spaces [#spaces]
+## Spaces 
 
 - There may be any number of space symbols between syntactical constructions (including the beginning and end of a query). 
 - Space symbols include the space, tab, line feed, CR, and form feed.
 
-## Comments [#comments]
+## Comments 
 
 ClickHouse supports both SQL-style and C-style comments:
 
 - SQL-style comments begin with `--`, `#!` or `# ` and continue to the end of the line. A space after `--` and `#!` can be omitted.
 - C-style comments span from `/*` to `*/` and can be multiline. Spaces are not required either.
 
-## Keywords [#keywords]
+## Keywords 
 
 Keywords in ClickHouse can be either _case-sensitive_ or _case-insensitive_ depending on the context.
 
@@ -91,7 +91,7 @@ For example, the following query is valid if the table `table_name` has a column
 SELECT "FROM" FROM table_name
 ```
 
-## Identifiers [#identifiers]
+## Identifiers 
 
 Identifiers are:
 
@@ -115,7 +115,7 @@ If you want to use identifiers the same as keywords or you want to use other sym
 The same rules that apply for escaping in quoted identifiers also apply for string literals. See [String](#string) for more details.
 </Note>
 
-## Literals [#literals]
+## Literals 
 
 In ClickHouse, a literal is a value which is directly represented in a query.
 In other words it is a fixed value which does not change during query execution.
@@ -129,7 +129,7 @@ Literals can be:
 
 We take a look at each of these in more detail in the sections below.
 
-### String [#string]
+### String 
 
 String literals must be enclosed in single quotes. Double quotes are not supported.
 
@@ -167,7 +167,7 @@ The backslash loses its special meaning i.e. it is interpreted literally should 
 In string literals, you need to escape at least `'` and `\` using escape codes `\'` (or: `''`) and `\\`.
 </Note>
 
-### Numeric [#numeric]
+### Numeric 
 
 Numeric literals are parsed as follows:
 
@@ -219,7 +219,7 @@ The following Numeric literals are supported:
 Octal literals are not supported to avoid accidental errors in interpretation.
 </Note>
 
-### Compound [#compound]
+### Compound 
 
 Arrays are constructed with square brackets `[1, 2, 3]`. Tuples are constructed with round brackets `(1, 'Hello, world!', 2)`.
 Technically these are not literals, but expressions with the array creation operator and the tuple creation operator, respectively.
@@ -230,7 +230,7 @@ There is a separate case when tuples appear in the `IN` clause of a `SELECT` que
 Query results can include tuples, but tuples cannot be saved to a database (except for tables using the [Memory](../engines/table-engines/special/memory.md) engine).
 </Note>
 
-### NULL [#null]
+### NULL 
 
 `NULL` is used to indicate that a value is missing. 
 To store `NULL` in a table field, it must be of the [Nullable](../sql-reference/data-types/nullable.md) type.
@@ -243,7 +243,7 @@ The following should be noted for `NULL`:
 - In queries, you can check `NULL` using the [`IS NULL`](/sql-reference/functions/functions-for-nulls#isNull) and [`IS NOT NULL`](/sql-reference/functions/functions-for-nulls#isNotNull) operators and the related functions `isNull` and `isNotNull`.
 </Note>
 
-### Heredoc [#heredoc]
+### Heredoc 
 
 A [heredoc](https://en.wikipedia.org/wiki/Here_document) is a way to define a string (often multiline), while maintaining the original formatting. 
 A heredoc is defined as a custom string literal, placed between two `$` symbols.
@@ -266,7 +266,7 @@ SELECT $heredoc$SHOW CREATE VIEW my_view$heredoc$;
 - You can use a heredoc to embed snippets of SQL, HTML, or XML code, etc.
 </Tip>
 
-## Defining and Using Query Parameters [#defining-and-using-query-parameters]
+## Defining and Using Query Parameters 
 
 Query parameters allow you to write generic queries that contain abstract placeholders instead of concrete identifiers. 
 When a query with query parameters is executed, 
@@ -324,7 +324,7 @@ Query parameters are not general text substitutions which can be used in arbitra
 They are primarily designed to work in `SELECT` statements in place of identifiers or literals.
 </Note>
 
-## Functions [#functions]
+## Functions 
 
 Function calls are written like an identifier with a list of arguments (possibly empty) in round brackets. 
 In contrast to standard SQL, the brackets are required, even for an empty argument list. 
@@ -351,7 +351,7 @@ and the arguments in the first list are called "parameters".
 The syntax of aggregate functions without parameters is the same as for regular functions.
 </Note>
 
-## Operators [#operators]
+## Operators 
 
 Operators are converted to their corresponding functions during query parsing, taking their priority and associativity into account.
 
@@ -367,7 +367,7 @@ is transformed to
 plus(plus(1, multiply(2, 3)), 4)`
 ```
 
-## Data Types and Database Table Engines [#data-types-and-database-table-engines]
+## Data Types and Database Table Engines 
 
 Data types and table engines in the `CREATE` query are written the same way as identifiers or functions. 
 In other words, they may or may not contain an argument list in brackets. 
@@ -377,7 +377,7 @@ For more information, see the sections:
 - [Table engines](/engines/table-engines/index.md)
 - [CREATE](/sql-reference/statements/create/index.md).
 
-## Expressions [#expressions]
+## Expressions 
 
 An expression can be any of the following:
 - a function
@@ -396,7 +396,7 @@ Functions and operators, in turn, can have expressions as arguments.
 A constant expression is an expression whose result is known during query analysis, i.e. before execution.
 For example, expressions over literals are constant expressions.
 
-## Expression Aliases [#expression-aliases]
+## Expression Aliases 
 
 An alias is a user-defined name for an [expression](#expressions) in a query.
 
@@ -412,7 +412,7 @@ The parts of the syntax above are explained below.
 | `expr`         | Any expression supported by ClickHouse.                                                                                                          | `SELECT column_name * 2 AS double FROM some_table`                      |                                                                                                                                                      |
 | `alias`        | Name for `expr`. Aliases should comply with the [identifiers](#identifiers) syntax.                                                                       | `SELECT "table t".column_name FROM table_name AS "table t"`.            |                                                                                                                                                      |
 
-### Notes on Usage [#notes-on-usage]
+### Notes on Usage 
 
 - Aliases are global for a query or subquery, and you can define an alias in any part of a query for any expression. For example:
 
@@ -461,7 +461,7 @@ This substitution caused the exception.
 You can change this default behavior by setting [prefer_column_name_to_alias](/operations/settings/settings#prefer_column_name_to_alias) to `1`.
 </Note>
 
-## Asterisk [#asterisk]
+## Asterisk 
 
 In a `SELECT` query, an asterisk can replace the expression. 
 For more information, see the section [SELECT](/sql-reference/statements/select/index.md#asterisk).

@@ -8,7 +8,7 @@ keywords: ['Dictionaries']
 
 
 
-## Dictionaries in ClickHouse [#dictionaries-in-clickhouse]
+## Dictionaries in ClickHouse
 
 Dictionaries created in ClickHouse Cloud may experience inconsistency during the initial creation phase. This means that you may not see any data in the dictionary right after creation. However, after several retries, the creation query may land on different replicas, and data will be visible.
 
@@ -41,7 +41,7 @@ SOURCE(CLICKHOUSE(QUERY
     SETTINGS select_sequential_consistency=1' USER default PASSWORD ''))
 ```
 
-## Why does this issue occur? [#why-does-this-issue-occur]
+## Why does this issue occur?
 
 When you insert data and then create or reload a dictionary, the DDL may reach a replica before the data (or new data) does. This leads to the dictionaries being inconsistent between replicas. Then, depending on which replica receives the query, you may get different results.
 

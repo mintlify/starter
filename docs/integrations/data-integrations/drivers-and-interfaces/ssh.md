@@ -14,7 +14,7 @@ import {CloudNotSupportedBadge} from '/snippets/components/CloudNotSupportedBadg
 <ExperimentalBadge/>
 <CloudNotSupportedBadge/>
 
-## Preface [#preface]
+## Preface 
 
 ClickHouse server allows to connect to itself directly using the SSH protocol. Any client is allowed.
 
@@ -49,7 +49,7 @@ The command execution over SSH (the non-interactive mode) is also supported:
 1
 ```
 
-## Server configuration [#server-configuration]
+## Server configuration 
 
 In order to enable the SSH server capability, you need to uncomment or place the following section in your `config.xml`:
 
@@ -79,7 +79,7 @@ You can tell your SSH client not to verify the host by passing an option:
 ssh -o "StrictHostKeyChecking no" user@host
 ```
 
-## Configuring embedded client [#configuring-embedded-client]
+## Configuring embedded client 
 
 You are able to pass options to an embedded client similar to the ordinary `clickhouse-client`, but with a few limitations.
 Since this is an SSH protocol, the only way to pass parameters to the target host is through environment variables.

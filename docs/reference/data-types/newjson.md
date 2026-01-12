@@ -42,11 +42,11 @@ Where the parameters in the syntax above are defined as:
 | `SKIP path.to.skip`         | An optional hint for particular path that should be skipped during JSON parsing. Such paths will never be stored in the JSON column. If specified path is a nested JSON object, the whole nested object will be skipped.                                                                                                                                   |               |
 | `SKIP REGEXP 'path_regexp'` | An optional hint with a regular expression that is used to skip paths during JSON parsing. All paths that match this regular expression will never be stored in the JSON column.                                                                                                                                                                           |               |
 
-## Creating JSON [#creating-json]
+## Creating JSON 
 
 In this section we'll take a look at the various ways that you can create `JSON`.
 
-### Using `JSON` in a table column definition [#using-json-in-a-table-column-definition]
+### Using `JSON` in a table column definition 
 
 ```sql title="Query (Example 1)"
 CREATE TABLE test (json JSON) ENGINE = Memory;
@@ -76,11 +76,11 @@ SELECT json FROM test;
 └───────────────────────────────────┘
 ```
 
-### Using CAST with `::JSON` [#using-cast-with-json]
+### Using CAST with `::JSON` 
 
 It is possible to cast various types using the special syntax `::JSON`.
 
-#### CAST from `String` to `JSON` [#cast-from-string-to-json]
+#### CAST from `String` to `JSON` 
 
 ```sql title="Query"
 SELECT '{"a" : {"b" : 42},"c" : [1, 2, 3], "d" : "Hello, World!"}'::JSON AS json;
@@ -92,7 +92,7 @@ SELECT '{"a" : {"b" : 42},"c" : [1, 2, 3], "d" : "Hello, World!"}'::JSON AS json
 └────────────────────────────────────────────────────────┘
 ```
 
-#### CAST from `Tuple` to `JSON` [#cast-from-tuple-to-json]
+#### CAST from `Tuple` to `JSON` 
 
 ```sql title="Query"
 SET enable_named_columns_in_function_tuple = 1;
@@ -105,7 +105,7 @@ SELECT (tuple(42 AS b) AS a, [1, 2, 3] AS c, 'Hello, World!' AS d)::JSON AS json
 └────────────────────────────────────────────────────────┘
 ```
 
-#### CAST from `Map` to `JSON` [#cast-from-map-to-json]
+#### CAST from `Map` to `JSON` 
 
 ```sql title="Query"
 SET use_variant_as_common_type=1;
@@ -118,7 +118,7 @@ SELECT map('a', map('b', 42), 'c', [1,2,3], 'd', 'Hello, World!')::JSON AS json;
 └────────────────────────────────────────────────────────┘
 ```
 
-#### CAST from deprecated `Object('json')` to `JSON` [#cast-from-deprecated-objectjson-to-json]
+#### CAST from deprecated `Object('json')` to `JSON` 
 
 ```sql title="Query"
 SET allow_experimental_object_type = 1;
@@ -159,7 +159,7 @@ and **not**:
 ```
 </Note>
 
-## Reading JSON paths as sub-columns [#reading-json-paths-as-sub-columns]
+## Reading JSON paths as sub-columns 
 
 The `JSON` type supports reading every path as a separate sub-column. 
 If the type of the requested path is not specified in the JSON type declaration, 
@@ -290,7 +290,7 @@ while executing 'FUNCTION CAST(__table1.json.a.g :: 2, 'UUID'_String :: 1) -> CA
 To read subcolumns efficiently from Compact MergeTree parts make sure MergeTree setting [write_marks_for_substreams_in_compact_parts](../../operations/settings/merge-tree-settings.md#write_marks_for_substreams_in_compact_parts) is enabled.
 </Note>
 
-## Reading JSON sub-objects as sub-columns [#reading-json-sub-objects-as-sub-columns]
+## Reading JSON sub-objects as sub-columns 
 
 The `JSON` type supports reading nested objects as sub-columns with type `JSON` using the special syntax `json.^some.path`:
 
@@ -324,7 +324,7 @@ SELECT json.^a.b, json.^d.e.f FROM test;
 Reading sub-objects as sub-columns may be inefficient, as this may require a near full scan of the JSON data.
 </Note>
 
-## Type inference for paths [#type-inference-for-paths]
+## Type inference for paths 
 
 During parsing of `JSON`, ClickHouse tries to detect the most appropriate data type for each JSON path. 
 It works similarly to [automatic schema inference from input data](/interfaces/schema-inference.md),
@@ -383,7 +383,7 @@ SELECT JSONAllPathsWithTypes('{"a" : [1, 2, 3]}'::JSON) AS paths_with_types sett
 └──────────────────────┘
 ```
 
-## Handling arrays of JSON objects [#handling-arrays-of-json-objects]
+## Handling arrays of JSON objects 
 
 JSON paths that contain an array of objects are parsed as type `Array(JSON)` and inserted into a `Dynamic` column for the path. 
 To read an array of objects, you can extract it from the `Dynamic` column as a sub-column:
@@ -494,7 +494,7 @@ SELECT json.a.b[].^k FROM test
 └──────────────────────────────────────┘
 ```
 
-## Handling JSON keys with NULL [#handling-json-keys-with-nulls]
+## Handling JSON keys with NULL 
 
 In our JSON implementation `null` and absence of the value are considered equivalent:
 
@@ -510,7 +510,7 @@ SELECT '{}'::JSON AS json1, '{"a" : null}'::JSON AS json2, json1 = json2
 
 It means that it's impossible to determine whether the original JSON data contained some path with the NULL value or didn't contain it at all.
 
-## Handling JSON keys with dots [#handling-json-keys-with-dots]
+## Handling JSON keys with dots 
 
 Internally JSON column stores all paths and values in a flattened form. It means that by default these 2 objects are considered as the same:
 ```json
@@ -618,7 +618,7 @@ SELECT '{"a.b" : 42, "a" : {"b" : "Hello World!"}}'::JSON(SKIP `a%2Eb`) as json,
 └────────────────────────────┴────────────┘
 ```
 
-## Reading JSON type from data [#reading-json-type-from-data]
+## Reading JSON type from data 
 
 All text formats
 ([`JSONEachRow`](/interfaces/formats/JSONEachRow),
@@ -670,7 +670,7 @@ SELECT json FROM format(TSV, 'json JSON(a.b.c UInt32, SKIP a.b.d, SKIP REGEXP \'
 └───────────────────────────────────────────────────────────────┘
 ```
 
-## Reaching the limit of dynamic paths inside JSON [#reaching-the-limit-of-dynamic-paths-inside-json]
+## Reaching the limit of dynamic paths inside JSON 
 
 The `JSON` data type can store only a limited number of paths as separate sub-columns internally. 
 By default, this limit is `1024`, but you can change it in the type declaration using parameter `max_dynamic_paths`.
@@ -682,7 +682,7 @@ This limit is needed to avoid having an enormous number of different sub-columns
 
 Let's see what happens when the limit is reached in a few different scenarios.
 
-### Reaching the limit during data parsing [#reaching-the-limit-during-data-parsing]
+### Reaching the limit during data parsing 
 
 During parsing of `JSON` objects from data, when the limit is reached for the current block of data, 
 all new paths will be stored in a shared data structure. We can use the following two introspection functions `JSONDynamicPaths`, `JSONSharedDataPaths`:
@@ -710,7 +710,7 @@ SELECT json, JSONDynamicPaths(json), JSONSharedDataPaths(json) FROM format(JSONE
 As we can see, after inserting paths `e` and `f.g` the limit was reached, 
 and they got inserted into a shared data structure.
 
-### During merges of data parts in MergeTree table engines [#during-merges-of-data-parts-in-mergetree-table-engines]
+### During merges of data parts in MergeTree table engines 
 
 During a merge of several data parts in a `MergeTree` table the `JSON` column in the resulting data part can reach the limit of dynamic paths 
 and won't be able to store all paths from source parts as sub-columns.
@@ -775,19 +775,19 @@ ORDER BY _part ASC
 
 As we can see, ClickHouse kept the most frequent paths `a`, `b` and `c` and moved paths `d` and `e` to a shared data structure.
 
-## Shared data structure [#shared-data-structure]
+## Shared data structure 
 
 As was described in the previous section, when the `max_dynamic_paths` limit is reached all new paths are stored in a single shared data structure.
 In this section we will look into the details of the shared data structure and how we read paths sub-columns from it.
 
 See section ["introspection functions"](/sql-reference/data-types/newjson#introspection-functions) for details of functions used for inspecting the contents of a JSON column.
 
-### Shared data structure in memory [#shared-data-structure-in-memory]
+### Shared data structure in memory 
 
 In memory, shared data structure is just a sub-column with type `Map(String, String)` that stores mapping from a flattened JSON path to a binary encoded value.
 To extract a path subcolumn from it, we just iterate over all rows in this `Map` column and try to find the requested path and its values.
 
-### Shared data structure in MergeTree parts [#shared-data-structure-in-merge-tree-parts]
+### Shared data structure in MergeTree parts 
 
 In [MergeTree](../../engines/table-engines/mergetree-family/mergetree.md) tables we store data in data parts that stores everything on disk (local or remote). And data on disk can be stored in a different way compared to memory.
 Currently, there are 3 different shared data structure serializations in MergeTree data parts: `map`, `map_with_buckets`
@@ -801,7 +801,7 @@ and [object_shared_data_serialization_version_for_zero_level_parts](../../operat
 Note: changing shared data structure serialization is supported only
 for `v3` [object serialization version](../../operations/settings/merge-tree-settings.md#object_serialization_version)
 
-#### Map [#shared-data-map]
+#### Map 
 
 In `map` serialization version shared data is serialized as a single column with type `Map(String, String)` the same as it's stored in
 memory. To read path sub-column from this type of serialization ClickHouse reads the whole `Map` column and
@@ -809,7 +809,7 @@ extracts the requested path in memory.
 
 This serialization is efficient for writing data and reading the whole `JSON` column, but it's not efficient for reading paths sub-columns.
 
-#### Map with buckets [#shared-data-map-with-buckets] 
+#### Map with buckets  
 
 In `map_with_buckets` serialization version shared data is serialized as `N` columns ("buckets") with type `Map(String, String)`.
 Each such bucket contains only subset of paths. To read path sub-column from this type of serialization ClickHouse
@@ -823,7 +823,7 @@ Number of buckets `N` is controlled by MergeTree settings [object_shared_data_bu
 and [object_shared_data_buckets_for_wide_part](
 ../../operations/settings/merge-tree-settings.md#object_shared_data_buckets_for_wide_part) (32 by default).
 
-#### Advanced [#shared-data-advanced]
+#### Advanced 
 
 In `advanced` serialization version shared data is serialized in a special data structure that maximizes the performance
 of paths sub-columns reading by storing some additional information that allows to read only the data of requested paths.
@@ -836,7 +836,7 @@ Note: because of storing some additional information inside the data structure, 
 
 For more detailed overview of the new shared data serializations and implementation details read the [blog post](https://clickhouse.com/blog/json-data-type-gets-even-better).
 
-## Introspection functions [#introspection-functions]
+## Introspection functions 
 
 There are several functions that can help to inspect the content of the JSON column: 
 - [`JSONAllPaths`](../functions/json-functions.md#JSONAllPaths)
@@ -973,7 +973,7 @@ SETTINGS date_time_input_format = 'best_effort'
 └─arrayJoin(distinctJSONPathsAndTypes(json))──────────────────┘
 ```
 
-## ALTER MODIFY COLUMN to JSON type [#alter-modify-column-to-json-type]
+## ALTER MODIFY COLUMN to JSON type 
 
 It's possible to alter an existing table and change the type of the column to the new `JSON` type. Right now only `ALTER` from a `String` type is supported.
 
@@ -995,7 +995,7 @@ SELECT json, json.a, json.b, json.c FROM test;
 └──────────────────────────────┴────────┴─────────┴────────────┘
 ```
 
-## Comparison between values of the JSON type [#comparison-between-values-of-the-json-type]
+## Comparison between values of the JSON type 
 
 JSON objects are compared similarly to Maps. 
 
@@ -1033,7 +1033,7 @@ SELECT json1, json2, json1 < json2, json1 = json2, json1 > json2 FROM test;
 
 **Note:** when 2 paths contain values of different data types, they are compared according to [comparison rule](/sql-reference/data-types/variant#comparing-values-of-variant-data) of `Variant` data type.
 
-## Tips for better usage of the JSON type [#tips-for-better-usage-of-the-json-type]
+## Tips for better usage of the JSON type 
 
 Before creating `JSON` column and loading data into it, consider the following tips:
 
@@ -1042,7 +1042,7 @@ Before creating `JSON` column and loading data into it, consider the following t
 - Don't set the `max_dynamic_paths` parameter to very high values, as it can make storage and reading less efficient. 
   While highly dependent on system parameters such as memory, CPU, etc., a general rule of thumb would be to not set `max_dynamic_paths` greater than 10 000 for the local filesystem storage and 1024 for the remote filesystem storage.
 
-## Further Reading [#further-reading]
+## Further Reading 
 
 - [How we built a new powerful JSON data type for ClickHouse](https://clickhouse.com/blog/a-new-powerful-json-data-type-for-clickhouse)
 - [The billion docs JSON Challenge: ClickHouse vs. MongoDB, Elasticsearch, and more](https://clickhouse.com/blog/json-bench-clickhouse-vs-mongodb-elasticsearch-duckdb-postgresql)

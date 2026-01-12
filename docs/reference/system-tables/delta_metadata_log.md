@@ -11,7 +11,7 @@ import SystemTableCloud from '/snippets/_system_table_cloud.mdx';
 
 The `system.delta_lake_metadata_log` table records metadata access and parsing events for Delta Lake tables read by ClickHouse. It provides detailed information about each metadata file, which is useful for debugging, auditing, and understanding Delta table structure evolution.
 
-## Purpose [#purpose]
+## Purpose 
 
 This table logs every metadata file read from Delta Lake tables. It helps users trace how ClickHouse interprets Delta table metadata and diagnose issues related to schema evolution, snapshot resolution, or query planning.
 
@@ -19,7 +19,7 @@ This table logs every metadata file read from Delta Lake tables. It helps users 
 This table is primarily intended for debugging purposes.
 </Note>
 
-## Columns [#columns]
+## Columns 
 | Name           | Type      | Description                                                                                   |
 |----------------|-----------|----------------------------------------------------------------------------------------------|
 | `event_date`   | [Date](../../sql-reference/data-types/date.md)      | Date of the log file.                                                                       |
@@ -31,7 +31,7 @@ This table is primarily intended for debugging purposes.
 
 <SystemTableCloud />
 
-## Controlling log verbosity [#controlling-log-verbosity]
+## Controlling log verbosity 
 
 You can control which metadata events are logged using the [`delta_lake_log_metadata`](../../operations/settings/settings.md#delta_lake_log_metadata) setting.
 

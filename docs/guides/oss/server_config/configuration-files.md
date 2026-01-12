@@ -28,7 +28,7 @@ Mixing XML and YAML within a single configuration file is not supported.
 XML configuration files should use `<clickhouse>...</clickhouse>` as the top-level tag.
 In YAML configuration files, `clickhouse:` is optional, if absent the parser inserts it automatically.
 
-## Merging configuration [#merging]
+## Merging configuration 
 
 Two configuration files (usually the main configuration file and another configuration file from `config.d/`) are merged as follows:
 
@@ -82,7 +82,7 @@ The resulting merged configuration file will be:
 </clickhouse>
 ```
 
-### Substitution by environment variables and ZooKeeper nodes [#from_env_zk]
+### Substitution by environment variables and ZooKeeper nodes 
 
 To specify that a value of an element should be replaced by the value of an environment variable, you can use the attribute `from_env`.
 
@@ -134,7 +134,7 @@ Resulting in the following configuration:
 </clickhouse>
 ```
 
-#### Default values [#default-values]
+#### Default values 
 
 An element with the `from_env` or `from_zk` attributes may additionally have the attribute `replace="1"` (the latter must appear before `from_env`/`from_zk`).
 In this case, the element may define a default value.
@@ -164,7 +164,7 @@ Resulting in configuration:
 </clickhouse>
 ```
 
-## Substitution with file content [#substitution-with-file-content]
+## Substitution with file content 
 
 It is also possible to replace parts of the configuration by file contents. This can be done in two ways:
 
@@ -188,7 +188,7 @@ An example of this is shown below:
 
 If you want to merge the substituting content with the existing configuration instead of appending, you can use the attribute `merge="true"`. For example: `<include from_zk="/some_path" merge="true">`. In this case, the existing configuration will be merged with the content from the substitution and the existing configuration settings will be replaced with values from the substitution.
 
-## Encrypting and hiding configuration [#encryption]
+## Encrypting and hiding configuration 
 
 You can use symmetric encryption to encrypt a configuration element, for example, a plaintext password or private key.
 To do so, first configure the [encryption codec](../sql-reference/statements/create/table.md#encryption-codecs), then add the attribute `encrypted_by` with the name of the encryption codec as the value to the element to encrypt.
@@ -308,7 +308,7 @@ For example:
 </clickhouse>
 ```
 
-## User settings [#user-settings]
+## User settings 
 
 The `config.xml` file can specify a separate config with user settings, profiles, and quotas. The relative path to this config is set in the `users_config` element. By default, it is `users.xml`. If `users_config` is omitted, the user settings, profiles, and quotas are specified directly in `config.xml`.
 
@@ -318,7 +318,7 @@ The directory `users.d` is used by default, as `users_config` defaults to `users
 
 Note that configuration files are first [merged](#merging) taking into account settings, and includes are processed after that.
 
-## XML example [#example]
+## XML example 
 
 For example, you can have a separate config file for each user like this:
 
@@ -341,7 +341,7 @@ $ cat /etc/clickhouse-server/users.d/alice.xml
 </clickhouse>
 ```
 
-## YAML examples [#example-1]
+## YAML examples 
 
 Here you can see the default config written in YAML: [`config.yaml.example`](https://github.com/ClickHouse/ClickHouse/blob/master/programs/server/config.yaml.example).
 
@@ -456,7 +456,7 @@ Corresponding XML:
 <map_key attr1="value1">value2</map>
 ```
 
-## Implementation details [#implementation-details]
+## Implementation details 
 
 For each config file, the server also generates `file-preprocessed.xml` files when starting. These files contain all the completed substitutions and overrides, and they are intended for informational use. If ZooKeeper substitutions were used in the config files but ZooKeeper is not available on the server start, the server loads the configuration from the preprocessed file.
 

@@ -15,7 +15,7 @@ This engine provides integration with the [Apache Hadoop](https://en.wikipedia.o
 
 This feature is not supported by ClickHouse engineers, and it is known to have a sketchy quality. In case of any problems, fix them yourself and submit a pull request.
 
-## Usage [#usage]
+## Usage 
 
 ```sql
 ENGINE = HDFS(URI, format)
@@ -27,7 +27,7 @@ ENGINE = HDFS(URI, format)
 - `format` - specifies one of the available file formats. To perform `SELECT` queries, the format must be supported for input, and to perform `INSERT` queries – for output. The available formats are listed in the [Formats](/sql-reference/formats#formats-overview) section.
 - \[PARTITION BY expr]
 
-### PARTITION BY [#partition-by]
+### PARTITION BY 
 
 `PARTITION BY` — Optional. In most cases you don't need a partition key, and if it is needed you generally don't need a partition key more granular than by month. Partitioning does not speed up queries (in contrast to the ORDER BY expression). You should never use too granular partitioning. Don't partition your data by client identifiers or names (instead, make client identifier or name the first column in the ORDER BY expression).
 
@@ -60,7 +60,7 @@ SELECT * FROM hdfs_engine_table LIMIT 2
 └──────┴───────┘
 ```
 
-## Implementation details [#implementation-details]
+## Implementation details 
 
 - Reads and writes can be parallel.
 - Not supported:
@@ -123,7 +123,7 @@ Create table with files named `file000`, `file001`, ... , `file999`:
 CREATE TABLE big_table (name String, value UInt32) ENGINE = HDFS('hdfs://hdfs1:9000/big_dir/file{0..9}{0..9}{0..9}', 'CSV')
 ```
 
-## Configuration [#configuration]
+## Configuration 
 
 Similar to GraphiteMergeTree, the HDFS engine supports extended configuration using the ClickHouse config file. There are two configuration keys that you can use: global (`hdfs`) and user-level (`hdfs_*`). The global configuration is applied first, and then the user-level configuration is applied (if it exists).
 
@@ -141,9 +141,9 @@ Similar to GraphiteMergeTree, the HDFS engine supports extended configuration us
 </hdfs_root>
 ```
 
-### Configuration options [#configuration-options]
+### Configuration options 
 
-#### Supported by libhdfs3 [#supported-by-libhdfs3]
+#### Supported by libhdfs3 
 
 | **parameter**                                         | **default value**        |
 | ----------------------------------------------------- | ------------------------ |
@@ -191,7 +191,7 @@ Similar to GraphiteMergeTree, the HDFS engine supports extended configuration us
 
 [HDFS Configuration Reference](https://hawq.apache.org/docs/userguide/2.3.0.0-incubating/reference/HDFSConfigurationParameterReference.html) might explain some parameters.
 
-#### ClickHouse extras [#clickhouse-extras]
+#### ClickHouse extras 
 
 | **parameter**               | **default value** |
 | --------------------------- | ----------------- |
@@ -199,11 +199,11 @@ Similar to GraphiteMergeTree, the HDFS engine supports extended configuration us
 | hadoop\_kerberos\_principal | ""                |
 | libhdfs3\_conf              | ""                |
 
-### Limitations [#limitations]
+### Limitations 
 
 - `hadoop_security_kerberos_ticket_cache_path` and `libhdfs3_conf` can be global only, not user specific
 
-## Kerberos support [#kerberos-support]
+## Kerberos support 
 
 If the `hadoop_security_authentication` parameter has the value `kerberos`, ClickHouse authenticates via Kerberos.
 Parameters are [here](#clickhouse-extras) and `hadoop_security_kerberos_ticket_cache_path` may be of help.
@@ -213,7 +213,7 @@ security approach). Use `tests/integration/test_storage_kerberized_hdfs/hdfs_con
 
 If `hadoop_kerberos_keytab`, `hadoop_kerberos_principal` or `hadoop_security_kerberos_ticket_cache_path` are specified, Kerberos authentication will be used. `hadoop_kerberos_keytab` and `hadoop_kerberos_principal` are mandatory in this case.
 
-## HDFS Namenode HA support [#namenode-ha]
+## HDFS Namenode HA support 
 
 libhdfs3 support HDFS namenode HA.
 
@@ -228,14 +228,14 @@ libhdfs3 support HDFS namenode HA.
 
 - Then use `dfs.nameservices` tag value of `hdfs-site.xml` as the namenode address in the HDFS URI. For example, replace `hdfs://appadmin@192.168.101.11:8020/abc/` with `hdfs://appadmin@my_nameservice/abc/`.
 
-## Virtual columns [#virtual-columns]
+## Virtual columns 
 
 - `_path` — Path to the file. Type: `LowCardinality(String)`.
 - `_file` — Name of the file. Type: `LowCardinality(String)`.
 - `_size` — Size of the file in bytes. Type: `Nullable(UInt64)`. If the size is unknown, the value is `NULL`.
 - `_time` — Last modified time of the file. Type: `Nullable(DateTime)`. If the time is unknown, the value is `NULL`.
 
-## Storage settings [#storage-settings]
+## Storage settings 
 
 - [hdfs\_truncate\_on\_insert](/operations/settings/settings.md#hdfs_truncate_on_insert) - allows to truncate file before insert into it. Disabled by default.
 - [hdfs\_create\_new\_file\_on\_insert](/operations/settings/settings.md#hdfs_create_new_file_on_insert) - allows to create a new file on each insert if format has suffix. Disabled by default.

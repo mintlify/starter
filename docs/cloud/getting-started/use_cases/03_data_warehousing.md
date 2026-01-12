@@ -19,7 +19,7 @@ capabilities onto a fundamentally different foundation (cloud object storage)
 that focuses on supporting traditional analytics and modern AI/ML workloads in 
 a unified platform.
 
-## What are the components of the data lakehouse? [#components-of-the-data-lakehouse]
+## What are the components of the data lakehouse? 
 
 The modern data lakehouse architecture represents a convergence of data warehouse
 and data lake technologies, combining the best aspects of both approaches. This 
@@ -45,12 +45,12 @@ and how they interact to create a cohesive data management platform.
 | **Object storage**      | This layer provides scalable, durable, cost-effective storage for all data files and metadata. It handles the physical persistence of data in an open format, enabling direct access from multiple tools and systems.                                                                                                                          |
 | **Client applications** | Various tools and applications that connect to the lakehouse to query data, visualize insights, or build data products. These can include BI tools, data science notebooks, custom applications, and ETL/ELT tools.                                                                                                                            |
 
-## What are the benefits of the data lakehouse? [#benefits-of-the-data-lakehouse]
+## What are the benefits of the data lakehouse? 
 
 The data lakehouse architecture offers several significant advantages when compared
 directly to both traditional data warehouses and data lakes:
 
-### Compared to traditional data warehouses [#compared-to-traditional-data-warehouses]
+### Compared to traditional data warehouses 
 
 | # | Benefit                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |---|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -60,7 +60,7 @@ directly to both traditional data warehouses and data lakes:
 | 4 | **AI/ML integration**                            | Lakehouses provide direct access to data for machine learning frameworks and Python/R libraries, whereas data warehouses typically require extracting data before using it for advanced analytics.                                                                                                                                                                                                                                         |
 | 5 | **Independent scaling**                          | Lakehouses separate storage from compute, allowing each to scale independently based on actual needs, unlike many data warehouses, where they scale together.                                                                                                                                                                                                                                                                              |
 
-### Compared to data lakes [#compared-to-data-lakes]
+### Compared to data lakes 
 
 | # | Benefit                     | Description                                                                                                                                                                                         |
 |---|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -70,7 +70,7 @@ directly to both traditional data warehouses and data lakes:
 | 4 | **Governance capabilities** | Lakehouses provide fine-grained access control and auditing features at row/column levels, addressing the limited security controls in basic data lakes.                                            |
 | 5 | **BI Tool support**         | Lakehouses offer SQL interfaces and optimizations that make them compatible with standard BI tools, unlike raw data lakes that require additional processing layers before visualization.           |
 
-## Where does ClickHouse fit in the data lakehouse architecture? [#where-does-clickhouse-fit-in-the-data-lakehouse-architecture]
+## Where does ClickHouse fit in the data lakehouse architecture? 
 
 ClickHouse is a powerful analytical query engine within the modern data lakehouse
 ecosystem. It offers organizations a high-performance option for analyzing data 
@@ -99,7 +99,7 @@ This combination delivers the performance characteristics of a specialized
 analytical database without sacrificing the core benefits of the lakehouse model,
 including component interchangeability, open formats, and unified data management.
 
-## Hybrid architecture: The best of both worlds [#hybrid-architecture-the-best-of-both-worlds]
+## Hybrid architecture: The best of both worlds 
 
 While ClickHouse excels at querying lakehouse components, its highly optimized 
 storage engine offers an additional advantage. For use cases demanding ultra-low

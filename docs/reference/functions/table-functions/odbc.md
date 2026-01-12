@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 Returns table that is connected via [ODBC](https://en.wikipedia.org/wiki/Open_Database_Connectivity).
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 odbc(datasource, external_database, external_table)
@@ -17,7 +17,7 @@ odbc(datasource, external_table)
 odbc(named_collection)
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument            | Description                                                            |
 |---------------------|------------------------------------------------------------------------|
@@ -31,7 +31,7 @@ To safely implement ODBC connections, ClickHouse uses a separate program `clickh
 
 The fields with the `NULL` values from the external table are converted into the default values for the base data type. For example, if a remote MySQL table field has the `INT NULL` type it is converted to 0 (the default value for ClickHouse `Int32` data type).
 
-## Usage Example [#usage-example]
+## Usage Example 
 
 **Getting data from the local MySQL installation via ODBC**
 
@@ -108,7 +108,7 @@ SELECT * FROM odbc('DSN=mysqlconn', 'test', 'test')
 └────────┴──────────────┴───────┴────────────────┘
 ```
 
-## Related [#see-also]
+## Related 
 
 - [ODBC dictionaries](/sql-reference/dictionaries#dbms)
 - [ODBC table engine](/engines/table-engines/integrations/odbc).

@@ -18,11 +18,11 @@ these datasets to power real-time applications for internal and external use cas
 When this happens, they often realize they need a database optimized for 
 powering real-time analytics, like ClickHouse.
 
-## Comparison [#comparison]
+## Comparison 
 
 In this section, we'll compare the key features of ClickHouse and Snowflake.
 
-### Similarities [#similarities]
+### Similarities 
 
 Snowflake is a cloud-based data warehousing platform that provides a scalable 
 and efficient solution for storing, processing, and analyzing large amounts of 
@@ -66,7 +66,7 @@ added.
 
 <img src="/images/cloud/onboard/discover/use_cases/cloud_architecture.png" alt="ClickHouse Cloud architecture"/>
 
-### Differences [#differences]
+### Differences 
 
 Aside from the underlying storage formats and query engines, these architectures
 differ in a few subtle ways:
@@ -120,7 +120,7 @@ differ in a few subtle ways:
   querying. For data warehouse and data lake use cases, this provides an 
   advantage over other systems.
 
-### Real-time analytics [#real-time-analytics]
+### Real-time analytics 
 
 Based on public [benchmark](https://benchmark.clickhouse.com/#system=+%E2%98%81w|%EF%B8%8Fr|C%20c|nfe&type=-&machine=-ca2|gl|6ax|6ale|3al&cluster_size=-&opensource=-&tuned=+n&metric=hot&queries=-) data,
 ClickHouse outperforms Snowflake for real-time analytics applications in the following areas:

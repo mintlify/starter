@@ -8,7 +8,7 @@ doc_type: reference
 
 ClickHouse supports Common Table Expressions ([CTE](https://en.wikipedia.org/wiki/Hierarchical_and_recursive_queries_in_SQL)), Common Scalar Expressions and Recursive Queries.
 
-## Common Table Expressions \[#common-table-expressions]
+## Common Table Expressions \
 
 Common Table Expressions represent named subqueries. They can be referenced by name anywhere in a `SELECT` query where a table expression is allowed. Named subqueries can be referenced by name in the scope of the current query or in the scopes of child subqueries.
 
@@ -16,13 +16,13 @@ Every reference to a Common Table Expression in `SELECT` queries is always repla
 
 Please note that CTEs do not guarantee the same results in all places they are called because the query will be re-executed for each use case.
 
-### Syntax \[#common-table-expressions-syntax]
+### Syntax \
 
 ```sql
 WITH <identifier> AS <subquery expression>
 ```
 
-### Example \[#common-table-expressions-example]
+### Example \
 
 An example of when a subquery is re-executed:
 
@@ -44,7 +44,7 @@ If CTEs were to pass exactly the results and not just a piece of code, you would
 
 However, due to the fact that we are referring `cte_numbers` twice, random numbers are generated each time and, accordingly, we see different random results, `280501, 392454, 261636, 196227` and so on...
 
-## Common Scalar Expressions \[#common-scalar-expressions]
+## Common Scalar Expressions \
 
 ClickHouse allows you to declare aliases to arbitrary scalar expressions in the `WITH` clause. Common scalar expressions can be referenced in any place in the query.
 
@@ -54,13 +54,13 @@ ClickHouse resolves any identifier in the closest scope possible, meaning that f
 It is recommended to define CSE as a [lambda function](/sql-reference/functions/overview#arrow-operator-and-lambda) (possible only with the [analyzer](/operations/analyzer) enabled) binding all the used identifiers to achieve a more predictable behavior of expression identifiers resolution.
 </Note>
 
-### Syntax \[#common-scalar-expressions-syntax]
+### Syntax \
 
 ```sql
 WITH <expression> AS <identifier>
 ```
 
-### Examples \[#common-scalar-expressions-examples]
+### Examples \
 
 **Example 1:** Using constant expression as "variable"
 
@@ -154,7 +154,7 @@ WITH test1 AS (SELECT i + 1, j + 1 FROM test1)
 SELECT * FROM test1;
 ```
 
-## Recursive Queries \[#recursive-queries]
+## Recursive Queries \
 
 The optional `RECURSIVE` modifier allows for a WITH query to refer to its own output. Example:
 
@@ -231,7 +231,7 @@ SELECT * FROM search_tree;
 └────┴───────────┴───────────┘
 ```
 
-### Search order \[#search-order]
+### Search order \
 
 To create a depth-first order, we compute for each result row an array of rows that we have already visited:
 
@@ -285,7 +285,7 @@ SELECT * FROM search_tree ORDER BY depth;
 └────┴──────┴───────────┴─────────┴───────┘
 ```
 
-### Cycle detection \[#cycle-detection]
+### Cycle detection \
 
 First let's create graph table:
 
@@ -368,7 +368,7 @@ SELECT * FROM search_graph WHERE is_cycle ORDER BY from;
 └──────┴────┴────────┴──────────┴───────────────────────────┘
 ```
 
-### Infinite queries \[#infinite-queries]
+### Infinite queries \
 
 It is also possible to use infinite recursive CTE queries if `LIMIT` is used in outer query:
 

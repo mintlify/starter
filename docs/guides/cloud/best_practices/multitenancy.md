@@ -11,7 +11,7 @@ On a SaaS data analytics platform, it is common for multiple tenants, such as or
 
 Depending on the requirements, there are different ways to implement multi-tenancy. Below is a guide on how to implement them with ClickHouse Cloud.
 
-## Shared table  [#shared-table]
+## Shared table  
 
 In this approach, data from all tenants is stored in a single shared table, with a field (or set of fields) used to identify each tenant's data. To maximize performance, this field should be included in the [primary key](/sql-reference/statements/create/table#primary-key). To ensure that users can only access data belonging to their respective tenants we use [role-based access control](/operations/access-rights), implemented through [row policies](/operations/access-rights#row-policy-management).
 
@@ -25,7 +25,7 @@ However, alternative approaches may be more suitable if tenants have different d
 
 In cases where there is a significant gap in data volume between tenants, smaller tenants may experience unnecessary query performance impacts. Note, this issue is largely mitigated by including the tenant field in the primary key.
 
-### Example [#shared-table-example]
+### Example 
 
 This is an example of a shared table multi-tenancy model implementation. 
 
@@ -107,7 +107,7 @@ FROM events
    └───────────┴──────────────────────────────────────┴─────────────┴─────────────────────┴─────────┴─────────────────────────────────────────┘
 ```
 
-## Separate tables [#separate-tables]
+## Separate tables 
 
 In this approach, each tenant's data is stored in a separate table within the same database, eliminating the need for a specific field to identify tenants. User access is enforced using a [GRANT statement](/sql-reference/statements/grant), ensuring that each user can access only tables containing their tenants' data.
 
@@ -117,7 +117,7 @@ For scenarios involving a few tenants with very large datasets where query perfo
 
 Note this approach doesn't scale for 1000s of tenants. See [usage limits](/cloud/bestpractices/usage-limits).
 
-### Example [#separate-tables-example]
+### Example 
 
 This is an example of a separate tables multi-tenancy model implementation. 
 
@@ -199,7 +199,7 @@ FROM default.events_tenant_1
    └──────────────────────────────────────┴─────────────┴─────────────────────┴─────────┴─────────────────────────────────────────┘
 ```
 
-## Separate databases [#separate-databases]
+## Separate databases 
 
 Each tenant's data is stored in a separate database within the same ClickHouse service.
 
@@ -209,7 +209,7 @@ The implementation is similar to the separate tables approach, but instead of gr
 
 Note this approach doesn't scale for 1000s of tenants. See [usage limits](/cloud/bestpractices/usage-limits).
 
-### Example [#separate-databases-example]
+### Example 
 
 This is an example of a separate databases multi-tenancy model implementation. 
 
@@ -299,7 +299,7 @@ FROM tenant_1.events
    └──────────────────────────────────────┴─────────────┴─────────────────────┴─────────┴─────────────────────────────────────────┘
 ```
 
-## Compute-compute separation [#compute-compute-separation]
+## Compute-compute separation 
 
 The three approaches described above can also be further isolated by using [Warehouses](/cloud/reference/warehouses#what-is-a-warehouse). Data is shared through a common object storage but each tenant can have its own compute service thanks to [compute-compute separation](/cloud/reference/warehouses#what-is-compute-compute-separation) with different CPU/Memory ratio. 
 
@@ -307,7 +307,7 @@ User management is similar to the approaches described previously, since all ser
 
 Note the number of child services in a warehouse is limited to a small number. See [Warehouse limitations](/cloud/reference/warehouses#limitations).
 
-## Separate cloud service [#separate-service]
+## Separate cloud service 
 
 The most radical approach is to use a different ClickHouse service per tenant. 
 
@@ -317,7 +317,7 @@ A user account must be created on each service where the user can access their r
 
 This approach is harder to manage and bring overhead with each service, as they each requires their own infrastructure to run. Services can be managed via the [ClickHouse Cloud API](/cloud/manage/api/api-overview) with orchestration also possible via the [official Terraform provider](https://registry.terraform.io/providers/ClickHouse/clickhouse/latest/docs).
 
-### Example [#separate-service-example]
+### Example 
 
 This is an example of a separate service multi-tenancy model implementation. Note the example shows the creation of tables and users on one ClickHouse service, the same will have to be replicated on all services. 
 

@@ -14,9 +14,9 @@ TLDR: Because ClickHouse is faster, cheaper, and more powerful than BigQuery for
 
 <img src="/images/migrations/bigquery-2.png" alt="ClickHouse vs BigQuery"/>
 
-## Loading data from BigQuery to ClickHouse Cloud [#loading-data-from-bigquery-to-clickhouse-cloud]
+## Loading data from BigQuery to ClickHouse Cloud 
 
-### Dataset [#dataset]
+### Dataset 
 
 As an example dataset to show a typical migration from BigQuery to ClickHouse Cloud, we use the Stack Overflow dataset documented [here](/getting-started/example-datasets/stackoverflow). This contains every `post`, `vote`, `user`, `comment`, and `badge` that has occurred on Stack Overflow from 2008 to Apr 2024. The BigQuery schema for this data is shown below:
 
@@ -24,14 +24,14 @@ As an example dataset to show a typical migration from BigQuery to ClickHouse Cl
 
 For users who wish to populate this dataset into a BigQuery instance to test migration steps, we have provided data for these tables in Parquet format in a GCS bucket and  DDL commands to create and load the tables in BigQuery are available [here](https://pastila.nl/?003fd86b/2b93b1a2302cfee5ef79fd374e73f431#hVPC52YDsUfXg2eTLrBdbA==).
 
-### Migrating data [#migrating-data]
+### Migrating data 
 
 Migrating data between BigQuery and ClickHouse Cloud falls into two primary workload types:
 
 - **Initial bulk load with periodic updates** - An initial dataset must be migrated along with periodic updates at set intervals e.g. daily. Updates here are handled by resending rows that have changed - identified by either a column that can be used for comparisons (e.g., a date). Deletes are handled with a complete periodic reload of the dataset.
 - **Real time replication or CDC** - An initial dataset must be migrated. Changes to this dataset must be reflected in ClickHouse in near-real time with only a delay of several seconds acceptable. This is effectively a [Change Data Capture (CDC) process](https://en.wikipedia.org/wiki/Change_data_capture) where tables in BigQuery must be synchronized with ClickHouse i.e. inserts, updates and deletes in the BigQuery table must be applied to an equivalent table in ClickHouse.
 
-#### Bulk loading via Google Cloud Storage (GCS) [#bulk-loading-via-google-cloud-storage-gcs]
+#### Bulk loading via Google Cloud Storage (GCS) 
 
 BigQuery supports exporting data to Google's object store (GCS). For our example data set:
 
@@ -51,11 +51,11 @@ This approach has a number of advantages:
 
 Before trying the following examples, we recommend users review the [permissions required for export](https://cloud.google.com/bigquery/docs/exporting-data#required_permissions) and [locality recommendations](https://cloud.google.com/bigquery/docs/exporting-data#data-locations) to maximize export and import performance.
 
-### Real-time replication or CDC via scheduled queries [#real-time-replication-or-cdc-via-scheduled-queries]
+### Real-time replication or CDC via scheduled queries 
 
 Change Data Capture (CDC) is the process by which tables are kept in sync between two databases. This is significantly more complex if updates and deletes are to be handled in near real-time. One approach is to simply schedule a periodic export using BigQuery's [scheduled query functionality](https://cloud.google.com/bigquery/docs/scheduling-queries). Provided you can accept some delay in the data being inserted into ClickHouse, this approach is easy to implement and maintain. An example is given in [this blog post](https://clickhouse.com/blog/clickhouse-bigquery-migrating-data-for-realtime-queries#using-scheduled-queries).
 
-## Designing schemas [#designing-schemas]
+## Designing schemas 
 
 The Stack Overflow dataset contains a number of related tables. We recommend focusing on migrating the primary table first. This may not necessarily be the largest table but rather the one on which you expect to receive the most analytical queries. This will allow you to familiarize yourself with the main ClickHouse concepts. This table may require remodeling as additional tables are added to fully exploit ClickHouse features and obtain optimal performance. We explore this modeling process in our [Data Modeling docs](/data-modeling/schema-design#next-data-modeling-techniques).
 
@@ -88,7 +88,7 @@ CREATE TABLE stackoverflow.posts (
 );
 ```
 
-### Optimizing types [#optimizing-types]
+### Optimizing types 
 
 Applying the process [described here](/data-modeling/schema-design) results in the following schema:
 
@@ -131,7 +131,7 @@ INSERT INTO stackoverflow.posts SELECT * FROM gcs( 'gs://clickhouse-public-datas
 
 We don't retain any nulls in our new schema. The above insert converts these implicitly to default values for their respective types - 0 for integers and an empty value for strings. ClickHouse also automatically converts any numerics to their target precision.
 
-## How are ClickHouse Primary keys different? [#how-are-clickhouse-primary-keys-different]
+## How are ClickHouse Primary keys different? 
 
 As described [here](/migrations/bigquery), like in BigQuery, ClickHouse doesn't enforce uniqueness for a table's primary key column values.
 
@@ -147,15 +147,15 @@ The selected primary key in ClickHouse will determine not only the index but als
 
 > All columns in a table will be sorted based on the value of the specified ordering key, regardless of whether they are included in the key itself. For instance, if `CreationDate` is used as the key, the order of values in all other columns will correspond to the order of values in the `CreationDate` column. Multiple ordering keys can be specified - this will order with the same semantics as an `ORDER BY` clause in a `SELECT` query.
 
-### Choosing an ordering key [#choosing-an-ordering-key]
+### Choosing an ordering key 
 
 For the considerations and steps in choosing an ordering key, using the posts table as an example, see [here](/data-modeling/schema-design#choosing-an-ordering-key).
 
-## Data modeling techniques [#data-modeling-techniques]
+## Data modeling techniques 
 
 We recommend users migrating from BigQuery read [the guide for modeling data in ClickHouse](/data-modeling/schema-design). This guide uses the same Stack Overflow dataset and explores multiple approaches using ClickHouse features.
 
-### Partitions [#partitions]
+### Partitions 
 
 BigQuery users will be familiar with the concept of table partitioning for enhancing performance and manageability for large databases by dividing tables into smaller, more manageable pieces called partitions. This partitioning can be achieved using either a range on a specified column (e.g., dates), defined lists, or via hash on a key. This allows administrators to organize data based on specific criteria like date ranges or geographical locations.
 
@@ -182,7 +182,7 @@ ORDER BY (PostTypeId, toDate(CreationDate), CreationDate)
 PARTITION BY toYear(CreationDate)
 ```
 
-#### Applications [#applications]
+#### Applications 
 
 Partitioning in ClickHouse has similar applications as in BigQuery but with some subtle differences. More specifically:
 
@@ -225,7 +225,7 @@ Ok.
 
 - **Query optimization** - While partitions can assist with query performance, this depends heavily on the access patterns. If queries target only a few partitions (ideally one), performance can potentially improve. This is only typically useful if the partitioning key is not in the primary key and you are filtering by it. However, queries that need to cover many partitions may perform worse than if no partitioning is used (as there may possibly be more parts as a result of partitioning). The benefit of targeting a single partition will be even less pronounced to non-existence if the partitioning key is already an early entry in the primary key. Partitioning can also be used to [optimize `GROUP BY` queries](/engines/table-engines/mergetree-family/custom-partitioning-key#group-by-optimisation-using-partition-key) if values in each partition are unique. However, in general, users should ensure the primary key is optimized and only consider partitioning as a query optimization technique in exceptional cases where access patterns access a specific predictable subset of the day, e.g., partitioning by day, with most queries in the last day.
 
-#### Recommendations [#recommendations]
+#### Recommendations 
 
 Users should consider partitioning a data management technique. It is ideal when data needs to be expired from the cluster when operating with time series data e.g. the oldest partition can [simply be dropped](/sql-reference/statements/alter/partition#drop-partitionpart).
 
@@ -233,7 +233,7 @@ Important: Ensure your partitioning key expression does not result in a high car
 
 > Internally, ClickHouse [creates parts](/guides/best-practices/sparse-primary-indexes#clickhouse-index-design) for inserted data. As more data is inserted, the number of parts increases. In order to prevent an excessively high number of parts, which will degrade query performance (because there are more files to read), parts are merged together in a background asynchronous process. If the number of parts exceeds a [pre-configured limit](/operations/settings/merge-tree-settings#parts_to_throw_insert), then ClickHouse will throw an exception on insert as a ["too many parts" error](/knowledgebase/exception-too-many-parts). This should not happen under normal operation and only occurs if ClickHouse is misconfigured or used incorrectly e.g. many small inserts. Since parts are created per partition in isolation, increasing the number of partitions causes the number of parts to increase i.e. it is a multiple of the number of partitions. High cardinality partitioning keys can, therefore, cause this error and should be avoided.
 
-## Materialized views vs projections [#materialized-views-vs-projections]
+## Materialized views vs projections 
 
 ClickHouse's concept of projections allows users to specify multiple `ORDER BY` clauses for a table.
 
@@ -358,7 +358,7 @@ WHERE UserId = 8592047
 11 rows in set. Elapsed: 0.004 sec.
 ```
 
-### When to use projections [#when-to-use-projections]
+### When to use projections 
 
 Projections are an appealing feature for new users as they are automatically 
 maintained as data is inserted. Furthermore, queries can just be sent to a single
@@ -381,7 +381,7 @@ We recommend using projections when:
 - A complete reordering of the data is required. While the expression in the projection can, in theory, use a `GROUP BY,` materialized views are more effective for maintaining aggregates. The query optimizer is also more likely to exploit projections that use a simple reordering, i.e., `SELECT * ORDER BY x`. Users can select a subset of columns in this expression to reduce storage footprint.
 - Users are comfortable with the associated increase in storage footprint and overhead of writing data twice. Test the impact on insertion speed and [evaluate the storage overhead](/data-compression/compression-in-clickhouse).
 
-## Rewriting BigQuery queries in ClickHouse [#rewriting-bigquery-queries-in-clickhouse]
+## Rewriting BigQuery queries in ClickHouse 
 
 The following provides example queries comparing BigQuery to ClickHouse. This list aims to demonstrate how to exploit ClickHouse features to significantly simplify queries. The examples here use the full Stack Overflow dataset (up to April 2024).
 
@@ -448,7 +448,7 @@ LIMIT 5
 Peak memory usage: 567.41 MiB.
 ```
 
-## Aggregate functions [#aggregate-functions]
+## Aggregate functions 
 
 Where possible, users should exploit ClickHouse aggregate functions. Below, we show the use of the [`argMax` function](/sql-reference/aggregate-functions/reference/argmax) to compute the most viewed question of each year.
 
@@ -502,7 +502,7 @@ MaxViewCount:            66975
 Peak memory usage: 377.26 MiB.
 ```
 
-## Conditionals and arrays [#conditionals-and-arrays]
+## Conditionals and arrays 
 
 Conditional and array functions make queries significantly simpler. The following query computes the tags (with more than 10000 occurrences) with the largest percentage increase from 2022 to 2023. Note how the following ClickHouse query is succinct thanks to conditionals, array functions, and the ability to reuse aliases in the `HAVING` and `SELECT` clauses.
 

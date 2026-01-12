@@ -9,11 +9,11 @@ keywords: ['byoc', 'security', 'playbook', 'best practices', 'compliance']
 
 ClickHouse operates Bring Your Own Cloud (BYOC) under a security shared responsibility model, which can be downloaded from our Trust Center at https://trust.clickhouse.com. The following information is provided for BYOC customers as examples of how to identify potential security events. Customers should consider this information in the context of their security program to determine if additional detections and alerts may be helpful.
 
-## Potentially compromised ClickHouse credentials [#compromised-clickhouse-credentials]
+## Potentially compromised ClickHouse credentials 
 
 Refer to the [database audit log](/cloud/security/audit-logging/database-audit-log) documentation for queries to detect credential based attacks and queries to investigate malicious activities.
 
-## Application layer denial of service attack [#application-layer-dos-attack]
+## Application layer denial of service attack 
 
 There are various methods to execute a Denial of Service (DoS) attack. If the attack is focused on crashing the ClickHouse instance through a specific payload, recover the system back to a running state, or reboot the system and restrict access to regain control. Use the following query to review the [system.crash_log](/operations/system-tables/crash_log) to get more information about the attack.
 
@@ -22,13 +22,13 @@ SELECT *
 FROM clusterAllReplicas('default',system.crash_log)
 ```
 
-## Compromised ClickHouse created AWS roles [#compromised-clickhouse-created-aws-roles]
+## Compromised ClickHouse created AWS roles 
 
 ClickHouse utilizes pre-created roles to enable system functions. This section assumes the customer is using AWS with CloudTrail and has access to the CloudTrail logs.
 
 If an incident may be the result of a compromised role, review activities in CloudTrail and CloudWatch related to the ClickHouse IAM roles and actions. Refer to the [CloudFormation](/cloud/reference/byoc/onboarding/aws#cloudformation-iam-roles) stack or Terraform module provided as part of setup for a list of IAM roles.
 
-## Unauthorized access to EKS cluster [#unauthorized-access-eks-cluster]
+## Unauthorized access to EKS cluster 
 
 ClickHouse BYOC runs inside EKS. This section assumes the customer is using CloudTrail and CloudWatch in AWS and has access to the logs.
 

@@ -20,21 +20,21 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 <Steps>
 
-## Gather your connection details [#1-gather-your-connection-details]
+## Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-## Download and run Apache NiFi [#2-download-and-run-apache-nifi]
+## Download and run Apache NiFi 
 
 For a new setup, download the binary from https://nifi.apache.org/download.html and start by running `./bin/nifi.sh start`
 
-## Download the ClickHouse JDBC driver [#3-download-the-clickhouse-jdbc-driver]
+## Download the ClickHouse JDBC driver 
 
 1. Visit the <a href="https://github.com/ClickHouse/clickhouse-java/releases" target="_blank">ClickHouse JDBC driver release page</a> on GitHub and look for  the latest JDBC release version
 2. In the release version, click on "Show all xx assets" and look for the JAR file containing the keyword "shaded" or "all", for example, `clickhouse-jdbc-0.5.0-all.jar`
 3. Place the JAR file in a folder accessible by Apache NiFi and take note of the absolute path
 
-## Add `DBCPConnectionPool` Controller Service and configure its properties [#4-add-dbcpconnectionpool-controller-service-and-configure-its-properties]
+## Add `DBCPConnectionPool` Controller Service and configure its properties 
 
 1. To configure a Controller Service in Apache NiFi, visit the NiFi Flow Configuration page by clicking on the "gear" button
 
@@ -78,7 +78,7 @@ For a new setup, download the binary from https://nifi.apache.org/download.html 
 
     <img src="/images/integrations/data-ingestion/etl-tools/nifi_08.png" alt="Controller Services list showing enabled ClickHouse JDBC service"/>
 
-## Read from a table using the `ExecuteSQL` processor [#5-read-from-a-table-using-the-executesql-processor]
+## Read from a table using the `ExecuteSQL` processor 
 
 1. Add an ​`​ExecuteSQL` processor, along with the appropriate upstream and downstream processors
 
@@ -103,7 +103,7 @@ For a new setup, download the binary from https://nifi.apache.org/download.html 
 
     <img src="/images/integrations/data-ingestion/etl-tools/nifi_12.png" alt="FlowFile content viewer showing query results in formatted view"/>
 
-## Write to a table using `MergeRecord` and `PutDatabaseRecord` processor [#6-write-to-a-table-using-mergerecord-and-putdatabaserecord-processor]
+## Write to a table using `MergeRecord` and `PutDatabaseRecord` processor 
 
 1. To write multiple rows in a single insert, we first need to merge multiple records into a single record. This can be done using the `MergeRecord` processor
 

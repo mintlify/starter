@@ -17,7 +17,7 @@ This makes it much easier to spot which errors or warnings are new, which are re
 
 Beyond incident response, this high-level view also helps you identify noisy log sources that can be trimmed to reduce cost, discover the different types of logs a service produces, and more quickly answer whether the system is already emitting the signals you care about.
 
-## Accessing event patterns [#accessing-event-patterns]
+## Accessing event patterns 
 
 Event patterns are available directly through the **Search** panel in ClickStack.  
 
@@ -27,7 +27,7 @@ From the top-left **Analysis Mode** selector, choose **Event Patterns** to switc
 
 This provides an alternative to the default **Results Table** which allows users to scroll through every individual log or trace.
 
-## Recommendations [#recommendations]
+## Recommendations 
 
 Event patterns are most effective when applied to **narrowed subsets** of your data. For example, filtering down to a single service before enabling event patterns will usually surface more relevant and interesting messages than applying patterns across thousands of services at once.  
 

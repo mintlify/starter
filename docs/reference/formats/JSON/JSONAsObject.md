@@ -9,15 +9,15 @@ title: 'JSONAsObject'
 doc_type: 'reference'
 ---
 
-## Description [#description]
+## Description 
 
 In this format, a single JSON object is interpreted as a single [JSON](/sql-reference/data-types/newjson.md) value. If the input has several JSON objects (comma separated), they are interpreted as separate rows. If the input data is enclosed in square brackets, it is interpreted as an array of JSONs.
 
 This format can only be parsed for a table with a single field of type [JSON](/sql-reference/data-types/newjson.md). The remaining columns must be set to [`DEFAULT`](/sql-reference/statements/create/table.md/#default) or [`MATERIALIZED`](/sql-reference/statements/create/view#materialized-view).
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Basic example [#basic-example]
+### Basic example 
 
 ```sql title="Query"
 CREATE TABLE json_as_object (json JSON) ENGINE = Memory;
@@ -31,7 +31,7 @@ SELECT * FROM json_as_object FORMAT JSONEachRow;
 {"json":{"any json stucture":"1"}}
 ```
 
-### An array of JSON objects [#an-array-of-json-objects]
+### An array of JSON objects 
 
 ```sql title="Query"
 CREATE TABLE json_square_brackets (field JSON) ENGINE = Memory;
@@ -44,7 +44,7 @@ SELECT * FROM json_square_brackets FORMAT JSONEachRow;
 {"field":{"id":"2","name":"name2"}}
 ```
 
-### Columns with default values [#columns-with-default-values]
+### Columns with default values 
 
 ```sql title="Query"
 CREATE TABLE json_as_object (json JSON, time DateTime MATERIALIZED now()) ENGINE = Memory;
@@ -60,4 +60,4 @@ SELECT time, json FROM json_as_object FORMAT JSONEachRow
 {"time":"2024-09-16 12:18:08","json":{"foo":{"bar":{"x":"y"},"baz":"1"}}}
 ```
 
-## Format settings [#format-settings]
+## Format settings 

@@ -27,7 +27,7 @@ ClickHouse supports two types of materialized views: [**incremental**](/material
 
 The choice between incremental and refreshable materialized views depends largely on the nature of the query, how frequently data changes, and whether updates to the view must reflect every row as it is inserted, or if a periodic refresh is acceptable. Understanding these trade-offs is key to designing performant, scalable materialized views in ClickHouse.
 
-## When to use incremental materialized views [#when-to-use-incremental-materialized-views]
+## When to use incremental materialized views 
 
 Incremental materialized views are generally preferred, as they update automatically in real-time whenever the source tables receive new data. They support all aggregation functions and are particularly effective for aggregations over a single table. By computing results incrementally at insert-time, queries run against significantly smaller data subsets, allowing these views to scale effortlessly even to petabytes of data. In most cases they will have no appreciable impact on overall cluster performance.
 
@@ -39,7 +39,7 @@ Use incremental materialized views when:
 
 For examples of incremental materialized views see [here](/materialized-view/incremental-materialized-view).
 
-## When to use refreshable materialized views [#when-to-use-refreshable-materialized-views]
+## When to use refreshable materialized views 
 
 Refreshable materialized views execute their queries periodically rather than incrementally, storing the query result set for rapid retrieval. 
 
@@ -47,7 +47,7 @@ They are most useful when query performance is critical (e.g. sub-millisecond la
 
 Execution frequency should be tuned carefully to avoid excessive load on the system. Extremely complex queries which consume significant resources should be scheduled cautiously — these can cause overall cluster performance to degrade by impacting caches and consuming CPU and memory. The query should run relatively quickly compared to the refresh interval to avoid overloading your cluster. For example, do not schedule a view to be updated every 10 seconds if the query itself takes at least 10 seconds to compute. 
 
-## Summary [#summary]
+## Summary 
 
 In summary, use refreshable materialized views when:
 
@@ -59,7 +59,7 @@ In summary, use refreshable materialized views when:
 
 For examples of refreshable materialized views see [here](/materialized-view/refreshable-materialized-view).
 
-### APPEND vs REPLACE mode [#append-vs-replace-mode]
+### APPEND vs REPLACE mode 
 
 Refreshable materialized views support two modes for writing data to the target table: `APPEND` and `REPLACE`. These modes define how the result of the view's query is written when the view is refreshed.
 

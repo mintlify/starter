@@ -1,3 +1,6 @@
+---
+sidebarTitle: "JDBC client v0.7x"
+---
 
 `clickhouse-jdbc` implements the standard JDBC interface. Being built on top of [clickhouse-client](/integrations/sql-clients/sql-console), it provides additional features like custom type mapping, transaction support, and standard synchronous `UPDATE` and `DELETE` statements, etc., so that it can be easily used with legacy applications and tools.
 
@@ -85,7 +88,7 @@ Since version `0.5.0`, we are using Apache HTTP Client that's packed the Client.
 
 **Driver Class**: `com.clickhouse.jdbc.ClickHouseDriver`
 
-**URL Syntax**: `jdbc:(ch|clickhouse)[:<protocol>]://endpoint1[,endpoint2,...][/<database>][?param1=value1&param2=value2][#tag1,tag2,...]`, for example:
+**URL Syntax**: `jdbc:(ch|clickhouse)[:<protocol>]://endpoint1[,endpoint2,...][/<database>][?param1=value1&param2=value2]`, for example:
 
 - `jdbc:ch://localhost` is same as `jdbc:clickhouse:http://localhost:8123`
 - `jdbc:ch:https://localhost` is same as `jdbc:clickhouse:http://localhost:8443?ssl=true&sslmode=STRICT`

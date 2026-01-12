@@ -14,7 +14,7 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
 
 [Amazon Glue](https://aws.amazon.com/glue/) is a fully managed, serverless data integration service provided by Amazon Web Services (AWS). It simplifies the process of discovering, preparing, and transforming data for analytics, machine learning, and application development.
 
-## Installation [#installation]
+## Installation 
 
 To integrate your Glue code with ClickHouse, you can use our official Spark connector in Glue via one of the following:
 - Installing the ClickHouse Glue connector from the AWS Marketplace (recommended).
@@ -54,7 +54,7 @@ To add the required jars manually, please follow the following:
 </Tab>
 </Tabs>
 
-## Examples [#example]
+## Examples 
 
 <Tabs>
 <Tab title="Scala">

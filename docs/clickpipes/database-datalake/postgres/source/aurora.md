@@ -7,11 +7,11 @@ doc_type: 'guide'
 keywords: ['Amazon Aurora', 'PostgreSQL', 'ClickPipes', 'AWS database', 'logical replication setup']
 ---
 
-## Supported Postgres versions [#supported-postgres-versions]
+## Supported Postgres versions 
 
 ClickPipes supports Aurora PostgreSQL-Compatible Edition version 12 and later.
 
-## Enable logical replication [#enable-logical-replication]
+## Enable logical replication 
 
 You can skip this section if your Aurora instance already has the following settings configured:
 - `rds.logical_replication = 1`
@@ -53,7 +53,7 @@ If not already configured, follow these steps:
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/source/rds/reboot_rds.png" alt="Reboot Aurora PostgreSQL"/>
 
-## Configure database user [#configure-database-user]
+## Configure database user 
 
 Connect to your Aurora PostgreSQL writer instance as an admin user and execute the following commands:
 
@@ -83,9 +83,9 @@ Connect to your Aurora PostgreSQL writer instance as an admin user and execute t
     CREATE PUBLICATION clickpipes_publication FOR ALL TABLES;
     ```
 
-## Configure network access [#configure-network-access]
+## Configure network access 
 
-### IP-based access control [#ip-based-access-control]
+### IP-based access control 
 
 If you want to restrict traffic to your Aurora cluster, please add the [documented static NAT IPs](../../index.md#list-of-static-ips) to the `Inbound rules` of your Aurora security group.
 
@@ -93,11 +93,11 @@ If you want to restrict traffic to your Aurora cluster, please add the [document
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/source/rds/edit_inbound_rules.png" alt="Edit inbound rules for the above security group"/>
 
-### Private access via AWS PrivateLink [#private-access-via-aws-privatelink]
+### Private access via AWS PrivateLink 
 
 To connect to your Aurora cluster through a private network, you can use AWS PrivateLink. Follow our [AWS PrivateLink setup guide for ClickPipes](/knowledgebase/aws-privatelink-setup-for-clickpipes) to set up the connection.
 
-### Aurora-specific considerations [#aurora-specific-considerations]
+### Aurora-specific considerations 
 
 When setting up ClickPipes with Aurora PostgreSQL, keep these considerations in mind:
 
@@ -109,7 +109,7 @@ When setting up ClickPipes with Aurora PostgreSQL, keep these considerations in 
 
 4. **Storage Considerations**: Aurora's storage layer is shared across all instances in a cluster, which can provide better performance for logical replication compared to standard RDS.
 
-### Dealing with dynamic cluster endpoints [#dealing-with-dynamic-cluster-endpoints]
+### Dealing with dynamic cluster endpoints 
 
 While Aurora provides stable endpoints that automatically route to the appropriate instance, here are some additional approaches for ensuring consistent connectivity:
 
@@ -117,7 +117,7 @@ While Aurora provides stable endpoints that automatically route to the appropria
 
 2. If using cross-region replication, consider setting up separate ClickPipes for each region to reduce latency and improve fault tolerance.
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your Aurora PostgreSQL cluster into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your Aurora PostgreSQL cluster as you will need them during the ClickPipe creation process.

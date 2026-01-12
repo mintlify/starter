@@ -20,9 +20,10 @@ This guide explores the four main ways to deploy and use ClickHouse:
 
 Each deployment mode has its own strengths and ideal use cases, which we'll explore in detail below.
 
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/EOXEW_-r10A?si=6IanDSJlRzN8f9Mo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-## ClickHouse Server [#clickhouse-server]
+<Frame>
+<iframe src="https://www.youtube.com/embed/EOXEW_-r10A?si=6IanDSJlRzN8f9Mo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</Frame>
+## ClickHouse Server 
 
 ClickHouse Server represents the traditional client/server architecture and is ideal for production deployments. This deployment mode provides the full OLAP database capabilities with high throughput and low latency queries that ClickHouse is known for.
 
@@ -34,7 +35,7 @@ When it comes to deployment flexibility, ClickHouse Server can be installed on y
 
 This deployment mode is the go-to choice for production environments where reliability, performance, and full feature access are crucial.
 
-## ClickHouse Cloud [#clickhouse-cloud]
+## ClickHouse Cloud 
 
 [ClickHouse Cloud](/cloud/overview) is a fully managed version of ClickHouse that removes the operational overhead of running your own deployment. While it maintains all the core capabilities of ClickHouse Server, it enhances the experience with additional features designed to streamline development and operations.
 
@@ -48,7 +49,7 @@ For monitoring and optimization, ClickHouse Cloud includes built-in charts and [
 
 The managed nature of the service means you don't need to worry about updates, backups, scaling, or security patches – these are all handled automatically. This makes it an ideal choice for organizations that want to focus on their data and applications rather than database administration.
 
-## clickhouse-local [#clickhouse-local]
+## clickhouse-local 
 
 [clickhouse-local](/operations/utilities/clickhouse-local) is a powerful command-line tool that provides the complete functionality of ClickHouse in a standalone executable. It's essentially the same database as ClickHouse Server, but packaged in a way that lets you harness all of ClickHouse's capabilities directly from the command line without running a server instance.
 
@@ -60,7 +61,7 @@ Since clickhouse-local includes all of ClickHouse's functionality, you can use i
 
 The combination of remote table functions and access to the local file system makes clickhouse-local particularly useful for scenarios where you need to join data between a ClickHouse Server and files on your local machine. This is especially valuable when working with sensitive or temporary local data that you don't want to upload to a server.
 
-## chDB [#chdb]
+## chDB 
 
 [chDB](/chdb) is ClickHouse embedded as an in-process database engine, with Python being the primary implementation, though it's also available for Go, Rust, NodeJS, and Bun. This deployment option brings ClickHouse's powerful OLAP capabilities directly into your application's process, eliminating the need for a separate database installation.
 

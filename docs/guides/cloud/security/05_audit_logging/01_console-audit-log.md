@@ -7,15 +7,15 @@ doc_type: 'guide'
 keywords: ['audit log']
 ---
 
-# Console audit log [#console-audit-log]
+# Console audit log 
 
 User console activities are recorded in the audit log, which is available to users with the Admin or Developer organization role to review and integrate with logging systems. Specific events included in the console audit log are shown in the 
 
-## Access the console log via the user interface [#console-audit-log-ui]
+## Access the console log via the user interface 
 
 <Steps>
 
-## Select organization [#select-org]
+## Select organization 
 
 In ClickHouse Cloud, navigate to your organization details. 
 
@@ -23,7 +23,7 @@ In ClickHouse Cloud, navigate to your organization details.
 
 <br/>
 
-## Select audit [#select-audit]
+## Select audit 
 
 Select the **Audit** tab on the left menu to see what changes have been made to your ClickHouse Cloud organization - including who made the change and when it occurred.
 
@@ -38,7 +38,7 @@ The **Activity** page displays a table containing a list of events logged about 
 
 <br/>
 
-## Use the search bar [#use-search-bar]
+## Use the search bar 
 
 You can use the search bar provided to isolate events based on some criteria like for example service name or IP address. You can also export this information in a CSV format for distribution or analysis in an external tool.
 
@@ -48,12 +48,12 @@ You can use the search bar provided to isolate events based on some criteria lik
     <img src="/images/cloud/security/activity_log3.png" alt="ClickHouse Cloud Activity CSV export"/>
 </div>
 
-## Access the console audit log via the API [#console-audit-log-api]
+## Access the console audit log via the API 
 
 Users can use the ClickHouse Cloud API `activity` endpoint to obtain an export 
 of audit events. Further details can be found in the [API reference](https://clickhouse.com/docs/cloud/manage/api/swagger).
 
-## Log integrations [#log-integrations]
+## Log integrations 
 
 Users can use the API to integrate with a logging platform of their choice. The following have supported out-of-the-box connectors:
 - [ClickHouse Cloud Audit add-on for Splunk](/integrations/audit-splunk)

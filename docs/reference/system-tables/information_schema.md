@@ -47,7 +47,7 @@ SHOW TABLES FROM information_schema;
 
 Case-insensitive equivalent views, e.g. `INFORMATION_SCHEMA.columns` are provided for reasons of compatibility with other databases. The same applies to all the columns in these views - both lowercase (for example, `table_name`) and uppercase (`TABLE_NAME`) variants are provided.
 
-## COLUMNS [#columns]
+## COLUMNS 
 
 Contains columns read from the [system.columns](../../operations/system-tables/columns.md) system table and columns that are not supported in ClickHouse or do not make sense (always `NULL`), but must be by the standard.
 
@@ -123,7 +123,7 @@ domain_schema:            ᴺᵁᴸᴸ
 domain_name:              ᴺᵁᴸᴸ
 ```
 
-## SCHEMATA [#schemata]
+## SCHEMATA 
 
 Contains columns read from the [system.databases](../../operations/system-tables/databases.md) system table and columns that are not supported in ClickHouse or do not make sense (always `NULL`), but must be by the standard.
 
@@ -169,7 +169,7 @@ default_character_set_name:    ᴺᵁᴸᴸ
 sql_path:                      ᴺᵁᴸᴸ
 ```
 
-## TABLES [#tables]
+## TABLES 
 
 Contains columns read from the [system.tables](../../operations/system-tables/tables.md) system table.
 
@@ -221,7 +221,7 @@ table_collation: utf8mb4_0900_ai_ci
 table_comment:   
 ```
 
-## VIEWS [#views]
+## VIEWS 
 
 Contains columns read from the [system.tables](../../operations/system-tables/tables.md) system table, when the table engine [View](../../engines/table-engines/special/view.md) is used.
 
@@ -280,7 +280,7 @@ is_trigger_deletable:       NO
 is_trigger_insertable_into: NO
 ```
 
-## KEY_COLUMN_USAGE [#key_column_usage]
+## KEY_COLUMN_USAGE 
 
 Contains columns from the [system.tables](../../operations/system-tables/tables.md) system table which are restricted by constraints.
 
@@ -339,7 +339,7 @@ referenced_table_name:         ᴺᵁᴸᴸ
 referenced_column_name:        ᴺᵁᴸᴸ
 ```
 
-## REFERENTIAL_CONSTRAINTS [#referential_constraints]
+## REFERENTIAL_CONSTRAINTS 
 
 Contains information about foreign keys. Currently returns an empty result (no rows) which is just enough to provide compatibility with 3rd party tools like Tableau Online.
 
@@ -357,7 +357,7 @@ Columns:
 - `table_name` ([String](../../sql-reference/data-types/string.md)) — Currently unused.
 - `referenced_table_name` ([String](../../sql-reference/data-types/string.md)) — Currently unused.
 
-## STATISTICS [#statistics]
+## STATISTICS 
 
 Provides information about table indexes. Currently returns an empty result (no rows) which is just enough to provide compatibility with 3rd party tools like Tableau Online.
 

@@ -27,7 +27,7 @@ logger to send logs to ClickStack (powered by [nest-winston](https://www.npmjs.c
 _To send over metrics or APM/traces, you'll need to add the corresponding language
 integration to your application as well._
 
-## Getting started [#getting-started]
+## Getting started 
 
 Import `HyperDXNestLoggerModule` into the root `AppModule` and use the `forRoot()`
 method to configure it.
@@ -68,7 +68,7 @@ export class CatsController {
 }
 ```
 
-### Replacing the Nest logger (also for bootstrapping) [#replacing-the-nest-logger]
+### Replacing the Nest logger (also for bootstrapping) 
 
 <Note title="Important">
 By doing this, you give up the dependency injection, meaning that `forRoot` and `forRootAsync` are not needed and shouldn't be used. Remove them from your main module.

@@ -8,7 +8,7 @@ keywords: ['clickpipes', 'postgresql', 'cdc', 'data ingestion', 'real-time sync'
 
 When using PostgreSQL's generated columns in tables that are being replicated, there are some important considerations to keep in mind. These gotchas can affect the replication process and data consistency in your destination systems.
 
-## The problem with generated columns [#the-problem-with-generated-columns]
+## The problem with generated columns 
 
 1. **Not Published via `pgoutput`:** Generated columns are not published through the `pgoutput` logical replication plugin. This means that when you're replicating data from PostgreSQL to another system, the values of generated columns are not included in the replication stream.
 
@@ -16,7 +16,7 @@ When using PostgreSQL's generated columns in tables that are being replicated, t
 
 3. **Issues with schema changes**: If you add a generated column to a table that is already being replicated, the new column will not be populated in the destination - as Postgres does not give us the RelationMessage for the new column. If you then add a new non-generated column to the same table, the ClickPipe, when trying to reconcile the schema, will not be able to find the generated column in the destination, leading to a failure in the replication process.
 
-## Best practices [#best-practices]
+## Best practices 
 
 To work around these limitations, consider the following best practices:
 
@@ -24,7 +24,7 @@ To work around these limitations, consider the following best practices:
 
 2. **Avoid Using Generated Columns in Primary Keys:** When designing tables that will be replicated, it's best to avoid including generated columns as part of the primary key.
 
-## Upcoming improvements to UI [#upcoming-improvements-to-ui]
+## Upcoming improvements to UI 
 
 In upcoming versions, we are planning to add a UI to help users with the following:
 

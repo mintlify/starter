@@ -13,7 +13,7 @@ import {CloudNotSupportedBadge} from '/snippets/components/CloudNotSupportedBadg
 
 This engine allows integrating ClickHouse with [RocksDB](http://rocksdb.org/).
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -54,7 +54,7 @@ ENGINE = EmbeddedRocksDB
 PRIMARY KEY key
 ```
 
-## Metrics [#metrics]
+## Metrics 
 
 There is also `system.rocksdb` table, that expose rocksdb statistics:
 
@@ -70,7 +70,7 @@ FROM system.rocksdb
 └───────────────────────────┴───────┘
 ```
 
-## Configuration [#configuration]
+## Configuration 
 
 You can also change any [rocksdb options](https://github.com/facebook/rocksdb/wiki/Option-String-and-Option-Map) using config:
 
@@ -100,9 +100,9 @@ By default trivial approximate count optimization is turned off, which might aff
 optimization set up `optimize_trivial_approximate_count_query = 1`. Also, this setting affects `system.tables` for EmbeddedRocksDB engine,
 turn on the settings to see approximate values for `total_rows` and `total_bytes`.
 
-## Supported operations [#supported-operations]
+## Supported operations 
 
-### Inserts [#inserts]
+### Inserts 
 
 When new rows are inserted into `EmbeddedRocksDB`, if the key already exists, the value will be updated, otherwise a new key is created.
 
@@ -112,7 +112,7 @@ Example:
 INSERT INTO test VALUES ('some key', 1, 'value', 3.2);
 ```
 
-### Deletes [#deletes]
+### Deletes 
 
 Rows can be deleted using `DELETE` query or `TRUNCATE`.
 
@@ -128,7 +128,7 @@ ALTER TABLE test DELETE WHERE key LIKE 'some%' AND v1 > 1;
 TRUNCATE TABLE test;
 ```
 
-### Updates [#updates]
+### Updates 
 
 Values can be updated using the `ALTER TABLE` query. The primary key cannot be updated.
 
@@ -136,7 +136,7 @@ Values can be updated using the `ALTER TABLE` query. The primary key cannot be u
 ALTER TABLE test UPDATE v1 = v1 * 10 + 2 WHERE key LIKE 'some%' AND v3 > 3.1;
 ```
 
-### Joins [#joins]
+### Joins 
 
 A special `direct` join with EmbeddedRocksDB tables is supported.
 This direct join avoids forming a hash table in memory and accesses
@@ -155,9 +155,9 @@ When the `join_algorithm` is set to `direct, hash`, direct joins will be used
 when possible, and hash otherwise.
 </Tip>
 
-#### Example [#example]
+#### Example 
 
-##### Create and populate an EmbeddedRocksDB table [#create-and-populate-an-embeddedrocksdb-table]
+##### Create and populate an EmbeddedRocksDB table 
 ```sql
 CREATE TABLE rdb
 (
@@ -178,7 +178,7 @@ INSERT INTO rdb
     FROM numbers_mt(10);
 ```
 
-##### Create and populate a table to join with table `rdb` [#create-and-populate-a-table-to-join-with-table-rdb]
+##### Create and populate a table to join with table `rdb` 
 
 ```sql
 CREATE TABLE t2
@@ -193,13 +193,13 @@ INSERT INTO t2 SELECT number AS k
 FROM numbers_mt(10)
 ```
 
-##### Set the join algorithm to `direct`[#set-the-join-algorithm-to-direct]
+##### Set the join algorithm to `direct`
 
 ```sql
 SET join_algorithm = 'direct'
 ```
 
-##### An INNER JOIN [#an-inner-join]
+##### An INNER JOIN 
 ```sql
 SELECT *
 FROM
@@ -222,6 +222,6 @@ ORDER BY key ASC
 └─────┴─────────┴────────┴────────┘
 ```
 
-### More information on Joins [#more-information-on-joins]
+### More information on Joins 
 - [`join_algorithm` setting](/operations/settings/settings.md#join_algorithm)
 - [JOIN clause](/sql-reference/statements/select/join.md)

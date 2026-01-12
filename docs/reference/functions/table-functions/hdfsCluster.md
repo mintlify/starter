@@ -10,13 +10,13 @@ doc_type: 'reference'
 
 Allows processing files from HDFS in parallel from many nodes in a specified cluster. On initiator it creates a connection to all nodes in the cluster, discloses asterisks in HDFS file path, and dispatches each file dynamically. On the worker node it asks the initiator about the next task to process and processes it. This is repeated until all tasks are finished.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 hdfsCluster(cluster_name, URI, format, structure)
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument       | Description                                                                                                                                                                                                                                                                                      |
 |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -25,11 +25,11 @@ hdfsCluster(cluster_name, URI, format, structure)
 | `format`       | The [format](/sql-reference/formats) of the file.                                                                                                                                                                                                                                                |
 | `structure`    | Structure of the table. Format `'column1_name column1_type, column2_name column2_type, ...'`.                                                                                                                                                                                                    |
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table with the specified structure for reading data in the specified file.
 
-## Examples [#examples]
+## Examples 
 
 1.  Suppose that we have a ClickHouse cluster named `cluster_simple`, and several files with following URIs on HDFS:
 
@@ -58,7 +58,7 @@ FROM hdfsCluster('cluster_simple', 'hdfs://hdfs1:9000/{some,another}_dir/*', 'TS
 If your listing of files contains number ranges with leading zeros, use the construction with braces for each digit separately or use `?`.
 </Note>
 
-## Related [#related]
+## Related 
 
 - [HDFS engine](../../engines/table-engines/integrations/hdfs.md)
 - [HDFS table function](../../sql-reference/table-functions/hdfs.md)

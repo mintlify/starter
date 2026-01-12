@@ -11,7 +11,7 @@ doc_type: 'guide'
 
 import {CloudNotSupportedBadge} from '/snippets/components/CloudNotSupportedBadge/CloudNotSupportedBadge.jsx'
 
-## Overview of TTL [#overview-of-ttl]
+## Overview of TTL 
 
 TTL (time-to-live) refers to the capability of having rows or columns moved, deleted, or rolled up after a certain interval of time has passed. While the expression "time-to-live" sounds like it only applies to deleting old data, TTL has several use cases:
 
@@ -23,7 +23,7 @@ TTL (time-to-live) refers to the capability of having rows or columns moved, del
 TTL can be applied to entire tables or specific columns.
 </Note>
 
-## TTL syntax [#ttl-syntax]
+## TTL syntax 
 
 The `TTL` clause can appear after a column definition and/or at the end of the table definition. Use the `INTERVAL` clause to define a length of time (which needs to be a `Date` or `DateTime` data type). For example, the following table has two columns
 with `TTL` clauses:
@@ -47,7 +47,7 @@ ORDER BY tuple()
 TTL rules can be altered or deleted. See the [Manipulations with Table TTL](/sql-reference/statements/alter/ttl.md) page for more details.
 </Note>
 
-## Triggering TTL events [#triggering-ttl-events]
+## Triggering TTL events 
 
 The deleting or aggregating of expired rows is not immediate - it only occurs during table merges. If you have a table that's not actively merging (for whatever reason), there are two settings that trigger TTL events:
 
@@ -66,7 +66,7 @@ OPTIMIZE TABLE example1 FINAL
 `OPTIMIZE` initializes an unscheduled merge of the parts of your table, and `FINAL` forces a reoptimization if your table is already a single part.
 </Note>
 
-## Removing rows [#removing-rows]
+## Removing rows 
 
 To remove entire rows from a table after a certain amount of time, define the TTL rule at the table level:
 
@@ -99,7 +99,7 @@ TTL time + INTERVAL 1 MONTH DELETE WHERE event != 'error',
     time + INTERVAL 6 MONTH DELETE WHERE event = 'error'
 ```
 
-## Removing columns [#removing-columns]
+## Removing columns 
 
 Instead of deleting the entire row, suppose you want just the balance and address columns to expire. Let's modify the `customers` table and add a TTL for both columns to be 2 hours:
 
@@ -109,7 +109,7 @@ MODIFY COLUMN balance Int32 TTL timestamp + INTERVAL 2 HOUR,
 MODIFY COLUMN address String TTL timestamp + INTERVAL 2 HOUR
 ```
 
-## Implementing a rollup [#implementing-a-rollup]
+## Implementing a rollup 
 Suppose we want to delete rows after a certain amount of time but hang on to some of the data for reporting purposes. We don't want all the details - just a few aggregated results of historical data. This can be implemented by adding a `GROUP BY` clause to your `TTL` expression, along with some columns in your table to store the aggregated results.
 
 Suppose in the following `hits` table we want to delete old rows, but hang on to the sum and maximum of the `hits` columns before removing the rows. We will need a field to store those values in, and we will need to add a `GROUP BY` clause to the `TTL` clause that rolls up the sum and maximum:
@@ -137,7 +137,7 @@ Some notes on the `hits` table:
 - We added two fields to store the aggregated results: `max_hits` and `sum_hits`
 - Setting the default value of `max_hits` and `sum_hits` to `hits` is necessary for our logic to work, based on how the `SET` clause is defined
 
-## Implementing a hot/warm/cold architecture [#implementing-a-hotwarmcold-architecture]
+## Implementing a hot/warm/cold architecture 
 
 <CloudNotSupportedBadge/>
 

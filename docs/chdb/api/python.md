@@ -7,9 +7,9 @@ keywords: ['chdb', 'embedded', 'clickhouse-lite', 'python', 'api', 'reference']
 doc_type: 'reference'
 ---
 
-## Core Query Functions [#core-query-functions]
+## Core Query Functions 
 
-### `chdb.query` [#chdb-query]
+### `chdb.query` 
 
 Execute SQL query using chDB engine.
 
@@ -79,7 +79,7 @@ Returns the query result in the specified format:
 
 ---
 
-### `chdb.sql` [#chdb_sql]
+### `chdb.sql` 
 
 Execute SQL query using chDB engine.
 
@@ -149,7 +149,7 @@ Returns the query result in the specified format:
 
 ---
 
-### `chdb.to_arrowTable` [#chdb-state-sqlitelike-to_arrowtable]
+### `chdb.to_arrowTable` 
 
 Convert query result to PyArrow Table.
 
@@ -192,7 +192,7 @@ chdb.to_arrowTable(res)
 
 ---
 
-### `chdb.to_df` [#chdb_to_df]
+### `chdb.to_df` 
 
 Convert query result to pandas DataFrame.
 
@@ -233,11 +233,11 @@ chdb.to_df(r)
 0   1  hello
 ```
 
-## Connection and Session Management [#connection-session-management]
+## Connection and Session Management 
 
 The following Session Functions are available:
 
-### `chdb.connect` [#chdb-connect]
+### `chdb.connect` 
 
 Create a connection to chDB background server.
 
@@ -329,9 +329,9 @@ Creating a new connection will close any existing connection.
 - [`Connection`](#chdb-state-sqlitelike-connection) - Database connection class
 - [`Cursor`](#chdb-state-sqlitelike-cursor) - Database cursor for DB-API 2.0 operations
 
-## Exception Handling [#chdb-exceptions]
+## Exception Handling 
 
-### **class** `chdb.ChdbError` [#chdb_chdbError]
+### **class** `chdb.ChdbError` 
 
 Bases: `Exception`
 
@@ -343,7 +343,7 @@ provides error information from the underlying ClickHouse engine.
 
 ---
 
-### **class** `chdb.session.Session` [#chdb_session_session]
+### **class** `chdb.session.Session` 
 
 Bases: `object`
 
@@ -388,7 +388,7 @@ Some special args handling:
 
 ---
 
-#### `cleanup` [#cleanup]
+#### `cleanup` 
 
 Cleanup session resources with exception handling.
 
@@ -423,7 +423,7 @@ finally blocks or destructors.
 
 ---
 
-#### `close` [#close]
+#### `close` 
 
 Close the session and cleanup resources.
 
@@ -456,7 +456,7 @@ Any attempt to use the session after calling `close()` will result in an error.
 
 ---
 
-#### `query` [#chdb-session-session-query]
+#### `query` 
 
 Execute a SQL query and return the results.
 
@@ -540,7 +540,7 @@ id,name
 
 ---
 
-#### `send_query` [#chdb-session-session-send_query]
+#### `send_query` 
 
 Execute a SQL query and return a streaming result iterator.
 
@@ -614,7 +614,7 @@ The returned StreamingResult object should be consumed promptly or stored approp
 
 ---
 
-#### `sql` [#chdb-session-session-sql]
+#### `sql` 
 
 Execute a SQL query and return the results.
 
@@ -696,9 +696,9 @@ id,name
 - [`send_query()`](#chdb-session-session-send_query) - For streaming query execution
 - [`sql`](#chdb-session-session-sql) - Alias for this method
 
-## State Management [#chdb-state-management]
+## State Management 
 
-### `chdb.state.connect` [#chdb_state_connect]
+### `chdb.state.connect` 
 
 Create a [Connection](#chdb-state-sqlitelike-connection) to the chDB background server.
 
@@ -794,7 +794,7 @@ Creating a new connection will close any existing connection.
 - `Connection` - Database connection class
 - `Cursor` - Database cursor for DB-API 2.0 operations
 
-### **class** `chdb.state.sqlitelike.Connection` [#chdb-state-sqlitelike-connection]
+### **class** `chdb.state.sqlitelike.Connection` 
 
 Bases: `object`
 
@@ -806,7 +806,7 @@ class chdb.state.sqlitelike.Connection(connection_string: str)
 
 ---
 
-#### `close` [#chdb-session-session-close]
+#### `close` 
 
 Close the connection and cleanup resources.
 
@@ -848,7 +848,7 @@ is closed. Ensure all important data is processed before closing.
 
 ---
 
-#### `cursor` [#chdb-state-sqlitelike-connection-cursor]
+#### `cursor` 
 
 Create a [Cursor](#chdb-state-sqlitelike-cursor) object for executing queries.
 
@@ -892,7 +892,7 @@ with this connection. Only one cursor per connection is supported.
 
 ---
 
-#### `query` [#chdb-state-sqlitelike-connection-query]
+#### `query` 
 
 Execute a SQL query and return the complete results.
 
@@ -963,7 +963,7 @@ num,text
 
 ---
 
-#### `send_query` [#chdb-state-sqlitelike-connection-send_query]
+#### `send_query` 
 
 Execute a SQL query and return a streaming result iterator.
 
@@ -1035,7 +1035,7 @@ Only the “Arrow” format supports the `record_batch()` method on the returned
 
 ---
 
-### **class** `chdb.state.sqlitelike.Cursor` [#chdb-state-sqlitelike-cursor]
+### **class** `chdb.state.sqlitelike.Cursor` 
 
 Bases: `object`
 
@@ -1045,7 +1045,7 @@ class chdb.state.sqlitelike.Cursor(connection)
 
 ---
 
-#### `close` [#cursor-close-none]
+#### `close` 
 
 Close the cursor and cleanup resources.
 
@@ -1075,7 +1075,7 @@ The cursor is also automatically closed when the connection is closed.
 
 ---
 
-#### `column_names` [#chdb-state-sqlitelike-cursor-column_names]
+#### `column_names` 
 
 Return a list of column names from the last executed query.
 
@@ -1110,7 +1110,7 @@ column_names() → list
 
 ---
 
-#### `column_types` [#chdb-state-sqlitelike-cursor-column_types]
+#### `column_types` 
 
 Return a list of column types from the last executed query.
 
@@ -1145,7 +1145,7 @@ column_types() → list
 
 ---
 
-#### `commit` [#commit]
+#### `commit` 
 
 Commit any pending transaction.
 
@@ -1175,7 +1175,7 @@ commit() → None
 
 ---
 
-#### `property description : list` [#chdb-state-sqlitelike-cursor-description]
+#### `property description : list` 
 
 Return column description as per DB-API 2.0 specification.
 
@@ -1214,7 +1214,7 @@ Column: name, Type: String
 
 ---
 
-#### `execute` [#execute]
+#### `execute` 
 
 Execute a SQL query and prepare results for fetching.
 
@@ -1283,7 +1283,7 @@ Python types:
 
 ---
 
-#### `fetchall` [#chdb-state-sqlitelike-cursor-fetchall]
+#### `fetchall` 
 
 Fetch all remaining rows from the query result.
 
@@ -1325,7 +1325,7 @@ in batches.
 
 ---
 
-#### `fetchmany` [#chdb-state-sqlitelike-cursor-fetchmany]
+#### `fetchmany` 
 
 Fetch multiple rows from the query result.
 
@@ -1376,7 +1376,7 @@ than ‘size’ rows if the result set is exhausted.
 
 ---
 
-#### `fetchone` [#chdb-state-sqlitelike-cursor-fetchone]
+#### `fetchone` 
 
 Fetch the next row from the query result.
 
@@ -1420,7 +1420,7 @@ ClickHouse column types.
 
 ---
 
-### `chdb.state.sqlitelike` [#state-sqlitelike-to_arrowtable]
+### `chdb.state.sqlitelike` 
 
 Convert query result to PyArrow Table.
 
@@ -1477,7 +1477,7 @@ text: string
 
 ---
 
-### `chdb.state.sqlitelike.to_df` [#state-sqlitelike-to_df]
+### `chdb.state.sqlitelike.to_df` 
 
 Convert query result to Pandas DataFrame.
 
@@ -1532,9 +1532,9 @@ text    object
 dtype: object
 ```
 
-## DataFrame Integration [#dataframe-integration]
+## DataFrame Integration 
 
-### **class** `chdb.dataframe.Table` [#chdb-dataframe-table]
+### **class** `chdb.dataframe.Table` 
 
 Bases:
 
@@ -1542,7 +1542,7 @@ Bases:
 class chdb.dataframe.Table(*args: Any, **kwargs: Any)
 ```
 
-## Database API (DBAPI) 2.0 Interface [#database-api-interface]
+## Database API (DBAPI) 2.0 Interface 
 
 chDB provides a Python DB-API 2.0 compatible interface for database connectivity, allowing you to use chDB with tools and frameworks that expect standard database interfaces.
 
@@ -1556,11 +1556,11 @@ The chDB DB-API 2.0 interface includes:
 
 ---
 
-### Core Functions [#core-functions]
+### Core Functions 
 
 The Database API (DBAPI) 2.0 Interface implements the following core functions:
 
-#### `chdb.dbapi.connect` [#dbapi-connect]
+#### `chdb.dbapi.connect` 
 
 Initialize a new database connection.
 
@@ -1584,7 +1584,7 @@ chdb.dbapi.connect(*args, **kwargs)
 
 ---
 
-#### `chdb.dbapi.get_client_info()` [#dbapi-get-client-info]
+#### `chdb.dbapi.get_client_info()` 
 
 Get client version information.
 
@@ -1604,9 +1604,9 @@ chdb.dbapi.get_client_info()
 
 ---
 
-### Type constructors [#type-constructors]
+### Type constructors 
 
-#### `chdb.dbapi.Binary(x)` [#dbapi-binary]
+#### `chdb.dbapi.Binary(x)` 
 
 Return x as a binary type.
 
@@ -1633,9 +1633,9 @@ chdb.dbapi.Binary(x)
 
 ---
 
-### Connection Class [#connection-class]
+### Connection Class 
 
-#### **class** `chdb.dbapi.connections.Connection(path=None)` [#chdb-dbapi-connections-connection]
+#### **class** `chdb.dbapi.connections.Connection(path=None)` 
 
 Bases: `object`
 
@@ -1698,7 +1698,7 @@ operations are no-ops but provided for DB-API compliance.
 
 ---
 
-#### `close` [#dbapi-connection-close]
+#### `close` 
 
 Close the database connection.
 
@@ -1719,7 +1719,7 @@ close()
 
 ---
 
-#### `commit` [#dbapi-commit]
+#### `commit` 
 
 Commit the current transaction.
 
@@ -1736,7 +1736,7 @@ transactions. Provided for DB-API 2.0 compliance.
 
 ---
 
-#### `cursor` [#dbapi-cursor]
+#### `cursor` 
 
 Create a new cursor for executing queries.
 
@@ -1775,7 +1775,7 @@ cursor(cursor=None)
 
 ---
 
-#### `escape` [#escape]
+#### `escape` 
 
 Escape a value for safe inclusion in SQL queries.
 
@@ -1808,7 +1808,7 @@ escape(obj, mapping=None)
 
 ---
 
-#### `escape_string` [#escape-string]
+#### `escape_string` 
 
 Escape a string value for SQL queries.
 
@@ -1832,7 +1832,7 @@ escape_string(s)
 
 ---
 
-#### `property open` [#property-open]
+#### `property open` 
 
 Check if the connection is open.
 
@@ -1844,7 +1844,7 @@ Check if the connection is open.
 
 ---
 
-#### `query` [#dbapi-query]
+#### `query` 
 
 Execute a SQL query directly and return raw results.
 
@@ -1887,7 +1887,7 @@ query(sql, fmt='CSV')
 
 ---
 
-#### `property resp` [#property-resp]
+#### `property resp` 
 
 Get the last query response.
 
@@ -1904,7 +1904,7 @@ It does not reflect queries executed through cursors.
 
 ---
 
-#### `rollback` [#rollback]
+#### `rollback` 
 
 Roll back the current transaction.
 
@@ -1921,9 +1921,9 @@ transactions. Provided for DB-API 2.0 compliance.
 
 ---
 
-### Cursor Class [#cursor-class]
+### Cursor Class 
 
-#### **class** `chdb.dbapi.cursors.Cursor` [#chdb-dbapi-cursors-cursor]
+#### **class** `chdb.dbapi.cursors.Cursor` 
 
 Bases: `object`
 
@@ -1965,7 +1965,7 @@ for complete specification details.
 
 ---
 
-#### `callproc` [#callproc]
+#### `callproc` 
 
 Execute a stored procedure (placeholder implementation).
 
@@ -2002,7 +2002,7 @@ variables are not supported by the underlying ClickHouse engine.
 
 ---
 
-#### `close` [#dbapi-cursor-close]
+#### `close` 
 
 Close the cursor and free associated resources.
 
@@ -2017,7 +2017,7 @@ close()
 
 ---
 
-#### `execute` [#dbapi-execute]
+#### `execute` 
 
 Execute a SQL query with optional parameter binding.
 
@@ -2073,7 +2073,7 @@ execute(query, args=None)
 
 ---
 
-#### `executemany(query, args)` [#chdb-dbapi-cursors-cursor-executemany]
+#### `executemany(query, args)` 
 
 Execute a query multiple times with different parameter sets.
 
@@ -2124,7 +2124,7 @@ by optimizing the query execution process.
 
 ---
 
-#### `fetchall()` [#dbapi-fetchall]
+#### `fetchall()` 
 
 Fetch all remaining rows from the query result.
 
@@ -2161,7 +2161,7 @@ Consider using `fetchmany()` for large datasets.
 
 ---
 
-#### `fetchmany` [#dbapi-fetchmany]
+#### `fetchmany` 
 
 Fetch multiple rows from the query result.
 
@@ -2199,7 +2199,7 @@ fetchmany(size=1)
 
 ---
 
-#### `fetchone` [#dbapi-fetchone]
+#### `fetchone` 
 
 Fetch the next row from the query result.
 
@@ -2233,7 +2233,7 @@ fetchone()
 
 ---
 
-#### `max_stmt_length = 1024000` [#max-stmt-length]
+#### `max_stmt_length = 1024000` 
 
 Max statement size which [`executemany()`](#chdb-dbapi-cursors-cursor-executemany) generates.
 
@@ -2241,7 +2241,7 @@ Default value is 1024000.
 
 ---
 
-#### `mogrify` [#mogrify]
+#### `mogrify` 
 
 Return the exact query string that would be sent to the database.
 
@@ -2280,7 +2280,7 @@ This method follows the extension to DB-API 2.0 used by Psycopg.
 
 ---
 
-#### `nextset` [#nextset]
+#### `nextset` 
 
 Move to the next result set (not supported).
 
@@ -2303,7 +2303,7 @@ This method is provided for DB-API 2.0 compliance but always returns None.
 
 ---
 
-#### `setinputsizes` [#setinputsizes]
+#### `setinputsizes` 
 
 Set input sizes for parameters (no-op implementation).
 
@@ -2326,7 +2326,7 @@ chDB automatically handles parameter sizing internally.
 
 ---
 
-#### `setoutputsizes` [#setoutputsizes]
+#### `setoutputsizes` 
 
 Set output column sizes (no-op implementation).
 
@@ -2349,7 +2349,7 @@ chDB automatically handles output sizing internally.
 
 ---
 
-### Error Classes [#error-classes]
+### Error Classes 
 
 Exception classes for chdb database operations.
 
@@ -2418,7 +2418,7 @@ Constraint violation: Duplicate entry '1' for key 'PRIMARY'
 
 ---
 
-#### **exception** `chdb.dbapi.err.DataError` [#chdb-dbapi-err-dataerror]
+#### **exception** `chdb.dbapi.err.DataError` 
 
 Bases: [`DatabaseError`](#chdb-dbapi-err-databaseerror)
 
@@ -2456,7 +2456,7 @@ DataError: Invalid date format
 
 ---
 
-#### **exception** `chdb.dbapi.err.DatabaseError` [#chdb-dbapi-err-databaseerror]
+#### **exception** `chdb.dbapi.err.DatabaseError` 
 
 Bases: [`Error`](#chdb-dbapi-err-error)
 
@@ -2480,7 +2480,7 @@ such as [`DataError`](#chdb-dbapi-err-dataerror), [`OperationalError`](#chdb-dba
 
 ---
 
-#### **exception** `chdb.dbapi.err.Error` [#chdb-dbapi-err-error]
+#### **exception** `chdb.dbapi.err.Error` 
 
 Bases: [`StandardError`](#chdb-dbapi-err-standarderror)
 
@@ -2497,7 +2497,7 @@ This exception hierarchy follows the Python DB API 2.0 specification.
 **See also**
 - [`Warning`](#chdb-dbapi-err-warning) - For non-fatal warnings that don’t prevent operation completion
 
-#### **exception** `chdb.dbapi.err.IntegrityError` [#chdb-dbapi-err-integrityerror]
+#### **exception** `chdb.dbapi.err.IntegrityError` 
 
 Bases: [`DatabaseError`](#chdb-dbapi-err-databaseerror)
 
@@ -2535,7 +2535,7 @@ IntegrityError: Cannot add or update a child row: foreign key constraint fails
 
 ---
 
-#### **exception** `chdb.dbapi.err.InterfaceError` [#chdb-dbapi-err-interfaceerror]
+#### **exception** `chdb.dbapi.err.InterfaceError` 
 
 Bases: [`Error`](#chdb-dbapi-err-error)
 
@@ -2562,7 +2562,7 @@ that can be resolved by fixing the client code or configuration.
 
 ---
 
-#### **exception** `chdb.dbapi.err.InternalError` [#chdb-dbapi-err-internalerror]
+#### **exception** `chdb.dbapi.err.InternalError` 
 
 Bases: [`DatabaseError`](#chdb-dbapi-err-databaseerror)
 
@@ -2596,7 +2596,7 @@ and may require database restart or repair operations.
 
 ---
 
-#### **exception** `chdb.dbapi.err.NotSupportedError` [#chdb-dbapi-err-notsupportederror]
+#### **exception** `chdb.dbapi.err.NotSupportedError` 
 
 Bases: [`DatabaseError`](#chdb-dbapi-err-databaseerror)
 
@@ -2638,7 +2638,7 @@ these errors. Consider graceful fallbacks where possible.
 
 ---
 
-#### **exception** `chdb.dbapi.err.OperationalError` [#chdb-dbapi-err-operationalerror]
+#### **exception** `chdb.dbapi.err.OperationalError` 
 
 Bases: [`DatabaseError`](#chdb-dbapi-err-databaseerror)
 
@@ -2673,7 +2673,7 @@ require administrative intervention.
 
 ---
 
-#### **exception** `chdb.dbapi.err.ProgrammingError` [#chdb-dbapi-err-programmingerror]
+#### **exception** `chdb.dbapi.err.ProgrammingError` 
 
 Bases: [`DatabaseError`](#chdb-dbapi-err-databaseerror)
 
@@ -2717,7 +2717,7 @@ ProgrammingError: Column count doesn't match value count
 
 ---
 
-#### **exception** `chdb.dbapi.err.StandardError` [#chdb-dbapi-err-standarderror]
+#### **exception** `chdb.dbapi.err.StandardError` 
 
 Bases: `Exception`
 
@@ -2734,7 +2734,7 @@ for database exception handling.
 
 ---
 
-#### **exception** `chdb.dbapi.err.Warning` [#chdb-dbapi-err-warning]
+#### **exception** `chdb.dbapi.err.Warning` 
 
 Bases: [`StandardError`](#chdb-dbapi-err-standarderror)
 
@@ -2754,9 +2754,9 @@ This follows the Python DB API 2.0 specification for warning exceptions.
 
 ---
 
-### Module Constants [#module-constants]
+### Module Constants 
 
-#### `chdb.dbapi.apilevel = '2.0'` [#apilevel]
+#### `chdb.dbapi.apilevel = '2.0'` 
 
 ```python
 str(object=’’) -> str
@@ -2774,7 +2774,7 @@ or `repr(object)`.
 
 ---
 
-#### `chdb.dbapi.threadsafety = 1` [#threadsafety]
+#### `chdb.dbapi.threadsafety = 1` 
 
 ```python
 int([x]) -> integer
@@ -2798,7 +2798,7 @@ Base 0 means to interpret the base from the string as an integer literal.
 
 ---
 
-#### `chdb.dbapi.paramstyle = 'format'` [#paramstyle]
+#### `chdb.dbapi.paramstyle = 'format'` 
 
 ```python
 str(object=’’) -> str
@@ -2815,31 +2815,9 @@ errors defaults to ‘strict’.
 
 ---
 
-### Type Constants [#type-constants]
+### Type Constants 
 
-#### `chdb.dbapi.STRING = frozenset({247, 253, 254})` [#string-type]
-
-Extended frozenset for DB-API 2.0 type comparison.
-
-This class extends frozenset to support DB-API 2.0 type comparison semantics.
-It allows for flexible type checking where individual items can be compared
-against the set using both equality and inequality operators.
-
-This is used for type constants like STRING, BINARY, NUMBER, etc. to enable
-comparisons like “field_type == STRING” where field_type is a single type value.
-
-**Examples**
-
-```pycon
->>> string_types = DBAPISet([FIELD_TYPE.STRING, FIELD_TYPE.VAR_STRING])
->>> FIELD_TYPE.STRING == string_types  # Returns True
->>> FIELD_TYPE.INT != string_types     # Returns True
->>> FIELD_TYPE.BLOB in string_types    # Returns False
-```
-
----
-
-#### `chdb.dbapi.BINARY = frozenset({249, 250, 251, 252})` [#binary-type]
+#### `chdb.dbapi.STRING = frozenset({247, 253, 254})` 
 
 Extended frozenset for DB-API 2.0 type comparison.
 
@@ -2861,7 +2839,7 @@ comparisons like “field_type == STRING” where field_type is a single type va
 
 ---
 
-#### `chdb.dbapi.NUMBER = frozenset({0, 1, 3, 4, 5, 8, 9, 13})` [#number-type]
+#### `chdb.dbapi.BINARY = frozenset({249, 250, 251, 252})` 
 
 Extended frozenset for DB-API 2.0 type comparison.
 
@@ -2883,7 +2861,7 @@ comparisons like “field_type == STRING” where field_type is a single type va
 
 ---
 
-#### `chdb.dbapi.DATE = frozenset({10, 14})` [#date-type]
+#### `chdb.dbapi.NUMBER = frozenset({0, 1, 3, 4, 5, 8, 9, 13})` 
 
 Extended frozenset for DB-API 2.0 type comparison.
 
@@ -2905,7 +2883,7 @@ comparisons like “field_type == STRING” where field_type is a single type va
 
 ---
 
-#### `chdb.dbapi.TIME = frozenset({11})` [#time-type]
+#### `chdb.dbapi.DATE = frozenset({10, 14})` 
 
 Extended frozenset for DB-API 2.0 type comparison.
 
@@ -2927,27 +2905,7 @@ comparisons like “field_type == STRING” where field_type is a single type va
 
 ---
 
-#### `chdb.dbapi.TIMESTAMP = frozenset({7, 12})` [#timestamp-type]
-
-Extended frozenset for DB-API 2.0 type comparison.
-
-This class extends frozenset to support DB-API 2.0 type comparison semantics.
-It allows for flexible type checking where individual items can be compared
-against the set using both equality and inequality operators.
-
-This is used for type constants like STRING, BINARY, NUMBER, etc. to enable
-comparisons like “field_type == STRING” where field_type is a single type value.
-
-**Examples**
-
-```pycon
->>> string_types = DBAPISet([FIELD_TYPE.STRING, FIELD_TYPE.VAR_STRING])
->>> FIELD_TYPE.STRING == string_types  # Returns True
->>> FIELD_TYPE.INT != string_types     # Returns True
->>> FIELD_TYPE.BLOB in string_types    # Returns False
-```
-
-#### `chdb.dbapi.DATETIME = frozenset({7, 12})` [#datetime-type]
+#### `chdb.dbapi.TIME = frozenset({11})` 
 
 Extended frozenset for DB-API 2.0 type comparison.
 
@@ -2969,7 +2927,49 @@ comparisons like “field_type == STRING” where field_type is a single type va
 
 ---
 
-#### `chdb.dbapi.ROWID = frozenset({})` [#rowid-type]
+#### `chdb.dbapi.TIMESTAMP = frozenset({7, 12})` 
+
+Extended frozenset for DB-API 2.0 type comparison.
+
+This class extends frozenset to support DB-API 2.0 type comparison semantics.
+It allows for flexible type checking where individual items can be compared
+against the set using both equality and inequality operators.
+
+This is used for type constants like STRING, BINARY, NUMBER, etc. to enable
+comparisons like “field_type == STRING” where field_type is a single type value.
+
+**Examples**
+
+```pycon
+>>> string_types = DBAPISet([FIELD_TYPE.STRING, FIELD_TYPE.VAR_STRING])
+>>> FIELD_TYPE.STRING == string_types  # Returns True
+>>> FIELD_TYPE.INT != string_types     # Returns True
+>>> FIELD_TYPE.BLOB in string_types    # Returns False
+```
+
+#### `chdb.dbapi.DATETIME = frozenset({7, 12})` 
+
+Extended frozenset for DB-API 2.0 type comparison.
+
+This class extends frozenset to support DB-API 2.0 type comparison semantics.
+It allows for flexible type checking where individual items can be compared
+against the set using both equality and inequality operators.
+
+This is used for type constants like STRING, BINARY, NUMBER, etc. to enable
+comparisons like “field_type == STRING” where field_type is a single type value.
+
+**Examples**
+
+```pycon
+>>> string_types = DBAPISet([FIELD_TYPE.STRING, FIELD_TYPE.VAR_STRING])
+>>> FIELD_TYPE.STRING == string_types  # Returns True
+>>> FIELD_TYPE.INT != string_types     # Returns True
+>>> FIELD_TYPE.BLOB in string_types    # Returns False
+```
+
+---
+
+#### `chdb.dbapi.ROWID = frozenset({})` 
 
 Extended frozenset for DB-API 2.0 type comparison.
 
@@ -3097,7 +3097,7 @@ with dbapi.connect("test.chdb") as conn:
 - Parameter binding syntax follows format style: `%s`
 </Warning>
 
-## User-Defined Functions (UDF) [#user-defined-functions]
+## User-Defined Functions (UDF) 
 
 User-defined functions module for chDB.
 
@@ -3105,7 +3105,7 @@ This module provides functionality for creating and managing user-defined functi
 in chDB. It allows you to extend chDB’s capabilities by writing custom Python functions
 that can be called from SQL queries.
 
-### `chdb.udf.chdb_udf` [#chdb-udf]
+### `chdb.udf.chdb_udf` 
 
 Decorator for chDB Python UDF(User Defined Function).
 
@@ -3145,7 +3145,7 @@ def func_use_json(arg):
 
 ---
 
-### `chdb.udf.generate_udf` [#generate-udf]
+### `chdb.udf.generate_udf` 
 
 Generate UDF configuration and executable script files.
 
@@ -3175,7 +3175,7 @@ be called directly by users.
 
 ---
 
-## Utilities [#utilities]
+## Utilities 
 
 Utility functions and helpers for chDB.
 
@@ -3184,7 +3184,7 @@ data type inference, data conversion helpers, and debugging utilities.
 
 ---
 
-### `chdb.utils.convert_to_columnar` [#convert-to-columnar]
+### `chdb.utils.convert_to_columnar` 
 
 Converts a list of dictionaries into a columnar format.
 
@@ -3228,7 +3228,7 @@ chdb.utils.convert_to_columnar(items: List[Dict[str, Any]]) → Dict[str, List[A
 
 ---
 
-### `chdb.utils.flatten_dict` [#flatten-dict]
+### `chdb.utils.flatten_dict` 
 
 Flattens a nested dictionary.
 
@@ -3283,7 +3283,7 @@ chdb.utils.flatten_dict(d: Dict[str, Any], parent_key: str = '', sep: str = '_')
 
 ---
 
-### `chdb.utils.infer_data_type` [#infer-data-type]
+### `chdb.utils.infer_data_type` 
 
 Infers the most suitable data type for a list of values.
 
@@ -3319,7 +3319,7 @@ chdb.utils.infer_data_type(values: List[Any]) → str
 
 ---
 
-### `chdb.utils.infer_data_types` [#infer-data-types]
+### `chdb.utils.infer_data_types` 
 
 Infers data types for each column in a columnar data structure.
 
@@ -3345,9 +3345,9 @@ chdb.utils.infer_data_types`(column_data: Dict[str, List[Any]], n_rows: int = 10
 |---------------|----------------------------------------------------------------------------|
 | `List[tuple]` | A list of tuples, each containing a column name and its inferred data type |
 
-## Abstract Base Classes [#abstract-base-classes]
+## Abstract Base Classes 
 
-### **class** `chdb.rwabc.PyReader`(data: Any)` [#pyreader]
+### **class** `chdb.rwabc.PyReader`(data: Any)` 
 
 Bases: `ABC`
 
@@ -3357,7 +3357,7 @@ class chdb.rwabc.PyReader(data: Any)
 
 ---
 
-#### **abstractmethod** `read` [#read]
+#### **abstractmethod** `read` 
 
 Read a specified number of rows from the given columns and return a list of objects,
 where each object is a sequence of values for a column.
@@ -3379,7 +3379,7 @@ abstractmethod (col_names: List[str], count: int) → List[Any]
 |--------------|----------------------------------------|
 | `List[Any]`  | List of sequences, one for each column |
 
-### **class** `chdb.rwabc.PyWriter` [#pywriter]
+### **class** `chdb.rwabc.PyWriter` 
 
 Bases: `ABC`
 
@@ -3389,7 +3389,7 @@ class chdb.rwabc.PyWriter(col_names: List[str], types: List[type], data: Any)
 
 ---
 
-#### **abstractmethod** finalize [#finalize]
+#### **abstractmethod** finalize 
 
 Assemble and return the final data from blocks. Must be implemented by subclasses.
 
@@ -3405,7 +3405,7 @@ abstractmethod finalize() → bytes
 
 ---
 
-#### **abstractmethod** `write` [#write]
+#### **abstractmethod** `write` 
 
 Save columns of data to blocks. Must be implemented by subclasses.
 
@@ -3420,9 +3420,9 @@ abstractmethod write(col_names: List[str], columns: List[List[Any]]) → None
 | `col_names` | `List[str]`       | List of column names that are being written                |
 | `columns`   | `List[List[Any]]` | List of columns data, each column is represented by a list |
 
-## Exception Handling [#exception-handling]
+## Exception Handling 
 
-### **class** `chdb.ChdbError` [#chdberror]
+### **class** `chdb.ChdbError` 
 
 Bases: `Exception`
 
@@ -3467,9 +3467,9 @@ You should catch this exception when handling potentially failing
 queries to provide appropriate error handling in your application.
 </Note>
 
-## Version Information [#version-information]
+## Version Information 
 
-### `chdb.chdb_version = ('3', '6', '0')` [#chdb-version]
+### `chdb.chdb_version = ('3', '6', '0')` 
 
 Built-in immutable sequence.
 
@@ -3480,7 +3480,7 @@ If the argument is a tuple, the return value is the same object.
 
 ---
 
-### `chdb.engine_version = '25.5.2.1'` [#engine-version]
+### `chdb.engine_version = '25.5.2.1'` 
 
 ```python
 str(object=’’) -> str
@@ -3498,7 +3498,7 @@ or repr(object).
 
 ---
 
-### `chdb.__version__ = '3.6.0'` [#version]
+### `chdb.__version__ = '3.6.0'` 
 
 ```python
 str(object=’’) -> str

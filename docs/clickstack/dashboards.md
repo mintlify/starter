@@ -16,7 +16,7 @@ These charts can be added to dashboards for sharing with other users.
 
 Visualizations can be created from traces, metrics, logs, or any user-defined wide event schemas.
 
-## Creating visualizations [#creating-visualizations]
+## Creating visualizations 
 
 The **Chart Explorer** interface in HyperDX allows users to visualize metrics, traces, and logs over time, making it easy to create quick visualizations for data analysis. This interface is also reused when creating dashboards. The following section walks through the process of creating a visualization using Chart Explorer.
 
@@ -30,7 +30,7 @@ For the examples below, we use the remote dataset available at [sql.clickhouse.c
 
 <Step>
 
-### Navigate to Chart Explorer [#navigate-chart-explorer]
+### Navigate to Chart Explorer 
 
 Select `Chart Explorer` from the left menu.
 
@@ -40,7 +40,7 @@ Select `Chart Explorer` from the left menu.
 
 <Step>
 
-### Create visualization [#create-visualization]
+### Create visualization 
 
 In the example below, we chart the average request duration over time per service name. This requires the user to specify a metric, a column (which can be a SQL expression), and an aggregation field.
 
@@ -70,7 +70,7 @@ This unified approach allows users to build dashboards across telemetry types us
 
 <Step>
 
-## Creating dashboards [#creating-dashboards]
+## Creating dashboards 
 
 Dashboards provide a way to group related visualizations, enabling users to compare metrics and explore patterns side by side to identify potential root causes in their systems. These dashboards can be used for ad-hoc investigations or saved for ongoing monitoring.
 
@@ -82,7 +82,7 @@ We create a dashboard with two visualizations below using the log and trace data
 
 <Step>
 
-### Navigate to Dashboards [#navigate-dashboards]
+### Navigate to Dashboards 
 
 Select `Dashboards` from the left menu.
 
@@ -96,7 +96,7 @@ If using your own HyperDX instance you can ensure this dashboard can later be sa
 
 <Step>
 
-### Create a visualization – average request time by service [#create-a-tile]
+### Create a visualization – average request time by service 
 
 Select `Add New Tile` to open the visualization creation panel.
 
@@ -121,7 +121,7 @@ Resize the visualization to occupy the full width of the dashboard.
 
 <Step>
 
-### Create a visualization – events over time by service [#create-a-tile-2]
+### Create a visualization – events over time by service 
 
 Select `Add New Tile` to open the visualization creation panel.
 
@@ -145,7 +145,7 @@ Resize the visualization to occupy the full width of the dashboard.
 
 <Step>
 
-### Filter dashboard [#filter-dashboards]
+### Filter dashboard 
 
 Lucene or SQL filters, along with the time range, can be applied at the dashboard level and will automatically propagate to all visualizations.
 
@@ -160,27 +160,27 @@ The dashboard will be auto-saved. To set the dashboard name, select the title an
 </Step>
 </Steps>
 
-## Dashboards - Editing visualizations [#dashboards-editing-visualizations]
+## Dashboards - Editing visualizations 
 
 To remove, edit, or duplicate a visualization, hover over it and use the corresponding action buttons.
 
 <img src="/images/use-cases/observability/hyperdx-dashboard-edit.png" alt="Dashboard edit"/>
 
-## Dashboard - Listing and search [#dashboard-listing-search]
+## Dashboard - Listing and search 
 
 Dashboards are accessible from the left-hand menu, with built-in search to quickly locate specific dashboards.
 
 <img src="/images/use-cases/observability/hyperdx-dashboard-search.png" alt="Dashboard search"/>
 
-## Dashboards - Tagging [#tagging]
+## Dashboards - Tagging 
 
 <ClickstackTagging />
 
-## Presets [#presets]
+## Presets 
 
 HyperDX is deployed with out-of-the-box dashboards.
 
-### ClickHouse dashboard [#clickhouse-dashboard]
+### ClickHouse dashboard 
 
 This dashboard provides visualizations for monitoring ClickHouse. To navigate to this dashboard, select it from the left menu.
 
@@ -202,7 +202,7 @@ This dashboard queries the ClickHouse [system tables](/operations/system-tables)
 
 </Note>
 
-### Services dashboard [#services-dashboard]
+### Services dashboard 
 
 The Services dashboard displays currently active services based on trace data. This requires users to have collected traces and configured a valid Traces data source.
 
@@ -212,7 +212,7 @@ Visualizations can be filtered using Lucene or SQL syntax, and the time window c
 
 <img src="/images/use-cases/observability/hyperdx-dashboard-services.png" alt="ClickHouse services"/>
 
-### Kubernetes dashboard [#kubernetes-dashboard]
+### Kubernetes dashboard 
 
 This dashboard allows users to explore Kubernetes events collected via OpenTelemetry. It includes advanced filtering options, enabling users to filter by Kubernetes Pod, Deployment, Node name, Namespace, and Cluster, as well as perform free-text searches.
 

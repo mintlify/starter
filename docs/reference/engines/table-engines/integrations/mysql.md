@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 The MySQL engine allows you to perform `SELECT` and `INSERT` queries on data that is stored on a remote MySQL server.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -60,7 +60,7 @@ Supports multiple replicas that must be listed by `|`. For example:
 CREATE TABLE test_replicas (id UInt32, name String, age UInt32, money UInt32) ENGINE = MySQL(`mysql{2|3|4}:3306`, 'clickhouse', 'test_replicas', 'root', 'clickhouse');
 ```
 
-## Usage example [#usage-example]
+## Usage example 
 
 Create table in MySQL:
 
@@ -125,11 +125,11 @@ SELECT * FROM mysql_table
 └────────────────┴────────┘
 ```
 
-## Settings [#mysql-settings]
+## Settings 
 
 Default settings are not very efficient, since they do not even reuse connections. These settings allow you to increase the number of queries run by the server per second.
 
-### `connection_auto_close` [#connection-auto-close]
+### `connection_auto_close` 
 
 Allows to automatically close the connection after query execution, i.e. disable connection reuse.
 
@@ -140,7 +140,7 @@ Possible values:
 
 Default value: `1`.
 
-### `connection_max_tries` [#connection-max-tries]
+### `connection_max_tries` 
 
 Sets the number of retries for pool with failover.
 
@@ -151,7 +151,7 @@ Possible values:
 
 Default value: `3`.
 
-### `connection_pool_size` [#connection-pool-size]
+### `connection_pool_size` 
 
 Size of connection pool (if all connections are in use, the query will wait until some connection will be freed).
 
@@ -161,7 +161,7 @@ Possible values:
 
 Default value: `16`.
 
-### `connection_wait_timeout` [#connection-wait-timeout]
+### `connection_wait_timeout` 
 
 Timeout (in seconds) for waiting for free connection (in case of there is already connection_pool_size active connections), 0 - do not wait.
 
@@ -171,7 +171,7 @@ Possible values:
 
 Default value: `5`.
 
-### `connect_timeout` [#connect-timeout]
+### `connect_timeout` 
 
 Connect timeout (in seconds).
 
@@ -181,7 +181,7 @@ Possible values:
 
 Default value: `10`.
 
-### `read_write_timeout` [#read-write-timeout]
+### `read_write_timeout` 
 
 Read/write timeout (in seconds).
 
@@ -191,7 +191,7 @@ Possible values:
 
 Default value: `300`.
 
-## See also [#see-also]
+## See also 
 
 - [The mysql table function](../../../sql-reference/table-functions/mysql.md)
 - [Using MySQL as a dictionary source](/sql-reference/dictionaries#mysql)

@@ -15,7 +15,7 @@ columns with values. It is useful for quick testing or generating sample data.
 Values is a case-insensitive function. I.e. `VALUES` or `values` are both valid.
 </Note>
 
-## Syntax [#syntax]
+## Syntax 
 
 The basic syntax of the `VALUES` table function is:
 
@@ -34,7 +34,7 @@ VALUES(
 )
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 - `column1_name Type1, ...` (optional). [String](/sql-reference/data-types/string) 
   specifying the column names and types. If this argument is omitted columns will
@@ -48,11 +48,11 @@ each value is taken to be a new row. See the [examples](#examples) section for
 details.
 </Note>
 
-## Returned value [#returned-value]
+## Returned value 
 
 - Returns a temporary table containing the provided values.
 
-## Examples [#examples]
+## Examples 
 
 ```sql title="Query"
 SELECT *
@@ -189,6 +189,6 @@ FROM VALUES(
     └──────────┘
 ```
 
-## See also [#see-also]
+## See also 
 
 - [Values format](/interfaces/formats/Values)

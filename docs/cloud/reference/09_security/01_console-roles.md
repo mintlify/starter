@@ -7,7 +7,7 @@ doc_type: 'reference'
 keywords: ['console roles', 'permissions', 'access control', 'security', 'rbac']
 ---
 
-## Organization roles [#organization-roles]
+## Organization roles 
 Refer to [Manage cloud users](/cloud/security/manage-cloud-users) for instructions on assigning organization roles.
 
 ClickHouse has four organization level roles available for user management. Only the admin role has default access to services. All other roles must be combined with service level roles to interact with services.
@@ -19,7 +19,7 @@ ClickHouse has four organization level roles available for user management. Only
 | Billing   | View usage and invoices, and manage payment methods.                                                                                                                                                                        |
 | Member    | Sign-in only with the ability to manage personal profile settings. Assigned to SAML SSO users by default.                                                                                                                   |
 
-## Service roles [#service-roles]
+## Service roles 
 Refer to [Manage cloud users](/cloud/security/manage-cloud-users) for instructions on assigning service roles.
 
 Service permissions must be explicitly granted by an admin to users with roles other than admin. Service Admin is pre-configured with SQL console admin access, but may be modified to reduce or remove permissions.
@@ -29,7 +29,7 @@ Service permissions must be explicitly granted by an admin to users with roles o
 | Service read only | View services and settings. |
 | Service admin     | Manage service settings.    |
 
-## SQL console roles [#sql-console-roles]
+## SQL console roles 
 Refer to [Manage SQL console role assignments](/cloud/guides/sql-console/manage-sql-console-role-assignments) for instructions on assigning SQL console roles.
 
 | Role                  | Description                                                                                    |

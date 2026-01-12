@@ -9,14 +9,14 @@ keywords: ['ClickHouse Cloud', 'encryption', 'CMEK', 'KMS key poller']
 
 import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFeatureBadge/EnterprisePlanFeatureBadge.jsx'
 
-## Storage level encryption [#storage-encryption]
+## Storage level encryption 
 
 ClickHouse Cloud is configured with encryption at rest by default utilizing cloud provider-managed AES 256 keys. For more information review:
 - [AWS server-side encryption for S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html)
 - [GCP default encryption at rest](https://cloud.google.com/docs/security/encryption/default-encryption)
 - [Azure storage encryption for data at rest](https://learn.microsoft.com/en-us/azure/storage/common/storage-service-encryption)
 
-## Database level encryption [#database-encryption]
+## Database level encryption 
 
 <EnterprisePlanFeatureBadge feature="Enhanced Encryption"/>
 
@@ -24,7 +24,7 @@ Data at rest is encrypted by default using cloud provider-managed AES 256 keys. 
 
 Enhanced encryption is currently available in AWS and GCP services. Azure is coming soon.
 
-### Transparent Data Encryption (TDE) [#transparent-data-encryption-tde]
+### Transparent Data Encryption (TDE) 
 
 TDE must be enabled on service creation. Existing services cannot be encrypted after creation. Once TDE is enabled, it cannot be disabled. All data in the service will remain encrypted. If you want to disable TDE after it has been enabled, you must create a new service and migrate your data there.
 
@@ -34,7 +34,7 @@ TDE must be enabled on service creation. Existing services cannot be encrypted a
 4. Click the drop-down for Enterprise features and toggle Enable Transparent Data Encryption (TDE)
 5. Click Create service
 
-### Customer Managed Encryption Keys (CMEK) [#customer-managed-encryption-keys-cmek]
+### Customer Managed Encryption Keys (CMEK) 
 
 <Warning>
 Deleting a KMS key used to encrypt a ClickHouse Cloud service will cause your ClickHouse service to be stopped and its data will be unretrievable, along with existing backups. To prevent accidental data loss when rotating keys you may wish to maintain old KMS keys for a period of time prior to deletion. 
@@ -96,19 +96,19 @@ Once a service is encrypted with TDE, customers may update the key to enable CME
     
 </details>
 
-#### Key rotation [#key-rotation]
+#### Key rotation 
 
 Once you set up CMEK, rotate the key by following the procedures above for creating a new KMS key and granting permissions. Return to the service settings to paste the new ARN (AWS) or Key Resource Path (GCP) and save the settings. The service will restart to apply the new key.
 
-#### KMS key poller [#kms-key-poller]
+#### KMS key poller 
 
 When using CMEK, the validity of the provided KMS key is checked every 10 minutes. If access to the KMS key is invalid, the ClickHouse service will stop. To resume service, restore access to the KMS key by following the steps in this guide, and then restart the service.
 
-### Backup and restore [#backup-and-restore]
+### Backup and restore 
 
 Backups are encrypted using the same key as the associated service. When you restore an encrypted backup, it creates an encrypted instance that uses the same KMS key as the original instance. If needed, you can rotate the KMS key after restoration; see [Key Rotation](#key-rotation) for more details.
 
-## Performance [#performance]
+## Performance 
 
 Database encryption leverages ClickHouse's built-in [Virtual File System for Data Encryption feature](/operations/storing-data#encrypted-virtual-file-system) to encrypt and protect your data. The algorithm in use for this feature is `AES_256_CTR`, which is expected to have a performance penalty of 5-15% depending on the workload:
 

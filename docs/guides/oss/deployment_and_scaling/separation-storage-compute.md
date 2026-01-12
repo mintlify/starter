@@ -8,7 +8,7 @@ doc_type: 'guide'
 keywords: ['storage', 'compute', 'architecture', 'scalability', 'cloud']
 ---
 
-## Overview [#overview]
+## Overview 
 
 This guide explores how you can use ClickHouse and S3 to implement an architecture with separated storage and compute.
 
@@ -24,9 +24,9 @@ Please note that implementing and managing a separation of storage and compute a
 Do not configure any AWS/GCS life cycle policy. This is not supported and could lead to broken tables.
 </Warning>
 
-## 1. Use S3 as a ClickHouse disk [#1-use-s3-as-a-clickhouse-disk]
+## 1. Use S3 as a ClickHouse disk 
 
-### Creating a disk [#creating-a-disk]
+### Creating a disk 
 
 Create a new file in the ClickHouse `config.d` directory to store the storage configuration:
 
@@ -87,7 +87,7 @@ You can now restart the ClickHouse server to have the changes take effect:
 service clickhouse-server restart
 ```
 
-## 2. Create a table backed by S3 [#2-create-a-table-backed-by-s3]
+## 2. Create a table backed by S3 
 
 To test that we've configured the S3 disk properly, we can attempt to create and query a table.
 
@@ -155,7 +155,7 @@ If everything worked successfully, you are now using ClickHouse with separated s
 
 <img src="/images/guides/s3_bucket_example.png" alt="S3 bucket example using separation of compute and storage"/>
 
-## 3. Implementing replication for fault tolerance (optional) [#3-implementing-replication-for-fault-tolerance-optional]
+## 3. Implementing replication for fault tolerance (optional) 
 
 <Warning>
 Do not configure any AWS/GCS life cycle policy. This is not supported and could lead to broken tables.
@@ -166,7 +166,7 @@ For fault tolerance, you can use multiple ClickHouse server nodes distributed ac
 Replication with S3 disks can be accomplished by using the `ReplicatedMergeTree` table engine. See the following guide for details:
 - [Replicating a single shard across two AWS regions using S3 Object Storage](/integrations/s3#s3-multi-region).
 
-## Further reading [#further-reading]
+## Further reading 
 
 - [SharedMergeTree table engine](/cloud/reference/shared-merge-tree)
 - [SharedMergeTree announcement blog](https://clickhouse.com/blog/clickhouse-cloud-boosts-performance-with-sharedmergetree-and-lightweight-updates)

@@ -7,7 +7,7 @@ doc_type: 'reference'
 keywords: ['ClickHouse Cloud', 'static IP addresses', 'cloud endpoints', 'API', 'security', 'egress IPs', 'ingress IPs', 'firewall']
 ---
 
-## Static IPs API [#static-ips-api]
+## Static IPs API 
 
 If you need to fetch the list of static IPs, you can use the following ClickHouse Cloud API endpoint: [`https://api.clickhouse.cloud/static-ips.json`](https://api.clickhouse.cloud/static-ips.json). This API provides the endpoints for ClickHouse Cloud services, such as ingress/egress IPs and S3 endpoints per region and cloud.
 

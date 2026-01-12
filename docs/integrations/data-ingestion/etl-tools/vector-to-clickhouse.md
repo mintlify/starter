@@ -32,7 +32,7 @@ The steps below are similar for tailing any type of log file.
 
 <Step>
 
-## Create a database and table [#1-create-a-database-and-table]
+## Create a database and table 
 
 Define a table to store the log events:
 
@@ -60,7 +60,7 @@ ORDER BY tuple()
 
 <Step>
 
-## Configure Nginx [#2--configure-nginx]
+## Configure Nginx 
 
 In this step, you will be shown how to get Nginx logging configured.
 
@@ -93,7 +93,7 @@ Logs in the **combined** format look as follows:
 
 <Step>
 
-## Configure Vector [#3-configure-vector]
+## Configure Vector 
 
 Vector collects, transforms and routes logs, metrics, and traces (referred to as **sources**) to many different vendors (referred to as **sinks**), including out-of-the-box compatibility with ClickHouse.
 Sources and sinks are defined in a configuration file named **vector.toml**.
@@ -129,7 +129,7 @@ SELECT * FROM nginxdb.access_logs
 
 <Step>
 
-## Parse the Logs [#4-parse-the-logs]
+## Parse the Logs 
 
 Having the logs in ClickHouse is great, but storing each event as a single string does not allow for much data analysis.
 We'll next look at how to parse the log events using a [materialized view](/materialized-view/incremental-materialized-view).

@@ -27,7 +27,7 @@ storage configuration for the ClickHouse `MergeTree` family or `Log` family tabl
 3. to work with data in the Hadoop Distributed File System (unsupported), use the [HDFS](/engines/table-engines/integrations/hdfs.md) table engine.
 </Note>
 
-## Configure external storage [#configuring-external-storage]
+## Configure external storage 
 
 [`MergeTree`](/engines/table-engines/mergetree-family/mergetree.md) and [`Log`](/engines/table-engines/log-family/log.md) 
 family table engines can store data to `S3`, `AzureBlobStorage`, `HDFS` (unsupported) using a disk with types `s3`,
@@ -175,7 +175,7 @@ ENGINE = MergeTree() ORDER BY a
 SETTINGS disk = 's3';
 ```
 
-## Dynamic Configuration [#dynamic-configuration]
+## Dynamic Configuration 
 
 There is also a possibility to specify storage configuration without a predefined
 disk in configuration in a configuration file, but can be configured in the 
@@ -306,9 +306,9 @@ where `web` is from the server configuration file:
 </storage_configuration>
 ```
 
-### Using S3 Storage [#s3-storage]
+### Using S3 Storage 
 
-#### Required parameters [#required-parameters-s3]
+#### Required parameters 
 
 | Parameter           | Description                                                                                                                                                                            |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -316,7 +316,7 @@ where `web` is from the server configuration file:
 | `access_key_id`     | S3 access key ID used for authentication.                                                                                                                                              |
 | `secret_access_key` | S3 secret access key used for authentication.                                                                                                                                          |
 
-#### Optional parameters [#optional-parameters-s3]
+#### Optional parameters 
 
 | Parameter                                       | Description                                                                                                                                                                                                                                   | Default Value                            |
 |-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
@@ -351,7 +351,7 @@ where `web` is from the server configuration file:
 Google Cloud Storage (GCS) is also supported using the type `s3`. See [GCS backed MergeTree](/integrations/gcs).
 </Note>
 
-### Using Plain Storage [#plain-storage]
+### Using Plain Storage 
 
 In `22.10` a new disk type `s3_plain` was introduced, which provides a write-once storage.
 Configuration parameters for it are the same as for the `s3` disk type.
@@ -392,7 +392,7 @@ Configuration:
 </s3_plain>
 ```
 
-### Using S3 Plain Rewritable Storage [#s3-plain-rewritable-storage]
+### Using S3 Plain Rewritable Storage 
 
 A new disk type `s3_plain_rewritable` was introduced in `24.4`.
 Similar to the `s3_plain` disk type, it does not require additional storage for 
@@ -432,7 +432,7 @@ is equal to
 Starting from `24.5` it is possible to configure any object storage disk 
 (`s3`, `azure`, `local`) using the `plain_rewritable` metadata type.
 
-### Using Azure Blob Storage [#azure-blob-storage]
+### Using Azure Blob Storage 
 
 `MergeTree` family table engines can store data to [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) 
 using a disk with type `azure_blob_storage`.
@@ -458,7 +458,7 @@ Configuration markup:
 </storage_configuration>
 ```
 
-#### Connection parameters [#azure-blob-storage-connection-parameters]
+#### Connection parameters 
 
 | Parameter                        | Description                                                                                                                                                                                      | Default Value       |
 |----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
@@ -474,7 +474,7 @@ Authentication parameters (the disk will try all available methods **and** Manag
 | `account_name`      | For authentication using Shared Key (used with `account_key`).  |
 | `account_key`       | For authentication using Shared Key (used with `account_name`). |
 
-#### Limit parameters [#azure-blob-storage-limit-parameters]
+#### Limit parameters 
 
 | Parameter                            | Description                                                                 |
 |--------------------------------------|-----------------------------------------------------------------------------|
@@ -485,7 +485,7 @@ Authentication parameters (the disk will try all available methods **and** Manag
 | `thread_pool_size`                   | Maximum number of threads for `IDiskRemote` instantiation.                  |
 | `s3_max_inflight_parts_for_one_file` | Maximum number of concurrent put requests for a single object.              |
 
-#### Other parameters [#azure-blob-storage-other-parameters]
+#### Other parameters 
 
 | Parameter                        | Description                                                                        | Default Value                            |
 |----------------------------------|------------------------------------------------------------------------------------|------------------------------------------|
@@ -501,7 +501,7 @@ Examples of working configurations can be found in integration tests directory (
 Zero-copy replication is disabled by default in ClickHouse version 22.8 and higher.  This feature is not recommended for production use.
 </Note>
 
-## Using HDFS storage (Unsupported) [#using-hdfs-storage-unsupported]
+## Using HDFS storage (Unsupported) 
 
 In this sample configuration:
 - the disk is of type `hdfs` (unsupported)
@@ -541,7 +541,7 @@ By the way, HDFS is unsupported and therefore there might be issues when using i
 
 Keep in mind that HDFS may not work in corner cases.
 
-### Using Data Encryption [#encrypted-virtual-file-system]
+### Using Data Encryption 
 
 You can encrypt the data stored on [S3](/engines/table-engines/mergetree-family/mergetree.md/#table_engine-mergetree-s3), or [HDFS](#using-hdfs-storage-unsupported) (unsupported) external disks, or on a local disk. To turn on the encryption mode, in the configuration file you must define a disk with the type `encrypted` and choose a disk on which the data will be saved. An `encrypted` disk ciphers all written files on the fly, and when you read files from an `encrypted` disk it deciphers them automatically. So you can work with an `encrypted` disk like with a normal one.
 
@@ -566,7 +566,7 @@ For example, when ClickHouse writes data from some table to a file `store/all_1_
 
 When writing the same file to `disk2`, it will actually be written to the physical disk at the path `/path1/path2/store/all_1_1_0/data.bin` in encrypted mode.
 
-### Required Parameters [#required-parameters-encrypted-disk]
+### Required Parameters 
 
 | Parameter  | Type   | Description                                                                                                                                  |
 |------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -574,7 +574,7 @@ When writing the same file to `disk2`, it will actually be written to the physic
 | `disk`     | String | Type of disk to use for underlying storage.                                                                                                  |
 | `key`      | Uint64 | Key for encryption and decryption. Can be specified in hexadecimal using `key_hex`. Multiple keys can be specified using the `id` attribute. |
 
-### Optional Parameters [#optional-parameters-encrypted-disk]
+### Optional Parameters 
 
 | Parameter        | Type   | Default        | Description                                                                                                                             |
 |------------------|--------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
@@ -605,7 +605,7 @@ Example of disk configuration:
 </clickhouse>
 ```
 
-### Using local cache [#using-local-cache]
+### Using local cache 
 
 It is possible to configure local cache over disks in storage configuration starting from version 22.3.
 For versions 22.3 - 22.7 cache is supported only for `s3` disk type. For versions >= 22.8 cache is supported for any disk type: S3, Azure, Local, Encrypted, etc.
@@ -688,7 +688,7 @@ These settings should be defined in the disk configuration section.
 
 > **Note**: Size values support units like `ki`, `Mi`, `Gi`, etc. (e.g., `10Gi`).
 
-## File Cache Query/Profile Settings [#file-cache-query-profile-settings]
+## File Cache Query/Profile Settings 
 
 | Setting                                                       | Type    | Default                 | Description                                                                                                                                                    |
 |---------------------------------------------------------------|---------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -704,20 +704,20 @@ Cache configuration settings and cache query settings correspond to the latest C
 for earlier versions something might not be supported.
 </Warning>
 
-#### Cache system tables [#cache-system-tables-file-cache]
+#### Cache system tables 
 
 | Table Name                    | Description                                         | Requirements                                  |
 |-------------------------------|-----------------------------------------------------|-----------------------------------------------|
 | `system.filesystem_cache`     | Displays the current state of the filesystem cache. | None                                          |
 | `system.filesystem_cache_log` | Provides detailed cache usage statistics per query. | Requires `enable_filesystem_cache_log = true` |
 
-#### Cache commands [#cache-commands-file-cache]
+#### Cache commands 
 
-##### `SYSTEM DROP FILESYSTEM CACHE (<cache_name>) (ON CLUSTER)` -- `ON CLUSTER` [#system-drop-filesystem-cache-on-cluster]
+##### `SYSTEM DROP FILESYSTEM CACHE (<cache_name>) (ON CLUSTER)` -- `ON CLUSTER` 
 
 This command is only supported when no `<cache_name>` is provided
 
-##### `SHOW FILESYSTEM CACHES` [#show-filesystem-caches]
+##### `SHOW FILESYSTEM CACHES` 
 
 Show a list of filesystem caches which were configured on the server. 
 (For versions less than or equal to `22.8` the command is named `SHOW CACHES`)
@@ -732,7 +732,7 @@ SHOW FILESYSTEM CACHES
 └───────────┘
 ```
 
-##### `DESCRIBE FILESYSTEM CACHE '<cache_name>'` [#describe-filesystem-cache]
+##### `DESCRIBE FILESYSTEM CACHE '<cache_name>'` 
 
 Show cache configuration and some general statistics for a specific cache. 
 Cache name can be taken from `SHOW FILESYSTEM CACHES` command. (For versions less
@@ -755,7 +755,7 @@ DESCRIBE FILESYSTEM CACHE 's3_cache'
 |                           |                            | `CachedReadBufferCacheWriteBytes`, `CachedReadBufferCacheWriteMicroseconds`               |
 |                           |                            | `CachedWriteBufferCacheWriteBytes`, `CachedWriteBufferCacheWriteMicroseconds`             |
 
-### Using static Web storage (read-only) [#web-storage]
+### Using static Web storage (read-only) 
 
 This is a read-only disk. Its data is only read and never modified. A new table 
 is loaded to this disk via `ATTACH TABLE` query (see example below). Local disk 
@@ -1022,14 +1022,14 @@ SAMPLE BY intHash32(UserID)
 SETTINGS storage_policy='web';
 ```
 
-#### Required parameters [#static-web-storage-required-parameters]
+#### Required parameters 
 
 | Parameter  | Description                                                                                                       |
 |------------|-------------------------------------------------------------------------------------------------------------------|
 | `type`     | `web`. Otherwise the disk is not created.                                                                         |
 | `endpoint` | The endpoint URL in `path` format. Endpoint URL must contain a root path to store data, where they were uploaded. |
 
-#### Optional parameters [#optional-parameters-web]
+#### Optional parameters 
 
 | Parameter                           | Description                                                                  | Default Value   |
 |-------------------------------------|------------------------------------------------------------------------------|-----------------|
@@ -1048,7 +1048,7 @@ If URL is not reachable on disk load when the server is starting up tables, then
 
 Use [http_max_single_read_retries](/operations/storing-data#web-storage) setting to limit the maximum number of retries during a single HTTP read.
 
-### Zero-copy Replication (not ready for production) [#zero-copy]
+### Zero-copy Replication (not ready for production) 
 
 Zero-copy replication is possible, but not recommended, with  `S3` and `HDFS` (unsupported) disks. Zero-copy replication means that if the data is stored remotely on several machines and needs to be synchronized, then only the metadata is replicated (paths to the data parts), but not the data itself.
 

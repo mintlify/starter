@@ -6,13 +6,13 @@ keywords: ['update', 'updating data']
 doc_type: 'guide'
 ---
 
-## Differences between updating data in ClickHouse and OLTP databases [#differences-between-updating-data-in-clickhouse-and-oltp-databases]
+## Differences between updating data in ClickHouse and OLTP databases
 
 When it comes to handling updates, ClickHouse and OLTP databases diverge significantly due to their underlying design philosophies and target use cases. For example, PostgreSQL, a row-oriented, ACID-compliant relational database, supports robust and transactional update and delete operations, ensuring data consistency and integrity through mechanisms like Multi-Version Concurrency Control (MVCC). This allows for safe and reliable modifications even in high-concurrency environments.
 
 Conversely, ClickHouse is a column-oriented database optimized for read-heavy analytics and high throughput append-only operations. While it does natively support in-place updates and delete, they must be used carefully to avoid high I/O. Alternatively, tables can be restructured to convert delete and update into appended operations where they are processed asynchronously and/or at read time, thus reflecting the focus on high-throughput data ingestion and efficient query performance over real-time data manipulation.
 
-## Methods to update data in ClickHouse [#methods-to-update-data-in-clickhouse]
+## Methods to update data in ClickHouse
 
 There are several ways to update data in ClickHouse, each with its own advantages and performance characteristics. You should select the appropriate method based on your data model and the amount of data you intend to update.
 
@@ -27,7 +27,7 @@ In summary, update operations should be issued carefully, and the mutations queu
 | [ReplacingMergeTree](/engines/table-engines/mergetree-family/replacingmergetree)   | `ENGINE = ReplacingMergeTree`        | Use when updating large amounts of data. This table engine is optimized for data deduplication on merges.                                                                                                                                |
 | [CollapsingMergeTree](/engines/table-engines/mergetree-family/collapsingmergetree) | `ENGINE = CollapsingMergeTree(Sign)` | Use when updating individual rows frequently, or for scenarios where you need to maintain the latest state of objects that change over time. For example, tracking user activity or article stats.                                       |
 
-## Update mutations [#update-mutations]
+## Update mutations
 
 Update mutations can be issued through a `ALTER TABLE ... UPDATE` command e.g.
 
@@ -39,7 +39,7 @@ These are extremely IO-heavy, rewriting all the parts that match the `WHERE` exp
 
 Read more about [update mutations](/sql-reference/statements/alter/update).
 
-## Lightweight updates [#lightweight-updates]
+## Lightweight updates
 
 Lightweight updates are a ClickHouse feature that updates rows using "patch parts" - special data parts containing only the updated columns and rows, rather than rewriting entire columns like traditional mutations. The Lightweight UPDATE
 Key characteristics:
@@ -51,7 +51,7 @@ Key characteristics:
 
 For more details see ["The Lightweight UPDATE Statement"](/sql-reference/statements/update)
 
-## On-the-fly Updates [#on-the-fly-updates]
+## On-the-fly Updates
 
 On-the-fly updates provide a mechanism to update rows such that they are updated immediately, and subsequent `SELECT` queries will automatically return with the changed values (this incurs an overhead and will slow queries). This effectively addresses the atomicity limitation of normal mutations. We show an example below:
 
@@ -88,7 +88,7 @@ Note that for on-the-fly updates, a mutation is still used to update the data; i
 
 Read more about [on-the-fly updates](/guides/developer/on-the-fly-mutations).
 
-## `CollapsingMergeTree` [#collapsing-merge-tree]
+## `CollapsingMergeTree`
 
 Stemming from the idea that updates are expensive but inserts can be leveraged to perform updates,
 the [`CollapsingMergeTree`](/engines/table-engines/mergetree-family/collapsingmergetree) table engine
@@ -135,6 +135,6 @@ for [`CollapsingMergeTree`](/engines/table-engines/mergetree-family/collapsingme
 for a more comprehensive overview.
 </Note>
 
-## More resources [#more-resources]
+## More resources
 
 - [Handling Updates and Deletes in ClickHouse](https://clickhouse.com/blog/handling-updates-and-deletes-in-clickhouse)

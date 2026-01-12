@@ -21,7 +21,7 @@ The example queries below were executed on a **Production** instance of ClickHou
 ["Playground specifications"](/getting-started/playground#specifications).
 </Note>
 
-## Create the table trips [#create-the-table-trips]
+## Create the table trips 
 
 Start by creating a table for the taxi rides:
 
@@ -52,7 +52,7 @@ ENGINE = MergeTree
 PRIMARY KEY (pickup_datetime, dropoff_datetime);
 ```
 
-## Load the data directly from object storage [#load-the-data-directly-from-object-storage]
+## Load the data directly from object storage 
 
 Users' can grab a small subset of the data (3 million rows) for getting familiar with it. The data is in TSV files in object storage, which is easily streamed into
 ClickHouse Cloud using the `s3` table function. 
@@ -123,7 +123,7 @@ FROM gcs(
 </Tab>
 </Tabs>
 
-## Sample queries [#sample-queries]
+## Sample queries 
 
 The following queries are executed on the sample described above. Users can run the sample queries on the full dataset in [sql.clickhouse.com](https://sql.clickhouse.com/?query=U0VMRUNUIGNvdW50KCkgRlJPTSBueWNfdGF4aS50cmlwcw&chart=eyJ0eXBlIjoibGluZSIsImNvbmZpZyI6eyJ0aXRsZSI6IlRlbXBlcmF0dXJlIGJ5IGNvdW50cnkgYW5kIHllYXIiLCJ4YXhpcyI6InllYXIiLCJ5YXhpcyI6ImNvdW50KCkiLCJzZXJpZXMiOiJDQVNUKHBhc3Nlbmdlcl9jb3VudCwgJ1N0cmluZycpIn19), modifying the queries below to use the table `nyc_taxi.trips`.
 
@@ -179,7 +179,7 @@ GROUP BY passenger_count
 ORDER BY passenger_count ASC
 ```
 
-## Download of prepared partitions [#download-of-prepared-partitions]
+## Download of prepared partitions 
 
 <Note>
 The following steps provide information about the original dataset, and a method for loading prepared partitions into a self-managed ClickHouse server environment.
@@ -205,7 +205,7 @@ $ clickhouse-client --query "select count(*) from datasets.trips_mergetree"
 If you will run the queries described below, you have to use the full table name, `datasets.trips_mergetree`.
 </Note>
 
-## Results on single server [#results-on-single-server]
+## Results on single server 
 
 Q1:
 
@@ -289,7 +289,7 @@ Q4: 0.072 sec.
 In this case, the query processing time is determined above all by network latency.
 We ran queries using a client located in a different datacenter than where the cluster was located, which added about 20 ms of latency.
 
-## Summary [#summary]
+## Summary 
 
 | servers | Q1    | Q2    | Q3    | Q4    |
 |---------|-------|-------|-------|-------|

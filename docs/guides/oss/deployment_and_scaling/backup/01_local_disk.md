@@ -9,13 +9,13 @@ doc_type: 'guide'
 import Syntax from '/snippets/_syntax.mdx';
 import ExampleSetup from '/snippets/_example_setup.mdx';
 
-## Syntax [#syntax]
+## Syntax 
 
 <Syntax />
 
-## Configure backup destinations for disk [#configure-backup-destinations-for-disk]
+## Configure backup destinations for disk 
 
-### Configure a backup destination for local disk [#configure-a-backup-destination]
+### Configure a backup destination for local disk 
 
 In the examples below you will see the backup destination specified as `Disk('backups', '1.zip')`.  
 To use the `Disk` backup engine it is necessary to first add a file specifying 
@@ -48,7 +48,7 @@ the **allowed_disk** list of **backups**:
 </clickhouse>
 ```
 
-### Configure a backup destination for S3 disk [#backuprestore-using-an-s3-disk]
+### Configure a backup destination for S3 disk 
 
 It is also possible to `BACKUP`/`RESTORE` to S3 by configuring an S3 disk in the
 ClickHouse storage configuration. Configure the disk like this by adding a file to
@@ -97,9 +97,9 @@ it downloads and uploads them, which is very inefficient. In this case prefer us
 the `BACKUP ... TO S3(<endpoint>)` syntax for this use-case.
 </Note>
 
-## Usage examples of backup/restore to local disk [#usage-examples]
+## Usage examples of backup/restore to local disk 
 
-### Backup and restore a table [#backup-and-restore-a-table]
+### Backup and restore a table 
 
 <ExampleSetup />
 
@@ -159,7 +159,7 @@ The backup archive for this backup has the following structure:
 Formats other than zip can be used. See ["Backups as tar archives"](#backups-as-tar-archives)
 below for further details.
 
-### Incremental backups to disk [#incremental-backups]
+### Incremental backups to disk 
 
 A base backup in ClickHouse is the initial, full backup from which the following 
 incremental backups are created. Incremental backups only store the changes 
@@ -191,7 +191,7 @@ RESTORE TABLE test_db.test_table AS test_db.test_table2
 FROM Disk('backups', 'incremental-a.zip');
 ```
 
-### Securing a backup [#assign-a-password-to-the-backup]
+### Securing a backup 
 
 Backups written to disk can have a password applied to the file.
 The password can be specified using the `password` setting:
@@ -211,7 +211,7 @@ FROM Disk('backups', 'password-protected.zip')
 SETTINGS password='qwerty'
 ```
 
-### Backups as tar archives [#backups-as-tar-archives]
+### Backups as tar archives 
 
 Backups can be stored not only as zip archives, but also as tar archives. 
 The functionality is the same as for zip, except that password protection is not 
@@ -246,7 +246,7 @@ The supported compression file suffixes are:
 - `.tzst`
 - `.tar.xz`
 
-### Compression settings [#compression-settings]
+### Compression settings 
 
 The compression method and level of compression can be specified using
 setting `compression_method` and `compression_level` respectively.
@@ -257,7 +257,7 @@ TO Disk('backups', 'filename.zip')
 SETTINGS compression_method='lzma', compression_level=3
 ```
 
-### Restore specific partitions [#restore-specific-partitions]
+### Restore specific partitions 
 
 If specific partitions associated with a table need to be restored, these can be specified.
 

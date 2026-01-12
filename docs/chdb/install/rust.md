@@ -9,9 +9,9 @@ doc_type: 'guide'
 
 chDB-rust provides experimental FFI (Foreign Function Interface) bindings for chDB, enabling you to run ClickHouse queries directly in your Rust applications with zero external dependencies.
 
-## Installation [#installation]
+## Installation 
 
-### Install libchdb [#install-libchdb]
+### Install libchdb 
 
 Install the chDB library:
 
@@ -19,11 +19,11 @@ Install the chDB library:
 curl -sL https://lib.chdb.io | bash
 ```
 
-## Usage [#usage]
+## Usage 
 
 chDB Rust provides both stateless and stateful query execution modes.
 
-### Stateless usage [#stateless-usage]
+### Stateless usage 
 
 For simple queries without persistent state:
 
@@ -49,7 +49,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-### Stateful usage (Sessions) [#stateful-usage-sessions]
+### Stateful usage (Sessions) 
 
 For queries requiring persistent state like databases and tables:
 
@@ -107,28 +107,28 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-## Building and testing [#building-testing]
+## Building and testing 
 
-### Build the project [#build-the-project]
+### Build the project 
 
 ```bash
 cargo build
 ```
 
-### Run tests [#run-tests]
+### Run tests 
 
 ```bash
 cargo test
 ```
 
-### Development dependencies [#development-dependencies]
+### Development dependencies 
 
 The project includes these development dependencies:
 - `bindgen` (v0.70.1) - Generate FFI bindings from C headers
 - `tempdir` (v0.3.7) - Temporary directory handling in tests
 - `thiserror` (v1) - Error handling utilities
 
-## Error handling [#error-handling]
+## Error handling 
 
 chDB Rust provides comprehensive error handling through the `Error` enum:
 
@@ -154,6 +154,6 @@ match execute("SELECT 1", None) {
 }
 ```
 
-## GitHub repository [#github-repository]
+## GitHub repository 
 
 You can find the GitHub repository for the project at [chdb-io/chdb-rust](https://github.com/chdb-io/chdb-rust).

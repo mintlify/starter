@@ -8,7 +8,7 @@ keywords: ['AWS PrivateLink', 'Private RDS', 'ClickPipes']
 
 
 
-## AWS PrivateLink setup to expose private RDS for ClickPipes [#aws-privatelink-setup-to-expose-private-rds-for-clickpipes]
+## AWS PrivateLink setup to expose private RDS for ClickPipes
 
 Setup steps to expose a private RDS via AWS PrivateLink to ClickPipes, also supporting cross-region access.
 
@@ -18,7 +18,7 @@ This uses AWS Endpoint Service and is mainly suitable for Cross-Region Access. I
 recommended instead.
 :::
 
-## Private link creation [#private-link-creation]
+## Private link creation
 
 Follow these steps to create a **VPC endpoint service** for your RDS instance. Repeat these steps if you have multiple
 RDS instances that require endpoint services (OR you may have different listener ports for different instances):
@@ -68,17 +68,17 @@ RDS instances that require endpoint services (OR you may have different listener
      avoids the DNS host name lookup and so it never blocks the NLB hosts. If using RDS, this will require an instance
      reboot.
 
-## Initiating connection [#initiating-connection]
+## Initiating connection
 
 When it's done you can follow the guide to [initiate the connection](/integrations/clickpipes/aws-privatelink#creating-clickpipe)
 
 Once the status shows `Ready` on console, you can follow the next section to create your ClickPipe.
 
-## Creating ClickPipes [#creating-clickpipes]
+## Creating ClickPipes
 
 Use the DNS name you got from the previous step to [create your ClickPipe](/integrations/clickpipes/postgres).
 
-## Dynamically updating the RDS endpoint IP [#dynamically-updating-the-rds-endpoint-ip]
+## Dynamically updating the RDS endpoint IP
 
 When the RDS endpoint IP changes (in case of restarts/failovers/updates), you need to update the NLB target group with
 the new IP. You can automate this process using AWS Lambda functions or other automation tools.

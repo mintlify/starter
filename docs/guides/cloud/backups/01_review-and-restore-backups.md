@@ -13,13 +13,13 @@ import {ScalePlanFeatureBadge} from '/snippets/components/ScalePlanFeatureBadge/
 
 This guide covers how backups work in ClickHouse Cloud, what options you have to configure backups for your service, and how to restore from a backup.
 
-## Backup status list [#backup-status-list]
+## Backup status list 
 
 Your service will be backed up based on the set schedule, whether it is the default daily schedule or a [custom schedule](/cloud/manage/backups/configurable-backups) picked by you. All available backups can be viewed from the **Backups** tab of the service. From here, you can see the status of the backup, the duration, as well as the size of the backup. You can also restore a specific backup using the **Actions** column.
 
 <img src="/images/cloud/manage/backup-status-list.png" alt="List of backup statuses in ClickHouse Cloud"/>
 
-## Understanding backup cost [#understanding-backup-cost]
+## Understanding backup cost 
 
 Per the default policy, ClickHouse Cloud mandates a backup every day, with a 24 hour retention.  Choosing a schedule that requires retaining more data, or causes more frequent backups can cause additional storage charges for backups.
 
@@ -37,7 +37,7 @@ Estimating the total cost for your backups requires you to set a schedule. We ar
 Keep in mind that the estimated cost for backups will change as the size of the data in the service grows over time.
 </Note>
 
-## Restore a backup [#restore-a-backup]
+## Restore a backup 
 
 Backups are restored to a new ClickHouse Cloud service, not to the existing service from which the backup was taken.
 
@@ -49,7 +49,7 @@ The new service will show in the services list as `Provisioning` until it is rea
 
 <img src="/images/cloud/manage/backup-service-provisioning.png" alt="Provisioning service in progress"/>
 
-## Working with your restored service [#working-with-your-restored-service]
+## Working with your restored service 
 
 After a backup has been restored, you will now have two similar services: the **original service** that needed to be restored, and a new **restored service** that has been restored from a backup of the original.
 
@@ -57,7 +57,7 @@ Once the backup restore is complete, you should do one of the following:
 - Use the new restored service and remove the original service.
 - Migrate data from the new restored service back to the original service and remove the new restored service.
 
-### Use the **new restored service** [#use-the-new-restored-service]
+### Use the **new restored service** 
 
 To use the new service, perform these steps:
 
@@ -65,7 +65,7 @@ To use the new service, perform these steps:
 1. Verify that the new service contains the data that you need.
 1. Remove the original service.
 
-### Migrate data from the **newly restored service** back to the **original service** [#migrate-data-from-the-newly-restored-service-back-to-the-original-service]
+### Migrate data from the **newly restored service** back to the **original service** 
 
 Suppose you cannot work with the newly restored service for some reason, for example, if you still have users or applications that connect to the existing service. You may decide to migrate the newly restored data into the original service. The migration can be accomplished by following these steps:
 
@@ -128,7 +128,7 @@ Use the `remoteSecure` function to pull the data from the newly restored ClickHo
 
 After you have successfully inserted the data into your original service, make sure to verify the data in the service. You should also delete the new  service once the data is verified.
 
-## Undeleting or undropping tables [#undeleting-or-undropping-tables]
+## Undeleting or undropping tables 
 
 The `UNDROP` command is supported in ClickHouse Cloud through [Shared Catalog](https://clickhouse.com/docs/cloud/reference/shared-catalog).
 
@@ -148,10 +148,10 @@ SYNC SETTINGS max_table_size_to_drop=2000000000000 -- increases the limit to 2TB
 Legacy Plans: For customers on legacy plans, default daily backups retained for 24 hours, are included in the storage cost.
 </Note>
 
-## Configurable backups [#configurable-backups]
+## Configurable backups 
 
 If you want to set up a backups schedule different from the default backup schedule, take a look at [Configurable Backups](/cloud/manage/backups/configurable-backups).
 
-## Export backups to your own cloud account [#export-backups-to-your-own-cloud-account]
+## Export backups to your own cloud account 
 
 For users wanting to export backups to their own cloud account, see [here](/cloud/manage/backups/export-backups-to-own-cloud-account).

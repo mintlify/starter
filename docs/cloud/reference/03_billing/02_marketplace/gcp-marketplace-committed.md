@@ -8,11 +8,11 @@ doc_type: 'guide'
 
 Get started with ClickHouse Cloud on the [GCP Marketplace](https://console.cloud.google.com/marketplace) via a committed contract. A committed contract, also known as a a Private Offer, allows customers to commit to spending a certain amount on ClickHouse Cloud over a period of time.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 - A Private Offer from ClickHouse based on specific contract terms.
 
-## Steps to sign up [#steps-to-sign-up]
+## Steps to sign up 
 
 1. You should have received an email with a link to review and accept your private offer.
 

@@ -9,7 +9,7 @@ keywords: ['OOM', 'memory limit exceeded']
 
 
 
-## Memory limit exceeded for query [#troubleshooting-out-of-memory-issues]
+## Memory limit exceeded for query
 
 As a new user, ClickHouse can often seem like magic - every query is super fast,
 even on the largest datasets and most ambitious queries. Invariably though,
@@ -22,7 +22,7 @@ remain responsive. We appreciate, however, that in self-managed scenarios,
 this is sometimes not trivial, and maybe optimal performance is not even required.
 Users, in this case, have a few options.
 
-### Aggregations [#aggregations]
+### Aggregations
 
 For memory-intensive aggregations or sorting scenarios, users can use the settings
 [`max_bytes_before_external_group_by`](/operations/settings/settings#max_bytes_before_external_group_by)
@@ -40,7 +40,7 @@ sorting can be allowed to spill over to disk. This setting is also helpful for
 cases where the user has an `ORDER BY` after a `GROUP BY` with a `LIMIT`,
 especially in cases where the query is distributed.
 
-### Joins [#joins]
+### Joins
 
 For joins, users can select different `JOIN` algorithms, which can assist in
 lowering the required memory. By default, joins use the hash join, which offers

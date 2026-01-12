@@ -13,13 +13,13 @@ This is the web version of our [VLDB 2024 scientific paper](https://www.vldb.org
     <iframe src="https://www.youtube.com/embed/7QXKBKDOkJE?si=5uFerjqPSXQWqDkF" width="100%" height="400" frameBorder="0" webkitallowfullscreen mozallowfullscreen allowFullScreen />
 </Frame>
 
-## ABSTRACT [#abstract]
+## ABSTRACT
 
 Over the past several decades, the amount of data being stored and analyzed has increased exponentially. Businesses across industries and sectors have begun relying on this data to improve products, evaluate performance, and make business-critical decisions. However, as data volumes have increasingly become internetscale, businesses have needed to manage historical and new data in a cost-effective and scalable manner, while analyzing it using a high number of concurrent queries and an expectation of real-time latencies (e.g. less than one second, depending on the use case).
 
 This paper presents an overview of ClickHouse, a popular opensource OLAP database designed for high-performance analytics over petabyte-scale data sets with high ingestion rates. Its storage layer combines a data format based on traditional log-structured merge (LSM) trees with novel techniques for continuous transformation (e.g. aggregation, archiving) of historical data in the background. Queries are written in a convenient SQL dialect and processed by a state-of-the-art vectorized query execution engine with optional code compilation. ClickHouse makes aggressive use of pruning techniques to avoid evaluating irrelevant data in queries. Other data management systems can be integrated at the table function, table engine, or database engine level. Real-world benchmarks demonstrate that ClickHouse is amongst the fastest analytical databases on the market.
 
-## 1 INTRODUCTION  [#1-introduction]
+## 1 INTRODUCTION
 
 This paper describes ClickHouse, a columnar OLAP database designed for high-performance analytical queries on tables with trillions of rows and hundreds of columns. ClickHouse was [started](https://clickhou.se/evolution) in 2009 as a filter and aggregation operator for web-scale log file data and was open sourced in 2016. [Figure 1](#page-1-0) illustrates when major features described in this paper were introduced to ClickHouse.
 
@@ -37,7 +37,7 @@ ClickHouse is designed to address five key challenges of modern analytical data 
 
 <Anchor id="page-1-0"/><Frame background="subtle" caption="Figure 1: ClickHouse timeline."><img src="/images/managing-data/core-concepts/_vldb2024_1_Figure_0.png" alt="Image 01"/></Frame>
 
-## 2 ARCHITECTURE [#2-architecture]
+## 2 ARCHITECTURE
 
 <Anchor id="page-2-0"/><Frame background="subtle" caption="Figure 2: The high-level architecture of the ClickHouse database engine."><img src="/images/managing-data/core-concepts/_vldb2024_2_Figure_0.png" alt="Image 02"/></Frame>
 
@@ -55,11 +55,11 @@ ClickHouse supports sharding and replication of tables across multiple cluster n
 
 Finally, the ClickHouse database engine can be operated in on-premise, cloud, standalone, or in-process modes. In the on-premise mode, users set up ClickHouse locally as a single server or multinode cluster with sharding and/or replication. Clients communicate with the database over the native, MySQL's, PostgreSQL's binary wire protocols, or an HTTP REST API. The cloud mode is represented by ClickHouse Cloud, a fully managed and autoscaling DBaaS offering. While this paper focuses on the on-premise mode, we plan to describe the architecture of ClickHouse Cloud in a follow-up publication. The [standalone mode](https://clickhou.se/local-fastest-tool) turns ClickHouse into a command line utility for analyzing and transforming files, making it a SQL-based alternative to Unix tools like cat and grep. While this requires no prior configuration, the standalone mode is restricted to a single server. Recently, an in-process mode called chDB <sub>[15](#page-12-3)</sub> has been developed for interactive data analysis use cases like Jupyter notebooks <sub>[37](#page-12-4)</sub> with Pandas dataframes <sub>[61](#page-13-5)</sub>. Inspired by DuckDB <sub>[67](#page-13-6)</sub>, [chDB](https://clickhou.se/chdb-rocket-engine) embeds ClickHouse as a high-performance OLAP engine into a host process. Compared to the other modes, this allows to pass source and result data between the database engine and the application efficiently without copying as they run in the same address space.
 
-## <Anchor id="page-1-1"/>3 STORAGE LAYER [#3-storage-layer]
+## <Anchor id="page-1-1"/>3 STORAGE LAYER
 
 This section discusses MergeTree* table engines as ClickHouse's native storage format. We describe their on-disk representation and discuss three data pruning techniques in ClickHouse. Afterwards, we present merge strategies which continuously transform data without impacting simultaneous inserts. Finally, we explain how updates and deletes are implemented, as well as data deduplication, data replication, and ACID compliance.
 
-### <Anchor id="page-2-2"/>3.1 On-Disk Format [#3-1-on-disk-format]
+### <Anchor id="page-2-2"/>3.1 On-Disk Format
 
 Each table in the MergeTree* table engine is organized as a collection of immutable table parts. A part is created whenever a set of rows is inserted into the table. Parts are self-contained in the sense that they include all metadata required to interpret their content without additional lookups to a central catalog. To keep the number of parts per table low, a background merge job periodically combines multiple smaller parts into a larger part until a configurable part size is reached (150 GB by default). Since parts are sorted by the table's primary key columns (see Section [3.2)](#page-3-0), efficient k-way merge sort <sub>[40](#page-12-5)</sub> is used for merging. The source parts are marked as inactive and eventually deleted as soon as their reference count drops to zero, i.e. no further queries read from them.
 
@@ -77,7 +77,7 @@ Columns can further be dictionary-encoded [\[<sub>2</sub>](#page-12-10) [<sub>77
 
 Finally, tables can be range, hash, or round-robin partitioned using arbitrary partitioning expressions. To enable partition pruning, ClickHouse additionally stores the partitioning expression's minimum and maximum values for each partition. Users can optionally create more advanced column statistics (e.g., HyperLogLog <sub>[30](#page-12-11)</sub> or t-digest <sub>[28](#page-12-12)</sub> statistics) that also provide cardinality estimates.
 
-### <Anchor id="page-3-0"/>3.2 Data Pruning [#3-2-data-pruning]
+### <Anchor id="page-3-0"/>3.2 Data Pruning
 
 In most use cases, scanning petabytes of data just to answer a single query is too slow and expensive. ClickHouse supports three data pruning techniques that allow skipping the majority of rows during searches and therefore speed up queries significantly.
 
@@ -91,7 +91,7 @@ Second, users can create **table projections**, i.e., alternative versions of a 
 
 Third, **skipping indices** provide a lightweight alternative to projections. The idea of skipping indices is to store small amounts of metadata at the level of multiple consecutive granules which allows to avoid scanning irrelevant rows. Skipping indices can be created for arbitrary index expressions and using a configurable granularity, i.e. number of granules in a skipping index block. Available skipping index types include: 1. Min-max indices <sub>[51](#page-13-14)</sub>, storing the minimum and maximum values of the index expression for each index block. This index type works well for locally clustered data with small absolute ranges, e.g. loosely sorted data. 2. Set indices, storing a configurable number of unique index block values. These indexes are best used with data with a small local cardinality, i.e. "clumped together" values. 3. Bloom filter indices <sub>[9](#page-12-14)</sub> build for row, token, or n-gram values with a configurable false positive rate. These indices support text search <sub>[73](#page-13-15)</sub>, but unlike min-max and set indices, they cannot be used for range or negative predicates.
 
-### <Anchor id="page-4-3"/>3.3 Merge-time Data Transformation [#3-3-merge-time-data-transformation]
+### <Anchor id="page-4-3"/>3.3 Merge-time Data Transformation
 
 Business intelligence and observability use cases often need to handle data generated at constantly high rates or in bursts. Also, recently generated data is typically more relevant for meaningful real-time insights than historical data. Such use cases require databases to sustain high data ingestion rates while continuously reducing the volume of historical data through techniques like aggregation or data aging. ClickHouse allows a continuous incremental transformation of existing data using different merge strategies. Merge-time data transformation does not compromise the performance of INSERT statements, but it cannot guarantee that tables never contain unwanted (e.g. outdated or non-aggregated) values. If necessary, all merge-time transformations can be applied at query time by specifying the keyword FINAL in SELECT statements.
 
@@ -114,7 +114,7 @@ As an example, consider the logging table definition in [Listing 1.](#page-4-2) 
 ```
 Listing 1: Move part to object storage after one week.
 
-### <Anchor id="page-4-0"/>3.4 Updates and Deletes [#3-4-updates-and-deletes]
+### <Anchor id="page-4-0"/>3.4 Updates and Deletes
 
 The design of the MergeTree* table engines favors append-only workloads, yet some use cases require to modify existing data occasionally, e.g. for regulatory compliance. Two approaches for updating or deleting data exist, neither of which block parallel inserts.
 
@@ -124,13 +124,13 @@ As an alternative, **lightweight deletes** only update an internal bitmap column
 
 Update and delete operations performed on the same table are expected to be rare and serialized to avoid logical conflicts.
 
-### <Anchor id="page-5-2"/>3.5 Idempotent Inserts [#3-5-idempotent-inserts]
+### <Anchor id="page-5-2"/>3.5 Idempotent Inserts
 
 A problem that frequently occurs in practice is how clients should handle connection timeouts after sending data to the server for insertion into a table. In this situation, it is difficult for clients to distinguish between whether the data was successfully inserted or not. The problem is traditionally solved by re-sending the data from the client to the server and relying on primary key or unique constraints to reject duplicate inserts. Databases perform the required point lookups quickly using index structures based on binary trees [\[<sub>39</sub>](#page-12-15) [68\]](#page-13-16), radix trees <sub>[45](#page-13-17)</sub>, or hash tables <sub>[29](#page-12-16)</sub>. Since these data structures index every tuple, their space and update overhead becomes prohibitive for large data sets and high ingest rates.
 
 ClickHouse provides a more light-weight alternative based on the fact that each insert eventually creates a part. More specifically, the server maintains hashes of the N last inserted parts (e.g. N=100) and ignores re-inserts of parts with a known hash. Hashes for non-replicated and replicated tables are stored locally, respectively, in Keeper. As a result, inserts become idempotent, i.e. clients can simply re-send the same batch of rows after a timeout and assume that the server takes care of deduplication. For more control over the deduplication process, clients can optionally provide an insert token that acts as a part hash. While hash-based deduplication incurs an overhead associated with hashing the new rows, the cost of storing and comparing hashes is negligible.
 
-### <Anchor id="page-5-0"/>3.6 Data Replication [#3-6-data-replication]
+### <Anchor id="page-5-0"/>3.6 Data Replication
 
 Replication is a prerequisite for high availability (tolerance against node failures), but also used for load balancing and zero-downtime upgrades <sub>[14](#page-12-17)</sub>. In ClickHouse, replication is based on the notion of table states which consist of a set of table parts (Section [3.1)](#page-2-2) and table metadata, such as column names and types. Nodes advance the state of a table using three operations: 1. Inserts add a new part to the state, 2. merges add a new part and delete existing parts to/from the state, 3. mutations and DDL statements add parts, and/or delete parts, and/or change table metadata, depending on the concrete operation. Operations are performed locally on a single node and recorded as a sequence of state transition in a global replication log.
 
@@ -142,13 +142,13 @@ As an example, [Figure 6](#page-5-3) shows an initially empty replicated table i
 
 Three optimizations to speed up synchronization exist: First, new nodes added to the cluster do replay the replication log from scratch, instead they simply copy the state of the node which wrote the last replication log entry. Second, merges are replayed by repeating them locally or by fetching the result part from another node. The exact behavior is configurable and allows to balance CPU consumption and network I/O. For example, cross-data-center replication typically prefers local merges to minimize operating costs. Third, nodes replay mutually independent replication log entries in parallel. This includes, for example, fetches of new parts inserted consecutively into the same table, or operations on different tables.
 
-### <Anchor id="page-5-1"/>3.7 ACID Compliance [#3-7-acid-compliance]
+### <Anchor id="page-5-1"/>3.7 ACID Compliance
 
 To maximize the performance of concurrent read and write operations, ClickHouse avoids latching as much as possible. Queries are executed against a snapshot of all parts in all involved tables created at the beginning of the query. This ensures that new parts inserted by parallel INSERTs or merges (Section [3.1)](#page-2-2) do not participate in execution. To prevent parts from being modified or removed simultaneously (Section [3.4)](#page-4-0), the reference count of the processed parts is incremented for the duration of the query. Formally, this corresponds to snapshot isolation realized by an MVCC variant <sub>[6](#page-12-18)</sub> based on versioned parts. As a result, statements are generally not ACID-compliant except for the rare case that concurrent writes at the time the snapshot is taken each affect only a single part.
 
 In practice, most of ClickHouse's write-heavy decision making use cases even tolerate a small risk of losing new data in case of a power outage. The database takes advantage of this by not forcing a commit (fsync) of newly inserted parts to disk by default, allowing the kernel to batch writes at the cost of forgoing atomicity.
 
-## <Anchor id="page-6-0"/>4 QUERY PROCESSING LAYER [#4-query-processing-layer]
+## <Anchor id="page-6-0"/>4 QUERY PROCESSING LAYER
 
 <Anchor id="page-6-1"/><Frame background="subtle" caption="Figure 7: Parallelization across SIMD units, cores and nodes."><img src="/images/managing-data/core-concepts/_vldb2024_6_Figure_0.png" alt="Image 07"/></Frame>
 
@@ -156,11 +156,11 @@ As illustrated by [Figure 7,](#page-6-1) ClickHouse parallelizes queries at the 
 
 The rest of this section first describes parallel processing at data element, data chunk, and shard granularity in more detail. We then present selected key optimizations to maximize query performance. Finally, we discuss how ClickHouse manages shared system resources in the presence of simultaneous queries.
 
-### 4.1 SIMD Parallelization [#4-1-simd-parallelization]
+### 4.1 SIMD Parallelization
 
 Passing multiple rows between operators creates an opportunity for vectorization. Vectorization is either based on manually written intrinsics <sub>[64](#page-13-18), </sub><sub>[80](#page-13-19)</sub> or compiler auto-vectorization <sub>[25](#page-12-19)</sub>. Code that benefits from vectorization is compiled into different compute kernels. For example, the inner hot loop of a query operator can be implemented in terms of a non-vectorized kernel, an auto-vectorized AVX2 kernel, and a manually vectorized AVX-512 kernel. The fastest kernel is [chosen at runtime](https://clickhou.se/cpu-dispatch) based on the cpuid instruction. This approach allows ClickHouse to run on systems as old as 15 years (requiring SSE 4.2 as a minimum), while still providing significant speedups on recent hardware.
 
-### 4.2 Multi-Core Parallelization [#4-2-multi-core-parallelization]
+### 4.2 Multi-Core Parallelization
 
 <Anchor id="page-7-1"/><Frame background="subtle" caption="Figure 8: A physical operator plan with three lanes."><img src="/images/managing-data/core-concepts/_vldb2024_7_Figure_1.png" alt="Image 08"/></Frame>
 
@@ -176,13 +176,13 @@ Operators can further affect query execution at runtime in two ways. First, oper
 
 ClickHouse's query execution engine and morsel-driven parallelism <sub>[44](#page-12-20)</sub> are similar in that lanes are normally executed on different cores / NUMA sockets and that worker threads can steal tasks from other lanes. Also, there is no central scheduling component; instead, worker threads select their tasks individually by continuously traversing the operator plan. Unlike morsel-driven parallelism, ClickHouse bakes the maximum degree of parallelism into the plan and uses much bigger ranges to partition the source table compared to default morsel sizes of ca. 100.000 rows. While this may in some cases cause stalls (e.g. when the runtime of filter operators in different lanes differ vastly) we find that liberal use of exchange operators such as Repartition at least avoids such imbalances from accumulating across stages.
 
-### 4.3 Multi-Node Parallelization [#4-3-multi-node-parallelization]
+### 4.3 Multi-Node Parallelization
 
 If the source table of a query is sharded, the query optimizer on the node that received the query (initiator node) tries to perform as much work as possible on other nodes. Results from other nodes can be integrated into different points of the query plan. Depending on the query, remote nodes may either 1. stream raw source table columns to the initiator node, 2. filter the source columns and send the surviving rows, 3. execute filter and aggregation steps and send local result groups with partial aggregation states, or 4. run the entire query including filters, aggregation, and sorting.
 
 Node 2 ... N in [Figure 8](#page-7-1) show plan fragments executed on other nodes holding shards of the hits table. These nodes filter and group the local data and send the result to the initiator node. The GroupStateMerge operator on node 1 merges the local and remote results before the results groups are finally sorted.
 
-### <Anchor id="page-7-0"/>4.4 Holistic Performance Optimization [#4-4-holistic-performance-optimization]
+### <Anchor id="page-7-0"/>4.4 Holistic Performance Optimization
 
 This section presents selected key performance optimizations applied to different stages of query execution.
 
@@ -211,7 +211,7 @@ Since joins are among the most expensive database operations, it is important to
 
 <Anchor id="page-8-3"/><Frame background="subtle" caption="Figure 9: Parallel hash join with three hash table partitions."><img src="/images/managing-data/core-concepts/_vldb2024_8_Figure_7.png" alt="Image 09"/></Frame>
 
-### <Anchor id="page-9-1"/>4.5 Workload Isolation [#4-5-workload-isolation]
+### <Anchor id="page-9-1"/>4.5 Workload Isolation
 
 ClickHouse offers concurrency control, memory usage limits, and I/O scheduling, enabling users to isolate queries into workload classes. By setting limits on shared resources (CPU cores, DRAM, disk and network I/O) for specific workload classes, it ensures these queries do not affect other critical business queries.
 
@@ -221,7 +221,7 @@ ClickHouse tracks byte sizes of memory allocations at the server, user, and quer
 
 Lastly, I/O scheduling allows users to restrict local and remote disk accesses for workload classes based on a maximum bandwidth, in-fight requests, and policy (e.g. FIFO, SFC <sub>[32](#page-12-24)</sub>).
 
-### <Anchor id="page-9-0"/>5 INTEGRATION LAYER [#5-integration-layer]
+### <Anchor id="page-9-0"/>5 INTEGRATION LAYER
 
 Real-time decision-making applications often depend on efficient and low-latency access to data in multiple locations. Two approaches exist to make external data available in an OLAP database. With push-based data access, a third-party component bridges the database with external data stores. One example of this are specialized extract-transform-load (ETL) tools which push remote data to the destination system. In the pull-based model, the database itself connects to remote data sources and pulls data for querying into local tables or exports data to remote systems. While push-based approaches are more versatile and common, they entail a larger architectural footprint and scalability bottleneck. In contrast, remote connectivity directly in the database offers interesting capabilities, such as joins between local and remote data, while keeping the overall architecture simple and reducing the time to insight.
 
@@ -245,11 +245,11 @@ Data Formats. To interact with 3rd party systems, modern analytical databases mu
 
 Compatibility interfaces. Besides its native binary wire protocol and HTTP, clients can interact with ClickHouse over MySQL or PostgreSQL wire-protocol-compatible interfaces. This compatibility feature is useful to enable access from proprietary applications (e.g. certain business intelligence tools), where vendors have not yet implemented native ClickHouse connectivity.
 
-## 6 PERFORMANCE AS A FEATURE [#6-performance-as-a-feature]
+## 6 PERFORMANCE AS A FEATURE
 
 This section presents built-in tools for performance analysis and evaluates the performance using real-world and benchmark queries.
 
-### 6.1 Built-in Performance Analysis Tools [#6-1-built-in-performance-analysis-tools]
+### 6.1 Built-in Performance Analysis Tools
 
 A wide range of tools is available to investigate performance bottlenecks in individual queries or background operations. Users interact with all tools through a uniform interface based on system tables.
 
@@ -261,11 +261,11 @@ A wide range of tools is available to investigate performance bottlenecks in ind
 
 **Explain query**. Like in other databases, SELECT queries can be preceded by EXPLAIN for detailed insights into a query's AST, logical and physical operator plans, and execution-time behavior.
 
-### 6.2 Benchmarks [#6-2-benchmarks]
+### 6.2 Benchmarks
 
 While benchmarking has been criticized for being not realistic enough [\[<sub>10</sub>](#page-12-27) [<sub>52</sub>](#page-13-22) [<sub>66</sub>](#page-13-23) [74\]](#page-13-24), it is still useful to identify the strengths and weaknesses of databases. In the following, we discuss how benchmarks are used to evaluate the performance of ClickHouse.
 
-#### 6.2.1 Denormalized Tables [#6-2-1-denormalized-tables]
+#### 6.2.1 Denormalized Tables
 
 Filter and aggregation queries on denormalized fact tables historically represent the primary use case of ClickHouse. We report runtimes of ClickBench, a typical workload of this kind that simulates ad-hoc and periodic reporting queries used in clickstream and traffic analysis. The benchmark consists of 43 queries against a table with 100 million anonymized page hits, sourced from one of the web's largest analytics platforms. An online dashboard <sub>[17](#page-12-28)</sub> shows measurements (cold/hot runtimes, data import time, on-disk size) for over 45 commercial and research databases as of June 2024. Results are submitted by independent contributors based on the publicly available data set and queries <sub>[16](#page-12-29)</sub>. The queries test sequential and index scan access paths and routinely expose CPU-, IO-, or memory-bound relational operators.
 
@@ -279,13 +279,13 @@ To track the performance of SELECTs in more diverse workloads over time, we [use
 
 <Anchor id="page-10-5"/><Frame background="subtle" caption="Figure 11: Relative hot runtimes of VersionsBench 2018-2024."><img src="/images/managing-data/core-concepts/_vldb2024_10_Figure_12.png" alt="Image 12"/></Frame>
 
-#### 6.2.2 Normalized tables [#6-2-2-normalized-tables]
+#### 6.2.2 Normalized tables
 
 In classical warehousing, data is often modeled using star or snowfake schemas. We present runtimes of TPC-H queries (scale factor 100) but remark that normalized tables are an emerging use case for ClickHouse. [Figure 12](#page-10-6) shows the hot runtimes of the TPC-H queries based on the parallel hash join algorithm described in Section [4.4.](#page-7-0) The measurements were taken on a single-node AWS EC2 c6i.16xlarge instance with 64 vCPUs, 128 GB RAM, and 5000 IOPS / 1000 MiB/s disk. The fastest of fve runs was recorded. For reference, we performed the same measurements in a Snowfake system of comparable size (warehouse size L, 8x8 vCPUs, 8x16 GB RAM). The results of eleven queries are excluded from the table: Queries Q2, Q4, Q13, Q17, and Q20-22 include correlated subqueries which are not supported as of ClickHouse v24.6. Queries Q7-Q9 and Q19 depend on extended plan-level optimizations for joins such as join reordering and join predicate pushdown (both missing as of ClickHouse v24.6.) to achieve viable runtimes. Automatic subquery decorrelation and better optimizer support for joins are planned for implementation in 2024 <sub>[18](#page-12-33)</sub>. Out of the remaining 11 queries, 5 (6) queries executed faster in ClickHouse (Snowfake). As aforementioned optimizations are known to be critical for performance <sub>[27](#page-12-34)</sub>, we expect them to improve runtimes of these queries further once implemented.
 
 <Anchor id="page-10-6"/><Frame background="subtle" caption="Figure 12: Hot runtimes (in seconds) for TPC-H queries."><img src="/images/managing-data/core-concepts/_vldb2024_10_Figure_13.png" alt="Image 13"/></Frame>
 
-## 7 RELATED WORK [#7-related-work]
+## 7 RELATED WORK
 
 Analytical databases have been of great academic and commercial interest in recent decades <sub>[1](#page-12-35)</sub>. Early systems like Sybase IQ <sub>[48](#page-13-28)</sub>, Teradata <sub>[72](#page-13-29)</sub>, Vertica <sub>[42](#page-12-36)</sub>, and Greenplum <sub>[47](#page-13-30)</sub> were characterized by expensive batch ETL jobs and limited elasticity due to their on-premise nature. In the early 2010s, the advent of cloud-native data warehouses and database-as-a-service offerings (DBaaS) such as Snowfake <sub>[22](#page-12-37)</sub>, BigQuery <sub>[49](#page-13-31)</sub>, and Redshift <sub>[4](#page-12-38)</sub> dramatically reduced the cost and complexity of analytics for organizations, while benefiting from high availability and automatic resource scaling. More recently, analytical execution kernels (e.g. Photon <sub>[5](#page-12-39)</sub> and Velox <sub>[62](#page-13-32)</sub>) offer co-modified data processing for use in different analytical, streaming, and machine learning applications.
 
@@ -299,17 +299,17 @@ can create other operators at runtime, primarily to switch to external aggregati
 
 DuckDB <sub>[67](#page-13-6)</sub> is also meant to be embedded by a host process, but additionally provides query optimization and transactions. It was designed for OLAP queries mixed with occasional OLTP statements. DuckDB accordingly chose the DataBlocks <sub>[43](#page-12-43)</sub> storage format, which employs light-weight compression methods such as order-preserving dictionaries or frame-of-reference <sub>[2](#page-12-10)</sub> to achieve good performance in hybrid workloads. In contrast, ClickHouse is optimized for append-only use cases, i.e. no or rare updates and deletes. Blocks are compressed using heavy-weight techniques like LZ4, assuming that users make liberal use of data pruning to speed up frequent queries and that I/O costs dwarf decompression costs for the remaining queries. DuckDB also provides serializable transactions based on Hyper's MVCC scheme <sub>[55](#page-13-35)</sub>, whereas ClickHouse only offers snapshot isolation.
 
-## 8 CONCLUSION AND OUTLOOK [#8-conclusion-and-outlook]
+## 8 CONCLUSION AND OUTLOOK
 
 We presented the architecture of ClickHouse, an open-source, highperformance OLAP database. With a write-optimized storage layer and a state-of-the-art vectorized query engine at its foundation, ClickHouse enables real-time analytics over petabyte-scale data sets with high ingestion rates. By merging and transforming data asynchronously in the background, ClickHouse efficiently decouples data maintenance and parallel inserts. Its storage layer enables aggressive data pruning using sparse primary indexes, skipping indexes, and projection tables. We described ClickHouse's implementation of updates and deletes, idempotent inserts, and data replication across nodes for high availability. The query processing layer optimizes queries using a wealth of techniques, and parallelizes execution across all server and cluster resources. Integration table engines and functions provide a convenient way to interact with other data management systems and data formats seamlessly. Through benchmarks, we demonstrate that ClickHouse is amongst the fastest analytical databases on the market, and we showed significant improvements in the performance of typical queries in real-world deployments of ClickHouse throughout the years.
 
 All features and enhancements planned for 2024 can be found on the public roadmap <sub>[18](#page-12-33)</sub>. Planned improvements include support for user transactions, PromQL <sub>[69](#page-13-36)</sub> as an alternative query language, a new datatype for semi-structured data (e.g. JSON), better plan-level optimizations of joins, as well as an implementation of light-weight updates to complement light-weight deletes.
 
-## ACKNOWLEDGMENTS [#acknowledgements]
+## ACKNOWLEDGMENTS
 
 As per version 24.6, SELECT * FROM system.contributors returns 1994 individuals who contributed to ClickHouse. We would like to thank the entire engineering team at ClickHouse Inc. and ClickHouse's amazing open-source community for their hard work and dedication in building this database together.
 
-## REFERENCES [#references]
+## REFERENCES
 
 <Accordion title='References'>
 - <Anchor id="page-12-35"/>[1] Daniel Abadi, Peter Boncz, Stavros Harizopoulos, Stratos Idreaos, and Samuel Madden. 2013. The Design and Implementation of Modern Column-Oriented Database Systems. https://doi.org/10.1561/9781601987556

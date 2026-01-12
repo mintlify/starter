@@ -15,7 +15,7 @@ This data contains prices paid for real-estate property in England and Wales. Th
 - Description of the fields: https://www.gov.uk/guidance/about-the-price-paid-data
 - Contains HM Land Registry data © Crown copyright and database right 2021. This data is licensed under the Open Government Licence v3.0.
 
-## Create the table [#create-table]
+## Create the table 
 
 ```sql
 CREATE DATABASE uk;
@@ -41,7 +41,7 @@ ENGINE = MergeTree
 ORDER BY (postcode1, postcode2, addr1, addr2);
 ```
 
-## Preprocess and insert the data [#preprocess-import-data]
+## Preprocess and insert the data 
 
 We will use the `url` function to stream the data into ClickHouse. We need to preprocess some of the incoming data first, which includes:
 - splitting the `postcode` to two different columns - `postcode1` and `postcode2`, which is better for storage and queries
@@ -94,7 +94,7 @@ FROM url(
 
 Wait for the data to insert - it will take a minute or two depending on the network speed.
 
-## Validate the data [#validate-data]
+## Validate the data 
 
 Let's verify it worked by seeing how many rows were inserted:
 
@@ -113,11 +113,11 @@ WHERE name = 'uk_price_paid'
 
 Notice the size of the table is just 221.43 MiB!
 
-## Run some queries [#run-queries]
+## Run some queries 
 
 Let's run some queries to analyze the data:
 
-### Query 1. Average price per year [#average-price]
+### Query 1. Average price per year 
 
 ```sql runnable
 SELECT
@@ -130,7 +130,7 @@ GROUP BY year
 ORDER BY year
 ```
 
-### Query 2. average price per year in London [#average-price-london]
+### Query 2. average price per year in London 
 
 ```sql runnable
 SELECT
@@ -146,7 +146,7 @@ ORDER BY year
 
 Something happened to home prices in 2020! But that is probably not a surprise...
 
-### Query 3. The most expensive neighborhoods [#most-expensive-neighborhoods]
+### Query 3. The most expensive neighborhoods 
 
 ```sql runnable
 SELECT
@@ -165,10 +165,10 @@ ORDER BY price DESC
 LIMIT 100
 ```
 
-## Speeding up queries with projections [#speeding-up-queries-with-projections]
+## Speeding up queries with projections 
 
 We can speed up these queries with projections. See ["Projections"](/data-modeling/projections) for examples with this dataset.
 
-### Test it in the playground [#playground]
+### Test it in the playground 
 
 The dataset is also available in the [Online Playground](https://sql.clickhouse.com?query_id=TRCWH5ZETY4SEEK8ISCCAX).

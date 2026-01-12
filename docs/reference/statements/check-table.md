@@ -17,7 +17,7 @@ Consider the potential impact on performance and resource utilization before exe
 This query will not improve performance of the system and you should not execute it if you are not sure of what you are doing.
 </Warning>
 
-## Syntax [#syntax]
+## Syntax 
 
 The basic syntax of the query is as follows:
 
@@ -52,7 +52,7 @@ Performed over the tables with another table engines causes an `NOT_IMPLEMENTED`
 
 Engines from the `*Log` family do not provide automatic data recovery on failure. Use the `CHECK TABLE` query to track data loss in a timely manner.
 
-## Examples [#examples]
+## Examples 
 
 By default `CHECK TABLE` query shows the general table check status:
 
@@ -111,7 +111,7 @@ CHECK TABLE t0 PART '201003_111_222_0'
 DB::Exception: No such data part '201003_111_222_0' to check in table 'default.t0'. (NO_SUCH_DATA_PART)
 ```
 
-### Receiving a 'Corrupted' Result [#receiving-a-corrupted-result]
+### Receiving a 'Corrupted' Result 
 
 <Warning>
 Disclaimer: The procedure described here, including the manual manipulating or removing files directly from the data directory, is for experimental or development environments only. Do **not** attempt this on a production server, as it may lead to data loss or other unintended consequences.
@@ -163,7 +163,7 @@ SETTINGS check_query_single_value_result = 0
 └──────────┴──────────┴─────────────┴───────────┴─────────┘
 ```
 
-## If the Data Is Corrupted [#if-the-data-is-corrupted]
+## If the Data Is Corrupted 
 
 If the table is corrupted, you can copy the non-corrupted data to another table. To do this:
 

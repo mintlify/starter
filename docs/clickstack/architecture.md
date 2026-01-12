@@ -10,14 +10,14 @@ keywords: ['ClickStack architecture', 'observability architecture', 'HyperDX', '
 
 The ClickStack architecture is built around three core components: **ClickHouse**, **HyperDX**, and a **OpenTelemetry (OTel) collector**. A **MongoDB** instance provides storage for the application state. Together, they provide a high-performance, open-source observability stack optimized for logs, metrics, and traces.
 
-## Architecture overview [#architecture-overview]
+## Architecture overview 
 
 
 <Frame>
 <img src="/images/use-cases/observability/clickstack-architecture.png" alt="Architecture" width="600px" height="auto"/>
 </Frame>
 
-## ClickHouse: the database engine [#clickhouse]
+## ClickHouse: the database engine 
 
 At the heart of ClickStack is ClickHouse, a column-oriented database designed for real-time analytics at scale. It powers the ingestion and querying of observability data, enabling:
 
@@ -29,7 +29,7 @@ At the heart of ClickStack is ClickHouse, a column-oriented database designed fo
 
 ClickHouse handles observability data as wide events, allowing for deep correlation across logs, metrics, and traces in a single unified structure.
 
-## OpenTelemetry collector: data ingestion [#open-telemetry-collector]
+## OpenTelemetry collector: data ingestion 
 
 ClickStack includes a pre-configured OpenTelemetry (OTel) collector to ingest telemetry in an open, standardized way. Users can send data using the OTLP protocol via:
 
@@ -38,7 +38,7 @@ ClickStack includes a pre-configured OpenTelemetry (OTel) collector to ingest te
 
 The collector exports telemetry to ClickHouse in efficient batches. It supports optimized table schemas per data source, ensuring scalable performance across all signal types.
 
-## HyperDX: the interface [#hyperdx]
+## HyperDX: the interface 
 
 HyperDX is the user interface for ClickStack. It offers:
 
@@ -51,7 +51,7 @@ HyperDX is the user interface for ClickStack. It offers:
 
 Designed specifically for ClickHouse, HyperDX combines powerful search with intuitive workflows, enabling users to spot anomalies, investigate issues, and gain insights fast. 
 
-## MongoDB: application state [#mongo]
+## MongoDB: application state 
 
 ClickStack uses MongoDB to store application-level state, including:
 

@@ -8,7 +8,7 @@ doc_type: 'guide'
 
 Get started with ClickHouse Cloud on the [AWS Marketplace](https://aws.amazon.com/marketplace) via a committed contract. A committed contract, also known as a a Private Offer, allows customers to commit to spending a certain amount on ClickHouse Cloud over a period of time.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 - A Private Offer from ClickHouse based on specific contract terms.
 - To connect a ClickHouse organization to your committed spend offer, you must be an admin of that organization.
@@ -17,7 +17,7 @@ Get started with ClickHouse Cloud on the [AWS Marketplace](https://aws.amazon.co
 - If you use AWS managed policies it is required to have the following permissions: `AWSMarketplaceRead-only`, `AWSMarketplaceManageSubscriptions`, or `AWSMarketplaceFullAccess`.
 - If you aren't using AWS managed policies it is required to have the following permissions: IAM action `aws-marketplace:ListPrivateListings` and `aws-marketplace:ViewSubscriptions`.
 
-## Steps to sign up [#steps-to-sign-up]
+## Steps to sign up 
 
 1. You should have received an email with a link to review and accept your private offer.
 

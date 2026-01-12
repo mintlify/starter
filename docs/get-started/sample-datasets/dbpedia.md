@@ -11,11 +11,11 @@ The [dbpedia dataset](https://huggingface.co/datasets/Qdrant/dbpedia-entities-op
 
 The dataset is an excellent starter dataset to understand vector embeddings, vector similarity search and Generative AI. We use this dataset to demonstrate [approximate nearest neighbor search](../../engines/table-engines/mergetree-family/annindexes.md) in ClickHouse and a simple but powerful Q&A application.
 
-## Dataset details [#dataset-details]
+## Dataset details 
 
 The dataset contains 26 `Parquet` files located on [huggingface.co](https://huggingface.co/api/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M/parquet/default/train/). The files are named `0.parquet`, `1.parquet`, ..., `25.parquet`. To view some example rows of the dataset, please visit this [Hugging Face page](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M).
 
-## Create table [#create-table]
+## Create table 
 
 Create the `dbpedia` table to store the article id, title, text and embedding vector:
 
@@ -30,7 +30,7 @@ CREATE TABLE dbpedia
 
 ```
 
-## Load table [#load-table]
+## Load table 
 
 To load the dataset from all Parquet files, run the following shell command:
 
@@ -59,7 +59,7 @@ FROM dbpedia
    └─────────┘
 ```
 
-## Semantic search [#semantic-search]
+## Semantic search 
 
 Recommended reading: ["Vector embeddings
 " OpenAPI guide](https://platform.openai.com/docs/guides/embeddings)
@@ -74,7 +74,7 @@ the following steps:
 The _nearest neighbours_ are documents, images or content that are results relevant to the user query.
 The retrieved results are the key input to Retrieval Augmented Generation (RAG) in Generative AI applications.
 
-## Run a brute-force vector similarity search [#run-a-brute-force-vector-similarity-search]
+## Run a brute-force vector similarity search 
 
 KNN (k - Nearest Neighbours) search or brute force search involves calculating the distance of each vector in the dataset
 to the search embedding vector and then ordering the distances to get the nearest neighbours.  With the `dbpedia` dataset,
@@ -119,7 +119,7 @@ Note down the query latency so that we can compare it with the query latency of 
 Also record the query latency with cold OS file cache and with `max_threads=1` to recognize the real compute
 usage and storage bandwidth usage (extrapolate it to a production dataset with millions of vectors!)
 
-## Build a vector similarity index [#build-vector-similarity-index]
+## Build a vector similarity index 
 
 Run the following SQL to define and build a vector similarity index on the `vector` column:
 
@@ -133,7 +133,7 @@ The parameters and performance considerations for index creation and search are 
 
 Building and saving the index could take a few minutes depending on number of CPU cores available and the storage bandwidth.
 
-## Perform ANN search [#perform-ann-search]
+## Perform ANN search 
 
 _Approximate Nearest Neighbours_ or ANN refers to group of techniques (e.g., special data structures like graphs and random forests) which compute results much faster than exact vector search. The result accuracy is typically "good enough" for practical use. Many approximate techniques provide parameters to tune the trade-off between the result accuracy and the search time.
 
@@ -179,7 +179,7 @@ LIMIT 20
 20 rows in set. Elapsed: 0.025 sec. Processed 32.03 thousand rows, 2.10 MB (1.29 million rows/s., 84.80 MB/s.)
 ```
 
-## Generating embeddings for search query [#generating-embeddings-for-search-query]
+## Generating embeddings for search query 
 
 The similarity search queries seen until now use one of the existing vectors in the `dbpedia`
 table as the search vector. In real world applications, the search vector has to be
@@ -227,7 +227,7 @@ while True:
         print("---------------")
 ```
 
-## Q&A demo application [#q-and-a-demo-application]
+## Q&A demo application 
 
 The examples above demonstrated semantic search and document retrieval using ClickHouse. A very simple but high potential generative AI example application is presented next.
 

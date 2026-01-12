@@ -11,7 +11,7 @@ Data masking is a technique used for data protection, in which the original data
 
 This guide shows you how you can mask data in ClickHouse.
 
-## Use string replacement functions [#using-string-functions]
+## Use string replacement functions 
 
 For basic data masking use cases, the `replace` family of functions offers a convenient way to mask data:
 
@@ -73,7 +73,7 @@ In the query above `\3` is used to substitute the third capture group into the r
 └──────────────────┘
 ```
 
-## Create masked `VIEW`s [#masked-views]
+## Create masked `VIEW`s 
 
 A [`VIEW`](/sql-reference/statements/create/view) can be used in conjunction with the aforementioned string functions to apply transformations to columns containing sensitive data, before they are presented to the user. 
 In this way, the original data remains unchanged, and users querying the view see only the masked data.
@@ -171,7 +171,7 @@ GRANT masked_orders_viewer TO your_user;
 This ensures that users with the `masked_orders_viewer` role are only able to see
 the masked data from the view and not the original unmasked data from the table.
 
-## Use `MATERIALIZED` columns and column-level access restrictions [#materialized-ephemeral-column-restrictions]
+## Use `MATERIALIZED` columns and column-level access restrictions 
 
 In cases where you don't want to create a separate view, you can store masked versions of your data alongside the original data.
 To do so, you can use [materialized columns](/sql-reference/statements/create/table#materialized).
@@ -313,7 +313,7 @@ ORDER BY user_id ASC
    └─────────┴──────────────┴────────────┴──────────────┴────────────────────┴──────────────┴───────────────────────────┘
 ```
 
-## Use query masking rules for log data [#use-query-masking-rules]
+## Use query masking rules for log data 
 
 For users of ClickHouse OSS wishing to mask log data specifically, you can make use of [query masking rules](/operations/server-configuration-parameters/settings#query_masking_rules) (log masking) to mask data.
 

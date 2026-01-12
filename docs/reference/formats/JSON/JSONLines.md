@@ -9,13 +9,13 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge> <Badge intent="info">Alias: `JSONEachRow`, `NDJSON`</Badge>
 
-## Description [#description]
+## Description 
 
 In this format, ClickHouse outputs each row as a separated, newline-delimited JSON Object.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using a JSON file with the following data, named as `football.json`:
 
@@ -45,7 +45,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.json' FORMAT JSONLines;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `JSONLines` format:
 
@@ -79,4 +79,4 @@ The output will be in JSON format:
 
 Importing data columns with unknown names will be skipped if setting [input_format_skip_unknown_fields](/operations/settings/settings-formats.md/#input_format_skip_unknown_fields) is set to 1.
 
-## Format settings [#format-settings]
+## Format settings 

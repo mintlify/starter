@@ -9,16 +9,15 @@ doc_type: 'reference'
 ---
 
 
-
-## R2DBC driver [#r2dbc-driver]
+## R2DBC driver 
 
 [R2DBC](https://r2dbc.io/) wrapper of async Java client for ClickHouse.
 
-### Environment requirements [#environment-requirements]
+### Environment requirements 
 
 - [OpenJDK](https://openjdk.java.net) version >= 8
 
-### Setup [#setup]
+### Setup 
 
 ```xml
 <dependency>
@@ -37,7 +36,7 @@ doc_type: 'reference'
 </dependency>
 ```
 
-### Connect to ClickHouse [#connect-to-clickhouse]
+### Connect to ClickHouse 
 
 ```java showLineNumbers
 ConnectionFactory connectionFactory = ConnectionFactories
@@ -47,7 +46,7 @@ ConnectionFactory connectionFactory = ConnectionFactories
         .flatMapMany(connection -> connection
 ```
 
-### Query [#query]
+### Query 
 
 ```java showLineNumbers
 connection
@@ -64,7 +63,7 @@ connection
     .subscribe();
 ```
 
-### Insert [#insert]
+### Insert 
 
 ```java showLineNumbers
 connection

@@ -24,7 +24,7 @@ Some simple rules can be applied to help choose an ordering key. The following c
 Ordering keys must be defined on table creation and cannot be added. Additional ordering can be added to a table after (or before) data insertion through a feature known as projections. Be aware these result in data duplication. Further details [here](/sql-reference/statements/alter/projection).
 </Note>
 
-## Example [#example]
+## Example 
 
 Consider the following `posts_unordered` table. This contains a row per Stack Overflow post.
 

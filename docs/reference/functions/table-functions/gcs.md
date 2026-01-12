@@ -15,7 +15,7 @@ This is an alias of the [s3 table function](../../sql-reference/table-functions/
 
 If you have multiple replicas in your cluster, you can use the [s3Cluster function](../../sql-reference/table-functions/s3Cluster.md) (which works with GCS) instead to parallelize inserts.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 gcs(url [, NOSIGN | hmac_key, hmac_secret] [,format] [,structure] [,compression_method])
@@ -27,7 +27,7 @@ The GCS Table Function integrates with Google Cloud Storage by using the GCS XML
 See the [Google interoperability docs]( https://cloud.google.com/storage/docs/interoperability) for more details about the endpoint and HMAC.
 </Tip>
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument                     | Description                                                                                                                                                                              |
 |------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -59,11 +59,11 @@ Arguments can also be passed using [named collections](operations/named-collecti
 | `no_sign_request`             | Disabled by default.                                                                                                                                                                                                              |
 | `expiration_window_seconds`   | Default value is 120.                                                                                                                                                                                                             |
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table with the specified structure for reading or writing data in the specified file.
 
-## Examples [#examples]
+## Examples 
 
 Selecting the first two rows from the table from GCS file `https://storage.googleapis.com/my-test-bucket-768/data.csv`:
 
@@ -95,7 +95,7 @@ LIMIT 2;
 └─────────┴─────────┴─────────┘
 ```
 
-## Usage [#usage]
+## Usage 
 
 Suppose that we have several files with following URIs on GCS:
 
@@ -187,7 +187,7 @@ SELECT count(*)
 FROM gcs(creds, url='https://s3-object-url.csv')
 ```
 
-## Partitioned Write [#partitioned-write]
+## Partitioned Write 
 
 If you specify `PARTITION BY` expression when inserting data into `GCS` table, a separate file is created for each partition value. Splitting the data into separate files helps to improve reading operations efficiency.
 
@@ -211,6 +211,6 @@ INSERT INTO TABLE FUNCTION
 ```
 As a result, the data is written into three files in different buckets: `my_bucket_1/file.csv`, `my_bucket_10/file.csv`, and `my_bucket_20/file.csv`.
 
-## Related [#related]
+## Related 
 - [S3 table function](s3.md)
 - [S3 engine](../../engines/table-engines/integrations/s3.md)

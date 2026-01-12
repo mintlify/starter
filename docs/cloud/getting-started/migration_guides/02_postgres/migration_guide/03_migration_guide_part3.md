@@ -12,11 +12,11 @@ doc_type: 'guide'
 
 We recommend users migrating from Postgres read [the guide for modeling data in ClickHouse](/data-modeling/schema-design). This guide uses the same Stack Overflow dataset and explores multiple approaches using ClickHouse features.
 
-## Primary (Ordering) Keys in ClickHouse [#primary-ordering-keys-in-clickhouse]
+## Primary (Ordering) Keys in ClickHouse 
 
 Users coming from OLTP databases often look for the equivalent concept in ClickHouse. On noticing that ClickHouse supports a `PRIMARY KEY` syntax, users might be tempted to define their table schema using the same keys as their source OLTP database. This is not appropriate.
 
-### How are ClickHouse Primary keys different? [#how-are-clickhouse-primary-keys-different]
+### How are ClickHouse Primary keys different? 
 
 To understand why using your OLTP primary key in ClickHouse is not appropriate, users should understand the basics of ClickHouse indexing. We use Postgres as an example comparison, but these general concepts apply to other OLTP databases.
 
@@ -34,13 +34,13 @@ The selected key in ClickHouse will determine not only the index but also the or
 
 > All columns in a table will be sorted based on the value of the specified ordering key, regardless of whether they are included in the key itself. For instance, if `CreationDate` is used as the key, the order of values in all other columns will correspond to the order of values in the `CreationDate` column. Multiple ordering keys can be specified - this will order with the same semantics as an `ORDER BY` clause in a `SELECT` query.
 
-### Choosing an ordering key [#choosing-an-ordering-key]
+### Choosing an ordering key 
 
 For the considerations and steps in choosing an ordering key, using the posts table as an example, see [here](/data-modeling/schema-design#choosing-an-ordering-key).
 
 When using real-time replication with CDC, there are additional constraints to take in account, refer to this [documentation](/integrations/clickpipes/postgres/ordering_keys) for techniques on how to customize ordering keys with CDC.
 
-## Partitions [#partitions]
+## Partitions 
 
 Postgres users will be familiar with the concept of table partitioning for enhancing performance and manageability for large databases by dividing tables into smaller, more manageable pieces called partitions. This partitioning can be achieved using either a range on a specified column (e.g., dates), defined lists, or via hash on a key. This allows administrators to organize data based on specific criteria like date ranges or geographical locations. Partitioning helps in improving query performance by enabling faster data access through partition pruning and more efficient indexing. It also helps maintenance tasks such as backups and data purges by allowing operations on individual partitions rather than the entire table. Additionally, partitioning can significantly improve the scalability of PostgreSQL databases by distributing the load across multiple partitions.
 
@@ -67,7 +67,7 @@ PARTITION BY toYear(CreationDate)
 
 For a full description of partitioning see ["Table partitions"](/partitions).
 
-### Applications of partitions [#applications-of-partitions]
+### Applications of partitions 
 
 Partitioning in ClickHouse has similar applications as in Postgres but with some subtle differences. More specifically:
 
@@ -110,7 +110,7 @@ Ok.
 
 - **Query optimization** - While partitions can assist with query performance, this depends heavily on the access patterns. If queries target only a few partitions (ideally one), performance can potentially improve. This is only typically useful if the partitioning key is not in the primary key and you are filtering by it. However, queries that need to cover many partitions may perform worse than if no partitioning is used (as there may possibly be more parts as a result of partitioning). The benefit of targeting a single partition will be even less pronounced to non-existence if the partitioning key is already an early entry in the primary key. Partitioning can also be used to [optimize GROUP BY queries](/engines/table-engines/mergetree-family/custom-partitioning-key#group-by-optimisation-using-partition-key) if values in each partition are unique. However, in general, users should ensure the primary key is optimized and only consider partitioning as a query optimization technique in exceptional cases where access patterns access a specific predictable subset of the day, e.g., partitioning by day, with most queries in the last day.
 
-### Recommendations for partitions [#recommendations-for-partitions]
+### Recommendations for partitions 
 
 Users should consider partitioning a data management technique. It is ideal when data needs to be expired from the cluster when operating with time series data e.g. the oldest partition can [simply be dropped](/sql-reference/statements/alter/partition#drop-partitionpart).
 
@@ -120,7 +120,7 @@ Users should consider partitioning a data management technique. It is ideal when
 
 > Since parts are created per partition in isolation, increasing the number of partitions causes the number of parts to increase i.e. it is a multiple of the number of partitions. High cardinality partitioning keys can, therefore, cause this error and should be avoided.
 
-## Materialized views vs projections [#materialized-views-vs-projections]
+## Materialized views vs projections 
 
 Postgres allows for the creation of multiple indices on a single table, enabling optimization for a variety of access patterns. This flexibility allows administrators and developers to tailor database performance to specific queries and operational needs. ClickHouse's concept of projections, while not fully analogous to this, allows users to specify multiple `ORDER BY` clauses for a table.
 
@@ -235,7 +235,7 @@ WHERE UserId = 8592047
 11 rows in set. Elapsed: 0.004 sec.
 ```
 
-### When to use projections [#when-to-use-projections]
+### When to use projections 
 
 Projections are an appealing feature for new users as they are automatically 
 maintained as data is inserted. Furthermore, queries can just be sent to a single
@@ -269,7 +269,7 @@ projections. This unlocks a more space-efficient way to store projections.
 For more details see ["Projections"](/data-modeling/projections)
 </Note>
 
-## Denormalization [#denormalization]
+## Denormalization 
 
 Since Postgres is a relational database, its data model is heavily [normalized](https://en.wikipedia.org/wiki/Database_normalization), often involving hundreds of tables. In ClickHouse, denormalization can be beneficial at times to optimize JOIN performance. 
 

@@ -9,7 +9,7 @@ doc_type: 'guide'
 
 The **Query API Endpoints** feature allows you to create an API endpoint directly from any saved SQL query in the ClickHouse Cloud console. You'll be able to access API endpoints via HTTP to execute your saved queries without needing to connect to your ClickHouse Cloud service via a native driver.
 
-## Pre-requisites [#quick-start-guide]
+## Pre-requisites 
 
 Before proceeding, ensure you have:
 - an API key
@@ -20,7 +20,7 @@ You can follow this guide to [create an API key](/cloud/manage/openapi) if you d
 <Steps>
 
 <Step>
-### Create a saved query [#creating-a-saved-query]
+### Create a saved query 
 
 If you have a saved query, you can skip this step.
 
@@ -70,7 +70,7 @@ More documentation around saved queries can be found in section ["Saving a query
 </Step>
 
 <Step>
-### Configuring the query API endpoint [#configuring-the-query-api-endpoint]
+### Configuring the query API endpoint 
 
 Query API endpoints can be configured directly from query view by clicking the **Share** button and selecting `API Endpoint`.
 You'll be prompted to specify which API key(s) should be able to access the endpoint:
@@ -96,14 +96,14 @@ curl -H "Content-Type: application/json" -s --user '<key_id>:<key_secret>' '<API
 </Step>
 
 <Step>
-### Query API parameters [#query-api-parameters]
+### Query API parameters 
 
 Query parameters in a query can be specified with the syntax `{parameter_name: type}`. These parameters will be automatically detected and the example request payload will contain a `queryVariables` object through which you can pass these parameters.
 
 </Step>
 
 <Step>
-### Testing and monitoring [#testing-and-monitoring]
+### Testing and monitoring 
 
 Once a Query API endpoint is created, you can test that it works by using `curl` or any other HTTP client:
 
@@ -117,7 +117,7 @@ After you've sent your first request, a new button should appear immediately to 
 
 </Steps>
 
-## Implementation details [#implementation-details]
+## Implementation details 
 
 This endpoint executes queries on your saved Query API endpoints.
 It supports multiple versions, flexible response formats, parameterized queries, and optional streaming responses (version 2 only).
@@ -129,7 +129,7 @@ GET /query-endpoints/{queryEndpointId}/run
 POST /query-endpoints/{queryEndpointId}/run
 ```
 
-### HTTP methods [#http-methods]
+### HTTP methods 
 
 | Method | Use Case | Parameters |
 |---------|----------|------------|
@@ -146,21 +146,21 @@ POST /query-endpoints/{queryEndpointId}/run
 - When request body is preferred for security/privacy
 - Streaming file uploads or large data
 
-### Authentication [#authentication]
+### Authentication 
 
 **Required:** Yes  
 **Method:** Basic Auth using OpenAPI Key/Secret  
 **Permissions:** Appropriate permissions for the query endpoint
 
-### Request configuration [#request-configuration]
+### Request configuration 
 
-#### URL parameters [#url-params]
+#### URL parameters 
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
 | `queryEndpointId` | **Yes** | The unique identifier of the query endpoint to run |
 
-#### Query parameters [#query-params]
+#### Query parameters 
 
 | Parameter | Required | Description | Example |
 |-----------|----------|-------------|---------|
@@ -168,7 +168,7 @@ POST /query-endpoints/{queryEndpointId}/run
 | `param_:name` | No | Query variables when request body is a stream. Replace `:name` with your variable name | `?param_year=2024` |
 | `:clickhouse_setting` | No | Any supported [ClickHouse setting](https://clickhouse.com/docs/operations/settings/settings) | `?max_threads=8` |
 
-#### Headers [#headers]
+#### Headers 
 
 | Header | Required | Description | Values |
 |--------|----------|-------------|--------|
@@ -177,16 +177,16 @@ POST /query-endpoints/{queryEndpointId}/run
 
 ---
 
-### Request body [#request-body]
+### Request body 
 
-#### Parameters [#params]
+#### Parameters 
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `queryVariables` | object | No | Variables to be used in the query |
 | `format` | string | No | Response format |
 
-#### Supported formats [#supported-formats]
+#### Supported formats 
 
 | Version                 | Supported Formats                                                                                                                                            |
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -195,14 +195,14 @@ POST /query-endpoints/{queryEndpointId}/run
 
 ---
 
-### Responses [#responses]
+### Responses 
 
-#### Success [#success]
+#### Success 
 
 **Status:** `200 OK`  
 The query was successfully executed.
 
-#### Error codes [#error-codes]
+#### Error codes 
 
 | Status Code | Description |
 |-------------|-------------|
@@ -210,7 +210,7 @@ The query was successfully executed.
 | `401 Unauthorized` | Missing authentication or insufficient permissions |
 | `404 Not Found` | The specified query endpoint was not found |
 
-#### Error handling best practices [#error-handling-best-practices]
+#### Error handling best practices 
 
 - Ensure valid authentication credentials are included in the request
 - Validate the `queryEndpointId` and `queryVariables` before sending
@@ -218,7 +218,7 @@ The query was successfully executed.
 
 ---
 
-### Upgrading endpoint versions [#upgrading-endpoint-versions]
+### Upgrading endpoint versions 
 
 To upgrade from version 1 to version 2:
 
@@ -230,9 +230,9 @@ This enables access to version 2 features including:
 - Response streaming capabilities
 - Enhanced performance and functionality
 
-## Examples [#examples]
+## Examples 
 
-### Basic request [#basic-request]
+### Basic request 
 
 **Query API Endpoint SQL:**
 
@@ -240,7 +240,7 @@ This enables access to version 2 features including:
 SELECT database, name AS num_tables FROM system.tables LIMIT 3;
 ```
 
-#### Version 1 [#version-1]
+#### Version 1 
 
 
 <Tabs>
@@ -298,7 +298,7 @@ fetch(
 </Tab>
 </Tabs>
 
-#### Version 2 [#version-2]
+#### Version 2 
 
 
 <Tabs>
@@ -353,7 +353,7 @@ fetch(
 </Tab>
 </Tabs>
 
-### Request with query variables and version 2 on JSONCompactEachRow format [#request-with-query-variables-and-version-2-on-jsoncompacteachrow-format]
+### Request with query variables and version 2 on JSONCompactEachRow format 
 
 **Query API Endpoint SQL:**
 
@@ -422,7 +422,7 @@ fetch(
 </Tab>
 </Tabs>
 
-### Request with array in the query variables that inserts data into a table [#request-with-array-in-the-query-variables-that-inserts-data-into-a-table]
+### Request with array in the query variables that inserts data into a table 
 
 **Table SQL:**
 
@@ -489,7 +489,7 @@ OK
 </Tab>
 </Tabs>
 
-### Request with ClickHouse settings `max_threads` set to 8 [#request-with-clickhouse-settings-max_threads-set-to-8]
+### Request with ClickHouse settings `max_threads` set to 8 
 
 **Query API Endpoint SQL:**
 
@@ -540,7 +540,7 @@ fetch(
 </Tab>
 </Tabs>
 
-### Request and parse the response as a stream` [#request-and-parse-the-response-as-a-stream]
+### Request and parse the response as a stream` 
 
 **Query API Endpoint SQL:**
 
@@ -613,7 +613,7 @@ fetchAndLogChunks(endpointUrl, openApiKeyId, openApiKeySecret).catch((err) =>
 </Tab>
 </Tabs>
 
-### Insert a stream from a file into a table [#insert-a-stream-from-a-file-into-a-table]
+### Insert a stream from a file into a table 
 
 Create a file `./samples/my_first_table_2024-07-11.csv` with the following content:
 

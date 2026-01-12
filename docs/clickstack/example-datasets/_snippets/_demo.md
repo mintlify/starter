@@ -1,4 +1,4 @@
-### Demo Architecture [#demo-architecture]
+### Demo Architecture 
 
 The demo is composed of microservices written in different programming languages that talk to each other over gRPC and HTTP and a load generator that uses Locust to fake user traffic. The original source code for this demo has been modified to use [ClickStack instrumentation](/use-cases/observability/clickstack/sdks).
 

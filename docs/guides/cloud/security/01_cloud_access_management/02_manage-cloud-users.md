@@ -11,9 +11,9 @@ import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFea
 
 This guide is intended for users with the Organization Admin role in ClickHouse Cloud.
 
-## Add users to your organization [#add-users]
+## Add users to your organization 
 
-### Invite users [#invite-users]
+### Invite users 
 
 Administrators may invite up to three (3) users at a time and assign organization and service level roles at the time of invitation. 
 
@@ -27,7 +27,7 @@ To invite users:
 
 Users will receive an email from which they can join the organization. For more information on accepting invitations, see [Manage my account](/cloud/security/manage-my-account).
 
-### Add users via SAML identity provider [#add-users-via-saml]
+### Add users via SAML identity provider 
 
 <EnterprisePlanFeatureBadge feature="SAML SSO"/>
 
@@ -37,18 +37,18 @@ If your organization is configured for [SAML SSO](/cloud/security/saml-setup) fo
 2. When the user logs in to ClickHouse Cloud they will automatically be assigned the `Member` role which may only log in and has no other access
 3. Follow the instructions in the `Manage user role assignments` below to grant permissions
 
-### Enforcing SAML-only authentication [#enforce-saml]
+### Enforcing SAML-only authentication 
 
 Once you have at least one SAML user in the organization assigned to the Organization Admin role, remove users with other authentication methods from the organization to enforce SAML only authentication for the organization.
 
-## Manage user role assignments [#manage-role-assignments]
+## Manage user role assignments 
 
 Users assigned the Organization Admin role may update permissions for other users at any time.
 
 <Steps>
 
 <Step>
-### Access organization settings [#access-organization-settings]
+### Access organization settings 
 
 From the services page, select the name of your organization:
 
@@ -57,7 +57,7 @@ From the services page, select the name of your organization:
 </Step>
 
 <Step>
-### Access users and roles [#access-users-and-roles]
+### Access users and roles 
 
 Select the `Users and roles` menu item from the popup menu.
 
@@ -66,7 +66,7 @@ Select the `Users and roles` menu item from the popup menu.
 </Step>
 
 <Step>
-### Select the user to update [#select-user-to-update]
+### Select the user to update 
 
 Select the menu item at the end of the row for the user that you which to modify access for:
 
@@ -75,7 +75,7 @@ Select the menu item at the end of the row for the user that you which to modify
 </Step>
 
 <Step>
-### Select `edit` [#select-edit]
+### Select `edit` 
 
 <img src="/images/cloud/guides/sql_console/org_level_access/4_org_settings.png"/>
 
@@ -86,7 +86,7 @@ A tab will display on the right hand side of the page:
 </Step>
 
 <Step>
-### Update permissions [#update-permissions]
+### Update permissions 
 
 Select the drop-down menu items to adjust console-wide access permissions and which features a user can access from within the ClickHouse console. Refer to [Console roles and permissions](/cloud/security/console-roles) for a listing of roles and associated permissions.
 
@@ -97,7 +97,7 @@ Select the drop-down menu items to adjust the access scope of the service role o
 </Step>
 
 <Step>
-### Save your changes [#save-changes]
+### Save your changes 
 
 Save your changes with the `Save changes` button at the bottom of the tab:
 
@@ -107,7 +107,7 @@ Save your changes with the `Save changes` button at the bottom of the tab:
 
 </Steps>
 
-## Remove a user [#remove-user]
+## Remove a user 
 <Note title="Remove SAML users">
 SAML users that have been unassigned from the ClickHouse application in your identity provider are not able to log in to ClickHouse Cloud. The account is not removed from the console and will need to be manually removed.
 </Note>

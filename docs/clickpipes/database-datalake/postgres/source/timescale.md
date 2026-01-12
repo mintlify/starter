@@ -12,7 +12,7 @@ import {BetaBadge} from '/snippets/components/BetaBadge/BetaBadge.jsx'
 
 <BetaBadge/>
 
-## Background [#background]
+## Background 
 
 [TimescaleDB](https://github.com/timescale/timescaledb) is an open-source Postgres extension developed by Timescale Inc 
 that aims to boost the performance of analytics queries without having to move away from Postgres. This is achieved by 
@@ -31,11 +31,11 @@ Timescale hypertables behave differently from regular Postgres tables in several
 to the process of replicating them, which is why the ability to replicate Timescale hypertables should be considered as 
 **best effort**.
 
-## Supported Postgres versions [#supported-postgres-versions]
+## Supported Postgres versions 
 
 ClickPipes supports Postgres version 12 and later.
 
-## Enable logical replication [#enable-logical-replication]
+## Enable logical replication 
 
 The steps to be follow depend on how your Postgres instance with TimescaleDB is deployed. 
 
@@ -51,7 +51,7 @@ As a result, users of Timescale Cloud can only perform a one-time load of their 
 Postgres ClickPipe.
 </Note>
 
-## Configuration [#configuration]
+## Configuration 
 
 Timescale hypertables don't store any data inserted into them. Instead, the data is stored in multiple corresponding 
 "chunk" tables which are in the `_timescaledb_internal` schema. For running queries on the hypertables, this is not an
@@ -107,7 +107,7 @@ steps and perform a one-time load of your data.
 
 After these steps, you should be able to proceed with [creating a ClickPipe](../index.md).
 
-## Configure network access [#configure-network-access]
+## Configure network access 
 
 If you want to restrict traffic to your Timescale instance, please allowlist the [documented static NAT IPs](../../index.md#list-of-static-ips).
 Instructions to do this will vary across providers, please consult the sidebar if your provider is listed or raise a 

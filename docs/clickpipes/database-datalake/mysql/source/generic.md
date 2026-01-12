@@ -13,11 +13,11 @@ If you use one of the supported providers (in the sidebar), please refer to the 
 
 </Note>
 
-## Enable binary log retention [#enable-binlog-retention]
+## Enable binary log retention 
 
 Binary logs contain information about data modifications made to a MySQL server instance and are required for replication.
 
-### MySQL 8.x and newer [#binlog-v8-x]
+### MySQL 8.x and newer 
 
 To enable binary logging on your MySQL instance, ensure that the following settings are configured:
 
@@ -51,7 +51,7 @@ If you have changed the `log_bin` setting, you NEED to RESTART the MySQL instanc
 
 After changing the settings, continue on with [configuring a database user](#configure-database-user).
 
-### MySQL 5.7 [#binlog-v5-x]
+### MySQL 5.7 
 
 To enable binary logging on your MySQL 5.7 instance, ensure that the following settings are configured:
 
@@ -90,7 +90,7 @@ Column exclusion is not supported for MySQL 5.7 because the `binlog_row_metadata
 
 </Note>
 
-## Configure a database user [#configure-database-user]
+## Configure a database user 
 
 Connect to your MySQL instance as the root user and execute the following commands:
 
@@ -119,7 +119,7 @@ Make sure to replace `clickpipes_user` and `some_secure_password` with your desi
 
 </Note>
 
-## SSL/TLS configuration (recommended) [#ssl-tls-configuration]
+## SSL/TLS configuration (recommended) 
 
 SSL certificates ensure secure connections to your MySQL database. Configuration depends on your certificate type:
 
@@ -133,7 +133,7 @@ SSL certificates ensure secure connections to your MySQL database. Configuration
 
 For more information on SSL/TLS options, check out our [FAQ](https://clickhouse.com/docs/integrations/clickpipes/mysql/faq#tls-certificate-validation-error).
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your MySQL instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your MySQL instance as you will need them during the ClickPipe creation process.

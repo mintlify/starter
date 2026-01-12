@@ -21,13 +21,13 @@ A demo dataset with sample metrics is available if you want to test the integrat
 Time required: 5-10 minutes
 </Note>
 
-## Integration with existing Redis [#existing-redis]
+## Integration with existing Redis 
 
 This section covers configuring your existing Redis installation to send metrics to ClickStack by configuring the ClickStack OTel collector with the Redis receiver.
 
 If you would like to test the Redis Metrics integration before configuring your own existing setup, you can test with our preconfigured demo dataset in the [following section](#demo-dataset).
 
-##### Prerequisites [#prerequisites]
+##### Prerequisites 
 - ClickStack instance running
 - Existing Redis installation (version 3.0 or newer)
 - Network access from ClickStack to Redis (default port 6379)
@@ -225,7 +225,7 @@ Once configured, log into HyperDX and verify metrics are flowing:
 
 </Steps>
 
-## Demo dataset [#demo-dataset]
+## Demo dataset 
 
 For users who want to test the Redis Metrics integration before configuring their production systems, we provide a pre-generated dataset with realistic Redis Metrics patterns.
 
@@ -305,7 +305,7 @@ Look for these interesting patterns:
 
 </Steps>
 
-## Dashboards and visualization [#dashboards]
+## Dashboards and visualization 
 
 To help you get started monitoring Redis with ClickStack, we provide essential visualizations for Redis Metrics.
 
@@ -348,9 +348,9 @@ For the demo dataset, ensure the time range is set to 2025-10-20 05:00:00 - 2025
 
 </Steps>
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### Custom config not loading [#troubleshooting-not-loading]
+### Custom config not loading 
 
 Verify the environment variable `CUSTOM_OTELCOL_CONFIG_FILE` is set correctly:
 ```bash
@@ -367,7 +367,7 @@ View the custom config content to verify it's readable:
 docker exec <container-name> cat /etc/otelcol-contrib/custom.config.yaml
 ```
 
-### No metrics appearing in HyperDX [#no-metrics]
+### No metrics appearing in HyperDX 
 
 Verify Redis is accessible from the collector:
 ```bash
@@ -393,7 +393,7 @@ docker exec <container> cat /etc/otel/supervisor-data/agent.log | grep -i redis
 # Look for connection errors or authentication failures
 ```
 
-### Authentication errors [#auth-errors]
+### Authentication errors 
 
 If you see authentication errors in the logs:
 ```bash
@@ -415,7 +415,7 @@ receivers:
     password: ${env:REDIS_PASSWORD}
 ```
 
-### Network connectivity issues [#network-issues]
+### Network connectivity issues 
 
 If ClickStack can't reach Redis:
 ```bash
@@ -429,7 +429,7 @@ docker exec <clickstack-container> telnet redis 6379
 
 Ensure your Docker Compose file or `docker run` commands place both containers on the same network.
 
-## Next steps [#next-steps]
+## Next steps 
 
 If you want to explore further, here are some next steps to experiment with your monitoring:
 

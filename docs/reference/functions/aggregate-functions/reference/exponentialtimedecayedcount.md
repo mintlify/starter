@@ -7,7 +7,7 @@ title: 'exponentialTimeDecayedCount'
 doc_type: 'reference'
 ---
 
-## exponentialTimeDecayedCount [#exponentialtimedecayedcount]
+## exponentialTimeDecayedCount 
 
 Returns the cumulative exponential decay over a time series at the index `t` in time.
 

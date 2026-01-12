@@ -7,7 +7,7 @@ title: 'Amazon Redshift SQL translation guide'
 doc_type: 'reference'
 ---
 
-## Data types [#data-types]
+## Data types 
 
 Users moving data between ClickHouse and Redshift will immediately notice
 that ClickHouse offers a more extensive range of types, which are also less
@@ -51,9 +51,9 @@ Below we map the equivalent ClickHouse type for each Redshift type:
 <sub><span>*</span> ClickHouse additionally supports unsigned integers with extended ranges i.e. <a href='http://clickhouse.com/docs/sql-reference/data-types/int-uint'>`UInt8`, `UInt32`, `UInt32` and `UInt64`</a>.</sub><br />
 <sub><span>**</span>ClickHouse’s String type is unlimited by default but can be constrained to specific lengths using <a href='http://clickhouse.com/docs/sql-reference/statements/create/table#constraints'>Constraints</a>.</sub>
 
-## DDL syntax [#compression]
+## DDL syntax 
 
-### Sorting keys [#sorting-keys]
+### Sorting keys 
 
 Both ClickHouse and Redshift have the concept of a “sorting key”, which define 
 how data is sorted when being stored. Redshift defines the sorting key using the

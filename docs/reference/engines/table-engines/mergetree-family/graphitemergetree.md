@@ -13,7 +13,7 @@ You can use any ClickHouse table engine to store the Graphite data if you do not
 
 The engine inherits properties from [MergeTree](../../../engines/table-engines/mergetree-family/mergetree.md).
 
-## Creating a table [#creating-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -77,7 +77,7 @@ All of the parameters excepting `config_section` have the same meaning as in `Me
 - `config_section` — Name of the section in the configuration file, where are the rules of rollup set.
 </Accordion>
 </AccordionGroup>
-## Rollup configuration [#rollup-configuration]
+## Rollup configuration 
 
 The settings for rollup are defined by the [graphite_rollup](../../../operations/server-configuration-parameters/settings.md#graphite) parameter in the server configuration. The name of the parameter could be any. You can create several configurations and use them for different tables.
 
@@ -86,22 +86,22 @@ Rollup configuration structure:
       required-columns
       patterns
 
-### Required columns [#required-columns]
+### Required columns 
 
-#### `path_column_name` [#path_column_name]
+#### `path_column_name` 
 
 `path_column_name` — The name of the column storing the metric name (Graphite sensor). Default value: `Path`.
 
-#### `time_column_name` [#time_column_name]
+#### `time_column_name` 
 `time_column_name` — The name of the column storing the time of measuring the metric. Default value: `Time`.
 
-#### `value_column_name` [#value_column_name]
+#### `value_column_name` 
 `value_column_name` — The name of the column storing the value of the metric at the time set in `time_column_name`. Default value: `Value`.
 
-#### `version_column_name` [#version_column_name]
+#### `version_column_name` 
 `version_column_name` — The name of the column storing the version of the metric. Default value: `Timestamp`.
 
-### Patterns [#patterns]
+### Patterns 
 
 Structure of the `patterns` section:
 
@@ -154,7 +154,7 @@ Valid values:
 - `precision`– How precisely to define the age of the data in seconds. Should be a divisor for 86400 (seconds in a day).
 - `function` – The name of the aggregating function to apply to data whose age falls within the range `[age, age + precision]`. Accepted functions: min / max / any / avg. The average is calculated imprecisely, like the average of the averages.
 
-### Configuration Example without rules types [#configuration-example]
+### Configuration Example without rules types 
 
 ```xml
 <graphite_rollup>
@@ -189,7 +189,7 @@ Valid values:
 </graphite_rollup>
 ```
 
-### Configuration Example with rules types [#configuration-typed-example]
+### Configuration Example with rules types 
 
 ```xml
 <graphite_rollup>

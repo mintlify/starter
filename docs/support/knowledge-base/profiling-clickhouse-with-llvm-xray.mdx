@@ -8,7 +8,7 @@ tags: ['Performance and Optimizations', 'Tools and Utilities']
 
 
 
-## Types of profilers [#types-of-profilers]
+## Types of profilers
 
 LLVM already includes a tool that instruments the code that allows us to do [instrumentation
 profiling](https://en.wikipedia.org/wiki/Profiling_(computer_programming)#Instrumentation). As
@@ -22,9 +22,9 @@ periodically to see the state of the application. So, only the functions running
 is taken are considered. [perf](https://en.wikipedia.org/wiki/Perf_%28Linux%29) is a very well-known
 statistical profiler.
 
-## How to profile with XRay [#how-to-profile-with-xray]
+## How to profile with XRay
 
-### Instrument the code [#instrument-the-code]
+### Instrument the code
 
 Imagine the following souce code:
 
@@ -82,7 +82,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
 ```
 
-### Run the process with proper env var values to collect the trace [#run-the-process-with-proper-env-var-values-to-collect-the-trace]
+### Run the process with proper env var values to collect the trace
 
 By default, there is no profiler collection unless explicitly asked for. In other words, unless
 we're profiling the overhead is negligible. We can set different values for `XRAY_OPTIONS` to
@@ -96,7 +96,7 @@ Finish
 ==74394==Cleaned up log for TID: 74394
 ```
 
-### Convert the trace [#convert-the-trace]
+### Convert the trace
 
 XRAy's traces can be converted to several formats. The `trace_event` format is very useful because
 it's easy to parse and there are already a number of tools that support it, so we'll use that one:
@@ -105,7 +105,7 @@ it's easy to parse and there are already a number of tools that support it, so w
 llvm-xray convert --symbolize --instr_map=./test --output-format=trace_event xray-log.test.14imlN | gzip > test-trace.txt.gz
 ```
 
-### Visualize the trace [#visualize-the-trace]
+### Visualize the trace
 
 We can use web-based UIs like [speedscope.app](https://www.speedscope.app/) or
 [Perfetto](https://ui.perfetto.dev).
@@ -113,19 +113,19 @@ We can use web-based UIs like [speedscope.app](https://www.speedscope.app/) or
 While Perfetto makes visualizing multiple threads and querying the data easier, speedscope is better
 generating a flamegraph and a sandwich view of your data.
 
-#### Time Order [#time-order]
+#### Time Order
 
 <Image img={time_order} size="md" alt="time-order" />
 
-#### Left Heavy [#left-heavy]
+#### Left Heavy
 
 <Image img={left_heavy} size="md" alt="left-heavy" />
 
-#### Sandwitch [#sandwitch]
+#### Sandwitch
 
 <Image img={sandwich} size="md" alt="sandwich" />
 
-## Profiling ClickHouse [#profiling-clickhouse]
+## Profiling ClickHouse
 
 1. Pass `-DENABLE_XRAY=1` to `cmake` when building ClickHouse. This [sets the proper compiler
    flags](https://github.com/ClickHouse/ClickHouse/blob/9caac43b2aa5e7c5474a87b7596dea95f5a2569a/cmake/xray_instrumentation.cmake).
@@ -142,7 +142,7 @@ generating a flamegraph and a sandwich view of your data.
 Notice that this is the visualization of only one thread. You can select the others `tid`s on the
 top bar.
 
-## Check out the docs [#check-out-the-docs]
+## Check out the docs
 
 Take a look at the [XRay Instrumentation](https://llvm.org/docs/XRay.html) and [Debugging with
 XRay](https://llvm.org/docs/XRayExample.html) documentation to learn more details.

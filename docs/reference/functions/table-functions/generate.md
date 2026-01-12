@@ -12,13 +12,13 @@ Generates random data with a given schema.
 Allows populating test tables with that data.
 Not all types are supported.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 generateRandom(['name TypeName[, name TypeName]...', [, 'random_seed'[, 'max_string_length'[, 'max_array_length']]]])
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument            | Description                                                                                     |
 |---------------------|-------------------------------------------------------------------------------------------------|
@@ -28,11 +28,11 @@ generateRandom(['name TypeName[, name TypeName]...', [, 'random_seed'[, 'max_str
 | `max_string_length` | Maximum string length for all generated strings. Defaults to `10`.                              |
 | `max_array_length`  | Maximum elements for all generated arrays or maps. Defaults to `10`.                            |
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table object with requested schema.
 
-## Usage Example [#usage-example]
+## Usage Example 
 
 ```sql
 SELECT * FROM generateRandom('a Array(Int8), d Decimal32(4), c Tuple(DateTime64(3), UUID)', 1, 10, 2) LIMIT 3;
@@ -105,5 +105,5 @@ SELECT * FROM generateRandom(11) LIMIT 3;
 `generateRandom(generateRandomStructure(), [random seed], max_string_length, max_array_length)` with a large enough `max_array_length` can generate a really huge output due to possible big nesting depth (up to 16) of complex types (`Array`, `Tuple`, `Map`, `Nested`).
 </Note>
 
-## Related content [#related-content]
+## Related content 
 - Blog: [Generating random data in ClickHouse](https://clickhouse.com/blog/generating-random-test-distribution-data-for-clickhouse)

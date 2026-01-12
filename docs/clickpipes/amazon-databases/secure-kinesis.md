@@ -9,13 +9,13 @@ keywords: ['Amazon Kinesis']
 
 This article demonstrates how ClickPipes customers can leverage role-based access to authenticate with Amazon Kinesis and access their data streams securely.
 
-## Prerequisites [#prerequisite]
+## Prerequisites 
 
 To follow this guide, you will need:
 - An active ClickHouse Cloud service
 - An AWS account
 
-## Introduction [#introduction]
+## Introduction 
 
 Before diving into the setup for secure Kinesis access, it's important to understand the mechanism. Here's an overview of how ClickPipes can access Amazon Kinesis streams by assuming a role within customers' AWS accounts.
 

@@ -21,12 +21,12 @@ Here are the steps to create a table in ClickHouse Cloud and insert the data.
 The steps below will easily work on a local install of ClickHouse too. The only change would be to use the `s3` function instead of `s3cluster` (unless you have a cluster configured - in which case change `default` to the name of your cluster).
 </Note>
 
-## Step-by-step instructions [#step-by-step-instructions]
+## Step-by-step instructions 
 
 <Steps>
 
 <Step>
-### Data exploration [#data-exploration]
+### Data exploration 
 
 Let's see what the data looks like. The `s3cluster` table function returns a table, so we can `DESCRIBE` the result:
 
@@ -68,7 +68,7 @@ ClickHouse infers the following schema from the JSON file:
 </Step>
 
 <Step>
-### Create the table [#create-the-table]
+### Create the table 
 
 Based on the inferred schema, we cleaned up the data types and added a primary key.
 Define the following table:
@@ -105,7 +105,7 @@ ORDER BY (uploader, upload_date)
 </Step>
 
 <Step>
-### Insert data [#insert-data]
+### Insert data 
 
 The following command streams the records from the S3 files into the `youtube` table.
 
@@ -153,7 +153,7 @@ Some comments about our `INSERT` command:
 </Step>
 
 <Step>
-### Count the number of rows [#count-row-numbers]
+### Count the number of rows 
 
 Open a new tab in the SQL Console of ClickHouse Cloud (or a new `clickhouse-client` window) and watch the count increase.
 It will take a while to insert 4.56B rows, depending on your server resources. (Without any tweaking of settings, it takes about 4.5 hours.)
@@ -172,7 +172,7 @@ FROM youtube
 </Step>
 
 <Step>
-### Explore the data [#explore-the-data]
+### Explore the data 
 
 Once the data is inserted, go ahead and count the number of dislikes of your favorite videos or channels. Let's see how many videos were uploaded by ClickHouse:
 
@@ -255,9 +255,9 @@ The results look like:
 
 </Steps>
 
-## Questions [#questions]
+## Questions 
 
-### If someone disables comments does it lower the chance someone will actually click like or dislike? [#if-someone-disables-comments-does-it-lower-the-chance-someone-will-actually-click-like-or-dislike]
+### If someone disables comments does it lower the chance someone will actually click like or dislike? 
 
 When commenting is disabled, are people more likely to like or dislike to express their feelings about a video?
 
@@ -312,7 +312,7 @@ ORDER BY
 
 Enabling comments seems to be correlated with a higher rate of engagement.
 
-### How does the number of videos change over time - notable events? [#how-does-the-number-of-videos-change-over-time---notable-events]
+### How does the number of videos change over time - notable events? 
 
 ```sql
 SELECT
@@ -350,7 +350,7 @@ ORDER BY month ASC;
 
 A spike of uploaders [around covid is noticeable](https://www.theverge.com/2020/3/27/21197642/youtube-with-me-style-videos-views-coronavirus-cook-workout-study-home-beauty).
 
-### More subtitles over time and when [#more-subtitles-over-time-and-when]
+### More subtitles over time and when 
 
 With advances in speech recognition, it's easier than ever to create subtitles for video with youtube adding auto-captioning in late 2009 - was the jump then?
 
@@ -387,7 +387,7 @@ ORDER BY month ASC;
 The data results show a spike in 2009. Apparently at that, time YouTube was removing their community captions feature, which allowed you to upload captions for other people's video.
 This prompted a very successful campaign to have creators add captions to their videos for hard of hearing and deaf viewers.
 
-### Top uploaders over time [#top-uploaders-over-time]
+### Top uploaders over time 
 
 ```sql
 WITH uploaders AS
@@ -430,7 +430,7 @@ ORDER BY
 │ 2008-09-01 │ WWE                        │     3717092 │   0.07872802579349912 │
 ```
 
-### How do like ratio changes as views go up? [#how-do-like-ratio-changes-as-views-go-up]
+### How do like ratio changes as views go up? 
 
 ```sql
 SELECT
@@ -478,7 +478,7 @@ ORDER BY
 └───────────────────┴─────────────────────┴────────────┘
 ```
 
-### How are views distributed? [#how-are-views-distributed]
+### How are views distributed? 
 
 ```sql
 SELECT

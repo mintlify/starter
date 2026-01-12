@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 This engine provides an integration with [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) ecosystem.
 
-## Create table [#create-table]
+## Create table 
 
 ```sql
 CREATE TABLE azure_blob_storage_table (name String, value UInt32)
@@ -18,7 +18,7 @@ CREATE TABLE azure_blob_storage_table (name String, value UInt32)
     [SETTINGS ...]
 ```
 
-### Engine parameters [#engine-parameters]
+### Engine parameters 
 
 - `endpoint` — AzureBlobStorage endpoint URL with container & prefix. Optionally can contain account_name if the authentication method used needs it. (`http://azurite1:{port}/[account_name]{container_name}/{data_prefix}`) or these parameters can be provided separately using storage_account_url, account_name & container. For specifying prefix, endpoint should be used.
 - `endpoint_contains_account_name` - This flag is used to specify if endpoint contains account_name as it is only needed for certain authentication methods. (Default : true)
@@ -54,21 +54,21 @@ SELECT * FROM test_table;
 └──────┴───────┘
 ```
 
-## Virtual columns [#virtual-columns]
+## Virtual columns 
 
 - `_path` — Path to the file. Type: `LowCardinality(String)`.
 - `_file` — Name of the file. Type: `LowCardinality(String)`.
 - `_size` — Size of the file in bytes. Type: `Nullable(UInt64)`. If the size is unknown, the value is `NULL`.
 - `_time` — Last modified time of the file. Type: `Nullable(DateTime)`. If the time is unknown, the value is `NULL`.
 
-## Authentication [#authentication]
+## Authentication 
 
 Currently there are 3 ways to authenticate:
 - `Managed Identity` - Can be used by providing an `endpoint`, `connection_string` or `storage_account_url`.
 - `SAS Token` - Can be used by providing an `endpoint`, `connection_string` or `storage_account_url`. It is identified by presence of '?' in the url. See [azureBlobStorage](/sql-reference/table-functions/azureBlobStorage#using-shared-access-signatures-sas-sas-tokens) for examples.
 - `Workload Identity` - Can be used by providing an `endpoint` or `storage_account_url`. If `use_workload_identity` parameter is set in config, ([workload identity](https://github.com/Azure/azure-sdk-for-cpp/tree/main/sdk/identity/azure-identity#authenticate-azure-hosted-applications)) is used for authentication.
 
-### Data cache [#data-cache]
+### Data cache 
 
 `Azure` table engine supports data caching on local disk.
 See filesystem cache configuration options and usage in this [section](/operations/storing-data.md/#using-local-cache).
@@ -97,13 +97,13 @@ SETTINGS filesystem_cache_name = 'cache_for_azure', enable_filesystem_cache = 1;
 
 2. reuse cache configuration (and therefore cache storage) from clickhouse `storage_configuration` section, [described here](/operations/storing-data.md/#using-local-cache)
 
-### PARTITION BY [#partition-by]
+### PARTITION BY 
 
 `PARTITION BY` — Optional. In most cases you don't need a partition key, and if it is needed you generally don't need a partition key more granular than by month. Partitioning does not speed up queries (in contrast to the ORDER BY expression). You should never use too granular partitioning. Don't partition your data by client identifiers or names (instead, make client identifier or name the first column in the ORDER BY expression).
 
 For partitioning by month, use the `toYYYYMM(date_column)` expression, where `date_column` is a column with a date of the type [Date](/sql-reference/data-types/date.md). The partition names here have the `"YYYYMM"` format.
 
-#### Partition strategy [#partition-strategy]
+#### Partition strategy 
 
 `WILDCARD` (default): Replaces the `{_partition_id}` wildcard in the file path with the actual partition key. Reading is not supported.
 
@@ -126,6 +126,6 @@ arthur :) select _path, * from azure_table;
    └────────────────────────────────────────────────────────────────────────────┴──────┴─────────┴─────────┘
 ```
 
-## See also [#see-also]
+## See also 
 
 [Azure Blob Storage Table Function](/sql-reference/table-functions/azureBlobStorage)

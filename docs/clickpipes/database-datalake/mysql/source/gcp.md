@@ -10,10 +10,10 @@ doc_type: 'guide'
 
 This is a step-by-step guide on how to configure your Cloud SQL for MySQL instance for replicating its data via the MySQL ClickPipe.
 
-## Enable binary log retention [#enable-binlog-retention-gcp]
+## Enable binary log retention 
 The binary log is a set of log files that contain information about data modifications made to an MySQL server instance, and binary log files are required for replication.
 
-### Enable binary logging via PITR[#enable-binlog-logging-gcp]
+### Enable binary logging via PITR
 The PITR feature determines whether binary logging is turned on or off for MySQL in Google Cloud. It can be set in the Cloud console, by editing your Cloud SQL instance and scrolling down to the below section.
 
 <img src="/images/integrations/data-ingestion/clickpipes/mysql/source/gcp/gcp-mysql-pitr.png" alt="Enabling PITR in Cloud SQL"/>
@@ -32,7 +32,7 @@ Then scroll down to the `Flags` section and add the above flags.
 
 <img src="/images/integrations/data-ingestion/clickpipes/mysql/source/gcp/gcp-mysql-flags.png" alt="Setting binlog flags in GCP"/>
 
-## Configure a database user [#configure-database-user-gcp]
+## Configure a database user 
 
 Connect to your Cloud SQL MySQL instance as the root user and execute the following commands:
 
@@ -55,14 +55,14 @@ Connect to your Cloud SQL MySQL instance as the root user and execute the follow
     GRANT REPLICATION SLAVE ON *.* TO 'clickpipes_user'@'%';
     ```
 
-## Configure network access [#configure-network-access-gcp-mysql]
+## Configure network access 
 
 If you want to restrict traffic to your Cloud SQL instance, please add the [documented static NAT IPs](../../index.md#list-of-static-ips) to the allowlisted IPs of your Cloud SQL MySQL instance.
 This can be done either by editing the instance or by heading over to the `Connections` tab in the sidebar in Cloud console.
 
 <img src="/images/integrations/data-ingestion/clickpipes/mysql/source/gcp/gcp-mysql-ip.png" alt="IP allowlisting in GCP MySQL"/>
 
-## Download and use root CA certificate [#download-root-ca-certificate-gcp-mysql]
+## Download and use root CA certificate 
 To connect to your Cloud SQL instance, you need to download the root CA certificate.
 
 1. Go to your Cloud SQL instance in the Cloud console.

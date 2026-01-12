@@ -8,17 +8,15 @@ description: 'Page describing the options available for migrating data into Clic
 doc_type: 'guide'
 ---
 
-<div class='vimeo-container'>
+<Frame>
   <iframe src="https://player.vimeo.com/video/753082620?h=eb566c8c08"
-    width="640"
-    height="360"
     frameborder="0"
     allow="autoplay;
     fullscreen;
     picture-in-picture"
     allowfullscreen>
   </iframe>
-</div>
+</Frame>
 
 <br/>
 

@@ -17,7 +17,7 @@ Queries in ClickHouse can be divided into several types:
 
 The following settings regulate user permissions by the type of query:
 
-## readonly [#readonly]
+## readonly 
 Restricts permissions for read data, write data, and change settings queries.
 
 When set to 1, allows:
@@ -48,7 +48,7 @@ When using the `GET` method in the [HTTP interface](../../interfaces/http.md), `
 Setting `readonly = 1` prohibits the user from changing settings. There is a way to prohibit the user from changing only specific settings. Also there is a way to allow changing only specific settings under `readonly = 1` restrictions. For details see [constraints on settings](../../operations/settings/constraints-on-settings.md).
 </Note>
 
-## allow_ddl [#allow_ddl]
+## allow_ddl 
 
 Allows or denies [DDL](https://en.wikipedia.org/wiki/Data_definition_language) queries.
 

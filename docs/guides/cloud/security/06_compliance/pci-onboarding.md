@@ -21,7 +21,7 @@ This page describes the process for enabling deployment of PCI compliant service
 <Steps>
 
 <Step>
-### Sign up for Enterprise services [#sign-up-for-enterprise]
+### Sign up for Enterprise services 
 
 1. Select your organization name in the lower left corner of the console.
 2. Click **Billing**.
@@ -32,7 +32,7 @@ This page describes the process for enabling deployment of PCI compliant service
 </Step>
 
 <Step>
-### Enable PCI for your organization [#enable-hipaa]
+### Enable PCI for your organization 
 
 1. Select your organization name in the lower left corner of the console.
 2. Click **Organization details**.
@@ -55,7 +55,7 @@ This page describes the process for enabling deployment of PCI compliant service
 </Step>
 
 <Step>
-### Deploy services to PCI compliant regions [#deploy-pci-regions]
+### Deploy services to PCI compliant regions 
 
 1. Select **New service** in the upper left corner of the home screen in the console
 2. Change the **Region type** to **HIPAA compliant**
@@ -74,7 +74,7 @@ For a complete listing of PCI compliant cloud providers and services, review our
 
 </Steps>
 
-## Migrate existing services [#migrate-to-hipaa]
+## Migrate existing services 
 
 Customers are strongly encouraged to deploy services to compliant environments where required. The process to migrate services from a standard region to a PCI compliant region involves restoring from a backup and may require some downtime.
 

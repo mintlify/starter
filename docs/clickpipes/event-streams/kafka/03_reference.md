@@ -11,7 +11,7 @@ keywords: ['kafka reference', 'clickpipes', 'data sources', 'avro', 'virtual col
 import {ExperimentalBadge} from '/snippets/components/ExperimentalBadge/ExperimentalBadge.jsx';
 
 
-## Supported data sources [#supported-data-sources]
+## Supported data sources 
 
 | Name                 |Logo|Type| Status          | Description                                                                                          |
 |----------------------|----|----|-----------------|------------------------------------------------------------------------------------------------------|
@@ -22,15 +22,15 @@ import {ExperimentalBadge} from '/snippets/components/ExperimentalBadge/Experime
 | Azure Event Hubs     |<Azureeventhubssvg class="image" alt="Azure Event Hubs logo" style={{width: '3rem'}}/>|Streaming| Stable          | Configure ClickPipes and start ingesting streaming data from Azure Event Hubs into ClickHouse Cloud. |
 | WarpStream           |<Warpstreamsvg class="image" alt="WarpStream logo" style={{width: '3rem'}}/>|Streaming| Stable          | Configure ClickPipes and start ingesting streaming data from WarpStream into ClickHouse Cloud.       |
 
-## Supported data formats [#supported-data-formats]
+## Supported data formats 
 
 The supported formats are:
 - [JSON](/integrations/data-formats/json/overview)
 - [AvroConfluent](/interfaces/formats/AvroConfluent)
 
-## Supported data types [#supported-data-types]
+## Supported data types 
 
-### Standard [#standard-types-support]
+### Standard 
 
 The following standard ClickHouse data types are currently supported in ClickPipes:
 
@@ -51,20 +51,20 @@ The following standard ClickHouse data types are currently supported in ClickPip
 - Tuple and Array with elements using any of the above types (including Nullables, one level depth only)
 - SimpleAggregateFunction types (for AggregatingMergeTree or SummingMergeTree destinations)
 
-### Avro [#avro]
+### Avro 
 
-#### Supported Avro Data Types [#supported-avro-data-types]
+#### Supported Avro Data Types 
 ClickPipes supports all Avro Primitive and Complex types, and all Avro Logical types except `time-millis`, `time-micros`, `local-timestamp-millis`, `local_timestamp-micros`, and `duration`.  Avro `record` types are converted to Tuple, `array` types to Array, and `map` to Map (string keys only).  In general the conversions listed [here](/interfaces/formats/Avro#data-type-mapping) are available.  We recommend using exact type matching for Avro numeric types, as ClickPipes does not check for overflow or precision loss on type conversion.
 Alternatively, all Avro types can be inserted into a `String` column, and will be represented as a valid JSON string in that case.
 
-#### Nullable types and Avro unions [#nullable-types-and-avro-unions]
+#### Nullable types and Avro unions 
 Nullable types in Avro are defined by using a Union schema of `(T, null)` or `(null, T)` where T is the base Avro type.  During schema inference, such unions will be mapped to a ClickHouse "Nullable" column.  Note that ClickHouse does not support
 `Nullable(Array)`, `Nullable(Map)`, or `Nullable(Tuple)` types.  Avro null unions for these types will be mapped to non-nullable versions (Avro Record types are mapped to a ClickHouse named Tuple).  Avro "nulls" for these types will be inserted as:
 - An empty Array for a null Avro array
 - An empty Map for a null Avro Map
 - A named Tuple with all default/zero values for a null Avro Record
 
-#### Variant type support [#variant-type-support]
+#### Variant type support 
 ClickPipes supports the Variant type in the following circumstances:
 - Avro Unions.  If your Avro schema contains a union with multiple non-null types, ClickPipes will infer the
   appropriate variant type.  Variant types are not otherwise supported for Avro data.
@@ -72,7 +72,7 @@ ClickPipes supports the Variant type in the following circumstances:
   in the source data stream.  Because of the way ClickPipes determines the correct variant subtype to use, only one integer or datetime
   type can be used in the Variant definition - for example, `Variant(Int64, UInt32)` is not supported.
 
-#### JSON type support [#json-type-support]
+#### JSON type support 
 ClickPipes support the JSON type in the following circumstances:
 - Avro Record types can always be assigned to a JSON column.
 - Avro String and Bytes types can be assigned to a JSON column if the column actually holds JSON String objects.
@@ -80,7 +80,7 @@ ClickPipes support the JSON type in the following circumstances:
 
 Note that you will have to manually change the destination column to the desired JSON type, including any fixed or skipped paths.
 
-## Kafka virtual columns [#kafka-virtual-columns]
+## Kafka virtual columns 
 
 The following virtual columns are supported for Kafka compatible streaming data sources.  When creating a new destination table virtual columns can be added by using the `Add Column` button.
 

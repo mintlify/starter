@@ -13,7 +13,7 @@ ClickHouse, Inc. does **not** maintain the tools and libraries listed below and 
 For official integrations please see the [integrations page](/integrations).
 </Warning>
 
-## Infrastructure products [#infrastructure-products]
+## Infrastructure products 
 
 <AccordionGroup>
 <Accordion title="Relational database management systems">
@@ -93,7 +93,7 @@ For official integrations please see the [integrations page](/integrations).
   - [MindsDB](https://github.com/mindsdb/mindsdb) - Integrates with ClickHouse, making data from ClickHouse accessible to a diverse range of AI/ML models.
 </Accordion>
 </AccordionGroup>
-## Programming language ecosystems [#programming-language-ecosystems]
+## Programming language ecosystems 
 
 <AccordionGroup>
 <Accordion title="Python">

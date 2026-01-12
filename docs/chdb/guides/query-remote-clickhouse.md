@@ -9,7 +9,7 @@ doc_type: 'guide'
 
 In this guide, we're going to learn how to query a remote ClickHouse server from chDB.
 
-## Setup [#setup]
+## Setup 
 
 Let's first create a virtual environment:
 
@@ -39,7 +39,7 @@ ipython
 
 You can also use the code in a Python script or in your favorite notebook.
 
-## An intro to ClickPy [#an-intro-to-clickpy]
+## An intro to ClickPy 
 
 The remote ClickHouse server that we're going to query is [ClickPy](https://clickpy.clickhouse.com).
 ClickPy keeps track of all the downloads of PyPI packages and lets you explore the stats of packages via a UI.
@@ -47,7 +47,7 @@ The underlying database is available to query using the `play` user.
 
 You can learn more about ClickPy in [its GitHub repository](https://github.com/ClickHouse/clickpy).
 
-## Querying the ClickPy ClickHouse service [#querying-the-clickpy-clickhouse-service]
+## Querying the ClickPy ClickHouse service 
 
 Let's import chDB:
 
@@ -128,7 +128,7 @@ sklearn_df.sort_values(by=["x"], ascending=False).head(n=10)
 2383  2024-09-23  1777554
 ```
 
-## Merging Pandas DataFrames [#merging-pandas-dataframes]
+## Merging Pandas DataFrames 
 
 We now have two DataFrames, which we can merge together based on date (which is the `x` column) like this:
 
@@ -166,7 +166,7 @@ df.head(n=5)
 4  2018-03-02         5      23842  0.000210
 ```
 
-## Querying Pandas DataFrames [#querying-pandas-dataframes]
+## Querying Pandas DataFrames 
 
 Next, let's say we want to find the dates with the best and worst ratios. 
 We can go back to chDB and compute those values:

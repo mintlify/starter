@@ -20,9 +20,9 @@ keywords: ['Elixir ClickStack SDK', 'Elixir observability', 'HyperDX Elixir', 'E
 </table>
 _🚧 OpenTelemetry metrics & tracing instrumentation coming soon!_
 
-## Getting started [#getting-started]
+## Getting started 
 
-### Install ClickStack logger backend package [#install-hyperdx-logger-backend-package]
+### Install ClickStack logger backend package 
 
 The package can be installed by adding `hyperdx` to your list of dependencies in
 `mix.exs`:
@@ -35,7 +35,7 @@ def deps do
 end
 ```
 
-### Configure logger [#configure-logger]
+### Configure logger 
 
 Add the following to your `config.exs` file:
 
@@ -47,7 +47,7 @@ config :logger,
   backends: [:console, {Hyperdx.Backend, :hyperdx}]
 ```
 
-### Configure environment variables [#configure-environment-variables]
+### Configure environment variables 
 
 Afterwards you'll need to configure the following environment variables in your
 shell to ship telemetry to ClickStack:

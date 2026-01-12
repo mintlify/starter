@@ -18,7 +18,7 @@ HyperDX is a purpose-built frontend for exploring and visualizing observability 
 HyperDX in ClickHouse Cloud allows users to enjoy a more turnkey ClickStack experience - no infrastructure to manage, no separate authentication to configure.
 HyperDX can be launched with a single click and connected to your data -  fully integrated into the ClickHouse Cloud authentication system for seamless, secure access to your observability insights.
 
-## Deployment [#main-concepts]
+## Deployment 
 
 HyperDX in ClickHouse Cloud is currently in private preview and must be enabled at the organization level. Once enabled, users will find HyperDX available in the main left navigation menu when selecting any service.
 

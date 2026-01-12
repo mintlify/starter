@@ -27,7 +27,7 @@ The number of digits after the decimal point depends on the precision parameter.
 
 Note: The precision of the maximum value is 8. If the maximum precision of 9 digits (nanoseconds) is used, the maximum supported value is `2262-04-11 23:47:16` in UTC.
 
-## Examples [#examples]
+## Examples 
 
 1. Creating a table with `DateTime64`-type column and inserting data into it:
 

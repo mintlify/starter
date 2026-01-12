@@ -12,7 +12,7 @@ ClickHouse Cloud sends notifications about critical events related to your servi
 2. **Notification severity**: Notification severity can be `info`, `warning`, or `critical` depending on how important a notification is. This is not configurable.
 3. **Notification channel**: Channel refers to the mode by which the notification is received such as UI, email, Slack etc. This is configurable for most notifications.
 
-## Receiving notifications [#receiving-notifications]
+## Receiving notifications 
 
 Notifications can be received via various channels. For now, ClickHouse Cloud supports receiving notifications through email, ClickHouse Cloud UI, and Slack.  You can click on the bell icon in the top left menu to view current notifications, which opens a flyout. Clicking the button **View All** the bottom of the flyout will take you to a page that shows an activity log of all notifications.
 
@@ -20,7 +20,7 @@ Notifications can be received via various channels. For now, ClickHouse Cloud su
 
 <img src="/images/cloud/manage/notifications-2.png" alt="ClickHouse Cloud notifications activity log"/>
 
-## Customizing notifications [#customizing-notifications]
+## Customizing notifications 
 
 For each notification, you can customize how you receive the notification. You can access the settings screen from the notifications flyout or from the second tab on the notifications activity log.
 
@@ -36,6 +36,6 @@ To configure delivery for a specific notification, click on the pencil icon to m
 Certain **required** notifications such as **Payment failed** are not configurable.
 </Note>
 
-## Supported notifications [#supported-notifications]
+## Supported notifications 
 
 Currently, we send out notifications related to billing (payment failure, usage exceeded ascertain threshold, etc.) as well as notifications related to scaling events (scaling completed, scaling blocked etc.).

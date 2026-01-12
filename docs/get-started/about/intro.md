@@ -9,7 +9,7 @@ doc_type: 'guide'
 
 ClickHouse® is a high-performance, column-oriented SQL database management system (DBMS) for online analytical processing (OLAP). It is available as both an [open-source software](https://github.com/ClickHouse/ClickHouse) and a [cloud offering](https://clickhouse.com/cloud).
 
-## What are analytics? [#what-are-analytics]
+## What are analytics? 
 
 Analytics, also known as OLAP (Online Analytical Processing), refers to SQL queries with complex calculations (e.g., aggregations, string processing, arithmetic) over massive datasets.
 
@@ -17,7 +17,7 @@ Unlike transactional queries (or OLTP, Online Transaction Processing) that read 
 
 In many use cases, [analytics queries must be "real-time"](https://clickhouse.com/engineering-resources/what-is-real-time-analytics), i.e., return a result in less than one second.
 
-## Row-oriented vs. column-oriented storage [#row-oriented-vs-column-oriented-storage]
+## Row-oriented vs. column-oriented storage 
 
 Such a level of performance can only be achieved with the right data "orientation".
 
@@ -62,27 +62,27 @@ Because the block-wise storage and transfer from disk to memory is aligned with 
 
 <img src="/images/column-oriented.gif" alt="Column-oriented database structure"/>
 
-## Data replication and integrity [#data-replication-and-integrity]
+## Data replication and integrity 
 
 ClickHouse uses an asynchronous multi-master replication scheme to ensure that data is stored redundantly on multiple nodes. After being written to any available replica, all the remaining replicas retrieve their copy in the background. The system maintains identical data on different replicas. Recovery after most failures is performed automatically, or semi-automatically in complex cases.
 
-## Role-Based Access Control [#role-based-access-control]
+## Role-Based Access Control 
 
 ClickHouse implements user account management using SQL queries and allows for role-based access control configuration similar to what can be found in ANSI SQL standard and popular relational database management systems.
 
-## SQL support [#sql-support]
+## SQL support 
 
 ClickHouse supports a [declarative query language based on SQL](/sql-reference) that is identical to the ANSI SQL standard in many cases. Supported query clauses include [GROUP BY](/sql-reference/statements/select/group-by), [ORDER BY](/sql-reference/statements/select/order-by), subqueries in [FROM](/sql-reference/statements/select/from), [JOIN](/sql-reference/statements/select/join) clause, [IN](/sql-reference/operators/in) operator, [window functions](/sql-reference/window-functions) and scalar subqueries.
 
-## Approximate calculation [#approximate-calculation]
+## Approximate calculation 
 
 ClickHouse provides ways to trade accuracy for performance. For example, some of its aggregate functions calculate the distinct value count, the median, and quantiles approximately. Also, queries can be run on a sample of the data to compute an approximate result quickly. Finally, aggregations can be run with a limited number of keys instead of for all keys. Depending on how skewed the distribution of the keys is, this can provide a reasonably accurate result that uses far fewer resources than an exact calculation.
 
-## Adaptive join algorithms [#adaptive-join-algorithms]
+## Adaptive join algorithms 
 
 ClickHouse chooses the join algorithm adaptively: it starts with fast hash joins and falls back to merge joins if there's more than one large table.
 
-## Superior query performance [#superior-query-performance]
+## Superior query performance 
 
 ClickHouse is well known for having extremely fast query performance.
 To learn why ClickHouse is so fast, see the [Why is ClickHouse fast?](/concepts/why-clickhouse-is-so-fast.mdx) guide.

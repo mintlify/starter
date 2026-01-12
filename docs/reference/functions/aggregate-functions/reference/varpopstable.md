@@ -8,7 +8,7 @@ title: 'varPopStable'
 doc_type: 'reference'
 ---
 
-## varPopStable [#varpopstable]
+## varPopStable 
 
 Returns the population variance. Unlike [`varPop`](../reference/varpop.md), this function uses a [numerically stable](https://en.wikipedia.org/wiki/Numerical_stability) algorithm. It works slower but provides a lower computational error.
 

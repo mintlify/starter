@@ -10,13 +10,13 @@ doc_type: 'reference'
 
 Allows `SELECT` and `INSERT` queries to be performed on data that is stored on a remote PostgreSQL server.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 postgresql({host:port, database, table, user, password[, schema, [, on_conflict]] | named_collection[, option=value [,..]]})
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument      | Description                                                                |
 |---------------|----------------------------------------------------------------------------|
@@ -30,7 +30,7 @@ postgresql({host:port, database, table, user, password[, schema, [, on_conflict]
 
 Arguments also can be passed using [named collections](operations/named-collections.md). In this case `host` and `port` should be specified separately. This approach is recommended for production environment.
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table object with the same columns as the original PostgreSQL table.
 
@@ -38,7 +38,7 @@ A table object with the same columns as the original PostgreSQL table.
 In the `INSERT` query to distinguish table function `postgresql(...)` from table name with column names list you must use keywords `FUNCTION` or `TABLE FUNCTION`. See examples below.
 </Note>
 
-## Implementation Details [#implementation-details]
+## Implementation Details 
 
 `SELECT` queries on PostgreSQL side run as `COPY (SELECT ...) TO STDOUT` inside read-only PostgreSQL transaction with commit after each `SELECT` query.
 
@@ -68,7 +68,7 @@ SELECT name FROM postgresql(`postgres1:5431|postgres2:5432`, 'postgres_database'
 
 Supports replicas priority for PostgreSQL dictionary source. The bigger the number in map, the less the priority. The highest priority is `0`.
 
-## Examples [#examples]
+## Examples 
 
 Table in PostgreSQL:
 
@@ -146,11 +146,11 @@ CREATE TABLE pg_table_schema_with_dots (a UInt32)
         ENGINE PostgreSQL('localhost:5432', 'clickhouse', 'nice.table', 'postgrsql_user', 'password', 'nice.schema');
 ```
 
-## Related [#related]
+## Related 
 
 - [The PostgreSQL table engine](../../engines/table-engines/integrations/postgresql.md)
 - [Using PostgreSQL as a dictionary source](/sql-reference/dictionaries#postgresql)
 
-### Replicating or migrating Postgres data with with PeerDB [#replicating-or-migrating-postgres-data-with-with-peerdb]
+### Replicating or migrating Postgres data with with PeerDB 
 
 > In addition to table functions, you can always use [PeerDB](https://docs.peerdb.io/introduction) by ClickHouse to set up a continuous data pipeline from Postgres to ClickHouse. PeerDB is a tool designed specifically to replicate data from Postgres to ClickHouse using change data capture (CDC).

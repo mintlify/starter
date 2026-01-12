@@ -9,7 +9,7 @@ keywords: ['Expensive Queries']
 
 
 
-## Answer [#answer]
+## Answer
 
 The `query_log` table in the `system` database keeps track of all your queries, including:
 
@@ -91,7 +91,7 @@ SELECT
 FROM s3Cluster('default','https://clickhouse-public-datasets.s3.amazonaws.com/youtube/original/files/*.zst', 'JSONLines')
 ```
 
-## initial_query_id VS query_id [#initial_query_id-vs-query_id]
+## initial_query_id VS query_id
 
 Note that in a clustered ClickHouse environment (like ClickHouse Cloud) `initial_query_id` represents the ID of the initial query for distributed query execution launched from the node receiving the request;
 then `query_id` field will contain the ID of the child query executed on a different node.

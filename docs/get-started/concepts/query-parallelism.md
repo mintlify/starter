@@ -14,13 +14,13 @@ This guide walks through how query parallelism works in ClickHouse and how you c
 
 We use an aggregation query on the [uk_price_paid_simple](/parts) dataset to illustrate key concepts.
 
-## Step-by-step: How ClickHouse parallelizes an aggregation query [#step-by-step-how-clickHouse-parallelizes-an-aggregation-query]
+## Step-by-step: How ClickHouse parallelizes an aggregation query 
 
 When ClickHouse ① runs an aggregation query with a filter on the table's primary key, it ② loads the primary index into memory to ③ identify which granules need to be processed, and which can be safely skipped:
 
 <img src="/images/guides/best-practices/query-parallelism_01.gif" alt="Index analysis"/>
 
-### Distributing work across processing lanes [#distributing-work-across-processing-lanes]
+### Distributing work across processing lanes 
 
 The selected data is then [dynamically](#load-balancing-across-processing-lanes) distributed across `n` parallel [processing lanes](/academic_overview#4-2-multi-core-parallelization), which stream and process the data [block](/development/architecture#block) by block into the final result:
 
@@ -36,7 +36,7 @@ On a machine with `8` cores, query processing throughput would roughly double (b
 <br/><br/>
 Efficient lane distribution is key to maximizing CPU utilization and reducing total query time.
 
-### Processing queries on sharded tables [#processing-queries-on-sharded-tables]
+### Processing queries on sharded tables 
 
 When table data is distributed across multiple servers as [shards](/shards), each server processes its shard in parallel. Within each server, the local data is handled using parallel processing lanes, just as described above:
 
@@ -51,7 +51,7 @@ Distributing query load across shards allows horizontal scaling of parallelism, 
 In ClickHouse Cloud, this same parallelism is achieved through [parallel replicas](https://clickhouse.com/docs/deployment-guides/parallel-replicas), which function similarly to shards in shared-nothing clusters. Each ClickHouse Cloud replica—a stateless compute node—processes a portion of the data in parallel and contributes to the final result, just like an independent shard would.
 </Note>
 
-## Monitoring query parallelism [#monitoring-query-parallelism]
+## Monitoring query parallelism 
 
 Use these tools to verify that your query fully utilizes available CPU resources and to diagnose when it doesn't.
 
@@ -109,11 +109,11 @@ ClickHouse's [embedded web UI](/interfaces/http) (available at the `/play` endpo
 
 Note: Read the visualization from left to right. Each row represents a parallel processing lane that streams data block by block, applying transformations such as filtering, aggregation, and final processing stages. In this example, you can see four parallel lanes corresponding to the `max_threads = 4` setting.
 
-### Load balancing across processing lanes [#load-balancing-across-processing-lanes]
+### Load balancing across processing lanes 
 
 Note that the `Resize` operators in the physical plan above [repartition and redistribute](/academic_overview#4-2-multi-core-parallelization) data block streams across processing lanes to keep them evenly utilized. This rebalancing is especially important when data ranges vary in how many rows match the query predicates, otherwise, some lanes may become overloaded while others sit idle. By redistributing the work, faster lanes effectively help out slower ones, optimizing overall query runtime.
 
-## Why max_threads isn't always respected [#why-max-threads-isnt-always-respected]
+## Why max_threads isn't always respected 
 
 As mentioned above, the number of `n` parallel processing lanes is controlled by the `max_threads` setting, which by default matches the number of CPU cores available to ClickHouse on the server:
 ```sql runnable=false
@@ -234,13 +234,13 @@ Now ClickHouse uses 59 concurrent streams to scan the data, fully respecting the
 
 This demonstrates that for queries on small datasets, ClickHouse will intentionally limit concurrency. Use setting overrides only for testing—not in production—as they can lead to inefficient execution or resource contention.
 
-## Key takeaways [#key-takeaways]
+## Key takeaways 
 
 * ClickHouse parallelizes queries using processing lanes tied to `max_threads`.
 * The actual number of lanes depends on the size of data selected for processing.
 * Use `EXPLAIN PIPELINE` and trace logs to analyze lane usage.
 
-## Where to find more information  [#where-to-find-more-information]
+## Where to find more information  
 
 If you'd like to dive deeper into how ClickHouse executes queries in parallel and how it achieves high performance at scale, explore the following resources: 
 
@@ -249,4 +249,7 @@ If you'd like to dive deeper into how ClickHouse executes queries in parallel an
 * [Partial aggregation states explained](https://clickhouse.com/blog/clickhouse_vs_elasticsearch_mechanics_of_count_aggregations#-multi-core-parallelization) - A technical deep dive into how partial aggregation states enable efficient parallel execution across processing lanes.
 
 * A video tutorial walking in detail through all ClickHouse query processing steps:
+
+<Frame>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/hP6G2Nlz_cA?si=Imd_i427J_kZOXHe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</Frame>

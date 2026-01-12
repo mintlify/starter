@@ -14,7 +14,7 @@ import {BetaBadge} from '/snippets/components/BetaBadge/BetaBadge.jsx'
 
 You can use ClickPipes to ingest data from your source Postgres database into ClickHouse Cloud. The source Postgres database can be hosted on-premises or in the cloud including Amazon RDS, Google Cloud SQL, Azure Database for Postgres, Supabase and others.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 To get started, you first need to make sure that your Postgres database is set up correctly. Depending on your source Postgres instance, you may follow any of the following guides:
 
@@ -83,7 +83,7 @@ Postgres Proxies like PgBouncer, RDS Proxy, Supabase Pooler, etc., are not suppo
 
 Once your source Postgres database is set up, you can continue creating your ClickPipe.
 
-## Creating your ClickPipe [#creating-your-clickpipe]
+## Creating your ClickPipe 
 
 Make sure you are logged in to your ClickHouse Cloud account. If you don't have an account yet, you can sign up [here](https://cloud.clickhouse.com/).
 
@@ -100,7 +100,7 @@ Make sure you are logged in to your ClickHouse Cloud account. If you don't have 
 
    <img src="/images/integrations/data-ingestion/clickpipes/postgres/postgres-tile.png" alt="Select Postgres"/>
 
-### Adding your source Postgres database connection [#adding-your-source-postgres-database-connection]
+### Adding your source Postgres database connection 
 
 4. Fill in the connection details for your source Postgres database which you configured in the prerequisites step.
 
@@ -113,13 +113,13 @@ Make sure you are logged in to your ClickHouse Cloud account. If you don't have 
 
    <img src="/images/integrations/data-ingestion/clickpipes/postgres/postgres-connection-details.jpg" alt="Fill in connection details"/>
 
-#### (Optional) Setting up AWS Private Link [#optional-setting-up-aws-private-link]
+#### (Optional) Setting up AWS Private Link 
 
 You can use AWS Private Link to connect to your source Postgres database if it is hosted on AWS. This is useful if you
 want to keep your data transfer private.
 You can follow the [setup guide to set up the connection](/integrations/clickpipes/aws-privatelink).
 
-#### (Optional) Setting up SSH tunneling [#optional-setting-up-ssh-tunneling]
+#### (Optional) Setting up SSH tunneling 
 
 You can specify SSH tunneling details if your source Postgres database is not publicly accessible.
 
@@ -139,13 +139,13 @@ Make sure to whitelist [ClickPipes IP addresses](../clickpipes#list-of-static-ip
 
 Once the connection details are filled in, click on "Next".
 
-### Configuring the replication settings [#configuring-the-replication-settings]
+### Configuring the replication settings 
 
 5. Make sure to select the replication slot from the dropdown list you created in the prerequisites step.
 
    <img src="/images/integrations/data-ingestion/clickpipes/postgres/select-replication-slot.jpg" alt="Select replication slot"/>
 
-#### Advanced settings [#advanced-settings]
+#### Advanced settings 
 
 You can configure the Advanced settings if needed. A brief description of each setting is provided below:
 
@@ -155,7 +155,7 @@ You can configure the Advanced settings if needed. A brief description of each s
 - **Snapshot number of rows per partition**: This is the number of rows that will be fetched in each partition during the initial snapshot. This is useful when you have a large number of rows in your tables and you want to control the number of rows fetched in each partition.
 - **Snapshot number of tables in parallel**: This is the number of tables that will be fetched in parallel during the initial snapshot. This is useful when you have a large number of tables and you want to control the number of tables fetched in parallel.
 
-### Configuring the tables [#configuring-the-tables]
+### Configuring the tables 
 
 6. Here you can select the destination database for your ClickPipe. You can either select an existing database or create a new one.
 
@@ -167,13 +167,13 @@ You can configure the Advanced settings if needed. A brief description of each s
    If you are defining an ordering key in ClickHouse differently than from the primary key in Postgres, don't forget to read all the [considerations](/integrations/clickpipes/postgres/ordering_keys) around it
    </Warning>
 
-### Review permissions and start the ClickPipe [#review-permissions-and-start-the-clickpipe]
+### Review permissions and start the ClickPipe 
 
 8. Select the "Full access" role from the permissions dropdown and click "Complete Setup".
 
    <img src="/images/integrations/data-ingestion/clickpipes/postgres/ch-permissions.jpg" alt="Review permissions"/>
 
-## What's next? [#whats-next]
+## What's next? 
 
 Once you've set up your ClickPipe to replicate data from PostgreSQL to ClickHouse Cloud, you can focus on how to query and model your data for optimal performance. See the [migration guide](/migrations/postgresql/overview) to assess which strategy best suits your requirements, as well as the [Deduplication strategies (using CDC)](/integrations/clickpipes/postgres/deduplication) and [Ordering Keys](/integrations/clickpipes/postgres/ordering_keys) pages for best practices on CDC workloads.
 

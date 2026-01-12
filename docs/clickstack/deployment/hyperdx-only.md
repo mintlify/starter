@@ -20,19 +20,19 @@ To enable full functionality, you must provide a MongoDB instance for storing ap
 
 In this mode, data ingestion is left entirely to the user. You can ingest data into ClickHouse using your own hosted OpenTelemetry collector, direct ingestion from client libraries, ClickHouse-native table engines (such as Kafka or S3), ETL pipelines, or managed ingestion services like ClickPipes. This approach offers maximum flexibility and is suitable for teams that already operate ClickHouse and want to layer HyperDX on top for visualization, search, and alerting.
 
-### Suitable for [#suitable-for]
+### Suitable for 
 
 - Existing ClickHouse users
 - Custom event pipelines
 
-## Deployment steps [#deployment-steps]
+## Deployment steps 
 <br/>
 
 <Steps>
 
 <Step>
 
-### Deploy with Docker [#deploy-hyperdx-with-docker]
+### Deploy with Docker 
 
 Run the following command, modifying `YOUR_MONGODB_URI` as required.
 
@@ -44,7 +44,7 @@ docker run -e MONGO_URI=mongodb://YOUR_MONGODB_URI -p 8080:8080 docker.hyperdx.i
 
 <Step>
 
-### Navigate to the HyperDX UI [#navigate-to-hyperdx-ui]
+### Navigate to the HyperDX UI 
 
 Visit [http://localhost:8080](http://localhost:8080) to access the HyperDX UI.
 
@@ -58,7 +58,7 @@ On clicking `Create` you'll be prompted for connection details.
 
 <Step>
 
-### Complete connection details [#complete-connection-details]
+### Complete connection details 
 
 Connect to your own external ClickHouse cluster e.g. ClickHouse Cloud.
 
@@ -74,11 +74,11 @@ Creating a source requires tables to exist in ClickHouse. If you don't have data
 
 </Steps>
 
-## Using Docker Compose [#using-docker-compose]
+## Using Docker Compose 
 
 Users can modify the [Docker Compose configuration](/use-cases/observability/clickstack/deployment/docker-compose) to achieve the same effect as this guide, removing the OTel collector and ClickHouse instance from the manifest.
 
-## ClickStack OpenTelemetry collector [#otel-collector]
+## ClickStack OpenTelemetry collector 
 
 Even if you are managing your own OpenTelemetry collector, independent of the other components in the stack, we still recommend using the ClickStack distribution of the collector. This ensures the default schema is used and best practices for ingestion are applied.
 

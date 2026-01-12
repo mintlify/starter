@@ -29,7 +29,7 @@ As well as reducing infrastructure management, this deployment pattern ensures a
 
 In this mode, data ingestion is entirely left to the user. You can ingest data into ClickHouse Cloud using your own hosted OpenTelemetry collector, direct ingestion from client libraries, ClickHouse-native table engines (such as Kafka or S3), ETL pipelines, or ClickPipes — ClickHouse Cloud's managed ingestion service. This approach offers the simplest and most performant way to operate ClickStack.
 
-### Suitable for [#suitable-for]
+### Suitable for 
 
 This deployment pattern is ideal in the following scenarios:
 
@@ -37,14 +37,14 @@ This deployment pattern is ideal in the following scenarios:
 2. You operate a large observability deployment and need the dedicated performance and scalability of ClickStack with ClickHouse Cloud.
 3. You're already using ClickHouse Cloud for analytics and want to instrument your application using ClickStack instrumentation libraries — sending data to the same cluster. In this case, we recommend using [warehouses](/cloud/reference/warehouses) to isolate compute for observability workloads.
 
-## Deployment steps [#deployment-steps]
+## Deployment steps 
 
 The following guide assumes you have already created a ClickHouse Cloud service. If you haven't created a service, follow the ["Create a ClickHouse service"](/getting-started/quick-start/cloud#1-create-a-clickhouse-service) step from our Quick Start guide.
 
 <Steps>
 
 <Step>
-### Copy service credentials (optional) [#copy-service-credentials]
+### Copy service credentials (optional) 
 
 **If you have existing observability events you wish to visualize in your service, this step can be skipped.**
 
@@ -57,7 +57,7 @@ Press the `Connect` button from the navigation menu. A modal will open offering 
 </Step>
 
 <Step>
-### Deploy Open Telemetry Collector (optional) [#deploy-otel-collector] 
+### Deploy Open Telemetry Collector (optional)  
 
 **If you have existing observability events you wish to visualize in your service, this step can be skipped.**
 
@@ -273,7 +273,7 @@ In production, we recommend creating a dedicated user for ingestion, restricting
 </Step>
 
 <Step>
-### Connect to HyperDX [#connect-to-hyperdx]
+### Connect to HyperDX 
 
 Select your service, then select `HyperDX` from the left menu.
 
@@ -288,11 +288,11 @@ For users looking to explore the HyperDX interface only, we recommend our [sampl
 </Step>
 
 <Step>
-### User permissions [#user-permissions]
+### User permissions 
 
 Users accessing HyperDX are automatically authenticated using their ClickHouse Cloud console credentials. Access is controlled through SQL console permissions configured in the service settings.
 
-#### To configure user access [#configure-access]
+#### To configure user access 
 
 1. Navigate to your service in the ClickHouse Cloud console
 2. Go to **Settings** → **SQL Console Access**
@@ -310,11 +310,11 @@ To enable alerts, at least one user with **Service Admin** permissions (mapped t
 </Step>
 
 <Step>
-### Create a data source [#create-a-datasource]
+### Create a data source 
 
 HyperDX is Open Telemetry native but not Open Telemetry exclusive - users can use their own table schemas if desired.
 
-#### Using Open Telemetry schemas  [#using-otel-schemas]
+#### Using Open Telemetry schemas  
 
 If you're using the above OTel collector to create the database and tables within ClickHouse, retain all default values within the create source model, completing the `Table` field with the value `otel_logs` - to create a logs source. All other settings should be auto-detected, allowing you to click `Save New Source`.
 
@@ -332,7 +332,7 @@ From here, select the required source type followed by the appropriate table e.g
 Note that different data sources in ClickStack—such as logs and traces—can be correlated with each other. To enable this, additional configuration is required on each source. For example, in the logs source, you can specify a corresponding trace source, and vice versa in the traces source. See ["Correlated sources"](/use-cases/observability/clickstack/config#correlated-sources) for further details.
 </Note>
 
-#### Using custom schemas [#using-custom-schemas]
+#### Using custom schemas 
 
 Users looking to connect HyperDX to an existing service with data can complete the database and table settings as required. Settings will be auto-detected if tables conform to the Open Telemetry schemas for ClickHouse. 
 
@@ -342,7 +342,7 @@ If using your own schema, we recommend creating a Logs source ensuring the requi
 
 </Steps>
 
-## JSON type support [#json-type-support]
+## JSON type support 
 
 <BetaBadge/>
 

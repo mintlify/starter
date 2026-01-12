@@ -45,7 +45,7 @@ Always:
 
 For a more detailed guide on Data Skipping Indices see [here](/sql-reference/statements/alter/skipping-index).
 
-## Example [#example]
+## Example 
 
 Consider the following optimized table. This contains Stack Overflow data with a row per post.
 
@@ -248,7 +248,7 @@ We also show an animation how the minmax skipping index prunes all row blocks th
 
 <img src="/images/bestpractices/using_skipping_indices.gif" alt="Using skipping indices" width="600px" height="auto"/>
 
-## Related docs [#related-docs]
+## Related docs 
 - [Data skipping indices guide](/optimize/skipping-indexes)
 - [Data skipping index examples](/optimize/skipping-indexes/examples)
 - [Manipulating data skipping indices](/sql-reference/statements/alter/skipping-index)

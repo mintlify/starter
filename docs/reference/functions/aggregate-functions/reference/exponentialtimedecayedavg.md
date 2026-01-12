@@ -7,7 +7,7 @@ title: 'exponentialTimeDecayedAvg'
 doc_type: 'reference'
 ---
 
-## exponentialTimeDecayedAvg [#exponentialtimedecayedavg]
+## exponentialTimeDecayedAvg 
 
 Returns the exponentially smoothed weighted moving average of values of a time series at point `t` in time.
 

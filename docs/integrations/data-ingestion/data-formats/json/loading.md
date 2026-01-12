@@ -11,7 +11,7 @@ doc_type: 'guide'
 
 The following examples provide a very simple example of loading structured and semi-structured JSON data. For more complex JSON, including nested structures, see the guide [**Designing JSON schema**](/integrations/data-formats/json/schema).
 
-## Loading structured JSON [#loading-structured-json]
+## Loading structured JSON 
 
 In this section, we assume the JSON data is in [`NDJSON`](https://github.com/ndjson/ndjson-spec) (Newline delimited JSON) format, known as [`JSONEachRow`](/interfaces/formats/JSONEachRow) in ClickHouse, and well structured i.e. the column names and types are fixed. `NDJSON` is the preferred format for loading JSON due to its brevity and efficient use of space, but others are supported for both [input and output](/interfaces/formats/JSON).
 
@@ -114,7 +114,7 @@ FORMAT JSONEachRow
 
 These examples assume the use of the `JSONEachRow` format. Other common JSON formats are supported, with examples of loading these provided [here](/integrations/data-formats/json/other-formats).
 
-## Loading semi-structured JSON [#loading-semi-structured-json]
+## Loading semi-structured JSON 
 
 Our previous example loaded JSON which was static with well known key names and types. This is often not the case - keys can be added or their types can change. This is common in use cases such as Observability data.
 
@@ -190,7 +190,7 @@ LIMIT 2
 
 Notice the performance difference here on loading data. The JSON column requires type inference at insert time as well as additional storage if columns exist that have more than one type. Although the JSON type can be configured (see [Designing JSON schema](/integrations/data-formats/json/schema)) for equivalent performance to explicitly declaring columns, it is intentionally flexible out-of-the-box. This flexibility, however, comes at some cost. 
 
-### When to use the JSON type [#when-to-use-the-json-type]
+### When to use the JSON type 
 
 Use the JSON type when your data:
 

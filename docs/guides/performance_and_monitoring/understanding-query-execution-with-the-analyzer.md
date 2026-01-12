@@ -31,7 +31,7 @@ Now that we have some data in ClickHouse, we want to run some queries and unders
 
 Let's look at each entity in action during query execution. We are going to take a few queries and then examine them using the `EXPLAIN` statement.
 
-## Parser [#parser]
+## Parser 
 
 The goal of a parser is to transform the query text into an AST (Abstract Syntax Tree). This step can be visualized using `EXPLAIN AST`:
 
@@ -62,7 +62,7 @@ The output is an Abstract Syntax Tree that can be visualized as shown below:
 
 Each node has corresponding children and the overall tree represents the overall structure of your query. This is a logical structure to help processing a query. From an end-user standpoint (unless interested in query execution), it is not super useful; this tool is mainly used by developers.
 
-## Analyzer [#analyzer]
+## Analyzer 
 
 ClickHouse currently has two architectures for the Analyzer. You can use the old architecture by setting: `enable_analyzer=0`. The new architecture is enabled by default. We are going to describe only the new architecture here, given the old one is going to be deprecated once the new analyzer is generally available.
 
@@ -119,7 +119,7 @@ EXPLAIN QUERY TREE passes=20 SELECT min(timestamp) AS minimum_date, max(timestam
 
 Between the two executions, you can see the resolution of aliases and projections.
 
-## Planner [#planner]
+## Planner 
 
 The planner takes a query tree and builds a query plan out of it. The query tree tells us what we want to do with a specific query, and the query plan tells us how we will do it. Additional optimizations are going to be done as part of the query plan. You can use `EXPLAIN PLAN` or `EXPLAIN` to see the query plan (`EXPLAIN` will execute `EXPLAIN PLAN`).
 
@@ -231,7 +231,7 @@ GROUP BY type
 
 You can now see all the inputs, functions, aliases, and data types that are being used. You can see some of the optimizations that the planner is going to apply [here](https://github.com/ClickHouse/ClickHouse/blob/master/src/Processors/QueryPlan/Optimizations/Optimizations.h).
 
-## Query pipeline [#query-pipeline]
+## Query pipeline 
 
 A query pipeline is generated from the query plan. The query pipeline is very similar to the query plan, with the difference that it's not a tree but a graph. It highlights how ClickHouse is going to execute a query and what resources are going to be used. Analyzing the query pipeline is very useful to see where the bottleneck is in terms of inputs/outputs. Let's take our previous query and look at the query pipeline execution:
 
@@ -428,6 +428,6 @@ digraph
 
 So the executor decided not to parallelize operations because the volume of data was not high enough. By adding more rows, the executor then decided to use multiple threads as shown in the graph.
 
-## Executor [#executor]
+## Executor 
 
 Finally the last step of the query execution is done by the executor. It will take the query pipeline and execute it. There are different types of executors, depending if you are doing a `SELECT`, an `INSERT`, or an `INSERT SELECT`.

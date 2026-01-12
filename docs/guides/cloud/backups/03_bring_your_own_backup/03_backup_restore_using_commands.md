@@ -12,7 +12,7 @@ Users can utilize `BACKUP` and `RESTORE` commands to export backups to their sto
 in addition to backing up or restoring [via user interface](/cloud/manage/backups/backup-restore-via-ui).
 Commands for all three CSPs are given in this guide.
 
-## Requirements [#requirements]
+## Requirements 
 
 You will need the following details to export/restore backups to your own CSP storage bucket:
 
@@ -40,12 +40,12 @@ You will need the following details to export/restore backups to your own CSP st
   </Tab>
 </Tabs>
 
-## Backup / Restore specific DB [#backup_restore_db]
+## Backup / Restore specific DB 
 
 Here we show the backup and restore of a *single* database.
 See the [backup command summary](/operations/backup#command-summary) for full backup and restore commands.
 
-### AWS S3 [#aws-s3-bucket]
+### AWS S3 
 
 
 <Tabs>
@@ -80,7 +80,7 @@ FROM S3(
   </Tab>
 </Tabs>
 
-### Google Cloud Storage (GCS) [#google-cloud-storage]
+### Google Cloud Storage (GCS) 
 
 
 <Tabs>
@@ -114,7 +114,7 @@ FROM S3(
   </Tab>
 </Tabs>
 
-### Azure Blob Storage [#azure-blob-storage]
+### Azure Blob Storage 
 
 
 <Tabs>
@@ -147,7 +147,7 @@ FROM AzureBlobStorage(
   </Tab>
 </Tabs>
 
-## Backup / Restore entire service [#backup_restore_entire_service]
+## Backup / Restore entire service 
 
 For backing up the entire service, use the commands below.
 This backup will contain all user data and system data for created entities, settings profiles, role policies, quotas, and functions.
@@ -190,7 +190,7 @@ FROM S3(
 </Tab>
 </Tabs>
 
-## FAQ [#backups-faq]
+## FAQ 
 
 <AccordionGroup>
 <Accordion title="What happens to the backups in my cloud object storage? Are they cleaned up by ClickHouse at some point?">

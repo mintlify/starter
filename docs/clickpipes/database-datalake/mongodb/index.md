@@ -21,7 +21,7 @@ In the ClickHouse Cloud console and documentation, "table" and "collection" are 
 
 You can use ClickPipes to ingest data from your MongoDB database into ClickHouse Cloud. The source MongoDB database can be hosted on-premises or in the cloud using services like MongoDB Atlas.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 To get started, you first need to ensure that your MongoDB database is correctly configured for replication. The configuration steps depend on how you're deploying MongoDB, so please follow the relevant guide below:
 
@@ -31,7 +31,7 @@ To get started, you first need to ensure that your MongoDB database is correctly
 
 Once your source MongoDB database is set up, you can continue creating your ClickPipe.
 
-## Create your ClickPipe [#create-your-clickpipe]
+## Create your ClickPipe 
 
 Make sure you are logged in to your ClickHouse Cloud account. If you don't have an account yet, you can sign up [here](https://cloud.clickhouse.com/).
 
@@ -47,7 +47,7 @@ Make sure you are logged in to your ClickHouse Cloud account. If you don't have 
 
 <img src="/images/integrations/data-ingestion/clickpipes/mongodb/mongodb-tile.png" alt="Select MongoDB"/>
 
-### Add your source MongoDB database connection [#add-your-source-mongodb-database-connection]
+### Add your source MongoDB database connection 
 
 4. Fill in the connection details for your source MongoDB database which you configured in the prerequisites step.
 
@@ -60,7 +60,7 @@ Make sure you are logged in to your ClickHouse Cloud account. If you don't have 
 
 Once the connection details are filled in, click `Next`.
 
-#### Configure advanced settings [#advanced-settings]
+#### Configure advanced settings 
 
 You can configure the advanced settings if needed. A brief description of each setting is provided below:
 
@@ -68,7 +68,7 @@ You can configure the advanced settings if needed. A brief description of each s
 - **Pull batch size**: The number of rows to fetch in a single batch. This is a best effort setting and may not be respected in all cases.
 - **Snapshot number of tables in parallel**: This is the number of tables that will be fetched in parallel during the initial snapshot. This is useful when you have a large number of tables and you want to control the number of tables fetched in parallel.
 
-### Configure the tables [#configure-the-tables]
+### Configure the tables 
 
 5. Here you can select the destination database for your ClickPipe. You can either select an existing database or create a new one.
 
@@ -76,17 +76,17 @@ You can configure the advanced settings if needed. A brief description of each s
 
 6. You can select the tables you want to replicate from the source MongoDB database. While selecting the tables, you can also choose to rename the tables in the destination ClickHouse database.
 
-### Review permissions and start the ClickPipe [#review-permissions-and-start-the-clickpipe]
+### Review permissions and start the ClickPipe 
 
 7. Select the "Full access" role from the permissions dropdown and click "Complete Setup".
 
    <img src="/images/integrations/data-ingestion/clickpipes/postgres/ch-permissions.jpg" alt="Review permissions"/>
 
-## What's next? [#whats-next]
+## What's next? 
 
 Once you've set up your ClickPipe to replicate data from MongoDB to ClickHouse Cloud, you can focus on how to query and model your data for optimal performance.
 
-## Caveats [#caveats]
+## Caveats 
 
 Here are a few caveats to note when using this connector:
 

@@ -6,13 +6,13 @@ keywords: ['partitions', 'partition by']
 doc_type: 'guide'
 ---
 
-## What are table partitions in ClickHouse? [#what-are-table-partitions-in-clickhouse]
+## What are table partitions in ClickHouse?
 
 <br/>
 
 Partitions group the [data parts](/parts) of a table in the [MergeTree engine family](/engines/table-engines/mergetree-family) into organized, logical units, which is a way of organizing data that is conceptually meaningful and aligned with specific criteria, such as time ranges, categories, or other key attributes. These logical units make data easier to manage, query, and optimize.
 
-### PARTITION BY [#partition-by]
+### PARTITION BY
 
 Partitioning can be enabled when a table is initially defined via the [PARTITION BY clause](/engines/table-engines/mergetree-family/custom-partitioning-key). This clause can contain a SQL expression on any columns, the results of which will define which partition a row belongs to.
 
@@ -33,7 +33,7 @@ PARTITION BY toStartOfMonth(date);
 
 You can [query this table](https://sql.clickhouse.com/?query=U0VMRUNUICogRlJPTSB1ay51a19wcmljZV9wYWlkX3NpbXBsZV9wYXJ0aXRpb25lZA&run_query=true&tab=results) in our ClickHouse SQL Playground.
 
-### Structure on disk [#structure-on-disk]
+### Structure on disk
 
 Whenever a set of rows is inserted into the table, instead of creating (at [least](/operations/settings/settings#max_insert_block_size)) one single data part containing all the inserted rows (as described [here](/parts)), ClickHouse creates one new data part for each unique partition key value among the inserted rows:
 
@@ -46,7 +46,7 @@ Then, for each identified partition, the rows are processed as [usual](/parts) b
 
 Note that with partitioning enabled, ClickHouse automatically creates [MinMax indexes](https://github.com/ClickHouse/ClickHouse/blob/dacc8ebb0dac5bbfce5a7541e7fc70f26f7d5065/src/Storages/MergeTree/IMergeTreeDataPart.h#L341) for each data part. These are simply files for each table column used in the partition key expression, containing the minimum and maximum values of that column within the data part.
 
-### Per partition merges [#per-partition-merges]
+### Per partition merges
 
 With partitioning enabled, ClickHouse only [merges](/merges) data parts within, but not across partitions. We sketch that for our example table from above:
 
@@ -56,7 +56,7 @@ With partitioning enabled, ClickHouse only [merges](/merges) data parts within, 
 
 As sketched in the diagram above, parts belonging to different partitions are never merged. If a partition key with high cardinality is chosen, then parts spread across thousands of partitions will never be merge candidates - exceeding preconfigured limits and causing the dreaded `Too many parts` error. Addressing this problem is simple: choose a sensible partition key with [cardinality under 1000..10000](https://github.com/ClickHouse/ClickHouse/blob/ffc5b2c56160b53cf9e5b16cfb73ba1d956f7ce4/src/Storages/MergeTree/MergeTreeDataWriter.cpp#L121).
 
-## Monitoring partitions [#monitoring-partitions]
+## Monitoring partitions
 
 You can [query](https://sql.clickhouse.com/?query=U0VMRUNUIERJU1RJTkNUIF9wYXJ0aXRpb25fdmFsdWUgQVMgcGFydGl0aW9uCkZST00gdWsudWtfcHJpY2VfcGFpZF9zaW1wbGVfcGFydGl0aW9uZWQKT1JERVIgQlkgcGFydGl0aW9uIEFTQw&run_query=true&tab=results) the list of all existing unique partitions of our example table by using the [virtual column](/engines/table-engines#table_engines-virtual_columns) `_partition_value`:
 
@@ -79,9 +79,9 @@ GROUP BY partition
 ORDER BY partition ASC;
 ```
 
-## What are table partitions used for? [#what-are-table-partitions-used-for]
+## What are table partitions used for?
 
-### Data management [#data-management]
+### Data management
 
 In ClickHouse, partitioning is primarily a data management feature. By organizing data logically based on a partition expression, each partition can be managed independently. For instance, the partitioning scheme in the example table above enables scenarios where only the last 12 months of data are retained in the main table by automatically removing older data using a [TTL rule](/guides/developer/ttl) (see the added last row of the DDL statement):
 
@@ -116,7 +116,7 @@ ORDER BY (town, street)
 TTL date + INTERVAL 12 MONTH TO VOLUME 'slow_but_cheap';
 ```
 
-### Query optimization [#query-optimization]
+### Query optimization
 
 Partitions can assist with query performance, but this depends heavily on the access patterns. If queries target only a few partitions (ideally one), performance can potentially improve. This is only typically useful if the partitioning key is not in the primary key and you are filtering by it, as shown in the example query below.
 
@@ -191,7 +191,7 @@ Peak memory usage: 2.73 MiB.
 
 Meaning that ClickHouse scanned and processed 1 granule (block of [8192](/operations/settings/merge-tree-settings#index_granularity) rows) in 6 milliseconds for calculating the query result.
 
-### Partitioning is primarily a data management feature [#partitioning-is-primarily-a-data-management-feature]
+### Partitioning is primarily a data management feature
 
 Be aware that querying across all partitions is typically slower than running the same query on a non-partitioned table.
 

@@ -12,7 +12,7 @@ Whether new to ClickHouse or responsible for an existing deployment, users will 
 This guide assumes users are already familiar with the concept of [Incremental Materialized Views](/materialized-view/incremental-materialized-view) and [data loading using table functions such as s3 and gcs](/integrations/s3). We also recommend users read our guide on [optimizing insert performance from object storage](/integrations/s3/performance), the advice of which can be applied to inserts throughout this guide.
 </Note>
 
-## Example dataset [#example-dataset]
+## Example dataset 
 
 Throughout this guide, we use a PyPI dataset. Each row in this dataset represents a Python package download using a tool such as `pip`.
 
@@ -63,7 +63,7 @@ SETTINGS describe_compact_output = 1
 The full PyPI dataset, consisting of over 1 trillion rows, is available in our public demo environment [clickpy.clickhouse.com](https://clickpy.clickhouse.com). For further details on this dataset, including how the demo exploits materialized views for performance and how the data is populated daily, see [here](https://github.com/ClickHouse/clickpy).
 </Note>
 
-## Backfilling scenarios [#backfilling-scenarios]
+## Backfilling scenarios 
 
 Backfilling is typically needed when a stream of data is being consumed from a point in time. This data is being inserted into ClickHouse tables with [incremental materialized views](/materialized-view/incremental-materialized-view), triggering on blocks as they are inserted. These views may be transforming the data prior to insert or computing aggregates and sending results to target tables for later use in downstream applications.
 
@@ -76,7 +76,7 @@ We assume data will be backfilled from object storage. In all cases, we aim to a
 
 We recommend backfilling historical data from object storage. Data should be exported to Parquet where possible for optimal read performance and compression (reduced network transfer). A file size of around 150MB is typically preferred, but ClickHouse supports over [70 file formats](/interfaces/formats) and is capable of handling files of all sizes.
 
-## Using duplicate tables and views [#using-duplicate-tables-and-views]
+## Using duplicate tables and views 
 
 For all of the scenarios, we rely on the concept of "duplicate tables and views". These tables and views represent copies of those used for the live streaming data and allow the backfill to be performed in isolation with an easy means of recovery should failure occur. For example, we have the following main `pypi` table and materialized view, which computes the number of downloads per Python project:
 
@@ -252,7 +252,7 @@ FROM s3('https://datasets-documentation.s3.eu-west-3.amazonaws.com/pypi/2024-12-
 ClickPipes uses this approach when loading data from object storage, automatically creating duplicates of the target table and its materialized views and avoiding the need for the user to perform the above steps. By also using multiple worker threads, each handling different subsets (via glob patterns) and with its own duplicate tables, data can be loaded quickly with exactly-once semantics. For those interested, further details can be found [in this blog](https://clickhouse.com/blog/supercharge-your-clickhouse-data-loads-part3).
 </Note>
 
-## Scenario 1: Backfilling data with existing data ingestion [#scenario-1-backfilling-data-with-existing-data-ingestion]
+## Scenario 1: Backfilling data with existing data ingestion 
 
 In this scenario, we assume that the data to backfill is not in an isolated bucket and thus filtering is required. Data is already inserting and a timestamp or monotonically increasing column can be identified from which historical data needs to be backfilled.
 
@@ -314,7 +314,7 @@ If the historical data is an isolated bucket, the above time filter is not requi
 ClickHouse Cloud users should use ClickPipes for restoring historical backups if the data can be isolated in its own bucket (and a filter is not required). As well as parallelizing the load with multiple workers, thus reducing the load time, ClickPipes automates the above process - creating duplicate tables for both the main table and materialized views.
 </Note>
 
-## Scenario 2: Adding materialized views to existing tables [#scenario-2-adding-materialized-views-to-existing-tables]
+## Scenario 2: Adding materialized views to existing tables 
 
 It is not uncommon for new materialized views to need to be added to a setup for which significant data has been populated and data is being inserted. A timestamp or monotonically increasing column, which can be used to identify a point in the stream, is useful here and avoids pauses in data ingestion. In the examples below, we assume both cases, preferring approaches that avoid pauses in ingestion.
 
@@ -322,7 +322,7 @@ It is not uncommon for new materialized views to need to be added to a setup for
 We do not recommend using the [`POPULATE`](/sql-reference/statements/create/view#materialized-view) command for backfilling materialized views for anything other than small datasets where ingest is paused. This operator can miss rows inserted into its source table, with the materialized view created after the populate hash is finished. Furthermore, this populate runs against all data and is vulnerable to interruptions or memory limits on large datasets.
 </Note>
 
-### Timestamp or Monotonically increasing column available [#timestamp-or-monotonically-increasing-column-available]
+### Timestamp or Monotonically increasing column available 
 
 In this case, we recommend the new materialized view include a filter that restricts rows to those greater than arbitrary data in the future. The materialized view can subsequently be backfilled from this date using historical data from the main table. The backfilling approach depends on the data size and the complexity of the associated query.
 
@@ -405,7 +405,7 @@ In this case, users have several options:
 
 We explore (2) further below.
 
-#### Using a Null table engine for filling materialized views [#using-a-null-table-engine-for-filling-materialized-views]
+#### Using a Null table engine for filling materialized views 
 
 The [Null table engine](/engines/table-engines/special/null) provides a storage engine which doesn't persist data (think of it as the `/dev/null` of the table engine world). While this seems contradictory, materialized views will still execute on data inserted into this table engine. This allows materialized views to be constructed without persisting the original data - avoiding I/O and the associated storage.
 
@@ -453,7 +453,7 @@ Peak memory usage: 639.47 MiB.
 
 Notice our memory usage here is `639.47 MiB`.
 
-##### Tuning performance & resources [#tuning-performance--resources]
+##### Tuning performance & resources 
 
 Several factors will determine the performance and resources used in the above scenario. Before attempting to tune, we recommend readers understand the insert mechanics documented in detail in the [Using Threads for Reads](/integrations/s3/performance#using-threads-for-reads) section of the [Optimizing for S3 Insert and Read Performance guide](/integrations/s3/performance). In summary:
 
@@ -513,7 +513,7 @@ Peak memory usage: 218.64 MiB.
 
 Finally, be aware that lowering block sizes produces more parts and causes greater merge pressure. As discussed [here](/integrations/s3/performance#be-aware-of-merges), these settings should be changed cautiously.
 
-### No timestamp or monotonically increasing column [#no-timestamp-or-monotonically-increasing-column]
+### No timestamp or monotonically increasing column 
 
 The above processes rely on the user have a timestamp or monotonically increasing column. In some cases this is simply not available. In this case, we recommend the following process, which exploits many of the steps outlined previously but requires users to pause ingest.
 

@@ -15,21 +15,21 @@ If you need any help, please [file an issue in the repository](https://github.co
 </Note>
 **ClickHouse Kafka Connect Sink** is the Kafka connector delivering data from a Kafka topic to a ClickHouse table.
 
-### License [#license]
+### License 
 
 The Kafka Connector Sink is distributed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0)
 
-### Requirements for the environment [#requirements-for-the-environment]
+### Requirements for the environment 
 
 The [Kafka Connect](https://docs.confluent.io/platform/current/connect/index.html) framework v2.7 or later should be installed in the environment.
 
-### Version compatibility matrix [#version-compatibility-matrix]
+### Version compatibility matrix 
 
 | ClickHouse Kafka Connect version | ClickHouse version | Kafka Connect | Confluent platform |
 |----------------------------------|--------------------|---------------|--------------------|
 | 1.0.0                            | > 23.3             | > 2.7         | > 6.1              |
 
-### Main features [#main-features]
+### Main features 
 
 - Shipped with out-of-the-box exactly-once semantics. It's powered by a new ClickHouse core feature named [KeeperMap](https://github.com/ClickHouse/ClickHouse/pull/39976) (used as a state store by the connector) and allows for minimalistic architecture.
 - Support for 3rd-party state stores: Currently defaults to In-memory but can use KeeperMap (Redis to be added soon).
@@ -38,13 +38,13 @@ The [Kafka Connect](https://docs.confluent.io/platform/current/connect/index.htm
 - Data inserts with a declared schema and schemaless.
 - Support for all data types of ClickHouse.
 
-### Installation instructions [#installation-instructions]
+### Installation instructions 
 
-#### Gather your connection details [#gather-your-connection-details]
+#### Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-#### General installation instructions [#general-installation-instructions]
+#### General installation instructions 
 
 The connector is distributed as a single JAR file containing all the class files necessary to run the plugin.
 
@@ -77,7 +77,7 @@ schemas.enable=false
 - Restart the Confluent Platform.
 - If you use Confluent Platform, log into Confluent Control Center UI to verify the ClickHouse Sink is available in the list of available connectors.
 
-### Configuration options [#configuration-options]
+### Configuration options 
 
 To connect the ClickHouse Sink to the ClickHouse server, you need to provide:
 
@@ -118,18 +118,18 @@ The full table of configuration options:
 | `tolerateStateMismatch`                         | Allows the connector to drop records "earlier" than the current offset stored AFTER_PROCESSING (e.g. if offset 5 is sent, and offset 250 was the last recorded offset)                                                             | `"false"`                                                |
 | `ignorePartitionsWhenBatching`                  | Will ignore partition when collecting messages for insert (though only if `exactlyOnce` is `false`). Performance Note: The more connector tasks, the fewer kafka partitions assigned per task - this can mean diminishing returns. | `"false"`                                                |
 
-### Target tables [#target-tables]
+### Target tables 
 
 ClickHouse Connect Sink reads messages from Kafka topics and writes them to appropriate tables. ClickHouse Connect Sink writes data into existing tables. Please, make sure a target table with an appropriate schema was created in ClickHouse before starting to insert data into it.
 
 Each topic requires a dedicated target table in ClickHouse. The target table name must match the source topic name.
 
-### Pre-processing [#pre-processing]
+### Pre-processing 
 
 If you need to transform outbound messages before they are sent to ClickHouse Kafka Connect
 Sink, use [Kafka Connect Transformations](https://docs.confluent.io/platform/current/connect/transforms/overview.html).
 
-### Supported data types [#supported-data-types]
+### Supported data types 
 
 **With a schema declared:**
 
@@ -163,11 +163,11 @@ Sink, use [Kafka Connect Transformations](https://docs.confluent.io/platform/cur
 
 A record is converted into JSON and sent to ClickHouse as a value in [JSONEachRow](/interfaces/formats/JSONEachRow) format.
 
-### Configuration recipes [#configuration-recipes]
+### Configuration recipes 
 
 These are some common configuration recipes to get you started quickly.
 
-#### Basic configuration [#basic-configuration]
+#### Basic configuration 
 
 The most basic configuration to get you started - it assumes you're running Kafka Connect in distributed mode and have a ClickHouse server running on `localhost:8443` with SSL enabled, data is in schemaless JSON.
 
@@ -196,7 +196,7 @@ The most basic configuration to get you started - it assumes you're running Kafk
 }
 ```
 
-#### Basic configuration with multiple topics [#basic-configuration-with-multiple-topics]
+#### Basic configuration with multiple topics 
 
 The connector can consume data from multiple topics
 
@@ -212,7 +212,7 @@ The connector can consume data from multiple topics
 }
 ```
 
-#### Basic configuration with DLQ [#basic-configuration-with-dlq]
+#### Basic configuration with DLQ 
 
 ```json
 {
@@ -227,9 +227,9 @@ The connector can consume data from multiple topics
 }
 ```
 
-#### Using with different data formats [#using-with-different-data-formats]
+#### Using with different data formats 
 
-##### Avro schema support [#avro-schema-support]
+##### Avro schema support 
 
 ```json
 {
@@ -244,7 +244,7 @@ The connector can consume data from multiple topics
 }
 ```
 
-##### Protobuf schema support [#protobuf-schema-support]
+##### Protobuf schema support 
 
 ```json
 {
@@ -261,7 +261,7 @@ The connector can consume data from multiple topics
 
 Please note: if you encounter issues with missing classes, not every environment comes with the protobuf converter and you may need an alternate release of the jar bundled with dependencies.
 
-##### JSON schema support [#json-schema-support]
+##### JSON schema support 
 
 ```json
 {
@@ -274,7 +274,7 @@ Please note: if you encounter issues with missing classes, not every environment
 }
 ```
 
-##### String support [#string-support]
+##### String support 
 
 The connector supports the String Converter in different ClickHouse formats: [JSON](/interfaces/formats/JSONEachRow), [CSV](/interfaces/formats/CSV), and [TSV](/interfaces/formats/TabSeparated).
 
@@ -291,7 +291,7 @@ The connector supports the String Converter in different ClickHouse formats: [JS
 }
 ```
 
-### Logging [#logging]
+### Logging 
 
 Logging is automatically provided by Kafka Connect Platform.
 The logging destination and format might be configured via Kafka connect [configuration file](https://docs.confluent.io/platform/current/connect/logging.html#log4j-properties-file).
@@ -304,11 +304,11 @@ confluent local services connect log
 
 For additional details check out the official [tutorial](https://docs.confluent.io/platform/current/connect/logging.html).
 
-### Monitoring [#monitoring]
+### Monitoring 
 
 ClickHouse Kafka Connect reports runtime metrics via [Java Management Extensions (JMX)](https://www.oracle.com/technical-resources/articles/javase/jmx.html). JMX is enabled in Kafka Connector by default.
 
-#### ClickHouse-Specific Metrics [#clickhouse-specific-metrics]
+#### ClickHouse-Specific Metrics 
 
 The connector exposes custom metrics via the following MBean name:
 
@@ -322,7 +322,7 @@ com.clickhouse:type=ClickHouseKafkaConnector,name=SinkTask{id}
 | `recordProcessingTime` | long | Total time in nanoseconds spent grouping and converting records to a unified structure. |
 | `taskProcessingTime`   | long | Total time in nanoseconds spent processing and inserting data into ClickHouse.          |
 
-#### Kafka Producer/Consumer Metrics [#kafka-producer-consumer-metrics]
+#### Kafka Producer/Consumer Metrics 
 
 The connector exposes standard Kafka producer and consumer metrics that provide insights into data flow, throughput, and performance.
 
@@ -354,7 +354,7 @@ These metrics help monitor:
 - **Compression**: Measure data compression efficiency
 - **Connection Health**: Monitor network connectivity and stability
 
-#### Kafka Connect Framework Metrics [#kafka-connect-framework-metrics]
+#### Kafka Connect Framework Metrics 
 
 The connector integrates with the Kafka Connect framework and exposes metrics for task lifecycle and error tracking.
 
@@ -384,7 +384,7 @@ Task status values include: `running`, `paused`, `failed`, `destroyed`, `unassig
 - `put-batch-max-time-ms`: Maximum time to process a batch
 - `source-record-poll-total`: Total records polled
 
-#### Monitoring Best Practices [#monitoring-best-practices]
+#### Monitoring Best Practices 
 
 1. **Monitor Consumer Lag**: Track `records-lag` per partition to identify processing bottlenecks
 2. **Track Error Rates**: Watch `errors-total` and `records-skip-total` to detect data quality issues
@@ -395,17 +395,17 @@ Task status values include: `running`, `paused`, `failed`, `destroyed`, `unassig
 
 For detailed JMX metric definitions and Prometheus integration, see the [jmx-export-connector.yml](https://github.com/ClickHouse/clickhouse-kafka-connect/blob/main/jmx-export-connector.yml) configuration file.
 
-### Limitations [#limitations]
+### Limitations 
 
 - Deletes are not supported.
 - Batch size is inherited from the Kafka Consumer properties.
 - When using KeeperMap for exactly-once and the offset is changed or re-wound, you need to delete the content from KeeperMap for that specific topic. (See troubleshooting guide below for more details)
 
-### Performance tuning and throughput optimization [#tuning-performance]
+### Performance tuning and throughput optimization 
 
 This section covers performance tuning strategies for the ClickHouse Kafka Connect Sink. Performance tuning is essential when dealing with high-throughput use cases or when you need to optimize resource utilization and minimize lag.
 
-#### When is performance tuning needed? [#when-is-performance-tuning-needed]
+#### When is performance tuning needed? 
 
 Performance tuning is typically required in the following scenarios:
 
@@ -422,7 +422,7 @@ Performance tuning is **NOT typically needed** when:
 - Default connector settings already meet your throughput requirements
 - Your ClickHouse cluster can easily handle the incoming load
 
-#### Understanding the data flow [#understanding-the-data-flow]
+#### Understanding the data flow 
 
 Before tuning, it's important to understand how data flows through the connector:
 
@@ -434,11 +434,11 @@ Before tuning, it's important to understand how data flows through the connector
 
 Performance can be optimized at each of these stages.
 
-#### Kafka Connect batch size tuning [#connect-fetch-vs-connector-poll]
+#### Kafka Connect batch size tuning 
 
 The first level of optimization is controlling how much data the connector receives per batch from Kafka.
 
-##### Fetch settings [#fetch-settings]
+##### Fetch settings 
 
 Kafka Connect (the framework) fetches messages from Kafka topics in the background, independent of the connector:
 
@@ -446,14 +446,14 @@ Kafka Connect (the framework) fetches messages from Kafka topics in the backgrou
 - **`fetch.max.bytes`**: Maximum amount of data to fetch in a single request (default: 52428800 / 50 MB)
 - **`fetch.max.wait.ms`**: Maximum time to wait before returning data if `fetch.min.bytes` is not met (default: 500 ms)
 
-##### Poll settings [#poll-settings]
+##### Poll settings 
 
 The connector polls for messages from the framework's buffer:
 
 - **`max.poll.records`**: Maximum number of records returned in a single poll (default: 500)
 - **`max.partition.fetch.bytes`**: Maximum amount of data per partition (default: 1048576 / 1 MB)
 
-##### Recommended settings for high throughput [#recommended-batch-settings]
+##### Recommended settings for high throughput 
 
 For optimal performance with ClickHouse, aim for larger batches:
 
@@ -480,11 +480,11 @@ consumer.fetch.max.wait.ms=300
 
 More details: [Confluent documentation](https://docs.confluent.io/platform/current/connect/references/allconfigs.html#override-the-worker-configuration) | [Kafka documentation](https://kafka.apache.org/documentation/#consumerconfigs)
 
-#### Asynchronous inserts [#asynchronous-inserts]
+#### Asynchronous inserts 
 
 Asynchronous inserts are a powerful feature when the connector sends relatively small batches or when you want to further optimize ingestion by shifting batching responsibility to ClickHouse.
 
-##### When to use async inserts [#when-to-use-async-inserts]
+##### When to use async inserts 
 
 Consider enabling async inserts when:
 
@@ -501,7 +501,7 @@ Do **NOT** use async inserts when:
 - Exactly-once semantics with `wait_for_async_insert=0` conflicts with your requirements
 - Your use case can benefit from client-side batching improvements instead
 
-##### How async inserts work [#how-async-inserts-work]
+##### How async inserts work 
 
 With asynchronous inserts enabled, ClickHouse:
 
@@ -515,7 +515,7 @@ With asynchronous inserts enabled, ClickHouse:
 
 This significantly reduces the number of parts created and improves overall throughput.
 
-##### Enabling async inserts [#enabling-async-inserts]
+##### Enabling async inserts 
 
 Add async insert settings to the `clickhouseSettings` configuration parameter:
 
@@ -536,7 +536,7 @@ Add async insert settings to the `clickhouseSettings` configuration parameter:
 - **`wait_for_async_insert=1`** (recommended): Connector waits for data to be flushed to ClickHouse storage before acknowledging. Provides delivery guarantees.
 - **`wait_for_async_insert=0`**: Connector acknowledges immediately after buffering. Better performance but data may be lost on server crash before flush.
 
-##### Tuning async insert behavior [#tuning-async-inserts]
+##### Tuning async insert behavior 
 
 You can fine-tune the async insert flush behavior:
 
@@ -557,7 +557,7 @@ Common tuning parameters:
 - **Considerations**: Data not immediately queryable, slightly increased end-to-end latency
 - **Risks**: Data loss on server crash if `wait_for_async_insert=0`, potential memory pressure with large buffers
 
-##### Async inserts with exactly-once semantics [#async-inserts-with-exactly-once]
+##### Async inserts with exactly-once semantics 
 
 When using `exactlyOnce=true` with async inserts:
 
@@ -574,11 +574,11 @@ When using `exactlyOnce=true` with async inserts:
 
 For more information about async inserts, see the [ClickHouse async inserts documentation](/best-practices/selecting-an-insert-strategy#asynchronous-inserts).
 
-#### Connector parallelism [#connector-parallelism]
+#### Connector parallelism 
 
 Increase parallelism to improve throughput:
 
-##### Tasks per connector [#tasks-per-connector]
+##### Tasks per connector 
 
 ```json
 "tasks.max": "4"
@@ -592,7 +592,7 @@ Each task processes a subset of topic partitions. More tasks = more parallelism,
 
 **Recommendation**: Start with `tasks.max` equal to the number of topic partitions, then adjust based on CPU and throughput metrics.
 
-##### Ignoring partitions when batching [#ignoring-partitions]
+##### Ignoring partitions when batching 
 
 By default, the connector batches messages per partition. For higher throughput, you can batch across partitions:
 
@@ -602,7 +602,7 @@ By default, the connector batches messages per partition. For higher throughput,
 
 ** Warning**: Only use when `exactlyOnce=false`. This setting can improve throughput by creating larger batches but loses per-partition ordering guarantees.
 
-#### Multiple high throughput topics [#multiple-high-throughput-topics]
+#### Multiple high throughput topics 
 
 If your connector is configured to subscribe to multiple topics, you're using `topic2TableMap` to map topics to tables, and you're experiencing a bottleneck at insertion resulting in consumer lag, consider creating one connector per topic instead. 
 
@@ -610,7 +610,7 @@ The main reason why this happens is that currently batches are inserted into eve
 
 **Recommendation**: For multiple high-volume topics, deploy one connector instance per topic to maximize parallel insert throughput.
 
-#### ClickHouse table engine considerations [#table-engine-considerations]
+#### ClickHouse table engine considerations 
 
 Choose the appropriate ClickHouse table engine for your use case:
 
@@ -637,7 +637,7 @@ For connector-level insert settings:
 "clickhouseSettings": "insert_quorum=2,insert_quorum_timeout=60000"
 ```
 
-#### Connection pooling and timeouts [#connection-pooling]
+#### Connection pooling and timeouts 
 
 The connector maintains HTTP connections to ClickHouse. Adjust timeouts for high-latency networks:
 
@@ -650,7 +650,7 @@ The connector maintains HTTP connections to ClickHouse. Adjust timeouts for high
 
 Increase these values if you experience timeout errors with large batches.
 
-#### Monitoring and troubleshooting performance [#monitoring-performance]
+#### Monitoring and troubleshooting performance 
 
 Monitor these key metrics:
 
@@ -673,7 +673,7 @@ Monitor these key metrics:
 | OutOfMemory errors | Batch size too large | Reduce `max.poll.records`, `max.partition.fetch.bytes` |
 | Uneven task load | Uneven partition distribution | Rebalance partitions or adjust `tasks.max` |
 
-#### Best practices summary [#performance-best-practices]
+#### Best practices summary 
 
 1. **Start with defaults**, then measure and tune based on actual performance
 2. **Prefer larger batches**: Aim for 10,000-100,000 rows per insert when possible
@@ -684,7 +684,7 @@ Monitor these key metrics:
 7. **Monitor continuously**: Track consumer lag, part count, and merge activity
 8. **Test thoroughly**: Always test configuration changes under realistic load before production deployment
 
-#### Example: High-throughput configuration [#example-high-throughput]
+#### Example: High-throughput configuration 
 
 Here's a complete example optimized for high throughput:
 
@@ -726,9 +726,9 @@ Here's a complete example optimized for high throughput:
 - Runs 8 parallel tasks (match your partition count)
 - Optimized for throughput over strict ordering
 
-### Troubleshooting [#troubleshooting]
+### Troubleshooting 
 
-#### "State mismatch for topic `[someTopic]` partition `[0]`" [#state-mismatch-for-topic-sometopic-partition-0]
+#### "State mismatch for topic `[someTopic]` partition `[0]`" 
 
 This happens when the offset stored in KeeperMap is different from the offset stored in Kafka, usually when a topic has been deleted
 or the offset has been manually adjusted.
@@ -736,7 +736,7 @@ To fix this, you would need to delete the old values stored for that given topic
 
 **NOTE: This adjustment may have exactly-once implications.**
 
-#### "What errors will the connector retry?" [#what-errors-will-the-connector-retry]
+#### "What errors will the connector retry?" 
 
 Right now the focus is on identifying errors that are transient and can be retried, including:
 
@@ -760,7 +760,7 @@ Right now the focus is on identifying errors that are transient and can be retri
 - `UnknownHostException` - This is thrown when the host cannot be resolved.
 - `IOException` - This is thrown when there is a problem with the network.
 
-#### "All my data is blank/zeroes" [#all-my-data-is-blankzeroes]
+#### "All my data is blank/zeroes" 
 Likely the fields in your data don't match the fields in the table - this is especially common with CDC (and the Debezium format).
 One common solution is to add the flatten transformation to your connector configuration:
 
@@ -772,7 +772,7 @@ transforms.flatten.delimiter=_
 
 This will transform your data from a nested JSON to a flattened JSON (using `_` as a delimiter). Fields in the table would then follow the "field1_field2_field3" format (i.e. "before_id", "after_id", etc.).
 
-#### "I want to use my Kafka keys in ClickHouse" [#i-want-to-use-my-kafka-keys-in-clickhouse]
+#### "I want to use my Kafka keys in ClickHouse" 
 Kafka keys are not stored in the value field by default, but you can use the `KeyToValue` transformation to move the key to the value field (under a new `_key` field name):
 
 ```properties

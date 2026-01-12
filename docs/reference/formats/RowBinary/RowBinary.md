@@ -13,7 +13,7 @@ doc_type: 'reference'
 
 import CommonRowBinaryFormatSettings from '/snippets/products/reference/formats/RowBinary/_snippets/common-row-binary-format-settings.mdx'
 
-## Description [#description]
+## Description 
 
 The `RowBinary` format parses data by row in binary format. 
 Rows and values are listed consecutively, without separators. 
@@ -47,8 +47,8 @@ For [NULL](/sql-reference/syntax#null) support, an additional byte containing `1
 
 For a comparison of the `RowBinary` format and the `RawBlob` format see: [Raw Formats Comparison](../RawBLOB.md/#raw-formats-comparison)
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 
 
 <RowBinaryFormatSettings/>

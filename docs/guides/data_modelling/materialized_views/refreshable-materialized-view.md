@@ -14,9 +14,11 @@ The diagram explains how Refreshable Materialized Views work:
 
 You can also see the following video:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-KhFJSY8yrs?si=VPRSZb20vaYkuR_C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<Frame>
+<iframe src="https://www.youtube.com/embed/-KhFJSY8yrs?si=VPRSZb20vaYkuR_C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</Frame>
 
-## When should refreshable materialized views be used? [#when-should-refreshable-materialized-views-be-used]
+## When should refreshable materialized views be used? 
 
 ClickHouse incremental materialized views are enormously powerful and typically scale much better than the approach used by refreshable materialized views, especially in cases where an aggregate over a single table needs to be performed. By only computing the aggregation over each block of data as it is inserted and merging the incremental states in the final table, the query only ever executes on a subset of the data. This method scales to potentially petabytes of data and is usually the preferred method.
 
@@ -24,7 +26,7 @@ However, there are use cases where this incremental process is not required or i
 
 >  Refreshable materialized views can run batch processes performing tasks such as denormalization. Dependencies can be created between refreshable materialized views such that one view depends on the results of another and only executes once it is complete. This can replace scheduled workflows or simple DAGs such as a [dbt](https://www.getdbt.com/) job. To find out more about how to set dependencies between refreshable materialized views go to [CREATE VIEW](/sql-reference/statements/create/view#refresh-dependencies), `Dependencies` section.
 
-## How do you refresh a refreshable materialized view? [#how-do-you-refresh-a-refreshable-materialized-view]
+## How do you refresh a refreshable materialized view? 
 
 Refreshable materialized views are refreshed automatically on an interval that's defined during creation.
 For example, the following materialized view is refreshed every minute:
@@ -44,7 +46,7 @@ SYSTEM REFRESH VIEW table_name_mv;
 You can also cancel, stop, or start a view.
 For more details, see the [managing refreshable materialized views](/sql-reference/statements/system#refreshable-materialized-views) documentation.
 
-## When was a refreshable materialized view last refreshed? [#when-was-a-refreshable-materialized-view-last-refreshed]
+## When was a refreshable materialized view last refreshed? 
 
 To find out when a refreshable materialized view was last refreshed, you can query the [`system.view_refreshes`](/operations/system-tables/view_refreshes) system table, as shown below:
 
@@ -61,7 +63,7 @@ FROM system.view_refreshes;
 └──────────┴──────────────────┴───────────┴─────────────────────┴─────────────────────┴─────────────────────┴───────────┴──────────────┘
 ```
 
-## How can I change the refresh rate? [#how-can-i-change-the-refresh-rate]
+## How can I change the refresh rate? 
 
 To change the refresh rate of a refreshable materialized view, use the [`ALTER TABLE...MODIFY REFRESH`](/sql-reference/statements/alter/view#alter-table--modify-refresh-statement) syntax.
 
@@ -78,7 +80,7 @@ Once you've done that, you can use [When was a refreshable materialized view las
 └──────────┴──────────────────┴───────────┴─────────────────────┴─────────────────────┴─────────────────────┴───────────┴──────────────┘
 ```
 
-## Using `APPEND` to add new rows [#using-append-to-add-new-rows]
+## Using `APPEND` to add new rows 
 
 The `APPEND` functionality allows you to add new rows to the end of the table instead of replacing the whole view.
 
@@ -176,11 +178,11 @@ FORMAT PrettyCompactMonoBlock
 └─────────────────────┴──────┴─────────┘
 ```
 
-## Examples [#examples]
+## Examples 
 
 Lets now have a look at how to use refreshable materialized views with some example datasets.
 
-### Stack Overflow [#stack-overflow]
+### Stack Overflow 
 
 The [denormalizing data guide](/data-modeling/denormalization) shows various techniques for denormalizing data using a Stack Overflow dataset. We populate data into the following tables: `votes`, `users`, `badges`, `posts`, and `postlinks`.
 
@@ -230,7 +232,7 @@ The view will execute immediately and every hour thereafter as configured to ens
 The syntax here is identical to an incremental materialized view, except we include a [`REFRESH`](/sql-reference/statements/create/view#refreshable-materialized-view) clause:
 </Note>
 
-### IMDb [#imdb]
+### IMDb 
 
 In the [dbt and ClickHouse integration guide](/integrations/dbt) we populated an IMDb dataset with the following tables: `actors`, `directors`, `genres`, `movie_directors`, `movies`, and `roles`.
 

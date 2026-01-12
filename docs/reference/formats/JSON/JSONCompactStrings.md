@@ -11,13 +11,13 @@ doc_type: 'reference'
 
 <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 The `JSONCompactStrings` format differs from [JSONStrings](./JSONStrings.md) only in that data rows are output as arrays, not as objects.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `JSONCompactStrings` format:
 
@@ -91,4 +91,4 @@ The output will be in JSON format:
 }
 ```
 
-## Format settings [#format-settings]
+## Format settings 

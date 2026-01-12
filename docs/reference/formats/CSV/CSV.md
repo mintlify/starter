@@ -9,7 +9,7 @@ title: 'CSV'
 doc_type: 'reference'
 ---
 
-## Description [#description]
+## Description 
 
 Comma Separated Values format ([RFC](https://tools.ietf.org/html/rfc4180)).
 When formatting, rows are enclosed in double quotes. A double quote inside a string is output as two double quotes in a row. 
@@ -46,9 +46,9 @@ First, we try to match the input value to the ENUM name.
 If we fail and the input value is a number, we try to match this number to the ENUM id.
 If input data contains only ENUM ids, it's recommended to enable the setting [input_format_csv_enum_as_number](/operations/settings/settings-formats.md/#input_format_csv_enum_as_number) to optimize `ENUM` parsing.
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 
 
 | Setting                                                                                                                                                            | Description                                                                                                        | Default | Notes                                                                                                                                                                                        |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

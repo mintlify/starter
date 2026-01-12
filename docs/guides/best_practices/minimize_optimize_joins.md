@@ -22,7 +22,7 @@ Not all data needs to be denormalized — focus on the attributes that are frequ
 
 For a full guide on denormalizing data in ClickHouse see [here](/data-modeling/denormalization).
 
-## When JOINs are required [#when-joins-are-required]
+## When JOINs are required 
 
 When JOINs are required, ensure you're using **at least version 24.12 and preferably the latest version**, as JOIN performance continues to improve with each new release. As of ClickHouse 24.12, the query planner now automatically places the smaller table on the right side of the join for optimal performance — a task that previously had to be done manually. Even more enhancements are coming soon, including more aggressive filter pushdown and automatic re-ordering of multiple joins.
 
@@ -39,7 +39,7 @@ Follow these best practices to improve JOIN performance:
 When using dictionaries for JOINs in ClickHouse, it's important to understand that dictionaries, by design, do not allow duplicate keys. During data loading, any duplicate keys are silently deduplicated—only the last loaded value for a given key is retained. This behavior makes dictionaries ideal for one-to-one or many-to-one relationships where only the latest or authoritative value is needed. However, using a dictionary for a one-to-many or many-to-many relationship (e.g. joining roles to actors where an actor can have multiple roles) will result in silent data loss, as all but one of the matching rows will be discarded. As a result, dictionaries are not suitable for scenarios requiring full relational fidelity across multiple matches.
 </Note>
 
-## Choosing the correct JOIN Algorithm [#choosing-the-right-join-algorithm]
+## Choosing the correct JOIN Algorithm 
 
 ClickHouse supports several JOIN algorithms that trade off between speed and memory:
 

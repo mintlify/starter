@@ -7,9 +7,9 @@ sidebarTitle: 'Agent facing analytics'
 doc_type: 'guide'
 ---
 
-## Agent-facing analytics concepts [#agent-facing-analytics]
+## Agent-facing analytics concepts 
 
-### What are "agents"? [#agents]
+### What are "agents"? 
 
 One can think of AI agents as digital assistants that have evolved beyond
 simple task execution (or function calling): they can understand context,
@@ -27,7 +27,7 @@ and communicate. It's as if they've suddenly become more fluent in "human"
 aka. able to grasp requests and respond with relevant contextual information
 drawn from the model's training.
 
-### AI agents superpowers: “Tools” [#tools]
+### AI agents superpowers: “Tools” 
 
 These agents really shine through their access to “tools”. Tools enhance AI agents
 by giving them abilities to perform tasks. Rather than just being conversational 
@@ -56,7 +56,7 @@ and historical support tickets before crafting its response. This means that
 answers are now grounded in the latest information available to the AI
 model.
 
-### Reasoning models [#reasoning-models]
+### Reasoning models 
 
 Another development in the AI space, and perhaps one of the most
 interesting, is the emergence of reasoning models. Systems like OpenAI o1,
@@ -77,7 +77,7 @@ to thirty minutes, a task that would traditionally take a human several hours.
 
 <img src="/images/cloud/onboard/discover/use_cases/ml_ai_06.png" alt="Reasoning models"/>
 
-## Real-time analytics for AI agents [#real-time-analytics-for-ai-agents]
+## Real-time analytics for AI agents 
 
 Let's take the case of an agentic AI assistant with access to a
 real-time analytics database containing the company's CRM data. When a user asks
@@ -129,7 +129,7 @@ responses while offloading the heavy computational work.
 It positions the real-time analytics database as a preferred "context
 provider" for AI agents when it comes to insights.
 
-## AI agents as an emerging user persona [#ai-agents-as-an-emerging-user-persona]
+## AI agents as an emerging user persona 
 
 A useful way to think about AI agents leveraging real-time analytics databases 
 is to perceive them as a new category of users, or in product manager speak: 
@@ -158,6 +158,6 @@ usage patterns?
 ClickHouse is rapidly providing answers to some of these questions through a host
 of features aimed at providing a feature-complete AI experience.
 
-## ClickHouse.ai [#clickhouse-ai]
+## ClickHouse.ai 
 
 For more information about features coming soon to ClickHouse Cloud, see [ClickHouse.ai](https://clickhouse.com/clickhouse-ai/).

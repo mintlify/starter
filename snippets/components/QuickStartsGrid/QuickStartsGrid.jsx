@@ -239,7 +239,7 @@ export const QuickStartsGrid = ({ quickStartsData }) => {
 
         {/* Quick-starts grid */}
         {filteredQuickStarts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 my-8">
             {filteredQuickStarts.map(quickStart => (
               <Card
                 key={quickStart.id}

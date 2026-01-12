@@ -19,23 +19,23 @@ The configuration of your ClickHouse cluster is highly dependent on your applica
 - Hardware costs
 - Maintenance costs
 
-## Disk [#disk]
+## Disk 
 
 The type(s) of disks you should use with ClickHouse depends on data volume, latency, or throughput requirements.
 
-### Optimizing for performance [#optimizing-for-performance]
+### Optimizing for performance 
 
 To maximize performance, we recommend directly attaching [provisioned IOPS SSD volumes from AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/provisioned-iops.html) or the equivalent offering from your cloud provider, which optimizes for IO.
 
-### Optimizing for storage costs [#optimizing-for-storage-costs]
+### Optimizing for storage costs 
 
 For lower costs, you can use [general purpose SSD EBS volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/general-purpose.html).
 
 You can also implement a tiered storage using SSDs and HDDs in a [hot/warm/cold architecture](/guides/developer/ttl#implementing-a-hotwarmcold-architecture). Alternatively, [AWS S3](https://aws.amazon.com/s3/) for storage is also possible to separate compute and storage. Please see our guide for using open-source ClickHouse with separation of compute and storage [here](/guides/separation-storage-compute). Separation of compute and storage is available by default in ClickHouse Cloud.
 
-## CPU [#cpu]
+## CPU 
 
-### Which CPU should I use? [#which-cpu-should-i-use]
+### Which CPU should I use? 
 
 The type of CPU you should use depends on your usage pattern. In general, however, applications with many frequent concurrent queries, that process more data, or that use compute-intensive UDFs will require more CPU cores.
 
@@ -53,11 +53,11 @@ For data warehousing workloads and ad-hoc analytical queries, we recommend the [
 
 ---
 
-### What should CPU utilization be? [#what-should-cpu-utilization-be]
+### What should CPU utilization be? 
 
 There is no standard CPU utilization target for ClickHouse. Utilize a tool such as [iostat](https://linux.die.net/man/1/iostat) to measure average CPU usage, and accordingly adjust the size of your servers to manage unexpected traffic spikes. However, for analytical or data warehousing use cases with ad-hoc queries, you should target 10-20% CPU utilization.
 
-### How many CPU cores should I use? [#how-many-cpu-cores-should-i-use]
+### How many CPU cores should I use? 
 
 The number of CPUs you should use depends on your workload. However, we generally recommend the following memory-to-CPU-core ratios based on your CPU type:
 
@@ -67,7 +67,7 @@ The number of CPUs you should use depends on your workload. However, we generall
 
 As an example, when using M-type CPUs, we recommend provisioning 100GB of memory per 25 CPU cores. To determine the amount of memory appropriate for your application, profiling your memory usage is necessary. You can read [this guide on debugging memory issues](/guides/developer/debugging-memory-issues) or use the [built-in observability dashboard](/operations/monitoring) to monitor ClickHouse.
 
-## Memory [#memory]
+## Memory 
 
 Like your choice of CPU, your choice of memory-to-storage ratio and memory-to-CPU ratio is dependent on your use-case.
 
@@ -78,7 +78,7 @@ The required volume of RAM generally depends on:
 In general, however, the more memory you have, the faster your queries will run. 
 If your use case is sensitive to price, lower amounts of memory will work as it is possible to enable settings ([`max_bytes_before_external_group_by`](/operations/settings/settings#max_bytes_before_external_group_by) and [`max_bytes_before_external_sort`](/operations/settings/settings#max_bytes_before_external_sort)) to allow spilling data to disk, but note that this may significantly affect query performance.
 
-### What should the memory-to-storage ratio be? [#what-should-the-memory-to-storage-ratio-be]
+### What should the memory-to-storage ratio be? 
 
 For low data volumes, a 1:1 memory-to-storage ratio is acceptable but total memory should not be below 8GB.
 
@@ -86,7 +86,7 @@ For use cases with long retention periods for your data or with high data volume
 
 For use cases with frequent access such as for customer-facing workloads, we recommend using more memory at a 1:30 to 1:50 memory-to-storage ratio.
 
-## Replicas [#replicas]
+## Replicas 
 
 We recommend having at least three replicas per shard (or two replicas with [Amazon EBS](https://aws.amazon.com/ebs/)). Additionally, we suggest vertically scaling all replicas prior to adding additional replicas (horizontal scaling).
 
@@ -94,13 +94,13 @@ ClickHouse does not automatically shard, and re-sharding your dataset will requi
 
 Consider using [ClickHouse Cloud](https://clickhouse.com/cloud) which scales automatically and allows you to easily control the number of replicas for your use case.
 
-## Example configurations for large workloads [#example-configurations-for-large-workloads]
+## Example configurations for large workloads 
 
 ClickHouse configurations are highly dependent on your specific application's requirements. Please [contact sales](https://clickhouse.com/company/contact?loc=docs-sizing-and-hardware-recommendations) if you would like us to help optimize your architecture for cost and performance.
 
 To provide guidance (not recommendations), the following are example configurations of ClickHouse users in production:
 
-### Fortune 500 B2B SaaS [#fortune-500-b2b-saas]
+### Fortune 500 B2B SaaS 
 
 <table>
     <tr>
@@ -162,7 +162,7 @@ To provide guidance (not recommendations), the following are example configurati
     </tr>
 </table>
 
-### Fortune 500 Telecom Operator for a logging use case [#fortune-500-telecom-operator-for-a-logging-use-case]
+### Fortune 500 Telecom Operator for a logging use case 
 
 <table>
     <tr>
@@ -220,7 +220,7 @@ To provide guidance (not recommendations), the following are example configurati
     </tr>
 </table>
 
-## Further reading [#further-reading]
+## Further reading 
 
 Below are published blog posts on architectures from companies using open-source ClickHouse:
 

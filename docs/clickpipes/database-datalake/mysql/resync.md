@@ -7,7 +7,7 @@ doc_type: 'guide'
 keywords: ['clickpipes', 'mysql', 'cdc', 'data ingestion', 'real-time sync']
 ---
 
-### What does Resync do? [#what-mysql-resync-do]
+### What does Resync do? 
 
 Resync involves the following operations in order:
 
@@ -18,7 +18,7 @@ Resync involves the following operations in order:
 
 All the settings of the original ClickPipe are retained in the resync ClickPipe. The statistics of the original ClickPipe are cleared in the UI.
 
-### Use cases for resyncing a ClickPipe [#use-cases-mysql-resync]
+### Use cases for resyncing a ClickPipe 
 
 Here are a few scenarios:
 
@@ -29,7 +29,7 @@ Here are a few scenarios:
 You can resync multiple times, however please account for the load on the source database when you resync.
 </Note>
 
-### Resync ClickPipe Guide [#guide-mysql-resync]
+### Resync ClickPipe Guide 
 
 1. In the Data Sources tab, click on the MySQL ClickPipe you wish to resync.
 2. Head over to the **Settings** tab.

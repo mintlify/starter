@@ -7,7 +7,7 @@ title: 'estimateCompressionRatio'
 doc_type: 'reference'
 ---
 
-## estimateCompressionRatio [#estimatecompressionration]
+## estimateCompressionRatio 
 
 Estimates the compression ratio of a given column without compressing it.
 

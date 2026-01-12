@@ -8,7 +8,9 @@ doc_type: 'guide'
 
 This example demonstrates how to create a materialized view, and then how to cascade a second materialized view on to the first. In this page, you will see how to do it, many of the possibilities, and the limitations. Different use cases can be answered by creating a Materialized view using a second Materialized view as the source.
 
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/QDAJTKZT8y4?si=1KqPNHHfaKfxtPat" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<Frame>
+<iframe src="https://www.youtube.com/embed/QDAJTKZT8y4?si=1KqPNHHfaKfxtPat" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</Frame>
 
 <br />
 
@@ -29,7 +31,7 @@ You could choose one of these options:
 
 Preparing the data using Materialized views will allow you to limit the amount of data and calculation ClickHouse needs to do, making your SELECT requests faster.
 
-## Source table for the materialized views [#source-table-for-the-materialized-views]
+## Source table for the materialized views 
 
 Create the source table, because our goals involve reporting on the aggregated data and not the individual rows, we can parse it, pass the information on to the Materialized Views, and discard the actual incoming data. This meets our goals and saves on storage so we will use the `Null` table engine.
 
@@ -51,7 +53,7 @@ ENGINE = Null
 You can create a materialized view on a Null table. So the data written to the table will end up affecting the view, but the original raw data will still be discarded.
 </Note>
 
-## Monthly aggregated table and materialized view [#monthly-aggregated-table-and-materialized-view]
+## Monthly aggregated table and materialized view 
 
 For the first materialized view, we need to create the `Target` table, for this example, it will be `analytics.monthly_aggregated_data` and we will store the sum of the views by month and domain name.
 
@@ -82,7 +84,7 @@ GROUP BY
     month
 ```
 
-## Yearly aggregated table and materialized view [#yearly-aggregated-table-and-materialized-view]
+## Yearly aggregated table and materialized view 
 
 Now we will create the second Materialized view that will be linked to our previous target table `monthly_aggregated_data`.
 
@@ -127,7 +129,7 @@ Let's imagine in this example that the engine used in `monthly_aggregated_data` 
 If you are using CollapsingMergeTree, ReplacingMergeTree, or even SummingMergeTree and you plan to create a cascade Materialized view you need to understand the limitations described here.
 </Note>
 
-## Sample data [#sample-data]
+## Sample data 
 
 Now is the time to test our cascade materialized view by inserting some data:
 
@@ -153,7 +155,7 @@ Ok.
 
 We have used a small dataset to be sure we can follow and compare the result with what we are expecting, once your flow is correct with a small data set, you could just move to a large amount of data.
 
-## Results [#results]
+## Results 
 
 If you try to query the target table by selecting the `sumCountViews` field, you will see the binary representation (in some terminals), as the value is not stored as a number but as an AggregateFunction type.
 To get the final result of the aggregation you should use the `-Merge` suffix.
@@ -250,7 +252,7 @@ GROUP BY
 2 rows in set. Elapsed: 0.004 sec.
 ```
 
-## Combining multiple source tables to single target table [#combining-multiple-source-tables-to-single-target-table]
+## Combining multiple source tables to single target table 
 
 Materialized views can also be used to combine multiple source tables into the same destination table. This is useful for creating a materialized view that is similar to a `UNION ALL` logic.
 

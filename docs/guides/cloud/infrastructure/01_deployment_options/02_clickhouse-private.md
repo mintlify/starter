@@ -6,7 +6,7 @@ description: 'Overview of ClickHouse Private offering'
 doc_type: 'reference'
 ---
 
-## Overview [#overview]
+## Overview 
 
 ClickHouse Private is a self-deployed package consisting of the same proprietary version of ClickHouse that runs on ClickHouse Cloud and our ClickHouse Operator, configured for separation of compute and storage. It is deployed to Kubernetes environments with S3 compatible storage.
 
@@ -16,27 +16,27 @@ This package is currently available for AWS and IBM Cloud, with bare metal deplo
 ClickHouse Private is designed for large enterprises with the most rigorous compliance requirements, providing full control and management over their dedicated infrastructure. This option is only available by [contacting us](https://clickhouse.com/company/contact?loc=nav).
 </Note>
 
-## Benefits over open-source [#benefits-over-os]
+## Benefits over open-source 
 
 The following features differentiate ClickHouse Private from self-managed open source deployments:
 
 <Steps>
 
 <Step>
-### Enhanced performance [#enhanced-performance]
+### Enhanced performance 
 - Native separation of compute and storage
 - Proprietary cloud features such as [shared merge tree](/cloud/reference/shared-merge-tree) and [warehouse](/cloud/reference/warehouses) functionality
 
 </Step>
 
 <Step>
-### Tested and proven through a variety of use cases and conditions [#tested-proven-through-variety-of-use-cases]
+### Tested and proven through a variety of use cases and conditions 
 - Fully tested and validated in ClickHouse Cloud
 
 </Step>
 
 <Step>
-### Full featured roadmap with new features added regularly [#full-featured-roadmap]
+### Full featured roadmap with new features added regularly 
 Additional features that are coming soon include:
 - API to programmatically manage resources
   - Automated backups
@@ -47,7 +47,7 @@ Additional features that are coming soon include:
 
 </Steps>
 
-## Architecture [#architecture]
+## Architecture 
 
 ClickHouse Private is fully self-contained within your deployment environment and consists of compute managed within Kubernetes and storage within an S3 compatible storage solution.
 
@@ -57,15 +57,15 @@ ClickHouse Private is fully self-contained within your deployment environment an
 
 <br />
 
-## Onboarding process [#onboarding-process]
+## Onboarding process 
 
 Customers can initiate onboarding by reaching out to [us](https://clickhouse.com/company/contact?loc=nav). For qualified customers, we will provide a detailed environment build guide and access to the images and Helm charts for deployment.
 
-## General requirements [#general-requirements]
+## General requirements 
 
 This section is intended to provide an overview of the resources required to deploy ClickHouse Private. Specific deployment guides are provided as part of onboarding. Instance/ server types and sizes depend on the use case.
 
-### ClickHouse Private on AWS [#clickhouse-private-aws]
+### ClickHouse Private on AWS 
 
 Required resources:
 - [ECR](https://docs.aws.amazon.com/ecr/) to receive the images and Helm charts
@@ -76,7 +76,7 @@ Required resources:
 - If ingress is required, also configure an NLB
 - One AWS role per ClickHouse cluster for clickhouse-server/keeper operations
 
-### ClickHouse Private on IBM Cloud [#clickhouse-private-ibm-cloud]
+### ClickHouse Private on IBM Cloud 
 
 Required resources:
 - [Container Registry](https://cloud.ibm.com/docs/Registry?topic=Registry-getting-started) to receive the images and Helm charts

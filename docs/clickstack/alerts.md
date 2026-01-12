@@ -9,12 +9,12 @@ doc_type: 'guide'
 keywords: ['ClickStack', 'observability', 'alerts', 'search-alerts', 'notifications', 'thresholds', 'slack', 'email', 'pagerduty', 'error-monitoring', 'performance-monitoring', 'user-events']
 ---
 
-## Search alerts [#search-alerts]
+## Search alerts 
 
 After entering a [search](/use-cases/observability/clickstack/search), you can create an alert to be
 notified when the number of events (logs or spans) matching the search exceeds or falls below a threshold.
 
-### Creating an alert [#creating-an-alert]
+### Creating an alert 
 
 You can create an alert by clicking the `Alerts` button on the top right of the `Search` page. 
 
@@ -24,7 +24,7 @@ The `grouped by` value allows the search to be subject to an aggregation e.g. `S
 
 <img src="/images/use-cases/observability/search_alert.png" alt="Search alerts"/>
 
-### Common alert scenarios [#common-alert-scenarios]
+### Common alert scenarios 
 
 Here are a few common alert scenarios that you can use HyperDX for:
 

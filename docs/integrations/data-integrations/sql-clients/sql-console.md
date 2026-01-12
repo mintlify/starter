@@ -17,9 +17,9 @@ SQL console is the fastest and easiest way to explore and query your databases i
 - Execute queries and visualize result data in just a few clicks
 - Share queries with team members and collaborate more effectively.
 
-## Exploring tables [#exploring-tables]
+## Exploring tables 
 
-### Viewing table list and schema info [#viewing-table-list-and-schema-info]
+### Viewing table list and schema info 
 
 An overview of tables contained in your ClickHouse instance can be found in the left sidebar area. Use the database selector at the top of the left bar to view the tables in a specific database
 
@@ -29,21 +29,21 @@ Tables in the list can also be expanded to view columns and types
 
 <img src="/images/cloud/sqlconsole/view-columns.png" alt="View of expanded table showing column names and data types"/>
 
-### Exploring table data [#exploring-table-data]
+### Exploring table data 
 
 Click on a table in the list to open it in a new tab. In the Table View, data can be easily viewed, selected, and copied. Note that structure and formatting are preserved when copy-pasting to spreadsheet applications such as Microsoft Excel and Google Sheets. You can flip between pages of table data (paginated in 30-row increments) using the navigation in the footer.
 
 <img src="/images/cloud/sqlconsole/abc.png" alt="Table view showing data that can be selected and copied"/>
 
-### Inspecting cell data [#inspecting-cell-data]
+### Inspecting cell data 
 
 The Cell Inspector tool can be used to view large amounts of data contained within a single cell. To open it, right-click on a cell and select 'Inspect Cell'. The contents of the cell inspector can be copied by clicking the copy icon in the top right corner of the inspector contents.
 
 <img src="/images/cloud/sqlconsole/inspecting-cell-content.png" alt="Cell inspector dialog showing the content of a selected cell"/>
 
-## Filtering and sorting tables [#filtering-and-sorting-tables]
+## Filtering and sorting tables 
 
-### Sorting a table [#sorting-a-table]
+### Sorting a table 
 
 To sort a table in the SQL console, open a table and select the 'Sort' button in the toolbar. This button will open a menu that will allow you to configure your sort. You can choose a column by which to sort and configure the ordering of the sort (ascending or descending). Select 'Apply' or press Enter to sort your table
 
@@ -51,7 +51,7 @@ To sort a table in the SQL console, open a table and select the 'Sort' button in
 
 The SQL console also allows you to add multiple sorts to a table. Click the 'Sort' button again to add another sort. Note: sorts are applied in the order that they appear in the sort pane (top to bottom). To remove a sort, simply click the 'x' button next to the sort.
 
-### Filtering a table [#filtering-a-table]
+### Filtering a table 
 
 To filter a table in the SQL console, open a table and select the 'Filter' button. Just like sorting, this button will open a menu that will allow you to configure your filter. You can choose a column by which to filter and select the necessary criteria. The SQL console intelligently displays filter options that correspond to the type of data contained in the column.
 
@@ -63,13 +63,13 @@ When you're happy with your filter, you can select 'Apply' to filter your data. 
 
 Similar to the sort functionality, click the 'x' button next to a filter to remove it.
 
-### Filtering and sorting together [#filtering-and-sorting-together]
+### Filtering and sorting together 
 
 The SQL console allows you to filter and sort a table at the same time. To do this, add all desired filters and sorts using the steps described above and click the 'Apply' button.
 
 <img src="/images/cloud/sqlconsole/filtering-and-sorting-together.png" alt="Interface showing both filtering and sorting applied simultaneously"/>
 
-### Creating a query from filters and sorts [#creating-a-query-from-filters-and-sorts]
+### Creating a query from filters and sorts 
 
 The SQL console can convert your sorts and filters directly into queries with one click. Simply select the 'Create Query' button from the toolbar with the sort and filter parameters of your choosing. After clicking 'Create query', a new query tab will open pre-populated with the SQL command corresponding to the data contained in your table view.
 
@@ -81,9 +81,9 @@ Filters and sorts are not mandatory when using the 'Create Query' feature.
 
 You can learn more about querying in the SQL console by reading the (link) query documentation.
 
-## Creating and running a query [#creating-and-running-a-query]
+## Creating and running a query 
 
-### Creating a query [#creating-a-query]
+### Creating a query 
 
 There are two ways to create a new query in the SQL console.
 
@@ -92,7 +92,7 @@ There are two ways to create a new query in the SQL console.
 
 <img src="/images/cloud/sqlconsole/creating-a-query.png" alt="Interface showing how to create a new query using the + button or New Query button"/>
 
-### Running a query [#running-a-query]
+### Running a query 
 
 To run a query, type your SQL command(s) into the SQL Editor and click the 'Run' button or use the shortcut `cmd / ctrl + enter`. To write and run multiple commands sequentially, make sure to add a semicolon after each command.
 
@@ -120,13 +120,13 @@ Running the command at the current cursor position can be achieved in two ways:
 The command present at the cursor position will flash yellow on execution.
 </Note>
 
-### Canceling a query [#canceling-a-query]
+### Canceling a query 
 
 While a query is running, the 'Run' button in the Query Editor toolbar will be replaced with a 'Cancel' button. Simply click this button or press `Esc` to cancel the query. Note: Any results that have already been returned will persist after cancellation.
 
 <img src="/images/cloud/sqlconsole/cancel-a-query.png" alt="Cancel button that appears during query execution"/>
 
-### Saving a query [#saving-a-query]
+### Saving a query 
 
 If not previously named, your query should be called 'Untitled Query'. Click on the query name to change it. Renaming a query will cause the query to be saved.
 
@@ -136,13 +136,13 @@ You can also use the save button or `cmd / ctrl + s` keyboard shortcut to save a
 
 <img src="/images/cloud/sqlconsole/save-the-query.png" alt="Save button in the query editor toolbar"/>
 
-## Using GenAI to manage queries [#using-genai-to-manage-queries]
+## Using GenAI to manage queries 
 
 This feature allows users to write queries as natural language questions and have the query console create SQL queries based on the context of the available tables. GenAI can also help users debug their queries.
 
 For more information on GenAI, checkout the [Announcing GenAI powered query suggestions in ClickHouse Cloud blog post](https://clickhouse.com/blog/announcing-genai-powered-query-suggestions-clickhouse-cloud).
 
-### Table setup [#table-setup]
+### Table setup 
 
 Let's import the UK Price Paid example dataset and use that to create some GenAI queries.
 
@@ -219,7 +219,7 @@ Let's import the UK Price Paid example dataset and use that to create some GenAI
 
 This query grabs the dataset from the `gov.uk` website. This file is ~4GB, so this query will take a few minutes to complete. Once ClickHouse has processed the query, you should have the entire dataset within the `uk_price_paid` table.
 
-#### Query creation [#query-creation]
+#### Query creation 
 
 Let's create a query using natural language.
 
@@ -240,7 +240,7 @@ Let's create a query using natural language.
 
 1. Once you've verified that the query is correct, click **Run** to execute it.
 
-### Debugging [#debugging]
+### Debugging 
 
 Now, let's test the query debugging capabilities of GenAI.
 
@@ -260,9 +260,9 @@ Now, let's test the query debugging capabilities of GenAI.
 
 Keep in mind that GenAI is an experimental feature. Use caution when running GenAI-generated queries against any dataset.
 
-## Advanced querying features [#advanced-querying-features]
+## Advanced querying features 
 
-### Searching query results [#searching-query-results]
+### Searching query results 
 
 After a query is executed, you can quickly search through the returned result set using the search input in the result pane. This feature assists in previewing the results of an additional `WHERE` clause or simply checking to ensure that specific data is included in the result set. After inputting a value into the search input, the result pane will update and return records containing an entry that matches the inputted value. In this example, we'll look for all instances of `breakfast` in the `hackernews` table for comments that contain `ClickHouse` (case-insensitive):
 
@@ -272,7 +272,7 @@ Note: Any field matching the inputted value will be returned. For example, the t
 
 <img src="/images/cloud/sqlconsole/match-in-body.png" alt="Match in body"/>
 
-### Adjusting pagination settings [#adjusting-pagination-settings]
+### Adjusting pagination settings 
 
 By default, the query result pane will display every result record on a single page. For larger result sets, it may be preferable to paginate results for easier viewing. This can be accomplished using the pagination selector in the bottom right corner of the result pane:
 
@@ -282,13 +282,13 @@ Selecting a page size will immediately apply pagination to the result set and na
 
 <img src="/images/cloud/sqlconsole/pagination-nav.png" alt="Pagination navigation"/>
 
-### Exporting query result data [#exporting-query-result-data]
+### Exporting query result data 
 
 Query result sets can be easily exported to CSV format directly from the SQL console. To do so, open the `•••` menu on the right side of the result pane toolbar and select 'Download as CSV'.
 
 <img src="/images/cloud/sqlconsole/download-as-csv.png" alt="Download as CSV"/>
 
-## Visualizing query data [#visualizing-query-data]
+## Visualizing query data 
 
 Some data can be more easily interpreted in chart form. You can quickly create visualizations from query result data directly from the SQL console in just a few clicks. As an example, we'll use a query that calculates weekly statistics for NYC taxi trips:
 
@@ -310,7 +310,7 @@ ORDER BY
 
 Without visualization, these results are difficult to interpret. Let's turn them into a chart.
 
-### Creating charts [#creating-charts]
+### Creating charts 
 
 To begin building your visualization, select the 'Chart' option from the query result pane toolbar. A chart configuration pane will appear:
 
@@ -324,7 +324,7 @@ Most chart types support multiple fields on numeric axes. To demonstrate, we'll 
 
 <img src="/images/cloud/sqlconsole/bar-chart.png" alt="Bar chart"/>
 
-### Customizing charts [#customizing-charts]
+### Customizing charts 
 
 The SQL console supports ten chart types that can be selected from the chart type selector in the chart configuration pane. For example, we can easily change the previous chart type from Bar to an Area:
 
@@ -348,7 +348,7 @@ In some scenarios, it may be necessary to adjust the axis scales for each field 
 
 <img src="/images/cloud/sqlconsole/adjust-axis-scale.png" alt="Adjust axis scale"/>
 
-## Sharing queries [#sharing-queries]
+## Sharing queries 
 
 The SQL console enables you to share queries with your team. When a query is shared, all members of the team can see and edit the query. Shared queries are a great way to collaborate with your team.
 

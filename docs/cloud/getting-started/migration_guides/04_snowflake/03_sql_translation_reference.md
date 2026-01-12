@@ -8,9 +8,9 @@ show_related_blogs: true
 doc_type: 'guide'
 ---
 
-## Data types [#data-types]
+## Data types 
 
-### Numerics [#numerics]
+### Numerics 
 
 Users moving data between ClickHouse and Snowflake will immediately notice that 
 ClickHouse offers more granular precision concerning declaring numerics. For example,
@@ -32,7 +32,7 @@ precision and scale at 76 digits. In addition to a similar `Float64` value,
 ClickHouse also provides a `Float32` for when precision is less critical and 
 compression paramount.
 
-### Strings [#strings]
+### Strings 
 
 ClickHouse and Snowflake take contrasting approaches to the storage of string 
 data. The `VARCHAR` in Snowflake holds Unicode characters in UTF-8, allowing the
@@ -49,7 +49,7 @@ to the Snowflake Binary type in its implementation. Both [Snowflake](https://doc
 and [ClickHouse](/sql-reference/statements/select/order-by#collation-support) 
 support “collation”, allowing users to override how strings are sorted and compared.
 
-### Semi-structured types [#semi-structured-data]
+### Semi-structured types 
 
 Snowflake supports the `VARIANT`, `OBJECT` and `ARRAY` types for semi-structured
 data.
@@ -77,7 +77,7 @@ data to achieve optimal compression](https://docs.snowflake.com/en/user-guide/se
 Snowflake also [imposes size restrictions](https://docs.snowflake.com/en/user-guide/semistructured-considerations#data-size-limitations)
 for these data types.
 
-### Type reference [#type-reference]
+### Type reference 
 
 | Snowflake                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | ClickHouse                                                                                                                                                     | Note                                                                                                                                                                                                                                                                                                                                                                            |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

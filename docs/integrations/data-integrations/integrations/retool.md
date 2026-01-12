@@ -16,11 +16,11 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 <PartnerBadge/>
 
-## 1. Gather your connection details [#1-gather-your-connection-details]
+## 1. Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-## 2. Create a ClickHouse resource [#2-create-a-clickhouse-resource]
+## 2. Create a ClickHouse resource 
 
 Login to your Retool account and navigate to the _Resources_ tab. Choose "Create New" -> "Resource":
 

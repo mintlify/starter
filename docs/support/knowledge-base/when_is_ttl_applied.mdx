@@ -8,7 +8,7 @@ keywords: ['TTL']
 
 
 
-## TTL Rules and Control [#ttl-rules-and-control]
+## TTL Rules and Control
 
 TTL is going to be ***eventually*** applied. What does that mean? The `MergeTree` table setting [`merge_with_ttl_timeout`](https://clickhouse.com/docs/engines/table-engines/mergetree-family/mergetree#merge_with_ttl_timeout) sets the minimum delay in seconds before repeating a merge with delete TTL. The default value is 14400 seconds (4 hours). But that is just the minimum delay, it can take longer until a merge for delete TTL is triggered.
 
@@ -40,7 +40,7 @@ You can use `SHOW CREATE TABLE` to check if your table contains TTL rules, as we
 SHOW CREATE TABLE <TableName>
 ```
 
-## Force a TTL rule to be applied [#force-a-ttl-rule-to-be-applied]
+## Force a TTL rule to be applied
 
 This is not the most elegant solution, but you can explicitly call `MATERIALIZE TTL`, which forces all the TTL rules of a table to be materialized:
 
@@ -49,7 +49,7 @@ ALTER TABLE my_table
     MATERIALIZE TTL
 ```
 
-## Background threads affecting TTL [#background-threads-affecting-ttl]
+## Background threads affecting TTL
 
 It is possible that your TTL rules are not being applied because there are not enough working threads in the background pool. For example, if you insert data intensively, then the whole background pool might be utilized for normal merges. However, you can increase the background pool size.
 

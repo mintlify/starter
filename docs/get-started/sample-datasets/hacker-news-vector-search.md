@@ -7,7 +7,7 @@ keywords: ['semantic search', 'vector similarity', 'approximate nearest neighbou
 doc_type: 'guide'
 ---
 
-## Introduction [#introduction]
+## Introduction 
 
 The [Hacker News dataset](https://news.ycombinator.com/) contains 28.74 million
 postings and their vector embeddings. The embeddings were generated using [SentenceTransformers](https://sbert.net/) model [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). The dimension of each embedding vector is `384`.
@@ -15,18 +15,18 @@ postings and their vector embeddings. The embeddings were generated using [Sente
 This dataset can be used to walk through the design, sizing and performance aspects for a large scale,
 real world vector search application built on top of user generated, textual data.
 
-## Dataset details [#dataset-details]
+## Dataset details 
 
 The complete dataset with vector embeddings is made available by ClickHouse as a single `Parquet` file in a [S3 bucket](https://clickhouse-datasets.s3.amazonaws.com/hackernews-miniLM/hackernews_part_1_of_1.parquet)
 
 We recommend users first run a sizing exercise to estimate the storage and memory requirements for this dataset by referring to the [documentation](../../engines/table-engines/mergetree-family/annindexes.md).
 
-## Steps [#steps]
+## Steps 
 
 <Steps>
 
 <Step>
-### Create table [#create-table]
+### Create table 
 
 Create the `hackernews` table to store the postings & their embeddings and associated attributes:
 
@@ -60,7 +60,7 @@ vector similarity search combined with post-filtering/pre-filtering as explained
 </Step>
 
 <Step>
-### Load data [#load-table]
+### Load data 
 
 To load the dataset from the `Parquet` file, run the following SQL statement:
 
@@ -73,7 +73,7 @@ Inserting 28.74 million rows into the table will take a few minutes.
 </Step>
 
 <Step>
-### Build a vector similarity index [#build-vector-similarity-index]
+### Build a vector similarity index 
 
 Run the following SQL to define and build a vector similarity index on the `vector` column of the `hackernews` table:
 
@@ -93,7 +93,7 @@ Building and saving the index could even take a few minutes/hour for the full 28
 </Step>
 
 <Step>
-### Perform ANN search [#perform-ann-search]
+### Perform ANN search 
 
 Once the vector similarity index has been built, vector search queries will automatically use the index:
 
@@ -110,7 +110,7 @@ The first time load of the vector index into memory could take a few seconds/min
 </Step>
 
 <Step>
-### Generate embeddings for search query [#generating-embeddings-for-search-query]
+### Generate embeddings for search query 
 
 [Sentence Transformers](https://www.sbert.net/) provide local, easy to use embedding
 models for capturing the semantic meaning of sentences and paragraphs.
@@ -223,7 +223,7 @@ rstuart4133: I remember hearing about OLAP cubes donkey&#x27;s years ago (probab
 ---------
 ```
 
-## Summarization demo application [#summarization-demo-application]
+## Summarization demo application 
 
 The example above demonstrated semantic search and document retrieval using ClickHouse.
 

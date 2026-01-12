@@ -8,7 +8,7 @@ doc_type: 'guide'
 
 Data denormalization is a technique in ClickHouse to use flattened tables to help minimize query latency by avoiding joins.
 
-## Comparing Normalized vs. Denormalized Schemas [#comparing-normalized-vs-denormalized-schemas]
+## Comparing Normalized vs. Denormalized Schemas 
 
 Denormalizing data involves intentionally reversing the normalization process to optimize database performance for specific query patterns. In normalized databases, data is split into multiple related tables to minimize redundancy and ensure data integrity. Denormalization reintroduces redundancy by combining tables, duplicating data, and incorporating calculated fields into either a single table or fewer tables - effectively moving any joins from query to insert time.
 
@@ -20,7 +20,7 @@ This process reduces the need for complex joins at query time and can significan
 
 A common technique popularized by NoSQL solutions is to denormalize data in the absence of `JOIN` support, effectively storing all statistics or related rows on a parent row as columns and nested objects. For example, in an example schema for a blog, we can store all `Comments` as an `Array` of objects on their respective posts.
 
-## When to use denormalization [#when-to-use-denormalization]
+## When to use denormalization 
 
 In general, we would recommend denormalizing in the following cases:
 
@@ -33,7 +33,7 @@ All information doesn't need to be denormalized - just the key information that 
 
 The denormalization work can be handled in either ClickHouse or upstream e.g. using Apache Flink.
 
-## Avoid denormalization on frequently updated data [#avoid-denormalization-on-frequently-updated-data]
+## Avoid denormalization on frequently updated data 
 
 For ClickHouse, denormalization is one of several options users can use in order to optimize query performance but should be used carefully. If data is updated frequently and needs to be updated in near-real time, this approach should be avoided. Use this if the main table is largely append only or can be reloaded periodically as a batch e.g. daily.
 
@@ -48,7 +48,7 @@ Achieving this in real-time is often unrealistic and requires significant engine
 
 A batch update process is thus more common, where all of the denormalized objects are periodically reloaded.
 
-## Practical cases for denormalization [#practical-cases-for-denormalization]
+## Practical cases for denormalization 
 
 Let's consider a few practical examples where denormalizing might make sense, and others where alternative approaches are more desirable.
 
@@ -58,7 +58,7 @@ We also only consider denormalizing other tables onto `Posts`, as we consider th
 
 *For each of the following examples, assume a query exists which requires both tables to be used in a join.*
 
-### Posts and Votes [#posts-and-votes]
+### Posts and Votes 
 
 Votes for posts are represented as separate tables. The optimized schema for this is shown below as well as the insert command to load the data:
 
@@ -123,7 +123,7 @@ LIMIT 5
 
 The main observation here is that aggregated vote statistics for each post would be sufficient for most analysis - we do not need to denormalize all of the vote information. For example, the current `Score` column represents such a statistic i.e. total up votes minus down votes. Ideally, we would just be able to retrieve these statistics at query time with a simple lookup (see [dictionaries](/dictionary)).
 
-### Users and Badges [#users-and-badges]
+### Users and Badges 
 
 Now let's consider our `Users` and `Badges`:
 
@@ -193,7 +193,7 @@ It's probably not realistic to denormalize 19k objects onto a single row. This r
 
 > We may wish to denormalize statistics from badges on to users e.g. the number of badges. We consider such an example when using dictionaries for this dataset at insert time.
 
-### Posts and PostLinks [#posts-and-postlinks]
+### Posts and PostLinks 
 
 `PostLinks` connect `Posts` which users consider to be related or duplicated. The following query shows the schema and load command:
 
@@ -254,7 +254,7 @@ FROM
 
 We use this as our denormalization example below.
 
-### Simple statistic example [#simple-statistic-example]
+### Simple statistic example 
 
 In most cases, denormalization requires the adding of a single column or statistic onto a parent row. For example, we may just wish to enrich our posts with the number of duplicate posts and we simply need to add a column.
 
@@ -283,7 +283,7 @@ LEFT JOIN
 ) AS postlinks ON posts.Id = postlinks.PostId
 ```
 
-### Exploiting complex types for one-to-many relationships [#exploiting-complex-types-for-one-to-many-relationships]
+### Exploiting complex types for one-to-many relationships 
 
 In order to perform denormalization, we often need to exploit complex types. If a one-to-one relationship is being denormalized, with a low number of columns, users can simply add these as rows with their original types as shown above. However, this is often undesirable for larger objects and not possible for one-to-many relationships.
 
@@ -350,9 +350,9 @@ LinkedPosts:    [('2017-04-11 11:53:09.583',3404508),('2017-04-11 11:49:07.680',
 DuplicatePosts: [('2017-04-11 12:18:37.260',3922739),('2017-04-11 12:18:37.260',33058004)]
 ```
 
-## Orchestrating and scheduling denormalization [#orchestrating-and-scheduling-denormalization]
+## Orchestrating and scheduling denormalization 
 
-### Batch [#batch]
+### Batch 
 
 Exploiting denormalization requires a transformation process in which it can be performed and orchestrated.
 
@@ -363,6 +363,6 @@ Users have several options for orchestrating this in ClickHouse, assuming a peri
 - **[Refreshable Materialized Views](/materialized-view/refreshable-materialized-view)** - Refreshable materialized views can be used to periodically schedule a query with the results sent to a target table. On query execution, the view ensures the target table is atomically updated. This provides a ClickHouse native means of scheduling this work.
 - **External tooling** - Utilizing tools such as [dbt](https://www.getdbt.com/) and [Airflow](https://airflow.apache.org/) to periodically schedule the transformation. The [ClickHouse integration for dbt](/integrations/dbt) ensures this is performed atomically with a new version of the target table created and then atomically swapped with the version receiving queries (via the [EXCHANGE](/sql-reference/statements/exchange) command).
 
-### Streaming [#streaming]
+### Streaming 
 
 Users may alternatively wish to perform this outside of ClickHouse, prior to insertion, using streaming technologies such as [Apache Flink](https://flink.apache.org/). Alternatively, incremental [materialized views](/guides/developer/cascading-materialized-views) can be used to perform this process as data is inserted.

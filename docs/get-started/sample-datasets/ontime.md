@@ -9,7 +9,7 @@ keywords: ['example dataset', 'flight data', 'sample data', 'airline performance
 
 This dataset contains data from Bureau of Transportation Statistics.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE `ontime`
@@ -127,7 +127,7 @@ CREATE TABLE `ontime`
   ORDER BY (Year, Quarter, Month, DayofMonth, FlightDate, IATA_CODE_Reporting_Airline);
 ```
 
-## Import from raw data [#import-from-raw-data]
+## Import from raw data 
 
 Downloading data:
 
@@ -143,7 +143,7 @@ ls -1 *.zip | xargs -I{} -P $(nproc) bash -c "echo {}; unzip -cq {} '*.csv' | se
 
 (if you will have memory shortage or other issues on your server, remove the `-P $(nproc)` part)
 
-## Import from a saved copy [#import-from-a-saved-copy]
+## Import from a saved copy 
 
 Alternatively, you can import data from a saved copy by the following query:
 
@@ -153,7 +153,7 @@ INSERT INTO ontime SELECT * FROM s3('https://clickhouse-public-datasets.s3.amazo
 
 The snapshot was created on 2022-05-29.
 
-## Queries [#queries]
+## Queries 
 
 Q0.
 

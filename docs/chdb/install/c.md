@@ -9,9 +9,9 @@ doc_type: 'guide'
 
 chDB provides a native C/C++ API for embedding ClickHouse functionality directly into your applications. The API supports both simple queries and advanced features like persistent connections and streaming query results.
 
-## Installation [#installation]
+## Installation 
 
-### Step 1: Install libchdb [#install-libchdb]
+### Step 1: Install libchdb 
 
 Install the chDB library on your system:
 
@@ -19,7 +19,7 @@ Install the chDB library on your system:
 curl -sL https://lib.chdb.io | bash
 ```
 
-### Step 2: Include headers [#include-headers]
+### Step 2: Include headers 
 
 Include the chDB header in your project:
 
@@ -27,7 +27,7 @@ Include the chDB header in your project:
 #include <chdb.h>
 ```
 
-### Step 3: Link library [#link-library]
+### Step 3: Link library 
 
 Compile and link your application with chDB:
 
@@ -39,9 +39,9 @@ gcc -o myapp myapp.c -lchdb
 g++ -o myapp myapp.cpp -lchdb
 ```
 
-## C Examples [#c-examples] 
+## C Examples  
 
-### Basic connection and queries [#basic-connection-queries]
+### Basic connection and queries 
 
 ```c
 #include <stdio.h>
@@ -90,7 +90,7 @@ int main() {
 }
 ```
 
-### Streaming queries [#streaming-queries]
+### Streaming queries 
 
 ```c
 #include <stdio.h>
@@ -154,7 +154,7 @@ int main() {
 }
 ```
 
-### Working with different data formats [#data-formats]
+### Working with different data formats 
 
 ```c
 #include <stdio.h>
@@ -192,7 +192,7 @@ int main() {
 }
 ```
 
-## C++ example [#cpp-example]
+## C++ example 
 
 ```cpp
 #include <iostream>
@@ -275,7 +275,7 @@ int main() {
 }
 ```
 
-## Error handling best practices [#error-handling]
+## Error handling best practices 
 
 ```c
 #include <stdio.h>
@@ -322,7 +322,7 @@ cleanup:
 }
 ```
 
-## GitHub repository [#github-repository]
+## GitHub repository 
 
 - **Main Repository**: [chdb-io/chdb](https://github.com/chdb-io/chdb)
 - **Issues and Support**: Report issues on the [GitHub repository](https://github.com/chdb-io/chdb/issues)

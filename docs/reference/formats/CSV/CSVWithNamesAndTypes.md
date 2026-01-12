@@ -11,13 +11,13 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 Also prints two header rows with column names and types, similar to [TabSeparatedWithNamesAndTypes](../formats/TabSeparatedWithNamesAndTypes).
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 <Tip>
 Starting from [version](https://github.com/ClickHouse/ClickHouse/releases) 23.1, ClickHouse will automatically detect headers in CSV files when using the `CSV` format, so it is not necessary to use `CSVWithNames` or `CSVWithNamesAndTypes`.
@@ -69,7 +69,7 @@ Insert data using the `CSVWithNamesAndTypes` format:
 INSERT INTO football FROM INFILE 'football_types.csv' FORMAT CSVWithNamesAndTypes;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `CSVWithNamesAndTypes` format:
 
@@ -103,7 +103,7 @@ The output will be a CSV with a two header rows for column names and types:
 "2022-05-07",2021,"Walsall","Swindon Town",0,3
 ```
 
-## Format settings [#format-settings]
+## Format settings 
 
 <Note>
 If setting [input_format_with_names_use_header](/operations/settings/settings-formats.md/#input_format_with_names_use_header) is set to `1`,

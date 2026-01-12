@@ -22,9 +22,9 @@ This Guide Integrates:
 If you're looking for session replay/browser-side monitoring, you'll want to install the [Browser integration](/use-cases/observability/clickstack/sdks/browser) instead.
 </Note>
 
-## Installing [#installing]
+## Installing 
 
-### Enable instrumentation hook (required for v15 and below) [#enable-instrumentation-hook]
+### Enable instrumentation hook (required for v15 and below) 
 
 To get started, you'll need to enable the Next.js instrumentation hook by setting `experimental.instrumentationHook = true;` in your `next.config.js`.
 
@@ -51,7 +51,7 @@ const nextConfig = {
 module.exports = nextConfig;
 ```
 
-### Install ClickHouse OpenTelemetry SDK [#install-sdk]
+### Install ClickHouse OpenTelemetry SDK 
 
 
 <Tabs>
@@ -71,7 +71,7 @@ yarn add @hyperdx/node-opentelemetry
 </Tab>
 </Tabs>
 
-### Create instrumentation files [#create-instrumentation-files]
+### Create instrumentation files 
 
 Create a file called `instrumentation.ts` (or `.js`) in your Next.js project root with the following contents:
 
@@ -90,7 +90,7 @@ export async function register() {
 
 This will allow Next.js to import the OpenTelemetry instrumentation for any serverless function invocation.
 
-### Configure environment variables [#configure-environment-variables]
+### Configure environment variables 
 
 If you're sending traces directly to ClickStack, you'll need to start your Next.js
 server with the following environment variables to point spans towards the OTel collector:

@@ -9,13 +9,13 @@ doc_type: 'guide'
 
 Updates and deletes replicated from Postgres to ClickHouse result in duplicated rows in ClickHouse due to its data storage structure and the replication process. This page covers why this happens and the strategies to use in ClickHouse to handle duplicates.
 
-## How does data get replicated? [#how-does-data-get-replicated]
+## How does data get replicated? 
 
-### PostgreSQL logical decoding [#PostgreSQL-logical-decoding]
+### PostgreSQL logical decoding 
 
 ClickPipes uses [Postgres Logical Decoding](https://www.pgedge.com/blog/logical-replication-evolution-in-chronological-order-clustering-solution-built-around-logical-replication) to consume changes as they happen in Postgres. The Logical Decoding process in Postgres enables clients like ClickPipes to receive changes in a human-readable format, i.e., a series of INSERTs, UPDATEs, and DELETEs.
 
-### ReplacingMergeTree [#replacingmergetree]
+### ReplacingMergeTree 
 
 ClickPipes maps Postgres tables to ClickHouse using the [ReplacingMergeTree](/engines/table-engines/mergetree-family/replacingmergetree) engine. ClickHouse performs best with append-only workloads and does not recommend frequent UPDATEs. This is where ReplacingMergeTree is particularly powerful.
 
@@ -47,7 +47,7 @@ PRIMARY KEY id
 ORDER BY id;
 ```
 
-### Illustrative example [#illustrative-example]
+### Illustrative example 
 
 The illustration below walks through a basic example of synchronization of a table `users` between PostgreSQL and ClickHouse using ClickPipes.
 
@@ -63,7 +63,7 @@ As a result, running a simple query like `SELECT count(*) FROM users;` may produ
 
 How can we ensure identical query results in both ClickHouse and PostgreSQL?
 
-###  Deduplicate using FINAL Keyword [#deduplicate-using-final-keyword]
+###  Deduplicate using FINAL Keyword 
 
 The recommended way to deduplicate data in ClickHouse queries is to use the [FINAL modifier.](/sql-reference/statements/select/from#final-modifier) This ensures only the deduplicated rows are returned.
 
@@ -119,7 +119,7 @@ ORDER BY viewcount DESC
 LIMIT 10
 ```
 
-#### FINAL setting [#final-setting]
+#### FINAL setting 
 
 Rather than adding the FINAL modifier to each table name in the query, you can use the [FINAL setting](/operations/settings/settings#final) to apply it automatically to all tables in the query.
 
@@ -134,7 +134,7 @@ SET final = 1;
 SELECT count(*) FROM posts; 
 ```
 
-#### ROW policy [#row-policy]
+#### ROW policy 
 
 An easy way to hide the redundant `_peerdb_is_deleted = 0` filter is to use [ROW policy.](/docs/operations/access-rights#row-policy-management) Below is an example that creates a row policy to exclude the deleted rows from all queries on the table votes.
 
@@ -145,13 +145,13 @@ CREATE ROW POLICY cdc_policy ON votes FOR SELECT USING _peerdb_is_deleted = 0 TO
 
 > Row policies are applied to a list of users and roles. In this example, it is applied to all users and roles. This can be adjusted to only specific users or roles.
 
-### Query like with Postgres [#query-like-with-postgres]
+### Query like with Postgres 
 
 Migrating an analytical dataset from PostgreSQL to ClickHouse often requires modifying application queries to account for differences in data handling and query execution. 
 
 This section will explore techniques for deduplicating data while keeping the original queries unchanged.
 
-#### Views [#views]
+#### Views 
 
 [Views](/sql-reference/statements/create/view#normal-view) are a great way to hide the FINAL keyword from the query, as they do not store any data and simply perform a read from another table on each access.
 
@@ -178,7 +178,7 @@ ORDER BY viewcount DESC
 LIMIT 10
 ```
 
-#### Refreshable materialized view [#refreshable-material-view]
+#### Refreshable materialized view 
 
 Another approach is to use a [refreshable materialized view](/materialized-view/refreshable-materialized-view), which enables you to schedule query execution for deduplicating rows and storing the results in a destination table. With each scheduled refresh, the destination table is replaced with the latest query results.
 

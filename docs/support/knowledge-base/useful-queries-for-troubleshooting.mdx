@@ -8,13 +8,13 @@ keywords: ['Useful Queries']
 
 
 
-## Useful queries for troubleshooting [#useful-queries-for-troubleshooting]
+## Useful queries for troubleshooting
 
 In no particular order, here are some handy queries for troubleshooting ClickHouse and figuring out what is happening. 
 
 We also have a great blog with some [essential queries for monitoring ClickHouse](https://clickhouse.com/blog/monitoring-troubleshooting-select-queries-clickhouse).
 
-## View which settings have been changed from the default [#view-which-settings-have-been-changed-from-the-default]
+## View which settings have been changed from the default
 
 ```sql
 SELECT
@@ -24,7 +24,7 @@ FROM system.settings
 WHERE changed
 ```
 
-## Get the size of all your tables [#get-the-size-of-all-your-tables]
+## Get the size of all your tables
 
 ```sql
 SELECT table,
@@ -46,7 +46,7 @@ The response looks like:
 └─────────────────┴───────────┘
 ```
 
-## Row count and average day size of your table [#row-count-and-average-day-size-of-your-table]
+## Row count and average day size of your table
 
 ```sql
 SELECT
@@ -72,7 +72,7 @@ FROM
 )
 ```
 
-## Compression columns percentage as well as the size of primary index in memory [#compression-columns-percentage-as-well-as-the-size-of-primary-index-in-memory]
+## Compression columns percentage as well as the size of primary index in memory
 
 You can see how compressed your data is by column. This query also returns the size of your primary indexes in memory - useful to know because primary indexes must fit in memory.
 
@@ -113,7 +113,7 @@ RIGHT JOIN
 ORDER BY parts.bytes_size DESC
 ```
 
-## Number of queries sent by client in the last 10 minutes [#number-of-queries-sent-by-client-in-the-last-10-minutes]
+## Number of queries sent by client in the last 10 minutes
 
 Feel free to increase or decrease the time interval in the `toIntervalMinute(10)` function:
 
@@ -134,7 +134,7 @@ ORDER BY
     count() ASC
 ```
 
-## Number of parts in each partition [#number-of-parts-in-each-partition]
+## Number of parts in each partition
 
 ```sql
 SELECT
@@ -149,7 +149,7 @@ GROUP BY
     partition_id
 ```
 
-## Finding long running queries [#finding-long-running-queries]
+## Finding long running queries
 
 This can help find queries that are stuck:
 
@@ -186,7 +186,7 @@ WHERE
     query_id = '0bb6e88b-9b9a-4ffc-b612-5746c859e360';
 ```
 
-## View the most recent errors [#view-the-most-recent-errors]
+## View the most recent errors
 
 ```
 SELECT *
@@ -205,7 +205,7 @@ The response looks like:
 └───────────────────────┴──────┴───────┴─────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴──────────────────┴────────┘
 ```
 
-## Top 10 queries that are using the most CPU and memory [#top-10-queries-that-are-using-the-most-cpu-and-memory]
+## Top 10 queries that are using the most CPU and memory
 
 ```sql
 SELECT
@@ -221,7 +221,7 @@ ORDER BY memory_usage DESC
 LIMIT 10
 ```
 
-## How much disk space are my projection using [#how-much-disk-space-are-my-projection-using]
+## How much disk space are my projection using
 
 ```sql
 SELECT
@@ -234,7 +234,7 @@ FROM system.projection_parts
 ```
 
 
-## Show disk storage, number of parts, number of rows in system.parts and marks across databases [#show-disk-storage-number-of-parts-number-of-rows-in-systemparts-and-marks-across-databases]
+## Show disk storage, number of parts, number of rows in system.parts and marks across databases
 
 ```sql
 SELECT
@@ -254,7 +254,7 @@ GROUP BY
 ORDER BY database ASC
 ```
 
-## List details of recently written new parts [#list-details-of-recently-written-new-parts]
+## List details of recently written new parts
 
 The details include when they got created, how large they are, how many rows, and more:
 

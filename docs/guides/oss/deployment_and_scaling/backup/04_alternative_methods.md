@@ -10,7 +10,7 @@ ClickHouse stores data on disk, and there are many ways to back up disks.
 These are some alternatives that have been used in the past, and that may fit
 your use case.
 
-### Duplicating source data somewhere else [#duplicating-source-data-somewhere-else]
+### Duplicating source data somewhere else 
 
 Often data ingested into ClickHouse is delivered through some sort of persistent
 queue, such as [Apache Kafka](https://kafka.apache.org). In this case, it is possible to configure an
@@ -19,7 +19,7 @@ being written to ClickHouse and store it in cold storage somewhere. Most compani
 already have some default recommended cold storage, which could be an object store
 or a distributed filesystem like [HDFS](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html).
 
-### Filesystem Snapshots [#filesystem-snapshots]
+### Filesystem Snapshots 
 
 Some local filesystems provide snapshot functionality (for example, [ZFS](https://en.wikipedia.org/wiki/ZFS)), 
 but they might not be the best choice for serving live queries. A possible solution
@@ -32,7 +32,7 @@ disks attached per server, which would be cost-effective.
 For smaller volumes of data, a simple `INSERT INTO ... SELECT ...` to remote tables
 might work as well.
 
-### Manipulations with Parts [#manipulations-with-parts]
+### Manipulations with Parts 
 
 ClickHouse allows using the `ALTER TABLE ... FREEZE PARTITION ...` query to create
 a local copy of table partitions. This is implemented using hardlinks to the `/var/lib/clickhouse/shadow/`

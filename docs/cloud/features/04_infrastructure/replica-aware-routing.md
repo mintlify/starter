@@ -26,16 +26,16 @@ When Envoy receives a hostname that matches such a pattern, it will compute the 
 
 Note the original hostname will still use `LEAST_CONNECTION` load balancing, which is the default routing algorithm.
 
-## Limitations of Replica-aware routing [#limitations-of-replica-aware-routing]
+## Limitations of Replica-aware routing 
 
-### Replica-aware routing does not guarantee isolation [#replica-aware-routing-does-not-guarantee-isolation]
+### Replica-aware routing does not guarantee isolation 
 
 Any disruption to the service, e.g. server pod restarts (due to any reason like a version upgrade, crash, vertical scaling up, etc.), server scaled out / in, will cause a disruption to the routing hash ring. This will cause connections with the same hostname to land on a different server pod.
 
-### Replica-aware routing does not work out of the box with private link [#replica-aware-routing-does-not-work-out-of-the-box-with-private-link]
+### Replica-aware routing does not work out of the box with private link 
 
 Customers need to manually add a DNS entry to make name resolution work for the new hostname pattern. It is possible that this can cause imbalance in the server load if customers use it incorrectly.
 
-## Configuring replica-aware routing [#configuring-replica-aware-routing]
+## Configuring replica-aware routing 
 
 To enable Replica-aware routing, please contact [our support team](https://clickhouse.com/support/program).

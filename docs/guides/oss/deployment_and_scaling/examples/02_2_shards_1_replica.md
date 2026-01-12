@@ -29,7 +29,7 @@ The architecture of the cluster you will be setting up is shown below:
 
 <DedicatedKeeperServers />
 
-## Prerequisites [#pre-requisites]
+## Prerequisites 
 
 - You've set up a [local ClickHouse server](/install) before
 - You are familiar with basic configuration concepts of ClickHouse such as [configuration files](/operations/configuration-files)
@@ -37,7 +37,7 @@ The architecture of the cluster you will be setting up is shown below:
 
 <Steps level="h2">
 
-## Set up directory structure and test environment [#set-up]
+## Set up directory structure and test environment 
 
 <WorkingExample />
 
@@ -161,9 +161,9 @@ done
 
 <ConfigExplanation />
 
-## Configure ClickHouse nodes [#configure-clickhouse-servers]
+## Configure ClickHouse nodes 
 
-### Server setup [#server-setup]
+### Server setup 
 
 Now modify each empty configuration file `config.xml` located at
 `fs/volumes/clickhouse-{}/etc/clickhouse-server/config.d`. The lines which are
@@ -240,7 +240,7 @@ highlighted below need to be changed to be specific to each node:
 
 Each section of the above configuration file is explained in more detail below.
 
-#### Networking and logging [#networking]
+#### Networking and logging 
 
 <ListenHost />
 
@@ -260,7 +260,7 @@ you a debug log that will roll over at 1000M three times:
 For more information on logging configuration, see the comments included in the
 default ClickHouse [configuration file](https://github.com/ClickHouse/ClickHouse/blob/master/programs/server/config.xml).
 
-#### Cluster configuration [#cluster-configuration]
+#### Cluster configuration 
 
 Configuration for the cluster is set up in the `<remote_servers>` block.
 Here the cluster name `cluster_2S_1R` is defined.
@@ -294,7 +294,7 @@ are allowed, but can also be turned off with setting `allow_distributed_ddl_quer
 
 <ServerParameterTable />
 
-#### Keeper configuration [#keeper-config-explanation]
+#### Keeper configuration 
 
 The `<ZooKeeper>` section tells ClickHouse where ClickHouse Keeper (or ZooKeeper) is running.
 As we are using a ClickHouse Keeper cluster, each `<node>` of the cluster needs to be specified,
@@ -324,7 +324,7 @@ Although it is possible to run ClickHouse Keeper on the same server as ClickHous
 in production environments we strongly recommend that ClickHouse Keeper runs on dedicated hosts.
 </Note>
 
-#### Macros configuration [#macros-config-explanation]
+#### Macros configuration 
 
 Additionally, the `<macros>` section is used to define parameter substitutions for
 replicated tables. These are listed in `system.macros` and allow using substitutions
@@ -341,7 +341,7 @@ like `{shard}` and `{replica}` in queries.
 These will be defined uniquely depending on the layout of the cluster.
 </Note>
 
-### User configuration [#user-config]
+### User configuration 
 
 Now modify each empty configuration file `users.xml` located at
 `fs/volumes/clickhouse-{}/etc/clickhouse-server/users.d` with the following:
@@ -398,9 +398,9 @@ In practice, this is discouraged.
 In this example, each `users.xml` file is identical for all nodes in the cluster.
 </Note>
 
-## Configure ClickHouse Keeper [#configure-clickhouse-keeper-nodes]
+## Configure ClickHouse Keeper 
 
-### Keeper setup [#configuration-explanation]
+### Keeper setup 
 
 <KeeperConfig />
 
@@ -414,7 +414,7 @@ In this example, each `users.xml` file is identical for all nodes in the cluster
 
 <CloudTip />
 
-## Test the setup [#test-the-setup]
+## Test the setup 
 
 Make sure that docker is running on your machine.
 Start the cluster using the `docker-compose up` command from the root of the `cluster_2S_1R` directory:
@@ -493,7 +493,7 @@ WHERE path IN ('/', '/clickhouse')
 With this, you have successfully set up a ClickHouse cluster with a single shard and two replicas.
 In the next step, you will create a table in the cluster.
 
-## Create a database [#creating-a-database]
+## Create a database 
 
 Now that you have verified the cluster is correctly setup and is running, you
 will be recreating the same table as the one used in the [UK property prices](/getting-started/example-datasets/uk-price-paid)
@@ -552,7 +552,7 @@ SHOW DATABASES;
    └────────────────────┘
 ```
 
-## Create a table on the cluster [#creating-a-table]
+## Create a table on the cluster 
 
 Now that the database has been created, you will create a table.
 Run the following query from any of the host clients:
@@ -655,7 +655,7 @@ on it or inserting data to both shards when we run insert queries.
 In ClickHouse this interface is called a **distributed table**, which we create using
 the [`Distributed`](/engines/table-engines/special/distributed) table engine. Let's take a look at how it works.
 
-## Create a distributed table [#create-distributed-table]
+## Create a distributed table 
 
 Create a distributed table with the following query:
 
@@ -691,7 +691,7 @@ ON CLUSTER cluster_2S_1R
 ENGINE = Distributed('cluster_2S_1R', 'uk', 'uk_price_paid_local', rand());
 ```
 
-## Insert data into a distributed table [#inserting-data-into-distributed-table]
+## Insert data into a distributed table 
 
 Now connect to either of the hosts and insert the data:
 
@@ -816,7 +816,7 @@ we were able to insert data even when one of the hosts failed.
 
 </Steps>
 
-## Conclusion [#conclusion]
+## Conclusion 
 
 The advantage of this cluster topology is that data gets distributed across
 separate hosts and uses half the storage per node. More importantly, queries

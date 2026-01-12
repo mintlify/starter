@@ -7,7 +7,7 @@ keywords: ['semantic search', 'vector similarity', 'approximate nearest neighbou
 doc_type: 'guide'
 ---
 
-## Introduction [#introduction]
+## Introduction 
 
 The [LAION 5b dataset](https://laion.ai/blog/laion-5b/) contains 5.85 billion image-text embeddings and
 associated image metadata. The embeddings were generated using `Open AI CLIP` model [ViT-L/14](https://huggingface.co/sentence-transformers/clip-ViT-L-14). The
@@ -17,7 +17,7 @@ This dataset can be used to model design, sizing and performance aspects for a l
 real world vector search application. The dataset can be used for both text to image search and
 image to image search.
 
-## Dataset details [#dataset-details]
+## Dataset details 
 
 The complete dataset is available as a mixture of `npy` and `Parquet` files at [the-eye.eu](https://the-eye.eu/public/AI/cah/laion5b/)
 
@@ -26,12 +26,12 @@ The `S3` bucket contains 10 `Parquet` files, each `Parquet` file is filled with 
 
 We recommend users first run a sizing exercise to estimate the storage and memory requirements for this dataset by referring to the [documentation](../../engines/table-engines/mergetree-family/annindexes.md).
 
-## Steps [#steps]
+## Steps 
 
 <Steps>
 
 <Step>
-### Create table [#create-table]
+### Create table 
 
 Create the `laion_5b_100m` table to store the embeddings and their associated attributes:
 
@@ -63,7 +63,7 @@ vector similarity search combined with post-filtering/pre-filtering as explained
 </Step>
 
 <Step>
-### Load data [#load-table]
+### Load data 
 
 To load the dataset from all `Parquet` files, run the following SQL statement:
 
@@ -84,7 +84,7 @@ INSERT INTO laion_5b_100m SELECT * FROM s3('https://clickhouse-datasets.s3.amazo
 </Step>
 
 <Step>
-### Run a brute-force vector similarity search [#run-a-brute-force-vector-similarity-search]
+### Run a brute-force vector similarity search 
 
 KNN (k - Nearest Neighbours) search or brute force search involves calculating the distance of each vector in the dataset
 to the search embedding vector and then ordering the distances to get the nearest neighbours. We can use one of the vectors
@@ -133,7 +133,7 @@ With 100 million rows, the above query without a vector index could take a few s
 </Step>
 
 <Step>
-### Build a vector similarity index [#build-vector-similarity-index]
+### Build a vector similarity index 
 
 Run the following SQL to define and build a vector similarity index on the `vector` column of the `laion_5b_100m` table :
 
@@ -153,7 +153,7 @@ Building and saving the index could even take a few hours for the full l00 milli
 </Step>
 
 <Step>
-### Perform ANN search [#perform-ann-search]
+### Perform ANN search 
 
 Once the vector similarity index has been built, vector search queries will automatically use the index:
 
@@ -170,7 +170,7 @@ The first time load of the vector index into memory could take a few seconds/min
 </Step>
 
 <Step>
-### Generate embeddings for search query [#generating-embeddings-for-search-query]
+### Generate embeddings for search query 
 
 The `LAION 5b` dataset embedding vectors were generated using `OpenAI CLIP` model `ViT-L/14`.
 

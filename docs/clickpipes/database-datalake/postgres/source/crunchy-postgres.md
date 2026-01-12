@@ -9,7 +9,7 @@ doc_type: 'guide'
 
 ClickPipes supports Postgres version 12 and later.
 
-## Enable logical replication [#enable-logical-replication]
+## Enable logical replication 
 
 Crunchy Bridge comes with logical replication enabled by [default](https://docs.crunchybridge.com/how-to/logical-replication). Ensure that the settings below are configured correctly. If not, adjust them accordingly.
 
@@ -19,7 +19,7 @@ SHOW max_wal_senders; -- should be 10
 SHOW max_replication_slots; -- should be 10
 ```
 
-## Creating ClickPipes user and granting permissions [#creating-clickpipes-user-and-granting-permissions]
+## Creating ClickPipes user and granting permissions 
 
 Connect to your Crunchy Bridge Postgres through the `postgres` user and run the below commands:
 
@@ -49,7 +49,7 @@ Connect to your Crunchy Bridge Postgres through the `postgres` user and run the 
     CREATE PUBLICATION clickpipes_publication FOR ALL TABLES;
     ```
 
-## Safe list ClickPipes IPs [#safe-list-clickpipes-ips]
+## Safe list ClickPipes IPs 
 
 Safelist [ClickPipes IPs](../../index.md#list-of-static-ips) by adding the Firewall Rules in Crunchy Bridge.
 
@@ -57,7 +57,7 @@ Safelist [ClickPipes IPs](../../index.md#list-of-static-ips) by adding the Firew
 
 <Image size="lg" img={add_firewall_rules_crunchy_bridge} alt="Add the Firewall Rules for ClickPipes" border/>
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your Postgres instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your Postgres instance as you will need them during the ClickPipe creation process.

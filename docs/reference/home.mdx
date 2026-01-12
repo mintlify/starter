@@ -1,0 +1,85 @@
+---
+description: 'CloudHouse reference documentation'
+slug: reference
+title: 'Reference docs'
+doc_type: 'reference'
+hide-toolbar: true
+mode: "custom"
+---
+
+<div className="relative">
+    <div className="absolute -top-14 left-0 right-0 opacity-80">
+        <img
+            src="/images/background-light.svg"
+            className="block dark:hidden pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+        <img
+            src="/images/background-dark.svg"
+            className="hidden dark:block pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+    </div>
+
+    <div className="relative z-10 px-4 py-16 lg:py-24 lg:pb-24 max-w-6xl mx-auto">
+
+        <div className="px-6 lg:px-0 mt-12 lg:mt-24 grid sm:grid-cols-4 gap-x-6 gap-y-4">
+            <Card
+                title="Syntax"
+                icon="code"
+                href="/docs/reference/syntax"
+            >
+                Learn ClickHouse SQL syntax and query structure
+            </Card>
+            <Card
+                title="Data Types"
+                icon="database"
+                href="/docs/reference/data-types/int-uint"
+            >
+                Explore available data types for columns and expressions
+            </Card>
+            <Card
+                title="Statements"
+                icon="terminal"
+                href="/docs/reference/statements"
+            >
+                Discover SQL statements for querying and managing data
+            </Card>
+            <Card
+                title="Engines"
+                icon="engine"
+                href="/docs/reference/engines/engines"
+            >
+                Choose the right table and database engines
+            </Card>
+            <Card
+                title="Functions"
+                icon="function"
+                href="/docs/reference/functions/regular-functions/overview"
+            >
+                Use built-in functions for data processing and analysis
+            </Card>
+            <Card
+                title="Formats"
+                icon="file-code"
+                href="/docs/reference/formats/Arrow/Arrow"
+            >
+                Work with various input and output data formats
+            </Card>
+            <Card
+                title="Settings"
+                icon="sliders"
+                href="/docs/reference/settings/server-settings/settings"
+            >
+                Configure session, format, and server settings
+            </Card>
+            <Card
+                title="System Tables"
+                icon="table"
+                href="/docs/reference/system-tables"
+            >
+                Query system tables for monitoring and introspection
+            </Card>
+        </div>
+    </div>
+</div>

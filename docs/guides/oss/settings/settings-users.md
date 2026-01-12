@@ -63,7 +63,7 @@ Structure of the `users` section:
 </users>
 ```
 
-### user_name/password [#user-namepassword]
+### user_name/password 
 
 Password can be specified in plaintext or in SHA256 (hex format).
 
@@ -99,7 +99,7 @@ Password can be specified in plaintext or in SHA256 (hex format).
 
     The first line of the result is the password. The second line is the corresponding double SHA1 hash.
 
-### username/ssh-key [#user-sshkey]
+### username/ssh-key 
 
 This setting allows authenticating with SSH keys.
 
@@ -118,7 +118,7 @@ The `ssh_key` element is expected to be
 
 Substitute `ssh-ed25519` with `ssh-rsa` or `ecdsa-sha2-nistp256` for the other supported algorithms.
 
-### access_management [#access_management-user-setting]
+### access_management 
 
 This setting enables or disables using of SQL-driven [access control and account management](/operations/access-rights#access-control-usage) for the user.
 
@@ -129,7 +129,7 @@ Possible values:
 
 Default value: 0.
 
-### grants [#grants-user-setting]
+### grants 
 
 This setting allows to grant any rights to selected user.
 Each element of the list should be `GRANT` query without any grantees specified.
@@ -150,7 +150,7 @@ This setting can't be specified at the same time with
 `dictionaries`, `access_management`, `named_collection_control`, `show_named_collections_secrets`
 and `allow_databases` settings.
 
-### user_name/networks [#user-namenetworks]
+### user_name/networks 
 
 List of networks from which the user can connect to the ClickHouse server.
 
@@ -193,18 +193,18 @@ To open access only from localhost, specify:
 <ip>127.0.0.1</ip>
 ```
 
-### user_name/profile [#user-nameprofile]
+### user_name/profile 
 
 You can assign a settings profile for the user. Settings profiles are configured in a separate section of the `users.xml` file. For more information, see [Profiles of Settings](../../operations/settings/settings-profiles.md).
 
-### user_name/quota [#user-namequota]
+### user_name/quota 
 
 Quotas allow you to track or limit resource usage over a period of time. Quotas are configured in the `quotas`
 section of the `users.xml` configuration file.
 
 You can assign a quotas set for the user. For a detailed description of quotas configuration, see [Quotas](/operations/quotas).
 
-### user_name/databases [#user-namedatabases]
+### user_name/databases 
 
 In this section, you can limit rows that are returned by ClickHouse for `SELECT` queries made by the current user, thus implementing basic row-level security.
 
@@ -226,7 +226,7 @@ The following configuration forces that user `user1` can only see the rows of `t
 
 The `filter` can be any expression resulting in a [UInt8](../../sql-reference/data-types/int-uint.md)-type value. It usually contains comparisons and logical operators. Rows from `database_name.table1` where filter results to 0 are not returned for this user. The filtering is incompatible with `PREWHERE` operations and disables `WHERE→PREWHERE` optimization.
 
-## Roles [#roles]
+## Roles 
 
 You can create any predefined roles using the `roles` section of the `user.xml` configuration file.
 

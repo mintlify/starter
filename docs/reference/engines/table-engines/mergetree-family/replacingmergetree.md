@@ -18,7 +18,7 @@ Thus, `ReplacingMergeTree` is suitable for clearing out duplicate data in the ba
 A detailed guide on ReplacingMergeTree, including best practices and how to optimize performance, is available [here](/guides/replacing-merge-tree).
 </Note>
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -40,9 +40,9 @@ For a description of request parameters, see [statement description](../../../sq
 Uniqueness of rows is determined by the `ORDER BY` table section, not `PRIMARY KEY`.
 </Note>
 
-## ReplacingMergeTree parameters [#replacingmergetree-parameters]
+## ReplacingMergeTree parameters 
 
-### `ver` [#ver]
+### `ver` 
 
 `ver` — column with the version number. Type `UInt*`, `Date`, `DateTime` or `DateTime64`. Optional parameter.
 
@@ -94,7 +94,7 @@ SELECT * FROM mySecondReplacingMT FINAL;
 └─────┴─────────┴─────────────────────┘
 ```
 
-### `is_deleted` [#is_deleted]
+### `is_deleted` 
 
 `is_deleted` —  Name of a column used during a merge to determine whether the data in this row represents the state or is to be deleted; `1` is a "deleted" row, `0` is a "state" row.
 
@@ -149,7 +149,7 @@ select * from myThirdReplacingMT final;
 └─────┴─────────┴─────────────────────┴────────────┘
 ```
 
-## Query clauses [#query-clauses]
+## Query clauses 
 
 When creating a `ReplacingMergeTree` table the same [clauses](../../../engines/table-engines/mergetree-family/mergetree.md) are required, as when creating a `MergeTree` table.
 
@@ -175,7 +175,7 @@ All of the parameters excepting `ver` have the same meaning as in `MergeTree`.
 - `ver` - column with the version. Optional parameter. For a description, see the text above.
 </Accordion>
 </AccordionGroup>
-## Query time de-duplication & FINAL [#query-time-de-duplication--final]
+## Query time de-duplication & FINAL 
 
 At merge time, the ReplacingMergeTree identifies duplicate rows, using the values of the `ORDER BY` columns (used to create the table) as a unique identifier, and retains only the highest version. This, however, offers eventual correctness only - it does not guarantee rows will be deduplicated, and you should not rely on it. Queries can, therefore, produce incorrect answers due to update and delete rows being considered in queries.
 

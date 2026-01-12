@@ -29,7 +29,7 @@ See also [`Time`](../../sql-reference/data-types/time.md).
 
 Text representation range: [-999:59:59.000, 999:59:59.999] for `precision = 3`. In general, the minimum is `-999:59:59` and the maximum is `999:59:59` with up to `precision` fractional digits (for `precision = 9`, the minimum is `-999:59:59.999999999`).
 
-## Implementation details [#implementation-details]
+## Implementation details 
 
 **Representation**.
 Signed `Decimal64` value counting fractional second with `precision` fractional digits.
@@ -52,7 +52,7 @@ The stored numeric value may exceed this range; however, any component extractio
 Specifying a time zone when creating a `Time64` type or value throws an error.
 Likewise, attempts to apply or change the time zone on `Time64` columns is not supported and results in an error.
 
-## Examples [#examples]
+## Examples 
 
 1. Creating a table with a `Time64`-type column and inserting data into it:
 

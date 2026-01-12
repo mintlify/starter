@@ -20,9 +20,9 @@ This guide integrates:
 - **Traces**
 - **Exceptions**
 
-## Getting started [#getting-started]
+## Getting started 
 
-### Install HyperDX OpenTelemetry instrumentation package [#install-hyperdx-opentelemetry-instrumentation-package]
+### Install HyperDX OpenTelemetry instrumentation package 
 
 Use the following command to install the [ClickStack OpenTelemetry package](https://www.npmjs.com/package/@hyperdx/node-opentelemetry).
 
@@ -44,7 +44,7 @@ yarn add @hyperdx/node-opentelemetry
 </Tab>
 </Tabs>
 
-### Initializing the SDK [#initializin-the-sdk]
+### Initializing the SDK 
 
 To initialize the SDK, you'll need to call the `init` function at the top of the entry point of your application.
 
@@ -78,7 +78,7 @@ HyperDX.init({
 
 This will automatically capture tracing, metrics, and logs from your Node.js application.
 
-### Setup log collection [#setup-log-collection]
+### Setup log collection 
 
 By default, `console.*` logs are collected by default. If you're using a logger
 such as `winston` or `pino`, you'll need to add a transport to your logger to
@@ -143,7 +143,7 @@ You can disable this by setting the `HDX_NODE_CONSOLE_CAPTURE` environment varia
 </Tab>
 </Tabs>
 
-### Setup error collection [#setup-error-collection]
+### Setup error collection 
 
 The ClickStack SDK can automatically capture uncaught exceptions and errors in your application with full stack trace and code context. 
 
@@ -207,7 +207,7 @@ function myErrorHandler(error, req, res, next) {
 </Tab>
 </Tabs>
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
 If you're having trouble with the SDK, you can enable verbose logging by setting
 the `OTEL_LOG_LEVEL` environment variable to `debug`.
@@ -216,9 +216,9 @@ the `OTEL_LOG_LEVEL` environment variable to `debug`.
 export OTEL_LOG_LEVEL=debug
 ```
 
-## Advanced instrumentation configuration [#advanced-instrumentation-configuration]
+## Advanced instrumentation configuration 
 
-### Capture console logs [#capture-console-logs]
+### Capture console logs 
 
 By default, the ClickStack SDK will capture console logs. You can disable it by
 setting `HDX_NODE_CONSOLE_CAPTURE` environment variable to 0.
@@ -227,7 +227,7 @@ setting `HDX_NODE_CONSOLE_CAPTURE` environment variable to 0.
 export HDX_NODE_CONSOLE_CAPTURE=0
 ```
 
-### Attach user information or metadata [#attach-user-information-or-metadata]
+### Attach user information or metadata 
 
 To easily tag all events related to a given attribute or identifier (ex. user id
 or email), you can call the `setTraceAttributes` function which will tag every
@@ -267,7 +267,7 @@ enable trace attributes.
 export HDX_NODE_BETA_MODE=1
 ```
 
-### Google Cloud Run [#google-cloud-run]
+### Google Cloud Run 
 
 If you're running your application on Google Cloud Run, Cloud Trace
 automatically injects sampling headers into incoming requests, currently
@@ -284,7 +284,7 @@ achieve the same result.
 To learn more, and to force tracing of specific requests, please refer to the
 [Google Cloud Run documentation](https://cloud.google.com/run/docs/trace).
 
-### Auto-instrumented libraries [#auto-instrumented-libraries]
+### Auto-instrumented libraries 
 
 The following libraries will be automatically instrumented (traced) by the SDK:
 
@@ -306,9 +306,9 @@ The following libraries will be automatically instrumented (traced) by the SDK:
 - [`redis`](https://www.npmjs.com/package/redis)
 - [`winston`](https://www.npmjs.com/package/winston)
 
-## Alternative installation [#alternative-installation]
+## Alternative installation 
 
-### Run the Application with ClickStack OpenTelemetry CLI [#run-the-application-with-cli]
+### Run the Application with ClickStack OpenTelemetry CLI 
 
 Alternatively, you can auto-instrument your application without any code changes by using the `opentelemetry-instrument` CLI or using the
 Node.js `--require` flag. The CLI installation exposes a wider range of auto-instrumented libraries and frameworks.
@@ -349,7 +349,7 @@ initSDK({
 
 _The `OTEL_SERVICE_NAME` environment variable is used to identify your service in the HyperDX app, it can be any name you want._
 
-### Enabling exception capturing [#enabling-exception-capturing]
+### Enabling exception capturing 
 
 To enable uncaught exception capturing, you'll need to set the `HDX_NODE_EXPERIMENTAL_EXCEPTION_CAPTURE` environment variable to 1.
 
@@ -359,7 +359,7 @@ HDX_NODE_EXPERIMENTAL_EXCEPTION_CAPTURE=1
 
 Afterwards, to automatically capture exceptions from Express, Koa, or to manually catch exceptions, follow the instructions in the [Setup Error Collection](#setup-error-collection) section above.
 
-### Auto-instrumented libraries [#auto-instrumented-libraries-2]
+### Auto-instrumented libraries 
 
 The following libraries will be automatically instrumented (traced) via the above installation methods:
 

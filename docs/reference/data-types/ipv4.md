@@ -7,11 +7,11 @@ title: 'IPv4'
 doc_type: 'reference'
 ---
 
-## IPv4 [#ipv4]
+## IPv4 
 
 IPv4 addresses. Stored in 4 bytes as UInt32.
 
-### Basic Usage [#basic-usage]
+### Basic Usage 
 
 ```sql
 CREATE TABLE hits (url String, from IPv4) ENGINE = MergeTree() ORDER BY url;

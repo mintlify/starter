@@ -14,9 +14,11 @@ import Demo from '/snippets/_demo.mdx';
 This guide allows you to collect logs and metrics from your Kubernetes system, sending them to **ClickStack** for visualization and analysis.
 For demo data, we optionally use the ClickStack fork of the official Open Telemetry demo.
 
-<iframe width="768" height="432" src="https://www.youtube.com/embed/winI7256Ejk?si=TRThhzCJdq87xg_x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<Frame>
+<iframe src="https://www.youtube.com/embed/winI7256Ejk?si=TRThhzCJdq87xg_x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</Frame>
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 This guide requires you to have:
 
@@ -24,7 +26,7 @@ This guide requires you to have:
 - **[Helm](https://helm.sh/)** v3+
 - **`kubectl`**, configured to interact with your cluster
 
-## Deployment options [#deployment-options]
+## Deployment options 
 
 You can follow this guide using either of the following deployment options:
 
@@ -41,7 +43,7 @@ To simulate application traffic, you can optionally deploy the ClickStack fork o
 
 <Step>
 
-### Install cert-manager (Optional) [#install-cert-manager]
+### Install cert-manager (Optional) 
 
 If your setup needs TLS certificates, install [cert-manager](https://cert-manager.io/) using Helm:
 
@@ -64,7 +66,7 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --creat
 <Step>
 
 
-### Deploy the OpenTelemetry Demo (Optional) [#deploy-otel-demo]
+### Deploy the OpenTelemetry Demo (Optional) 
 
 
 This **step is optional and intended for users with no existing pods to monitor**. Although users with existing services deployed in their Kubernetes environment can skip, this demo does include instrumented microservices which generate trace and session replay data - allowing users to explore all features of ClickStack.
@@ -159,7 +161,7 @@ valkey-cart-5f7b667bb7-gl5v4         1/1     Running   0          13m
 <Step>
 
 
-### Add the ClickStack Helm chart repository [#add-helm-clickstack]
+### Add the ClickStack Helm chart repository 
 
 
 To deploy ClickStack, we use the [official Helm chart](https://clickhouse.com/docs/use-cases/observability/clickstack/deployment/helm).
@@ -182,7 +184,7 @@ helm repo update
 <Step>
 
 
-### Deploy ClickStack [#deploy-clickstack]
+### Deploy ClickStack 
 
 
 With the Helm chart installed, you can deploy ClickStack to your cluster. You can either run all components, including ClickHouse and HyperDX, within your Kubernetes environment, or use ClickHouse Cloud, where HyperDX is also available as a managed service.
@@ -300,7 +302,7 @@ my-hyperdx-hdx-oss-v2-otel-collector-64cf698f5c-8s7qj   1/1     Running   0     
 <Step>
 
 
-### Access the HyperDX UI [#access-the-hyperdx-ui]
+### Access the HyperDX UI 
 
 
 <Note>
@@ -343,7 +345,7 @@ Create a user, providing a username and password that meets the complexity requi
 <Step>
 
 
-### Retrieve ingestion API key [#retrieve-ingestion-api-key]
+### Retrieve ingestion API key 
 
 
 Ingestion to the OTel collector deployed by the ClickStack collector is secured with an ingestion key.
@@ -362,7 +364,7 @@ This API key ensures data ingestion through the OpenTelemetry collector is secur
 <Step>
 
 
-### Create API Key Kubernetes Secret [#create-api-key-kubernetes-secret]
+### Create API Key Kubernetes Secret 
 
 
 Create a new Kubernetes secret with the Ingestion API Key and a config map containing the location of the OTel collector deployed with the ClickStack helm chart.
@@ -409,7 +411,7 @@ Trace and log data from demo services should now begin to flow into HyperDX.
 <Step>
 
 
-### Add the OpenTelemetry Helm repo [#add-otel-helm-repo]
+### Add the OpenTelemetry Helm repo 
 
 
 To collect Kubernetes metrics, we will deploy a standard OTel collector, configuring this to send data securely to our ClickStack collector using the above ingestion API key.
@@ -432,7 +434,7 @@ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm
 <Step>
 
 
-### Deploy Kubernetes collector components [#deploy-kubernetes-collector-components]
+### Deploy Kubernetes collector components 
 
 
 To collect logs and metrics from both the cluster itself and each node, we'll need to deploy two separate OpenTelemetry collectors, each with its own manifest. The two manifests provided - `k8s_deployment.yaml` and `k8s_daemonset.yaml`  - work together to collect comprehensive telemetry data from your Kubernetes cluster.
@@ -670,7 +672,7 @@ config:
 <Step>
 
 
-### Explore Kubernetes data in HyperDX [#explore-kubernetes-data-hyperdx]
+### Explore Kubernetes data in HyperDX 
 
 
 Navigate to your HyperDX UI - either using your Kubernetes-deployed instance or via ClickHouse Cloud.

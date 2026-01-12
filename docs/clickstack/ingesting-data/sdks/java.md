@@ -25,13 +25,13 @@ instrumentation isn't required to get value out of tracing.
   </tbody>
 </table>
 
-## Getting started [#getting-started]
+## Getting started 
 
 <Note>
 At present, the integration is compatible exclusively with **Java 8+**
 </Note>
 
-### Download OpenTelemetry Java agent [#download-opentelemtry-java-agent]
+### Download OpenTelemetry Java agent 
 
 Download [`opentelemetry-javaagent.jar`](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar)
 and place the JAR in your preferred directory. The JAR file contains the agent
@@ -42,7 +42,7 @@ download the agent:
 curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
 ```
 
-### Configure environment variables [#configure-environment-variables]
+### Configure environment variables 
 
 Afterwards you'll need to configure the following environment variables in your shell to ship telemetry to ClickStack:
 
@@ -59,7 +59,7 @@ _The `OTEL_SERVICE_NAME` environment variable is used to identify your service i
 
 The `OTEL_EXPORTER_OTLP_HEADERS` environment variable contains the API Key available via HyperDX app in `Team Settings → API Keys`.
 
-### Run the application with OpenTelemetry Java agent [#run-the-application-with-otel-java-agent]
+### Run the application with OpenTelemetry Java agent 
 
 ```shell
 java -jar target/<APPLICATION_JAR_FILE>

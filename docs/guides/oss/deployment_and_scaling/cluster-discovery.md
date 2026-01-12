@@ -6,7 +6,7 @@ title: 'Cluster discovery'
 doc_type: 'guide'
 ---
 
-## Overview [#overview]
+## Overview 
 
 ClickHouse's Cluster Discovery feature simplifies cluster configuration by allowing nodes to automatically discover and register themselves without the need for explicit definition in the configuration files. This is especially beneficial in cases where the manual definition of each node becomes cumbersome.
 
@@ -24,9 +24,9 @@ To enable it include the `allow_experimental_cluster_discovery` setting in your 
 ```
 </Note>
 
-## Remote servers configuration [#remote-servers-configuration]
+## Remote servers configuration 
 
-### Traditional manual configuration [#traditional-manual-configuration]
+### Traditional manual configuration 
 
 Traditionally, in ClickHouse, each shard and replica in the cluster needed to be manually specified in the configuration:
 
@@ -58,7 +58,7 @@ Traditionally, in ClickHouse, each shard and replica in the cluster needed to be
 
 ```
 
-### Using cluster discovery [#using-cluster-discovery]
+### Using cluster discovery 
 
 With Cluster Discovery, rather than defining each node explicitly, you simply specify a path in ZooKeeper. All nodes that register under this path in ZooKeeper will be automatically discovered and added to the cluster.
 
@@ -106,7 +106,7 @@ for `node3` and `node4`:
 </discovery>
 ```
 
-### Observer mode [#observer-mode]
+### Observer mode 
 
 Nodes configured in observer mode will not register themselves as replicas.
 They will solely observe and discover other active replicas in the cluster without actively participating.
@@ -119,7 +119,7 @@ To enable observer mode, include the `<observer/>` tag within the `<discovery>` 
 </discovery>
 ```
 
-### Discovery of clusters [#discovery-of-clusters]
+### Discovery of clusters 
 
 Sometimes you may need to add and remove not only hosts in clusters, but clusters themselves. You can use the `<multicluster_root_path>` node with root path for several clusters:
 
@@ -159,7 +159,7 @@ Limitations:
 - `<multicluster_root_path>` can only be with `<observer/>`.
 - The last part of path from Keeper is used as the cluster name, while during registration the name is taken from the XML tag.
 
-## Use cases and limitations [#use-cases-and-limitations]
+## Use cases and limitations 
 
 As nodes are added or removed from the specified ZooKeeper path, they are automatically discovered or removed from the cluster without the need for configuration changes or server restarts.
 

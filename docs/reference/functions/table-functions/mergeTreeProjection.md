@@ -10,13 +10,13 @@ doc_type: 'reference'
 
 Represents the contents of some projection in MergeTree tables. It can be used for introspection.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 mergeTreeProjection(database, table, projection)
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument     | Description                                |
 |--------------|--------------------------------------------|
@@ -24,11 +24,11 @@ mergeTreeProjection(database, table, projection)
 | `table`      | The table name to read projection from.    |
 | `projection` | The projection to read from.               |
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table object with columns provided by given projection.
 
-## Usage Example [#usage-example]
+## Usage Example 
 
 ```sql
 CREATE TABLE test

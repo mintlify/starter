@@ -10,7 +10,7 @@ doc_type: 'guide'
 
 > This is **Part 1** of a guide on migrating from PostgreSQL to ClickHouse. Using a practical example, it demonstrates how to efficiently carry out the migration with a real-time replication (CDC) approach. Many of the concepts covered are also applicable to manual bulk data transfers from PostgreSQL to ClickHouse.
 
-## Dataset [#dataset]
+## Dataset 
 
 As an example dataset to show a typical migration from Postgres to ClickHouse, we use the Stack Overflow dataset documented [here](/getting-started/example-datasets/stackoverflow). This contains every `post`, `vote`, `user`, `comment`, and `badge` that has occurred on Stack Overflow from 2008 to Apr 2024. The PostgreSQL schema for this data is shown below:
 
@@ -65,9 +65,9 @@ While small for ClickHouse, this dataset is substantial for Postgres. The above 
 
 > While our example results use the full dataset to show performance differences between Postgres and Clickhouse, all steps documented below are functionally identical with the smaller subset. Users wanting to load the full dataset into Postgres see [here](https://pastila.nl/?00d47a08/1c5224c0b61beb480539f15ac375619d#XNj5vX3a7ZjkdiX7In8wqA==). Due to the foreign constraints imposed by the above schema, the full dataset for PostgreSQL only contains rows that satisfy referential integrity. A [Parquet version](/getting-started/example-datasets/stackoverflow), with no such constraints, can be easily loaded directly into ClickHouse if needed.
 
-## Migrating data [#migrating-data]
+## Migrating data 
 
-### Real time replication (CDC) [#real-time-replication-or-cdc]
+### Real time replication (CDC) 
 
 Refer to this [guide](/integrations/clickpipes/postgres) to set up ClickPipes for PostgreSQL. The guide is covering many different types of source Postgres instances.
 
@@ -103,7 +103,7 @@ ORDER BY id;
 
 Once set up, ClickPipes starts migrating all data from PostgreSQL to ClickHouse. Depending on the network and size of the deployments, this should take only a few minutes for the Stack Overflow dataset. 
 
-### Manual bulk load with periodic updates [#initial-bulk-load-with-periodic-updates]
+### Manual bulk load with periodic updates 
 
 Using a manual approach, the initial bulk load of the dataset can be achieved via:
 

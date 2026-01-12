@@ -10,17 +10,17 @@ doc_type: 'guide'
 
 # Comparing ClickHouse Cloud and BigQuery 
 
-## Resource organization [#resource-organization]
+## Resource organization 
 
 The way resources are organized in ClickHouse Cloud is similar to [BigQuery's resource hierarchy](https://cloud.google.com/bigquery/docs/resource-hierarchy). We describe specific differences below based on the following diagram showing the ClickHouse Cloud resource hierarchy:
 
 <img src="/images/migrations/bigquery-1.png" alt="Resource organizations"/>
 
-### Organizations [#organizations]
+### Organizations 
 
 Similar to BigQuery, organizations are the root nodes in the ClickHouse cloud resource hierarchy. The first user you set up in your ClickHouse Cloud account is automatically assigned to an organization owned by the user. The user may invite additional users to the organization.
 
-### BigQuery Projects vs ClickHouse Cloud Services [#bigquery-projects-vs-clickhouse-cloud-services]
+### BigQuery Projects vs ClickHouse Cloud Services 
 
 Within organizations, you can create services loosely equivalent to BigQuery projects because stored data in ClickHouse Cloud is associated with a service. There are [several service types available](/cloud/manage/cloud-tiers) in ClickHouse Cloud. Each ClickHouse Cloud service is deployed in a specific region and includes:
 
@@ -28,15 +28,15 @@ Within organizations, you can create services loosely equivalent to BigQuery pro
 2. An object storage folder where the service stores all the data.
 3. An endpoint (or multiple endpoints created via ClickHouse Cloud UI console)  - a service URL that you use to connect to the service (for example, `https://dv2fzne24g.us-east-1.aws.clickhouse.cloud:8443`)
 
-### BigQuery Datasets vs ClickHouse Cloud Databases [#bigquery-datasets-vs-clickhouse-cloud-databases]
+### BigQuery Datasets vs ClickHouse Cloud Databases 
 
 ClickHouse logically groups tables into databases. Like BigQuery datasets, ClickHouse databases are logical containers that organize and control access to table data.
 
-### BigQuery Folders [#bigquery-folders]
+### BigQuery Folders 
 
 ClickHouse Cloud currently has no concept equivalent to BigQuery folders.
 
-### BigQuery Slot reservations and Quotas [#bigquery-slot-reservations-and-quotas]
+### BigQuery Slot reservations and Quotas 
 
 Like BigQuery slot reservations, you can [configure vertical and horizontal autoscaling](/manage/scaling#configuring-vertical-auto-scaling) in ClickHouse Cloud. For vertical autoscaling, you can set the minimum and maximum size for the memory and CPU cores of the compute nodes for a service. The service will then scale as needed within those bounds. These settings are also available during the initial service creation flow. Each compute node in the service has the same size. You can change the number of compute nodes within a service with [horizontal scaling](/manage/scaling#manual-horizontal-scaling).
 
@@ -46,11 +46,11 @@ ClickHouse tracks byte sizes of memory allocations at the server, user, and quer
 
 Lastly, I/O scheduling allows users to restrict local and remote disk accesses for workload classes based on maximum bandwidth, in-flight requests, and policy.
 
-### Permissions [#permissions]
+### Permissions 
 
 ClickHouse Cloud controls user access in two places, via the [cloud console](/cloud/guides/sql-console/manage-sql-console-role-assignments) and via the [database](/cloud/security/manage-database-users). Console access is managed via the [clickhouse.cloud](https://console.clickhouse.cloud) user interface. Database access is managed via database user accounts and roles. Additionally, console users can be granted roles within the database that enable the console user to interact with the database via our [SQL console](/integrations/sql-clients/sql-console).
 
-## Data types [#data-types]
+## Data types 
 
 ClickHouse offers more granular precision with respect to numerics. For example, BigQuery offers the numeric types [`INT64`, `NUMERIC`, `BIGNUMERIC` and `FLOAT64`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#numeric_types). Contrast these with ClickHouse, which offers multiple precision types for decimals, floats, and integers. With these data types, ClickHouse users can optimize storage and memory overhead, resulting in faster queries and lower resource consumption. Below we map the equivalent ClickHouse type for each BigQuery type:
 
@@ -75,15 +75,15 @@ ClickHouse offers more granular precision with respect to numerics. For example,
 
 When presented with multiple options for ClickHouse types, consider the actual range of the data and pick the lowest required. Also, consider utilizing [appropriate codecs](https://clickhouse.com/blog/optimize-clickhouse-codecs-compression-schema) for further compression.
 
-## Query acceleration techniques [#query-acceleration-techniques]
+## Query acceleration techniques 
 
-### Primary and Foreign keys and Primary index [#primary-and-foreign-keys-and-primary-index]
+### Primary and Foreign keys and Primary index 
 
 In BigQuery, a table can have [primary key and foreign key constraints](https://cloud.google.com/bigquery/docs/information-schema-table-constraints). Typically, primary and foreign keys are used in relational databases to ensure data integrity. A primary key value is normally unique for each row and is not `NULL`. Each foreign key value in a row must be present in the primary key column of the primary key table or be `NULL`. In BigQuery, these constraints are not enforced, but the query optimizer may use this information to optimize queries better.
 
 In ClickHouse, a table can also have a primary key. Like BigQuery, ClickHouse doesn't enforce uniqueness for a table's primary key column values. Unlike BigQuery, a table's data is stored on disk [ordered](/guides/best-practices/sparse-primary-indexes#optimal-compression-ratio-of-data-files) by the primary key column(s). The query optimizer utilizes this sort order to prevent resorting, to minimize memory usage for joins, and to enable short-circuiting for limit clauses. Unlike BigQuery, ClickHouse automatically creates [a (sparse) primary index](/guides/best-practices/sparse-primary-indexes#an-index-design-for-massive-data-scales) based on the primary key column values. This index is used to speed up all queries that contain filters on the primary key columns. ClickHouse currently doesn't support foreign key constraints.
 
-## Secondary indexes (Only available in ClickHouse) [#secondary-indexes-only-available-in-clickhouse]
+## Secondary indexes (Only available in ClickHouse) 
 
 In addition to the primary index created from the values of a table's primary key columns, ClickHouse allows you to create secondary indexes on columns other than those in the primary key.  ClickHouse offers several types of secondary indexes, each suited to different types of queries:
 
@@ -96,29 +96,29 @@ In addition to the primary index created from the values of a table's primary ke
   - Maintains the minimum and maximum values of a column for each data part.
   - Helps to skip reading data parts that do not fall within the specified range.
 
-## Search indexes [#search-indexes]
+## Search indexes 
 
 Similar to [search indexes](https://cloud.google.com/bigquery/docs/search-index) in BigQuery, [full-text indexes](/engines/table-engines/mergetree-family/invertedindexes) can be created for ClickHouse tables on columns with string values.
 
-## Vector indexes [#vector-indexes]
+## Vector indexes 
 
 BigQuery recently introduced [vector indexes](https://cloud.google.com/bigquery/docs/vector-index) as a Pre-GA feature. Likewise, ClickHouse has experimental support for [indexes to speed up](/engines/table-engines/mergetree-family/annindexes) vector search use cases.
 
-## Partitioning [#partitioning]
+## Partitioning 
 
 Like BigQuery, ClickHouse uses table partitioning to enhance the performance and manageability of large tables by dividing tables into smaller, more manageable pieces called partitions. We describe ClickHouse partitioning in detail [here](/engines/table-engines/mergetree-family/custom-partitioning-key).
 
-## Clustering [#clustering]
+## Clustering 
 
 With clustering, BigQuery automatically sorts table data based on the values of a few specified columns and colocates them in optimally sized blocks. Clustering improves query performance, allowing BigQuery to better estimate the cost of running the query. With clustered columns, queries also eliminate scans of unnecessary data.
 
 In ClickHouse, data is automatically [clustered on disk](/guides/best-practices/sparse-primary-indexes#optimal-compression-ratio-of-data-files) based on a table's primary key columns and logically organized in blocks that can be quickly located or pruned by queries utilizing the primary index data structure.
 
-## Materialized views [#materialized-views]
+## Materialized views 
 
 Both BigQuery and ClickHouse support materialized views – precomputed results based on a transformation query's result against a base table for increased performance and efficiency.
 
-## Querying materialized views [#querying-materialized-views]
+## Querying materialized views 
 
 BigQuery materialized views can be queried directly or used by the optimizer to process queries to the base tables. If changes to base tables might invalidate the materialized view, data is read directly from the base tables. If the changes to the base tables don't invalidate the materialized view, then the rest of the data is read from the materialized view, and only the changes are read from the base tables.
 
@@ -130,29 +130,29 @@ BigQuery periodically fully refreshes materialized views by running the view's t
 
 In ClickHouse, materialized views are incrementally updated. This incremental update mechanism provides high scalability and low computing costs: incrementally updated materialized views are engineered especially for scenarios where base tables contain billions or trillions of rows. Instead of querying the ever-growing base table repeatedly to refresh the materialized view, ClickHouse simply calculates a partial result from (only) the values of the newly inserted base table rows. This partial result is incrementally merged with the previously calculated partial result in the background. This results in dramatically lower computing costs compared to refreshing the materialized view repeatedly from the whole base table.
 
-## Transactions [#transactions]
+## Transactions 
 
 In contrast to ClickHouse, BigQuery supports multi-statement transactions inside a single query, or across multiple queries when using sessions. A multi-statement transaction lets you perform mutating operations, such as inserting or deleting rows on one or more tables, and either commit or rollback the changes atomically.  Multi-statement transactions are on [ClickHouse's roadmap for 2024](https://github.com/ClickHouse/ClickHouse/issues/58392).
 
-## Aggregate functions [#aggregate-functions]
+## Aggregate functions 
 
 Compared to BigQuery, ClickHouse comes with significantly more built-in aggregate functions:
 
 - BigQuery comes with [18 aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/aggregate_functions), and [4 approximate aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/approximate_aggregate_functions).
 - ClickHouse has over [150 pre-built aggregation functions](/sql-reference/aggregate-functions/reference), plus powerful [aggregation combinators](/sql-reference/aggregate-functions/combinators) for [extending](https://www.youtube.com/watch?v=7ApwD0cfAFI) the behavior of pre-built aggregation functions. As an example, you can apply the over 150 pre-built aggregate functions to arrays instead of table rows simply by calling them with a [-Array suffix](/sql-reference/aggregate-functions/combinators#-array). With a [-Map suffix](/sql-reference/aggregate-functions/combinators#-map) you can apply any aggregate function to maps. And with a [-ForEach suffix](/sql-reference/aggregate-functions/combinators#-foreach), you can apply any aggregate function to nested arrays.
 
-## Data sources and file formats [#data-sources-and-file-formats]
+## Data sources and file formats 
 
 Compared to BigQuery, ClickHouse supports significantly more file formats and data sources:
 
 - ClickHouse has native support for loading data in 90+ file formats from virtually any data source
 - BigQuery supports 5 file formats and 19 data sources
 
-## SQL language features [#sql-language-features]
+## SQL language features 
 
 ClickHouse provides standard SQL with many extensions and improvements that make it more friendly for analytical tasks. E.g. ClickHouse SQL [supports lambda functions](/sql-reference/functions/overview#arrow-operator-and-lambda) and higher order functions, so you don't have to unnest/explode arrays when applying transformations. This is a big advantage over other systems like BigQuery.
 
-## Arrays [#arrays]
+## Arrays 
 
 Compared to BigQuery's 8 array functions, ClickHouse has over 80 [built-in array functions](/sql-reference/functions/array-functions) for modeling and solving a wide range of problems elegantly and simply.
 

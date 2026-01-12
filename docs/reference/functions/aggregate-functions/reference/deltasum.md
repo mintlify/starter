@@ -70,6 +70,6 @@ Result:
 └─────────────────────────────────────┘
 ```
 
-## See Also [#see-also]
+## See Also 
 
 - [runningDifference](/sql-reference/functions/other-functions#runningDifference)

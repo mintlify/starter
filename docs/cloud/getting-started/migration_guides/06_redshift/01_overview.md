@@ -10,7 +10,7 @@ doc_type: 'guide'
 > This document provides an introduction to migrating data from Amazon
 Redshift to ClickHouse.
 
-## Introduction [#introduction]
+## Introduction 
 
 Amazon Redshift is a cloud data warehouse that provides reporting and
 analytics capabilities for structured and semi-structured data. It was
@@ -26,7 +26,7 @@ purpose. As a result, they increasingly turn to ClickHouse to benefit from
 superior query performance and data compression, either as a replacement or
 a "speed layer" deployed alongside existing Redshift workloads.
 
-## ClickHouse vs Redshift [#clickhouse-vs-redshift]
+## ClickHouse vs Redshift 
 
 For users heavily invested in the AWS ecosystem, Redshift represents a
 natural choice when faced with data warehousing needs. Redshift differs from

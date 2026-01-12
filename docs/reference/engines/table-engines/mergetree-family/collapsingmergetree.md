@@ -9,7 +9,7 @@ title: 'CollapsingMergeTree table engine'
 doc_type: 'guide'
 ---
 
-## Description [#description]
+## Description 
 
 The `CollapsingMergeTree` engine inherits from [MergeTree](../../../engines/table-engines/mergetree-family/mergetree.md)
 and adds logic for collapsing rows during the merge process.
@@ -25,14 +25,14 @@ This engine may significantly reduce the volume of storage,
 increasing the efficiency of `SELECT` queries as a consequence.
 </Note>
 
-## Parameters [#parameters]
+## Parameters 
 
 All parameters of this table engine, with the exception of the `Sign` parameter,
 have the same meaning as in [`MergeTree`](/engines/table-engines/mergetree-family/mergetree).
 
 - `Sign` — The name given to a column with the type of row where `1` is a "state" row and `-1` is a "cancel" row. Type: [Int8](/sql-reference/data-types/int-uint).
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -73,9 +73,9 @@ ENGINE [=] CollapsingMergeTree(date-column [, sampling_expression], (primary, ke
 - For a description of query parameters, see [query description](../../../sql-reference/statements/create/table.md).
 - When creating a `CollapsingMergeTree` table, the same [query clauses](../../../engines/table-engines/mergetree-family/mergetree.md#table_engine-mergetree-creating-a-table) are required, as when creating a `MergeTree` table.
 
-## Collapsing [#table_engine-collapsingmergetree-collapsing]
+## Collapsing 
 
-### Data [#data]
+### Data 
 
 Consider the situation where you need to save continually changing data for some given object.
 It may sound logical to have one row per object and update it anytime something changes,
@@ -133,7 +133,7 @@ is further discussed in the [Algorithm](#table_engine-collapsingmergetree-collap
 2.  Long growing arrays in columns reduce the efficiency of the engine due to the increased load for writing. The more straightforward the data, the higher the efficiency.
 3.  The `SELECT` results depend strongly on the consistency of the object change history. Be accurate when preparing data for inserting. You can get unpredictable results with inconsistent data. For example, negative values for non-negative metrics such as session depth.
 
-### Algorithm [#table_engine-collapsingmergetree-collapsing-algorithm]
+### Algorithm 
 
 When ClickHouse merges data [parts](/concepts/glossary#parts), 
 each group of consecutive rows with the same sorting key (`ORDER BY`) is reduced to no more than two rows,
@@ -178,9 +178,9 @@ you can use the [`FINAL`](../../../sql-reference/statements/select/from.md#final
 For CollapsingMergeTree, only the latest state row for each key is returned.
 </Note>
 
-## Examples [#examples]
+## Examples 
 
-### Example of use [#example-of-use]
+### Example of use 
 
 Given the following example data:
 
@@ -279,7 +279,7 @@ SELECT * FROM UAct FINAL
 This way of selecting the data is less efficient and is not recommended for use with large amounts of scanned data (millions of rows).
 </Note>
 
-### Example of another approach [#example-of-another-approach]
+### Example of another approach 
 
 The idea with this approach is that merges take into account only key fields.
 In the "cancel" row, we can therefore specify negative values

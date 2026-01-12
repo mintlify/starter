@@ -29,7 +29,7 @@ The following operations with [partitions](/engines/table-engines/mergetree-fami
 
 {/* <!-- --> */}
 
-## DETACH PARTITION\|PART [#detach-partitionpart]
+## DETACH PARTITION\|PART 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] DETACH PARTITION|PART partition_expr
@@ -50,7 +50,7 @@ After the query is executed, you can do whatever you want with the data in the `
 
 This query is replicated – it moves the data to the `detached` directory on all replicas. Note that you can execute this query only on a leader replica. To find out if a replica is a leader, perform the `SELECT` query to the [system.replicas](/operations/system-tables/replicas) table. Alternatively, it is easier to make a `DETACH` query on all replicas - all the replicas throw an exception, except the leader replicas (as multiple leaders are allowed).
 
-## DROP PARTITION\|PART [#drop-partitionpart]
+## DROP PARTITION\|PART 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] DROP PARTITION|PART partition_expr
@@ -69,7 +69,7 @@ ALTER TABLE mt DROP PARTITION '2020-11-21';
 ALTER TABLE mt DROP PART 'all_4_4_0';
 ```
 
-## DROP DETACHED PARTITION\|PART [#drop-detached-partitionpart]
+## DROP DETACHED PARTITION\|PART 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] DROP DETACHED PARTITION|PART ALL|partition_expr
@@ -78,7 +78,7 @@ ALTER TABLE table_name [ON CLUSTER cluster] DROP DETACHED PARTITION|PART ALL|par
 Removes the specified part or all parts of the specified partition from `detached`.
 Read more about setting the partition expression in a section [How to set the partition expression](#how-to-set-partition-expression).
 
-## FORGET PARTITION [#forget-partition]
+## FORGET PARTITION 
 
 ```sql
 ALTER TABLE table_name FORGET PARTITION partition_expr
@@ -94,7 +94,7 @@ Example:
 ALTER TABLE mt FORGET PARTITION '20201121';
 ```
 
-## ATTACH PARTITION\|PART [#attach-partitionpart]
+## ATTACH PARTITION\|PART 
 
 ```sql
 ALTER TABLE table_name ATTACH PARTITION|PART partition_expr
@@ -117,7 +117,7 @@ If there is no part with the correct checksums, the data is downloaded from any 
 
 You can put data to the `detached` directory on one replica and use the `ALTER ... ATTACH` query to add it to the table on all replicas.
 
-## ATTACH PARTITION FROM [#attach-partition-from]
+## ATTACH PARTITION FROM 
 
 ```sql
 ALTER TABLE table2 [ON CLUSTER cluster] ATTACH PARTITION partition_expr FROM table1
@@ -137,7 +137,7 @@ For the query to run successfully, the following conditions must be met:
 - Both tables must have the same storage policy.
 - The destination table must include all indices and projections from the source table. If the `enforce_index_structure_match_on_partition_manipulation` setting is enabled in destination table, the indices and projections must be identical. Otherwise, the destination table can have a superset of the source table's indices and projections.
 
-## REPLACE PARTITION [#replace-partition]
+## REPLACE PARTITION 
 
 ```sql
 ALTER TABLE table2 [ON CLUSTER cluster] REPLACE PARTITION partition_expr FROM table1
@@ -157,7 +157,7 @@ For the query to run successfully, the following conditions must be met:
 - Both tables must have the same storage policy.
 - The destination table must include all indices and projections from the source table. If the `enforce_index_structure_match_on_partition_manipulation` setting is enabled in destination table, the indices and projections must be identical. Otherwise, the destination table can have a superset of the source table's indices and projections.
 
-## MOVE PARTITION TO TABLE [#move-partition-to-table]
+## MOVE PARTITION TO TABLE 
 
 ```sql
 ALTER TABLE table_source [ON CLUSTER cluster] MOVE PARTITION partition_expr TO TABLE table_dest
@@ -173,7 +173,7 @@ For the query to run successfully, the following conditions must be met:
 - Both tables must be the same engine family (replicated or non-replicated).
 - The destination table must include all indices and projections from the source table. If the `enforce_index_structure_match_on_partition_manipulation` setting is enabled in destination table, the indices and projections must be identical. Otherwise, the destination table can have a superset of the source table's indices and projections.
 
-## CLEAR COLUMN IN PARTITION [#clear-column-in-partition]
+## CLEAR COLUMN IN PARTITION 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] CLEAR COLUMN column_name IN PARTITION partition_expr
@@ -187,7 +187,7 @@ Example:
 ALTER TABLE visits CLEAR COLUMN hour in PARTITION 201902
 ```
 
-## FREEZE PARTITION [#freeze-partition]
+## FREEZE PARTITION 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] FREEZE [PARTITION partition_expr] [WITH NAME 'backup_name']
@@ -231,7 +231,7 @@ The query processes parts in parallel, the number of threads is regulated by the
 
 For more information about backups and restoring data, see the [Data Backup](/operations/backup.md) section.
 
-## UNFREEZE PARTITION [#unfreeze-partition]
+## UNFREEZE PARTITION 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] UNFREEZE [PARTITION 'part_expr'] WITH NAME 'backup_name'
@@ -239,7 +239,7 @@ ALTER TABLE table_name [ON CLUSTER cluster] UNFREEZE [PARTITION 'part_expr'] WIT
 
 Removes `frozen` partitions with the specified name from the disk. If the `PARTITION` clause is omitted, the query removes the backup of all partitions at once.
 
-## CLEAR INDEX IN PARTITION [#clear-index-in-partition]
+## CLEAR INDEX IN PARTITION 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] CLEAR INDEX index_name IN PARTITION partition_expr
@@ -247,7 +247,7 @@ ALTER TABLE table_name [ON CLUSTER cluster] CLEAR INDEX index_name IN PARTITION 
 
 The query works similar to `CLEAR COLUMN`, but it resets an index instead of a column data.
 
-## FETCH PARTITION|PART [#fetch-partitionpart]
+## FETCH PARTITION|PART 
 
 ```sql
 ALTER TABLE table_name [ON CLUSTER cluster] FETCH PARTITION|PART partition_expr FROM 'path-in-zookeeper'
@@ -282,7 +282,7 @@ Before downloading, the system checks if the partition exists and the table stru
 
 Although the query is called `ALTER TABLE`, it does not change the table structure and does not immediately change the data available in the table.
 
-## MOVE PARTITION\|PART [#move-partitionpart]
+## MOVE PARTITION\|PART 
 
 Moves partitions or data parts to another volume or disk for `MergeTree`-engine tables. See [Using Multiple Block Devices for Data Storage](/engines/table-engines/mergetree-family/mergetree.md/#table_engine-mergetree-multiple-volumes).
 
@@ -303,7 +303,7 @@ ALTER TABLE hits MOVE PART '20190301_14343_16206_438' TO VOLUME 'slow'
 ALTER TABLE hits MOVE PARTITION '2019-09-01' TO DISK 'fast_ssd'
 ```
 
-## UPDATE IN PARTITION [#update-in-partition]
+## UPDATE IN PARTITION 
 
 Manipulates data in the specifies partition matching the specified filtering expression. Implemented as a [mutation](/sql-reference/statements/alter/index.md#mutations).
 
@@ -313,7 +313,7 @@ Syntax:
 ALTER TABLE [db.]table [ON CLUSTER cluster] UPDATE column1 = expr1 [, ...] [IN PARTITION partition_expr] WHERE filter_expr
 ```
 
-### Example [#example]
+### Example 
 
 ```sql
 -- using partition name
@@ -323,11 +323,11 @@ ALTER TABLE mt UPDATE x = x + 1 IN PARTITION 2 WHERE p = 2;
 ALTER TABLE mt UPDATE x = x + 1 IN PARTITION ID '2' WHERE p = 2;
 ```
 
-### See Also [#see-also]
+### See Also 
 
 - [UPDATE](/sql-reference/statements/alter/partition#update-in-partition)
 
-## DELETE IN PARTITION [#delete-in-partition]
+## DELETE IN PARTITION 
 
 Deletes data in the specifies partition matching the specified filtering expression. Implemented as a [mutation](/sql-reference/statements/alter/index.md#mutations).
 
@@ -337,7 +337,7 @@ Syntax:
 ALTER TABLE [db.]table [ON CLUSTER cluster] DELETE [IN PARTITION partition_expr] WHERE filter_expr
 ```
 
-### Example [#example-1]
+### Example 
 
 ```sql
 -- using partition name
@@ -347,22 +347,22 @@ ALTER TABLE mt DELETE IN PARTITION 2 WHERE p = 2;
 ALTER TABLE mt DELETE IN PARTITION ID '2' WHERE p = 2;
 ```
 
-## REWRITE PARTS [#rewrite-parts]
+## REWRITE PARTS 
 
 This will rewrite the parts from scratch, using all new settings. This makes sense because table-level settings like `use_const_adaptive_granularity` are applied only for newly written parts by default.
 
-### Example [#example-rewrite-parts]
+### Example 
 
 ```sql
 ALTER TABLE mt REWRITE PARTS;
 ALTER TABLE mt REWRITE PARTS IN PARTITION 2;
 ```
 
-### See Also [#see-also-1]
+### See Also 
 
 - [DELETE](/sql-reference/statements/alter/delete)
 
-## How to Set Partition Expression [#how-to-set-partition-expression]
+## How to Set Partition Expression 
 
 You can specify the partition expression in `ALTER ... PARTITION` queries in different ways:
 

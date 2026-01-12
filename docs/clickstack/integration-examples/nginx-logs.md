@@ -21,12 +21,12 @@ A demo dataset with sample logs is available if you want to test the integration
 Time Required: 5-10 minutes
 </Note>
 
-## Integration with existing Nginx [#existing-nginx]
+## Integration with existing Nginx 
 
 This section covers configuring your existing Nginx installation to send logs to ClickStack by modifying the ClickStack OTel collector configuration.
 If you would like to test the integration before configuring your own existing setup, you can test with our preconfigured setup and sample data in the [following section](/use-cases/observability/clickstack/integrations/nginx#demo-dataset).
 
-##### Prerequisites [#prerequisites]
+##### Prerequisites 
 - ClickStack instance running
 - Existing Nginx installation
 - Access to modify Nginx configuration files
@@ -190,7 +190,7 @@ This is an example of what you should see:
 
 </Steps>
 
-## Demo dataset [#demo-dataset]
+## Demo dataset 
 
 For users who want to test the nginx integration before configuring their production systems, we provide a sample dataset of pre-generated nginx access logs with realistic traffic patterns.
 
@@ -290,7 +290,7 @@ If you don't see logs, ensure the time range is set to 2025-10-20 11:00:00 - 202
 </Step>
 </Steps>
 
-## Dashboards and visualization [#dashboards]
+## Dashboards and visualization 
 
 To help you get started monitoring nginx with ClickStack, we provide essential visualizations for Nginx Logs.
 
@@ -334,9 +334,9 @@ Ensure the time range is set to 2025-10-20 11:00:00 - 2025-10-21 11:00:00. The i
 </Step>
 </Steps>
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### Custom config not loading [#troubleshooting-not-loading]
+### Custom config not loading 
 
 - Verify the environment variable CUSTOM_OTELCOL_CONFIG_FILE is set correctly
 
@@ -356,7 +356,7 @@ docker exec <container-name> ls -lh /etc/otelcol-contrib/custom.config.yaml
 docker exec <container-name> cat /etc/otelcol-contrib/custom.config.yaml
 ```
 
-### No logs appearing in HyperDX [#no-logs]
+### No logs appearing in HyperDX 
 
 - Ensure nginx is writing JSON logs 
 ```bash
@@ -377,7 +377,7 @@ docker exec `<container>` cat /etc/otel/supervisor-data/effective.yaml | grep fi
 docker exec `<container>` cat /etc/otel/supervisor-data/agent.log
 ```
 
-## Next steps [#next-steps]
+## Next steps 
 If you want to explore further, here are some next steps to experiment with your dashboard
 
 - Set up alerts for critical metrics (error rates, latency thresholds)

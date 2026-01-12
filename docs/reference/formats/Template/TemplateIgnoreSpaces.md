@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge>
 
-## Description [#description]
+## Description 
 
 Similar to [`Template`], but skips whitespace characters between delimiters and values in the input stream. 
 However, if format strings contain whitespace characters, these characters will be expected in the input stream. 
@@ -23,7 +23,7 @@ It's possible to read `JSON` using this format if the values of columns have the
 This format is suitable only for input.
 </Note>
 
-## Example usage [#example-usage]
+## Example usage 
 
 The following request can be used for inserting data from its output example of format [JSON](/interfaces/formats/JSON):
 
@@ -44,4 +44,4 @@ FORMAT TemplateIgnoreSpaces
 {${}"SearchPhrase"${}:${}${phrase:JSON}${},${}"c"${}:${}${cnt:JSON}${}}
 ```
 
-## Format settings [#format-settings]
+## Format settings 

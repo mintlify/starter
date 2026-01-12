@@ -40,7 +40,7 @@ According to the standard, the `OFFSET` clause must come before the `FETCH` clau
 The real offset can also depend on the [offset](../../../operations/settings/settings.md#offset) setting.
 </Note>
 
-## Examples [#examples]
+## Examples 
 
 Input table:
 

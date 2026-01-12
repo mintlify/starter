@@ -18,7 +18,7 @@ of ClickHouse.
 <Steps>
 
 <Step>
-## Export data from Snowflake [#1-exporting-data-from-snowflake]
+## Export data from Snowflake 
 
 <img src="/images/migrations/migrate_snowflake_clickhouse.png" alt="Migrating from Snowflake to ClickHouse"/>
 
@@ -58,7 +58,7 @@ For a dataset around 5TB of data with a maximum file size of 150MB, and using a 
 </Step>
 <Step>
 
-## Import to ClickHouse [#2-importing-to-clickhouse]
+## Import to ClickHouse 
 
 Once the data is staged in intermediary object storage, ClickHouse functions such as the [s3 table function](/sql-reference/table-functions/s3) can be used to insert the data into a table, as shown below.
 
@@ -107,7 +107,7 @@ Nested structures such as `some_file` are converted to JSON strings on copy by S
 </Step>
 
 <Step>
-## Test successful data export [#3-testing-successful-data-export]
+## Test successful data export 
 
 To test whether your data was properly inserted, simply run a `SELECT` query on your new table:
 

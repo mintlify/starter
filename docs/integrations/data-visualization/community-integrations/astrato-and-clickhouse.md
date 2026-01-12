@@ -19,7 +19,7 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 Astrato uses Pushdown SQL to query ClickHouse Cloud or on-premise deployments directly. This means you can access all of the data you need, powered by the industry-leading performance of ClickHouse.
 
-## Connection data required [#connection-data-required]
+## Connection data required 
 
 When setting up your data connection, you'll need to know:
 
@@ -29,7 +29,7 @@ When setting up your data connection, you'll need to know:
 
 <GatherYourDetailsHttp />
 
-## Creating the data connection to ClickHouse [#creating-the-data-connection-to-clickhouse]
+## Creating the data connection to ClickHouse 
 
 - Select **Data** in the sidebar, and select the **Data Connection** tab
 (or, navigate to this link: https://app.astrato.io/data/sources)
@@ -58,7 +58,7 @@ When setting up your data connection, you'll need to know:
 if a duplicate is created, a timestamp is added to the data source name.
 </Note>
 
-## Creating a semantic model / data view [#creating-a-semantic-model--data-view]
+## Creating a semantic model / data view 
 
 In our Data View editor, you will see all of your Tables and Schemas in ClickHouse, select some to get started.
 
@@ -74,7 +74,7 @@ In here, you are able to join data, as well as, **create governed dimensions and
 
 <img src="/images/integrations/data-visualization/astrato_4c_clickhouse_completed_data_view.png" alt="Astrato connect to ClickHouse User Access" />
 
-## Creating a dashboard [#creating-a-dashboard]
+## Creating a dashboard 
 
 In just a few steps, you can build your first chart in Astrato.
 1. Open visuals panel
@@ -84,13 +84,13 @@ In just a few steps, you can build your first chart in Astrato.
 
 <img src="/images/integrations/data-visualization/astrato_5a_clickhouse_build_chart.png" alt="Astrato connect to ClickHouse User Access" />
 
-### View generated SQL supporting each visualization [#view-generated-sql-supporting-each-visualization]
+### View generated SQL supporting each visualization 
 
 Transparency and accuracy are at the heart of Astrato. We ensure that every query generated is visible, letting you keep full control. All compute happens directly in ClickHouse, taking advantage of its speed while maintaining robust security and governance.
 
 <img src="/images/integrations/data-visualization/astrato_5b_clickhouse_view_sql.png" alt="Astrato connect to ClickHouse User Access" />
 
-### Example completed dashboard [#example-completed-dashboard]
+### Example completed dashboard 
 
 A beautiful complete dashboard or data app isn't far away now. To see more of what we've built, head to our demo gallery on our website. https://astrato.io/gallery
 

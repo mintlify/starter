@@ -7,7 +7,7 @@ title: 'Prometheus Protocols'
 doc_type: 'reference'
 ---
 
-## Exposing metrics [#expose]
+## Exposing metrics 
 
 <Note>
 If you are using ClickHouse Cloud, you can expose metrics to Prometheus using the [Prometheus Integration](/integrations/prometheus).
@@ -69,7 +69,7 @@ Check (replace `127.0.0.1` with the IP addr or hostname of your ClickHouse serve
 curl 127.0.0.1:9363/metrics
 ```
 
-## Remote-write protocol [#remote-write]
+## Remote-write protocol 
 
 ClickHouse supports the [remote-write](https://prometheus.io/docs/specs/remote_write_spec/) protocol.
 Data are received by this protocol and written to a [TimeSeries](/engines/table-engines/special/time_series) table
@@ -100,7 +100,7 @@ Settings:
 | `table`                      | none    | The name of a [TimeSeries](/engines/table-engines/special/time_series) table to write data received by the `remote-write` protocol. This name can optionally contain the name of a database too. |
 | `database`                   | none    | The name of a database where the table specified in the `table` setting is located if it's not specified in the `table` setting.                                                                    |
 
-## Remote-read protocol [#remote-read]
+## Remote-read protocol 
 
 ClickHouse supports the [remote-read](https://prometheus.io/docs/prometheus/latest/querying/remote_read_api/) protocol.
 Data are read from a [TimeSeries](/engines/table-engines/special/time_series) table and sent via this protocol.
@@ -130,7 +130,7 @@ Settings:
 | `table`                      | none    | The name of a [TimeSeries](/engines/table-engines/special/time_series) table to read data to send by the `remote-read` protocol. This name can optionally contain the name of a database too. |
 | `database`                   | none    | The name of a database where the table specified in the `table` setting is located if it's not specified in the `table` setting.                                                                 |
 
-## Configuration for multiple protocols [#multiple-protocols]
+## Configuration for multiple protocols 
 
 Multiple protocols can be specified together in one place:
 

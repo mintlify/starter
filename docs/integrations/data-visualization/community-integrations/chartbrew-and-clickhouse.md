@@ -15,7 +15,7 @@ import {CommunityMaintainedBadge} from '/snippets/components/CommunityMaintained
 
 [Chartbrew](https://chartbrew.com) is a data visualization platform that allows users to create dashboards and monitor data in real time. It supports multiple data sources, including ClickHouse, and provides a no-code interface for building charts and reports.
 
-## Goal [#goal]
+## Goal 
 
 In this guide, you will connect Chartbrew to ClickHouse, run a SQL query, and create a visualization. By the end, your dashboard may look something like this:
 
@@ -25,11 +25,11 @@ In this guide, you will connect Chartbrew to ClickHouse, run a SQL query, and cr
 If you do not have a dataset to work with, you can add one of the examples. This guide uses the [UK Price Paid](/getting-started/example-datasets/uk-price-paid.md) dataset.
 </Tip>
 
-## 1. Gather your connection details [#1-gather-your-connection-details]
+## 1. Gather your connection details 
 
 <ConnectionDetails />
 
-## 2. Connect Chartbrew to ClickHouse [#2-connect-chartbrew-to-clickhouse]
+## 2. Connect Chartbrew to ClickHouse 
 
 1. Log in to [Chartbrew](https://chartbrew.com/login) and go to the **Connections** tab.
 2. Click **Create connection** and select **ClickHouse** from the available database options.
@@ -52,7 +52,7 @@ If you do not have a dataset to work with, you can add one of the examples. This
 
    <img src="/images/integrations/data-visualization/chartbrew_04.png" alt="ClickHouse JSON schema in Chartbrew"/>
 
-## 3. Create a dataset and run a SQL query [#3-create-a-dataset-and-run-a-sql-query]
+## 3. Create a dataset and run a SQL query 
 
   1. Click on the **Create dataset** button or navigate to the **Datasets** tab to create one.
   2. Select the ClickHouse connection you created earlier.
@@ -78,7 +78,7 @@ If you do not have a dataset to work with, you can add one of the examples. This
 
 Once the data is retrieved, click **Configure dataset** to set up the visualization parameters.
 
-## 4. Create a visualization [#4-create-a-visualization]
+## 4. Create a visualization 
    
   1. Define a metric (numerical value) and dimension (categorical value) for your visualization.
   2. Preview the dataset to ensure the query results are structured correctly.
@@ -91,7 +91,7 @@ Once the data is retrieved, click **Configure dataset** to set up the visualizat
 
   <img src="/images/integrations/data-visualization/chartbrew_01.png" alt="Chartbrew dashboard with ClickHouse data"/>
 
-## 5. Automate data updates [#5-automate-data-updates]
+## 5. Automate data updates 
    
   To keep your dashboard up-to-date, you can schedule automatic data updates:
 
@@ -101,6 +101,6 @@ Once the data is retrieved, click **Configure dataset** to set up the visualizat
 
   <img src="/images/integrations/data-visualization/chartbrew_09.png" alt="Chartbrew dataset refresh settings"/>
 
-## Learn more [#learn-more]
+## Learn more 
 
 For more details, check out the blog post about [Chartbrew and ClickHouse](https://chartbrew.com/blog/visualizing-clickhouse-data-with-chartbrew-a-step-by-step-guide/).

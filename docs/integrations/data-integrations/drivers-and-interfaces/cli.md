@@ -14,7 +14,7 @@ Query results can be displayed in the terminal or exported to a file, with suppo
 The client provides real-time feedback on query execution with a progress bar and the number of rows read, bytes processed and query execution time.
 It supports both [command-line options](#command-line-options) and [configuration files](#configuration_files).
 
-## Install [#install]
+## Install 
 
 To download ClickHouse, run:
 
@@ -32,7 +32,7 @@ See [Install ClickHouse](../getting-started/install/install.mdx) for more instal
 
 Different client and server versions are compatible with one another, but some features may not be available in older clients. We recommend using the same version for client and server.
 
-## Run [#run]
+## Run 
 
 <Note>
 If you only downloaded but did not install ClickHouse, use `./clickhouse client` instead of `clickhouse-client`.
@@ -63,7 +63,7 @@ Specify additional connection details as necessary:
 
 For a complete list of command-line options, see [Command Line Options](#command-line-options).
 
-### Connecting to ClickHouse Cloud [#connecting-cloud]
+### Connecting to ClickHouse Cloud 
 
 The details for your ClickHouse Cloud service are available in the ClickHouse Cloud console. Select the service that you want to connect to and click **Connect**:
 
@@ -75,7 +75,7 @@ Choose **Native**, and the details are shown with an example `clickhouse-client`
 
 <img src="/images/_snippets/connection-details-native.png" alt="ClickHouse Cloud Native TCP connection details"/>
 
-### Storing connections in a configuration file [#connection-credentials]
+### Storing connections in a configuration file 
 
 You can store connection details for one or more ClickHouse servers in a [configuration file](#configuration_files).
 
@@ -106,9 +106,9 @@ See the [section on configuration files](#configuration_files) for more informat
 To concentrate on the query syntax, the rest of the examples leave off the connection details (`--host`, `--port`, etc.). Remember to add them when you use the commands.
 </Note>
 
-## Interactive mode [#interactive-mode]
+## Interactive mode 
 
-### Using interactive mode [#using-interactive-mode]
+### Using interactive mode 
 
 To run ClickHouse in interactive mode, simply execute:
 
@@ -149,7 +149,7 @@ To exit the client, press `Ctrl+D`, or enter one of the following instead of a q
 - `q`, `Q` or `:q`
 - `logout` or `logout;`
 
-### Query processing information [#processing-info]
+### Query processing information 
 
 When processing a query, the client shows:
 
@@ -168,7 +168,7 @@ If you do not wait and press `Ctrl+C` a second time, the client will exit.
 ClickHouse Client allows passing external data (external temporary tables) for querying.
 For more information, see the section [External data for query processing](../engines/table-engines/special/external-data.md).
 
-### Aliases [#cli_aliases]
+### Aliases 
 
 You can use the following aliases from within the REPL:
 
@@ -177,7 +177,7 @@ You can use the following aliases from within the REPL:
 - `\c <DATABASE>` - USE DATABASE
 - `.` - repeat the last query
 
-### Keyboard shortcuts [#keyboard_shortcuts]
+### Keyboard shortcuts 
 
 - `Alt (Option) + Shift + e` - open editor with the current query. It is possible to specify the editor to use with the environment variable `EDITOR`. By default, `vim` is used.
 - `Alt (Option) + #` - comment line.
@@ -191,9 +191,9 @@ To configure the correct work of the meta key (Option) on MacOS:
 iTerm2: Go to Preferences -> Profile -> Keys -> Left Option key and click Esc+
 </Tip>
 
-## Batch mode [#batch-mode]
+## Batch mode 
 
-### Using batch mode [#using-batch-mode]
+### Using batch mode 
 
 Instead of using ClickHouse Client interactively, you can run it in batch mode.
 In batch mode, ClickHouse executes a single query and exits immediately - there's no interactive prompt or loop.
@@ -227,7 +227,7 @@ $ echo "Hello\nGoodbye" | clickhouse-client --query "INSERT INTO messages FORMAT
 
 When `--query` is specified, any input is appended to the request after a line feed.
 
-### Inserting a CSV file into a remote ClickHouse service [#cloud-example]
+### Inserting a CSV file into a remote ClickHouse service 
 
 This example is inserting a sample dataset CSV file, `cell_towers.csv` into an existing table `cell_towers` in the `default` database:
 
@@ -240,7 +240,7 @@ clickhouse-client --host HOSTNAME.clickhouse.cloud \
   < cell_towers.csv
 ```
 
-### Examples of inserting data from the command line [#more-examples]
+### Examples of inserting data from the command line 
 
 There are several ways to insert data from the command line.
 The example below inserts two rows of CSV data into a ClickHouse table using batch mode:
@@ -268,7 +268,7 @@ cat file.csv | clickhouse-client --database=test --query="INSERT INTO test FORMA
 In batch mode, the default data [format](formats.md) is `TabSeparated`.
 You can set the format in the `FORMAT` clause of the query as shown in the example above.
 
-## Queries with parameters [#cli-queries-with-parameters]
+## Queries with parameters 
 
 You can specify parameters in a query and pass values to it with command-line options.
 This avoids formatting a query with specific dynamic values on the client side.
@@ -310,7 +310,7 @@ Query id: 0358a729-7bbe-4191-bb48-29b063c548a7
 1 row in set. Elapsed: 0.006 sec.
 ```
 
-### Query syntax [#cli-queries-with-parameters-syntax]
+### Query syntax 
 
 In the query, place the values that you want to fill using command-line parameters in braces in the following format:
 
@@ -323,7 +323,7 @@ In the query, place the values that you want to fill using command-line paramete
 | `name`      | Placeholder identifier. The corresponding command-line option is `--param_<name> = value`.                                                                                                                                                                                                                                                                                                                                                                              |
 | `data type` | [Data type](../sql-reference/data-types/index.md) of the parameter. <br/><br/>For example, a data structure like `(integer, ('string', integer))` can have the `Tuple(UInt8, Tuple(String, UInt8))` data type (you can also use other [integer](../sql-reference/data-types/int-uint.md) types). <br/><br/>It is also possible to pass the table name, database name, and column names as parameters, in that case you would need to use `Identifier` as the data type. |
 
-### Examples [#cli-queries-with-parameters-examples]
+### Examples 
 
 ```bash
 $ clickhouse-client --param_tuple_in_tuple="(10, ('dt', 10))" \
@@ -333,13 +333,13 @@ $ clickhouse-client --param_tbl="numbers" --param_db="system" --param_col="numbe
     --query "SELECT {col:Identifier} as {alias:Identifier} FROM {db:Identifier}.{tbl:Identifier} LIMIT 10"
 ```
 
-## AI-powered SQL generation [#ai-sql-generation]
+## AI-powered SQL generation 
 
 ClickHouse Client includes built-in AI assistance for generating SQL queries from natural language descriptions. This feature helps users write complex queries without deep SQL knowledge.
 
 The AI assistance works out of the box if you have either `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` environment variable set. For more advanced configuration, see the [Configuration](#ai-sql-generation-configuration) section.
 
-### Usage [#ai-sql-generation-usage]
+### Usage 
 
 To use AI SQL generation, prefix your natural language query with `??`:
 
@@ -352,7 +352,7 @@ The AI will:
 2. Generate appropriate SQL based on the discovered tables and columns
 3. Execute the generated query immediately
 
-### Example [#ai-sql-generation-example]
+### Example 
 
 ```bash
 :) ?? count orders by product category
@@ -385,11 +385,11 @@ GROUP BY c.name
 ORDER BY order_count DESC
 ```
 
-### Configuration [#ai-sql-generation-configuration]
+### Configuration 
 
 AI SQL generation requires configuring an AI provider in your ClickHouse Client configuration file. You can use either OpenAI, Anthropic, or any OpenAI-compatible API service.
 
-#### Environment-based fallback [#ai-sql-generation-fallback]
+#### Environment-based fallback 
 
 If no AI configuration is specified in the config file, ClickHouse Client will automatically try to use environment variables:
 
@@ -408,7 +408,7 @@ export ANTHROPIC_API_KEY=your-anthropic-key
 clickhouse-client
 ```
 
-#### Configuration file [#ai-sql-generation-configuration-file]
+#### Configuration file 
 
 For more control over AI settings, configure them in your ClickHouse Client configuration file located at:
 - `~/.clickhouse-client/config.xml` (XML format)
@@ -509,7 +509,7 @@ ai:
   model: gpt-3.5-turbo
 ```
 
-### Parameters [#ai-sql-generation-parameters]
+### Parameters 
 
 <AccordionGroup>
 <Accordion title="Required parameters">
@@ -540,7 +540,7 @@ ai:
 - `system_prompt` - Custom instructions for the AI (optional)
 </Accordion>
 </AccordionGroup>
-### How it works [#ai-sql-generation-how-it-works]
+### How it works 
 
 The AI SQL generator uses a multi-step process:
 
@@ -578,22 +578,22 @@ The generated SQL is automatically executed and results are displayed
 
 </Steps>
 
-### Limitations [#ai-sql-generation-limitations]
+### Limitations 
 
 - Requires an active internet connection
 - API usage is subject to rate limits and costs from the AI provider
 - Complex queries may require multiple refinements
 - The AI has read-only access to schema information, not actual data
 
-### Security [#ai-sql-generation-security]
+### Security 
 
 - API keys are never sent to ClickHouse servers
 - The AI only sees schema information (table/column names and types), not actual data
 - All generated queries respect your existing database permissions
 
-## Connection string [#connection_string]
+## Connection string 
 
-### Usage [#connection-string-usage]
+### Usage 
 
 ClickHouse Client alternatively supports connecting to a ClickHouse server using a connection string similar to [MongoDB](https://www.mongodb.com/docs/manual/reference/connection-string/), [PostgreSQL](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING), [MySQL](https://dev.mysql.com/doc/refman/8.0/en/connecting-using-uri-or-key-value-pairs.html#connecting-using-uri). It has the following syntax:
 
@@ -609,7 +609,7 @@ clickhouse:[//[user[:password]@][hosts_and_ports]][/database][?query_parameters]
 | `database`               | Database name.                                                                                                                                          | `default`        |
 | `query_parameters`       | List of key-value pairs `param1=value1[,&param2=value2], ...`. For some parameters, no value is required. Parameter names and values are case-sensitive. | -                |
 
-### Notes [#connection-string-notes]
+### Notes 
 
 If the username, password or database was specified in the connection string, it cannot be specified using `--user`, `--password` or `--database` (and vice versa).
 
@@ -642,7 +642,7 @@ Non-US ASCII, spaces and special characters in the following parameters must be 
 - `database`
 - `query parameters` 
 
-### Examples [#connection_string_examples]
+### Examples 
 
 Connect to `localhost` on port 9000 and execute the query `SELECT 1`.
 
@@ -722,7 +722,7 @@ Connect to one of two hosts: `192.168.1.15`, `192.168.1.25`.
 clickhouse-client clickhouse://192.168.1.15,192.168.1.25
 ```
 
-## Query ID format [#query-id-format]
+## Query ID format 
 
 In interactive mode ClickHouse Client shows the query ID for every query. By default, the ID is formatted like this:
 
@@ -749,7 +749,7 @@ With the configuration above, the ID of a query is shown in the following format
 speedscope:http://speedscope-host/#profileURL=qp%3Fid%3Dc8ecc783-e753-4b38-97f1-42cddfb98b7d
 ```
 
-## Configuration files [#configuration_files]
+## Configuration files 
 
 ClickHouse Client uses the first existing file of the following:
 
@@ -788,16 +788,16 @@ See the sample configuration file in the ClickHouse repository: [`clickhouse-cli
   </Tab>
 </Tabs>
 
-## Environment variable options [#environment-variable-options]
+## Environment variable options 
 
 The user name, password and host can be set via environment variables `CLICKHOUSE_USER`, `CLICKHOUSE_PASSWORD` and `CLICKHOUSE_HOST`.
 Command line arguments `--user`, `--password` or `--host`, or a [connection string](#connection_string) (if specified) take precedence over environment variables.
 
-## Command-line options [#command-line-options]
+## Command-line options 
 
 All command-line options can be specified directly on the command line or as defaults in the [configuration file](#configuration_files).
 
-### General options [#command-line-options-general]
+### General options 
 
 | Option                                              | Description                                                                                                                        | Default                      |
 |-----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|------------------------------|
@@ -809,7 +809,7 @@ All command-line options can be specified directly on the command line or as def
 | `--verbose`                                         | Increase output verbosity.                                                                                                         | -                            |
 | `-V [ --version ]`                                  | Print version and exit.                                                                                                            | -                            |
 
-### Connection options [#command-line-options-connection]
+### Connection options 
 
 | Option                           | Description                                                                                                                                                                                                                                                                                                                        | Default                                                                                                          |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
@@ -829,7 +829,7 @@ All command-line options can be specified directly on the command line or as def
 Instead of the `--host`, `--port`, `--user` and `--password` options, the client also supports [connection strings](#connection_string).
 </Note>
 
-### Query options [#command-line-options-query]
+### Query options 
 
 | Option                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -838,7 +838,7 @@ Instead of the `--host`, `--port`, `--user` and `--password` options, the client
 | `--queries-file <path-to-file>` | Path to a file containing queries. `--queries-file` can be specified multiple times, e.g. `--queries-file queries1.sql --queries-file queries2.sql`. <br/><br/>Cannot be used together with `--query`.                                                                                                                                                                                                                                                                                            |
 | `-m [ --multiline ]`            | If specified, allow multiline queries (do not send the query on Enter). Queries will be sent only when they are ended with a semicolon.                                                                                                                                                                                                                                                                                                                                                           |
 
-### Query settings [#command-line-options-query-settings]
+### Query settings 
 
 Query settings can be specified as command-line options in the client, for example:
 ```bash
@@ -847,7 +847,7 @@ $ clickhouse-client --max_threads 1
 
 See [Settings](../operations/settings/settings.md) for a list of settings.
 
-### Formatting options [#command-line-options-formatting]
+### Formatting options 
 
 | Option                    | Description                                                                                                                                                                                                                   | Default        |
 |---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
@@ -855,7 +855,7 @@ See [Settings](../operations/settings/settings.md) for a list of settings.
 | `--pager <command>`       | Pipe all output into this command. Typically `less` (e.g., `less -S` to display wide result sets) or similar.                                                                                                                | -              |
 | `-E [ --vertical ]`       | Use the [Vertical format](/interfaces/formats/Vertical) to output the result. This is the same as `–-format Vertical`. In this format, each value is printed on a separate line, which is helpful when displaying wide tables. | -              |
 
-### Execution details [#command-line-options-execution-details]
+### Execution details 
 
 | Option                            | Description                                                                                                                                                                                                                                                                                                         | Default                                                             |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|

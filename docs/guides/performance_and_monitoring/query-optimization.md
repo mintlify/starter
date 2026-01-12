@@ -11,7 +11,7 @@ keywords: ['query optimization', 'performance', 'best practices', 'query tuning'
 
 This section aims to illustrate through common scenarios how to use different performance and optimization techniques, such as [analyzer](/operations/analyzer), [query profiling](/operations/optimizing-performance/sampling-query-profiler) or [avoid nullable Columns](/optimize/avoid-nullable-columns), in order to improve your ClickHouse query performances.
 
-## Understand query performance [#understand-query-performance]
+## Understand query performance 
 
 The best moment to think about performance optimization is when you're setting up your [data schema](/data-modeling/schema-design) before ingesting data into ClickHouse for the first time. 
 
@@ -23,7 +23,7 @@ ClickHouse has a rich set of tools to help you understand how your query is gett
 
 In this section, we will look at those tools and how to use them. 
 
-## General considerations [#general-considerations]
+## General considerations 
 
 To understand query performance, let's look at what happens in ClickHouse when a query is executed. 
 
@@ -51,7 +51,7 @@ In reality, many [optimizations](/concepts/why-clickhouse-is-so-fast) are taking
 
 With this high-level understanding, let's examine the tooling ClickHouse provides and how we can use it to track the metrics that affect query performance. 
 
-## Dataset [#dataset]
+## Dataset 
 
 We'll use a real example to illustrate how we approach query performances. 
 
@@ -101,9 +101,9 @@ CREATE TABLE nyc_taxi.trips_small_inferred
 ORDER BY tuple()
 ```
 
-## Spot the slow queries [#spot-the-slow-queries]
+## Spot the slow queries 
 
-### Query logs [#query-logs]
+### Query logs 
 
 By default, ClickHouse collects and logs information about each executed query in the [query logs](/operations/system-tables/query_log). This data is stored in the table `system.query_log`. 
 
@@ -320,7 +320,7 @@ Query id: 733372c5-deaf-4719-94e3-261540933b23
 
 The table contains 329.04 million rows, therefore each query is doing a full scan of the table.
 
-### Explain statement [#explain-statement]
+### Explain statement 
 
 Now that we have some long-running queries, let's understand how they are executed. For this, ClickHouse supports the [EXPLAIN statement command](/sql-reference/statements/explain). It is a very useful tool that provides a very detailed view of all the query execution stages without actually running the query. While it can be overwhelming to look at for a non-ClickHouse expert, it remains an essential tool for gaining insight into how your query is executed.
 
@@ -390,7 +390,7 @@ Here, we can note the number of threads used to execute the query: 59 threads, w
 
 Ideally, you would investigate all your slow queries the same way to identify unnecessary complex query plans and understand the number of rows read by each query and the resources consumed.
 
-## Methodology [#methodology]
+## Methodology 
 
 It can be difficult to identify problematic queries on a production deployment, as there are probably a large number of queries being executed at any given time on your ClickHouse deployment. 
 
@@ -410,7 +410,7 @@ Once you have identified potential optimizations, it is recommended that you imp
 
 _Finally, be cautious of outliers; it's pretty common that a query might run slowly, either because a user tried an ad-hoc expensive query or the system was under stress for another reason. You can group by the field normalized_query_hash to identify expensive queries that are being executed regularly. Those are probably the ones you want to investigate._
 
-## Basic optimization [#basic-optimization]
+## Basic optimization 
 
 Now that we have our framework to test, we can start optimizing.
 
@@ -418,7 +418,7 @@ The best place to start is to look at how the data is stored. As for any databas
 
 Depending on how you ingested your data, you might have leveraged ClickHouse [capabilities](/interfaces/schema-inference) to infer the table schema based on the ingested data. While this is very practical to get started, if you want to optimize your query performance, you'll need to review the data schema to best fit your use case.
 
-### Nullable [#nullable]
+### Nullable 
 
 As described in the [best practices documentation](/best-practices/select-data-types#avoid-nullable-columns), avoid nullable columns wherever possible. It is tempting to use them often, as they make the data ingestion mechanism more flexible, but they negatively affect performance as an additional column has to be processed every time.
 
@@ -464,7 +464,7 @@ dropoff_location_id_nulls: 0
 
 We have only two columns with null values: `mta_tax` and `payment_type`. The rest of the fields should not be using a `Nullable` column.
 
-### Low cardinality [#low-cardinality]
+### Low cardinality 
 
 An easy optimization to apply to Strings is to make best use of the LowCardinality data type. As described in the low cardinality [documentation](/sql-reference/data-types/lowcardinality), ClickHouse applies dictionary coding to LowCardinality-columns, which significantly increases query performance. 
 
@@ -494,7 +494,7 @@ uniq(vendor_id):           3
 
 With a low cardinality, those four columns, `ratecode_id`, `pickup_location_id`, `dropoff_location_id`, and `vendor_id`, are good candidates for the LowCardinality field type.
 
-### Optimize data type [#optimize-data-type]
+### Optimize data type 
 
 Clickhouse supports a large number of data types. Make sure to pick the smallest possible data type that fits your use case to optimize performance and reduce your data storage space on disk. 
 
@@ -516,7 +516,7 @@ Query id: 4306a8e1-2a9c-4b06-97b4-4d902d2233eb
 
 For dates, you should pick a precision that matches your dataset and is best suited to answering the queries you're planning to run.
 
-### Apply the optimizations [#apply-the-optimizations]
+### Apply the optimizations 
 
 Let's create a new table to use the optimized schema and re-ingest the data.
 
@@ -581,7 +581,7 @@ Query id: 72b5eb1c-ff33-4fdb-9d29-dd076ac6f532
 
 The new table is considerably smaller than the previous one. We see a reduction of about 34% in disk space for the table (7.38 GiB vs 4.89 GiB).
 
-## The importance of primary keys [#the-importance-of-primary-keys]
+## The importance of primary keys 
 
 Primary keys in ClickHouse work differently than in most traditional database systems. In those systems, primary keys enforce uniqueness and data integrity. Any attempt to insert duplicate primary key values is rejected, and a B-tree or hash-based index is usually created for fast lookup. 
 
@@ -593,7 +593,7 @@ Selecting a good set of primary keys is important for performance, and it's actu
 
 Other options supported by ClickHouse, such as Projection or Materialized view, allow you to use a different set of primary keys on the same data. The second part of this blog series will cover this in more detail. 
 
-### Choose primary keys [#choose-primary-keys]
+### Choose primary keys 
 
 Choosing the correct set of primary keys is a complex topic, and it might require trade-offs and experiments to find the best combination. 
 
@@ -777,7 +777,7 @@ Query id: 30116a77-ba86-4e9f-a9a2-a01670ad2e15
 
 Thanks to the primary key, only a subset of the table granules has been selected. This alone greatly improves the query performance since ClickHouse has to process significantly less data.
 
-## Next steps [#next-steps]
+## Next steps 
 
 Hopefully this guide gets a good understanding on how to investigate slow queries with ClickHouse and how to make them faster. To explore more on this topic, you can read more about [query analyzer](/operations/analyzer) and [profiling](/operations/optimizing-performance/sampling-query-profiler) to understand better how exactly ClickHouse is executing your query.
 

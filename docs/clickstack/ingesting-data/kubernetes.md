@@ -21,11 +21,11 @@ To send over application-level metrics or APM/traces, you'll need to add the cor
 
 The following guide assumes you have deployed a [ClickStack OTel collector as a gateway](/use-cases/observability/clickstack/ingesting-data/otel-collector), secured with an ingestion API key.
 
-## Creating the OTel Helm chart configuration files [#creating-the-otel-helm-chart-config-files]
+## Creating the OTel Helm chart configuration files 
 
 To collect logs and metrics from both each node and the cluster itself, we'll need to deploy two separate OpenTelemetry collectors. One will be deployed as a DaemonSet to collect logs and metrics from each node, and the other will be deployed as a deployment to collect logs and metrics from the cluster itself.
 
-### Creating a API key secret [#create-api-key-secret]
+### Creating a API key secret 
 
 Create a new Kubernetes secret with the [ingestion API Key](/use-cases/observability/clickstack/ingesting-data/opentelemetry#sending-otel-data) from HyperDX. This will be used by the components installed below to securely ingest into your ClickStack OTel collector:
 
@@ -41,7 +41,7 @@ kubectl create configmap -n=otel-demo otel-config-vars --from-literal=YOUR_OTEL_
 # e.g. kubectl create configmap -n=otel-demo otel-config-vars --from-literal=YOUR_OTEL_COLLECTOR_ENDPOINT=http://my-hyperdx-hdx-oss-v2-otel-collector:4318
 ```
 
-### Creating the DaemonSet configuration [#creating-the-daemonset-configuration]
+### Creating the DaemonSet configuration 
 
 The DaemonSet will collect logs and metrics from each node in the cluster but will not collect Kubernetes events or cluster-wide metrics.
 
@@ -152,7 +152,7 @@ config:
 ```
 </Accordion>
 </AccordionGroup>
-### Creating the deployment configuration [#creating-the-deployment-configuration]
+### Creating the deployment configuration 
 
 To collect Kubernetes events and cluster-wide metrics, we'll need to deploy a separate OpenTelemetry collector as a deployment.
 
@@ -226,7 +226,7 @@ config:
 ```
 </Accordion>
 </AccordionGroup>
-## Deploying the OpenTelemetry collector [#deploying-the-otel-collector]
+## Deploying the OpenTelemetry collector 
 
 The OpenTelemetry collector can now be deployed in your Kubernetes cluster using
 the [OpenTelemetry Helm Chart](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/main/charts/opentelemetry-collector).
@@ -247,7 +247,7 @@ helm install my-opentelemetry-collector-daemonset open-telemetry/opentelemetry-c
 Now the metrics, logs and Kubernetes events from your Kubernetes cluster should
 now appear inside HyperDX.
 
-## Forwarding resource tags to pods (Recommended) [#forwarding-resouce-tags-to-pods]
+## Forwarding resource tags to pods (Recommended) 
 
 To correlate application-level logs, metrics, and traces with Kubernetes metadata
 (ex. pod name, namespace, etc.), you'll want to forward the Kubernetes metadata

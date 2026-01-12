@@ -9,10 +9,10 @@ keywords: ['database users', 'access management', 'security', 'permissions', 'us
 
 This guide demonstrates two ways to manage database users, within SQL console and directly within the database.
 
-### SQL console passwordless authentication [#sql-console-passwordless-authentication]
+### SQL console passwordless authentication 
 SQL console users are created for each session and authenticated using X.509 certificates that are automatically rotated. The user is removed when the session is terminated. When generating access lists for audits, please navigate to the Settings tab for the service in the console and note the SQL console access in addition to the database users that exist in the database. If custom roles are configured, the user's access is listed in the role ending with the user's username.
 
-## SQL console users and roles [#sql-console-users-and-roles]
+## SQL console users and roles 
 
 Basic SQL console roles can be assigned to users with Service Read Only and Service Admin permissions. For more information, refer to [Manage SQL Console Role Assignments](/cloud/guides/sql-console/manage-sql-console-role-assignments). This guide demonstrates how to create a custom role for a SQL console user.
 
@@ -21,7 +21,7 @@ To create a custom role for a SQL console user and grant it a general role, run 
 <Steps>
 
 <Step>
-#### Create `database_developer` and grant permissions [#create-role-grant-permissions] 
+#### Create `database_developer` and grant permissions  
 
 Create the `database_developer` role and grant `SHOW`, `CREATE`, `ALTER`, and `DELETE` permissions.
     
@@ -36,7 +36,7 @@ GRANT DELETE ON * TO database_developer;
 </Step>
 
 <Step>
-#### Create SQL console user role [#create-sql-console-user-role] 
+#### Create SQL console user role  
 
 Create a role for the SQL console user my.user@domain.com and assign it the database_developer role.
     
@@ -48,7 +48,7 @@ GRANT database_developer TO `sql-console-role:my.user@domain.com`;
 </Step>
 
 <Step>
-#### The user is assigned the new role when they use SQL console [#use-assigned-new-role]
+#### The user is assigned the new role when they use SQL console 
 
 The user will be assigned the role associated with their email address whenever they use SQL console.
 
@@ -56,9 +56,9 @@ The user will be assigned the role associated with their email address whenever 
 
 </Steps>
 
-## Database authentication [#database-authentication]
+## Database authentication 
 
-### Database user ID and password [#database-user-id--password]
+### Database user ID and password 
 
 Use the SHA256_hash method when [creating user accounts](/sql-reference/statements/create/user.md) to secure passwords. ClickHouse database passwords must contain a minimum of 12 characters and meet complexity requirements: upper case characters, lower case characters, numbers and/or special characters.
 
@@ -71,7 +71,7 @@ such as [this one](https://tools.keycdn.com/sha256-online-generator) before prov
 CREATE USER userName IDENTIFIED WITH sha256_hash BY 'hash';
 ```
 
-### Database user with secure shell (SSH) authentication [#database-ssh]
+### Database user with secure shell (SSH) authentication 
 
 To set up SSH authentication for a ClickHouse Cloud database user.
 
@@ -82,7 +82,7 @@ To set up SSH authentication for a ClickHouse Cloud database user.
 
 For a detailed walkthrough with examples, check out [How to connect to ClickHouse Cloud using SSH keys](/knowledgebase/how-to-connect-to-ch-cloud-using-ssh-keys) in our Knowledgebase.
 
-## Database permissions [#database-permissions]
+## Database permissions 
 Configure the following within the services and databases using the SQL [GRANT](/sql-reference/statements/grant) statement.
 
 | Role                  | Description                                                                   |
@@ -98,7 +98,7 @@ The illustration below shows the different ways a user could be granted permissi
 
 <img src="/images/cloud/security/cloud-access-management/user_grant_permissions_options.png" alt="An illustration showing the different ways a user could be granted permissions"/>
 
-### Initial settings [#initial-settings] 
+### Initial settings  
 Databases have an account named `default` that is added automatically and granted the default_role upon service creation. The user that creates the service is presented with the automatically generated, random password that is assigned to the `default` account when the service is created. The password is not shown after initial setup, but may be changed by any user with Service Admin permissions in the console at a later time. This account or an account with Service Admin privileges within the console may set up additional database users and roles at any time.
 
 <Note>
@@ -114,13 +114,13 @@ We recommend creating a new user account associated with a person and granting t
 
 Users can use a SHA256 hash generator or code function such as `hashlib` in Python to convert a 12+ character password with appropriate complexity to a SHA256 string to provide to the system administrator as the password. This ensures the administrator does not see or handle clear text passwords.
 
-### Database access listings with SQL console users [#database-access-listings-with-sql-console-users]
+### Database access listings with SQL console users 
 The following process can be used to generate a complete access listing across the SQL console and databases in your organization.
 
 <Steps>
 
 <Step>
-#### Get a list of all database grants [#get-a-list-of-all-database-grants]
+#### Get a list of all database grants 
 
 Run the following queries to get a list of all grants in the database. 
 
@@ -149,7 +149,7 @@ WHERE role_grants.user_name is null;
 </Step>
 
 <Step>
-#### Associate grant list to Console users with access to SQL console [#associate-grant-list-to-console-users-with-access-to-sql-console]
+#### Associate grant list to Console users with access to SQL console 
 
 Associate this list with Console users that have access to SQL console.
    
@@ -167,6 +167,6 @@ e. Click the link for the number of users with access to the database `There are
 
 </Steps>
 
-## Warehouse users [#warehouse-users]
+## Warehouse users 
 
 Warehouse users are shared across services within the same warehouse. For more information, review [warehouse access controls](/cloud/reference/warehouses#access-controls).

@@ -19,13 +19,13 @@ Below we describe a simple installation, pulling messages from a single Kafka to
   The HTTP Connector is distributed under the [Confluent Enterprise License](https://docs.confluent.io/kafka-connect-http/current/overview.html#license).
 </Note>
 
-### Quick start steps [#quick-start-steps]
+### Quick start steps 
 
-#### 1. Gather your connection details [#1-gather-your-connection-details]
+#### 1. Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-#### 2. Run Kafka Connect and the HTTP sink connector [#2-run-kafka-connect-and-the-http-sink-connector]
+#### 2. Run Kafka Connect and the HTTP sink connector 
 
 You have two options:
 
@@ -38,7 +38,7 @@ If you use the confluent-hub installation method, your local configuration files
   The following examples are using Confluent Cloud.
 </Note>
 
-#### 3. Create destination table in ClickHouse [#3-create-destination-table-in-clickhouse]
+#### 3. Create destination table in ClickHouse 
 
 Before the connectivity test, let's start by creating a test table in ClickHouse Cloud, this table will receive the data from Kafka:
 
@@ -55,7 +55,7 @@ CREATE TABLE default.my_table
 ORDER BY tuple()
 ```
 
-#### 4. Configure HTTP Sink [#4-configure-http-sink]
+#### 4. Configure HTTP Sink 
 Create a Kafka topic and an instance of HTTP Sink Connector:
 <img src="/images/integrations/data-ingestion/kafka/confluent/create_http_sink.png" alt="Confluent Cloud interface showing how to create an HTTP Sink connector"/>
 
@@ -88,7 +88,7 @@ Configure HTTP Sink Connector:
 
 <img src="/images/integrations/data-ingestion/kafka/confluent/http_advanced.png" alt="Confluent Cloud interface showing advanced configuration options for the HTTP Sink connector"/>
 
-#### 5. Testing the connectivity [#5-testing-the-connectivity]
+#### 5. Testing the connectivity 
 Create an message in a topic configured by your HTTP Sink
 <img src="/images/integrations/data-ingestion/kafka/confluent/create_message_in_topic.png" alt="Confluent Cloud interface showing how to create a test message in a Kafka topic"/>
 
@@ -96,8 +96,8 @@ Create an message in a topic configured by your HTTP Sink
 
 and verify the created message's been written to your ClickHouse instance.
 
-### Troubleshooting [#troubleshooting]
-#### HTTP Sink doesn't batch messages [#http-sink-doesnt-batch-messages]
+### Troubleshooting 
+#### HTTP Sink doesn't batch messages 
 
 From the [Sink documentation](https://docs.confluent.io/kafka-connectors/http/current/overview.html#http-sink-connector-for-cp):
 > The HTTP Sink connector does not batch requests for messages containing Kafka header values that are different.
@@ -105,8 +105,8 @@ From the [Sink documentation](https://docs.confluent.io/kafka-connectors/http/cu
 1. Verify your Kafka records have the same key.
 2. When you add parameters to the HTTP API URL, each record can result in a unique URL. For this reason, batching is disabled when using additional URL parameters.
 
-#### 400 bad request [#400-bad-request]
-##### CANNOT_PARSE_QUOTED_STRING [#cannot_parse_quoted_string]
+#### 400 bad request 
+##### CANNOT_PARSE_QUOTED_STRING 
 If HTTP Sink fails with the following message when inserting a JSON object into a `String` column:
 
 ```response
@@ -115,11 +115,11 @@ Code: 26. DB::ParsingException: Cannot parse JSON string: expected opening quote
 
 Set `input_format_json_read_objects_as_strings=1` setting in URL as encoded string `SETTINGS%20input_format_json_read_objects_as_strings%3D1`
 
-### Load the GitHub dataset (optional) [#load-the-github-dataset-optional]
+### Load the GitHub dataset (optional) 
 
 Note that this example preserves the Array fields of the Github dataset. We assume you have an empty github topic in the examples and use [kcat](https://github.com/edenhill/kcat) for message insertion to Kafka.
 
-##### 1. Prepare configuration [#1-prepare-configuration]
+##### 1. Prepare configuration 
 
 Follow [these instructions](https://docs.confluent.io/cloud/current/cp-component/connect-cloud-config.html#set-up-a-local-connect-worker-with-cp-install) for setting up Connect relevant to your installation type, noting the differences between a standalone and distributed cluster. If using Confluent Cloud, the distributed setup is relevant.
 
@@ -149,7 +149,7 @@ A full list of settings, including how to configure a proxy, retries, and advanc
 
 Example configuration files for the Github sample data can be found [here](https://github.com/ClickHouse/clickhouse-docs/tree/main/docs/integrations/data-ingestion/kafka/code/connectors/http_sink), assuming Connect is run in standalone mode and Kafka is hosted in Confluent Cloud.
 
-##### 2. Create the ClickHouse table [#2-create-the-clickhouse-table]
+##### 2. Create the ClickHouse table 
 
 Ensure the table has been created. An example for a minimal github dataset using a standard MergeTree is shown below.
 
@@ -185,7 +185,7 @@ CREATE TABLE github
 
 ```
 
-##### 3. Add data to Kafka [#3-add-data-to-kafka]
+##### 3. Add data to Kafka 
 
 Insert messages to Kafka. Below we use [kcat](https://github.com/edenhill/kcat) to insert 10k messages.
 

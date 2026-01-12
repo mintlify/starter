@@ -14,7 +14,7 @@ Dictionaries are useful for:
 
 <img src="/images/dictionary/dictionary-use-cases.png" alt="Use cases for Dictionary in ClickHouse"/>
 
-## Speeding up joins using a Dictionary [#speeding-up-joins-using-a-dictionary]
+## Speeding up joins using a Dictionary 
 
 Dictionaries can be used to speed up a specific type of `JOIN`: the [`LEFT ANY` type](/sql-reference/statements/select/join#supported-types-of-join) where the join key needs to match the key attribute of the underlying key-value storage.
 
@@ -24,7 +24,7 @@ If this is the case, ClickHouse can exploit the dictionary to perform a [Direct 
 
 The direct join algorithm requires that the right table is backed by a dictionary, such that the to-be-joined data from that table is already present in memory in the form of a low-latency key-value data structure.
 
-### Example [#example]
+### Example 
 
 Using the Stack Overflow dataset, let's answer the question:
 *What is the most controversial post concerning SQL on Hacker News?*
@@ -78,7 +78,7 @@ Peak memory usage: 3.18 GiB.
 
 While this query is fast, it relies on us to write the `JOIN` carefully to achieve good performance. Ideally, we would simply filter the posts to those containing "SQL", before looking at the `UpVote` and `DownVote` counts for the subset of blogs to compute our metric.
 
-#### Applying a dictionary [#applying-a-dictionary]
+#### Applying a dictionary 
 
 To demonstrate these concepts, we use a dictionary for our vote data. Since dictionaries are usually held in memory ([ssd_cache](/sql-reference/dictionaries#ssd_cache) is the exception), users should be cognizant of the size of the data. Confirming our `votes` table size:
 
@@ -173,7 +173,7 @@ Peak memory usage: 552.26 MiB.
 
 Not only is this query much simpler, it's also over twice as fast! This could be optimized further by only loading posts with more than 10 up and down votes into the dictionary and only storing a pre-computed controversial value.
 
-## Query time enrichment [#query-time-enrichment]
+## Query time enrichment 
 
 Dictionaries can be used to look up values at query time. These values can be returned in results or used in aggregations. Suppose we create a dictionary to map user IDs to their location:
 
@@ -237,7 +237,7 @@ LIMIT 5
 Peak memory usage: 248.84 MiB.
 ```
 
-## Index time enrichment [#index-time-enrichment]
+## Index time enrichment 
 
 In the above example, we used a dictionary at query time to remove a join. Dictionaries can also be used to enrich rows at insert time. This is typically appropriate if the enrichment value does not change and exists in an external source which can be used to populate the dictionary. In this case, enriching the row at insert time avoids the query time lookup to the dictionary.
 
@@ -306,24 +306,24 @@ LIMIT 4
 Peak memory usage: 666.82 MiB.
 ```
 
-## Advanced dictionary topics [#advanced-dictionary-topics]
+## Advanced dictionary topics 
 
-### Choosing the Dictionary `LAYOUT` [#choosing-the-dictionary-layout]
+### Choosing the Dictionary `LAYOUT` 
 
 The `LAYOUT` clause controls the internal data structure for the dictionary. A number of options exist and are documented [here](/sql-reference/dictionaries#ways-to-store-dictionaries-in-memory). Some tips on choosing the correct layout can be found [here](https://clickhouse.com/blog/faster-queries-dictionaries-clickhouse#choosing-a-layout).
 
-### Refreshing dictionaries [#refreshing-dictionaries]
+### Refreshing dictionaries 
 
 We have specified a `LIFETIME` for the dictionary of `MIN 600 MAX 900`. LIFETIME is the update interval for the dictionary, with the values here causing a periodic reload at a random interval between 600 and 900s. This random interval is necessary in order to distribute the load on the dictionary source when updating on a large number of servers. During updates, the old version of a dictionary can still be queried, with only the initial load blocking queries. Note that setting `(LIFETIME(0))` prevents dictionaries from updating.
 Dictionaries can be forcibly reloaded using the `SYSTEM RELOAD DICTIONARY` command.
 
 For database sources such as ClickHouse and Postgres, you can set up a query that will update the dictionaries only if they really changed (the response of the query determines this), rather than at a periodic interval. Further details can be found [here](/sql-reference/dictionaries#refreshing-dictionary-data-using-lifetime).
 
-### Other dictionary types [#other-dictionary-types]
+### Other dictionary types 
 
 ClickHouse also supports [Hierarchical](/sql-reference/dictionaries#hierarchical-dictionaries), [Polygon](/sql-reference/dictionaries#polygon-dictionaries) and [Regular Expression](/sql-reference/dictionaries#regexp-tree-dictionary) dictionaries.
 
-### More reading [#more-reading]
+### More reading 
 
 - [Using Dictionaries to Accelerate Queries](https://clickhouse.com/blog/faster-queries-dictionaries-clickhouse)
 - [Advanced Configuration for Dictionaries](/sql-reference/dictionaries)

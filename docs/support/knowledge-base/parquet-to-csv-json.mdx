@@ -8,7 +8,7 @@ keywords: ['Converting', 'Parquet', 'CSV', 'JSON']
 
 
 
-## Converting Files from Parquet to CSV or JSON [#converting-files-from-parquet-to-csv-or-json]
+## Converting Files from Parquet to CSV or JSON
 
 You can use `clickhouse-local` to convert files between any of the [input and output formats](https://clickhouse.com/docs/interfaces/formats) that ClickHouse supports (which is over 70 different formats!). In this article, we are convert a Parquet file in S3 into a CSV and JSON file.
 
@@ -20,7 +20,7 @@ But first, let's download the `clickhouse` binary:
 curl https://clickhouse.com/ | sh
 ```
 
-## Accessing the data using a table function [#accessing-the-data-using-a-table-function]
+## Accessing the data using a table function
 
 Let's verify we can read the file by using `DESCRIBE` on the resulting table that the `s3` table function creates:
 
@@ -74,7 +74,7 @@ ASCOT	551491.2975753123
 WEYBRIDGE	548974.828692494
 ```
 
-## Convert the Parquet file to a CSV [#convert-the-parquet-file-to-a-csv]
+## Convert the Parquet file to a CSV
 
 You can send the result of any SQL query to a file. Let's grab all the columns from our Parquet file in S3 and send the output to a new CSV file. Because the output file ends in `.csv`, ClickHouse knows to use the `CSV` output format:
 
@@ -100,7 +100,7 @@ $ tail house_prices.csv
 250000,15950,"YO8","9YD","detached",0,"freehold","3","","ONE ACRE GARTH","HAMBLETON","SELBY","SELBY","NORTH YORKSHIRE"
 ```
 
-## Convert the Parquet file to a JSON [#convert-the-parquet-file-to-a-json]
+## Convert the Parquet file to a JSON
 
 To convert the Parquet file to JSON, simply change the extension on the output filename:
 
@@ -126,7 +126,7 @@ Let's verify it worked:
 {"price":"250000","date":15950,"postcode1":"YO8","postcode2":"9YD","type":"detached","is_new":0,"duration":"freehold","addr1":"3","addr2":"","street":"ONE ACRE GARTH","locality":"HAMBLETON","town":"SELBY","district":"SELBY","county":"NORTH YORKSHIRE"}
 ```
 
-## Convert CSV to Parquet [#convert-csv-to-parquet]
+## Convert CSV to Parquet
 
 It works both ways - we can easily read in the new CSV file and output it into a Parquet file. The local file `house_prices.csv` can be read in ClickHouse using the `file` table function, and ClickHouse outputs the file in Parquet format based on the filename ending in `.parquet` (or we could have added the `FORMAT Parquet` clause):
 

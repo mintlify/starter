@@ -10,7 +10,7 @@ doc_type: 'reference'
 
 The official Rust client for connecting to ClickHouse, originally developed by [Paul Loyd](https://github.com/loyd). The client source code is available in the [GitHub repository](https://github.com/ClickHouse/clickhouse-rs).
 
-## Overview [#overview]
+## Overview 
 
 * Uses `serde` for encoding/decoding rows.
 * Supports `serde` attributes: `skip_serializing`, `skip_deserializing`, `rename`.
@@ -21,7 +21,7 @@ The official Rust client for connecting to ClickHouse, originally developed by [
 * Provides APIs for selecting or inserting data, executing DDLs, and client-side batching.
 * Provides convenient mocks for unit testing.
 
-## Installation [#installation]
+## Installation 
 
 To use the crate, add the following to your `Cargo.toml`:
 
@@ -35,7 +35,7 @@ clickhouse = { version = "0.12.2", features = ["test-util"] }
 
 See also: [crates.io page](https://crates.io/crates/clickhouse).
 
-## Cargo features [#cargo-features]
+## Cargo features 
 
 * `lz4` (enabled by default) — enables `Compression::Lz4` and `Compression::Lz4Hc(_)` variants. If enabled, `Compression::Lz4` is used by default for all queries except for `WATCH`.
 * `native-tls` — supports urls with the `HTTPS` schema via `hyper-tls`, which links against OpenSSL.
@@ -51,26 +51,26 @@ When connecting to ClickHouse via an `HTTPS` url, either the `native-tls` or `ru
 If both are enabled, the `rustls-tls` feature will take precedence.
 :::
 
-## ClickHouse versions compatibility [#clickhouse-versions-compatibility]
+## ClickHouse versions compatibility 
 
 The client is compatible with the LTS or newer versions of ClickHouse, as well as ClickHouse Cloud.
 
 ClickHouse server older than v22.6 handles RowBinary [incorrectly in some rare cases](https://github.com/ClickHouse/ClickHouse/issues/37420). 
 You could use v0.11+ and enable `wa-37420` feature to solve this problem. Note: this feature should not be used with newer ClickHouse versions.
 
-## Examples [#examples]
+## Examples 
 
 We aim to cover various scenarios of client usage with the [examples](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples) in the client repository. The overview is available in the [examples README](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/README.md#overview).
 
 If something is unclear or missing from the examples or from the following documentation, feel free to [contact us](./rust.md#contact-us).
 
-## Usage [#usage]
+## Usage 
 
 <Note>
 [ch2rs](https://github.com/ClickHouse/ch2rs) crate is useful to generate a row type from ClickHouse.
 </Note>
 
-### Creating a client instance [#creating-a-client-instance]
+### Creating a client instance 
 
 <Tip>
 Reuse created clients or clone them in order to reuse the underlying hyper connection pool.
@@ -87,7 +87,7 @@ let client = Client::default()
     .with_database("test");
 ```
 
-### HTTPS or ClickHouse Cloud connection [#https-or-clickhouse-cloud-connection]
+### HTTPS or ClickHouse Cloud connection 
 
 HTTPS works with either `rustls-tls` or `native-tls` cargo features.
 
@@ -111,7 +111,7 @@ let client = Client::default()
 See also: 
 - [HTTPS with ClickHouse Cloud example](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/clickhouse_cloud.rs) in the client repo. This should be applicable to on-premise HTTPS connections as well.
 
-### Selecting rows [#selecting-rows]
+### Selecting rows 
 
 ```rust
 use serde::Deserialize;
@@ -146,7 +146,7 @@ NB: as the entire response is streamed, cursors can return an error even after p
 Use `wait_end_of_query` with caution when selecting rows, as it can will to higher memory consumption on the server side and will likely decrease the overall performance.
 </Warning>
 
-### Inserting rows [#inserting-rows]
+### Inserting rows 
 
 ```rust
 use serde::Serialize;
@@ -168,7 +168,7 @@ insert.end().await?;
 * Rows are being sent progressively as a stream to spread the network load.
 * ClickHouse inserts batches atomically only if all rows fit in the same partition and their number is less [`max_insert_block_size`](https://clickhouse.tech/docs/operations/settings/settings/#settings-max_insert_block_size).
 
-### Async insert (server-side batching) [#async-insert-server-side-batching]
+### Async insert (server-side batching) 
 
 You could use [ClickHouse asynchronous inserts](/optimize/asynchronous-inserts) to avoid client-side batching of the incoming data. This can be done by simply providing the `async_insert` option to the `insert` method (or even to the `Client` instance itself, so that it will affect all the `insert` calls).
 
@@ -182,7 +182,7 @@ let client = Client::default()
 See also:
 - [Async insert example](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/async_insert.rs) in the client repo.
 
-### Inserter feature (client-side batching) [#inserter-feature-client-side-batching]
+### Inserter feature (client-side batching) 
 
 Requires the `inserter` cargo feature.
 
@@ -221,7 +221,7 @@ inserter.end().await?;
 ```
 </Warning>
 
-### Executing DDLs [#executing-ddls]
+### Executing DDLs 
 
 With a single-node deployment, it is enough to execute DDLs like this:
 
@@ -239,7 +239,7 @@ client
     .await?;
 ```
 
-### ClickHouse settings [#clickhouse-settings]
+### ClickHouse settings 
 
 You can apply various [ClickHouse settings](/operations/settings/settings) using the `with_option` method. For example:
 
@@ -255,7 +255,7 @@ let numbers = client
 
 Besides `query`, it works similarly with `insert` and `inserter` methods; additionally, the same method can be called on the `Client` instance to set global settings for all queries.
 
-### Query ID [#query-id]
+### Query ID 
 
 Using `.with_option`, you can set the `query_id` option to identify queries in the ClickHouse query log.
 
@@ -275,7 +275,7 @@ If you set `query_id` manually, make sure that it is unique. UUIDs are a good ch
 
 See also: [query_id example](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/query_id.rs) in the client repo.
 
-### Session ID [#session-id]
+### Session ID 
 
 Similarly to `query_id`, you can set the `session_id` to execute the statements in the same session. `session_id` can be set either globally on the client level, or per `query`, `insert`, or `inserter` call.
 
@@ -291,7 +291,7 @@ With clustered deployments, due to lack of "sticky sessions", you need to be con
 
 See also: [session_id example](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/session_id.rs) in the client repo.
 
-### Custom HTTP headers [#custom-http-headers]
+### Custom HTTP headers 
 
 If you are using proxy authentication or need to pass custom headers, you can do it like this:
 
@@ -303,7 +303,7 @@ let client = Client::default()
 
 See also: [custom HTTP headers example](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/custom_http_headers.rs) in the client repo.
 
-### Custom HTTP client [#custom-http-client]
+### Custom HTTP client 
 
 This could be useful for tweaking the underlying HTTP connection pool settings.
 
@@ -331,7 +331,7 @@ This example relies on the legacy Hyper API and is a subject to change in the fu
 
 See also: [custom HTTP client example](https://github.com/ClickHouse/clickhouse-rs/blob/main/examples/custom_http_client.rs) in the client repo.
 
-## Data types [#data-types]
+## Data types 
 
 <Note>
 See also the additional examples:
@@ -499,14 +499,14 @@ struct MyRow {
 
 * `Variant`, `Dynamic`, (new) `JSON` data types aren't supported yet.
 
-## Mocking [#mocking]
+## Mocking 
 The crate provides utils for mocking CH server and testing DDL, `SELECT`, `INSERT` and `WATCH` queries. The functionality can be enabled with the `test-util` feature. Use it **only** as a dev-dependency.
 
 See [the example](https://github.com/ClickHouse/clickhouse-rs/tree/main/examples/mock.rs).
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### CANNOT_READ_ALL_DATA [#cannot_read_all_data]
+### CANNOT_READ_ALL_DATA 
 
 The most common cause for the `CANNOT_READ_ALL_DATA` error is that the row definition on the application side does match that in ClickHouse. 
 
@@ -542,11 +542,11 @@ struct EventLog {
 }
 ```
 
-## Known limitations [#known-limitations]
+## Known limitations 
 
 * `Variant`, `Dynamic`, (new) `JSON` data types aren't supported yet.
 * Server-side parameter binding is not supported yet; see [this issue](https://github.com/ClickHouse/clickhouse-rs/issues/142) for tracking.
 
-## Contact us [#contact-us]
+## Contact us 
 
 If you have any questions or need help, feel free to reach out to us in the [Community Slack](https://clickhouse.com/slack) or via [GitHub issues](https://github.com/ClickHouse/clickhouse-rs/issues).

@@ -4,7 +4,7 @@ icon: 'house'
 title: 'Quick starts explorer'
 description: 'Explore quick start guides to get up and running with ClickHouse'
 keywords: ['quick starts', 'explore', 'getting started', 'tutorials']
-mode: 'frame'
+mode: 'custom'
 ---
 
 import { QuickStartsGrid } from '/snippets/components/QuickStartsGrid/QuickStartsGrid.jsx'
@@ -17,6 +17,14 @@ export const quickStartsData = [
     description: 'Learn how to ingest data from CSV and parquet files into ClickHouse Cloud',
     href: '/docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse',
     useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+  },
+  {
+    id: 'create-your-first-service-on-cloud',
+    title: 'Create your first Cloud service and load example data',
+    description: 'Get setup with Cloud by creating a service and loading an example dataset',
+    href: '/docs/get-started/quick-starts/create-your-first-service-on-cloud',
+    useCases: ['Data warehousing', 'Real-time analytics', 'Observability', 'AI/ML'],
     products: ['Cloud'],
   },
   {
@@ -37,7 +45,7 @@ export const quickStartsData = [
   },
   {
     id: 'query-json-s3-using-chdb',
-    title: 'Getting started with chDB',
+    title: 'Querying JSON from S3 with chDB',
     description: 'Learn to query data from S3 and insert it into a table using chDB',
     href: '/docs/get-started/quick-starts/query-json-s3-using-chdb',
     useCases: ['Real-time analytics'],
@@ -53,5 +61,20 @@ export const quickStartsData = [
   },
 ];
 
-{/* Render the QuickStartsGrid component */}
-<QuickStartsGrid quickStartsData={quickStartsData} />
+<div className="relative">
+    <div className="absolute -top-14 left-0 right-0 opacity-80">
+        <img
+            src="/images/background-light.svg"
+            className="block dark:hidden pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+        <img
+            src="/images/background-dark.svg"
+            className="hidden dark:block pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+    </div>
+
+    {/* Render the QuickStartsGrid component */}
+    <QuickStartsGrid quickStartsData={quickStartsData} />
+</div>

@@ -8,7 +8,7 @@ doc_type: 'guide'
 
 Understanding effective schema design is key to optimizing ClickHouse performance and includes choices that often involve trade-offs, with the optimal approach depending on the queries being served as well as factors such as data update frequency, latency requirements, and data volume. This guide provides an overview of schema design best practices and data modeling techniques for optimizing ClickHouse performance.
 
-## Stack Overflow dataset [#stack-overflow-dataset]
+## Stack Overflow dataset 
 
 For the examples in this guide, we use a subset of the Stack Overflow dataset. This contains every post, vote, user, comment and badge that has occurred on Stack Overflow from 2008 to Apr 2024. This data is available in Parquet using the schemas below under the S3 bucket `s3://datasets-documentation/stackoverflow/parquet/`:
 
@@ -22,7 +22,7 @@ The Stack Overflow dataset contains a number of related tables. In any data mode
 
 The above schema is intentionally not optimal for the purposes of this guide.
 
-## Establish initial schema [#establish-initial-schema]
+## Establish initial schema 
 
 Since the `posts` table will be the target for most analytics queries, we focus on establishing a schema for this table. This data is available in the public S3 bucket `s3://datasets-documentation/stackoverflow/parquet/posts/*.parquet` with a file per year.
 
@@ -122,7 +122,7 @@ INSERT INTO posts SELECT * FROM s3('https://datasets-documentation.s3.eu-west-3.
 
 > The above query loads 60m rows. While small for ClickHouse, users with slower internet connections may wish to load a subset of data. This can be achieved by simply specifying the years they wish to load via a glob pattern e.g. `https://datasets-documentation.s3.eu-west-3.amazonaws.com/stackoverflow/parquet/posts/2008.parquet` or `https://datasets-documentation.s3.eu-west-3.amazonaws.com/stackoverflow/parquet/posts/{2008, 2009}.parquet`. See [here](/sql-reference/table-functions/file#globs-in-path) for how glob patterns can be used to target subsets of files.
 
-## Optimizing Types [#optimizing-types]
+## Optimizing Types 
 
 One of the secrets to ClickHouse query performance is compression.
 
@@ -217,7 +217,7 @@ We don't retain any nulls in our new schema. The above insert converts these imp
 Primary (Ordering) Keys in ClickHouse
 Users coming from OLTP databases often look for the equivalent concept in ClickHouse.
 
-## Choosing an ordering key [#choosing-an-ordering-key]
+## Choosing an ordering key 
 
 At the scale at which ClickHouse is often used, memory and disk efficiency are paramount. Data is written to ClickHouse tables in chunks known as parts, with rules applied for merging the parts in the background. In ClickHouse, each part has its own primary index. When parts are merged, then the merged part's primary indexes are also merged. The primary index for a part has one index entry per group of rows - this technique is called sparse indexing.
 
@@ -236,7 +236,7 @@ Prefer columns which help exclude a large percentage of the total rows when filt
 
 When identifying the subset of columns for the ordering key, declare the columns in a specific order. This order can significantly influence both the efficiency of the filtering on secondary key columns in queries, and the compression ratio for the table's data files. In general, it is best to order the keys in ascending order of cardinality. This should be balanced against the fact that filtering on columns that appear later in the ordering key will be less efficient than filtering on those that appear earlier in the tuple. Balance these behaviors and consider your access patterns (and most importantly test variants).
 
-### Example [#example]
+### Example 
 
 Applying the above guidelines to our `posts` table, let's assume that our users wish to perform analytics which filter by date and post type e.g.:
 
@@ -323,7 +323,7 @@ LIMIT 3
 
 For users interested in the compression improvements achieved by using specific types and appropriate ordering keys, see [Compression in ClickHouse](/data-compression/compression-in-clickhouse). If users need to further improve compression we also recommend the section [Choosing the right column compression codec](/data-compression/compression-in-clickhouse#choosing-the-right-column-compression-codec).
 
-## Next: Data Modeling Techniques [#next-data-modeling-techniques]
+## Next: Data Modeling Techniques 
 
 Until now, we've migrated only a single table. While this has allowed us to introduce some core ClickHouse concepts, most schemas are unfortunately not this simple.
 

@@ -7,7 +7,7 @@ keywords: ['billing compliance', 'pay-as-you-go']
 doc_type: 'guide'
 ---
 
-## Billing compliance [#billing-compliance]
+## Billing compliance 
 
 Your use of ClickHouse Cloud requires your organization to have an active and 
 valid billing method configured. After your 30 day trial ends or your trial 
@@ -29,7 +29,7 @@ to process a payment using your current billing method, you must update it to on
 of the three options listed above to avoid service disruption. See below for more
 details about payment compliance based on your chosen billing method.
 
-### Pay-as-you-go billing with a credit card [#direct-payg]
+### Pay-as-you-go billing with a credit card 
 
 You can pay for your ClickHouse Cloud usage monthly in arrears using a credit card.
 To add a credit card, follow these [instructions](#add-credit-card).
@@ -57,7 +57,7 @@ within the organization will be stopped. If payment is still not received by the
 end of this 30 day period and we have not granted an extension, all data and 
 services associated with your organization will be deleted.
 
-### Cloud marketplace pay-as-you-go billing [#cloud-marketplace-payg]
+### Cloud marketplace pay-as-you-go billing 
 
 Pay-As-You-Go billing can also be configured to charge an organization through one of our supported cloud marketplaces 
 (AWS, GCP, or Azure). To sign up for Marketplace PAYG billing, follow these 
@@ -85,7 +85,7 @@ for help. If a valid credit card has not been provided, the same unpaid invoice
 restrictions outlined above for [Direct PAYG](#direct-payg) will apply - this 
 includes service suspension and eventual data deletion.
 
-### Committed contract billing [#committed-spend-contract]
+### Committed contract billing 
 
 You may purchase credits for your organization through a committed contract by:
 
@@ -127,7 +127,7 @@ deleted after any period of time.
 If you’d like to add additional credits before your existing ones expire or are 
 depleted, please [contact us](https://clickhouse.com/company/contact).
 
-### How to pay using a credit card [#add-credit-card]
+### How to pay using a credit card 
 
 Go to the Billing section in the ClickHouse Cloud UI and click the 'Add Credit Card'
 button (shown below) to complete the setup. If you have any questions, please 
@@ -135,7 +135,7 @@ button (shown below) to complete the setup. If you have any questions, please
 
 <img src="/images/cloud/manage/billing_compliance.png" alt="How to add a credit card"/>
 
-## How to pay via marketplaces [#marketplace-payg]
+## How to pay via marketplaces 
 
 If you want to pay through one of our supported marketplaces (AWS, GCP, or Azure),
 you can follow the steps [here](/cloud/marketplace/marketplace-billing) for help. 

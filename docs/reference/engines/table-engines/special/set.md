@@ -21,11 +21,11 @@ Data is always located in RAM. For `INSERT`, the blocks of inserted data are als
 
 For a rough server restart, the block of data on the disk might be lost or damaged. In the latter case, you may need to manually delete the file with damaged data.
 
-### Limitations and settings [#join-limitations-and-settings]
+### Limitations and settings 
 
 When creating a table, the following settings are applied:
 
-#### Persistent [#persistent]
+#### Persistent 
 
 Disables persistency for the Set and [Join](/engines/table-engines/special/join) table engines.
 

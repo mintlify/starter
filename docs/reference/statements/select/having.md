@@ -10,7 +10,7 @@ Allows filtering the aggregation results produced by [GROUP BY](/sql-reference/s
 
 It is possible to reference aggregation results from `SELECT` clause in `HAVING` clause by their alias. Alternatively, `HAVING` clause can filter on results of additional aggregates that are not returned in query results.
 
-## Example [#example]
+## Example 
 If you have a `sales` table as follows:
 ```sql
 CREATE TABLE sales
@@ -36,6 +36,6 @@ HAVING total_sales > 10000
 ORDER BY total_sales DESC;
 ```
 This will list sales people with greater than 10,000 in total sales in their region.
-## Limitations [#limitations]
+## Limitations 
 
 `HAVING` can't be used if aggregation is not performed. Use `WHERE` instead.

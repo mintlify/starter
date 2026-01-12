@@ -10,7 +10,7 @@ keywords: ['schema registries', 'kafka', 'clickpipes', 'avro', 'confluent']
 
 ClickPipes supports schema registries for Avro data streams.
 
-## Supported registries for Kafka ClickPipes [#supported-schema-registries]
+## Supported registries for Kafka ClickPipes 
 
 Schema registries that are API-compatible with the Confluent Schema Registry are supported. This includes:
 
@@ -19,7 +19,7 @@ Schema registries that are API-compatible with the Confluent Schema Registry are
 
 ClickPipes does not support AWS Glue Schema Registry or Azure Schema Registry yet. If you require support for these schema registries, [reach out to our team](https://clickhouse.com/company/contact?loc=clickpipes).
 
-## Configuration [#schema-registry-configuration]
+## Configuration 
 
 ClickPipes with Avro data require a schema registry. This can be configured in one of three ways:
 
@@ -28,7 +28,7 @@ ClickPipes with Avro data require a schema registry. This can be configured in o
 2. Providing a complete path to the schema id (e.g. `https://registry.example.com/schemas/ids/1000`)
 3. Providing the root schema registry URL (e.g. `https://registry.example.com`)
 
-## How it works [#how-schema-registries-work]
+## How it works 
 
 ClickPipes dynamically retrieves and applies the Avro schema from the configured schema registry.
 - If there's a schema id embedded in the message, it will use that to retrieve the schema.
@@ -36,7 +36,7 @@ ClickPipes dynamically retrieves and applies the Avro schema from the configured
 - If the message is written without an embedded schema id, and no schema id or subject name is specified in the ClickPipe configuration, then the schema will not be retrieved and the message will be skipped with a `SOURCE_SCHEMA_ERROR` logged in the ClickPipes errors table.
 - If the message does not conform to the schema, then the message will be skipped with a `DATA_PARSING_ERROR` logged in the ClickPipes errors table.
 
-## Schema mapping [#schema-mapping]
+## Schema mapping 
 
 The following rules are applied to the mapping between the retrieved Avro schema and the ClickHouse destination table:
 

@@ -8,11 +8,11 @@ doc_type: 'guide'
 
 import Syntax from '/snippets/_syntax.mdx';
 
-## Syntax [#syntax]
+## Syntax 
 
 <Syntax />
 
-## Configuring BACKUP / RESTORE to use an AzureBlobStorage endpoint [#configuring-backuprestore-to-use-an-azureblobstorage-endpoint]
+## Configuring BACKUP / RESTORE to use an AzureBlobStorage endpoint 
 
 To write backups to an AzureBlobStorage container you need the following pieces of information:
 - AzureBlobStorage endpoint connection string / url,

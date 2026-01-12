@@ -28,7 +28,7 @@ Some straightforward guidelines can significantly enhance the schema:
 
 * **Enums for data validation:** The Enum type can be used to efficiently encode enumerated types. Enums can either be 8 or 16 bits, depending on the number of unique values they are required to store. Consider using this if you need either the associated validation at insert time (undeclared values will be rejected) or wish to perform queries which exploit a natural ordering in the Enum values e.g. imagine a feedback column containing user responses Enum(':(' = 1, ':|' = 2, ':)' = 3).
 
-## Example [#example]
+## Example 
 
 ClickHouse offers built-in tools to streamline type optimization. For example, schema inference can automatically identify initial types. Consider the Stack Overflow dataset, publicly available in Parquet format. Running a simple schema inference via the [`DESCRIBE`](/sql-reference/statements/describe-table) command provides an initial non-optimized schema. 
 
@@ -135,6 +135,6 @@ ENGINE = MergeTree
 ORDER BY tuple()
 ```
 
-## Avoid nullable columns [#avoid-nullable-columns]
+## Avoid nullable columns 
 
 <AvoidNullableColumns />

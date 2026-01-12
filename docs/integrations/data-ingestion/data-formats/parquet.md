@@ -18,7 +18,7 @@ If you're using [`clickhouse-local`](/operations/utilities/clickhouse-local.md) 
 If you're using ClickHouse Server or ClickHouse Cloud via `clickhouse client`, it will read from a location relative to the `/var/lib/clickhouse/user_files/` directory on the server.
 </Tip>
 
-## Importing from Parquet [#importing-from-parquet]
+## Importing from Parquet 
 
 Before loading data, we can use [file()](/sql-reference/functions/files.md/#file) function to explore an [example parquet file](assets/data.parquet) structure:
 
@@ -56,7 +56,7 @@ We can skip explicit format setting for `file()` and `INFILE`/`OUTFILE`.
 In that case, ClickHouse will automatically detect format based on file extension.
 </Tip>
 
-## Importing to an existing table [#importing-to-an-existing-table]
+## Importing to an existing table 
 
 Let's create a table into which we'll import Parquet data:
 
@@ -93,7 +93,7 @@ LIMIT 5;
 
 Note how ClickHouse automatically converted Parquet strings (in the `date` column) to the `Date` type. This is because ClickHouse does a typecast automatically based on the types in the target table.
 
-## Inserting a local file to remote server [#inserting-a-local-file-to-remote-server]
+## Inserting a local file to remote server 
 
 If you want to insert a local Parquet file to a remote ClickHouse server, you can do this by piping the contents of the file into `clickhouse-client`, as shown below:
 
@@ -101,7 +101,7 @@ If you want to insert a local Parquet file to a remote ClickHouse server, you ca
 clickhouse client -q "INSERT INTO sometable FORMAT Parquet" < data.parquet
 ```
 
-## Creating new tables from Parquet files [#creating-new-tables-from-parquet-files]
+## Creating new tables from Parquet files 
 
 Since ClickHouse reads parquet file schema, we can create tables on the fly:
 
@@ -128,7 +128,7 @@ DESCRIBE TABLE imported_from_parquet;
 
 By default, ClickHouse is strict with column names, types, and values. But sometimes, we can skip nonexistent columns or unsupported values during import. This can be managed with [Parquet settings](/interfaces/formats/Parquet#format-settings).
 
-## Exporting to Parquet format [#exporting-to-parquet-format]
+## Exporting to Parquet format 
 
 <Tip>
 When using `INTO OUTFILE` with ClickHouse Cloud you will need to run the commands in `clickhouse client` on the machine where the file will be written to.
@@ -145,7 +145,7 @@ FORMAT Parquet
 
 This will create the `export.parquet` file in a working directory.
 
-## ClickHouse and Parquet data types [#clickhouse-and-parquet-data-types]
+## ClickHouse and Parquet data types 
 ClickHouse and Parquet data types are mostly identical but still [differ a bit](/interfaces/formats/Parquet#data-types-matching-parquet). For example, ClickHouse will export `DateTime` type as a Parquets' `int64`. If we then import that back to ClickHouse, we're going to see numbers ([time.parquet file](assets/time.parquet)):
 
 ```sql
@@ -179,7 +179,7 @@ FROM file('time.parquet', Parquet);
 └───┴─────────────────────┘
 ```
 
-## Further reading [#further-reading]
+## Further reading 
 
 ClickHouse introduces support for many formats, both text, and binary, to cover various scenarios and platforms. Explore more formats and ways to work with them in the following articles:
 

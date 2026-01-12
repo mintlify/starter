@@ -19,11 +19,11 @@ In this guide, we show examples of how to take full and incremental backups to A
 Users should be aware that any usage where backups are being exported to a different region in the same cloud provider, will incur [data transfer](/cloud/manage/network-data-transfer) charges.  Currently we do not support cross cloud backups.
 </Note>
 
-## Requirements [#requirements]
+## Requirements 
 
 You will need the following details to export/restore backups to your own CSP storage bucket.
 
-### AWS [#aws]
+### AWS 
 
 1. AWS S3 endpoint, in the format:
 
@@ -45,13 +45,13 @@ You will need the following details to export/restore backups to your own CSP st
 In order to use role based authentication, please follow the Secure s3 [setup](https://clickhouse.com/docs/cloud/security/secure-s3). In addition, you will need to add `s3:PutObject`, and `s3:DeleteObject` permissions to the IAM policy described [here.](https://clickhouse.com/docs/cloud/security/secure-s3#option-2-manually-create-iam-role)
 </Note>
 
-### Azure [#azure]
+### Azure 
 
 1. Azure storage connection string.
 2. Azure container name in the storage account.
 3. Azure Blob within the container.
 
-### Google Cloud Storage (GCS) [#google-cloud-storage-gcs]
+### Google Cloud Storage (GCS) 
 
 1. GCS endpoint, in the format:
 
@@ -63,9 +63,9 @@ In order to use role based authentication, please follow the Secure s3 [setup](h
 <hr/>
 # Backup / Restore
 
-## Backup / Restore to AWS S3 Bucket [#backup--restore-to-aws-s3-bucket]
+## Backup / Restore to AWS S3 Bucket 
 
-### Take a DB backup [#take-a-db-backup]
+### Take a DB backup 
 
 **Full Backup**
 
@@ -89,7 +89,7 @@ TO S3('https://testchbackups.s3.amazonaws.com/backups/<uuid>', '<key id>', '<key
 SETTINGS base_backup = S3('https://testchbackups.s3.amazonaws.com/backups/<base-backup-uuid>', '<key id>', '<key secret>')
 ```
 
-### Restore from a backup [#restore-from-a-backup]
+### Restore from a backup 
 
 ```sql
 RESTORE DATABASE test_backups 
@@ -99,9 +99,9 @@ FROM S3('https://testchbackups.s3.amazonaws.com/backups/<uuid>', '<key id>', '<k
 
 See: [Configuring BACKUP/RESTORE to use an S3 Endpoint](/operations/backup#configuring-backuprestore-to-use-an-s3-endpoint) for more details.
 
-## Backup / Restore to Azure Blob Storage [#backup--restore-to-azure-blob-storage]
+## Backup / Restore to Azure Blob Storage 
 
-### Take a DB backup [#take-a-db-backup-1]
+### Take a DB backup 
 
 **Full Backup**
 
@@ -120,7 +120,7 @@ TO AzureBlobStorage('<AzureBlobStorage endpoint connection string>', '<container
 SETTINGS base_backup = AzureBlobStorage('<AzureBlobStorage endpoint connection string>', '<container>', '<blob>/<uuid>')
 ```
 
-### Restore from a backup [#restore-from-a-backup-1]
+### Restore from a backup 
 
 ```sql
 RESTORE DATABASE test_backups 
@@ -130,9 +130,9 @@ FROM AzureBlobStorage('<AzureBlobStorage endpoint connection string>', '<contain
 
 See: [Configuring BACKUP/RESTORE to use an S3 Endpoint](/operations/backup#configuring-backuprestore-to-use-an-azureblobstorage-endpoint) for more details.
 
-## Backup / Restore to Google Cloud Storage (GCS) [#backup--restore-to-google-cloud-storage-gcs]
+## Backup / Restore to Google Cloud Storage (GCS) 
 
-### Take a DB backup [#take-a-db-backup-2]
+### Take a DB backup 
 
 **Full Backup**
 
@@ -150,7 +150,7 @@ TO S3('https://storage.googleapis.com/test_gcs_backups/<uuid>/my_incremental', '
 SETTINGS base_backup = S3('https://storage.googleapis.com/test_gcs_backups/<uuid>', 'key', 'secret')
 ```
 
-### Restore from a backup [#restore-from-a-backup-2]
+### Restore from a backup 
 
 ```sql
 RESTORE DATABASE test_backups 

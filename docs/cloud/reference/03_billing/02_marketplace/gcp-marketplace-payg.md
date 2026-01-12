@@ -8,12 +8,12 @@ doc_type: 'guide'
 
 Get started with ClickHouse Cloud on the [GCP Marketplace](https://console.cloud.google.com/marketplace) via a PAYG (Pay-as-you-go) Public Offer.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 - A GCP project that is enabled with purchasing rights by your billing administrator.
 - To subscribe to ClickHouse Cloud on the GCP Marketplace, you must be logged in with an account that has purchasing rights and choose the appropriate project.
 
-## Steps to sign up [#steps-to-sign-up]
+## Steps to sign up 
 
 1. Go to the [GCP Marketplace](https://cloud.google.com/marketplace) and search for ClickHouse Cloud. Make sure you have the correct project chosen.
 

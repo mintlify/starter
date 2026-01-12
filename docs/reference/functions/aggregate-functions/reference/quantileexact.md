@@ -7,7 +7,7 @@ title: 'quantileExact Functions'
 doc_type: 'reference'
 ---
 
-## quantileExact [#quantileexact]
+## quantileExact 
 
 Exactly computes the [quantile](https://en.wikipedia.org/wiki/Quantile) of a numeric data sequence.
 
@@ -71,7 +71,7 @@ Result:
 └───────────────────────┘
 ```
 
-## quantileExactLow [#quantileexactlow]
+## quantileExactLow 
 
 Similar to `quantileExact`, this computes the exact [quantile](https://en.wikipedia.org/wiki/Quantile) of a numeric data sequence.
 
@@ -129,7 +129,7 @@ Result:
 │                        4 │
 └──────────────────────────┘
 ```
-## quantileExactHigh [#quantileexacthigh]
+## quantileExactHigh 
 
 Similar to `quantileExact`, this computes the exact [quantile](https://en.wikipedia.org/wiki/Quantile) of a numeric data sequence.
 
@@ -180,7 +180,7 @@ Result:
 └───────────────────────────┘
 ```
 
-## quantileExactExclusive [#quantileexactexclusive]
+## quantileExactExclusive 
 
 Exactly computes the [quantile](https://en.wikipedia.org/wiki/Quantile) of a numeric data sequence.
 
@@ -232,7 +232,7 @@ Result:
 └────────────────────────────────┘
 ```
 
-## quantileExactInclusive [#quantileexactinclusive]
+## quantileExactInclusive 
 
 Exactly computes the [quantile](https://en.wikipedia.org/wiki/Quantile) of a numeric data sequence.
 

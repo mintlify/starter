@@ -8,7 +8,7 @@ keywords: ['visualizing']
 doc_type: 'guide'
 ---
 
-## Dataset [#dataset]
+## Dataset 
 
 This dataset by Foursquare is available to [download](https://docs.foursquare.com/data-products/docs/access-fsq-os-places)
 and to use for free under the Apache 2.0 license.
@@ -18,7 +18,7 @@ such as shops, restaurants, parks, playgrounds, and monuments. It also includes
 additional metadata about those places, such as categories and social media
 information.
 
-## Data exploration [#data-exploration]
+## Data exploration 
 
 For exploring the data we'll use [`clickhouse-local`](https://clickhouse.com/blog/extracting-converting-querying-local-files-with-sql-clickhouse-local), a small command-line tool 
 that provides the full ClickHouse engine, although you could also use 
@@ -142,7 +142,7 @@ DESCRIBE s3('s3://fsq-os-places-us-east-1/release/dt=2025-04-08/places/parquet/*
     └─────────────────────┴─────────────────────────────┘
 ```
 
-## Loading the data into ClickHouse [#loading-the-data]
+## Loading the data into ClickHouse 
 
 If you'd like to persist the data on disk, you can use `clickhouse-server` 
 or ClickHouse Cloud. 
@@ -255,7 +255,7 @@ INSERT INTO foursquare_mercator
 SELECT * FROM s3('s3://fsq-os-places-us-east-1/release/dt=2025-04-08/places/parquet/*')
 ```
 
-## Visualizing the data [#data-visualization]
+## Visualizing the data 
 
 To see what's possible with this dataset, check out [adsb.exposed](https://adsb.exposed/?dataset=Places&zoom=5&lat=52.3488&lng=4.9219).
 adsb.exposed was originally built by co-founder and CTO Alexey Milovidov to visualize ADS-B (Automatic Dependent Surveillance-Broadcast) 

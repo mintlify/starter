@@ -8,7 +8,7 @@ keywords: ['MySQL', 'Parquet', 'CSV', 'JSON']
 
 
 
-## Exporting MySQL Data to Parquet, CSV, or JSON Using ClickHouse [#exporting-mysql-data-to-parquet-csv-or-json-using-clickhouse]
+## Exporting MySQL Data to Parquet, CSV, or JSON Using ClickHouse
 
 The `clickhouse-local` tool makes it quick and easy to read data from MySQL and output the data into lots of different formats, including Parquet, CSV, and JSON. We are going to:
 
@@ -21,7 +21,7 @@ The `clickhouse-local` tool is a part of the ClickHouse binary. Download it usin
 curl https://clickhouse.com/ | sh
 ```
 
-## Export MySQL to Parquet [#export-mysql-to-parquet]
+## Export MySQL to Parquet
 
 The `mysql` table function creates a table based on the results of a query sent to a MySQL instance. For example:
 
@@ -55,7 +55,7 @@ INTO OUTFILE 'my_output_file.parquet'"
 Because the name of the output file has a `.parquet` extension, ClickHouse assumes we want the Parquet format, so notice we omitted the `FORMAT Parquet` clause.
 :::
 
-## Export MySQL to CSV [#export-mysql-to-csv]
+## Export MySQL to CSV
 
 It's the same as for Parquet, except this time we use a `.csv` extension on the filename. ClickHouse will realize we want a comma-separated output and that's how the data will be written to the file:
 
@@ -71,7 +71,7 @@ It's the same as for Parquet, except this time we use a `.csv` extension on the 
 INTO OUTFILE 'my_output_file.csv'"
 ```
 
-## Export MySQL to JSON [#export-mysql-to-json]
+## Export MySQL to JSON
 
 To go from MySQL to JSON, just change the extension on the filename to `jsonl` or `ndjson`:
 

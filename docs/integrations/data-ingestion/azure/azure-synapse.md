@@ -16,7 +16,7 @@ Within Synapse, Spark pools provide on-demand, scalable [Apache Spark](https://s
 
 This article will show you how to integrate the [ClickHouse Spark connector](/integrations/apache-spark/spark-native-connector) when working with Apache Spark within Azure Synapse.
 
-## Add the connector's dependencies [#add-connector-dependencies]
+## Add the connector's dependencies 
 Azure Synapse supports three levels of [packages maintenance](https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-azure-portal-add-libraries):
 1. Default packages
 2. Spark pool level
@@ -30,7 +30,7 @@ Follow the [Manage libraries for Apache Spark pools guide](https://learn.microso
 
 Please visit our [Spark Connector Compatibility Matrix](/integrations/apache-spark/spark-native-connector#compatibility-matrix) docs to understand which versions suit your needs.
 
-## Add ClickHouse as a catalog [#add-clickhouse-as-catalog]
+## Add ClickHouse as a catalog 
 
 There are a variety of ways to add Spark configs to your session:
 * Custom configuration file to load with your session
@@ -67,14 +67,14 @@ Please visit the [ClickHouse Spark configurations page](/integrations/apache-spa
 When working with ClickHouse Cloud Please make sure to set the [required Spark settings](/integrations/apache-spark/spark-native-connector#clickhouse-cloud-settings).  
 </Info>
 
-## Setup verification [#setup-verification]
+## Setup verification 
 
 To verify that the dependencies and configurations were set successfully, please visit your session's Spark UI, and go to your `Environment` tab.
 There, look for your ClickHouse related settings:
 
 <img src="/images/integrations/data-ingestion/azure-synapse/spark_ui_ch_settings.png" alt="Verifying ClickHouse settings using Spark UI"/>
 
-## Additional resources [#additional-resources]
+## Additional resources 
 
 - [ClickHouse Spark Connector Docs](/integrations/apache-spark)
 - [Azure Synapse Spark Pools Overview](https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-overview)

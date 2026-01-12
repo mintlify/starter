@@ -1,4 +1,4 @@
-## JSON type support [#json-type-support]
+## JSON type support 
 
 <BetaBadge/>
 

@@ -7,7 +7,7 @@ sidebarTitle: 'Overview'
 doc_type: 'guide'
 ---
 
-## Why use ClickHouse over Postgres? [#why-use-clickhouse-over-postgres]
+## Why use ClickHouse over Postgres? 
 
 TLDR: Because ClickHouse is designed for fast analytics, specifically `GROUP BY` queries, as an OLAP database whereas Postgres is an OLTP database designed for transactional workloads.
 
@@ -19,25 +19,25 @@ See [here](/migrations/postgresql/appendix#postgres-vs-clickhouse-equivalent-and
 
 To see the potential performance differences between ClickHouse and Postgres on analytical queries, see [Rewriting PostgreSQL Queries in ClickHouse](/migrations/postgresql/rewriting-queries).
 
-## Migration strategies [#migration-strategies]
+## Migration strategies 
 
 When migrating from PostgreSQL to ClickHouse, the right strategy depends on your use case, infrastructure, and data requirements. In general, real-time Change Data Capture (CDC) is the best approach for most modern use cases, while manual bulk loading followed by periodic updates is suitable for simpler scenarios or one-time migrations.
 
 Below section describes the two main strategies for migration: **Real-Time CDC** and **Manual Bulk Load + Periodic Updates**.
 
-### Real-time replication (CDC) [#real-time-replication-cdc]
+### Real-time replication (CDC) 
 
 Change Data Capture (CDC) is the process by which tables are kept in sync between two databases. It is the most efficient approach for most migration from PostgreSQL, but yet more complex as it handles insert, updates and deletes from PostgreSQL to ClickHouse in near real-time. It is ideal for use cases where real-time analytics are important. 
 
 Real-time Change Data Capture (CDC) can be implemented in ClickHouse using [ClickPipes](/integrations/clickpipes/postgres/deduplication), if you're using ClickHouse Cloud, or [PeerDB](https://github.com/PeerDB-io/peerdb) in case you're running ClickHouse on-prem. Those solutions handles the complexities of real-time data synchronization, including initial load, by capturing inserts, updates, and deletes from PostgreSQL and replicating them in ClickHouse. This approach ensures that the data in ClickHouse is always fresh and accurate without requiring manual intervention.
 
-### Manual bulk load + periodic updates [#manual-bulk-load-periodic-updates]
+### Manual bulk load + periodic updates 
 
 In some cases, a more straightforward approach like manual bulk loading followed by periodic updates may be sufficient. This strategy is ideal for one-time migrations or situations where real-time replication is not required. It involves loading data from PostgreSQL to ClickHouse in bulk, either through direct SQL `INSERT` commands or by exporting and importing CSV files. After the initial migration, you can periodically update the data in ClickHouse by syncing changes from PostgreSQL at regular intervals.
 
 The bulk load process is simple and flexible but comes with the downside of no real-time updates. Once the initial data is in ClickHouse, updates won't be reflected immediately, so you must schedule periodic updates to sync the changes from PostgreSQL. This approach works well for less time-sensitive use cases, but it introduces a delay between when data changes in PostgreSQL and when those changes appear in ClickHouse.
 
-### Which strategy to choose? [#which-strategy-to-choose]
+### Which strategy to choose? 
 
 For most applications that require fresh, up-to-date data in ClickHouse, real-time CDC through ClickPipes is the recommended approach. It provides continuous data syncing with minimal setup and maintenance. On the other hand, manual bulk loading with periodic updates is a viable option for simpler, one-off migrations or workloads where real-time updates aren't critical.
 

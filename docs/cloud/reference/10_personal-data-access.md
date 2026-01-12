@@ -7,7 +7,7 @@ doc_type: 'reference'
 keywords: ['ClickHouse Cloud', 'personal data', 'DSAR', 'data subject access request', 'privacy policy', 'GDPR']
 ---
 
-## Intro [#intro]
+## Intro 
 
 As a registered user, ClickHouse allows you to view and manage your personal account data, including contact information. Depending on your role, this may also include access to the contact information of other users in your organization, API key details, and other relevant information. You can manage these details directly through the ClickHouse console on a self-serve basis.
 
@@ -19,7 +19,7 @@ Depending on where you are located, applicable law may also provide you addition
 
 Please review ClickHouse's Privacy Policy for details on personal data that ClickHouse collects and how it may be used.
 
-## Self service [#self-service]
+## Self service 
 
 By default, ClickHouse empowers users to view their personal data directly from the ClickHouse console.
 
@@ -37,7 +37,7 @@ Below is a summary of the data ClickHouse collects during account setup and serv
 
 Note: URLs with `OrgID` need to be updated to reflect the `OrgID` for your specific account.
 
-### Current customers [#current-customers]
+### Current customers 
 
 If you have an account with us and the self-service option has not resolved your personal data issue, you can submit a Data Subject Access Request under the Privacy Policy. To do so, log into your ClickHouse account and open a [support case](https://console.clickhouse.cloud/support). This helps us verify your identity and streamline the process to address your request.
 
@@ -50,11 +50,11 @@ Please be sure to include the following details in your support case:
 
 <img src="/images/cloud/security/support-case-form.png" alt="Support Case Form in ClickHouse Cloud"/>
 
-### Individuals without an account [#individuals-without-an-account]
+### Individuals without an account 
 
 If you do not have an account with us and the self-service option above has not resolved your personal-data issue, and you wish to make a Data Subject Access Request pursuant to the Privacy Policy, you may submit these requests by email to [privacy@clickhouse.com](mailto:privacy@clickhouse.com).
 
-## Identity verification [#identity-verification]
+## Identity verification 
 
 Should you submit a Data Subject Access Request through email, we may request specific information from you to help us confirm your identity and process your request. Applicable law may require or permit us to decline your request. If we decline your request, we will tell you why, subject to legal restrictions.
 

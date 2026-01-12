@@ -16,7 +16,7 @@ import AzureSettings from '/snippets/_azure_settings.mdx';
 detailed description of each backup method, see the pages for specific methods
 in the sidebar.
 
-## Introduction [#introduction]
+## Introduction 
 
 While [replication](/engines/table-engines/mergetree-family/replication) provides protection from hardware failures, it does not 
 protect against human errors: accidental deletion of data, deletion of the wrong 
@@ -67,7 +67,7 @@ Backups can:
 - be password protected
 - be taken of [system tables, log tables, or access management tables](#system-backups)
 
-## Backup types [#backup-types]
+## Backup types 
 
 Backups can be either full or incremental. Full backups are a complete copy of the 
 data, while incremental backups are a delta of the data from the last full backup.
@@ -83,14 +83,14 @@ Depending on your needs, you may want to use:
 - **Incremental backups** for larger databases or when backups need to be done frequently and cost effectively.
 - **Both**, for instance, weekly full backups and daily incremental backups.
 
-## Synchronous vs asynchronous backups [#synchronous-vs-asynchronous]
+## Synchronous vs asynchronous backups 
 
 `BACKUP` and `RESTORE` commands can also be marked `ASYNC`. In this case, the 
 backup command returns immediately, and the backup process runs in the background.
 If the commands are not marked `ASYNC`, the backup process is synchronous and
 the command blocks until the backup completes.
 
-## Concurrent vs non-concurrent backups [#concurrent-vs-non-concurrent]
+## Concurrent vs non-concurrent backups 
 
 By default, ClickHouse allows concurrent backups and restores. This means you 
 can initiate multiple backup or restore operations simultaneously. However, 
@@ -114,7 +114,7 @@ The default value for both is true, so by default concurrent backup/restores are
 allowed. When these settings are false on a cluster, only a single backup/restore
 is allowed to run on a cluster at a time.
 
-## Compressed vs uncompressed backups [#compressed-vs-uncompressed]
+## Compressed vs uncompressed backups 
 
 ClickHouse backups support compression through the `compression_method` and `compression_level` settings.
 
@@ -126,7 +126,7 @@ BACKUP TABLE test.table
   SETTINGS compression_method='lzma', compression_level=3
 ```
 
-## Using named collections [#using-named-collections]
+## Using named collections 
 
 Named collections allow you to store key-value pairs (like S3 credentials, endpoints, and settings) that can be reused across backup/restore operations.
 They help to:
@@ -138,7 +138,7 @@ They help to:
 
 See ["named collections"](/operations/named-collections) for further details.
 
-## Backing up system, log or access management tables [#system-backups]
+## Backing up system, log or access management tables 
 
 System tables can also be included in your backup and restore workflows, but their
 inclusion depends on your specific use case.
@@ -165,11 +165,11 @@ This functionality only works for configurations managed through SQL commands
 Access configurations defined in ClickHouse server configuration files (e.g. `users.xml`)
 are not included in backups and cannot be restored through this method.
 
-## General syntax [#syntax]
+## General syntax 
 
 <Syntax />
 
-### Command summary [#command-summary]
+### Command summary 
 
 Each of the commands above is detailed below:
 
@@ -194,7 +194,7 @@ Each of the commands above is detailed below:
 | `S3('<S3 endpoint>/<path>', '<Access key ID>', '<Secret access key>')` | Store to/restore from Amazon S3 or S3-compatible storage                                                                                             |
 | `[SETTINGS ...]`                                                       | See below for complete list of settings                                                                                                              |                                                                                                                         |
 
-### Settings [#settings]
+### Settings 
 
 **Generic backup/restore settings**
 
@@ -208,7 +208,7 @@ Each of the commands above is detailed below:
 
 <AzureSettings />
 
-## Administration and troubleshooting [#check-the-status-of-backups]
+## Administration and troubleshooting 
 
 The backup command returns an `id` and `status`, and that `id` can be used to
 get the status of the backup. This is very useful to check the progress of long

@@ -12,7 +12,7 @@ import {CloudNotSupportedBadge} from '/snippets/components/CloudNotSupportedBadg
 ClickHouse supports most of the known text and binary data formats. This allows easy integration into almost any working
 data pipeline to leverage the benefits of ClickHouse.
 
-## Input formats [#input-formats]
+## Input formats 
 
 Input formats are used for:
 - Parsing data provided to `INSERT` statements
@@ -34,13 +34,13 @@ For a deep dive into the results and best practices,
 read the full [benchmark analysis](https://www.clickhouse.com/blog/clickhouse-input-format-matchup-which-is-fastest-most-efficient).
 For the full test results, explore the [FastFormats](https://fastformats.clickhouse.com/) online dashboard.
 
-## Output formats [#output-formats]
+## Output formats 
 
 Formats supported for output are used for:
 - Arranging the results of a `SELECT` query
 - Performing `INSERT` operations into file-backed tables
 
-## Formats overview [#formats-overview]
+## Formats overview 
 
 The supported formats are:
 
@@ -135,7 +135,7 @@ The supported formats are:
 
 You can control some format processing parameters with the ClickHouse settings. For more information read the [Settings](/operations/settings/settings-formats.md) section.
 
-## Format schema [#formatschema]
+## Format schema 
 
 The file name containing the format schema is set by the setting `format_schema`.
 It's required to set this setting when it is used one of the formats `Cap'n Proto` and `Protobuf`.
@@ -152,7 +152,7 @@ If you input or output data via the [HTTP interface](/interfaces/http.md) the fi
 should be located in the directory specified in [format_schema_path](/operations/server-configuration-parameters/settings.md/#format_schema_path)
 in the server configuration.
 
-## Skipping errors [#skippingerrors]
+## Skipping errors 
 
 Some formats such as `CSV`, `TabSeparated`, `TSKV`, `JSONEachRow`, `Template`, `CustomSeparated` and `Protobuf` can skip broken row if parsing error occurred and continue parsing from the beginning of next row. See [input_format_allow_errors_num](/operations/settings/settings-formats.md/#input_format_allow_errors_num) and
 [input_format_allow_errors_ratio](/operations/settings/settings-formats.md/#input_format_allow_errors_ratio) settings.

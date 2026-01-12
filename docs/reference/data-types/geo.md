@@ -13,7 +13,7 @@ ClickHouse supports data types for representing geographical objects — locatio
 **See Also**
 - [Representing simple geographical features](https://en.wikipedia.org/wiki/GeoJSON).
 
-## Point [#point]
+## Point 
 
 `Point` is represented by its X and Y coordinates, stored as a [Tuple](tuple.md)([Float64](float.md), [Float64](float.md)).
 
@@ -34,7 +34,7 @@ Result:
 └─────────┴───────────────┘
 ```
 
-## Ring [#ring]
+## Ring 
 
 `Ring` is a simple polygon without holes stored as an array of points: [Array](array.md)([Point](#point)).
 
@@ -55,7 +55,7 @@ Result:
 └───────────────────────────────┴───────────────┘
 ```
 
-## LineString [#linestring]
+## LineString 
 
 `LineString` is a line stored as an array of points: [Array](array.md)([Point](#point)).
 
@@ -76,7 +76,7 @@ Result:
 └───────────────────────────────┴───────────────┘
 ```
 
-## MultiLineString [#multilinestring]
+## MultiLineString 
 
 `MultiLineString` is multiple lines stored as an array of `LineString`: [Array](array.md)([LineString](#linestring)).
 
@@ -97,7 +97,7 @@ Result:
 └─────────────────────────────────────────────────────┴─────────────────┘
 ```
 
-## Polygon [#polygon]
+## Polygon 
 
 `Polygon` is a polygon with holes stored as an array of rings: [Array](array.md)([Ring](#ring)). First element of outer array is the outer shape of polygon and all the following elements are holes.
 
@@ -119,7 +119,7 @@ Result:
 └───────────────────────────────────────────────────────────────┴────────────────┘
 ```
 
-## MultiPolygon [#multipolygon]
+## MultiPolygon 
 
 `MultiPolygon` consists of multiple polygons and is stored as an array of polygons: [Array](array.md)([Polygon](#polygon)).
 
@@ -140,7 +140,7 @@ Result:
 └─────────────────────────────────────────────────────────────────────────────────────────────────┴─────────────────┘
 ```
 
-## Geometry [#geometry]
+## Geometry 
 
 `Geometry` is a common type for all the types above. It is equivalent to a Variant of those types.
 
@@ -186,6 +186,6 @@ Result:
    └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Related Content [#related-content]
+## Related Content 
 
 - [Exploring massive, real-world data sets: 100+ Years of Weather Records in ClickHouse](https://clickhouse.com/blog/real-world-data-noaa-climate-data)

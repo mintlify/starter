@@ -20,12 +20,12 @@ A demo dataset with sample logs is available if you want to test the integration
 Time Required: 5-10 minutes
 </Note>
 
-## Integration with existing Redis [#existing-redis]
+## Integration with existing Redis 
 
 This section covers configuring your existing Redis installation to send logs to ClickStack by modifying the ClickStack OTel collector configuration.
 If you would like to test the Redis integration before configuring your own existing setup, you can test with our preconfigured setup and sample data in the ["Demo dataset"](/use-cases/observability/clickstack/integrations/redis#demo-dataset) section.
 
-### Prerequisites [#prerequisites]
+### Prerequisites 
 - ClickStack instance running
 - Existing Redis installation (version 3.0 or newer)
 - Access to Redis log files
@@ -188,7 +188,7 @@ Once configured, log into HyperDX and verify that logs are flowing:
 
 </Steps>
 
-## Demo dataset [#demo-dataset]
+## Demo dataset 
 
 For users who want to test the Redis integration before configuring their production systems, we provide a sample dataset of pre-generated Redis Logs with realistic patterns.
 
@@ -294,7 +294,7 @@ If you don't see logs, ensure the time range is set to 2025-10-27 10:00:00 - 202
 
 </Steps>
 
-## Dashboards and visualization [#dashboards]
+## Dashboards and visualization 
 
 To help you get started monitoring Redis with ClickStack, we provide essential visualizations for Redis Logs.
 
@@ -339,9 +339,9 @@ Ensure the time range is set to 2025-10-27 10:00:00 - 2025-10-28 10:00:00. The i
 
 </Steps>
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### Custom config not loading [#troubleshooting-not-loading]
+### Custom config not loading 
 
 **Verify the environment variable is set correctly:**
 ```bash
@@ -367,7 +367,7 @@ docker exec <container> cat /etc/otel/supervisor-data/effective.yaml | grep -A 1
 # Should show your filelog/redis receiver configuration
 ```
 
-### No logs appearing in HyperDX [#no-logs]
+### No logs appearing in HyperDX 
 
 **Ensure Redis is writing logs to a file:**
 ```bash
@@ -401,7 +401,7 @@ docker volume inspect <volume-name>
 # Verify both containers have the volume mounted
 ```
 
-### Logs not parsing correctly [#logs-not-parsing]
+### Logs not parsing correctly 
 
 **Verify Redis log format matches expected pattern:**
 ```bash
@@ -414,7 +414,7 @@ If your Redis Logs have a different format, you may need to adjust the regex pat
 - `pid:role timestamp level message`
 - Example: `12345:M 28 Oct 2024 14:23:45.123 * Server started`
 
-## Next Steps [#next-steps]
+## Next Steps 
 
 If you want to explore further, here are some next steps to experiment with your dashboard
 

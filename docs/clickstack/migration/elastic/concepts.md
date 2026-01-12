@@ -11,7 +11,7 @@ keywords: ['Elasticsearch']
 doc_type: 'reference'
 ---
 
-## Elastic Stack vs ClickStack [#elastic-vs-clickstack]
+## Elastic Stack vs ClickStack 
 
 Both Elastic Stack and ClickStack cover the core roles of an observability platform, but they approach these roles with different design philosophies. These roles include:
 
@@ -34,11 +34,11 @@ ClickStack emphasizes open standards and interoperability, being fully OpenTelem
 
 Given that **Elasticsearch** and **ClickHouse** are the core engines responsible for data storage, processing, and querying in their respective stacks, understanding how they differ is essential. These systems underpin the performance, scalability, and flexibility of the entire observability architecture. The following section explores the key differences between Elasticsearch and ClickHouse - including how they model data, handle ingestion, execute queries, and manage storage.
 
-## Elasticsearch vs ClickHouse [#elasticsearch-vs-clickhouse]
+## Elasticsearch vs ClickHouse 
 
 ClickHouse and Elasticsearch organize and query data using different underlying models, but many core concepts serve similar purposes. This section outlines key equivalences for users familiar with Elastic, mapping them to their ClickHouse counterparts. While the terminology differs, most observability workflows can be reproduced - often more efficiently - in ClickStack.
 
-### Core structural concepts [#core-structural-concepts]
+### Core structural concepts 
 
 | **Elasticsearch** | **ClickHouse / SQL** | **Description** |
 |-------------------|----------------------|------------------|
@@ -48,7 +48,7 @@ ClickHouse and Elasticsearch organize and query data using different underlying 
 | *Implicit* | Schema (SQL)         | SQL schemas group tables into namespaces, often used for access control. Elasticsearch and ClickHouse don't have schemas, but both support row-and table-level security via roles and RBAC. |
 | **Cluster** | **Cluster / Database** | Elasticsearch clusters are runtime instances that manage one or more indices. In ClickHouse, databases organize tables within a logical namespace, providing the same logical grouping as a cluster in Elasticsearch. A ClickHouse cluster is a distributed set of nodes, similar to Elasticsearch, but is decoupled and independent of the data itself. |
 
-### Data modeling and flexibility [#data-modeling-and-flexibility]
+### Data modeling and flexibility 
 
 Elasticsearch is known for its schema flexibility through [dynamic mappings](https://www.elastic.co/docs/manage-data/data-store/mapping/dynamic-mapping). Fields are created as documents are ingested, and types are inferred automatically - unless a schema is specified. ClickHouse is stricter by default — tables are defined with explicit schemas — but offers flexibility through [`Dynamic`](/sql-reference/data-types/dynamic), [`Variant`](/sql-reference/data-types/variant), and [`JSON`](/integrations/data-formats/json/overview) types. These enable ingestion of semi-structured data, with dynamic column creation and type inference similar to Elasticsearch. Similarly, the [`Map`](/sql-reference/data-types/map) type allows arbitrary key-value pairs to be stored - although a single type is enforced for both the key and value.
 
@@ -56,25 +56,25 @@ ClickHouse's approach to type flexibility is more transparent and controlled. Un
 
 If not using [`JSON`](/integrations/data-formats/json/overview), the schema is statically-defined. If values are not provided for a row, they will either be defined as [`Nullable`](/sql-reference/data-types/nullable) (not used in ClickStack) or revert to the default value for the type e.g. empty value for `String`.
 
-### Ingestion and transformation [#ingestion-and-transformation]
+### Ingestion and transformation 
 
 Elasticsearch uses ingest pipelines with processors (e.g., `enrich`, `rename`, `grok`) to transform documents before indexing. In ClickHouse, similar functionality is achieved using [**incremental materialized views**](/materialized-view/incremental-materialized-view), which can [filter, transform](/materialized-view/incremental-materialized-view#filtering-and-transformation), or [enrich](/materialized-view/incremental-materialized-view#lookup-table) incoming data and insert results into target tables. You can also insert data to a `Null` table engine if you only need the output of the materialized view to be stored. This means that only the results of any materialized views are preserved, but the original data is discarded - thus saving storage space.
 
 For enrichment, Elasticsearch supports dedicated [enrich processors](https://www.elastic.co/docs/reference/enrich-processor/enrich-processor) to add context to documents. In ClickHouse, [**dictionaries**](/dictionary) can be used at both [query time](/dictionary#query-time-enrichment) and [ingest time](/dictionary#index-time-enrichment) to enrich rows - for example, to [map IPs to locations](/use-cases/observability/schema-design#using-ip-dictionaries) or apply [user agent lookups](/use-cases/observability/schema-design#using-regex-dictionaries-user-agent-parsing) on insert.
 
-### Query languages [#query-languages]
+### Query languages 
 
 Elasticsearch supports a [number of query languages](https://www.elastic.co/docs/explore-analyze/query-filter/languages) including [DSL](https://www.elastic.co/docs/explore-analyze/query-filter/languages/querydsl), [ES|QL](https://www.elastic.co/docs/explore-analyze/query-filter/languages/esql), [EQL](https://www.elastic.co/docs/explore-analyze/query-filter/languages/eql) and [KQL](https://www.elastic.co/docs/explore-analyze/query-filter/languages/kql) (Lucene style) queries, but has limited support for joins — only **left outer joins** are available via [`ES|QL`](https://www.elastic.co/guide/en/elasticsearch/reference/8.x/esql-commands.html#esql-lookup-join). ClickHouse supports **full SQL syntax**, including [all join types](/sql-reference/statements/select/join#supported-types-of-join), [window functions](/sql-reference/window-functions), subqueries (and correlated), and CTEs. This is a major advantage for users needing to correlate between observability signals and business or infrastructure data.
 
 In ClickStack, [HyperDX provides a Lucene-compatible search interface](/use-cases/observability/clickstack/search) for ease of transition, alongside full SQL support via the ClickHouse backend. This syntax is comparable to the [Elastic query string](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query#query-string-syntax) syntax. For an exact comparison of this syntax, see ["Searching in ClickStack and Elastic"](/use-cases/observability/clickstack/migration/elastic/search).
 
-### File formats and interfaces [#file-formats-and-interfaces]
+### File formats and interfaces 
 
 Elasticsearch supports JSON (and [limited CSV](https://www.elastic.co/docs/reference/enrich-processor/csv-processor)) ingestion. ClickHouse supports over **70 file formats**, including Parquet, Protobuf, Arrow, CSV, and others — for both ingestion and export. This makes it easier to integrate with external pipelines and tools.
 
 Both systems offer a REST API, but ClickHouse also provides a **native protocol** for low-latency, high-throughput interaction. The native interface supports query progress, compression, and streaming more efficiently than HTTP, and is the default for most production ingestion.
 
-### Indexing and storage [#indexing-and-storage]
+### Indexing and storage 
 
 <img src="/images/use-cases/observability/elasticsearch.png" alt="Elasticsearch"/>
 
@@ -106,7 +106,7 @@ Processing within a ClickHouse shard is **fully parallelized**, and users are en
 Inserts in ClickHouse are **synchronous by default** — the write is acknowledged only after commit — but can be configured for **asynchronous inserts** to match Elastic-like buffering and batching. If [asynchronous data inserts](https://clickhouse.com/blog/asynchronous-data-inserts-in-clickhouse) are used, Ⓐ newly inserted rows first go into an Ⓑ in-memory insert buffer that is flushed by default once every 200 milliseconds. If multiple shards are used, a [distributed table](/engines/table-engines/special/distributed) is used for routing newly inserted rows to their target shard. A new part is written for the shard on disk.
 </Note>
 
-### Distribution and replication [#distribution-and-replication]
+### Distribution and replication 
 
 While both Elasticsearch and ClickHouse use clusters, shards, and replicas to ensure scalability and fault tolerance, their models differ significantly in implementation and performance characteristics.
 
@@ -125,13 +125,13 @@ In summary:
 
 Ultimately, ClickHouse favors simplicity and performance at scale by minimizing the need for shard tuning while still offering strong consistency guarantees when needed.
 
-### Deduplication and routing [#deduplication-and-routing]
+### Deduplication and routing 
 
 Elasticsearch de-duplicates documents based on their `_id`, routing them to shards accordingly. ClickHouse does not store a default row identifier but supports **insert-time deduplication**, allowing users to retry failed inserts safely. For more control, `ReplacingMergeTree` and other table engines enable deduplication by specific columns.
 
 Index routing in Elasticsearch ensures specific documents are always routed to specific shards. In ClickHouse, users can define **shard keys** or use `Distributed` tables to achieve similar data locality.
 
-### Aggregations and execution model [#aggregations-execution-model]
+### Aggregations and execution model 
 
 While both systems support the aggregation of data, ClickHouse offers significantly [more functions](/sql-reference/aggregate-functions/reference), including statistical, approximate, and specialized analytical functions.
 
@@ -149,7 +149,7 @@ ClickHouse, by contrast, performs exact aggregations out of the box. Functions l
 
 ClickHouse imposes no size limits. You can perform unbounded group-by queries across large datasets. If memory thresholds are exceeded, ClickHouse [can spill to disk](https://clickhouse.com/docs/en/sql-reference/statements/select/group-by#group-by-in-external-memory). Aggregations that group by a prefix of the primary key are especially efficient, often running with minimal memory consumption.
 
-#### Execution model [#execution-model]
+#### Execution model 
 
 The above differences can be attributed to the execution models of Elasticsearch and ClickHouse, which take fundamentally different approaches to query execution and parallelism.
 
@@ -173,17 +173,17 @@ In summary, ClickHouse executes aggregations and queries with finer-grained para
 
 For further details on the mechanics of aggregations in the respective technologies, we recommend the blog post ["ClickHouse vs. Elasticsearch: The Mechanics of Count Aggregations"](https://clickhouse.com/blog/clickhouse_vs_elasticsearch_mechanics_of_count_aggregations#elasticsearch).
 
-### Data management [#data-management]
+### Data management 
 
 Elasticsearch and ClickHouse take fundamentally different approaches to managing time-series observability data — particularly around data retention, rollover, and tiered storage.
 
-#### Index lifecycle management vs native TTL [#lifecycle-vs-ttl]
+#### Index lifecycle management vs native TTL 
 
 In Elasticsearch, long-term data management is handled through **Index Lifecycle Management (ILM)** and **Data Streams**. These features allow users to define policies that govern when indices are rolled over (e.g. after reaching a certain size or age), when older indices are moved to lower-cost storage (e.g. warm or cold tiers), and when they are ultimately deleted. This is necessary because Elasticsearch does **not support re-sharding**, and shards cannot grow indefinitely without performance degradation. To manage shard sizes and support efficient deletion, new indices must be created periodically and old ones removed — effectively rotating data at the index level.
 
 ClickHouse takes a different approach. Data is typically stored in a **single table** and managed using **TTL (time-to-live) expressions** at the column or partition level. Data can be **partitioned by date**, allowing efficient deletion without the need to create new tables or perform index rollovers. As data ages and meets the TTL condition, ClickHouse will automatically remove it — no additional infrastructure is required to manage rotation.
 
-#### Storage tiers and hot-warm architectures [#storage-tiers]
+#### Storage tiers and hot-warm architectures 
 
 Elasticsearch supports **hot-warm-cold-frozen** storage architectures, where data is moved between storage tiers with different performance characteristics. This is typically configured through ILM and tied to node roles in the cluster.
 
@@ -193,7 +193,7 @@ ClickHouse supports **tiered storage** through native table engines like `MergeT
 In **ClickHouse Cloud**, this becomes even more seamless: all data is stored on **object storage (e.g. S3)**, and compute is decoupled. Data can remain in object storage until queried, at which point it is fetched and cached locally (or in a distributed cache) — offering the same cost profile as Elastic's frozen tier, with better performance characteristics. This approach means no data needs to be moved between storage tiers, making hot-warm architectures redundant.
 </Note>
 
-### Rollups vs incremental aggregates [#rollups-vs-incremental-aggregates]
+### Rollups vs incremental aggregates 
 
 In Elasticsearch, **rollups** or **aggregates** are achieved using a mechanism called [**transforms**](https://www.elastic.co/guide/en/elasticsearch/reference/current/transforms.html). These are used to summarize time-series data at fixed intervals (e.g., hourly or daily) using a **sliding window** model. These are configured as recurring background jobs that aggregate data from one index and write the results to a separate **rollup index**. This helps reduce the cost of long-range queries by avoiding repeated scans of high-cardinality raw data.
 
@@ -227,7 +227,7 @@ The advantages of ClickHouse's approach include:
 
 This model is particularly powerful for observability use cases where users need to compute metrics such as per-minute error rates, latencies, or top-N breakdowns without scanning billions of raw records per query.
 
-### Lakehouse support [#lakehouse-support]
+### Lakehouse support 
 
 ClickHouse and Elasticsearch take fundamentally different approaches to lakehouse integration. ClickHouse is a fully-fledged query execution engine capable of executing queries over lakehouse formats such as [Iceberg](/sql-reference/table-functions/iceberg) and [Delta Lake](/sql-reference/table-functions/deltalake), as well as integrating with data lake catalogs such as [AWS Glue](/use-cases/data-lake/glue-catalog) and [Unity catalog](/use-cases/data-lake/unity-catalog). These formats rely on efficient querying of [Parquet](/interfaces/formats/Parquet) files, which ClickHouse fully supports. ClickHouse can read both Iceberg and Delta Lake tables directly, enabling seamless integration with modern data lake architectures.
 

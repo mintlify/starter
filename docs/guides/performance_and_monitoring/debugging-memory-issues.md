@@ -10,7 +10,7 @@ doc_type: 'guide'
 
 When encountering memory issues or a memory leak, knowing what queries and resources are consuming a significant amount of memory is helpful. Below you can find queries that can help you to debug memory issues by finding which queries, databases, and tables can be optimized:
 
-## List currently running processes by peak memory usage [#list-currently-running-processes-by-peak-memory]
+## List currently running processes by peak memory usage 
 
 ```sql
 SELECT
@@ -24,7 +24,7 @@ ORDER BY peak_memory_usage DESC
 LIMIT 100;
 ```
 
-## List metrics for memory usage [#list-metrics-for-memory-usage]
+## List metrics for memory usage 
 
 ```sql
 SELECT
@@ -38,7 +38,7 @@ ORDER BY
     value DESC;
 ```
 
-## List tables by current memory usage [#list-tables-by-current-memory-usage]
+## List tables by current memory usage 
 
 ```sql
 SELECT
@@ -49,25 +49,25 @@ FROM system.tables
 WHERE engine IN ('Memory','Set','Join');
 ```
 
-## Output total memory used by merges [#output-total-memory-used-by-merges]
+## Output total memory used by merges 
 
 ```sql
 SELECT formatReadableSize(sum(memory_usage)) FROM system.merges;
 ```
 
-## Output total memory used by currently running processes [#output-total-memory-used-by-currently-running-processes]
+## Output total memory used by currently running processes 
 
 ```sql
 SELECT formatReadableSize(sum(memory_usage)) FROM system.processes;
 ```
 
-## Output total memory used by dictionaries [#output-total-memory-used-by-dictionaries]
+## Output total memory used by dictionaries 
 
 ```sql
 SELECT formatReadableSize(sum(bytes_allocated)) FROM system.dictionaries;
 ```
 
-## Output total memory used by primary keys and index granularity [#output-total-memory-used-by-primary-keys]
+## Output total memory used by primary keys and index granularity 
 
 ```sql
 SELECT

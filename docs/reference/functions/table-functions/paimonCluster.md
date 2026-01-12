@@ -12,7 +12,7 @@ This is an extension to the [paimon](/sql-reference/table-functions/paimon.md) t
 
 Allows processing files from Apache [Paimon](https://paimon.apache.org/) in parallel from many nodes in a specified cluster. On initiator it creates a connection to all nodes in the cluster and dispatches each file dynamically. On the worker node it asks the initiator about the next task to process and processes it. This is repeated until all tasks are finished.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 paimonS3Cluster(cluster_name, url [,aws_access_key_id, aws_secret_access_key] [,format] [,structure] [,compression])
@@ -22,7 +22,7 @@ paimonAzureCluster(cluster_name, connection_string|storage_account_url, containe
 paimonHDFSCluster(cluster_name, path_to_table, [,format] [,compression_method])
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 - `cluster_name` — Name of a cluster that is used to build a set of addresses and connection parameters to remote and local servers.
 - Description of all other arguments coincides with description of arguments in equivalent [paimon](/sql-reference/table-functions/paimon.md) table function.
@@ -31,7 +31,7 @@ paimonHDFSCluster(cluster_name, path_to_table, [,format] [,compression_method])
 
 A table with the specified structure for reading data from cluster in the specified Paimon table.
 
-## Virtual Columns [#virtual-columns]
+## Virtual Columns 
 
 - `_path` — Path to the file. Type: `LowCardinality(String)`.
 - `_file` — Name of the file. Type: `LowCardinality(String)`.

@@ -15,10 +15,10 @@ import {CloudNotSupportedBadge} from '/snippets/components/CloudNotSupportedBadg
 
 <CloudNotSupportedBadge/>
 
-## Description [#description]
+## Description 
 
 The `ProtobufSingle` format is the same as the [`Protobuf`](./Protobuf.md) format but it is intended for storing/parsing single Protobuf messages without length delimiters.
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 

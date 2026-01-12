@@ -18,7 +18,7 @@ and/or delete rows without generating a mutation event. Alternatively, use [ligh
 or [lightweight deletes](/guides/developer/lightweight-delete)
 </Tip>
 
-## Updating data [#updating-data]
+## Updating data 
 
 Use the `ALTER TABLE...UPDATE` command to update rows in a table:
 
@@ -58,7 +58,7 @@ ALTER TABLE [<database>.]<table> UPDATE <column> = <expression> WHERE <filter_ex
 It is not possible to update columns that are part of the primary or sorting key.
 </Note>
 
-## Deleting data [#deleting-data]
+## Deleting data 
 
 Use the `ALTER TABLE` command to delete rows:
 
@@ -86,7 +86,7 @@ To delete all of the data in a table, it is more efficient to use the command `T
 
 View the [`DELETE` statement](/sql-reference/statements/delete.md) docs page for more details.
 
-## Lightweight deletes [#lightweight-deletes]
+## Lightweight deletes 
 
 Another option for deleting rows is to use the `DELETE FROM` command, which is referred to as a **lightweight delete**. The deleted rows are marked as deleted immediately and will be automatically filtered out of all subsequent queries, so you do not have to wait for a merging of parts or use the `FINAL` keyword. Cleanup of data happens asynchronously in the background.
 

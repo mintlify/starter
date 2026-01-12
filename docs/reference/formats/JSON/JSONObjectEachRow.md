@@ -11,13 +11,13 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 In this format, all data is represented as a single JSON Object, with each row represented as a separate field of this object similar to the [`JSONEachRow`](./JSONEachRow.md) format.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Basic example [#basic-example]
+### Basic example 
 
 Given some JSON:
 
@@ -32,7 +32,7 @@ Given some JSON:
 To use an object name as a column value you can use the special setting [`format_json_object_each_row_column_for_object_name`](/operations/settings/settings-formats.md/#format_json_object_each_row_column_for_object_name). 
 The value of this setting is set to the name of a column, that is used as JSON key for a row in the resulting object.
 
-#### Output [#output]
+#### Output 
 
 Let's say we have the table `test` with two columns:
 
@@ -58,7 +58,7 @@ SELECT * FROM test SETTINGS format_json_object_each_row_column_for_object_name='
 }
 ```
 
-#### Input [#input]
+#### Input 
 
 Let's say we stored the output from the previous example in a file named `data.json`:
 
@@ -87,7 +87,7 @@ DESCRIBE file('data.json', JSONObjectEachRow) SETTING format_json_object_each_ro
 └─────────────┴─────────────────┘
 ```
 
-### Inserting data [#json-inserting-data]
+### Inserting data 
 
 ```sql title="Query"
 INSERT INTO UserActivity FORMAT JSONEachRow {"PageViews":5, "UserID":"4324182021466249494", "Duration":146,"Sign":-1} {"UserID":"4324182021466249494","PageViews":6,"Duration":185,"Sign":1}
@@ -100,7 +100,7 @@ ClickHouse allows:
 
 ClickHouse ignores spaces between elements and commas after the objects. You can pass all the objects in one line. You do not have to separate them with line breaks.
 
-#### Omitted values processing [#omitted-values-processing]
+#### Omitted values processing 
 
 ClickHouse substitutes omitted values with the default values for the corresponding [data types](/sql-reference/data-types/index.md).
 
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS example_table
 When inserting data with `input_format_defaults_for_omitted_fields = 1`, ClickHouse consumes more computational resources, compared to insertion with `input_format_defaults_for_omitted_fields = 0`.
 </Note>
 
-### Selecting data [#json-selecting-data]
+### Selecting data 
 
 Consider the `UserActivity` table as an example:
 
@@ -147,7 +147,7 @@ Unlike the [JSON](/interfaces/formats/JSON) format, there is no substitution of 
 Any set of bytes can be output in the strings. Use the [`JSONEachRow`](./JSONEachRow.md) format if you are sure that the data in the table can be formatted as JSON without losing any information.
 </Note>
 
-### Usage of Nested Structures [#jsoneachrow-nested]
+### Usage of Nested Structures 
 
 If you have a table with the [`Nested`](/sql-reference/data-types/nested-data-structures/index.md) data type columns, you can insert JSON data with the same structure. Enable this feature with the [input_format_import_nested_json](/operations/settings/settings-formats.md/#input_format_import_nested_json) setting.
 
@@ -206,7 +206,7 @@ SELECT * FROM json_each_row_nested
 └───────────────┴────────┘
 ```
 
-## Format settings [#format-settings]
+## Format settings 
 
 | Setting                                                                                                                                                                            | Description                                                                                                                                                             | Default  | Notes                                                                                                                                                                                         |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

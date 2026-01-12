@@ -11,7 +11,7 @@ The [Laion-400M dataset](https://laion.ai/blog/laion-400-open-dataset/) contains
 
 The dataset contains the image URL, embeddings for both the image and the image caption, a similarity score between the image and the image caption, as well as metadata, e.g. the image width/height, the licence and a NSFW flag. We can use the dataset to demonstrate [approximate nearest neighbor search](../../engines/table-engines/mergetree-family/annindexes.md) in ClickHouse.
 
-## Data preparation [#data-preparation]
+## Data preparation 
 
 The embeddings and the metadata are stored in separate files in the raw data. A data preparation step downloads the data, merges the files,
 converts them to CSV and imports them into ClickHouse. You can use the following `download.sh` script for that:
@@ -74,7 +74,7 @@ The dataset is split into 410 files, each file contains ca. 1 million rows. If y
 
 (The python script above is very slow (~2-10 minutes per file), takes a lot of memory (41 GB per file), and the resulting csv files are big (10 GB each), so be careful. If you have enough RAM, increase the `-P1` number for more parallelism. If this is still too slow, consider coming up with a better ingestion procedure - maybe converting the .npy files to parquet, then doing all the other processing with clickhouse.)
 
-## Create table [#create-table]
+## Create table 
 
 To create a table initially without indexes, run:
 
@@ -102,7 +102,7 @@ INSERT INTO laion FROM INFILE '{path_to_csv_files}/*.csv'
 
 Note that the `id` column is just for illustration and is populated by the script with non-unique values.
 
-## Run a brute-force vector similarity search [#run-a-brute-force-vector-similarity-search]
+## Run a brute-force vector similarity search 
 
 To run a brute-force approximate vector search, run:
 
@@ -133,7 +133,7 @@ For now, we can run the embedding of a random LEGO set picture as `target`.
 10 rows in set. Elapsed: 4.605 sec. Processed 100.38 million rows, 309.98 GB (21.80 million rows/s., 67.31 GB/s.)
 ```
 
-## Run an approximate vector similarity search with a vector similarity index [#run-an-approximate-vector-similarity-search-with-a-vector-similarity-index]
+## Run an approximate vector similarity search with a vector similarity index 
 
 Let's now define two vector similarity indexes on the table.
 
@@ -184,11 +184,11 @@ The query latency decreased significantly because the nearest neighbours were re
 Vector similarity search using a vector similarity index may return results that differ slightly from the brute-force search results.
 An HNSW index can potentially achieve a recall close to 1 (same accuracy as brute force search) with a careful selection of the HNSW parameters and evaluating the index quality.
 
-## Creating embeddings with UDFs [#creating-embeddings-with-udfs]
+## Creating embeddings with UDFs 
 
 One usually wants to create embeddings for new images or new image captions and search for similar image / image caption pairs in the data. We can use [UDF](/sql-reference/functions/udf) to create the `target` vector without leaving the client. It is important to use the same model to create the data and new embeddings for searches. The following scripts utilize the `ViT-B/32` model which also underlies the dataset.
 
-### Text embeddings [#text-embeddings]
+### Text embeddings 
 
 First, store the following Python script in the `user_scripts/` directory of your ClickHouse data path and make it executable (`chmod +x encode_text.py`).
 
@@ -248,7 +248,7 @@ LIMIT 10
 
 Note that the `encode_text()` UDF itself could require a few seconds to compute and emit the embedding vector.
 
-### Image embeddings [#image-embeddings]
+### Image embeddings 
 
 Image embeddings can be created similarly and we provide a Python script that can generate an embedding of an image stored locally as a file.
 

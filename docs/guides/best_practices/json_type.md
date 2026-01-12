@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 ClickHouse now offers a native JSON column type designed for semi-structured and dynamic data. It's important to clarify that **this is a column type, not a data format**—you can insert JSON into ClickHouse as a string or via supported formats like [JSONEachRow](/interfaces/formats/JSONEachRow), but that does not imply using the JSON column type. Users should only use the JSON type when the structure of their data is dynamic, not when they simply happen to store JSON.
 
-## When to use the JSON type [#when-to-use-the-json-type]
+## When to use the JSON type 
 
 Use the JSON type when your data:
 
@@ -27,7 +27,7 @@ If your data structure is known and consistent, there is rarely a need for the J
 
 You can also mix approaches—for example, use static columns for predictable top-level fields and a single JSON column for a dynamic section of the payload.
 
-## Considerations and tips for using JSON [#considerations-and-tips-for-using-json]
+## Considerations and tips for using JSON 
 
 The JSON type enables efficient columnar storage by flattening paths into subcolumns. But with flexibility comes responsibility. To use it effectively:
 
@@ -39,7 +39,7 @@ The JSON type enables efficient columnar storage by flattening paths into subcol
 Type hints offer more than just a way to avoid unnecessary type inference—they eliminate storage and processing indirection entirely. JSON paths with type hints are always stored just like traditional columns, bypassing the need for [**discriminator columns**](https://clickhouse.com/blog/a-new-powerful-json-data-type-for-clickhouse#storage-extension-for-dynamically-changing-data) or dynamic resolution during query time. This means that with well-defined type hints, nested JSON fields achieve the same performance and efficiency as if they were modeled as top-level fields from the outset. As a result, for datasets that are mostly consistent but still benefit from the flexibility of JSON, type hints provide a convenient way to preserve performance without needing to restructure your schema or ingest pipeline.
 </Note>
 
-## Advanced features [#advanced-features]
+## Advanced features 
 
 * JSON columns **can be used in primary keys** like any other columns. Codecs cannot be specified for a subcolumn.
 * They support introspection via functions like [`JSONAllPathsWithTypes()` and `JSONDynamicPaths()`](/sql-reference/data-types/newjson#introspection-functions).
@@ -48,7 +48,7 @@ Type hints offer more than just a way to avoid unnecessary type inference—they
 
 For additional guidance, see[ ClickHouse JSON documentation](/sql-reference/data-types/newjson) or explore our blog post[ A New Powerful JSON Data Type for ClickHouse](https://clickhouse.com/blog/a-new-powerful-json-data-type-for-clickhouse).
 
-## Examples [#examples]
+## Examples 
 
 Consider the following JSON sample, representing a row from the [Python PyPI dataset](https://clickpy.clickhouse.com/):
 

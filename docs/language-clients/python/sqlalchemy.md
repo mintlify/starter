@@ -11,7 +11,7 @@ doc_type: 'reference'
 ClickHouse Connect includes a SQLAlchemy dialect (`clickhousedb`) built on top of the core driver.
 It targets SQLAlchemy Core APIs and supports SQLAlchemy 1.4.40+ and 2.0.x.
 
-## Connect with SQLAlchemy [#sqlalchemy-connect]
+## Connect with SQLAlchemy 
 
 Create an engine using either `clickhousedb://` or `clickhousedb+connect://` URLs. Query parameters map to ClickHouse settings, client options, and HTTP/TLS transport options.
 
@@ -34,7 +34,7 @@ Notes on URL/query parameters:
 
 See [Connection arguments and Settings](driver-api.md#connection-arguments) in the sections below for the full list of supported options. These can also be supplied via the SQLAlchemy DSN.
 
-## Core queries [#sqlalchemy-core-queries]
+## Core queries 
 
 The dialect supports SQLAlchemy Core `SELECT` queries with joins, filters, ordering, limits/offsets, and `DISTINCT`.
 
@@ -67,7 +67,7 @@ with engine.begin() as conn:
     conn.execute(delete(users).where(users.c.name.like("%temp%")))
 ```
 
-## DDL and reflection [#sqlalchemy-ddl-reflection]
+## DDL and reflection 
 
 You can create databases and tables using the provided DDL helpers and type/engine constructs. Table reflection (including column types and engine) is supported.
 
@@ -101,7 +101,7 @@ with engine.begin() as conn:
 
 Reflected columns include dialect-specific attributes such as `clickhousedb_default_type`, `clickhousedb_codec_expression`, and `clickhousedb_ttl_expression` when present on the server.
 
-## Inserts (Core and basic ORM) [#sqlalchemy-inserts]
+## Inserts (Core and basic ORM) 
 
 Inserts work via SQLAlchemy Core as well as with simple ORM models for convenience.
 
@@ -129,7 +129,7 @@ with Session(engine) as session:
     session.commit()
 ```
 
-## Scope and limitations [#scope-and-limitations]
+## Scope and limitations 
 - Core focus: Enable SQLAlchemy Core features like `SELECT` with `JOIN`s (`INNER`, `LEFT OUTER`, `FULL OUTER`, `CROSS`), `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`, and `DISTINCT`.
 - `DELETE` with `WHERE` only: The dialect supports lightweight `DELETE` but requires an explicit `WHERE` clause to avoid accidental full-table deletes. To clear a table, use `TRUNCATE TABLE`.
 - No `UPDATE`: ClickHouse is append-optimized. The dialect does not implement `UPDATE`. If you need to change data, apply transformations upstream and re-insert, or use explicit text SQL (for example, `ALTER TABLE ... UPDATE`) at your own risk.

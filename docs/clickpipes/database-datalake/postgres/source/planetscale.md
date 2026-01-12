@@ -11,11 +11,11 @@ keywords: ['clickpipes', 'postgresql', 'cdc', 'data ingestion', 'real-time sync'
 PlanetScale for Postgres is currently in [early access](https://planetscale.com/postgres).
 </Note>
 
-## Supported Postgres versions [#supported-postgres-versions]
+## Supported Postgres versions 
 
 ClickPipes supports Postgres version 12 and later.
 
-## Enable logical replication [#enable-logical-replication]
+## Enable logical replication 
 
 1. To enable replication on your Postgres instance, we need to make sure that the following settings are set:
 
@@ -39,7 +39,7 @@ Changing this in the PlanetScale console WILL trigger a restart.
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/source/planetscale/planetscale_max_slot_wal_keep_size.png" alt="Adjusting max_slot_wal_keep_size in PlanetScale console"/>
 
-## Creating a user with permissions and publication [#creating-a-user-with-permissions-and-publication]
+## Creating a user with permissions and publication 
 
 Let's create a new user for ClickPipes with the necessary permissions suitable for CDC,
 and also create a publication that we'll use for replication.
@@ -63,12 +63,12 @@ For this, you can connect to your PlanetScale Postgres instance using the defaul
 Make sure to replace `clickpipes_user` and `clickpipes_password` with your desired username and password.
 </Note>
 
-## Caveats [#caveats]
+## Caveats 
 1. To connect to PlanetScale Postgres, the current branch needs to be appended to the username created above. For example, if the created user was named `clickpipes_user`, the actual user provided during the ClickPipe creation needs to be `clickpipes_user`.`branch` where `branch` refers to the "id" of the current PlanetScale Postgres [branch](https://planetscale.com/docs/postgres/branching). To quickly determine this, you can refer to the username of the `postgres` user you used to create the user earlier, the part after the period would be the branch id.
 2. Do not use the `PSBouncer` port (currently `6432`) for CDC pipes connecting to PlanetScale Postgres, the normal port `5432` must be used. Either port may be used for initial-load only pipes.
 3. Please ensure you're connecting only to the primary instance, [connecting to replica instances](https://planetscale.com/docs/postgres/scaling/replicas#how-to-query-postgres-replicas) is currently not supported. 
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your Postgres instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your Postgres instance as you will need them during the ClickPipe creation process.

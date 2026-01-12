@@ -10,12 +10,12 @@ keywords: ['example dataset', 'hacker news', 'sample data', 'text analysis', 've
 > In this tutorial, you'll insert 28 million rows of Hacker News data into a ClickHouse
 > table from both CSV and Parquet formats and run some simple queries to explore the data.
 
-## CSV [#csv]
+## CSV 
 
 <Steps>
 
 <Step>
-### Download CSV [#download]
+### Download CSV 
 
 A CSV version of the dataset can be downloaded from our public [S3 bucket](https://datasets-documentation.s3.eu-west-3.amazonaws.com/hackernews/hacknernews.csv.gz), or by running this command:
 
@@ -28,7 +28,7 @@ At 4.6GB, and 28m rows, this compressed file should take 5-10 minutes to downloa
 </Step>
 
 <Step>
-### Sample the data [#sampling]
+### Sample the data 
 
 [`clickhouse-local`](/operations/utilities/clickhouse-local/) allows users to perform fast processing on local files without
 having to deploy and configure the ClickHouse server.
@@ -97,7 +97,7 @@ The `Vertical` format is used to more easily see the data for each column.
 </Step>
 
 <Step>
-### Load the data with schema inference [#loading-the-data]
+### Load the data with schema inference 
 
 The simplest and most powerful tool for data loading is the `clickhouse-client`: a feature-rich native command-line client.
 To load data, you can again exploit schema inference, relying on ClickHouse to determine the types of the columns.
@@ -151,7 +151,7 @@ You've successfully inserted 28 million rows into ClickHouse with a single comma
 </Step>
 
 <Step>
-### Explore the data [#explore]
+### Explore the data 
 
 Sample the Hacker News stories and specific columns by running the following query:
 
@@ -207,7 +207,7 @@ While schema inference is a great tool for initial data exploration, it is "best
 </Step>
 
 <Step>
-### Define a schema [#define-a-schema]
+### Define a schema 
 
 An obvious immediate optimization is to define a type for each field. 
 In addition to declaring the time field as a `DateTime` type, we define an appropriate type for each of the fields below after dropping our existing dataset.
@@ -253,12 +253,12 @@ INSERT INTO hackernews FROM INFILE '/data/hacknernews.csv.gz' FORMAT CSVWithName
 </Step>
 
 <Step>
-### Run sample queries [#run-sample-queries]
+### Run sample queries 
 
 Some sample queries are presented below to give you inspiration for writing your
 own queries.
 
-#### How pervasive a topic is "ClickHouse" in Hacker News? [#how-pervasive]
+#### How pervasive a topic is "ClickHouse" in Hacker News? 
 
 The score field provides a metric of popularity for stories, while the `id` field and `||` 
 concatenation operator can be used to produce a link to the original post.
@@ -406,7 +406,7 @@ ORDER BY monthYear ASC
 
 It looks like "ClickHouse" is growing in popularity with time.
 
-#### Who are the top commenters on ClickHouse related articles? [#top-commenters]
+#### Who are the top commenters on ClickHouse related articles? 
 
 ```sql title="Query"
 SELECT
@@ -432,7 +432,7 @@ LIMIT 5
 </Step>
 
 <Step>
-#### Which comments generate the most interest? [#comments-by-most-interest]
+#### Which comments generate the most interest? 
 
 ```sql title="Query"
 SELECT
@@ -460,7 +460,7 @@ LIMIT 5
 
 </Steps>
 
-## Parquet [#parquet]
+## Parquet 
 
 One of the strengths of ClickHouse is its ability to handle any number of [formats](/interfaces/formats).
 CSV represents a rather ideal use case, and is not the most efficient for data exchange.
@@ -473,7 +473,7 @@ Type inference on a Parquet file will invariably lead to a slightly different sc
 <Steps>
 
 <Step>
-### Insert the data [#insert-the-data]
+### Insert the data 
 
 Run the following query to read the same data in Parquet format, again using the url function to read the remote data:
 
@@ -566,7 +566,7 @@ SELECT * FROM s3(
 </Step>
 
 <Step>
-### Add a skipping-index to speed up queries [#add-skipping-index]
+### Add a skipping-index to speed up queries 
 
 To find out how many comments mention "ClickHouse", run the following query:
 

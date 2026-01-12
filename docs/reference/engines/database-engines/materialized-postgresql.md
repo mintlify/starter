@@ -28,7 +28,7 @@ SET allow_experimental_database_materialized_postgresql=1
 ```
 </Note>
 
-## Creating a database [#creating-a-database]
+## Creating a database 
 
 ```sql
 CREATE DATABASE [IF NOT EXISTS] db_name [ON CLUSTER cluster]
@@ -42,7 +42,7 @@ ENGINE = MaterializedPostgreSQL('host:port', 'database', 'user', 'password') [SE
 - `user` — PostgreSQL user.
 - `password` — User password.
 
-## Example of use [#example-of-use]
+## Example of use 
 
 ```sql
 CREATE DATABASE postgres_db
@@ -57,7 +57,7 @@ SHOW TABLES FROM postgres_db;
 SELECT * FROM postgresql_db.postgres_table;
 ```
 
-## Dynamically adding new tables to replication [#dynamically-adding-table-to-replication]
+## Dynamically adding new tables to replication 
 
 After `MaterializedPostgreSQL` database is created, it does not automatically detect new tables in according PostgreSQL database. Such tables can be added manually:
 
@@ -69,7 +69,7 @@ ATTACH TABLE postgres_database.new_table;
 Before version 22.1, adding a table to replication left a non-removed temporary replication slot (named `{db_name}_ch_replication_slot_tmp`). If attaching tables in ClickHouse version before 22.1, make sure to delete it manually (`SELECT pg_drop_replication_slot('{db_name}_ch_replication_slot_tmp')`). Otherwise disk usage will grow. This issue is fixed in 22.1.
 </Warning>
 
-## Dynamically removing tables from replication [#dynamically-removing-table-from-replication]
+## Dynamically removing tables from replication 
 
 It is possible to remove specific tables from replication:
 
@@ -77,7 +77,7 @@ It is possible to remove specific tables from replication:
 DETACH TABLE postgres_database.table_to_remove PERMANENTLY;
 ```
 
-## PostgreSQL schema [#schema]
+## PostgreSQL schema 
 
 PostgreSQL [schema](https://www.postgresql.org/docs/9.1/ddl-schemas.html) can be configured in 3 ways (starting from version 21.12).
 
@@ -124,7 +124,7 @@ SELECT * FROM database1.`schema2.table2`;
 
 Warning: for this case dots in table name are not allowed.
 
-## Requirements [#requirements]
+## Requirements 
 
 1. The [wal_level](https://www.postgresql.org/docs/current/runtime-config-wal.html) setting must have a value `logical` and `max_replication_slots` parameter must have a value at least `2` in the PostgreSQL config file.
 
@@ -159,9 +159,9 @@ WHERE oid = 'postgres_table'::regclass;
 Replication of [**TOAST**](https://www.postgresql.org/docs/9.5/storage-toast.html) values is not supported. The default value for the data type will be used.
 </Note>
 
-## Settings [#settings]
+## Settings 
 
-### `materialized_postgresql_tables_list` [#materialized-postgresql-tables-list]
+### `materialized_postgresql_tables_list` 
 
     Sets a comma-separated list of PostgreSQL database tables, which will be replicated via [MaterializedPostgreSQL](../../engines/database-engines/materialized-postgresql.md) database engine.
 
@@ -173,15 +173,15 @@ Replication of [**TOAST**](https://www.postgresql.org/docs/9.5/storage-toast.htm
 
     Default value: empty list — means whole PostgreSQL database will be replicated.
 
-### `materialized_postgresql_schema` [#materialized-postgresql-schema]
+### `materialized_postgresql_schema` 
 
     Default value: empty string. (Default schema is used)
 
-### `materialized_postgresql_schema_list` [#materialized-postgresql-schema-list]
+### `materialized_postgresql_schema_list` 
 
     Default value: empty list. (Default schema is used)
 
-### `materialized_postgresql_max_block_size` [#materialized-postgresql-max-block-size]
+### `materialized_postgresql_max_block_size` 
 
     Sets the number of rows collected in memory before flushing data into PostgreSQL database table.
 
@@ -191,11 +191,11 @@ Replication of [**TOAST**](https://www.postgresql.org/docs/9.5/storage-toast.htm
 
     Default value: `65536`.
 
-### `materialized_postgresql_replication_slot` [#materialized-postgresql-replication-slot]
+### `materialized_postgresql_replication_slot` 
 
     A user-created replication slot. Must be used together with `materialized_postgresql_snapshot`.
 
-### `materialized_postgresql_snapshot` [#materialized-postgresql-snapshot]
+### `materialized_postgresql_snapshot` 
 
     A text string identifying a snapshot, from which [initial dump of PostgreSQL tables](../../engines/database-engines/materialized-postgresql.md) will be performed. Must be used together with `materialized_postgresql_replication_slot`.
 
@@ -213,14 +213,14 @@ Replication of [**TOAST**](https://www.postgresql.org/docs/9.5/storage-toast.htm
     ALTER DATABASE postgres_database MODIFY SETTING materialized_postgresql_max_block_size = <new_size>;
     ```
 
-### `materialized_postgresql_use_unique_replication_consumer_identifier` [#materialized_postgresql_use_unique_replication_consumer_identifier]
+### `materialized_postgresql_use_unique_replication_consumer_identifier` 
 
 Use a unique replication consumer identifier for replication. Default: `0`.
 If set to `1`, allows to setup several `MaterializedPostgreSQL` tables pointing to the same `PostgreSQL` table.
 
-## Notes [#notes]
+## Notes 
 
-### Failover of the logical replication slot [#logical-replication-slot-failover]
+### Failover of the logical replication slot 
 
 Logical Replication Slots which exist on the primary are not available on standby replicas.
 So if there is a failover, new primary (the old physical standby) won't be aware of any slots which were existing with old primary. This will lead to a broken replication from PostgreSQL.
@@ -274,7 +274,7 @@ Please note that this should be used only if it is actually needed. If there is 
     kubectl exec acid-demo-cluster-0 -c postgres -- su postgres -c 'patronictl failover --candidate acid-demo-cluster-1 --force'
     ```
 
-### Required permissions [#required-permissions]
+### Required permissions 
 
 1. [CREATE PUBLICATION](https://postgrespro.ru/docs/postgresql/14/sql-createpublication) -- create query privilege.
 

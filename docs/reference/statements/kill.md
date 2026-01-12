@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 There are two kinds of kill statements: to kill a query and to kill a mutation
 
-## KILL QUERY [#kill-query]
+## KILL QUERY 
 
 ```sql
 KILL QUERY [ON CLUSTER cluster]
@@ -77,7 +77,7 @@ The response contains the `kill_status` column, which can take the following val
 
 A test query (`TEST`) only checks the user's rights and displays a list of queries to stop.
 
-## KILL MUTATION [#kill-mutation]
+## KILL MUTATION 
 
 The presence of long-running or incomplete mutations often indicates that a ClickHouse service is running poorly. The asynchronous nature of mutations can cause them to consume all available resources on a system. You may need to either: 
 

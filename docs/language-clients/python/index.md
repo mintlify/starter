@@ -27,7 +27,7 @@ This documentation is current as of the clickhouse-connect release 0.9.2.
 The official ClickHouse Connect Python driver uses the HTTP protocol for communication with the ClickHouse server. This enables HTTP load balancer support and works well in enterprise environments with firewalls and proxies, but has slightly lower compression and performance compared to the native TCP-based protocol, and lacks support for some advanced features like query cancellation. For some use cases, you may consider using one of the [Community Python drivers](/interfaces/third-party/client-libraries.md) that use the native TCP-based protocol.
 </Note>
 
-## Requirements and compatibility [#requirements-and-compatibility]
+## Requirements and compatibility 
 
 |       Python |   |       Platform¹ |   |      ClickHouse |    | SQLAlchemy² |   | Apache Superset |   |  Pandas |   | Polars |   |
 |-------------:|:--|----------------:|:--|----------------:|:---|------------:|:--|----------------:|:--|--------:|:--|-------:|:--|
@@ -45,7 +45,7 @@ The official ClickHouse Connect Python driver uses the HTTP protocol for communi
 
 ³ClickHouse Connect generally works well with versions outside the officially supported range.
 
-## Installation [#installation]
+## Installation 
 
 Install ClickHouse Connect from [PyPI](https://pypi.org/project/clickhouse-connect/) via pip:
 
@@ -56,23 +56,23 @@ ClickHouse Connect can also be installed from source:
 * (Optional) run `pip install cython` to build and enable the C/Cython optimizations
 * `cd` to the project root directory and run `pip install .`
 
-## Support policy [#support-policy]
+## Support policy 
 
 Please update to the latest version of ClickHouse Connect before reporting any issues. Issues should be filed in the [GitHub project](https://github.com/ClickHouse/clickhouse-connect/issues). Future releases of ClickHouse Connect are intended be compatible with actively supported ClickHouse versions at the time of release. Actively supported versions of ClickHouse server can be found [here](https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md). If you're unsure what version of ClickHouse server to use, read this discussion [here](https://clickhouse.com/docs/knowledgebase/production#how-to-choose-between-clickhouse-releases). Our CI test matrix tests against the latest two LTS releases and the latest three stable releases. However, due to the HTTP protocol and minimal breaking changes between ClickHouse releases, ClickHouse Connect generally works well with server versions outside the officially supported range, though compatibility with certain advanced data types may vary.
 
-## Basic usage [#basic-usage]
+## Basic usage 
 
-### Gather your connection details [#gather-your-connection-details]
+### Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-### Establish a connection [#establish-a-connection]
+### Establish a connection 
 
 There are two examples shown for connecting to ClickHouse:
 - Connecting to a ClickHouse server on localhost.
 - Connecting to a ClickHouse Cloud service.
 
-#### Use a ClickHouse Connect client instance to connect to a ClickHouse server on localhost: [#use-a-clickhouse-connect-client-instance-to-connect-to-a-clickhouse-server-on-localhost]
+#### Use a ClickHouse Connect client instance to connect to a ClickHouse server on localhost: 
 
 ```python
 import clickhouse_connect
@@ -80,7 +80,7 @@ import clickhouse_connect
 client = clickhouse_connect.get_client(host='localhost', username='default', password='password')
 ```
 
-#### Use a ClickHouse Connect client instance to connect to a ClickHouse Cloud service: [#use-a-clickhouse-connect-client-instance-to-connect-to-a-clickhouse-cloud-service]
+#### Use a ClickHouse Connect client instance to connect to a ClickHouse Cloud service: 
 
 <Tip>
 Use the connection details gathered earlier. ClickHouse Cloud services require TLS, so use port 8443.
@@ -92,7 +92,7 @@ import clickhouse_connect
 client = clickhouse_connect.get_client(host='HOSTNAME.clickhouse.cloud', port=8443, username='default', password='your password')
 ```
 
-### Interact with your database [#interact-with-your-database]
+### Interact with your database 
 
 To run a ClickHouse SQL command, use the client `command` method:
 

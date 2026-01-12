@@ -51,7 +51,7 @@ Elasticsearch and ClickHouse support a wide variety of data types, but their und
 | `percolator`                  | NA                           | No concept of indexing queries. Use standard SQL + Incremental Materialized Views instead. |
 | `version`                     | [`String`](/sql-reference/data-types/string)                    | ClickHouse does not have a native version type. Store versions as strings and use custom UDFs functions to perform semantic comparisons if needed. Consider normalizing to numeric formats if range queries are required. |
 
-### Notes [#notes]
+### Notes 
 
 - **Arrays**: In Elasticsearch, all fields support arrays natively. In ClickHouse, arrays must be explicitly defined (e.g., `Array(String)`), with the advantage specific positions can be accessed and queried e.g. `an_array[1]`.
 - **Multi-fields**: Elasticsearch allows indexing the [same field multiple ways](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/multi-fields#_multi_fields_with_multiple_analyzers) (e.g., both `text` and `keyword`). In ClickHouse, this pattern must be modeled using separate columns or views.

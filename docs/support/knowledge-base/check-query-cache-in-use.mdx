@@ -8,13 +8,13 @@ keywords: ['Query Cache']
 
 
 
-## How can I check that query cache is being used in my query? [#how-can-i-check-that-query-cache-is-being-used-in-my-query]
+## How can I check that query cache is being used in my query?
 
 See this example using [clickhouse client](https://clickhouse.com/docs/interfaces/cli) and ClickHouse Cloud service.
 
 create a `query_cache_test` table
 
-## Using clickhouse client [#using-clickhouse-client]
+## Using clickhouse client
 
 ```sql
 clickhouse-cloud :) CREATE TABLE query_cache_test (name String, age UInt8) ENGINE =MergeTree ORDER BY name
@@ -149,7 +149,7 @@ In the 1st execution, no entry was obviously found (`No entry found for query SE
 
 In the 2nd execution, they query made use of they query cache as it found the entry already stored (`Entry found for query SELECT...`).
 
-## Using just SQL [#using-just-sql]
+## Using just SQL
 
 Just through issuing SQL commands without inspecting the `clickhouse client` trace logs, 
 

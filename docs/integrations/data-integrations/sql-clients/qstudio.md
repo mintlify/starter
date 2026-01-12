@@ -17,7 +17,7 @@ QStudio is a free SQL GUI, it allows running SQL scripts, easy browsing of table
 
 QStudio connects to ClickHouse using JDBC.
 
-## 1. Gather your ClickHouse details [#1-gather-your-clickhouse-details]
+## 1. Gather your ClickHouse details 
 
 QStudio uses JDBC over HTTP(S) to connect to ClickHouse; you need:
 
@@ -28,11 +28,11 @@ QStudio uses JDBC over HTTP(S) to connect to ClickHouse; you need:
 
 <GatherYourDetailsHttp />
 
-## 2. Download QStudio [#2-download-qstudio]
+## 2. Download QStudio 
 
 QStudio is available at https://www.timestored.com/qstudio/download/
 
-## 3. Add a database [#3-add-a-database]
+## 3. Add a database 
 
 - When you first open QStudio click on the menu options **Server->Add Server** or on the add server button on the toolbar.
 - Then set the details:
@@ -49,7 +49,7 @@ QStudio is available at https://www.timestored.com/qstudio/download/
 
 If QStudio detects that you do not have the ClickHouse JDBC driver installed, it will offer to download them for you:
 
-## 4. Query ClickHouse [#4-query-clickhouse]
+## 4. Query ClickHouse 
 
 - Open a query editor and run a query. You can run queries by
 - Ctrl + e - Runs highlighted text
@@ -59,6 +59,6 @@ If QStudio detects that you do not have the ClickHouse JDBC driver installed, it
 
 <img src="/images/integrations/sql-clients/qstudio-running-query.png" alt="QStudio interface showing sample SQL query execution against ClickHouse database"/>
 
-## Next steps [#next-steps]
+## Next steps 
 
 See [QStudio](https://www.timestored.com/qstudio) to learn about the capabilities of QStudio, and the [ClickHouse documentation](https://clickhouse.com/docs) to learn about the capabilities of ClickHouse.

@@ -8,7 +8,7 @@ show_related_blogs: true
 doc_type: 'guide'
 ---
 
-## Inserting into ClickHouse vs. OLTP databases [#inserting-into-clickhouse-vs-oltp-databases]
+## Inserting into ClickHouse vs. OLTP databases 
 
 As an OLAP (Online Analytical Processing) database, ClickHouse is optimized for high performance and scalability, allowing potentially millions of rows to be inserted per second.
 This is achieved through a combination of a highly parallelized architecture and efficient column-oriented compression, but with compromises on immediate consistency.
@@ -21,9 +21,9 @@ These transactions can potentially involve a small number of rows at a time, wit
 To achieve high insert performance while maintaining strong consistency guarantees, users should adhere to the simple rules described below when inserting data into ClickHouse.
 Following these rules will help to avoid issues users commonly encounter the first time they use ClickHouse, and try to replicate an insert strategy that works for OLTP databases.
 
-## Best practices for Inserts [#best-practices-for-inserts]
+## Best practices for Inserts 
 
-### Insert in large batch sizes [#insert-in-large-batch-sizes]
+### Insert in large batch sizes 
 
 By default, each insert sent to ClickHouse causes ClickHouse to immediately create a part of storage containing the data from the insert together with other metadata that needs to be stored.
 Therefore, sending a smaller amount of inserts that each contain more data, compared to sending a larger amount of inserts that each contain less data, will reduce the number of writes required.
@@ -32,7 +32,7 @@ Generally, we recommend inserting data in fairly large batches of at least 1,000
 
 If large batches are not possible, use asynchronous inserts described below.
 
-### Ensure consistent batches for idempotent retries [#ensure-consistent-batches-for-idempotent-retries]
+### Ensure consistent batches for idempotent retries 
 
 By default, inserts into ClickHouse are synchronous and idempotent (i.e. performing the same insert operation multiple times has the same effect as performing it once).
 For tables of the MergeTree engine family, ClickHouse will, by default, automatically [deduplicate inserts](https://clickhouse.com/blog/common-getting-started-issues-with-clickhouse#5-deduplication-at-insert-time).
@@ -45,7 +45,7 @@ This means inserts remain resilient in the following cases:
 From the client's perspective, (i) and (ii) can be hard to distinguish. However, in both cases, the unacknowledged insert can just be immediately retried.
 As long as the retried insert query contains the same data in the same order, ClickHouse will automatically ignore the retried insert if the (unacknowledged) original insert succeeded.
 
-### Insert to a MergeTree table or a distributed table [#insert-to-a-mergetree-table-or-a-distributed-table]
+### Insert to a MergeTree table or a distributed table 
 
 We recommend inserting directly into a MergeTree (or Replicated table), balancing the requests across a set of nodes if the data is sharded, and setting `internal_replication=true`.
 This will leave ClickHouse to replicate the data to any available replica shards and ensure the data is eventually consistent.
@@ -53,7 +53,7 @@ This will leave ClickHouse to replicate the data to any available replica shards
 If this client side load balancing is inconvenient then users can insert via a [distributed table](/engines/table-engines/special/distributed) which will then distribute writes across the nodes. Again, it is advised to set `internal_replication=true`.
 It should be noted however that this approach is a little less performant as writes have to be made locally on the node with the distributed table and then sent to the shards.
 
-### Use asynchronous inserts for small batches [#use-asynchronous-inserts-for-small-batches]
+### Use asynchronous inserts for small batches 
 
 There are scenarios where client-side batching is not feasible e.g. an observability use case with 100s or 1000s of single-purpose agents sending logs, metrics, traces, etc.
 In this scenario real-time transport of that data is key to detect issues and anomalies as quickly as possible.
@@ -80,14 +80,14 @@ Note that the data is not searchable by queries before being flushed to the data
 Full details on configuring asynchronous inserts can be found [here](/optimize/asynchronous-inserts#enabling-asynchronous-inserts), with a deep dive [here](https://clickhouse.com/blog/asynchronous-data-inserts-in-clickhouse).
 </Note>
 
-### Use official ClickHouse clients [#use-official-clickhouse-clients]
+### Use official ClickHouse clients 
 
 ClickHouse has clients in the most popular programming languages.
 These are optimized to ensure that inserts are performed correctly and natively support asynchronous inserts either directly as in e.g. the [Go client](/integrations/go#async-insert), or indirectly when enabled in the query, user or connection level settings.
 
 See [Clients and Drivers](/interfaces/cli) for a full list of available ClickHouse clients and drivers.
 
-### Prefer the native format [#prefer-the-native-format]
+### Prefer the native format 
 
 ClickHouse supports many [input formats](/interfaces/formats) at insert (and query) time.
 This is a significant difference with OLTP databases and makes loading data from external sources much easier - especially when coupled with [table functions](/sql-reference/table-functions) and the ability to load data from files on disk.
@@ -101,7 +101,7 @@ Alternatively, users can use [RowBinary format](/interfaces/formats/RowBinary) (
 This is more efficient, in terms of compression, network overhead, and processing on the server, than alternative row formats such as [JSON](/interfaces/formats/JSON).
 The [JSONEachRow](/interfaces/formats/JSONEachRow) format can be considered for users with lower write throughput looking to integrate quickly. Users should be aware this format will incur a CPU overhead in ClickHouse for parsing.
 
-### Use the HTTP interface [#use-the-http-interface]
+### Use the HTTP interface 
 
 Unlike many traditional databases, ClickHouse supports an HTTP interface.
 Users can use this for both inserting and querying data, using any of the above formats.
@@ -112,7 +112,7 @@ The native protocol does allow query progress to be easily tracked.
 
 See [HTTP Interface](/interfaces/http) for further details.
 
-## Basic example [#basic-example]
+## Basic example 
 
 You can use the familiar `INSERT INTO TABLE` command with ClickHouse. Let's insert some data into the table that we created in the start guide ["Creating Tables in ClickHouse"](./creating-tables).
 
@@ -140,7 +140,7 @@ user_id message                                             timestamp           
 102         Sort your data based on your commonly-used queries  2024-11-13 00:00:00     2.718
 ```
 
-## Loading data from Postgres [#loading-data-from-postgres]
+## Loading data from Postgres 
 
 For loading data from Postgres, users can use:
 
@@ -154,7 +154,7 @@ For loading data from Postgres, users can use:
 If you need help inserting large datasets or encounter any errors when importing data into ClickHouse Cloud, please contact us at support@clickhouse.com and we can assist.
 </Note>
 
-## Inserting data from the command line [#inserting-data-from-command-line]
+## Inserting data from the command line 
 
 **Prerequisites**
 - You have [installed](/install) ClickHouse
@@ -169,7 +169,7 @@ We'll be using the [Hacker News dataset](/getting-started/example-datasets/hacke
 
 <Step>
 
-### Download the CSV [#download-csv]
+### Download the CSV 
 
 Run the following command to download a CSV version of the dataset from our public S3 bucket:
 
@@ -183,7 +183,7 @@ At 4.6GB, and 28m rows, this compressed file should take 5-10 minutes to downloa
 
 <Step>
 
-### Create the table [#create-table]
+### Create the table 
 
 With `clickhouse-server` running, you can create an empty table with the following schema directly from the command line using `clickhouse-client` in batch mode:
 
@@ -217,7 +217,7 @@ If there are no errors, then the table has been successfully created. In the com
 
 <Step>
 
-### Insert the data from the command line [#insert-data-via-cmd]
+### Insert the data from the command line 
 
 Next run the command below to insert the data from the file you downloaded earlier into your table:
 
@@ -248,7 +248,7 @@ clickhouse-client --query "SELECT formatReadableQuantity(count(*)) FROM hackerne
 
 <Step>
 
-### inserting data via command line with curl [#insert-using-curl]
+### inserting data via command line with curl 
 
 In the previous steps you first downloaded the csv file to your local machine using `wget`. It is also possible to directly insert the data from the remote URL using a single command.
 

@@ -13,7 +13,7 @@ This guide shows how to migrate data from [BigQuery](https://cloud.google.com/bi
 
 We first export a table to [Google's object store (GCS)](https://cloud.google.com/storage) and then import that data into [ClickHouse Cloud](https://clickhouse.com/cloud). These steps need to be repeated for each table you wish to export from BigQuery to ClickHouse.
 
-## How long will exporting data to ClickHouse take? [#how-long-will-exporting-data-to-clickhouse-take]
+## How long will exporting data to ClickHouse take? 
 
 Exporting data from BigQuery to ClickHouse is dependent on the size of your dataset. As a comparison, it takes about an hour to export the [4TB public Ethereum dataset](https://cloud.google.com/blog/products/data-analytics/ethereum-bigquery-public-dataset-smart-contract-analytics) from BigQuery to ClickHouse using this guide.
 
@@ -28,7 +28,7 @@ Exporting data from BigQuery to ClickHouse is dependent on the size of your data
 <Steps>
 
 <Step>
-## Export table data to GCS [#1-export-table-data-to-gcs]
+## Export table data to GCS 
 
 In this step, we utilize the [BigQuery SQL workspace](https://cloud.google.com/bigquery/docs/bigquery-web-ui) to execute our SQL commands. Below, we export a BigQuery table named `mytable` to a GCS bucket using the [`EXPORT DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/other-statements) statement.
 
@@ -67,7 +67,7 @@ This approach has a number of advantages:
 </Step>
 
 <Step>
-## Importing data into ClickHouse from GCS [#2-importing-data-into-clickhouse-from-gcs]
+## Importing data into ClickHouse from GCS 
 Once the export is complete, we can import this data into a ClickHouse table. You can use the [ClickHouse SQL console](/integrations/sql-clients/sql-console) or [`clickhouse-client`](/interfaces/cli) to execute the commands below.
 
 You must first [create your table](/sql-reference/statements/create/table) in ClickHouse:
@@ -120,7 +120,7 @@ Alternatively, you can `SET input_format_null_as_default=1` and any missing or N
 </Step>
 
 <Step>
-## Testing successful data export [#3-testing-successful-data-export]
+## Testing successful data export 
 
 To test whether your data was properly inserted, simply run a `SELECT` query on your new table:
 
@@ -134,7 +134,7 @@ To export more BigQuery tables, simply redo the steps above for each additional 
 
 </Steps>
 
-## Further reading and support [#further-reading-and-support]
+## Further reading and support 
 
 In addition to this guide, we also recommend reading our blog post that shows [how to use ClickHouse to speed up BigQuery and how to handle incremental imports](https://clickhouse.com/blog/clickhouse-bigquery-migrating-data-for-realtime-queries).
 

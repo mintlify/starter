@@ -24,12 +24,12 @@ The available query types are:
 - [Traces](#traces): optimized for searching/viewing traces. Works best in explore view with [defaults configured](./config.md#traces).
 - [SQL Editor](#sql-editor): the SQL Editor can be used when you want full control over the query. In this mode, any SQL query can be executed.
 
-## Query types [#query-types]
+## Query types 
 
 The *Query Type* setting will change the layout of the query builder to match the type of query being built.
 The query type also determines which panel is used when visualizing data.
 
-### Table [#table]
+### Table 
 
 The most flexible query type is the table query. This is a catch-all for the other query builders designed to handle simple and aggregate queries.
 
@@ -47,7 +47,7 @@ The most flexible query type is the table query. This is a catch-all for the oth
 
 This query type will render the data as a table.
 
-### Logs [#logs]
+### Logs 
 
 The logs query type offers a query builder focused on querying logs data.
 Defaults can be configured in the data source's [log configuration](./config.md#logs) to allow the query builder to be pre-loaded with a default database/table and columns.
@@ -79,7 +79,7 @@ This query type will render the data in the logs panel along with a logs histogr
 Extra columns that are selected in the query can be viewed in the expanded log row:
 <Image size="md" img={demo_logs_query_fields} alt="Example of extra fields on logs query" border />
 
-### Time series [#time-series]
+### Time series 
 
 The time series query type is similar to [table](#table), but with a focus on time series data.
 
@@ -110,7 +110,7 @@ Try removing the `LIMIT` clause by setting it to `0` (if your dataset allows).
 
 This query type will render the data with the time series panel.
 
-### Traces [#traces]
+### Traces 
 
 The trace query type offers a query builder for easily searching and viewing traces.
 It is designed for OpenTelemetry data, but columns can be selected to render traces from a different schema.
@@ -147,7 +147,7 @@ The trace query type supports [data links](#data-links).
 
 This query type will render the data with the table view for Trace Search mode, and the trace panel for Trace ID mode.
 
-## SQL editor [#sql-editor]
+## SQL editor 
 
 For queries that are too complex for the query builder, you can use the SQL Editor.
 This gives you full control over the query by allowing you to write and run plain ClickHouse SQL.
@@ -161,7 +161,7 @@ This switch also has an effect even in dashboard view, notably with time series 
 
 <Image size="md" img={demo_raw_sql_query} alt="Example raw SQL query" border />
 
-## Data links [#data-links]
+## Data links 
 
 Grafana [data links](https://grafana.com/docs/grafana/latest/panels-visualizations/configure-data-links)
 can be used to link to new queries.
@@ -177,7 +177,7 @@ This feature has been enabled within the ClickHouse plugin for linking a trace t
   <Image size="md" img={trace_id_in_logs} alt="Trace links in logs" border />
 </div>
 
-### How to make a data link [#how-to-make-a-data-link]
+### How to make a data link 
 
 You can make a data link by selecting a column named `traceID` in your query. This name is case insensitive, and supports adding an underscore before the "ID". For example: `traceId`, `TraceId`, `TRACE_ID`, and `tracE_iD` would all be valid.
 
@@ -185,7 +185,7 @@ If OpenTelemetry is enabled in a [log](#logs) or [trace](#traces) query, a trace
 
 By including a trace ID column, the "**View Trace**" and "**View Logs**" links will be attached to the data.
 
-### Linking abilities [#linking-abilities]
+### Linking abilities 
 
 With the data links present, you can open traces and logs using the provided trace ID.
 
@@ -199,14 +199,14 @@ Having defaults configured for both [logs](./config.md#logs) and [traces](./conf
   <Image size="md" img={demo_data_links} alt="Example of data links linking" border />
 </div>
 
-## Macros [#macros]
+## Macros 
 
 Macros are a simple way to add dynamic SQL to your query.
 Before a query gets sent to the ClickHouse server, the plugin will expand the macro and replace it will the full expression.
 
 Queries from both the SQL Editor and Query Builder can use macros.
 
-### Using macros [#using-macros]
+### Using macros 
 
 Macros can be included anywhere in the query, multiple times if needed.
 
@@ -230,7 +230,7 @@ In this example, the Grafana dashboard's time range is applied to the `log_time`
 
 The plugin also supports notation using braces `{}`. Use this notation when queries are needed inside [parameters](/sql-reference/syntax.md#defining-and-using-query-parameters).
 
-### List of macros [#list-of-macros]
+### List of macros 
 
 This is a list of all macros available in the plugin:
 

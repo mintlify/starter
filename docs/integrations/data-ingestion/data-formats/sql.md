@@ -9,7 +9,7 @@ keywords: ['sql format', 'data export', 'data import', 'backup', 'sql dumps']
 
 ClickHouse can be easily integrated into OLTP database infrastructures in many ways. One way is to transfer data between other databases and ClickHouse using SQL dumps.
 
-## Creating SQL dumps [#creating-sql-dumps]
+## Creating SQL dumps 
 
 Data can be dumped in SQL format using [SQLInsert](/interfaces/formats/SQLInsert). ClickHouse will write data in `INSERT INTO <table name> VALUES(...` form and use [`output_format_sql_insert_table_name`](/operations/settings/settings-formats.md/#output_format_sql_insert_table_name) settings option as a table name:
 
@@ -40,7 +40,7 @@ Some DBMSs might have limits on how much values can be processes within a single
 SET output_format_sql_insert_max_batch_size = 1000;
 ```
 
-### Exporting a set of values [#exporting-a-set-of-values]
+### Exporting a set of values 
 
 ClickHouse has [Values](/interfaces/formats/Values) format, which is similar to SQLInsert, but omits an `INSERT INTO table VALUES` part and returns only a set of values:
 
@@ -51,7 +51,7 @@ SELECT * FROM some_data LIMIT 3 FORMAT Values
 ('Bangor_City_Forest','2015-07-01',34),('Alireza_Afzal','2017-02-01',24),('Akhaura-Laksam-Chittagong_Line','2015-09-01',30)
 ```
 
-## Inserting data from SQL dumps [#inserting-data-from-sql-dumps]
+## Inserting data from SQL dumps 
 
 To read SQL dumps, [MySQLDump](/interfaces/formats/MySQLDump) is used:
 
@@ -100,7 +100,7 @@ DESCRIBE TABLE table_from_mysql;
 └───────┴──────────────────┴──────────────┴────────────────────┴─────────┴──────────────────┴────────────────┘
 ```
 
-## Other formats [#other-formats]
+## Other formats 
 
 ClickHouse introduces support for many formats, both text, and binary, to cover various scenarios and platforms. Explore more formats and ways to work with them in the following articles:
 

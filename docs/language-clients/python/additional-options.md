@@ -10,7 +10,7 @@ doc_type: 'reference'
 
 ClickHouse Connect provides a number of additional options for advanced use cases.
 
-## Global settings [#global-settings]
+## Global settings 
 
 There are a small number of settings that control ClickHouse Connect behavior globally. They are accessed from the top level `common` package:
 
@@ -43,7 +43,7 @@ The following global settings are currently defined:
 | http_buffer_size                    | 10MB    |                         | Size (in bytes) of the "in-memory" buffer used for HTTP streaming queries.                                                                                                                                                                                    |
 | preserve_pandas_datetime_resolution | False   | True, False             | When True and using pandas 2.x, preserves the datetime64/timedelta64 dtype resolution (e.g., 's', 'ms', 'us', 'ns'). If False (or on pandas &lt;2.x), coerces to nanosecond ('ns') resolution for compatibility.                                              |
 
-## Compression [#compression]
+## Compression 
 
 ClickHouse Connect supports lz4, zstd, brotli, and gzip compression for both query results and inserts. Always keep in mind that using compression usually involves a tradeoff between network bandwidth/transfer speed against CPU usage (both on the client and the server.)
 
@@ -59,26 +59,26 @@ Note that the `raw*` client methods don't use the compression specified by the c
 
 We also recommend against using `gzip` compression, as it is significantly slower than the alternatives for both compressing and decompressing data.
 
-## HTTP proxy support [#http-proxy-support]
+## HTTP proxy support 
 
 ClickHouse Connect adds basic HTTP proxy support using the `urllib3` library. It recognizes the standard `HTTP_PROXY` and `HTTPS_PROXY` environment variables. Note that using these environment variables will apply to any client created with the `clickhouse_connect.get_client` method. Alternatively, to configure per client, you can use the `http_proxy` or `https_proxy` arguments to the get_client method. For details on the implementation of HTTP Proxy support, see the [urllib3](https://urllib3.readthedocs.io/en/stable/advanced-usage.html#http-and-https-proxies) documentation.
 
 To use a SOCKS proxy, you can send a `urllib3` `SOCKSProxyManager` as the `pool_mgr` argument to `get_client`. Note that this will require installing the PySocks library either directly or using the `[socks]` option for the `urllib3` dependency.
 
-## "Old" JSON data type [#old-json-data-type]
+## "Old" JSON data type 
 
 The experimental `Object` (or `Object('json')`) data type is deprecated and should be avoided in a production environment. ClickHouse Connect continues to provide limited support for the data type for backward compatibility. Note that this support does not include queries that are expected to return "top level" or "parent" JSON values as dictionaries or the equivalent, and such queries will result in an exception.
 
-## "New" Variant/Dynamic/JSON datatypes (experimental feature) [#new-variantdynamicjson-datatypes-experimental-feature]
+## "New" Variant/Dynamic/JSON datatypes (experimental feature) 
 
 Beginning with the 0.8.0 release, `clickhouse-connect` provides experimental support for the new (also experimental) ClickHouse types Variant, Dynamic, and JSON.
 
-### Usage notes [#usage-notes]
+### Usage notes 
 - JSON data can be inserted as either a Python dictionary or a JSON string containing a JSON object `{}`. Other forms of JSON data are not supported.
 - Queries using subcolumns/paths for these types will return the type of the sub column.
 - See the main ClickHouse [documentation](https://clickhouse.com/docs) for other usage notes.
 
-### Known limitations [#known-limitations]
+### Known limitations 
 - Each of these types must be enabled in the ClickHouse settings before using.
 - The "new" JSON type is available starting with the ClickHouse 24.8 release
 - Due to internal format changes, `clickhouse-connect` is only compatible with Variant types beginning with the ClickHouse 24.7 release

@@ -7,7 +7,7 @@ description: 'Deploy ClickHouse on your own cloud infrastructure'
 doc_type: 'reference'
 ---
 
-## Overview [#overview]
+## Overview 
 
 BYOC (Bring Your Own Cloud) allows you to deploy ClickHouse Cloud on your own cloud infrastructure. This is useful if you have specific requirements or constraints that prevent you from using the ClickHouse Cloud managed service.
 
@@ -19,15 +19,15 @@ BYOC is currently only supported for AWS. You can join the wait list for GCP and
 BYOC is designed specifically for large-scale deployments, and requires customers to sign a committed contract.
 </Note>
 
-## Glossary [#glossary]
+## Glossary 
 
 - **ClickHouse VPC:**  The VPC owned by ClickHouse Cloud.
 - **Customer BYOC VPC:** The VPC, owned by the customer's cloud account, is provisioned and managed by ClickHouse Cloud and dedicated to a ClickHouse Cloud BYOC deployment.
 - **Customer VPC** Other VPCs owned by the customer cloud account used for applications that need to connect to the Customer BYOC VPC.
 
-## Features [#features]
+## Features 
 
-### Supported features [#supported-features]
+### Supported features 
 
 - **SharedMergeTree**: ClickHouse Cloud and BYOC use the same binary and configuration. Therefore all features from ClickHouse core are supported in BYOC such as SharedMergeTree.
 - **Console access for managing service state**:
@@ -46,7 +46,7 @@ BYOC is designed specifically for large-scale deployments, and requires customer
 - **Secure S3.**
 - **[AWS PrivateLink](https://aws.amazon.com/privatelink/).**
 
-### Planned features (currently unsupported) [#planned-features-currently-unsupported]
+### Planned features (currently unsupported) 
 
 - [AWS KMS](https://aws.amazon.com/kms/) aka CMEK (customer-managed encryption keys)
 - ClickPipes for ingest

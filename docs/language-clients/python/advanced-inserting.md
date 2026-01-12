@@ -8,9 +8,9 @@ title: 'Advanced Inserting'
 doc_type: 'reference'
 ---
 
-## Inserting data with ClickHouse Connect: Advanced usage [#inserting-data-with-clickhouse-connect--advanced-usage]
+## Inserting data with ClickHouse Connect: Advanced usage 
 
-### InsertContexts [#insertcontexts]
+### InsertContexts 
 
 ClickHouse Connect executes all inserts within an `InsertContext`. The `InsertContext` includes all the values sent as arguments to the client `insert` method. In addition, when an `InsertContext` is originally constructed, ClickHouse Connect retrieves the data types for the insert columns required for efficient Native format inserts. By reusing the `InsertContext` for multiple inserts, this "pre-query" is avoided and inserts are executed more quickly and efficiently.
 
@@ -31,12 +31,12 @@ assert qr[0][0] == 4
 
 `InsertContext`s include mutable state that is updated during the insert process, so they are not thread safe.
 
-### Write formats [#write-formats]
+### Write formats 
 Write formats are currently implemented for limited number of types. In most cases ClickHouse Connect will attempt to automatically determine the correct write format for a column by checking the type of the first (non-null) data value. For example, if inserting into a `DateTime` column, and the first insert value of the column is a Python integer, ClickHouse Connect will directly insert the integer value under the assumption that it's actually an epoch second.
 
 In most cases, it is unnecessary to override the write format for a data type, but the associated methods in the `clickhouse_connect.datatypes.format` package can be used to do so at a global level.
 
-#### Write format options [#write-format-options]
+#### Write format options 
 
 | ClickHouse Type       | Native Python Type      | Write Formats     | Comments                                                                                                    |
 |-----------------------|-------------------------|-------------------|-------------------------------------------------------------------------------------------------------------|
@@ -66,7 +66,7 @@ In most cases, it is unnecessary to override the write format for a data type, b
 | Variant               | object                  |                   | At this time on all variants are inserted as Strings and parsed by the ClickHouse server                    |
 | Dynamic               | object                  |                   | Warning -- at this time any inserts into a Dynamic column are persisted as a ClickHouse String              |
 
-### Specialized insert methods [#specialized-insert-methods]
+### Specialized insert methods 
 
 ClickHouse Connect provides specialized insert methods for common data formats:
 
@@ -78,7 +78,7 @@ ClickHouse Connect provides specialized insert methods for common data formats:
 A NumPy array is a valid Sequence of Sequences and can be used as the `data` argument to the main `insert` method, so a specialized method is not required.
 </Note>
 
-#### Pandas DataFrame insert [#pandas-dataframe-insert]
+#### Pandas DataFrame insert 
 
 ```python
 import clickhouse_connect
@@ -95,7 +95,7 @@ df = pd.DataFrame({
 client.insert_df("users", df)
 ```
 
-#### PyArrow Table insert [#pyarrow-table-insert]
+#### PyArrow Table insert 
 
 ```python
 import clickhouse_connect
@@ -112,7 +112,7 @@ arrow_table = pa.table({
 client.insert_arrow("users", arrow_table)
 ```
 
-#### Arrow-backed DataFrame insert (pandas 2.x) [#arrow-backed-dataframe-insert-pandas-2]
+#### Arrow-backed DataFrame insert (pandas 2.x) 
 
 ```python
 import clickhouse_connect
@@ -130,11 +130,11 @@ df = pd.DataFrame({
 client.insert_df_arrow("users", df)
 ```
 
-### Time zones [#time-zones]
+### Time zones 
 
 When inserting Python `datetime.datetime` objects into ClickHouse `DateTime` or `DateTime64` columns, ClickHouse Connect automatically handles timezone information. Since ClickHouse stores all DateTime values internally as timezone-naive Unix timestamps (seconds or fractional seconds since the epoch), timezone conversion happens automatically on the client side during insertion.
 
-#### Timezone-aware datetime objects [#timezone-aware-datetime-objects]
+#### Timezone-aware datetime objects 
 
 If you insert a timezone-aware Python `datetime.datetime` object, ClickHouse Connect will automatically call `.timestamp()` to convert it to a Unix timestamp, which correctly accounts for the timezone offset. This means you can insert datetime objects from any timezone, and they will be correctly stored as their UTC equivalent timestamp.
 
@@ -171,7 +171,7 @@ In this example, all three datetime objects represent different points in time b
 When using pytz, you must use the `localize()` method to attach timezone information to a naive datetime. Passing `tzinfo=` directly to the datetime constructor will use incorrect historical offsets. For UTC, `tzinfo=pytz.UTC` works correctly. See [pytz docs](https://pythonhosted.org/pytz/#localized-times-and-date-arithmetic) for more info.
 </Note>
 
-#### Timezone-naive datetime objects [#timezone-naive-datetime-objects]
+#### Timezone-naive datetime objects 
 
 If you insert a timezone-naive Python `datetime.datetime` object (one without `tzinfo`), the `.timestamp()` method will interpret it as being in the system's local timezone. To avoid ambiguity, it's recommended to:
 
@@ -196,7 +196,7 @@ epoch_timestamp = int(naive_time.replace(tzinfo=pytz.UTC).timestamp())
 client.insert('events', [[epoch_timestamp]], column_names=['event_time'])
 ```
 
-#### DateTime columns with timezone metadata [#datetime-columns-with-timezone-metadata]
+#### DateTime columns with timezone metadata 
 
 ClickHouse columns can be defined with timezone metadata (e.g., `DateTime('America/Denver')` or `DateTime64(3, 'Asia/Tokyo')`). This metadata doesn't affect how data is stored (still as UTC timestamps), but it controls the timezone used when querying data back from ClickHouse.
 
@@ -225,7 +225,7 @@ print(*results.result_rows, sep="\n")
 # (datetime.datetime(2023, 6, 15, 7, 30, tzinfo=<DstTzInfo 'America/Los_Angeles' PDT-1 day, 17:00:00 DST>),)
 ```
 
-## File inserts [#file-inserts]
+## File inserts 
 
 The `clickhouse_connect.driver.tools` package includes the `insert_file` method that allows inserting data directly from the file system into an existing ClickHouse table. Parsing is delegated to the ClickHouse server. `insert_file` accepts the following parameters:
 

@@ -11,7 +11,7 @@ keywords: ['clickpipes', 'mysql', 'cdc', 'data ingestion', 'real-time sync']
 
 There are scenarios where it would be useful to add specific tables to a pipe. This becomes a common necessity as your transactional or analytical workload scales.
 
-## Steps to add specific tables to a ClickPipe [#add-tables-steps]
+## Steps to add specific tables to a ClickPipe 
 
 This can be done by the following steps:
 1. [Pause](./pause_and_resume.md) the pipe.

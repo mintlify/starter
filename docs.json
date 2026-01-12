@@ -1,17 +1,18 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "aspen",
   "name": "ClickHouse Documentation",
   "colors": {
-    "primary": "#333431",
+    "primary": "#1c1c1c",
     "light": "#333431",
     "dark": "#fdff75"
   },
   "background": {
     "color": {
-      "dark": "#1f1f1c",
+      "dark": "#0a0d0d",
       "light": "#FFFFFF"
-    }
+    },
+    "decoration": "grid"
   },
   "favicon": "/favicon.svg",
   "scripts": [
@@ -20,19 +21,20 @@
     }
   ],
   "navigation": {
-    "products": [
+    "languages": [
       {
-        "product": "Home",
-        "icon": "house",
-        "description": "Explore docs by use case, product or learning goal.",
-        "pages": [
-          "/"
-        ]
-      },
+        "language": "en",
+        "products": [
       {
         "product": "Get started",
-        "description": "Quick start guides and core concepts for ClickHouse.",
         "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "/index"
+            ]
+          },
           {
             "tab": "About",
             "icon": "circle-info",
@@ -45,53 +47,72 @@
             ]
           },
           {
-            "tab": "Install",
+            "tab": "Setup",
             "icon": "server",
-            "pages": [
+            "dropdowns": [
               {
-                "group": "Install",
-                "expanded": false,
+                "dropdown": "Cloud",
+                "icon": "cloud",
                 "pages": [
-                  "docs/get-started/oss/install/install",
-                  "docs/get-started/oss/install/debian_ubuntu",
-                  "docs/get-started/oss/install/redhat",
-                  "docs/get-started/oss/install/other_linux",
-                  "docs/get-started/oss/install/macos",
-                  "docs/get-started/oss/install/windows",
-                  "docs/get-started/oss/install/docker",
-                  "docs/get-started/oss/install/quick-install-curl",
-                  "docs/get-started/oss/install/advanced"
+                  "docs/get-started/install/quick-start-cloud"
+                ]
+              },
+              {
+                "dropdown": "Self-managed",
+                "icon": "database",
+                "pages": [
+                  "docs/get-started/install/debian_ubuntu",
+                  "docs/get-started/install/redhat",
+                  "docs/get-started/install/other_linux",
+                  "docs/get-started/install/macos",
+                  "docs/get-started/install/windows",
+                  "docs/get-started/install/docker",
+                  "docs/get-started/install/quick-install-curl",
+                  "docs/get-started/install/advanced"
                 ]
               }
             ]
           },
           {
-            "tab": "Quick starts",
+            "tab": "Quickstarts",
             "icon": "bolt-lightning",
             "pages": [
-              "docs/get-started/quick-starts/home",
-              {
-                "group": "Quick starts",
-                "pages": [
-                  "docs/get-started/quick-starts/ingest-data-into-clickhouse",
-                  "docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse",
-                  "docs/get-started/quick-starts/updating-data-with-replacingmergetree",
-                  "docs/get-started/quick-starts/query-json-s3-using-chdb"
-                ]
-              }
+              "docs/get-started/quick-starts/home"
             ]
           },
           {
             "tab": "Concepts",
             "icon": "lightbulb",
             "pages": [
-              "docs/get-started/concepts/glossary",
-              "docs/get-started/concepts/parts",
-              "docs/get-started/concepts/partitions",
-              "docs/get-started/concepts/merges",
-              "docs/get-started/concepts/primary-indexes",
-              "docs/get-started/concepts/query-parallelism",
-              "docs/get-started/concepts/academic_overview"
+              {
+                "group" : "Core concepts",
+                "pages" : [
+                  "docs/get-started/concepts/glossary",
+                  "docs/get-started/concepts/parts",
+                  "docs/get-started/concepts/partitions",
+                  "docs/get-started/concepts/merges",
+                  "docs/get-started/concepts/primary-indexes",
+                  "docs/get-started/concepts/query-parallelism",
+                  "docs/get-started/concepts/academic_overview"
+                ]
+              },
+              {
+                "group": "Best practices",
+                "pages": [
+                  "docs/guides/best_practices/choosing_a_primary_key",
+                  "docs/guides/best_practices/select_data_type",
+                  "docs/guides/best_practices/use_materialized_views",
+                  "docs/guides/best_practices/minimize_optimize_joins",
+                  "docs/guides/best_practices/partitioning_keys",
+                  "docs/guides/best_practices/selecting_an_insert_strategy",
+                  "docs/guides/best_practices/using_data_skipping_indices",
+                  "docs/guides/best_practices/avoid_mutations",
+                  "docs/guides/best_practices/avoid_optimize_final",
+                  "docs/guides/best_practices/avoidnullablecolumns",
+                  "docs/guides/best_practices/json_type"
+                ]
+              }
+
             ]
           },
           {
@@ -128,106 +149,16 @@
               "docs/get-started/sample-datasets/github-events",
               "docs/get-started/sample-datasets/anon_web_analytics_metrica"
             ]
-          },
-          {
-            "tab": "Development",
-            "icon": "brackets-curly",
-            "groups": [
-              {
-                "group": "Introduction",
-                "pages": [
-                  "docs/get-started/development/developer-instruction",
-                  "docs/get-started/development/architecture"
-                ]
-              },
-              {
-                "group": "Building",
-                "pages": [
-                  "docs/get-started/development/build",
-                  "docs/get-started/development/build-osx",
-                  "docs/get-started/development/build-cross-osx",
-                  "docs/get-started/development/build-cross-arm",
-                  "docs/get-started/development/build-cross-riscv",
-                  "docs/get-started/development/build-cross-s390x",
-                  "docs/get-started/development/build-cross-loongarch"
-                ]
-              },
-              {
-                "group": "Contributing",
-                "pages": [
-                  "docs/get-started/development/tests",
-                  "docs/get-started/development/continuous-integration",
-                  "docs/get-started/development/contrib",
-                  "docs/get-started/development/style",
-                  "docs/get-started/development/building_and_benchmarking_deflate_qpl",
-                  "docs/get-started/development/integrating_rust_libraries",
-                  "docs/get-started/development/profile-guided-optimization"
-                ]
-              },
-              {
-                "group": "Roadmap",
-                "pages": [
-                  "docs/get-started/development/roadmap"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Changelogs",
-            "icon": "code-merge",
-            "dropdowns": [
-              {
-                "dropdown": "Cloud",
-                "icon": "cloud",
-                "pages": [
-                  "docs/get-started/changelogs/cloud/01_changelog"
-                ]
-              },
-              {
-                "dropdown": "Open Source",
-                "icon": "database",
-                "pages": [
-                  "docs/get-started/changelogs/oss/2025",
-                  "docs/get-started/changelogs/oss/2024",
-                  "docs/get-started/changelogs/oss/2023",
-                  "docs/get-started/changelogs/oss/2022",
-                  "docs/get-started/changelogs/oss/2021",
-                  "docs/get-started/changelogs/oss/2020",
-                  "docs/get-started/changelogs/oss/2019",
-                  "docs/get-started/changelogs/oss/2018",
-                  "docs/get-started/changelogs/oss/2017",
-                  "docs/get-started/changelogs/oss/security-changelog"
-                ]
-              }
-            ]
           }
         ]
       },
       {
         "product": "Guides",
-        "description": "Best practices, tutorials, and how-to guides.",
         "tabs": [
           {
             "tab": "Best practices",
             "icon": "badge-check",
             "groups": [
-              {
-                "group": "General best practices",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/best_practices/choosing_a_primary_key",
-                  "docs/guides/best_practices/select_data_type",
-                  "docs/guides/best_practices/use_materialized_views",
-                  "docs/guides/best_practices/minimize_optimize_joins",
-                  "docs/guides/best_practices/partitioning_keys",
-                  "docs/guides/best_practices/selecting_an_insert_strategy",
-                  "docs/guides/best_practices/using_data_skipping_indices",
-                  "docs/guides/best_practices/avoid_mutations",
-                  "docs/guides/best_practices/avoid_optimize_final",
-                  "docs/guides/best_practices/avoidnullablecolumns",
-                  "docs/guides/best_practices/json_type"
-                ]
-              },
               {
                 "group": "Cloud best practices",
                 "expanded": false,
@@ -598,7 +529,6 @@
       },
       {
         "product": "Reference",
-        "description": "Reference docs for syntax, settings, formats, functions",
         "tabs": [
           {
             "tab": "Home",
@@ -1586,29 +1516,8 @@
         ]
       },
       {
-        "product": "Support center",
-        "description": "Troubleshooting and support docs",
-        "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/support/home"
-            ]
-          }
-        ]
-      },
-      {
         "product": "Cloud",
-        "description": "Serverless hosted DBMS solution.",
         "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/cloud/home"
-            ]
-          },
           {
             "tab": "Get started",
             "icon": "rocket",
@@ -1892,15 +1801,7 @@
       },
       {
         "product": "ClickStack",
-        "description": "The ClickHouse observability stack",
         "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/clickstack/home"
-            ]
-          },
           {
             "tab": "Get started",
             "icon": "rocket",
@@ -2000,7 +1901,6 @@
       },
       {
         "product": "chDB",
-        "description": "Fast, reliable, and scalable in-process database",
         "tabs": [
           {
             "tab": "Home",
@@ -2055,15 +1955,7 @@
       },
       {
         "product": "ClickPipes",
-        "description": "Managed integration platform for data ingestion",
         "tabs": [
-          {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "docs/clickpipes/home"
-            ]
-          },
           {
             "tab": "Cloud object stores",
             "icon": "cloud",
@@ -2129,7 +2021,6 @@
               {
                 "group": "MongoDB",
                 "expanded": false,
-                "icon": "rectangle-beta",
                 "pages": [
                   "docs/clickpipes/database-datalake/mongodb/index",
                   "docs/clickpipes/database-datalake/mongodb/datatypes",
@@ -2229,53 +2120,115 @@
       },
       {
         "product": "Language clients",
-        "description": "Language client docs",
-        "pages": [
-          "docs/language-clients/index",
+        "tabs": [
           {
-            "group": "Go",
-            "expanded": false,
+            "tab": "Home",
+            "icon": "house",
             "pages": [
-              "docs/integrations/language-clients/go/index"
-            ]
-          },
-          "docs/integrations/language-clients/js",
-          {
-            "group": "Java",
-            "expanded": false,
-            "pages": [
-              "docs/integrations/language-clients/java/client"
+              "docs/language-clients/index"
             ]
           },
           {
-            "group": "Python",
-            "expanded": false,
+            "tab": "Go",
+            "icon": "golang",
             "pages": [
-              "docs/integrations/language-clients/python/index",
-              "docs/integrations/language-clients/python/driver-api",
-              "docs/integrations/language-clients/python/additional-options",
-              "docs/integrations/language-clients/python/advanced-querying",
-              "docs/integrations/language-clients/python/advanced-inserting",
-              "docs/integrations/language-clients/python/advanced-usage",
-              "docs/integrations/language-clients/python/sqlalchemy"
+              "/docs/language-clients/go/index"
             ]
           },
-          "docs/integrations/language-clients/rust",
-          "docs/integrations/language-clients/csharp",
-          "docs/integrations/language-clients/cpp",
           {
-            "group": "Third-party clients",
-            "expanded": false,
+            "tab": "Java",
+            "icon": "java",
+            "dropdowns": [
+              {
+                "dropdown": "Client",
+                "icon": "star",
+                "versions": [
+                  {
+                    "version": "0.8.0",
+                    "pages": [
+                      "/docs/language-clients/java/client/_v0_8"
+                    ]
+                  },
+                  {
+                    "version": "0.7.0",
+                    "pages": [
+                      "/docs/language-clients/java/client/_v0_7"
+                    ]
+                  }
+                ]
+              },
+              {
+                "dropdown": "JDBC",
+                "versions": [
+                  {
+                    "version": "0.8.0",
+                    "pages": [
+                      "/docs/language-clients/java/jdbc/_v0_8"
+                    ]
+                  },
+                  {
+                    "version": "0.7.0",
+                    "pages": [
+                      "/docs/language-clients/java/jdbc/_v0_7"
+                    ]
+                  }
+                ]
+              },
+              {
+                "dropdown": "R2DBC",
+                "pages": [
+                  "/docs/language-clients/java/r2dbc"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "JavaScript",
             "pages": [
-              "docs/integrations/language-clients/third-party/moose-olap",
-              "docs/integrations/language-clients/third-party/client-libraries"
+              "/docs/integrations/language-clients/js"
+            ]
+          },
+          {
+            "tab": "Python",
+            "pages": [
+              "/docs/integrations/language-clients/python/index",
+              "/docs/integrations/language-clients/python/driver-api",
+              "/docs/integrations/language-clients/python/additional-options",
+              "/docs/integrations/language-clients/python/advanced-querying",
+              "/docs/integrations/language-clients/python/advanced-inserting",
+              "/docs/integrations/language-clients/python/advanced-usage",
+              "/docs/integrations/language-clients/python/sqlalchemy"
+            ]
+          },
+          {
+            "tab": "Rust",
+            "pages": [
+              "/docs/integrations/language-clients/rust"
+            ]
+          },
+          {
+            "tab": "C#",
+            "pages": [
+              "/docs/integrations/language-clients/csharp"
+            ]
+          },
+          {
+            "tab": "C++",
+            "pages": [
+              "/docs/integrations/language-clients/cpp"
+            ]
+          },
+          {
+            "tab": "Third-party clients",
+            "pages": [
+              "/docs/integrations/language-clients/third-party/moose-olap",
+              "/docs/integrations/language-clients/third-party/client-libraries"
             ]
           }
         ]
       },
       {
         "product": "Data integrations",
-        "description": "100+ ClickHouse integrations",
         "tabs": [
           {
             "tab": "Home",
@@ -2497,6 +2450,127 @@
             ]
           }
         ]
+      },
+      {
+        "product": "Support center",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "docs/support/home"
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Development & contributing",
+        "groups": [
+            {
+              "group": "Introduction",
+              "pages": [
+                "docs/development/developer-instruction",
+                "docs/development/architecture"
+              ]
+            },
+            {
+              "group": "Building",
+              "pages": [
+                "docs/development/build",
+                "docs/development/build-osx",
+                "docs/development/build-cross-osx",
+                "docs/development/build-cross-arm",
+                "docs/development/build-cross-riscv",
+                "docs/development/build-cross-s390x",
+                "docs/development/build-cross-loongarch"
+              ]
+            },
+            {
+              "group": "Contributing",
+              "pages": [
+                "docs/development/tests",
+                "docs/development/continuous-integration",
+                "docs/development/contrib",
+                "docs/development/style",
+                "docs/development/building_and_benchmarking_deflate_qpl",
+                "docs/development/integrating_rust_libraries",
+                "docs/development/profile-guided-optimization"
+              ]
+            },
+            {
+              "group": "Roadmap",
+              "pages": [
+                "docs/development/roadmap"
+              ]
+            }
+          ]
+      },
+      {
+        "product": "Releases",
+        "tabs": [
+          {
+            "tab": "Cloud",
+            "icon": "cloud",
+            "pages": [
+              "docs/releases/changelogs/cloud/01_changelog"
+            ]
+          },
+          {
+            "tab": "Self-managed",
+            "icon": "database",
+            "pages": [
+              "docs/releases/changelogs/oss/2025",
+              "docs/releases/changelogs/oss/2024",
+              "docs/releases/changelogs/oss/2023",
+              "docs/releases/changelogs/oss/2022",
+              "docs/releases/changelogs/oss/2021",
+              "docs/releases/changelogs/oss/2020",
+              "docs/releases/changelogs/oss/2019",
+              "docs/releases/changelogs/oss/2018",
+              "docs/releases/changelogs/oss/2017",
+              "docs/releases/changelogs/oss/security-changelog"
+            ]
+          }
+        ]
+
+      }
+    ]
+      },
+      {
+        "language": "jp",
+        "products": [
+          {
+            "product": "Home",
+            "icon": "house",
+            "pages": [
+              "/"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "zh",
+        "products": [
+          {
+            "product": "Home",
+            "icon": "house",
+            "pages": [
+              "/"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "ru",
+        "products": [
+          {
+            "product": "Home",
+            "icon": "house",
+            "pages": [
+              "/"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -2513,10 +2587,6 @@
         "label": "44.4k",
         "icon": "github",
         "href": "https://github.com/ClickHouse/ClickHouse"
-      },
-      {
-        "label": "Sign in",
-        "href": "https://clickhouse.cloud"
       }
     ],
     "primary": {
@@ -2536,12 +2606,5 @@
       "cursor",
       "vscode"
     ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/clickhouse",
-      "github": "https://github.com/ClickHouse/ClickHouse",
-      "linkedin": "https://linkedin.com/company/clickhouse"
-    }
   }
 }

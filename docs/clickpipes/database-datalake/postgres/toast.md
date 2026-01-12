@@ -8,7 +8,7 @@ keywords: ['clickpipes', 'postgresql', 'cdc', 'data ingestion', 'real-time sync'
 
 When replicating data from PostgreSQL to ClickHouse, it's important to understand the limitations and special considerations for TOAST (The Oversized-Attribute Storage Technique) columns. This guide will help you identify and properly handle TOAST columns in your replication process.
 
-## What are TOAST columns in PostgreSQL? [#what-are-toast-columns-in-postgresql]
+## What are TOAST columns in PostgreSQL? 
 
 TOAST (The Oversized-Attribute Storage Technique) is PostgreSQL's mechanism for handling large field values. When a row exceeds the maximum row size (typically 2KB, but this can vary depending on the PostgreSQL version and exact settings), PostgreSQL automatically moves large field values into a separate TOAST table, storing only a pointer in the main table.
 
@@ -18,7 +18,7 @@ During the initial load (snapshot), all column values, including TOAST columns, 
 
 You can read more about TOAST and its implementation in PostgreSQL here: https://www.postgresql.org/docs/current/storage-toast.html
 
-## Identifying TOAST columns in a table [#identifying-toast-columns-in-a-table]
+## Identifying TOAST columns in a table 
 
 To identify if a table has TOAST columns, you can use the following SQL query:
 
@@ -34,7 +34,7 @@ WHERE c.relname = 'your_table_name'
 
 This query will return the names and data types of columns that could potentially be TOASTed. However, it's important to note that this query only identifies columns that are eligible for TOAST storage based on their data type and storage attributes. To determine if these columns actually contain TOASTed data, you'll need to consider whether the values in these columns exceed the size. The actual TOASTing of data depends on the specific content stored in these columns.
 
-## Ensuring proper handling of TOAST columns [#ensuring-proper-handling-of-toast-columns]
+## Ensuring proper handling of TOAST columns 
 
 To ensure that TOAST columns are handled correctly during replication, you should set the `REPLICA IDENTITY` of the table to `FULL`. This tells PostgreSQL to include the full old row in the WAL for UPDATE and DELETE operations, ensuring that all column values (including TOAST columns) are available for replication.
 
@@ -46,7 +46,7 @@ ALTER TABLE your_table_name REPLICA IDENTITY FULL;
 
 Refer to [this blog post](https://xata.io/blog/replica-identity-full-performance) for performance considerations when setting `REPLICA IDENTITY FULL`.
 
-## Replication behavior when REPLICA IDENTITY FULL is not set [#replication-behavior-when-replica-identity-full-is-not-set]
+## Replication behavior when REPLICA IDENTITY FULL is not set 
 
 If `REPLICA IDENTITY FULL` is not set for a table with TOAST columns, you may encounter the following issues when replicating to ClickHouse:
 
@@ -60,6 +60,6 @@ If `REPLICA IDENTITY FULL` is not set for a table with TOAST columns, you may en
 
 These behaviors can lead to data inconsistencies between your PostgreSQL source and ClickHouse destination. Therefore, it's crucial to set `REPLICA IDENTITY FULL` for tables with TOAST columns to ensure accurate and complete data replication.
 
-## Conclusion [#conclusion]
+## Conclusion 
 
 Properly handling TOAST columns is essential for maintaining data integrity when replicating from PostgreSQL to ClickHouse. By identifying TOAST columns and setting the appropriate `REPLICA IDENTITY`, you can ensure that your data is replicated accurately and completely.

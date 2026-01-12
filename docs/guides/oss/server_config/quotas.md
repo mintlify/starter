@@ -134,6 +134,6 @@ For distributed query processing, the accumulated amounts are stored on the requ
 
 When the server is restarted, quotas are reset.
 
-## Related Content [#related-content]
+## Related Content 
 
 - Blog: [Building single page applications with ClickHouse](https://clickhouse.com/blog/building-single-page-applications-with-clickhouse-and-http)

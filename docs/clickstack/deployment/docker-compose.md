@@ -31,21 +31,21 @@ Docker Compose exposes additional ports for observability and ingestion based on
 
 These ports enable integrations with a variety of telemetry sources and make the OpenTelemetry collector production-ready for diverse ingestion needs.
 
-### Suitable for [#suitable-for]
+### Suitable for 
 
 * Local testing
 * Proof of concepts
 * Production deployments where fault tolerance is not required and a single server is sufficient to host all ClickHouse data
 * When deploying ClickStack but hosting ClickHouse separately e.g. using ClickHouse Cloud.
 
-## Deployment steps [#deployment-steps]
+## Deployment steps 
 <br/>
 
 <Steps>
 
 <Step>
 
-### Clone the repo [#clone-the-repo]
+### Clone the repo 
 
 To deploy with Docker Compose clone the HyperDX repo, change into the directory and run `docker-compose up`:
 
@@ -61,7 +61,7 @@ docker compose up
 
 <Step>
 
-### Navigate to the HyperDX UI [#navigate-to-hyperdx-ui]
+### Navigate to the HyperDX UI 
 
 Visit [http://localhost:8080](http://localhost:8080) to access the HyperDX UI.
 
@@ -81,7 +81,7 @@ For an example of using an alternative ClickHouse instance, see ["Create a Click
 
 <Step>
 
-### Complete connection details [#complete-connection-details]
+### Complete connection details 
 
 To connect to the deployed ClickHouse instance, simply click **Create** and accept the default settings.
 
@@ -95,7 +95,7 @@ If prompted to create a source, retain all default values and complete the `Tabl
 
 </Steps>
 
-## Modifying compose settings [#modifying-settings]
+## Modifying compose settings 
 
 Users can modify settings for the stack, such as the version used, through the environment variable file:
 
@@ -128,11 +128,11 @@ HYPERDX_OPAMP_PORT=4320
 HYPERDX_OTEL_EXPORTER_CLICKHOUSE_DATABASE=default
 ```
 
-### Configuring the OpenTelemetry collector [#configuring-collector]
+### Configuring the OpenTelemetry collector 
 
 The OTel collector configuration can be modified if required - see ["Modifying configuration"](/use-cases/observability/clickstack/ingesting-data/otel-collector#modifying-otel-collector-configuration).
 
-## Using ClickHouse Cloud [#using-clickhouse-cloud]
+## Using ClickHouse Cloud 
 
 This distribution can be used with ClickHouse Cloud. Users should:
 

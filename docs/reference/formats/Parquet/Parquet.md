@@ -11,11 +11,11 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 [Apache Parquet](https://parquet.apache.org/) is a columnar storage format widespread in the Hadoop ecosystem. ClickHouse supports read and write operations for this format.
 
-## Data types matching [#data-types-matching-parquet]
+## Data types matching 
 
 The table below shows how Parquet data types match ClickHouse [data types](/sql-reference/data-types/index.md).
 
@@ -65,9 +65,9 @@ For some Parquet types there's no closely matching ClickHouse type. We read them
 * `TIMESTAMP`/`TIME` with `isAdjustedToUTC=false` is a local wall-clock time (year, month, day, hour, minute, second and subsecond fields in a local timezone, regardless of what specific time zone is considered local), same as SQL `TIMESTAMP WITHOUT TIME ZONE`. ClickHouse reads it as if it were a UTC timestamp instead. E.g. `2025-09-29 18:42:13.000` (representing a reading of a local wall clock) becomes `2025-09-29 18:42:13.000` (`DateTime64(3, 'UTC')` representing a point in time). If converted to String, it shows the correct year, month, day, hour, minute, second and subsecond, which can then be interpreted as being in some local timezone instead of UTC. Counterintuitively, changing the type from `DateTime64(3, 'UTC')` to `DateTime64(3)` would not help as both types represent a point in time rather than a clock reading, but `DateTime64(3)` would incorrectly be formatted using local timezone.
 * `INTERVAL` is currently read as `FixedString(12)` with raw binary representation of the time interval, as encoded in Parquet file.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using a Parquet file with the following data, named as `football.parquet`:
 
@@ -99,7 +99,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.parquet' FORMAT Parquet;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `Parquet` format:
 
@@ -116,7 +116,7 @@ Parquet is a binary format that does not display in a human-readable form on the
 
 To exchange data with Hadoop, you can use the [`HDFS table engine`](/engines/table-engines/integrations/hdfs.md).
 
-## Format settings [#format-settings]
+## Format settings 
 
 | Setting                                                                        | Description                                                                                                                                                                                                                       | Default     |
 |--------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|

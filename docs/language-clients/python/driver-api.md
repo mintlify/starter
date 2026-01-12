@@ -14,11 +14,11 @@ Passing keyword arguments is recommended for most api methods given the number o
 *Methods not documented here are not considered part of the API, and may be removed or changed.*
 </Note>
 
-## Client Initialization [#client-initialization]
+## Client Initialization 
 
 The `clickhouse_connect.driver.client` class provides the primary interface between a Python application and the ClickHouse database server. Use the `clickhouse_connect.get_client` function to obtain a Client instance, which accepts the following arguments:
 
-### Connection arguments [#connection-arguments]
+### Connection arguments 
 
 | Parameter                | Type        | Default                       | Description                                                                                                                                                                                                                                           |
 |--------------------------|-------------|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -46,7 +46,7 @@ The `clickhouse_connect.driver.client` class provides the primary interface betw
 | form_encode_query_params | bool        | False                         | Send query parameters as form-encoded data in the request body instead of URL parameters. Useful for queries with large parameter sets that might exceed URL length limits.                                                                           |
 | rename_response_column   | str         | *None*                        | Optional callback function or column name mapping to rename response columns in query results.                                                                                                                                                        |
 
-### HTTPS/TLS arguments [#httpstls-arguments]
+### HTTPS/TLS arguments 
 
 | Parameter        | Type | Default | Description                                                                                                                                                                                                                                                                       |
 |------------------|------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -57,7 +57,7 @@ The `clickhouse_connect.driver.client` class provides the primary interface betw
 | server_host_name | str  | *None*  | The ClickHouse server hostname as identified by the CN or SNI of its TLS certificate. Set this to avoid SSL errors when connecting through a proxy or tunnel with a different hostname                                                                                            |
 | tls_mode         | str  | *None*  | Controls advanced TLS behavior. `proxy` and `strict` do not invoke ClickHouse mutual TLS connection, but do send client cert and key.  `mutual` assumes ClickHouse mutual TLS auth with a client certificate.  *None*/default behavior is `mutual`                                |
 
-### Settings argument [#settings-argument]
+### Settings argument 
 
 Finally, the `settings` argument to `get_client` is used to pass additional ClickHouse settings to the server for each client request. Note that in most cases, users with *readonly*=*1* access cannot alter settings sent with a query, so ClickHouse Connect will drop such settings in the final request and log a warning. The following settings apply only to HTTP queries/sessions used by ClickHouse Connect, and are not documented as general ClickHouse settings.
 
@@ -75,7 +75,7 @@ Finally, the `settings` argument to `get_client` is used to pass additional Clic
 
 For other ClickHouse settings that can be sent with each query, see [the ClickHouse documentation](/operations/settings/settings.md).
 
-### Client creation examples [#client-creation-examples]
+### Client creation examples 
 
 - Without any parameters, a ClickHouse Connect client will connect to the default HTTP port on `localhost` with the default user and no password:
 
@@ -116,18 +116,18 @@ print(client.database)
 # Output: 'github'
 ```
 
-## Client Lifecycle and Best Practices [#client-lifecycle-and-best-practices]
+## Client Lifecycle and Best Practices 
 
 Creating a ClickHouse Connect client is an expensive operation that involves establishing a connection, retrieving server metadata, and initializing settings. Follow these best practices for optimal performance:
 
-### Core principles [#core-principles]
+### Core principles 
 
 - **Reuse clients**: Create clients once at application startup and reuse them throughout the application lifetime
 - **Avoid frequent creation**: Don't create a new client for each query or request (this wastes hundreds of milliseconds per operation)
 - **Clean up properly**: Always close clients when shutting down to release connection pool resources
 - **Share when possible**: A single client can handle many concurrent queries through its connection pool (see threading notes below)
 
-### Basic patterns [#basic-patterns]
+### Basic patterns 
 
 **✅ Good: Reuse a single client**
 
@@ -155,7 +155,7 @@ for i in range(1000):
     client.close()
 ```
 
-### Multi-threaded applications [#multi-threaded-applications]
+### Multi-threaded applications 
 
 <Warning>
 Client instances are **NOT thread-safe** when using session IDs. By default, clients have an auto-generated session ID, and concurrent queries within the same session will raise a `ProgrammingError`.
@@ -212,7 +212,7 @@ def worker(thread_id):
     client.close()
 ```
 
-### Proper cleanup [#proper-cleanup]
+### Proper cleanup 
 
 Always close clients at shutdown. Note that `client.close()` disposes the client and closes pooled HTTP connections only when the client owns its pool manager (for example, when created with custom TLS/proxy options). For the default shared pool, use `client.close_connections()` to proactively clear sockets; otherwise, connections are reclaimed automatically via idle expiration and at process exit.
 
@@ -231,7 +231,7 @@ with clickhouse_connect.get_client(host='my-host', username='default', password=
     result = client.query('SELECT 1')
 ```
 
-### When to use multiple clients [#when-to-use-multiple-clients]
+### When to use multiple clients 
 
 Multiple clients are appropriate for:
 
@@ -241,15 +241,15 @@ Multiple clients are appropriate for:
 - **Isolated sessions**: When you need separate sessions for temporary tables or session-specific settings
 - **Per-thread isolation**: When threads need independent sessions (as shown above)
 
-## Common method arguments [#common-method-arguments]
+## Common method arguments 
 
 Several client methods use one or both of the common `parameters` and `settings` arguments. These keyword arguments are described below.
 
-### Parameters argument [#parameters-argument]
+### Parameters argument 
 
 ClickHouse Connect Client `query*` and `command` methods accept an optional `parameters` keyword argument used for binding Python expressions to a ClickHouse value expression. Two sorts of binding are available.
 
-#### Server-side binding [#server-side-binding]
+#### Server-side binding 
 
 ClickHouse supports [server side binding](/interfaces/cli.md#cli-queries-with-parameters) for most query values, where the bound value is sent separate from the query as an HTTP query parameter. ClickHouse Connect will add the appropriate query parameters if it detects a binding expression of the form `{<name>:<datatype>}`. For server side binding, the `parameters` argument should be a Python dictionary.
 
@@ -277,7 +277,7 @@ WHERE date >= '2022-10-01 15:20:05'
 Server-side binding is only supported (by the ClickHouse server) for `SELECT` queries. It does not work for `ALTER`, `DELETE`, `INSERT`, or other types of queries. This may change in the future; see https://github.com/ClickHouse/ClickHouse/issues/42092.
 </Warning>
 
-#### Client-side binding [#client-side-binding]
+#### Client-side binding 
 
 ClickHouse Connect also supports client-side parameter binding, which can allow more flexibility in generating templated SQL queries. For client-side binding, the `parameters` argument should be a dictionary or a sequence. Client-side binding uses the Python ["printf" style](https://docs.python.org/3/library/stdtypes.html#old-string-formatting) string formatting for parameter substitution.
 
@@ -339,7 +339,7 @@ To bind DateTime64 arguments (ClickHouse types with sub-second precision) requir
   ```
 </Note>
 
-### Settings argument [#settings-argument-1]
+### Settings argument 
 
 All the key ClickHouse Connect Client "insert" and "select" methods accept an optional `settings` keyword argument to pass ClickHouse server [user settings](/operations/settings/settings.md) for the included SQL statement. The `settings` argument should be a dictionary. Each item should be a ClickHouse setting name and its associated value. Note that values will be converted to strings when sent to the server as query parameters.
 
@@ -354,7 +354,7 @@ settings = {'merge_tree_min_rows_for_concurrent_read': 65535,
 client.query("SELECT event_type, sum(timeout) FROM event_errors WHERE event_time > '2022-08-01'", settings=settings)
 ```
 
-## Client `command` Method [#client-command-method]
+## Client `command` Method 
 
 Use the `Client.command` method to send SQL queries to the ClickHouse server that do not normally return data or that return a single primitive or array value rather than a full dataset. This method takes the following parameters:
 
@@ -367,9 +367,9 @@ Use the `Client.command` method to send SQL queries to the ClickHouse server tha
 | use_database  | bool             | True       | Use the client database (specified when creating the client). False means the command will use the default ClickHouse server database for the connected user. |
 | external_data | ExternalData     | *None*     | An `ExternalData` object containing file or binary data to use with the query. See [Advanced Queries (External Data)](advanced-querying.md#external-data)     |
 
-### Command examples [#command-examples]
+### Command examples 
 
-#### DDL statements [#ddl-statements]
+#### DDL statements 
 
 ```python
 import clickhouse_connect
@@ -397,7 +397,7 @@ print(result)
 client.command("DROP TABLE test_command")
 ```
 
-#### Simple queries returning single values [#simple-queries-returning-single-values]
+#### Simple queries returning single values 
 
 ```python
 import clickhouse_connect
@@ -415,7 +415,7 @@ print(version)
 # Output: "25.8.2.29"
 ```
 
-#### Commands with parameters [#commands-with-parameters]
+#### Commands with parameters 
 
 ```python
 import clickhouse_connect
@@ -436,7 +436,7 @@ result = client.command(
 )
 ```
 
-#### Commands with settings [#commands-with-settings]
+#### Commands with settings 
 
 ```python
 import clickhouse_connect
@@ -450,7 +450,7 @@ result = client.command(
 )
 ```
 
-## Client `query` Method [#client-query-method]
+## Client `query` Method 
 
 The `Client.query` method is the primary way to retrieve a single "batch" dataset from the ClickHouse server. It utilizes the Native ClickHouse format over HTTP to transmit large datasets (up to approximately one million rows) efficiently. This method takes the following parameters:
 
@@ -470,9 +470,9 @@ The `Client.query` method is the primary way to retrieve a single "batch" datase
 | external_data       | ExternalData     | *None*     | An ExternalData object containing file or binary data to use with the query. See [Advanced Queries (External Data)](advanced-querying.md#external-data)                            |
 | context             | QueryContext     | *None*     | A reusable QueryContext object can be used to encapsulate the above method arguments. See [Advanced Queries (QueryContexts)](advanced-querying.md#querycontexts)                   |
 
-### Query examples [#query-examples]
+### Query examples 
 
-#### Basic query [#basic-query]
+#### Basic query 
 
 ```python
 import clickhouse_connect
@@ -497,7 +497,7 @@ print([col_type.name for col_type in result.column_types])
 # Output: ['String', 'String']
 ```
 
-#### Accessing query results [#accessing-query-results]
+#### Accessing query results 
 
 ```python
 import clickhouse_connect
@@ -531,7 +531,7 @@ print(result.first_row)
 # Output: (0, "0")
 ```
 
-#### Query with client-side parameters [#query-with-client-side-parameters]
+#### Query with client-side parameters 
 
 ```python
 import clickhouse_connect
@@ -549,7 +549,7 @@ parameters = ("system", 5)
 result = client.query(query, parameters=parameters)
 ```
 
-#### Query with server-side parameters [#query-with-server-side-parameters]
+#### Query with server-side parameters 
 
 ```python
 import clickhouse_connect
@@ -563,7 +563,7 @@ parameters = {"db": "system", "tbl": "query_log"}
 result = client.query(query, parameters=parameters)
 ```
 
-#### Query with settings [#query-with-settings]
+#### Query with settings 
 
 ```python
 import clickhouse_connect
@@ -580,7 +580,7 @@ result = client.query(
 )
 ```
 
-### The `QueryResult` object [#the-queryresult-object]
+### The `QueryResult` object 
 
 The base `query` method returns a `QueryResult` object with the following public properties:
 
@@ -601,15 +601,15 @@ The `*_stream` properties return a Python Context that can be used as an iterato
 
 The complete details of streaming query results (using StreamContext objects) are outlined in [Advanced Queries (Streaming Queries)](advanced-querying.md#streaming-queries).
 
-## Consuming query results with NumPy, Pandas or Arrow [#consuming-query-results-with-numpy-pandas-or-arrow]
+## Consuming query results with NumPy, Pandas or Arrow 
 
 ClickHouse Connect provides specialized query methods for NumPy, Pandas, and Arrow data formats. For detailed information on using these methods, including examples, streaming capabilities, and advanced type handling, see [Advanced Querying (NumPy, Pandas and Arrow Queries)](advanced-querying.md#numpy-pandas-and-arrow-queries).
 
-## Client streaming query methods [#client-streaming-query-methods]
+## Client streaming query methods 
 
 For streaming large result sets, ClickHouse Connect provides multiple streaming methods. See [Advanced Queries (Streaming Queries)](advanced-querying.md#streaming-queries) for details and examples.
 
-## Client `insert` Method [#client-insert-method]
+## Client `insert` Method 
 
 For the common use case of inserting multiple records into ClickHouse, there is the `Client.insert` method. It takes the following parameters:
 
@@ -634,11 +634,11 @@ For specialized insert methods that work with Pandas DataFrames, PyArrow Tables,
 A NumPy array is a valid Sequence of Sequences and can be used as the `data` argument to the main `insert` method, so a specialized method is not required.
 </Note>
 
-### Examples [#examples]
+### Examples 
 
 The examples below assume an existing table `users` with schema `(id UInt32, name String, age UInt8)`.
 
-#### Basic row-oriented insert [#basic-row-oriented-insert]
+#### Basic row-oriented insert 
 
 ```python
 import clickhouse_connect
@@ -655,7 +655,7 @@ data = [
 client.insert("users", data, column_names=["id", "name", "age"])
 ```
 
-#### Column-oriented insert [#column-oriented-insert]
+#### Column-oriented insert 
 
 ```python
 import clickhouse_connect
@@ -672,7 +672,7 @@ data = [
 client.insert("users", data, column_names=["id", "name", "age"], column_oriented=True)
 ```
 
-#### Insert with explicit column types [#insert-with-explicit-column-types]
+#### Insert with explicit column types 
 
 ```python
 import clickhouse_connect
@@ -694,7 +694,7 @@ client.insert(
 )
 ```
 
-#### Insert into specific database [#insert-into-specific-database]
+#### Insert into specific database 
 
 ```python
 import clickhouse_connect
@@ -715,38 +715,38 @@ client.insert(
 )
 ```
 
-## File Inserts [#file-inserts]
+## File Inserts 
 
 For inserting data directly from files into ClickHouse tables, see [Advanced Inserting (File Inserts)](advanced-inserting.md#file-inserts).
 
-## Raw API [#raw-api]
+## Raw API 
 
 For advanced use cases requiring direct access to ClickHouse HTTP interfaces without type transformations, see [Advanced Usage (Raw API)](advanced-usage.md#raw-api).
 
-## Utility classes and functions [#utility-classes-and-functions]
+## Utility classes and functions 
 
 The following classes and functions are also considered part of the "public" `clickhouse-connect` API and are, like the classes and methods documented above, stable across minor releases. Breaking changes to these classes and functions will only occur with a minor (not patch) release and will be available with a deprecated status for at least one minor release.
 
-### Exceptions [#exceptions]
+### Exceptions 
 
 All custom exceptions (including those defined in the DB API 2.0 specification) are defined in the `clickhouse_connect.driver.exceptions` module. Exceptions actually detected by the driver will use one of these types.
 
-### ClickHouse SQL utilities [#clickhouse-sql-utilities]
+### ClickHouse SQL utilities 
 
 The functions and the DT64Param class in the `clickhouse_connect.driver.binding` module can be used to properly build and escape ClickHouse SQL queries. Similarly, the functions in the `clickhouse_connect.driver.parser` module can be used to parse ClickHouse datatype names.
 
-## Multithreaded, multiprocess, and async/event driven use cases [#multithreaded-multiprocess-and-asyncevent-driven-use-cases]
+## Multithreaded, multiprocess, and async/event driven use cases 
 
 For information on using ClickHouse Connect in multithreaded, multiprocess, and async/event-driven applications, see [Advanced Usage (Multithreaded, multiprocess, and async/event driven use cases)](advanced-usage.md#multithreaded-multiprocess-and-asyncevent-driven-use-cases).
 
-## AsyncClient wrapper [#asyncclient-wrapper]
+## AsyncClient wrapper 
 
 For information on using the AsyncClient wrapper for asyncio environments, see [Advanced Usage (AsyncClient wrapper)](advanced-usage.md#asyncclient-wrapper).
 
-## Managing ClickHouse Session IDs [#managing-clickhouse-session-ids]
+## Managing ClickHouse Session IDs 
 
 For information on managing ClickHouse session IDs in multi-threaded or concurrent applications, see [Advanced Usage (Managing ClickHouse Session IDs)](advanced-usage.md#managing-clickhouse-session-ids).
 
-## Customizing the HTTP connection pool [#customizing-the-http-connection-pool]
+## Customizing the HTTP connection pool 
 
 For information on customizing the HTTP connection pool for large multi-threaded applications, see [Advanced Usage (Customizing the HTTP connection pool)](advanced-usage.md#customizing-the-http-connection-pool).

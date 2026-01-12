@@ -16,11 +16,11 @@ The official C# client for connecting to ClickHouse.
 The client source code is available in the [GitHub repository](https://github.com/ClickHouse/clickhouse-cs).
 Originally developed by [Oleg V. Kozlyuk](https://github.com/DarkWanderer).
 
-## Migration guide [#migration-guide]
+## Migration guide 
 1. Update `.csproj` with `ClickHouse.Driver` name and [the latest version of the package](https://www.nuget.org/packages/ClickHouse.Driver).
 2. Update your code to use the new `ClickHouse.Driver` namespace and classes.
 
-## Supported .NET Versions [#supported-net-versions]
+## Supported .NET Versions 
 
 `ClickHouse.Driver` supports the following .NET versions:
 * .NET Framework 4.6.2
@@ -30,7 +30,7 @@ Originally developed by [Oleg V. Kozlyuk](https://github.com/DarkWanderer).
 * .NET 8.0
 * .NET 9.0
 
-## Installation [#installation]
+## Installation 
 
 Install the package from NuGet:
 
@@ -44,9 +44,9 @@ Or using the NuGet Package Manager:
 Install-Package ClickHouse.Driver
 ```
 
-## Usage [#usage]
+## Usage 
 
-### Creating a Connection [#creating-a-connection]
+### Creating a Connection 
 
 Create a connection using a connection string:
 
@@ -61,7 +61,7 @@ using (var connection = new ClickHouseConnection(connectionString))
 }
 ```
 
-### Creating a Table [#creating-a-table]
+### Creating a Table 
 
 Create a table using standard SQL syntax:
 
@@ -80,7 +80,7 @@ using (var connection = new ClickHouseConnection(connectionString))
 }
 ```
 
-### Inserting Data [#inserting-data]
+### Inserting Data 
 
 Insert data using parameterized queries:
 
@@ -101,7 +101,7 @@ using (var connection = new ClickHouseConnection(connectionString))
 }
 ```
 
-### Bulk Insert [#bulk-insert]
+### Bulk Insert 
 
 ```csharp
 using ClickHouse.Driver.ADO;
@@ -124,7 +124,7 @@ using (var connection = new ClickHouseConnection(connectionString))
 }
 ```
 
-### Performing SELECT Queries [#performing-select-queries]
+### Performing SELECT Queries 
 
 Execute SELECT queries and process results:
 
@@ -148,7 +148,7 @@ using (var connection = new ClickHouseConnection(connectionString))
     }
 }
 ```
-### Raw streaming [#raw-streaming]
+### Raw streaming 
 ```csharp
 using var command = connection.CreateCommand();
 command.Text = "SELECT * FROM default.my_table LIMIT 100 FORMAT JSONEachRow";
@@ -158,7 +158,7 @@ using var reader = new StreamReader(stream);
 var json = reader.ReadToEnd();
 ```
 
-## Supported Data Types [#supported-data-types]
+## Supported Data Types 
 
 `ClickHouse.Driver` supports the following ClickHouse data types:
 **Boolean Type**
@@ -209,7 +209,7 @@ var json = reader.ReadToEnd();
 * `Tuple` (Tuple of any types)
 * `Nullable` (Nullable version of any type)
 
-### DateTime handling [#datetime-handling]
+### DateTime handling 
 `ClickHouse.Driver` tries to correctly handle timezones and `DateTime.Kind` property. Specifically:
 
 `DateTime` values are returned as UTC. User can then convert them themselves or use `ToLocalTime()` method on `DateTime` instance.

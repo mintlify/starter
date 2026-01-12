@@ -15,7 +15,7 @@ If you use one of the supported providers (in the sidebar), please refer to the 
 
 ClickPipes supports Postgres version 12 and later.
 
-## Enable logical replication [#enable-logical-replication]
+## Enable logical replication 
 
 1. To enable replication on your Postgres instance, we need to make sure that the following settings are set:
 
@@ -50,7 +50,7 @@ ClickPipes supports Postgres version 12 and later.
     ```
 3. If you have made any changes to the configuration as mentioned above, you NEED to RESTART the Postgres instance for the changes to take effect.
 
-## Creating a user with permissions and publication [#creating-a-user-with-permissions-and-publication]
+## Creating a user with permissions and publication 
 
 Let's create a new user for ClickPipes with the necessary permissions suitable for CDC,
 and also create a publication that we'll use for replication.
@@ -74,7 +74,7 @@ Make sure to replace `clickpipes_user` and `clickpipes_password` with your desir
 
 </Note>
 
-## Enabling connections in pg_hba.conf to the ClickPipes User [#enabling-connections-in-pg_hbaconf-to-the-clickpipes-user]
+## Enabling connections in pg_hba.conf to the ClickPipes User 
 
 If you are self serving, you need to allow connections to the ClickPipes user from the ClickPipes IP addresses by following the below steps. If you are using a managed service, you can do the same by following the provider's documentation.
 
@@ -88,7 +88,7 @@ If you are self serving, you need to allow connections to the ClickPipes user fr
     SELECT pg_reload_conf();
     ```
 
-## Increase `max_slot_wal_keep_size` [#increase-max_slot_wal_keep_size]
+## Increase `max_slot_wal_keep_size` 
 
 This is a recommended configuration change to ensure that large transactions/commits do not cause the replication slot to be dropped.
 
@@ -109,7 +109,7 @@ For better recommendation of this value you can contact the ClickPipes team.
 
 </Note>
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your Postgres instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your Postgres instance as you will need them during the ClickPipe creation process.

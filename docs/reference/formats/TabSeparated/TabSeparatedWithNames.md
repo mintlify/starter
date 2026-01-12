@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge> <Badge intent="info">Alias: `TSVWithNames`, `RawWithNames`</Badge>
 
-## Description [#description]
+## Description 
 
 Differs from the [`TabSeparated`](./TabSeparated.md) format in that the column names are written in the first row.
 
@@ -23,9 +23,9 @@ the columns from the input data will be mapped to the columns of the table by th
 Otherwise, the first row will be skipped.
 </Note>
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using the following tsv file, named as `football.tsv`:
 
@@ -56,7 +56,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.tsv' FORMAT TabSeparatedWithNames;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `TabSeparatedWithNames` format:
 
@@ -89,4 +89,4 @@ date    season  home_team       away_team       home_team_goals away_team_goals
 2022-05-07      2021    Walsall Swindon Town    0       3
 ```
 
-## Format settings [#format-settings]
+## Format settings 

@@ -14,7 +14,7 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
 
 In this section, we provide documentation about some of the features available for dbt with ClickHouse.
 
-## Profile.yml configurations [#profile-yml-configurations]
+## Profile.yml configurations 
 
 To connect to ClickHouse from dbt, you'll need to add a [profile](https://docs.getdbt.com/docs/core/connect-data-platform/connection-profiles) to your `profiles.yml` file. A ClickHouse profile conforms to the following syntax:
 
@@ -56,14 +56,14 @@ your_profile_name:
       sync_request_timeout: [5] # Timeout for server ping
       compress_block_size: [1048576] # Compression block size if compression is enabled
 ```
-### Schema vs Database [#schema-vs-database]
+### Schema vs Database 
 
 The dbt model relation identifier `database.schema.table` is not compatible with Clickhouse because Clickhouse does not
 support a `schema`.
 So we use a simplified approach `schema.table`, where `schema` is the Clickhouse database. Using the `default` database
 is not recommended.
 
-### SET Statement Warning [#set-statement-warning]
+### SET Statement Warning 
 
 In many environments, using the SET statement to persist a ClickHouse setting across all DBT queries is not reliable
 and can cause unexpected failures. This is particularly true when using HTTP connections through a load balancer that
@@ -72,7 +72,7 @@ happen with native ClickHouse connections. Accordingly, we recommend configuring
 "custom_settings" property of the DBT profile as a best practice, instead of relying on a pre-hook "SET" statement as
 has been occasionally suggested.
 
-### Setting `quote_columns` [#setting-quote_columns]
+### Setting `quote_columns` 
 
 To prevent a warning, make sure to explicitly set a value for `quote_columns` in your `dbt_project.yml`. See the [doc on quote_columns](https://docs.getdbt.com/reference/resource-configs/quote_columns) for more information.
 
@@ -81,13 +81,13 @@ seeds:
   +quote_columns: false  #or `true` if you have CSV column headers with spaces
 ```
 
-### About the ClickHouse Cluster [#about-the-clickhouse-cluster]
+### About the ClickHouse Cluster 
 
 When using a ClickHouse cluster, you need to consider two things:
 - Setting the `cluster` setting.
 - Ensuring read-after-write consistency, especially if you are using more than one `threads`.
 
-#### Cluster Setting [#cluster-setting]
+#### Cluster Setting 
 
 The `cluster` setting in profile enables dbt-clickhouse to run against a ClickHouse cluster. If `cluster` is set in the profile, **all models will be created with the `ON CLUSTER` clause** by default—except for those using a **Replicated** engine. This includes:
 
@@ -118,15 +118,15 @@ be created on the connected node only).
 If a model has been created without a `cluster` setting, dbt-clickhouse will detect the situation and run all DDL/DML
 without `on cluster` clause for this model.
 
-#### Read-after-write Consistency [#read-after-write-consistency]
+#### Read-after-write Consistency 
 
 dbt relies on a read-after-insert consistency model. This is not compatible with ClickHouse clusters that have more than one replica if you cannot guarantee that all operations will go to the same replica. You may not encounter problems in your day-to-day usage of dbt, but there are some strategies depending on your cluster to have this guarantee in place:
 - If you are using a ClickHouse Cloud cluster, you only need to set `select_sequential_consistency: 1` in your profile's `custom_settings` property. You can find more information about this setting [here](https://clickhouse.com/docs/operations/settings/settings#select_sequential_consistency).
 - If you are using a self-hosted cluster, make sure all dbt requests are sent to the same ClickHouse replica. If you have a load balancer on top of it, try using some `replica aware routing`/`sticky sessions` mechanism to be able to always reach the same replica. Adding the setting `select_sequential_consistency = 1` in clusters outside ClickHouse Cloud is [not recommended](https://clickhouse.com/docs/operations/settings/settings#select_sequential_consistency).
 
-## General information about features [#general-information-about-features]
+## General information about features 
 
-### General table configurations [#general-table-configurations]
+### General table configurations 
 
 | Option                 | Description                                                                                                                                                                                                                                                                                                          | Default if any |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -144,7 +144,7 @@ dbt relies on a read-after-insert consistency model. This is not compatible with
 | definer                | If `sql_security` was set to `definer`, you have to specify any existing user or `CURRENT_USER` in the `definer` clause.                                                                                                                                                                                             |                |
 | projections            | A list of [projections](/data-modeling/projections) to be created. Check [About projections](#projections) for details.                                                                                                                                                        |                |
 
-#### About data skipping indexes [#data-skipping-indexes]
+#### About data skipping indexes 
 
 Data skipping indexes are only available for the `table` materialization. To add a list of data skipping indexes to a table, use the `indexes` configuration:
 
@@ -158,7 +158,7 @@ Data skipping indexes are only available for the `table` materialization. To add
 ) }}
 ```
 
-#### About projections [#projections]
+#### About projections 
 
 You can add [projections](/data-modeling/projections) to `table` and `distributed_table` materializations using the `projections` configuration:
 
@@ -175,7 +175,7 @@ You can add [projections](/data-modeling/projections) to `table` and `distribute
 ```
 **Note**: For distributed tables, the projection is applied to the `_local` tables, not to the distributed proxy table.
 
-### Supported table engines [#supported-table-engines]
+### Supported table engines 
 
 | Type                   | Details                                                                                   |
 |------------------------|-------------------------------------------------------------------------------------------|
@@ -186,7 +186,7 @@ You can add [projections](/data-modeling/projections) to `table` and `distribute
 | EmbeddedRocksDB        | https://clickhouse.com/docs/en/engines/table-engines/integrations/embedded-rocksdb        |
 | Hive                   | https://clickhouse.com/docs/en/engines/table-engines/integrations/hive                    |
 
-### Experimental supported table engines [#experimental-supported-table-engines]
+### Experimental supported table engines 
 
 | Type              | Details                                                                   |
 |-------------------|---------------------------------------------------------------------------|
@@ -196,7 +196,7 @@ You can add [projections](/data-modeling/projections) to `table` and `distribute
 If you encounter issues connecting to ClickHouse from dbt with one of the above engines, please report an
 issue [here](https://github.com/ClickHouse/dbt-clickhouse/issues).
 
-### A note on model settings [#a-note-on-model-settings]
+### A note on model settings 
 
 ClickHouse has several types/levels of "settings". In the model configuration above, two types of these are
 configurable.  `settings` means the `SETTINGS`
@@ -209,7 +209,7 @@ setting (although the latter are generally
 available in the `system.settings` table.)  In general the defaults are recommended, and any use of these properties
 should be carefully researched and tested.
 
-### Column Configuration [#column-configuration]
+### Column Configuration 
 
 > **_NOTE:_** The column configuration options below require [model contracts](https://docs.getdbt.com/docs/collaborate/govern/model-contracts) to be enforced.
 
@@ -218,7 +218,7 @@ should be carefully researched and tested.
 | codec  | A string consisting of arguments passed to `CODEC()` in the column's DDL. For example: `codec: "Delta, ZSTD"` will be compiled as `CODEC(Delta, ZSTD)`.    |    
 | ttl    | A string consisting of a [TTL (time-to-live) expression](https://clickhouse.com/docs/guides/developer/ttl) that defines a TTL rule in the column's DDL. For example: `ttl: ts + INTERVAL 1 DAY` will be compiled as `TTL ts + INTERVAL 1 DAY`. |
 
-#### Example of schema configuration [#example-of-schema-configuration]
+#### Example of schema configuration 
 
 ```yaml
 models:
@@ -236,7 +236,7 @@ models:
         ttl: ts + INTERVAL 1 DAY
 ```
 
-#### Adding complex types [#adding-complex-types]
+#### Adding complex types 
 
 dbt automatically determines the data type of each column by analyzing the SQL used to create the model. However, in some cases this process may not accurately determine the data type, leading to conflicts with the types specified in the contract `data_type` property. To address this, we recommend using the `CAST()` function in the model SQL to explicitly define the desired type. For example:
 
@@ -260,9 +260,9 @@ from {{ ref('user_events') }}
 group by event_type
 ```
 
-## Features [#features]
+## Features 
 
-### Materialization: view [#materialization-view]
+### Materialization: view 
 
 A dbt model can be created as a [ClickHouse view](https://clickhouse.com/docs/en/sql-reference/table-functions/view/)
 and configured using the following syntax:
@@ -279,7 +279,7 @@ Or config block (`models/<model_name>.sql`):
 {{ config(materialized = "view") }}
 ```
 
-### Materialization: table [#materialization-table]
+### Materialization: table 
 
 A dbt model can be created as a [ClickHouse table](https://clickhouse.com/docs/en/operations/system-tables/tables/) and
 configured using the following syntax:
@@ -306,7 +306,7 @@ Or config block (`models/<model_name>.sql`):
 ) }}
 ```
 
-### Materialization: incremental [#materialization-incremental]
+### Materialization: incremental 
 
 Table model will be reconstructed for each dbt execution. This may be infeasible and extremely costly for larger result sets or complex transformations. To address this challenge and reduce the build time, a dbt model can be created as an incremental ClickHouse table and is configured using the following syntax:
 
@@ -336,7 +336,7 @@ Or config block in `models/<model_name>.sql`:
 ) }}
 ```
 
-#### Configurations [#configurations]
+#### Configurations 
 Configurations that are specific for this materialization type are listed below:
 
 | Option                   | Description                                                                                                                                                                                                                                                       | Required?                                                                            |
@@ -346,11 +346,11 @@ Configurations that are specific for this materialization type are listed below:
 | `incremental_strategy`   | The strategy to use for incremental materialization.  `delete+insert`, `append`, `insert_overwrite`, or `microbatch` are supported.  For additional details on strategies, see [here](/integrations/dbt/features-and-configurations#incremental-model-strategies) | Optional (default: 'default')                                                        |
 | `incremental_predicates` | Additional conditions to be applied to the incremental materialization (only applied to `delete+insert` strategy                                                                                                                                                                                    | Optional                      
 
-#### Incremental Model Strategies [#incremental-model-strategies]
+#### Incremental Model Strategies 
 
 `dbt-clickhouse` supports three incremental model strategies.
 
-##### The Default (Legacy) Strategy [#default-legacy-strategy]
+##### The Default (Legacy) Strategy 
 
 Historically ClickHouse has had only limited support for updates and deletes, in the form of asynchronous "mutations."
 To emulate expected dbt behavior,
@@ -361,7 +361,7 @@ that preserves the original relation if something
 goes wrong before the operation completes; however, since it involves a full copy of the original table, it can be quite
 expensive and slow to execute.
 
-##### The Delete+Insert Strategy [#delete-insert-strategy]
+##### The Delete+Insert Strategy 
 
 ClickHouse added "lightweight deletes" as an experimental feature in version 22.8. Lightweight deletes are significantly
 faster than ALTER TABLE ... DELETE
@@ -385,7 +385,7 @@ caveats to using this strategy:
   incremental predicates should only include sub-queries on data that will not be modified during the incremental
   materialization.
 
-##### The Microbatch Strategy (Requires dbt-core >= 1.9) [#microbatch-strategy]
+##### The Microbatch Strategy (Requires dbt-core >= 1.9) 
 
 The incremental strategy `microbatch` has been a dbt-core feature since version 1.9, designed to handle large
 time-series data transformations efficiently. In dbt-clickhouse, it builds on top of the existing `delete_insert`
@@ -399,7 +399,7 @@ Beyond handling large transformations, microbatch provides the ability to:
 
 For detailed microbatch usage, refer to the [official documentation](https://docs.getdbt.com/docs/build/incremental-microbatch).
 
-###### Available Microbatch Configurations [#available-microbatch-configurations]
+###### Available Microbatch Configurations 
 
 | Option             | Description                                                                                                                                                                                                                                                                                                                                | Default if any |
 |--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
@@ -409,7 +409,7 @@ For detailed microbatch usage, refer to the [official documentation](https://doc
 | lookback           | Process X batches prior to the latest bookmark to capture late-arriving records.                                                                                                                                                                                                                                                           | 1              |
 | concurrent_batches | Overrides dbt's auto detect for running batches concurrently (at the same time). Read more about [configuring concurrent batches](https://docs.getdbt.com/docs/build/incremental-microbatch#configure-concurrent_batches). Setting to true runs batches concurrently (in parallel). false runs batches sequentially (one after the other). |                |
 
-##### The Append Strategy [#append-strategy]
+##### The Append Strategy 
 
 This strategy replaces the `inserts_only` setting in previous versions of dbt-clickhouse. This approach simply appends
 new rows to the existing relation.
@@ -417,7 +417,7 @@ As a result duplicate rows are not eliminated, and there is no temporary or inte
 approach if duplicates are either permitted
 in the data or excluded by the incremental query WHERE clause/filter.
 
-##### The insert_overwrite Strategy (Experimental) [#insert-overwrite-strategy]
+##### The insert_overwrite Strategy (Experimental) 
 
 > [IMPORTANT]  
 > Currently, the insert_overwrite strategy is not fully functional with distributed materializations.
@@ -440,7 +440,7 @@ This approach has the following advantages:
 The strategy requires `partition_by` to be set in the model configuration. Ignores all other strategies-specific
 parameters of the model config.
 
-### Materialization: materialized_view (Experimental) [#materialized-view]
+### Materialization: materialized_view (Experimental) 
 
 A `materialized_view` materialization should be a `SELECT` from an existing (source) table. The adapter will create a
 target table with the model name
@@ -476,7 +476,7 @@ select a,b,c from {{ source('raw', 'table_2') }}
 > you will encounter the following warning:
 `Warning - Table <previous table name> was detected with the same pattern as model name <your model name> but was not found in this run. In case it is a renamed mv that was previously part of this model, drop it manually (!!!) `
 
-#### Data catch-up [#data-catch-up]
+#### Data catch-up 
 
 Currently, when creating a materialized view (MV), the target table is first populated with historical data before the MV itself is created.
 
@@ -493,7 +493,7 @@ If you prefer not to preload historical data during MV creation, you can disable
 )}}
 ```
 
-#### Refreshable Materialized Views [#refreshable-materialized-views]
+#### Refreshable Materialized Views 
 
 To use [Refreshable Materialized View](https://clickhouse.com/docs/en/materialized-view/refreshable-materialized-view),
 please adjust the following configs as needed in your MV model (all these configs are supposed to be set inside a
@@ -524,7 +524,7 @@ A config example for refreshable materialized view:
 }}
 ```
 
-#### Limitations [#limitations]
+#### Limitations 
 
 * When creating a refreshable materialized view (MV) in ClickHouse that has a dependency, ClickHouse does not throw an
   error if the specified dependency does not exist at the time of creation. Instead, the refreshable MV remains in an
@@ -536,14 +536,14 @@ A config example for refreshable materialized view:
   guaranteed.
 * The refreshable feature was not tested with multiple mvs directing to the same target model.
 
-### Materialization: dictionary (experimental) [#materialization-dictionary]
+### Materialization: dictionary (experimental) 
 
 See the tests
 in https://github.com/ClickHouse/dbt-clickhouse/blob/main/tests/integration/adapter/dictionary/test_dictionary.py for
 examples of how to
 implement materializations for ClickHouse dictionaries
 
-### Materialization: distributed_table (experimental) [#materialization-distributed-table]
+### Materialization: distributed_table (experimental) 
 
 Distributed table created with following steps:
 
@@ -558,7 +558,7 @@ Notes:
   materialization operations execute correctly. This could cause some distributed table inserts to run more slowly than
   expected.
 
-#### Distributed table model example [#distributed-table-model-example]
+#### Distributed table model example 
 
 ```sql
 {{
@@ -574,7 +574,7 @@ select id, created_at, item
 from {{ source('db', 'table') }}
 ```
 
-#### Generated migrations [#distributed-table-generated-migrations]
+#### Generated migrations 
 
 ```sql
 CREATE TABLE db.table_local on cluster cluster (
@@ -594,7 +594,7 @@ CREATE TABLE db.table on cluster cluster (
     ENGINE = Distributed ('cluster', 'db', 'table_local', cityHash64(id));
 ```
 
-### materialization: distributed_incremental (experimental) [#materialization-distributed-incremental]
+### materialization: distributed_incremental (experimental) 
 
 Incremental model based on the same idea as distributed table, the main difficulty is to process all incremental
 strategies correctly.
@@ -606,7 +606,7 @@ strategies correctly.
 Only shard tables are replacing, because distributed table does not keep data.
 The distributed table reloads only when the full_refresh mode is enabled or the table structure may have changed.
 
-#### Distributed incremental model example [#distributed-incremental-model-example]
+#### Distributed incremental model example 
 
 ```sql
 {{
@@ -622,7 +622,7 @@ select id, created_at, item
 from {{ source('db', 'table') }}
 ```
 
-#### Generated migrations [#distributed-incremental-generated-migrations]
+#### Generated migrations 
 
 ```sql
 CREATE TABLE db.table_local on cluster cluster (
@@ -641,7 +641,7 @@ CREATE TABLE db.table on cluster cluster (
     ENGINE = Distributed ('cluster', 'db', 'table_local', cityHash64(id));
 ```
 
-### Snapshot [#snapshot]
+### Snapshot 
 
 dbt snapshots allow a record to be made of changes to a mutable model over time. This in turn allows point-in-time
 queries on models, where analysts can “look back in time” at the previous state of a model. This functionality is
@@ -661,7 +661,7 @@ Config block in `snapshots/<model_name>.sql`:
 
 For more information on configuration, check out the [snapshot configs](https://docs.getdbt.com/docs/build/snapshots#snapshot-configs) reference page.
 
-### Contracts and Constraints [#contracts-and-constraints]
+### Contracts and Constraints 
 
 Only exact column type contracts are supported. For example, a contract with a UInt32 column type will fail if the model
 returns a UInt64 or other integer type.
@@ -669,9 +669,9 @@ ClickHouse also support _only_ `CHECK` constraints on the entire table/model. Pr
 column level CHECK constraints are not supported.
 (See ClickHouse documentation on primary/order by keys.)
 
-### Additional ClickHouse Macros [#additional-clickhouse-macros]
+### Additional ClickHouse Macros 
 
-#### Model Materialization Utility Macros [#model-materialization-utility-macros]
+#### Model Materialization Utility Macros 
 
 The following macros are included to facilitate creating ClickHouse specific tables and views:
 
@@ -688,7 +688,7 @@ The following macros are included to facilitate creating ClickHouse specific tab
 - `ttl_config` -- Uses the `ttl` model configuration property to assign a ClickHouse table TTL expression. No TTL is
   assigned by default.
 
-#### s3Source Helper Macro [#s3source-helper-macro]
+#### s3Source Helper Macro 
 
 The `s3source` macro simplifies the process of selecting ClickHouse data directly from S3 using the ClickHouse S3 table
 function. It works by
@@ -713,7 +713,7 @@ See
 the [S3 test file](https://github.com/ClickHouse/dbt-clickhouse/blob/main/tests/integration/adapter/clickhouse/test_clickhouse_s3.py)
 for examples of how to use this macro.
 
-#### Cross database macro support [#cross-database-macro-support]
+#### Cross database macro support 
 
 dbt-clickhouse supports most of the cross database macros now included in `dbt Core` with the following exceptions:
 

@@ -14,7 +14,7 @@ This engine allows integrating ClickHouse with [RabbitMQ](https://www.rabbitmq.c
 - Publish or subscribe to data flows.
 - Process streams as they become available.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -121,7 +121,7 @@ Additional configuration:
  </rabbitmq>
 ```
 
-## Description [#description]
+## Description 
 
 `SELECT` is not particularly useful for reading messages (except for debugging), because each message can be read only once. It is more practical to create real-time threads using [materialized views](../../../sql-reference/statements/create/view.md). To do this:
 
@@ -182,7 +182,7 @@ Example:
   SELECT key, value FROM daily ORDER BY key;
 ```
 
-## Virtual columns [#virtual-columns]
+## Virtual columns 
 
 - `_exchange_name` - RabbitMQ exchange name. Data type: `String`.
 - `_channel_id` - ChannelID, on which consumer, who received the message, was declared. Data type: `String`.
@@ -198,11 +198,11 @@ Additional virtual columns when `rabbitmq_handle_error_mode='stream'`:
 
 Note: `_raw_message` and `_error` virtual columns are filled only in case of exception during parsing, they are always `NULL` when message was parsed successfully.
 
-## Caveats [#caveats]
+## Caveats 
 
 Even though you may specify [default column expressions](/sql-reference/statements/create/table.md/#default_values) (such as `DEFAULT`, `MATERIALIZED`, `ALIAS`) in the table definition, these will be ignored. Instead, the columns will be filled with their respective default values for their types.
 
-## Data formats support [#data-formats-support]
+## Data formats support 
 
 RabbitMQ engine supports all [formats](../../../interfaces/formats.md) supported in ClickHouse.
 The number of rows in one RabbitMQ message depends on whether the format is row-based or block-based:

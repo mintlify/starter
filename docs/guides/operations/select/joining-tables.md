@@ -117,7 +117,7 @@ WHERE (VoteTypeId = 2) AND (PostId IN (
 Peak memory usage: 250.66 MiB.
 ```
 
-## Choosing a JOIN algorithm [#choosing-a-join-algorithm]
+## Choosing a JOIN algorithm 
 
 ClickHouse supports a number of [join algorithms](https://clickhouse.com/blog/clickhouse-fully-supports-joins-part1). These algorithms typically trade memory usage for performance. The following provides an overview of the ClickHouse join algorithms based on their relative memory consumption and execution time:
 
@@ -141,7 +141,7 @@ A full detailed description of each `JOIN` algorithm can be found [here](https:/
 
 Selecting the appropriate join algorithms depends on whether you are looking to optimize for memory or performance.
 
-## Optimizing JOIN performance [#optimizing-join-performance]
+## Optimizing JOIN performance 
 
 If your key optimization metric is performance and you are looking to execute the join as fast as possible, you can use the following decision tree for choosing the right join algorithm:
 
@@ -165,7 +165,7 @@ Grace hash join is the most flexible of the three non-memory-bound join algorith
 
 Which one of the three non-memory-bound algorithms is the fastest depends on the volume of data, the data types, and the value distribution of the join key columns. It is always best to run some benchmarks with realistic data volumes of realistic data in order to determine which algorithm is the fastest.
 
-## Optimizing for memory [#optimizing-for-memory]
+## Optimizing for memory 
 
 If you want to optimize a join for the lowest memory usage instead of the fastest execution time, then you can use this decision tree instead:
 

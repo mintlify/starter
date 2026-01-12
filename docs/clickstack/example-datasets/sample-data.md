@@ -17,13 +17,13 @@ This sample dataset can also be used with HyperDX in ClickHouse Cloud, with only
 
 <Steps>
 
-## Navigate to the HyperDX UI [#navigate-to-the-hyperdx-ui]
+## Navigate to the HyperDX UI 
 
 Visit [http://localhost:8080](http://localhost:8080) to access the HyperDX UI if deploying locally. If using HyperDX in ClickHouse Cloud, select your service and `HyperDX` from the left menu.
 
 <img src="/images/use-cases/observability/hyperdx.png" alt="HyperDX UI"/>
 
-## Copy ingestion API key [#copy-ingestion-api-key]
+## Copy ingestion API key 
 
 <Note title="HyperDX in ClickHouse Cloud">
 This step is not required if using HyperDX in ClickHouse Cloud, where ingestion key support is not currently supported.
@@ -33,7 +33,7 @@ Navigate to [`Team Settings`](http://localhost:8080/team) and copy the `Ingestio
 
 <img src="/images/use-cases/observability/copy_api_key.png" alt="Copy API key"/>
 
-## Download sample data [#download-sample-data]
+## Download sample data 
 
 In order to populate the UI with sample data, download the following file:
 
@@ -48,7 +48,7 @@ curl -O https://storage.googleapis.com/hyperdx/sample.tar.gz
 
 This file contains example logs, metrics, and traces from our public [OpenTelemetry demo](https://github.com/ClickHouse/opentelemetry-demo) - a simple e-commerce store with microservices. Copy this file to a directory of your choosing.
 
-## Load sample data [#load-sample-data]
+## Load sample data 
 
 To load this data, we simply send it to the HTTP endpoint of the deployed OpenTelemetry (OTel) collector. 
 
@@ -86,7 +86,7 @@ Returning to the `Search` view, you should see that data has started to load (ad
 
 Data loading will take a few minutes. Allow for the load to be completed before progressing to the next steps.
 
-## Explore sessions [#explore-sessions]
+## Explore sessions 
 
 Suppose we have reports that our users are experiencing issues paying for goods. We can view their experience using HyperDX's session replay capabilities. 
 
@@ -114,7 +114,7 @@ The user was unable to place the order, with no obvious error. Scroll to the bot
 
 Select this `500` error. Neither the `Overview` nor `Column Values` indicate the source of the issue, other than the fact the error is unexpected, causing an `Internal Error`.
 
-## Explore traces [#explore-traces]
+## Explore traces 
 
 Navigate to the `Trace` tab to see the full distributed trace. 
 
@@ -134,7 +134,7 @@ Scrolling up and returning to the trace, we can see logs are correlated with the
 
 We've established that a cache is getting filled in the payment service, which is preventing payments from completing. 
 
-## Explore logs [#explore-logs]
+## Explore logs 
 
 For further details, we can return to the [`Search` view](http://localhost:8080/search):
 
@@ -144,7 +144,7 @@ Select `Logs` from the sources and apply a filter to the `payment` service.
 
 We can see that while the issue is recent, the number of impacted payments is high. Furthermore, a cache related to the visa payments appears to be causing issues.
 
-## Chart metrics [#chart-metrics]
+## Chart metrics 
 
 While an error has clearly been introduced in the code, we can use metrics to confirm the cache size. Navigate to the `Chart Explorer` view.
 

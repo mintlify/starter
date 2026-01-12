@@ -10,19 +10,19 @@ Insert operations can sometimes fail due to errors such as timeouts. When insert
 
 When an insert is retried, ClickHouse tries to determine whether the data has already been successfully inserted. If the inserted data is marked as a duplicate, ClickHouse does not insert it into the destination table. However, the user will still receive a successful operation status as if the data had been inserted normally.
 
-## Limitations [#limitations]
+## Limitations 
 
-### Uncertain insert status [#uncertain-insert-status]
+### Uncertain insert status 
 
 The user must retry the insert operation until it succeeds. If all retries fail, it is impossible to determine whether the data was inserted or not. When materialized views are involved, it is also unclear in which tables the data may have appeared. The materialized views could be out of sync with the source table.
 
-### Deduplication window limit [#deduplication-window-limit]
+### Deduplication window limit 
 
 If more than `*_deduplication_window` other insert operations occur during the retry sequence, deduplication may not work as intended. In this case, the same data can be inserted multiple times.
 
-## Enabling insert deduplication on retries [#enabling-insert-deduplication-on-retries]
+## Enabling insert deduplication on retries 
 
-### Insert deduplication for tables [#insert-deduplication-for-tables]
+### Insert deduplication for tables 
 
 **Only `*MergeTree` engines support deduplication on insertion.**
 
@@ -30,11 +30,11 @@ For `*ReplicatedMergeTree` engines, insert deduplication is enabled by default a
 
 The settings above determine the parameters of the deduplication log for a table. The deduplication log stores a finite number of `block_id`s, which determine how deduplication works (see below).
 
-### Query-level insert deduplication [#query-level-insert-deduplication]
+### Query-level insert deduplication 
 
 The setting `insert_deduplicate=1` enables deduplication at the query level. Note that if you insert data with `insert_deduplicate=0`, that data cannot be deduplicated even if you retry an insert with `insert_deduplicate=1`. This is because the `block_id`s are not written for blocks during inserts with `insert_deduplicate=0`.
 
-## How insert deduplication works [#how-insert-deduplication-works]
+## How insert deduplication works 
 
 When data is inserted into ClickHouse, it splits data into blocks based on the number of rows and bytes.
 
@@ -46,7 +46,7 @@ For `INSERT ... VALUES` queries, splitting the inserted data into blocks is dete
 
 For `INSERT ... SELECT` queries, it is important that the `SELECT` part of the query returns the same data in the same order for each operation. Note that this is hard to achieve in practical usage. To ensure stable data order on retries, define a precise `ORDER BY` section in the `SELECT` part of the query. Keep in mind that it is possible that the selected table could be updated between retries: the result data could have changed and deduplication will not occur. Additionally, in situations where you are inserting large amounts of data, it is possible that the number of blocks after inserts can overflow the deduplication log window, and ClickHouse won't know to deduplicate the blocks.
 
-## Insert deduplication with materialized views [#insert-deduplication-with-materialized-views]
+## Insert deduplication with materialized views 
 
 When a table has one or more materialized views, the inserted data is also inserted into the destination of those views with the defined transformations. The transformed data is also deduplicated on retries. ClickHouse performs deduplications for materialized views in the same way it deduplicates data inserted into the target table.
 
@@ -61,9 +61,9 @@ With enabled setting `insert_deduplicate=1` an inserted data is deduplicated in 
 
 When inserting blocks into tables under materialized views, ClickHouse calculates the `block_id` by hashing a string that combines the `block_id`s from the source table and additional identifiers. This ensures accurate deduplication within materialized views, allowing data to be distinguished based on its original insertion, regardless of any transformations applied before reaching the destination table under the materialized view.
 
-## Examples [#examples]
+## Examples 
 
-### Identical blocks after materialized view transformations [#identical-blocks-after-materialized-view-transformations]
+### Identical blocks after materialized view transformations 
 
 Identical blocks, which have been generated during transformation inside a materialized view, are not deduplicated because they are based on different inserted data.
 
@@ -173,7 +173,7 @@ ORDER by all;
 
 Here we see that when we retry the inserts, all data is deduplicated. Deduplication works for both the `dst` and `mv_dst` tables.
 
-### Identical blocks on insertion [#identical-blocks-on-insertion]
+### Identical blocks on insertion 
 
 ```sql
 CREATE TABLE dst
@@ -212,7 +212,7 @@ ORDER BY all;
 
 With the settings  above, two blocks result from select– as a result, there should be two blocks for insertion into table `dst`. However, we see that only one block has been inserted into table `dst`. This occurred because the second block has been deduplicated. It has the same data and the key for deduplication `block_id` which is calculated as a hash from the inserted data. This behaviour is not what was expected. Such cases are a rare occurrence, but theoretically is possible. In order to handle such cases correctly, the user has to provide a `insert_deduplication_token`. Let's fix this with the following examples:
 
-### Identical blocks in insertion with `insert_deduplication_token` [#identical-blocks-in-insertion-with-insert_deduplication_token]
+### Identical blocks in insertion with `insert_deduplication_token` 
 
 ```sql
 CREATE TABLE dst
@@ -301,7 +301,7 @@ ORDER BY all;
 
 That insertion is also deduplicated even though it contains different inserted data. Note that `insert_deduplication_token` has higher priority: ClickHouse does not use the hash sum of data when `insert_deduplication_token` is provided.
 
-### Different insert operations generate the same data after transformation in the underlying table of the materialized view [#different-insert-operations-generate-the-same-data-after-transformation-in-the-underlying-table-of-the-materialized-view]
+### Different insert operations generate the same data after transformation in the underlying table of the materialized view 
 
 ```sql
 CREATE TABLE dst
@@ -385,7 +385,7 @@ ORDER by all;
 
 We insert different data each time. However, the same data is inserted into the `mv_dst` table. Data is not deduplicated because the source data was different.
 
-### Different materialized view inserts into one underlying table with equivalent data [#different-materialized-view-inserts-into-one-underlying-table-with-equivalent-data]
+### Different materialized view inserts into one underlying table with equivalent data 
 
 ```sql
 CREATE TABLE dst

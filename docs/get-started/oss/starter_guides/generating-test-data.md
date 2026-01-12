@@ -13,7 +13,7 @@ ClickHouse has a [wide range of functions for generating random data](/sql-refer
 
 This guide provides several examples of how to generate random datasets in ClickHouse with different randomness requirements.
 
-## Simple uniform dataset [#simple-uniform-dataset]
+## Simple uniform dataset 
 
 **Use-case**: Generate a quick dataset of user events with random timestamps and event types.
 
@@ -41,7 +41,7 @@ FROM numbers(1000000);
 
 ---
 
-## Exponential distribution [#exponential-distribution]
+## Exponential distribution 
 
 **Use-case**: Simulate purchase amounts where most values are low, but a few are high.
 
@@ -66,7 +66,7 @@ FROM numbers(500000);
 
 ---
 
-## Time-distributed events (Poisson) [#poisson-distribution]
+## Time-distributed events (Poisson) 
 
 **Use-case**: Simulate event arrivals that cluster around a specific period (e.g., peak hour).
 
@@ -89,7 +89,7 @@ FROM numbers(200000);
 
 ---
 
-## Time-varying normal distribution [#time-varying-normal-distribution]
+## Time-varying normal distribution 
 
 **Use-case**: Emulate system metrics (e.g., CPU usage) that vary over time.
 
@@ -116,7 +116,7 @@ FROM numbers(10000);
 
 ---
 
-## Categorical and nested data [#categorical-and-nested-data]
+## Categorical and nested data 
 
 **Use-case**: Create user profiles with multi-valued interests.
 
@@ -143,7 +143,7 @@ FROM numbers(20000);
 Read the [Generating Random Data in ClickHouse](https://clickhouse.com/blog/generating-random-test-distribution-data-for-clickhouse) blog for even more examples.
 </Tip>
 
-## Generating random tables [#generating-random-tables]
+## Generating random tables 
 
 The [`generateRandomStructure`](/sql-reference/functions/other-functions#generateRandomStructure) function is particularly useful when combined with the [`generateRandom`](/sql-reference/table-functions/generate) table engine for testing, benchmarking, or creating mock data with arbitrary schemas.
 

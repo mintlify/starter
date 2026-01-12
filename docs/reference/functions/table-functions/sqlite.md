@@ -9,22 +9,22 @@ doc_type: 'reference'
 
 Allows to perform queries on data stored in a [SQLite](../../engines/database-engines/sqlite.md) database.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 sqlite('db_path', 'table_name')
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 - `db_path` — Path to a file with an SQLite database. [String](../../sql-reference/data-types/string.md).
 - `table_name` — Name of a table in the SQLite database. [String](../../sql-reference/data-types/string.md).
 
-## Returned value [#returned_value]
+## Returned value 
 
 - A table object with the same columns as in the original `SQLite` table.
 
-## Example [#example]
+## Example 
 
 Query:
 
@@ -42,6 +42,6 @@ Result:
 └───────┴──────┘
 ```
 
-## Related [#related]
+## Related 
 
 - [SQLite](../../engines/table-engines/integrations/sqlite.md) table engine

@@ -15,7 +15,7 @@ The [PREWHERE clause](/sql-reference/statements/select/prewhere) is a query exec
 
 This guide explains how PREWHERE works, how to measure its impact, and how to tune it for best performance.
 
-## Query processing without PREWHERE optimization [#query-processing-without-prewhere-optimization]
+## Query processing without PREWHERE optimization 
 
 We'll start by illustrating how a query on the [uk_price_paid_simple](/parts) table is processed without using PREWHERE:
 
@@ -34,7 +34,7 @@ We'll start by illustrating how a query on the [uk_price_paid_simple](/parts) ta
 
 As you can see, without PREWHERE, all potentially relevant columns are loaded before filtering, even if only a few rows actually match.
 
-## How PREWHERE improves query efficiency [#how-prewhere-improves-query-efficiency]
+## How PREWHERE improves query efficiency 
 
 The following animations show how the query from above is processed with a PREWHERE clause applied to all query predicates.
 
@@ -83,7 +83,7 @@ By the final step, only the minimal set of column granules, those containing mat
 Note that ClickHouse processes the same number of rows in both the PREWHERE and non-PREWHERE versions of the query. However, with PREWHERE optimizations applied, not all column values need to be loaded for every processed row.
 </Note>
 
-## PREWHERE optimization is automatically applied [#prewhere-optimization-is-automatically-applied]
+## PREWHERE optimization is automatically applied 
 
 The PREWHERE clause can be added manually, as shown in the example above. However, you don't need to write PREWHERE manually. When the setting [`optimize_move_to_prewhere`](/operations/settings/settings#optimize_move_to_prewhere) is enabled (true by default), ClickHouse automatically moves filter conditions from WHERE to PREWHERE, prioritizing those that will reduce read volume the most.
 
@@ -93,7 +93,7 @@ ClickHouse follows this strategy by default as of version [23.2](https://clickho
 
 Starting with version [23.11](https://clickhouse.com/blog/clickhouse-release-23-11#column-statistics-for-prewhere), optional column statistics can further improve this by choosing the filter processing order based on actual data selectivity, not just column size.
 
-## How to measure PREWHERE impact [#how-to-measure-prewhere-impact]
+## How to measure PREWHERE impact 
 
 To validate that PREWHERE is helping your queries, you can compare query performance with and without the `optimize_move_to_prewhere setting` enabled.
 
@@ -195,7 +195,7 @@ SETTINGS send_logs_level = 'test';
 ...
 ```
 
-## Key takeaways [#key-takeaways]
+## Key takeaways 
 
 * PREWHERE avoids reading column data that will later be filtered out, saving I/O and memory.
 * It works automatically when `optimize_move_to_prewhere` is enabled (default).

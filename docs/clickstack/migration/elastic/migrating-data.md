@@ -11,7 +11,7 @@ keywords: ['ClickStack']
 doc_type: 'guide'
 ---
 
-## Parallel operation strategy [#parallel-operation-strategy]
+## Parallel operation strategy 
 
 When migrating from Elastic to ClickStack for observability use cases, we recommend a **parallel operation** approach rather than attempting to migrate historical data. This strategy offers several advantages:
 
@@ -23,7 +23,7 @@ When migrating from Elastic to ClickStack for observability use cases, we recomm
 We demonstrate an approach for migrating essential data from Elasticsearch to ClickHouse in the section ["Migrating data"](#migrating-data). This should not be used for larger datasets as it is rarely performant - limited by the ability for Elasticsearch to export efficiently, with only JSON format supported.
 </Note>
 
-### Implementation steps [#implementation-steps]
+### Implementation steps 
 
 1. **Configure Dual Ingestion**
 <br/>
@@ -47,7 +47,7 @@ Configure Elastic's TTL settings to match your desired retention period. Set up 
 - As data naturally expires from Elastic, users will increasingly rely on ClickStack
 - Once confidence in ClickStack is established, you can begin redirecting queries and dashboards
 
-### Long-term retention [#long-term-retention]
+### Long-term retention 
 
 For organizations requiring longer retention periods:
 
@@ -55,7 +55,7 @@ For organizations requiring longer retention periods:
 - ClickStack [tiered storage](/engines/table-engines/mergetree-family/mergetree#table_engine-mergetree-multiple-volumes) capabilities can help manage long-term data efficiently.
 - Consider using [materialized views](/materialized-view/incremental-materialized-view) to maintain aggregated or filtered historical data while allowing raw data to expire.
 
-### Migration timeline [#migration-timeline]
+### Migration timeline 
 
 The migration timeline will depend on your data retention requirements:
 
@@ -63,11 +63,11 @@ The migration timeline will depend on your data retention requirements:
 - **Longer retention**: Continue parallel operation until data expires from Elastic.
 - **Historical data**: If absolutely necessary, consider using [Migrating data](#migrating-data) to import specific historical data.
 
-## Migrating settings [#migration-settings]
+## Migrating settings 
 
 When migrating from Elastic to ClickStack, your indexing and storage settings will need to be adapted to fit ClickHouse's architecture. While Elasticsearch relies on horizontal scaling and sharding for performance and fault tolerance and thus has multiple shards by default, ClickHouse is optimized for vertical scaling and typically performs best with fewer shards.
 
-### Recommended settings [#recommended-settings]
+### Recommended settings 
 
 We recommend starting with a **single shard** and scaling vertically. This configuration is suitable for most observability workloads and simplifies both management and query performance tuning.
 
@@ -79,7 +79,7 @@ We recommend starting with a **single shard** and scaling vertically. This confi
   - Using [`ReplicatedMergeTree`](/engines/table-engines/mergetree-family/replication) if high availability is required
   - For fault tolerance, [1 replica of your shard](/engines/table-engines/mergetree-family/replication) is typically sufficient in Observability workloads.
 
-### When to shard [#when-to-shard]
+### When to shard 
 
 Sharding may be necessary if:
 
@@ -89,7 +89,7 @@ Sharding may be necessary if:
 
 If you do need to shard, refer to [Horizontal scaling](/architecture/horizontal-scaling) for guidance on shard keys and distributed table setup.
 
-### Retention and TTL [#retention-and-ttl]
+### Retention and TTL 
 
 ClickHouse uses [TTL clauses](/use-cases/observability/clickstack/production#configure-ttl) on MergeTree tables to manage data expiration. TTL policies can:
 
@@ -99,7 +99,7 @@ ClickHouse uses [TTL clauses](/use-cases/observability/clickstack/production#con
 
 We recommend aligning your ClickHouse TTL configuration with your existing Elastic retention policies to maintain a consistent data lifecycle during the migration. For examples, see [ClickStack production TTL setup](/use-cases/observability/clickstack/production#configure-ttl).
 
-## Migrating data [#migrating-data]
+## Migrating data 
 
 While we recommend parallel operation for most observability data, there are specific cases where direct data migration from Elasticsearch to ClickHouse may be necessary:
 
@@ -114,7 +114,7 @@ The following steps allow the migration of a single Elasticsearch index from Cli
 <Steps>
 
 <Step>
-### Migrate schema [#migrate-scheme]
+### Migrate schema 
 
 Create a table in ClickHouse for the index being migrated from Elasticsearch. Users can map [Elasticsearch types to their ClickHouse](/use-cases/observability/clickstack/migration/elastic/types) equivalent. Alternatively, users can simply rely on the JSON data type in ClickHouse, which will dynamically create columns of the appropriate type as data is inserted.
 
@@ -553,7 +553,7 @@ For more details on using the JSON type in schemas, and how to efficiently apply
 </Step>
 
 <Step>
-### Install `elasticdump` [#install-elasticdump]
+### Install `elasticdump` 
 
 We recommend [`elasticdump`](https://github.com/elasticsearch-dump/elasticsearch-dump) for exporting data from Elasticsearch. This tool requires `node` and should be installed on a machine with network proximity to both Elasticsearch and ClickHouse. We recommend a dedicated server with at least 4 cores and 16GB of RAM for most exports.
 
@@ -571,13 +571,13 @@ Where possible, we recommend running both ClickHouse, Elasticsearch, and `elasti
 </Step>
 
 <Step>
-### Install ClickHouse client [#install-clickhouse-client]
+### Install ClickHouse client 
 
 Ensure ClickHouse is [installed on the server](/install) on which `elasticdump` is located. **Do not start a ClickHouse server** - these steps only require the client.
 </Step>
 
 <Step>
-### Stream data [#stream-data]
+### Stream data 
 
 To stream data between Elasticsearch and ClickHouse, use the `elasticdump` command - piping the output directly to the ClickHouse client. The following inserts the data into our well structured table `logs_system_syslog`.
 
@@ -629,7 +629,7 @@ See ["Reading JSON as an object"](/integrations/data-formats/json/other-formats#
 </Step>
 
 <Step>
-### Transform data (optional) [#transform-data]
+### Transform data (optional) 
 
 The above commands assume a 1:1 mapping of Elasticsearch fields to ClickHouse columns. Users often need to filter and transform Elasticsearch data before insertion into ClickHouse.
 

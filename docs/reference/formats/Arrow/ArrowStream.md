@@ -11,10 +11,10 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 `ArrowStream` is Apache Arrow's "stream mode" format. It is designed for in-memory stream processing.
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 

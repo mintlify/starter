@@ -8,7 +8,7 @@ keywords: ['PostgreSQL', 'Parquet', 'CSV', 'JSON']
 
 
 
-## How to export PostgreSQL data to Parquet, CSV or JSON [#how-to-export-postgresql-data-to-parquet-csv-or-json]
+## How to export PostgreSQL data to Parquet, CSV or JSON
 
 This one is easy with `clickhouse-local`:
 
@@ -23,7 +23,7 @@ These examples use `clickhouse-local`, which is a part of the ClickHouse binary.
 curl https://clickhouse.com/ | sh
 ```
 
-## Export PostgreSQL to Parquet [#export-postgresql-to-parquet]
+## Export PostgreSQL to Parquet
 
 The `postgresql` table function allows `SELECT` (and `INSERT`) queries to be performed on data that is stored on a remote PostgreSQL server. For example, to view the entire contents of a table in PostgreSQL:
 
@@ -57,7 +57,7 @@ INTO OUTFILE 'my_output_file.parquet'"
 Because the name of the output file has a `.parquet` extension, ClickHouse assumes we want the Parquet format, so notice we omitted the `FORMAT Parquet` clause.
 :::
 
-## Export PostgreSQL to CSV [#export-postgresql-to-csv]
+## Export PostgreSQL to CSV
 
 It's the same as for Parquet, except we specify a more approriate filename for the output:
 
@@ -75,7 +75,7 @@ INTO OUTFILE 'my_output_file.csv'"
 
 That's it! ClickHouse sees the `.csv` extension on the output file name and outputs the data as comma-separated. Otherwise, it's the exact same command as above.
 
-## Export PostgreSQL to JSON [#export-postgresql-to-json]
+## Export PostgreSQL to JSON
 
 To go from PostgreSQL to JSON, we just change the filename and ClickHouse will figure out the format:
 

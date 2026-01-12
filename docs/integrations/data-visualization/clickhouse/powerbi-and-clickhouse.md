@@ -30,15 +30,15 @@ This tutorial will guide you through the process of:
 * [Querying data from ClickHouse for visualization in Power BI Desktop](#query-and-visualise-data)
 * [Setting up an on-premise data gateway for Power BI Service](#power-bi-service)
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
-### Power BI Installation [#power-bi-installation]
+### Power BI Installation 
 
 This tutorial assumes you have Microsoft Power BI Desktop installed on your Windows machine. You can download and install Power BI Desktop [here](https://www.microsoft.com/en-us/download/details.aspx?id=58494)
 
 We recommend updating to the latest version of Power BI. The ClickHouse Connector is available by default from version `2.137.751.0`.
 
-### Gather your ClickHouse connection details [#gather-your-clickhouse-connection-details]
+### Gather your ClickHouse connection details 
 
 You'll need the following details for connecting to your ClickHouse instance:
 
@@ -47,7 +47,7 @@ You'll need the following details for connecting to your ClickHouse instance:
 * Password - Password of the user
 * Database - Name of the database on the instance you want to connect to
 
-## Power BI desktop [#power-bi-desktop]
+## Power BI desktop 
 
 To get started with querying data in Power BI Desktop, you'll need to complete the following steps:
 
@@ -56,7 +56,7 @@ To get started with querying data in Power BI Desktop, you'll need to complete t
 3. Connect to ClickHouse
 4. Query and Visualize you data
 
-### Install the ODBC Driver [#install-the-odbc-driver]
+### Install the ODBC Driver 
 
 Download the most recent [ClickHouse ODBC release](https://github.com/ClickHouse/clickhouse-odbc/releases).
 
@@ -68,7 +68,7 @@ Execute the supplied `.msi` installer and follow the wizard.
 `Debug symbols` are optional and not required
 </Note>
 
-#### Verify ODBC driver [#verify-odbc-driver]
+#### Verify ODBC driver 
 
 When the driver installation is completed, you can verify the installation was successful by:
 
@@ -80,7 +80,7 @@ Verify the ClickHouse Driver is listed.
 
 <img src="/images/integrations/data-visualization/powerbi_odbc_verify.png" alt="ODBC Data Source Administrator showing ClickHouse drivers in the Drivers tab" />
 
-### Find the ClickHouse Connector [#find-the-clickhouse-connector]
+### Find the ClickHouse Connector 
 
 <Note>
 Available in version `2.137.751.0` of Power BI Desktop
@@ -94,7 +94,7 @@ Search for "ClickHouse"
 
 <img src="/images/integrations/data-visualization/powerbi_search_clickhouse.png" alt="Power BI Get Data dialog with ClickHouse searched in the search bar" />
 
-### Connect to ClickHouse [#connect-to-clickhouse]
+### Connect to ClickHouse 
 
 Select the connector, and enter in the ClickHouse instance credentials:
 
@@ -117,7 +117,7 @@ If you have a use case that has a small amount of data, you can choose import mo
 
 <img src="/images/integrations/data-visualization/powerbi_connect_user.png" alt="ClickHouse connection credentials dialog for username and password" />
 
-### Query and Visualise Data [#query-and-visualise-data]
+### Query and Visualise Data 
 
 Finally, you should see the databases and tables in the Navigator view. Select the desired table and click "Load" to
 import the data from ClickHouse.
@@ -127,19 +127,19 @@ import the data from ClickHouse.
 Once the import is complete, your ClickHouse Data should be accessible in Power BI as usual.
 <br/>
 
-## Power BI service [#power-bi-service]
+## Power BI service 
 
 In order to use Microsoft Power BI Service, you need to create an [on-premise data gateway](https://learn.microsoft.com/en-us/power-bi/connect-data/service-gateway-onprem).
 
 For more details on how to setup custom connectors, please refer to Microsoft's documentation on how to [use custom data connectors with an on-premises data gateway](https://learn.microsoft.com/en-us/power-bi/connect-data/service-gateway-custom-connectors).
 
-## ODBC driver (import only) [#odbc-driver-import-only]
+## ODBC driver (import only) 
 
 We recommend using the ClickHouse Connector that uses DirectQuery.
 
 Install the [ODBC Driver](#install-the-odbc-driver) onto the on-premise data gateway instance and [verify](#verify-odbc-driver) as outlined above.
 
-### Create a new User DSN [#create-a-new-user-dsn]
+### Create a new User DSN 
 
 When the driver installation is complete, an ODBC data source can be created. Search for ODBC in the Start menu and select "ODBC Data Sources (64-bit)".
 
@@ -164,7 +164,7 @@ If you are using a deployment that has SSL enabled (e.g. ClickHouse Cloud or a s
 - `Timeout` is an integer representing seconds. Default value: `30 seconds`.
 </Note>
 
-### Get data into Power BI [#get-data-into-power-bi]
+### Get data into Power BI 
 
 In case you don't have Power BI installed
 yet, [download and install Power BI Desktop](https://www.microsoft.com/en-us/download/details.aspx?id=58494).
@@ -193,9 +193,9 @@ Finally, you should see the databases and tables in the Navigator view. Select t
 
 Once the import is complete, your ClickHouse Data should be accessible in Power BI as usual.
 
-## Known limitations [#known-limitations]
+## Known limitations 
 
-### UInt64 [#uint64]
+### UInt64 
 
 Unsigned integer types such as UInt64 or bigger won't be loaded into the dataset automatically, as Int64 is the maximum whole number type support by Power BI.
 

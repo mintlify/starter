@@ -22,7 +22,7 @@ Prewhere is an optimization to apply filtering more efficiently.
 It is enabled by default even if `PREWHERE` clause is not specified explicitly.
 </Note>
 
-## Testing for `NULL` [#testing-for-null]
+## Testing for `NULL` 
 
 If you need to test a value for [`NULL`](/sql-reference/syntax#null), use:
 - [`IS NULL`](/sql-reference/operators#is_null) or [`isNull`](../../../sql-reference/functions/functions-for-nulls.md#isNull)
@@ -30,7 +30,7 @@ If you need to test a value for [`NULL`](/sql-reference/syntax#null), use:
 
 An expression with `NULL` will otherwise never pass.
 
-## Filtering data with logical operators [#filtering-data-with-logical-operators]
+## Filtering data with logical operators 
 
 You can use the following [logical functions](/sql-reference/functions/logical-functions#and) together with the `WHERE` clause for combining multiple conditions:
 
@@ -39,12 +39,12 @@ You can use the following [logical functions](/sql-reference/functions/logical-f
 - [`or()`](/sql-reference/functions/logical-functions#or) or `NOT`
 - [`xor()`](/sql-reference/functions/logical-functions#xor)
 
-## Using UInt8 columns as a condition [#using-uint8-columns-as-a-condition]
+## Using UInt8 columns as a condition 
 
 In ClickHouse, `UInt8` columns can be used directly as boolean conditions, where `0` is `false` and any non-zero value (typically `1`) is `true`.
 An example of this is given in the section [below](#example-uint8-column-as-condition).
 
-## Using comparison operators [#using-comparison-operators]
+## Using comparison operators 
 
 The following [comparison operators](/sql-reference/operators#comparison-operators) can be used:
 
@@ -64,7 +64,7 @@ The following [comparison operators](/sql-reference/operators#comparison-operato
 | `a BETWEEN b AND c` | `a >= b AND a <= c` | Range check (inclusive) | `price BETWEEN 100 AND 500` |
 | `a NOT BETWEEN b AND c` | `a < b OR a > c` | Outside range check | `price NOT BETWEEN 100 AND 500` |
 
-## Pattern matching and conditional expressions [#pattern-matching-and-conditional-expressions]
+## Pattern matching and conditional expressions 
 
 Beyond comparison operators, you can use pattern matching and conditional expressions in the `WHERE` clause.
 
@@ -78,7 +78,7 @@ Beyond comparison operators, you can use pattern matching and conditional expres
 
 See ["Pattern matching and conditional expressions"](#examples-pattern-matching-and-conditional-expressions) for usage examples.
 
-## Expression with literals, columns or subqueries [#expressions-with-literals-columns-subqueries]
+## Expression with literals, columns or subqueries 
 
 The expression following the `WHERE` clause can also include [literals](/sql-reference/syntax#literals), columns or subqueries, which are nested `SELECT` statements that return values used in conditions.
 
@@ -107,9 +107,9 @@ WHERE (price > 100 OR category IN (SELECT category FROM featured))
   AND in_stock = true
   AND name LIKE '%Special%'
 ```
-## Examples [#examples]
+## Examples 
 
-### Testing for `NULL` [#examples-testing-for-null]
+### Testing for `NULL` 
 
 Queries with `NULL` values:
 
@@ -130,7 +130,7 @@ SELECT * FROM t_null WHERE y != 0;
 └───┴───┘
 ```
 
-### Filtering data with logical operators [#example-filtering-with-logical-operators]
+### Filtering data with logical operators 
 
 Given the following table and data:
 
@@ -247,7 +247,7 @@ WHERE and(or(category = 'Electronics', price > 100), in_stock);
 
 The SQL keyword syntax (`AND`, `OR`, `NOT`, `XOR`) is generally more readable, but the function syntax can be useful in complex expressions or when building dynamic queries.
 
-### Using UInt8 columns as a condition [#example-uint8-column-as-condition]
+### Using UInt8 columns as a condition 
 
 Taking the table from a [previous example](#example-filtering-with-logical-operators), you can use a column name directly as a condition:
 
@@ -265,7 +265,7 @@ WHERE in_stock
    └────┴─────────┴────────┴─────────────┴──────────┘
 ```
 
-### Using comparison operators [#example-using-comparison-operators]
+### Using comparison operators 
 
 The examples below use the table and data from the [example](#example-filtering-with-logical-operators) above. Results are omitted for sake of brevity.
 
@@ -340,11 +340,11 @@ SELECT * FROM products
 WHERE category = 'Electronics' AND in_stock = true;
 ```
 
-### Pattern matching and conditional expressions [#examples-pattern-matching-and-conditional-expressions]
+### Pattern matching and conditional expressions 
 
 The examples below use the table and data from the [example](#example-filtering-with-logical-operators) above. Results are omitted for sake of brevity.
 
-#### LIKE examples [#like-examples]
+#### LIKE examples 
 
 ```sql
 -- Find products with 'o' in the name
@@ -360,7 +360,7 @@ SELECT * FROM products WHERE name LIKE '____';
 -- Result: Desk, Lamp
 ```
 
-#### ILIKE examples [#ilike-examples]
+#### ILIKE examples 
 
 ```sql
 -- Case-insensitive search for 'LAPTOP'
@@ -372,7 +372,7 @@ SELECT * FROM products WHERE name ILIKE 'l%';
 -- Result: Laptop, Lamp
 ```
 
-#### IF examples [#if-examples]
+#### IF examples 
 
 ```sql
 -- Different price thresholds by category
@@ -388,7 +388,7 @@ WHERE if(in_stock, price > 100, true);
 -- (In stock items over $100 OR all out-of-stock items)
 ```
 
-#### multiIf examples [#multiif-examples]
+#### multiIf examples 
 
 ```sql
 -- Multiple category-based conditions
@@ -411,7 +411,7 @@ WHERE multiIf(
 -- Result: Laptop, Chair, Monitor, Lamp
 ```
 
-#### CASE examples [#case-examples]
+#### CASE examples 
 
 **Simple CASE:**
 

@@ -12,7 +12,7 @@ doc_type: 'reference'
 Different techniques may be applied to different objects in the same schema. For example, some objects can be best solved with a `String` type and others with a `Map` type. Note that once a `String` type is used, no further schema decisions need to be made. Conversely, it is possible to nest sub-objects within a `Map` key - including a `String` representing JSON - as we show below:
 </Note>
 
-## Using the String type [#using-string]
+## Using the String type 
 
 If the objects are highly dynamic, with no predictable structure and contain arbitrary nested objects, users should use the `String` type. Values can be extracted at query time using JSON functions as we show below.
 
@@ -149,7 +149,7 @@ String functions are appreciably slower (> 10x) than explicit type conversions w
 
 This approach's flexibility comes at a clear performance and syntax cost, and it should be used only for highly dynamic objects in the schema.
 
-### Simple JSON functions [#simple-json-functions]
+### Simple JSON functions 
 
 The above examples use the JSON* family of functions. These utilize a full JSON parser based on [simdjson](https://github.com/simdjson/simdjson), that is rigorous in its parsing and will distinguish between the same field nested at different levels. These functions are able to deal with JSON that is syntactically correct but not well-formatted, e.g. double spaces between keys.
 
@@ -201,7 +201,7 @@ Peak memory usage: 211.49 MiB.
 
 The above query uses the `simpleJSONExtractString` to extract the `created` key, exploiting the fact we want the first value only for the published date. In this case, the limitations of the `simpleJSON*` functions are acceptable for the gain in performance.
 
-## Using the Map type [#using-map]
+## Using the Map type 
 
 If the object is used to store arbitrary keys, mostly of one type, consider using the `Map` type. Ideally, the number of unique keys should not exceed several hundred. The `Map` type can also be considered for objects with sub-objects, provided the latter have uniformity in their types. Generally, we recommend the `Map` type be used for labels and tags, e.g. Kubernetes pod labels in log data.
 
@@ -215,7 +215,7 @@ Although `Map`s give a simple way to represent nested structures, they have some
 When modelling objects as `Map`s, a `String` key is used to store the JSON key name. The map will therefore always be `Map(String, T)`, where `T` depends on the data.
 </Note>
 
-#### Primitive values [#primitive-values]
+#### Primitive values 
 
 The simplest application of a `Map` is when the object contains the same primitive type as values. In most cases, this involves using the `String` type for the value `T`.
 
@@ -272,7 +272,7 @@ SELECT company.labels['type'] AS type FROM people
 
 A full set of `Map` functions is available to query this time, described [here](/sql-reference/functions/tuple-map-functions.md). If your data is not of a consistent type, functions exist to perform the [necessary type coercion](/sql-reference/functions/type-conversion-functions).
 
-#### Object values [#object-values]
+#### Object values 
 
 The `Map` type can also be considered for objects which have sub-objects, provided the latter have consistency in their types.
 
@@ -350,7 +350,7 @@ The application of maps in this case is typically rare, and suggests that the da
 }
 ```
 
-## Using the Nested type [#using-nested]
+## Using the Nested type 
 
 The [Nested type](/sql-reference/data-types/nested-data-structures/nested) can be used to model static objects which are rarely subject to change, offering an alternative to `Tuple` and `Array(Tuple)`. We generally recommend avoiding using this type for JSON as its behavior is often confusing. The primary benefit of `Nested` is that sub-columns can be used in ordering keys.
 
@@ -385,11 +385,11 @@ CREATE table http
 ) ENGINE = MergeTree() ORDER BY (status, timestamp);
 ```
 
-### flatten_nested [#flatten_nested]
+### flatten_nested 
 
 The setting `flatten_nested` controls the behavior of nested.
 
-#### flatten_nested=1 [#flatten_nested1]
+#### flatten_nested=1 
 
 A value of `1` (the default) does not support an arbitrary level of nesting. With this value, it is easiest to think of a nested data structure as multiple  [Array](/sql-reference/data-types/array) columns of the same length. The fields `method`, `path`, and `version` are all separate `Array(Type)` columns in effect with one critical constraint: **the length of the `method`, `path`, and `version` fields must be the same.** If we use `SHOW CREATE TABLE`, this is illustrated:
 
@@ -462,7 +462,7 @@ SELECT clientip, status, size, `request.method` FROM http WHERE has(request.meth
 
 Note the use of `Array` for the sub-columns means the full breath [Array functions](/sql-reference/functions/array-functions) can potentially be exploited, including the [`ARRAY JOIN`](/sql-reference/statements/select/array-join) clause - useful if your columns have multiple values.
 
-#### flatten_nested=0 [#flatten_nested0]
+#### flatten_nested=0 
 
 This allows an arbitrary level of nesting and means nested columns stay as a single array of `Tuple`s - effectively they become the same as `Array(Tuple)`.
 
@@ -534,7 +534,7 @@ SELECT clientip, status, size, `request.method` FROM http WHERE has(request.meth
 1 row in set. Elapsed: 0.002 sec.
 ```
 
-### Example [#example]
+### Example 
 
 A larger example of the above data is available in a public bucket in s3 at: `s3://datasets-documentation/http/`.
 
@@ -591,7 +591,7 @@ ORDER BY c DESC LIMIT 5;
 5 rows in set. Elapsed: 0.007 sec.
 ```
 
-### Using pairwise arrays [#using-pairwise-arrays]
+### Using pairwise arrays 
 
 Pairwise arrays provide a balance between the flexibility of representing JSON as Strings and the performance of a more structured approach. The schema is flexible in that any new fields can be potentially added to the root. This, however, requires a significantly more complex query syntax and isn't compatible with nested structures.
 

@@ -51,7 +51,7 @@ To analyze the `trace_log` system table:
 
 If you need to visualize `trace_log` info, try [flamegraph](/interfaces/third-party/gui#clickhouse-flamegraph) and [speedscope](https://github.com/laplab/clickhouse-speedscope).
 
-## Example [#example]
+## Example 
 
 In this example we:
 

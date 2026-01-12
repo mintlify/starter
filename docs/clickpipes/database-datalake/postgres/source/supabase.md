@@ -16,7 +16,7 @@ ClickPipes supports Supabase via IPv6 natively for seamless replication.
 </Info>
 
 
-## Creating a user with permissions and replication slot [#creating-a-user-with-permissions-and-replication-slot]
+## Creating a user with permissions and replication slot 
 
 Let's create a new user for ClickPipes with the necessary permissions suitable for CDC,
 and also create a publication that we'll use for replication.
@@ -48,7 +48,7 @@ Also, remember to use the same publication name when creating the mirror in Clic
 
 </Note>
 
-## Increase `max_slot_wal_keep_size` [#increase-max_slot_wal_keep_size]
+## Increase `max_slot_wal_keep_size` 
 
 <Warning>
 
@@ -60,7 +60,7 @@ For better recommendation of this value you can contact the ClickPipes team.
 
 </Warning>
 
-## Connection details to use for Supabase [#connection-details-to-use-for-supabase]
+## Connection details to use for Supabase 
 
 Head over to your Supabase Project's `Project Settings` -> `Database` (under `Configuration`).
 
@@ -74,13 +74,13 @@ The connection pooler is not supported for CDC based replication, hence it needs
 
 </Note>
 
-## Note on RLS [#note-on-rls]
+## Note on RLS 
 The ClickPipes Postgres user must not be restricted by RLS policies, as it can lead to missing data. You can disable RLS policies for the user by running the below command:
 ```sql
 ALTER USER clickpipes_user BYPASSRLS;
 ```
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your Postgres instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your Postgres instance as you will need them during the ClickPipe creation process.

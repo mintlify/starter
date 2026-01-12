@@ -11,13 +11,13 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 Differs from [`JSONCompactEachRow`](./JSONCompactEachRow.md) only in that data fields are output as strings, not as typed JSON values.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using a JSON file with the following data, named as `football.json`:
 
@@ -47,7 +47,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.json' FORMAT JSONCompactStringsEachRow;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `JSONCompactStringsEachRow` format:
 
@@ -79,4 +79,4 @@ The output will be in JSON format:
 ["2022-05-07", "2021", "Walsall", "Swindon Town", "0", "3"]
 ```
 
-## Format settings [#format-settings]
+## Format settings 

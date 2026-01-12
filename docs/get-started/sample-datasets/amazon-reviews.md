@@ -14,7 +14,7 @@ The queries below were executed on a **Production** instance of ClickHouse Cloud
 ["Playground specifications"](/getting-started/playground#specifications).
 </Note>
 
-## Loading the dataset [#loading-the-dataset]
+## Loading the dataset 
 
 1. Without inserting the data into ClickHouse, we can query it in place. Let's grab some rows, so we can see what they look like:
 
@@ -151,7 +151,7 @@ ORDER BY size DESC
 
 The original data was about 70G, but compressed in ClickHouse it takes up about 30G.
 
-## Example queries [#example-queries]
+## Example queries 
 
 7. Let's run some queries. Here are the top 10 most-helpful reviews in the dataset:
 

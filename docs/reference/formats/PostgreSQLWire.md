@@ -6,8 +6,8 @@ title: 'PostgreSQLWire'
 doc_type: 'reference'
 ---
 
-## Description [#description]
+## Description 
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 

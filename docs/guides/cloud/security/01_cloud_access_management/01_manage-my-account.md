@@ -9,7 +9,7 @@ keywords: ['account management', 'user profile', 'security', 'cloud console', 's
 
 import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFeatureBadge/EnterprisePlanFeatureBadge.jsx'
 
-## Accept an invitation [#accept-invitation]
+## Accept an invitation 
 
 Users may use multiple methods to accept an invitation to join an organization. If this is your first invitation, select the appropriate authentication method for your organization below. 
 
@@ -19,25 +19,25 @@ If this is not your first organization, either sign in with your existing organi
 Organizations using SAML have a unique login per ClickHouse organization. Use the direct link provided by your administrator to log in.
 </Note>
 
-### Email and password [#email-and-password]
+### Email and password 
 
 ClickHouse Cloud allows you to authenticate with an email address and password. When using this method the best way to protect your ClickHouse account is to use a strong password. There are many online resources to help you devise a password you can remember. Alternatively, you can use a random password generator and store your password in a password manager for increased security.
 
 Passwords must contain a minimum of 12 characters and meet 3 of 4 complexity requirements: upper case characters, lower case characters, numbers and/or special characters.
 
-### Social single sign-on (SSO) [#social-sso]
+### Social single sign-on (SSO) 
 
 Use `Continue with Google` or `Continue with Microsoft Account` to sign up for services or accept invitations.
 
 If your company uses Google Workspace or Microsoft 365, you can leverage your current single sign-on setup within ClickHouse Cloud. To do this, simply sign up using your company email address and invite other users using their company email. The effect is that your users must login using your company's login flows, whether via your identity provider or directly through Google or Microsoft authentication, before they can authenticate into ClickHouse Cloud. 
 
-### SAML single sign-on (SSO) [#saml-sso]
+### SAML single sign-on (SSO) 
 
 <EnterprisePlanFeatureBadge feature="SAML SSO"/>
 
 Users using SAML SSO are automatically added by their identity provider upon sign in. ClickHouse Cloud users with the Organization Admin role may [manage roles](/cloud/security/manage-cloud-users) assigned to SAML users and enforce SAML as the only authentication method.
 
-## Manage multi-factor authentication (MFA) [#mfa]
+## Manage multi-factor authentication (MFA) 
 
 Users with email + password or social authentication can further secure their account using multi-factor authentication (MFA). To set up MFA:
 
@@ -52,7 +52,7 @@ Users with email + password or social authentication can further secure their ac
 9. Check the box next to `I have safely recorded this code`
 10. Click Continue
 
-### Obtain a new recovery code [#obtain-recovery-code]
+### Obtain a new recovery code 
 
 If you previously enrolled in MFA and either did not create or misplaced your recovery code, follow these steps to get a new recovery code:
 1. Go to https://console.clickhouse.cloud
@@ -68,9 +68,9 @@ If you previously enrolled in MFA and either did not create or misplaced your re
 11. Check the box next to `I have safely recorded this code`
 12. Click Continue
 
-## Account recovery [#account-recovery]
+## Account recovery 
 
-### Forgot password [#forgot-password]
+### Forgot password 
 
 If you forgot your password, follow these steps for self-service recovery:
 1. Go to https://console.clickhouse.cloud
@@ -82,7 +82,7 @@ If you forgot your password, follow these steps for self-service recovery:
 7. Click Back to sign in
 8. Sign in normally with your new password
 
-### MFA self-service recovery [#mfa-self-serivce-recovery]
+### MFA self-service recovery 
 
 If you lost your MFA device or deleted your token, follow these steps to recover and create a new token:
 1. Go to https://console.clickhouse.cloud
@@ -103,7 +103,7 @@ If you lost your MFA device or deleted your token, follow these steps to recover
 16. Click the box next to `I have safely recorded this code` and click Continue
 17. Follow the process above to set up a new MFA factor
        
-### Lost MFA and recovery code [#lost-mfa-and-recovery-code]
+### Lost MFA and recovery code 
 
 If you lost your MFA device AND recovery code or you lost your MFA device and never obtained a recovery code, follow these steps to request a reset:
 

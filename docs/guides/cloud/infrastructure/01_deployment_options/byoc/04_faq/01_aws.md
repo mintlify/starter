@@ -7,9 +7,9 @@ description: 'Deploy ClickHouse on your own cloud infrastructure'
 doc_type: 'reference'
 ---
 
-## FAQ [#faq]
+## FAQ 
 
-### Compute [#compute]
+### Compute 
 
 <AccordionGroup>
 <Accordion title="Can I create multiple services in this single EKS cluster?">
@@ -24,7 +24,7 @@ Besides Clickhouse instances (ClickHouse servers and ClickHouse Keeper), we run 
 Currently, we have three m5.xlarge nodes (one for each AZ) in a dedicated node group to run those workloads.
 </Accordion>
 </AccordionGroup>
-### Network and security [#network-and-security]
+### Network and security 
 
 <AccordionGroup>
 <Accordion title="Can we revoke permissions set up during installation after setup is complete?">
@@ -42,7 +42,7 @@ to 30 server pods.
 Contact support to schedule maintenance windows. Please expect a minimum of a weekly update schedule.
 </Accordion>
 </AccordionGroup>
-### Uptime SLAs [#uptime-sla]
+### Uptime SLAs 
 
 <AccordionGroup>
 <Accordion title="Does ClickHouse offer an uptime SLA for BYOC?">

@@ -11,13 +11,13 @@ doc_type: 'guide'
 
 Most SQL queries from your PostgreSQL setup should run in ClickHouse without modification and will likely execute faster.
 
-## Deduplication using CDC [#deduplication-cdc]
+## Deduplication using CDC 
 
 When using real-time replication with CDC, keep in mind that updates and deletes may result in duplicate rows. To manage this, you can use techniques involving Views and Refreshable Materialized Views. 
 
 Refer to this [guide](/integrations/clickpipes/postgres/deduplication#query-like-with-postgres) to learn how to migrate your application from PostgreSQL to ClickHouse with minimal friction when migrating using real-time replication with CDC.
 
-## Optimize queries in ClickHouse [#optimize-queries-in-clickhouse]
+## Optimize queries in ClickHouse 
 
 While this is possible to migrate with minimum query rewriting, it is recommended to leverage ClickHouse features to significantly simplify queries and further improve query performance.
 

@@ -10,7 +10,7 @@ keywords: ['clickpipes', 'postgresql', 'cdc', 'data ingestion', 'real-time sync'
 This is a guide on how to setup Neon Postgres, which you can use for replication in ClickPipes.
 Make sure you're signed in to your [Neon console](https://console.neon.tech/app/projects) for this setup.
 
-## Creating a user with permissions [#creating-a-user-with-permissions]
+## Creating a user with permissions 
 
 Let's create a new user for ClickPipes with the necessary permissions suitable for CDC,
 and also create a publication that we'll use for replication.
@@ -35,7 +35,7 @@ Here, we can run the following SQL commands:
 
 Click on **Run** to have a publication and a user ready.
 
-## Enable logical replication [#enable-logical-replication]
+## Enable logical replication 
 In Neon, you can enable logical replication through the UI. This is necessary for ClickPipes's CDC to replicate data.
 Head over to the **Settings** tab and then to the **Logical Replication** section.
 
@@ -52,20 +52,20 @@ SHOW max_wal_senders; -- should be 10
 SHOW max_replication_slots; -- should be 10
 ```
 
-## IP whitelisting (for Neon enterprise plan) [#ip-whitelisting-for-neon-enterprise-plan]
+## IP whitelisting (for Neon enterprise plan) 
 If you have Neon Enterprise plan, you can whitelist the [ClickPipes IPs](../../index.md#list-of-static-ips) to allow replication from ClickPipes to your Neon Postgres instance.
 To do this you can click on the **Settings** tab and go to the **IP Allow** section.
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/source/setup/neon-postgres/neon-ip-allow.png" alt="Allow IPs screen" />
 
-## Copy connection details [#copy-connection-details]
+## Copy connection details 
 Now that we have the user, publication ready and replication enabled, we can copy the connection details to create a new ClickPipe.
 Head over to the **Dashboard** and at the text box where it shows the connection string,
 change the view to **Parameters Only**. We will need these parameters for our next step.
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/source/setup/neon-postgres/neon-conn-details.png" alt="Connection details" />
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your Postgres instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your Postgres instance as you will need them during the ClickPipe creation process.
