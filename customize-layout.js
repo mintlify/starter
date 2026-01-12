@@ -17,10 +17,9 @@
             content: none !important;
         }
 
-        /* Make product selector menu wider */
         .nav-dropdown-products-selector-content {
-            max-width: 950px !important;
-            width: 950px !important;
+            max-width: 700px !important;
+            width: 700px !important;
         }
     `;
     document.head.appendChild(style);
@@ -91,7 +90,7 @@
             },
             'nav-integrations': {
                 title: 'Integrations',
-                items: ['Language clients', 'Data integrations', 'ClickPipes']
+                items: ['Language clients', 'Connectors', 'ClickPipes']
             },
             'nav-resources': {
                 title: 'Resources',

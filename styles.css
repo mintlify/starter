@@ -121,6 +121,50 @@ html:not(.dark) .gemini-nav-btn.active {
     color: #000000 !important;
 }
 
+/* Generic Tilted Background Effect - for use anywhere */
+.tilted {
+    position: relative;
+    white-space: nowrap;
+}
+
+.tilted::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: skewY(-3deg);
+}
+
+.tilted-sm::before {
+    transform: skewY(-1deg);
+}
+
+.tilted-content {
+    position: relative;
+    padding: 1.25rem 1.25rem;
+}
+
+.tilted-yellow {
+    color: #1f1f1c;
+}
+
+.tilted-yellow::before {
+    background-color: #FCFF74;
+}
+
+.tilted-black {
+    color: #FCFF74;
+}
+
+.tilted-black::before {
+    background-color: #1a1a1a;
+}
+
+@media (min-width: 768px) {
+    .non-tilted-md::before {
+        transform: skewY(0deg);
+    }
+}
+
 /* Light mode - black text and black tilted background */
 html:not(.dark) .hero h1 {
     color: #000000 !important;

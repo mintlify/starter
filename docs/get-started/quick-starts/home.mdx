@@ -9,6 +9,13 @@ mode: 'custom'
 
 import { QuickStartsGrid } from '/snippets/components/QuickStartsGrid/QuickStartsGrid.jsx'
 
+{/* Define featured quick-starts - just list the IDs */}
+export const featuredQuickStartIds = [
+  'create-your-first-service-on-cloud',
+  'build-etl-pipeline-using-clickhouse',
+  'ingest-data-into-clickhouse',
+];
+
 {/* Define quick-starts data */}
 export const quickStartsData = [
   {
@@ -18,6 +25,7 @@ export const quickStartsData = [
     href: '/docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse',
     useCases: ['Data warehousing', 'Real-time analytics'],
     products: ['Cloud'],
+    level: 'Beginner',
   },
   {
     id: 'create-your-first-service-on-cloud',
@@ -26,6 +34,7 @@ export const quickStartsData = [
     href: '/docs/get-started/quick-starts/create-your-first-service-on-cloud',
     useCases: ['Data warehousing', 'Real-time analytics', 'Observability', 'AI/ML'],
     products: ['Cloud'],
+    level: 'Beginner',
   },
   {
     id: 'ingest-data-into-clickhouse',
@@ -34,6 +43,7 @@ export const quickStartsData = [
     href: '/docs/get-started/quick-starts/ingest-data-into-clickhouse',
     useCases: ['Data warehousing', 'Real-time analytics'],
     products: ['Cloud'],
+    level: 'Beginner',
   },
   {
     id: 'query-and-visualize-data-using-dashboards',
@@ -42,6 +52,7 @@ export const quickStartsData = [
     href: '/docs/get-started/quick-starts/query-and-visualize-data-using-dashboards',
     useCases: ['Data warehousing', 'Real-time analytics'],
     products: ['Cloud'],
+    level: 'Beginner',
   },
   {
     id: 'query-json-s3-using-chdb',
@@ -50,6 +61,7 @@ export const quickStartsData = [
     href: '/docs/get-started/quick-starts/query-json-s3-using-chdb',
     useCases: ['Real-time analytics'],
     products: ['chdb'],
+    level: 'Beginner',
   },
   {
     id: 'updating-data-with-replacingmergetree',
@@ -58,6 +70,7 @@ export const quickStartsData = [
     href: '/docs/get-started/quick-starts/updating-data-with-replacingmergetree',
     useCases: ['Data warehousing', 'Real-time analytics'],
     products: ['Cloud'],
+    level: 'Beginner',
   },
 ];
 
@@ -76,5 +89,5 @@ export const quickStartsData = [
     </div>
 
     {/* Render the QuickStartsGrid component */}
-    <QuickStartsGrid quickStartsData={quickStartsData} />
+    <QuickStartsGrid quickStartsData={quickStartsData} featuredIds={featuredQuickStartIds} />
 </div>

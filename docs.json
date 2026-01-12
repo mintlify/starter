@@ -43,22 +43,40 @@
               "docs/get-started/about/olap",
               "docs/get-started/about/why-clickhouse-is-so-fast",
               "docs/get-started/about/distinctive-features",
-              "docs/get-started/about/deployment-modes"
+              "docs/get-started/about/deployment-modes",
+              {
+                "group": "Use cases",
+                "expanded": false,
+                "icon": "bullseye-arrow",
+                "pages": [
+                  "docs/get-started/about/use_cases/00_overview",
+                  "docs/get-started/about/use_cases/01_real-time-analytics",
+                  "docs/get-started/about/use_cases/02_observability",
+                  "docs/get-started/about/use_cases/03_data_warehousing",
+                  {
+                    "group": "Machine learning & generative AI",
+                    "pages": [
+                      "docs/get-started/about/use_cases/04_machine_learning_and_genAI/01_machine_learning",
+                      "docs/get-started/about/use_cases/04_machine_learning_and_genAI/02_agent_facing_analytics"
+                    ]
+                  }
+                ]
+              }
             ]
           },
           {
             "tab": "Setup",
             "icon": "server",
-            "dropdowns": [
+            "groups": [
               {
-                "dropdown": "Cloud",
+                "group": "Cloud",
                 "icon": "cloud",
                 "pages": [
                   "docs/get-started/install/quick-start-cloud"
                 ]
               },
               {
-                "dropdown": "Self-managed",
+                "group": "Self-managed",
                 "icon": "database",
                 "pages": [
                   "docs/get-started/install/debian_ubuntu",
@@ -69,6 +87,77 @@
                   "docs/get-started/install/docker",
                   "docs/get-started/install/quick-install-curl",
                   "docs/get-started/install/advanced"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Migrate",
+            "icon": "arrow-down-from-arc",
+            "groups": [
+              {
+                "group": "Migration guides",
+                "pages": [
+                  "docs/get-started/migration-guides/01_overview",
+                  {
+                    "group": "PostgreSQL",
+                    "pages": [
+                      "docs/get-started/migration-guides/02_postgres/01_overview",
+                      {
+                        "group": "Migration guide",
+                        "pages": [
+                          "docs/get-started/migration-guides/02_postgres/migration_guide/01_migration_guide_part1",
+                          "docs/get-started/migration-guides/02_postgres/migration_guide/02_migration_guide_part2",
+                          "docs/get-started/migration-guides/02_postgres/migration_guide/03_migration_guide_part3"
+                        ]
+                      },
+                      "docs/get-started/migration-guides/02_postgres/appendix"
+                    ]
+                  },
+                  {
+                    "group": "BigQuery",
+                    "pages": [
+                      "docs/get-started/migration-guides/03_bigquery/01_overview",
+                      "docs/get-started/migration-guides/03_bigquery/02_migrating-to-clickhouse-cloud",
+                      "docs/get-started/migration-guides/03_bigquery/03_loading-data"
+                    ]
+                  },
+                  {
+                    "group": "Snowflake",
+                    "pages": [
+                      "docs/get-started/migration-guides/04_snowflake/01_overview",
+                      "docs/get-started/migration-guides/04_snowflake/02_migration_guide",
+                      "docs/get-started/migration-guides/04_snowflake/03_sql_translation_reference"
+                    ]
+                  },
+                  {
+                    "group": "Elasticsearch",
+                    "pages": [
+                      "docs/get-started/migration-guides/05_elastic/01_overview"
+                    ]
+                  },
+                  {
+                    "group": "Redshift",
+                    "pages": [
+                      "docs/get-started/migration-guides/06_redshift/01_overview",
+                      "docs/get-started/migration-guides/06_redshift/02_migration_guide",
+                      "docs/get-started/migration-guides/06_redshift/03_sql_translation_reference"
+                    ]
+                  },
+                  {
+                    "group": "OSS to Cloud",
+                    "pages": [
+                      "docs/get-started/migration-guides/07_OSS_to_Cloud/01_clickhouse-to-cloud"
+                    ]
+                  },
+                  {
+                    "group": "Other methods",
+                    "pages": [
+                      "docs/get-started/migration-guides/08_other_methods/01_clickhouse-local-etl",
+                      "docs/get-started/migration-guides/08_other_methods/02_etl-tool-to-clickhouse",
+                      "docs/get-started/migration-guides/08_other_methods/03_object-storage-to-clickhouse"
+                    ]
+                  }
                 ]
               }
             ]
@@ -1521,98 +1610,8 @@
           {
             "tab": "Get started",
             "icon": "rocket",
-            "groups": [
-              {
-                "group": "Quick Start",
-                "icon": "bolt-lightning",
-                "pages": [
-                  "docs/get-started/cloud/intro",
-                  "docs/cloud/getting-started/quick-start"
-                ]
-              },
-              {
-                "group": "Use cases",
-                "icon": "bullseye-arrow",
-                "pages": [
-                  "docs/cloud/getting-started/use_cases/00_overview",
-                  "docs/cloud/getting-started/use_cases/01_real-time-analytics",
-                  "docs/cloud/getting-started/use_cases/02_observability",
-                  "docs/cloud/getting-started/use_cases/03_data_warehousing",
-                  {
-                    "group": "Machine learning & generative AI",
-                    "pages": [
-                      "docs/cloud/getting-started/use_cases/04_machine_learning_and_genAI/01_machine_learning",
-                      "docs/cloud/getting-started/use_cases/04_machine_learning_and_genAI/02_agent_facing_analytics"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Migration guides",
-                "icon": "arrow-down-from-arc",
-                "pages": [
-                  "docs/cloud/getting-started/migration_guides/01_overview",
-                  {
-                    "group": "PostgreSQL",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/02_postgres/01_overview",
-                      {
-                        "group": "Migration guide",
-                        "pages": [
-                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/01_migration_guide_part1",
-                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/02_migration_guide_part2",
-                          "docs/cloud/getting-started/migration_guides/02_postgres/migration_guide/03_migration_guide_part3"
-                        ]
-                      },
-                      "docs/cloud/getting-started/migration_guides/02_postgres/appendix"
-                    ]
-                  },
-                  {
-                    "group": "BigQuery",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/03_bigquery/01_overview",
-                      "docs/cloud/getting-started/migration_guides/03_bigquery/02_migrating-to-clickhouse-cloud",
-                      "docs/cloud/getting-started/migration_guides/03_bigquery/03_loading-data"
-                    ]
-                  },
-                  {
-                    "group": "Snowflake",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/04_snowflake/01_overview",
-                      "docs/cloud/getting-started/migration_guides/04_snowflake/02_migration_guide",
-                      "docs/cloud/getting-started/migration_guides/04_snowflake/03_sql_translation_reference"
-                    ]
-                  },
-                  {
-                    "group": "Elasticsearch",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/05_elastic/01_overview"
-                    ]
-                  },
-                  {
-                    "group": "Redshift",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/06_redshift/01_overview",
-                      "docs/cloud/getting-started/migration_guides/06_redshift/02_migration_guide",
-                      "docs/cloud/getting-started/migration_guides/06_redshift/03_sql_translation_reference"
-                    ]
-                  },
-                  {
-                    "group": "OSS to Cloud",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/07_OSS_to_Cloud/01_clickhouse-to-cloud"
-                    ]
-                  },
-                  {
-                    "group": "Other methods",
-                    "pages": [
-                      "docs/cloud/getting-started/migration_guides/08_other_methods/01_clickhouse-local-etl",
-                      "docs/cloud/getting-started/migration_guides/08_other_methods/02_etl-tool-to-clickhouse",
-                      "docs/cloud/getting-started/migration_guides/08_other_methods/03_object-storage-to-clickhouse"
-                    ]
-                  }
-                ]
-              }
+            "pages": [
+              "/docs/cloud/getting-started/intro"
             ]
           },
           {
@@ -2228,7 +2227,7 @@
         ]
       },
       {
-        "product": "Data integrations",
+        "product": "Connectors",
         "tabs": [
           {
             "tab": "Home",
