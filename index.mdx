@@ -88,14 +88,14 @@ export const HeroCard = ({ filename, title, description, href, links, icon }) =>
 
     if (links && links.length > 0) {
         return (
-            <div className="group pb-8 p-4 rounded-lg bg-[#f9f9f9] border border-gray-200 dark:bg-[#282828] dark:border-[#323232]">
+            <div className="group pb-8 p-4 rounded-lg bg-[#f9f9f9] border border-gray-200 dark:bg-[#1B1B18] dark:border-[#3C3C3C]">
                 {content}
             </div>
         );
     }
 
     return (
-        <a className="group cursor-pointer pb-8 p-4 rounded-lg bg-[#f9f9f9] border border-gray-200 dark:bg-[#282828] dark:border-[#323232]" href={href}>
+        <a className="group cursor-pointer pb-8 p-4 rounded-lg bg-[#f9f9f9] border border-gray-200 dark:bg-[#1B1B18] dark:border-[#3C3C3C]" href={href}>
             {content}
         </a>
     );
