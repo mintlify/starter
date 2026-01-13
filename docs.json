@@ -49,15 +49,15 @@
                 "expanded": false,
                 "icon": "bullseye-arrow",
                 "pages": [
-                  "docs/get-started/about/use_cases/00_overview",
-                  "docs/get-started/about/use_cases/01_real-time-analytics",
-                  "docs/get-started/about/use_cases/02_observability",
-                  "docs/get-started/about/use_cases/03_data_warehousing",
+                  "docs/get-started/use_cases/overview",
+                  "docs/get-started/use_cases/real-time-analytics",
+                  "docs/get-started/use_cases/observability",
+                  "docs/get-started/use_cases/data_warehousing",
                   {
                     "group": "Machine learning & generative AI",
                     "pages": [
-                      "docs/get-started/about/use_cases/04_machine_learning_and_genAI/01_machine_learning",
-                      "docs/get-started/about/use_cases/04_machine_learning_and_genAI/02_agent_facing_analytics"
+                      "docs/get-started/use_cases/machine_learning_and_genAI/machine_learning",
+                      "docs/get-started/use_cases/machine_learning_and_genAI/agent_facing_analytics"
                     ]
                   }
                 ]
@@ -381,7 +381,97 @@
                 "group": "Time series",
                 "expanded": false,
                 "pages": [
-                  "docs/guides/use_case_guides/time-series/time-series-filling-gaps"
+                  "docs/guides/use-case-guides/time-series/index",
+                  "docs/guides/use-case-guides/time-series/date-time-data-types",
+                  "docs/guides/use-case-guides/time-series/basic-operations",
+                  "docs/guides/use-case-guides/time-series/analysis-functions",
+                  "docs/guides/use-case-guides/time-series/storage-efficiency",
+                  "docs/guides/use-case-guides/time-series/query-performance",
+                  "docs/guides/use-case-guides/time-series/materialized-view-rollup",
+                  "docs/guides/use-case-guides/time-series/time-series-filling-gaps"
+                ]
+              },
+              {
+                "group": "Observability",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/use-case-guides/observability/index",
+                  "docs/guides/use-case-guides/observability/cloud-monitoring",
+                  "docs/guides/use-case-guides/observability/self-managed-monitoring",
+                  {
+                    "group": "Build your own",
+                    "pages": [
+                      "docs/guides/use-case-guides/observability/build-your-own/index",
+                      "docs/guides/use-case-guides/observability/build-your-own/introduction",
+                      "docs/guides/use-case-guides/observability/build-your-own/schema-design",
+                      "docs/guides/use-case-guides/observability/build-your-own/integrating-opentelemetry",
+                      "docs/guides/use-case-guides/observability/build-your-own/managing-data",
+                      "docs/guides/use-case-guides/observability/build-your-own/grafana",
+                      "docs/guides/use-case-guides/observability/build-your-own/demo-application"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Data lake",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/use-case-guides/data_lake/index",
+                  "docs/guides/use-case-guides/data_lake/glue_catalog",
+                  "docs/guides/use-case-guides/data_lake/lakekeeper_catalog",
+                  "docs/guides/use-case-guides/data_lake/nessie_catalog",
+                  "docs/guides/use-case-guides/data_lake/onelake_catalog",
+                  "docs/guides/use-case-guides/data_lake/rest_catalog",
+                  "docs/guides/use-case-guides/data_lake/unity_catalog"
+                ]
+              },
+              {
+                "group": "AI/ML",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/use-case-guides/AI_ML/index",
+                  "docs/guides/use-case-guides/AI_ML/vector-search",
+                  "docs/guides/use-case-guides/AI_ML/ai-powered-sql-generation",
+                  {
+                    "group": "Data exploration",
+                    "pages": [
+                      "docs/guides/use-case-guides/AI_ML/data-exploration/jupyter-notebook",
+                      "docs/guides/use-case-guides/AI_ML/data-exploration/marimo-notebook"
+                    ]
+                  },
+                  {
+                    "group": "MCP",
+                    "pages": [
+                      "docs/guides/use-case-guides/AI_ML/MCP/index",
+                      "docs/guides/use-case-guides/AI_ML/MCP/claude-desktop",
+                      "docs/guides/use-case-guides/AI_ML/MCP/librechat",
+                      "docs/guides/use-case-guides/AI_ML/MCP/anythingllm",
+                      "docs/guides/use-case-guides/AI_ML/MCP/open-webui",
+                      "docs/guides/use-case-guides/AI_ML/MCP/ollama",
+                      "docs/guides/use-case-guides/AI_ML/MCP/janai",
+                      {
+                        "group": "AI agent libraries",
+                        "pages": [
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/index",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/streamlit",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/langchain",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/llamaindex",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/pydantic-ai",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/slackbot",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/agno",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/chainlit",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/claude-agent-sdk",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/copilotkit",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/crewai",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/dspy",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/mcp-agent",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/microsoft-agent-framework",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/upsonic",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/openai-agents"
+                        ]
+                      }
+                    ]
+                  }
                 ]
               }
             ]

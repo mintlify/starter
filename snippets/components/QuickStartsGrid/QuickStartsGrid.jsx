@@ -182,7 +182,7 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
           className={`text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center justify-between w-full border ${
             selectedOptions.length > 0 && !selectedOptions.includes('All')
               ? 'bg-black dark:bg-[#FAFF69] text-white dark:text-black border-black dark:border-[#FAFF69]'
-              : 'bg-white dark:bg-[#282828] text-black dark:text-white border-gray-300 dark:border-white/20 hover:border-[#FAFF69]'
+              : 'bg-white dark:bg-[#1B1B18] text-black dark:text-white border-gray-300 dark:border-white/20 hover:border-[#FAFF69]'
           }`}
           style={{ padding: '8px 12px', gap: '8px' }}
         >
@@ -205,7 +205,7 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
           </svg>
         </button>
         {isOpen && (
-          <div className="absolute z-50 mt-2 w-full rounded-lg shadow-lg border bg-white dark:bg-[#282828] border-gray-200 dark:border-white/20 max-h-[300px] overflow-y-auto">
+          <div className="absolute z-50 mt-2 w-full rounded-lg shadow-lg border bg-white dark:bg-[#1B1B18] border-gray-200 dark:border-white/20 max-h-[300px] overflow-y-auto">
             {options.map(option => (
               <label
                 key={option}
@@ -235,25 +235,6 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
   return (
     <>
       <div className="max-w-7xl mx-auto px-4">
-        {/* Featured quick starts section */}
-        {featuredQuickStarts.length > 0 && (
-          <div className="my-8">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-zinc-50 mb-6">Featured quick starts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredQuickStarts.map(quickStart => (
-                <Card
-                  key={quickStart.id}
-                  title={quickStart.title}
-                  icon={quickStart.icon}
-                  href={quickStart.href}
-                >
-                  {quickStart.description}
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Main content area with sidebar */}
         <div className="flex flex-col lg:flex-row gap-8 my-8">
           {/* Left sidebar - Search and filters */}
@@ -281,10 +262,10 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="Search quick starts..."
+                    placeholder="Search quickstarts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full text-sm border rounded-xl focus:outline-none bg-[#F6F7FA] dark:bg-[#282828] text-black dark:text-white border-gray-300 dark:border-gray-600 focus:border-gray-400 dark:focus:border-[#FAFF69]"
+                    className="w-full text-sm border rounded-xl focus:outline-none bg-white dark:bg-[#1B1B18] text-black dark:text-white border-gray-300 dark:border-gray-600 focus:border-gray-400 dark:focus:border-[#FAFF69]"
                     style={{
                       height: '42px',
                       padding: '0.5rem 0.75rem 0.5rem 2.75rem',
@@ -332,7 +313,7 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
               {hasActiveFilters && (
                 <button
                   onClick={resetFilters}
-                  className="w-full text-sm font-medium px-4 py-2 rounded-lg transition-all cursor-pointer border border-gray-300 dark:border-white/20 hover:border-[#FAFF69] bg-white dark:bg-[#282828] text-black dark:text-white"
+                  className="w-full text-sm font-medium px-4 py-2 rounded-lg transition-all cursor-pointer border border-gray-300 dark:border-white/20 hover:border-[#FAFF69] bg-white dark:bg-[#1B1B18] text-black dark:text-white"
                 >
                   Reset filters
                 </button>
@@ -340,32 +321,54 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
             </div>
           </div>
 
-          {/* Right content area - Quick-starts grid */}
+          {/* Right content area */}
           <div className="flex-1">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-zinc-50 mb-6">Explore quick starts</h2>
-            {filteredQuickStarts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredQuickStarts.map(quickStart => (
-                  <Card
-                    key={quickStart.id}
-                    title={quickStart.title}
-                    icon={quickStart.icon}
-                    href={quickStart.href}
-                  >
-                    {quickStart.description}
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-gray-600 dark:text-gray-400 text-lg text-center">
-                  No quick starts found matching your criteria.
-                </p>
-                <p className="text-gray-500 dark:text-gray-500 text-sm mt-2 text-center">
-                  Try adjusting your filters or search term.
-                </p>
+            {/* Featured quickstarts section */}
+            {featuredQuickStarts.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-zinc-50 mb-6">Featured</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {featuredQuickStarts.map(quickStart => (
+                    <Card
+                      key={quickStart.id}
+                      title={quickStart.title}
+                      icon={quickStart.icon}
+                      href={quickStart.href}
+                    >
+                      {quickStart.description}
+                    </Card>
+                  ))}
+                </div>
               </div>
             )}
+
+            {/* Explore quickstarts section */}
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-zinc-50 mb-6">Explore quickstarts</h2>
+              {filteredQuickStarts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredQuickStarts.map(quickStart => (
+                    <Card
+                      key={quickStart.id}
+                      title={quickStart.title}
+                      icon={quickStart.icon}
+                      href={quickStart.href}
+                    >
+                      {quickStart.description}
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-gray-600 dark:text-gray-400 text-lg text-center">
+                    No quickstarts found matching your criteria.
+                  </p>
+                  <p className="text-gray-500 dark:text-gray-500 text-sm mt-2 text-center">
+                    Try adjusting your filters or search term.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -138,7 +138,7 @@ def generate_badges(use_cases: List[str], products: List[str], level: str = 'Beg
         Badge components as a string
     """
     # First line: link badge
-    first_line = '<a href="/docs/get-started/quick-starts/home"><Badge size="lg" color="gray" icon="arrow-left">All quick starts</Badge></a>'
+    first_line = '<a href="/docs/get-started/quick-starts/home"><Badge size="lg" color="gray" icon="arrow-left">All quickstarts</Badge></a>'
 
     # Second line: all other badges
     second_line_badges = []
@@ -167,7 +167,7 @@ def generate_badges(use_cases: List[str], products: List[str], level: str = 'Beg
     # Combine with line break and add margin
     second_line = '\n'.join(second_line_badges)
 
-    return f'{first_line}\n<div className="mt-2">\n{second_line}\n</div>'
+    return f'{first_line}\n<div className="mt-2 flex flex-wrap gap-2">\n{second_line}\n</div>'
 
 def update_quickstart_badges(file_path: Path, use_cases: List[str], products: List[str], level: str = 'Beginner') -> None:
     """
