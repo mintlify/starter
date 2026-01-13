@@ -359,11 +359,11 @@ export const QuickStartsGrid = ({ quickStartsData, featuredIds = [] }) => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12">
-                  <p className="text-gray-600 dark:text-gray-400 text-lg text-center">
+                <div className="text-center py-12 flex flex-col items-center">
+                  <p className="text-gray-600 dark:text-gray-400 text-lg block">
                     No quickstarts found matching your criteria.
                   </p>
-                  <p className="text-gray-500 dark:text-gray-500 text-sm mt-2 text-center">
+                  <p className="text-gray-500 dark:text-gray-500 text-sm mt-2 block">
                     Try adjusting your filters or search term.
                   </p>
                 </div>
