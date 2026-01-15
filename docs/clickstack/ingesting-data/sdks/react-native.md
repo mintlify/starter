@@ -17,9 +17,9 @@ This Guide Integrates:
 
 - **XHR/Fetch Requests**
 
-## Getting started [#getting-started]
+## Getting started 
 
-### Install via NPM [#install-via-npm]
+### Install via NPM 
 
 Use the following command to install the [ClickStack React Native package](https://www.npmjs.com/package/@hyperdx/otel-react-native).
 
@@ -27,7 +27,7 @@ Use the following command to install the [ClickStack React Native package](https
 npm install @hyperdx/otel-react-native
 ```
 
-### Initialize ClickStack [#initialize-clickstack]
+### Initialize ClickStack 
 
 Initialize the library as early in your app lifecycle as possible:
 
@@ -41,7 +41,7 @@ HyperDXRum.init({
 });
 ```
 
-### Attach user information or metadata (Optional) [#attach-user-information-metadata]
+### Attach user information or metadata (Optional) 
 
 Attaching user information will allow you to search/filter sessions and events
 in HyperDX. This can be called at any point during the client session. The
@@ -62,7 +62,7 @@ HyperDXRum.setGlobalAttributes({
 });
 ```
 
-### Instrument lower versions [#instrument-lower-versions]
+### Instrument lower versions 
 
 To instrument applications running on React Native versions lower than 0.68,
 edit your `metro.config.js` file to force metro to use browser specific
@@ -108,7 +108,7 @@ module.exports = {
 };
 ```
 
-## View navigation [#view-navigation]
+## View navigation 
 
 [react-navigation](https://github.com/react-navigation/react-navigation) version 5 and 6 are supported.
 

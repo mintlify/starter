@@ -19,7 +19,7 @@ This page shows a list of options available for configuration in the ClickHouse 
 
 For a quick overview of all the options, a full list of config options can be found [here](#all-yaml-options).
 
-## Common settings [#common-settings]
+## Common settings 
 
 Example configuration screen:
 <Image size="sm" img={config_common} alt="Example secure native config" border />
@@ -49,13 +49,13 @@ secureJsonData:
 
 Note that a `version` property is added when the configuration is saved from the UI. This shows the version of the plugin that the config was saved with.
 
-### HTTP protocol [#http-protocol]
+### HTTP protocol 
 
 More settings will be displayed if you choose to connect via the HTTP protocol.
 
 <Image size="md" img={config_http} alt="Extra HTTP config options" border />
 
-#### HTTP path [#http-path]
+#### HTTP path 
 
 If your HTTP server is exposed under a different URL path, you can add that here.
 
@@ -65,7 +65,7 @@ jsonData:
   path: additional/path/example
 ```
 
-#### Custom HTTP headers [#custom-http-headers]
+#### Custom HTTP headers 
 
 You can add custom headers to the requests sent to your server.
 
@@ -90,7 +90,7 @@ secureJsonData:
   secureHttpHeaders.X-Example-Secure-Header: secure header value
 ```
 
-## Additional settings [#additional-settings]
+## Additional settings 
 
 These additional settings are optional.
 
@@ -107,7 +107,7 @@ jsonData:
   validateSql: false # when set to true, will validate the SQL in the SQL editor.
 ```
 
-### OpenTelemetry [#opentelemetry]
+### OpenTelemetry 
 
 OpenTelemetry (OTel) is deeply integrated within the plugin.
 OpenTelemetry data can be exported to ClickHouse with our [exporter plugin](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/clickhouseexporter).
@@ -115,7 +115,7 @@ For the best usage, it is recommended to configure OTel for both [logs](#logs) a
 
 It is also required to configure these defaults for enabling [data links](./query-builder.md#data-links), a feature that enables powerful observability workflows.
 
-### Logs [#logs]
+### Logs 
 
 To speed up [query building for logs](./query-builder.md#logs), you can set a default database/table as well as columns for the logs query. This will pre-load the query builder with a runnable logs query, which makes browsing on the explore page faster for observability.
 
@@ -143,7 +143,7 @@ jsonData:
     messageColumn: <string> # the log's message/content.
 ```
 
-### Traces [#traces]
+### Traces 
 
 To speed up [query building for traces](./query-builder.md#traces), you can set a default database/table as well as columns for the trace query. This will pre-load the query builder with a runnable trace search query, which makes browsing on the explore page faster for observability.
 
@@ -177,7 +177,7 @@ jsonData:
     serviceTagsColumn:   <string>    # service tags column. This is expected to be a map type.
 ```
 
-### Column aliases [#column-aliases]
+### Column aliases 
 
 Column aliasing is a convenient way to query your data under different names and types.
 With aliasing, you can take a nested schema and flatten it so it can be easily selected in Grafana.
@@ -188,7 +188,7 @@ Aliasing may be relevant to you if:
 - You store JSON as strings
 - You often apply functions to transform the columns you select
 
-#### Table-defined ALIAS columns [#table-defined-alias-columns]
+#### Table-defined ALIAS columns 
 
 ClickHouse has column aliasing built-in and works with Grafana out of the box.
 Alias columns can be defined directly on the table.
@@ -206,7 +206,7 @@ Table-defined aliases will not be returned with `SELECT *`, but this can be conf
 
 For more info, read the documentation for the [ALIAS](/sql-reference/statements/create/table#alias) column type.
 
-#### Column alias tables [#column-alias-tables]
+#### Column alias tables 
 
 By default, Grafana will provide column suggestions based on the response from `DESC table`.
 In some cases, you may want to completely override the columns that Grafana sees.
@@ -244,7 +244,7 @@ Now Grafana will see the results of the alias table instead of the results from 
 
 Both types of aliasing can be used to perform complex type conversions or JSON field extraction.
 
-## All YAML options [#all-yaml-options]
+## All YAML options 
 
 These are all of the YAML configuration options made available by the plugin.
 Some fields have example values while others simply show the field's type.

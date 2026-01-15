@@ -13,7 +13,7 @@ import {ExperimentalBadge} from '/snippets/components/ExperimentalBadge/Experime
 
 The table function allows to read data from the YTsaurus cluster.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 ytsaurus(http_proxy_url, cypress_path, oauth_token, format)
@@ -26,7 +26,7 @@ with [allow_experimental_ytsaurus_table_function](/operations/settings/settings#
 Input the command `set allow_experimental_ytsaurus_table_function = 1`.
 </Note>
 
-## Arguments [#arguments]
+## Arguments 
 
 - `http_proxy_url` — URL to the YTsaurus http proxy.
 - `cypress_path` — Cypress path to the data source.

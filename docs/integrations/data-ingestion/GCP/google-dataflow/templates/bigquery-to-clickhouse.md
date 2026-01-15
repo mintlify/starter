@@ -11,13 +11,13 @@ keywords: ['Dataflow', 'BigQuery']
 The BigQuery to ClickHouse template is a batch pipeline that ingests data from a BigQuery table into a ClickHouse table.
 The template can read the entire table or filter specific records using a provided SQL query.
 
-## Pipeline requirements [#pipeline-requirements]
+## Pipeline requirements 
 
 * The source BigQuery table must exist.
 * The target ClickHouse table must exist.
 * The ClickHouse host must be accessible from the Dataflow worker machines.
 
-## Template parameters [#template-parameters]
+## Template parameters 
 
 | Parameter Name          | Parameter Description                                                                                                                                                                                                                                                                                                                              | Required | Notes                                                                                                                                                                                                                                                            |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -42,7 +42,7 @@ The template can read the entire table or filter specific records using a provid
 Default values for all `ClickHouseIO` parameters can be found in [`ClickHouseIO` Apache Beam Connector](/integrations/apache-beam#clickhouseiowrite-parameters)
 </Note>
 
-## Source and target tables schema [#source-and-target-tables-schema]
+## Source and target tables schema 
 
 To effectively load the BigQuery dataset into ClickHouse, the pipeline performs a column inference process with the following phases:
 
@@ -54,7 +54,7 @@ Having said that, your BigQuery dataset (either table or query) must have the ex
 target table.
 :::
 
-## Data type mapping [#data-types-mapping]
+## Data type mapping 
 
 The BigQuery types are converted based on your ClickHouse table definition. Therefore, the above table lists the
 recommended mapping you should have in your target ClickHouse table (for a given BigQuery table/query):
@@ -69,7 +69,7 @@ recommended mapping you should have in your target ClickHouse table (for a given
 | [**Numeric - Integer Types**](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#numeric_types) | [**Integer Types**](../../../sql-reference/data-types/int-uint) | In BigQuery all Int types (`INT`, `SMALLINT`, `INTEGER`, `BIGINT`, `TINYINT`, `BYTEINT`) are aliases to `INT64`. We recommend you setting in ClickHouse the right Integer size, as the template will convert the column based on the defined column type (`Int8`, `Int16`, `Int32`, `Int64`). The template will also convert unassigned Int types if used in ClickHouse table (`UInt8`, `UInt16`, `UInt32`, `UInt64`). |
 | [**Numeric - Float Types**](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#numeric_types)   | [**Float Types**](../../../sql-reference/data-types/float)      | Supported ClickHouse types: `Float32` and `Float64`                                                                                                                                                                                                                                                                                                                                                                    |
 
-## Running the Template [#running-the-template]
+## Running the Template 
 
 The BigQuery to ClickHouse template is available for execution via the Google Cloud CLI.
 
@@ -109,14 +109,14 @@ To add it, please scroll down to the `Password for ClickHouse Endpoint` option.
   </Tab>
   <Tab title="Google Cloud CLI">
 
-### Install & Configure `gcloud` CLI [#install--configure-gcloud-cli]
+### Install & Configure `gcloud` CLI 
 
 - If not already installed, install the [`gcloud` CLI](https://cloud.google.com/sdk/docs/install).
 - Follow the `Before you begin` section
   in [this guide](https://cloud.google.com/dataflow/docs/guides/templates/using-flex-templates#before-you-begin) to set
   up the required configurations, settings, and permissions for running the DataFlow template.
 
-### Run command [#run-command]
+### Run command 
 
 Use the [`gcloud dataflow flex-template run`](https://cloud.google.com/sdk/gcloud/reference/dataflow/flex-template/run)
 command to run a Dataflow job that uses the Flex Template.
@@ -129,14 +129,14 @@ gcloud dataflow flex-template run "bigquery-clickhouse-dataflow-$(date +%Y%m%d-%
  --parameters inputTableSpec="<bigquery table id>",jdbcUrl="jdbc:clickhouse://<clickhouse host>:<clickhouse port>/<schema>?ssl=true&sslmode=NONE",clickHouseUsername="<username>",clickHousePassword="<password>",clickHouseTable="<clickhouse target table>"
 ```
 
-### Command breakdown [#command-breakdown]
+### Command breakdown 
 
 - **Job Name:** The text following the `run` keyword is the unique job name.
 - **Template File:** The JSON file specified by `--template-file-gcs-location` defines the template structure and
   details about the accepted parameters. The mention file path is public and ready to use.
 - **Parameters:** Parameters are separated by commas. For string-based parameters, enclose the values in double quotes.
 
-### Expected response [#expected-response]
+### Expected response 
 
 After running the command, you should see a response similar to the following:
 
@@ -154,22 +154,22 @@ job:
   </Tab>
 </Tabs>
 
-### Monitor the job [#monitor-the-job]
+### Monitor the job 
 
 Navigate to the [Dataflow Jobs tab](https://console.cloud.google.com/dataflow/jobs) in your Google Cloud Console to
 monitor the status of the job. You'll find the job details, including progress and any errors:
 
 <img src="/images/integrations/data-ingestion/google-dataflow/dataflow-inqueue-job.png" alt="DataFlow console showing a running BigQuery to ClickHouse job"/>
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### Memory limit (total) exceeded error (code 241) [#code-241-dbexception-memory-limit-total-exceeded]
+### Memory limit (total) exceeded error (code 241) 
 
 This error occurs when ClickHouse runs out of memory while processing large batches of data. To resolve this issue:
 
 * Increase the instance resources: Upgrade your ClickHouse server to a larger instance with more memory to handle the  data processing load.
 * Decrease the batch size: Adjust the batch size in your Dataflow job configuration to send smaller chunks of data to ClickHouse, reducing memory consumption per batch. These changes can help balance resource usage during data ingestion.
 
-## Template source code [#template-source-code]
+## Template source code 
 
 The template's source code is available in ClickHouse's [DataflowTemplates](https://github.com/ClickHouse/DataflowTemplates) fork.

@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 Allows to execute queries on behalf of a different user.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 EXECUTE AS target_user;
@@ -31,7 +31,7 @@ allow user `user2` to execute commands `EXECUTE AS user1 ...` and also allow use
 While impersonating another user function [currentUser()](/sql-reference/functions/other-functions#currentUser) returns the name of that other user,
 and function [authenticatedUser()](/sql-reference/functions/other-functions#authenticatedUser) returns the name of the user who has been actually authenticated.
 
-## Examples [#examples]
+## Examples 
 
 ```sql
 SELECT currentUser(), authenticatedUser(); -- outputs "default    default"

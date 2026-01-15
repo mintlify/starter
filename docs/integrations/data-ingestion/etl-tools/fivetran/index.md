@@ -16,7 +16,7 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
 
 <ClickHouseSupportedBadge/>
 
-## Overview [#overview]
+## Overview 
 
 [Fivetran](https://www.fivetran.com) is the automated data movement platform moving data out of, into and across your cloud data platforms.
 
@@ -26,7 +26,7 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
 [ClickHouse Cloud destination](https://fivetran.com/docs/destinations/clickhouse) is currently in private preview, please contact ClickHouse support in the case of any problems.
 </Note>
 
-<div class='vimeo-container'>
+<Frame>
   <iframe src="//www.youtube.com/embed/sWe5JHW3lAs"
     width="640"
     height="360"
@@ -36,15 +36,15 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
     picture-in-picture"
     allowfullscreen>
   </iframe>
-</div>
+</Frame>
 
-## ClickHouse Cloud destination [#clickhouse-cloud-destination]
+## ClickHouse Cloud destination 
 
 See the official documentation on the Fivetran website:
 
 - [ClickHouse destination overview](https://fivetran.com/docs/destinations/clickhouse)
 - [ClickHouse destination setup guide](https://fivetran.com/docs/destinations/clickhouse/setup-guide)
 
-## Contact us [#contact-us]
+## Contact us 
 
 If you have any questions, or if you have a feature request, please open a [support ticket](/about-us/support).

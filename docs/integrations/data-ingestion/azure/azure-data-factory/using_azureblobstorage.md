@@ -23,7 +23,7 @@ for using this function effectively. For more details and advanced options,
 refer to the official documentation:
 [`azureBlobStorage` Table Function documentation page](https://clickhouse.com/docs/sql-reference/table-functions/azureBlobStorage)
 
-## Acquiring Azure Blob Storage Access Keys [#acquiring-azure-blob-storage-access-keys]
+## Acquiring Azure Blob Storage Access Keys 
 
 To allow ClickHouse to access your Azure Blob Storage, you'll need a connection string with an access key.
 
@@ -39,7 +39,7 @@ To allow ClickHouse to access your Azure Blob Storage, you'll need a connection 
 
 4. Copy the connection string — you'll use this as a parameter in the azureBlobStorage table function.
 
-## Querying the data from Azure Blob Storage [#querying-the-data-from-azure-blob-storage]
+## Querying the data from Azure Blob Storage 
 
 Open your preferred ClickHouse query console — this can be the ClickHouse Cloud
 web interface, the ClickHouse CLI client, or any other tool you use to run
@@ -72,7 +72,7 @@ SELECT * FROM azureBlobStorage(
 This allows you to efficiently pull external data into ClickHouse without
 needing intermediate ETL steps.
 
-## A simple example using the Environmental sensors dataset [#simple-example-using-the-environmental-sensors-dataset]
+## A simple example using the Environmental sensors dataset 
 
 As an example we will download a single file from the Environmental Sensors
 Dataset.
@@ -146,7 +146,7 @@ inference from input data](https://clickhouse.com/docs/interfaces/schema-inferen
 Your sensors table is now populated with data from the `2019-06_bmp180.csv.zst`
 file stored in Azure Blob Storage.
 
-## Additional resources [#additional-resources]
+## Additional resources 
 
 This is just a basic introduction to using the azureBlobStorage function. For
 more advanced options and configuration details, please refer to the official

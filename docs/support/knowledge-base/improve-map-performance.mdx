@@ -8,7 +8,7 @@ keywords: ['Map Performance']
 
 
 
-## Problem [#problem]
+## Problem
 
 Map lookup such as `a['key']` works with linear complexity (mentioned [here](https://clickhouse.com/docs/sql-reference/data-types/map)) and can be inefficient. This is because selecting a value with a specific key from a table would require iterating through all keys (~M) across all rows (N) in the Map column, resulting in ~MxN lookups.
 

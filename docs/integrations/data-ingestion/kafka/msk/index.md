@@ -13,7 +13,7 @@ integration:
 
 import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
-<div class='vimeo-container'>
+<Frame>
   <iframe src="//www.youtube.com/embed/6lKI_WlQ3-s"
     width="640"
     height="360"
@@ -23,22 +23,22 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
     picture-in-picture"
     allowfullscreen>
   </iframe>
-</div>
+</Frame>
 
 > Note: The policy shown in the video is permissive and intended for quick start only. See least‑privilege IAM guidance below.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 We assume:
 * you are familiar with [ClickHouse Connector Sink](../kafka-clickhouse-connect-sink.md),Amazon MSK and MSK Connectors. We recommend the Amazon MSK [Getting Started guide](https://docs.aws.amazon.com/msk/latest/developerguide/getting-started.html) and [MSK Connect guide](https://docs.aws.amazon.com/msk/latest/developerguide/msk-connect.html).
 * The MSK broker is publicly accessible. See the [Public Access](https://docs.aws.amazon.com/msk/latest/developerguide/public-access.html) section of the Developer Guide.
 
-## The official Kafka connector from ClickHouse with Amazon MSK [#the-official-kafka-connector-from-clickhouse-with-amazon-msk]
+## The official Kafka connector from ClickHouse with Amazon MSK 
 
-### Gather your connection details [#gather-your-connection-details]
+### Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-### Steps [#steps]
+### Steps 
 1. Make sure you're familiar with the [ClickHouse Connector Sink](../kafka-clickhouse-connect-sink.md)
 1. [Create an MSK instance](https://docs.aws.amazon.com/msk/latest/developerguide/create-cluster.html).
 1. [Create and assign IAM role](https://docs.aws.amazon.com/msk/latest/developerguide/create-client-iam-role.html).
@@ -64,7 +64,7 @@ username=default
 schemas.enable=false
 ```
 
-## Recommended IAM permissions (least privilege) [#iam-least-privilege]
+## Recommended IAM permissions (least privilege) 
 
 Use the smallest set of permissions required for your setup. Start with the baseline below and add optional services only if you use them.
 
@@ -134,7 +134,7 @@ Use the smallest set of permissions required for your setup. Start with the base
 
 See also: [Kafka best practices – IAM](../../clickpipes/kafka/04_best_practices.md#iam).
 
-## Performance tuning [#performance-tuning]
+## Performance tuning 
 One way of increasing performance is to adjust the batch size and the number of records that are fetched from Kafka by adding the following to the **worker** configuration:
 ```yml
 consumer.max.poll.records=[NUMBER OF RECORDS]
@@ -151,7 +151,7 @@ consumer.max.partition.fetch.bytes=1048576
 You can find more details (both implementation and other considerations) in the official [Kafka](https://kafka.apache.org/documentation/#consumerconfigs) and 
 [Amazon MSK](https://docs.aws.amazon.com/msk/latest/developerguide/msk-connect-workers.html#msk-connect-create-custom-worker-config) documentation.
 
-## Notes on networking for MSK Connect [#notes-on-networking-for-msk-connect]
+## Notes on networking for MSK Connect 
 
 In order for MSK Connect to connect to ClickHouse, we recommend your MSK cluster to be in a private subnet with a Private NAT connected for internet access. Instructions on how to set this up are provided below. Note that public subnets are supported but not recommended due to the need to constantly assign an Elastic IP address to your ENI, [AWS provides more details here](https://docs.aws.amazon.com/msk/latest/developerguide/msk-connect-internet-access.html)
 

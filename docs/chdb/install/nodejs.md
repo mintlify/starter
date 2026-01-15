@@ -9,17 +9,17 @@ doc_type: 'guide'
 
 chDB-node provides Node.js bindings for chDB, enabling you to run ClickHouse queries directly in your Node.js applications with zero external dependencies.
 
-## Installation [#installation]
+## Installation 
 
 ```bash
 npm install chdb
 ```
 
-## Usage [#usage]
+## Usage 
 
 chDB-node supports two query modes: standalone queries for simple operations and session-based queries for maintaining database state.
 
-### Standalone queries [#standalone-queries]
+### Standalone queries 
 
 For simple, one-off queries that don't require persistent state:
 
@@ -43,7 +43,7 @@ const systemInfo = query("SELECT * FROM system.functions LIMIT 5", "Pretty");
 console.log("System functions:", systemInfo);
 ```
 
-### Session-Based queries [#session-based-queries]
+### Session-Based queries 
 
 ```javascript
 const { Session } = require("chdb");
@@ -94,7 +94,7 @@ try {
 }
 ```
 
-### Processing external data [#processing-external-data]
+### Processing external data 
 
 ```javascript
 const { Session } = require("chdb");
@@ -139,7 +139,7 @@ try {
 }
 ```
 
-## Error handling [#error-handling]
+## Error handling 
 
 Always handle errors appropriately when working with chDB:
 
@@ -184,7 +184,7 @@ function safeSessionQuery() {
 safeSessionQuery();
 ```
 
-## GitHub repository [#github-repository]
+## GitHub repository 
 
 - **GitHub Repository**: [chdb-io/chdb-node](https://github.com/chdb-io/chdb-node)
 - **Issues and Support**: Report issues on the [GitHub repository](https://github.com/chdb-io/chdb-node/issues)

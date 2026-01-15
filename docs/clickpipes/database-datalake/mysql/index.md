@@ -18,7 +18,7 @@ Ingesting data from MySQL to ClickHouse Cloud via ClickPipes is in public beta.
 
 You can use ClickPipes to ingest data from your source MySQL database into ClickHouse Cloud. The source MySQL database can be hosted on-premises or in the cloud using services like Amazon RDS, Google Cloud SQL, and others.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 To get started, you first need to ensure that your MySQL database is correctly configured for binlog replication. The configuration steps depend on how you're deploying MySQL, so please follow the relevant guide below:
 
@@ -36,7 +36,7 @@ To get started, you first need to ensure that your MySQL database is correctly c
 
 Once your source MySQL database is set up, you can continue creating your ClickPipe.
 
-## Create your ClickPipe [#create-your-clickpipe]
+## Create your ClickPipe 
 
 Make sure you are logged in to your ClickHouse Cloud account. If you don't have an account yet, you can sign up [here](https://cloud.clickhouse.com/).
 
@@ -53,7 +53,7 @@ Make sure you are logged in to your ClickHouse Cloud account. If you don't have 
 
 <img src="/images/integrations/data-ingestion/clickpipes/mysql/mysql-tile.png" alt="Select MySQL"/>
 
-### Add your source MySQL database connection [#add-your-source-mysql-database-connection]
+### Add your source MySQL database connection 
 
 4. Fill in the connection details for your source MySQL database which you configured in the prerequisites step.
 
@@ -64,7 +64,7 @@ Make sure you are logged in to your ClickHouse Cloud account. If you don't have 
 
    <img src="/images/integrations/data-ingestion/clickpipes/mysql/mysql-connection-details.png" alt="Fill in connection details"/>
 
-#### (Optional) Set up SSH Tunneling [#optional-set-up-ssh-tunneling]
+#### (Optional) Set up SSH Tunneling 
 
 You can specify SSH tunneling details if your source MySQL database is not publicly accessible.
 
@@ -82,7 +82,7 @@ Make sure to whitelist [ClickPipes IP addresses](../clickpipes#list-of-static-ip
 
 Once the connection details are filled in, click `Next`.
 
-#### Configure advanced settings [#advanced-settings]
+#### Configure advanced settings 
 
 You can configure the advanced settings if needed. A brief description of each setting is provided below:
 
@@ -92,7 +92,7 @@ You can configure the advanced settings if needed. A brief description of each s
 - **Snapshot number of rows per partition**: This is the number of rows that will be fetched in each partition during the initial snapshot. This is useful when you have a large number of rows in your tables and you want to control the number of rows fetched in each partition.
 - **Snapshot number of tables in parallel**: This is the number of tables that will be fetched in parallel during the initial snapshot. This is useful when you have a large number of tables and you want to control the number of tables fetched in parallel.
 
-### Configure the tables [#configure-the-tables]
+### Configure the tables 
 
 5. Here you can select the destination database for your ClickPipe. You can either select an existing database or create a new one.
 
@@ -100,7 +100,7 @@ You can configure the advanced settings if needed. A brief description of each s
 
 6. You can select the tables you want to replicate from the source MySQL database. While selecting the tables, you can also choose to rename the tables in the destination ClickHouse database as well as exclude specific columns.
 
-### Review permissions and start the ClickPipe [#review-permissions-and-start-the-clickpipe]
+### Review permissions and start the ClickPipe 
 
 7. Select the "Full access" role from the permissions dropdown and click "Complete Setup".
 
@@ -108,7 +108,7 @@ You can configure the advanced settings if needed. A brief description of each s
 
 Finally, please refer to the ["ClickPipes for MySQL FAQ"](/integrations/clickpipes/mysql/faq) page for more information about common issues and how to resolve them.
 
-## What's next? [#whats-next]
+## What's next? 
 
 [//]: # "TODO Write a MySQL-specific migration guide and best practices similar to the existing one for PostgreSQL. The current migration guide points to the MySQL table engine, which is not ideal."
 

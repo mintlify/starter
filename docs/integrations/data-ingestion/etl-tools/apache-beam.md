@@ -17,14 +17,14 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
 **Apache Beam**  is an open-source, unified programming model that enables developers to define and execute both batch and stream (continuous) data processing pipelines. The flexibility of Apache Beam lies in its ability to support a wide range of data processing scenarios, from ETL (Extract, Transform, Load) operations to complex event processing and real-time analytics.
 This integration leverage ClickHouse's official [JDBC connector](https://github.com/ClickHouse/clickhouse-java) for the underlying insertion layer.
 
-## Integration package [#integration-package]
+## Integration package 
 
 The integration package required to integrate Apache Beam and ClickHouse is maintained and developed under [Apache Beam I/O Connectors](https://beam.apache.org/documentation/io/connectors/) - an integrations bundle of many popular data storage systems and databases.
 `org.apache.beam.sdk.io.clickhouse.ClickHouseIO` implementation located within the [Apache Beam repo](https://github.com/apache/beam/tree/0bf43078130d7a258a0f1638a921d6d5287ca01e/sdks/java/io/clickhouse/src/main/java/org/apache/beam/sdk/io/clickhouse).
 
-## Setup of the Apache Beam ClickHouse package [#setup-of-the-apache-beam-clickhouse-package]
+## Setup of the Apache Beam ClickHouse package 
 
-### Package installation [#package-installation]
+### Package installation 
 
 Add the following dependency to your package management framework:
 ```xml
@@ -42,7 +42,7 @@ Earlier versions may not fully support the connector's functionality.
 
 The artifacts could be found in the [official maven repository](https://mvnrepository.com/artifact/org.apache.beam/beam-sdks-java-io-clickhouse).
 
-### Code example [#code-example]
+### Code example 
 
 The following example reads a CSV file named `input.csv` as a `PCollection`, converts it to a Row object (using the defined schema) and inserts it into a local ClickHouse instance using `ClickHouseIO`:
 
@@ -98,7 +98,7 @@ public class Main {
 
 ```
 
-## Supported data types [#supported-data-types]
+## Supported data types 
 
 | ClickHouse                         | Apache Beam                | Is Supported | Notes                                                                                                                                    |
 |------------------------------------|----------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------|
@@ -124,7 +124,7 @@ public class Main {
 |                                    | `Schema.TypeName#DECIMAL`  | ❌            |                                                                                                                                          |
 |                                    | `Schema.TypeName#MAP`      | ❌            |                                                                                                                                          |
 
-## ClickHouseIO.Write parameters [#clickhouseiowrite-parameters]
+## ClickHouseIO.Write parameters 
 
 You can adjust the `ClickHouseIO.Write` configuration with the following setter functions:
 
@@ -139,13 +139,13 @@ You can adjust the `ClickHouseIO.Write` configuration with the following setter 
 | `withInsertDeduplicate`     | `(Boolean deduplicate)`     | `true`                        | If true, deduplication is enabled for insert operations.        |
 | `withTableSchema`           | `(TableSchema schema)`      | `null`                        | Schema of the target ClickHouse table.                          |
 
-## Limitations [#limitations]
+## Limitations 
 
 Please consider the following limitations when using the connector:
 * As of today, only Sink operation is supported. The connector doesn't support Source operation.
 * ClickHouse performs deduplication when inserting into a `ReplicatedMergeTree` or a `Distributed` table built on top of a `ReplicatedMergeTree`. Without replication, inserting into a regular MergeTree can result in duplicates if an insert fails and then successfully retries. However, each block is inserted atomically, and the block size can be configured using `ClickHouseIO.Write.withMaxInsertBlockSize(long)`. Deduplication is achieved by using checksums of the inserted blocks. For more information about deduplication, please visit [Deduplication](/guides/developer/deduplication) and [Deduplicate insertion config](/operations/settings/settings#insert_deduplicate).
 * The connector doesn't perform any DDL statements; therefore, the target table must exist prior insertion.
 
-## Related content [#related-content]
+## Related content 
 * `ClickHouseIO` class [documentation](https://beam.apache.org/releases/javadoc/current/org/apache/beam/sdk/io/clickhouse/ClickHouseIO.html).
 * `Github` repository of examples [clickhouse-beam-connector](https://github.com/ClickHouse/clickhouse-beam-connector).

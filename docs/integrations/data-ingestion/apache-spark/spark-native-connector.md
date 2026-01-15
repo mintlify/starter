@@ -22,13 +22,13 @@ catalog plugins.
 Spark's default catalog is `spark_catalog`, and tables are identified by `{catalog name}.{database}.{table}`. With the new
 catalog feature, it is now possible to add and work with multiple catalogs in a single Spark application.
 
-## Requirements [#requirements]
+## Requirements 
 
 - Java 8 or 17
 - Scala 2.12 or 2.13
 - Apache Spark 3.3 or 3.4 or 3.5
 
-## Compatibility matrix [#compatibility-matrix]
+## Compatibility matrix 
 
 | Version | Compatible Spark Versions | ClickHouse JDBC version |
 |---------|---------------------------|-------------------------|
@@ -43,7 +43,7 @@ catalog feature, it is now possible to add and work with multiple catalogs in a 
 | 0.2.1   | Spark 3.2                 | Not depend on           |
 | 0.1.2   | Spark 3.2                 | Not depend on           |
 
-## Installation & setup [#installation--setup]
+## Installation & setup 
 
 For integrating ClickHouse with Spark, there are multiple installation options to suit different project setups.
 You can add the ClickHouse Spark connector as a dependency directly in your project's build file (such as in `pom.xml`
@@ -52,7 +52,7 @@ Alternatively, you can put the required JAR files in your `$SPARK_HOME/jars/` fo
 option using the `--jars` flag in the `spark-submit` command.
 Both approaches ensure the ClickHouse connector is available in your Spark environment.
 
-### Import as a Dependency [#import-as-a-dependency]
+### Import as a Dependency 
 
 
 <Tabs>
@@ -140,7 +140,7 @@ for production.
 </Tab>
 </Tabs>
 
-### Download the library [#download-the-library]
+### Download the library 
 
 The name pattern of the binary JAR is:
 
@@ -166,7 +166,7 @@ In any case, ensure that the package versions are compatible according to
 the [Compatibility Matrix](#compatibility-matrix).
 :::
 
-## Register the catalog (required) [#register-the-catalog-required]
+## Register the catalog (required) 
 
 In order to access your ClickHouse tables, you must configure a new Spark catalog with the following configs:
 
@@ -216,7 +216,7 @@ That way, you would be able to access clickhouse1 table `<ck_db>.<ck_table>` fro
 
 :::
 
-## ClickHouse Cloud settings [#clickhouse-cloud-settings]
+## ClickHouse Cloud settings 
 
 When connecting to [ClickHouse Cloud](https://clickhouse.com), make sure to enable SSL and set the appropriate SSL mode. For example:
 
@@ -225,7 +225,7 @@ spark.sql.catalog.clickhouse.option.ssl        true
 spark.sql.catalog.clickhouse.option.ssl_mode   NONE
 ```
 
-## Read data [#read-data]
+## Read data 
 
 
 <Tabs>
@@ -333,7 +333,7 @@ df.show()
 </Tab>
 </Tabs>
 
-## Write data [#write-data]
+## Write data 
 
 
 <Tabs>
@@ -465,7 +465,7 @@ df.writeTo("clickhouse.default.example_table").append()
 </Tab>
 </Tabs>
 
-## DDL operations [#ddl-operations]
+## DDL operations 
 
 You can perform DDL operations on your ClickHouse instance using Spark SQL, with all changes immediately persisted in
 ClickHouse.
@@ -499,7 +499,7 @@ TBLPROPERTIES (
 The above examples demonstrate Spark SQL queries, which you can run within your application using any API—Java, Scala,
 PySpark, or shell.
 
-## Configurations [#configurations]
+## Configurations 
 
 The following are the adjustable configurations available in the connector:
 
@@ -529,12 +529,12 @@ The following are the adjustable configurations available in the connector:
 | spark.clickhouse.write.retryInterval               | 10s                                                    | The interval in seconds between write retry.                                                                                                                                                                                                                                                                                                                                                                    | 0.1.0 |
 | spark.clickhouse.write.retryableErrorCodes         | 241                                                    | The retryable error codes returned by ClickHouse server when write failing.                                                                                                                                                                                                                                                                                                                                     | 0.1.0 |
 
-## Supported data types [#supported-data-types]
+## Supported data types 
 
 This section outlines the mapping of data types between Spark and ClickHouse. The tables below provide quick references
 for converting data types when reading from ClickHouse into Spark and when inserting data from Spark into ClickHouse.
 
-### Reading data from ClickHouse into Spark [#reading-data-from-clickhouse-into-spark]
+### Reading data from ClickHouse into Spark 
 
 | ClickHouse Data Type                                              | Spark Data Type                | Supported | Is Primitive | Notes                                              |
 |-------------------------------------------------------------------|--------------------------------|-----------|--------------|----------------------------------------------------|
@@ -573,7 +573,7 @@ for converting data types when reading from ClickHouse into Spark and when inser
 | `AggregateFunction`                                               |                                | ❌         |              |                                                    |
 | `SimpleAggregateFunction`                                         |                                | ❌         |              |                                                    |
 
-### Inserting data from Spark into ClickHouse [#inserting-data-from-spark-into-clickhouse]
+### Inserting data from Spark into ClickHouse 
 
 | Spark Data Type                     | ClickHouse Data Type | Supported | Is Primitive | Notes                                  |
 |-------------------------------------|----------------------|-----------|--------------|----------------------------------------|
@@ -595,7 +595,7 @@ for converting data types when reading from ClickHouse into Spark and when inser
 | `Object`                            |                      | ❌         |              |                                        |
 | `Nested`                            |                      | ❌         |              |                                        |
 
-## Contributing and support [#contributing-and-support]
+## Contributing and support 
 
 If you'd like to contribute to the project or report any issues, we welcome your input!
 Visit our [GitHub repository](https://github.com/ClickHouse/spark-clickhouse-connector) to open an issue, suggest

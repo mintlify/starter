@@ -12,7 +12,7 @@ doc_type: 'guide'
 In version 2 of chDB, we've improved the performance of querying Pandas DataFrames and introduced the `Python` table function.
 In this guide, we will learn how to query Pandas using the `Python` table function.
 
-## Setup [#setup]
+## Setup 
 
 Let's first create a virtual environment:
 
@@ -42,7 +42,7 @@ ipython
 
 You can also use the code in a Python script or in your favorite notebook.
 
-## Creating a Pandas DataFrame from a URL [#creating-a-pandas-dataframe-from-a-url]
+## Creating a Pandas DataFrame from a URL 
 
 We're going to query some data from the [StatsBomb GitHub repository](https://github.com/statsbomb/open-data/tree/master?tab=readme-ov-file).
 Let's first import requests and pandas:
@@ -155,7 +155,7 @@ match_id                                                          3943077
 Name: 0, dtype: object
 ```
 
-## Querying Pandas DataFrames [#querying-pandas-dataframes]
+## Querying Pandas DataFrames 
 
 Next, let's see how to query these DataFrames using chDB. 
 We'll import the library:
@@ -279,7 +279,7 @@ LIMIT 10
 9  Carlos Eccehomo Cuesta Figueroa       50
 ```
 
-## Joining Pandas DataFrames [#joining-pandas-dataframes]
+## Joining Pandas DataFrames 
 
 We can also join DataFrames together in a query.
 For example, to get an overview of the match, we could write the following query:
@@ -310,7 +310,7 @@ away_shots                         19
 Name: 0, dtype: object
 ```
 
-## Populating a table from a DataFrame [#populating-a-table-from-a-dataframe]
+## Populating a table from a DataFrame 
 
 We can also create and populate ClickHouse tables from DataFrames.
 If we want to create a table in chDB, we need to use the Stateful Session API.
@@ -370,7 +370,7 @@ LIMIT 10
 9  Carlos Eccehomo Cuesta Figueroa       50
 ```
 
-## Joining a Pandas DataFrame and table [#joining-a-pandas-dataframe-and-table]
+## Joining a Pandas DataFrame and table 
 
 Finally, we can also update our join query to join the `matches_df` DataFrame with the `statsbomb.events` table:
 

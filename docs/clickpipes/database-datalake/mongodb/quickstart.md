@@ -48,7 +48,7 @@ _peerdb_is_deleted: 0
 _peerdb_version:    0
 ```
 
-## Table schema [#table-schema]
+## Table schema 
 
 The replicated tables use this standard schema:
 
@@ -68,7 +68,7 @@ The replicated tables use this standard schema:
 - `_peerdb_version`: Tracks the version of the row; incremented when the row is updated or deleted
 - `_peerdb_is_deleted`: Marks whether the row is deleted
 
-### ReplacingMergeTree table engine [#replacingmergetree-table-engine]
+### ReplacingMergeTree table engine 
 
 ClickPipes maps MongoDB collections into ClickHouse using the `ReplacingMergeTree` table engine family. With this engine, updates are modeled as inserts with a newer version (`_peerdb_version`) of the document for a given primary key (`_id`), enabling efficient handling of updates, replaces, and deletes as versioned inserts. 
 
@@ -78,7 +78,7 @@ ClickPipes maps MongoDB collections into ClickHouse using the `ReplacingMergeTre
 SELECT * FROM t1 FINAL;
 ```
 
-### Handling deletes [#handling-deletes]
+### Handling deletes 
 
 Deletes from MongoDB are propagated as new rows marked as deleted using the `_peerdb_is_deleted` column. You typically want to filter these out in your queries:
 
@@ -93,7 +93,7 @@ CREATE ROW POLICY policy_name ON t1
 FOR SELECT USING _peerdb_is_deleted = 0;
 ```
 
-## Querying JSON data [#querying-json-data]
+## Querying JSON data 
 
 You can directly query JSON fields using dot syntax:
 
@@ -122,7 +122,7 @@ SELECT doc.^shipping as shipping_info FROM t1;
 └────────────────────────────────────────────────────┘
 ```
 
-### Dynamic type [#dynamic-type]
+### Dynamic type 
 
 In ClickHouse, each field in JSON has `Dynamic` type. Dynamic type allows ClickHouse to store values of any type without knowing the type in advance. You can verify this with the `toTypeName` function:
 
@@ -190,7 +190,7 @@ SELECT length(doc.items) AS item_count FROM t1;
 └────────────┘
 ```
 
-### Field casting [#field-casting]
+### Field casting 
 
 [Aggregation functions](https://clickhouse.com/docs/sql-reference/aggregate-functions/combinators) in ClickHouse don't work with dynamic type directly. For example, if you attempt to directly use the `sum` function on a dynamic type, you get the following error:
 
@@ -215,9 +215,9 @@ SELECT sum(doc.shipping.cost::Float32) AS shipping_cost FROM t1;
 Casting from dynamic type to the underlying data type (determined by `dynamicType`) is very performant, as ClickHouse already stores the value in its underlying type internally.
 </Note>
 
-## Flattening JSON [#flattening-json]
+## Flattening JSON 
 
-### Normal view [#normal-view]
+### Normal view 
 
 You can create normal views on top of the JSON table to encapsulate flattening/casting/transformation logic in order to query data similar to a relational table. Normal views are lightweight as they only store the query itself, not the underlying data. For example:
 
@@ -264,7 +264,7 @@ ORDER BY customer_id DESC
 LIMIT 10;
 ```
 
-### Refreshable materialized view [#refreshable-materialized-view]
+### Refreshable materialized view 
 
 You can create [Refreshable Materialized Views](https://clickhouse.com/docs/materialized-view/refreshable-materialized-view), which enable you to schedule query execution for deduplicating rows and storing the results in a flattened destination table. With each scheduled refresh, the destination table is replaced with the latest query results.
 
@@ -314,7 +314,7 @@ ORDER BY customer_id DESC
 LIMIT 10;
 ```
 
-### Incremental materialized view [#incremental-materialized-view]
+### Incremental materialized view 
 
 If you want to access flattened columns in real-time, you can create [Incremental Materialized Views](https://clickhouse.com/docs/materialized-view/incremental-materialized-view). If your table has frequent updates, it's not recommended to use the `FINAL` modifier in your materialized view as every update will trigger a merge. Instead, you can deduplicate the data at query time by building a normal view on top of the materialized view.
 

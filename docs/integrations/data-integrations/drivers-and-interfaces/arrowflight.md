@@ -11,14 +11,14 @@ ClickHouse supports integration with the [Apache Arrow Flight](https://arrow.apa
 
 This interface allows Flight SQL clients to query ClickHouse and retrieve results in the Arrow format, providing high throughput and low latency for analytical workloads.
 
-## Features [#features]
+## Features 
 
 * Execute SQL queries via the Arrow Flight SQL protocol
 * Stream query results in Apache Arrow format
 * Integration with BI tools and custom data applications that support Arrow Flight
 * Lightweight and performant communication over gRPC
 
-## Limitations [#limitations]
+## Limitations 
 
 The Arrow Flight interface is currently experimental and under active development. Known limitations include:
 
@@ -28,7 +28,7 @@ The Arrow Flight interface is currently experimental and under active developmen
 
 If you encounter compatibility issues or would like to contribute, please [create an issue](https://github.com/ClickHouse/ClickHouse/issues) in the ClickHouse repository.
 
-## Running the Arrow Flight Server [#running-server]
+## Running the Arrow Flight Server 
 
 To enable the Arrow Flight server in a self-managed ClickHouse instance, add the following configuration to your server config:
 
@@ -44,7 +44,7 @@ Restart the ClickHouse server. Upon successful startup, you should see a log mes
 {} <Information> Application: Arrow Flight compatibility protocol: 0.0.0.0:9005
 ```
 
-## Connecting to ClickHouse via Arrow Flight SQL [#connecting-to-clickhouse]
+## Connecting to ClickHouse via Arrow Flight SQL 
 
 You can use any client that supports Arrow Flight SQL. For example, using `pyarrow`:
 
@@ -59,7 +59,7 @@ for batch in reader:
     print(batch.to_pandas())
 ```
 
-## Compatibility [#compatibility]
+## Compatibility 
 
 The Arrow Flight interface is compatible with tools that support Arrow Flight SQL including custom applications built with:
 
@@ -69,7 +69,7 @@ The Arrow Flight interface is compatible with tools that support Arrow Flight SQ
 
 If a native ClickHouse connector is available for your tool (e.g. JDBC, ODBC), prefer using it unless Arrow Flight is specifically required for performance or format compatibility.
 
-## Query Cancellation [#query-cancellation]
+## Query Cancellation 
 
 Long-running queries can be cancelled by closing the gRPC connection from the client. Support for more advanced cancellation features is planned.
 

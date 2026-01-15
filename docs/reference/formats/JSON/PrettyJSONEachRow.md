@@ -11,12 +11,12 @@ doc_type: 'guide'
 
 <Badge intent="success">Output</Badge> <Badge intent="info">Alias: `PrettyJSONLines`, `PrettyNDJSON`</Badge>
 
-## Description [#description]
+## Description 
 
 Differs from [JSONEachRow](./JSONEachRow.md) only in that JSON is pretty formatted with new line delimiters and 4 space indents.
 
-## Example usage [#example-usage]
-### Inserting data [#inserting-data]
+## Example usage 
+### Inserting data 
 
 Using a JSON file with the following data, named as `football.json`:
 
@@ -165,7 +165,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.json' FORMAT PrettyJSONEachRow;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `PrettyJSONEachRow` format:
 
@@ -316,4 +316,4 @@ The output will be in JSON format:
 }  
 ```
 
-## Format settings [#format-settings]
+## Format settings 

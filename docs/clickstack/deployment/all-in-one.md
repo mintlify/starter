@@ -20,16 +20,16 @@ This comprehensive Docker image bundles all ClickStack components:
 
 This option includes authentication, enabling the persistence of dashboards, alerts, and saved searches across sessions and users.
 
-### Suitable for [#suitable-for]
+### Suitable for 
 
 * Demos
 * Local testing of the full stack
 
-## Deployment steps [#deployment-steps]
+## Deployment steps 
 
 <Steps>
 <Step>
-### Deploy with Docker [#deploy-with-docker]
+### Deploy with Docker 
 
 The following will run an OpenTelemetry collector (on port 4317 and 4318) and the HyperDX UI (on port 8080).
 
@@ -39,7 +39,7 @@ docker run -p 8080:8080 -p 4317:4317 -p 4318:4318 docker.hyperdx.io/hyperdx/hype
 </Step>
 
 <Step>
-### Navigate to the HyperDX UI [#navigate-to-hyperdx-ui]
+### Navigate to the HyperDX UI 
 
 Visit [http://localhost:8080](http://localhost:8080) to access the HyperDX UI.
 
@@ -53,14 +53,14 @@ For an example of using an alternative ClickHouse instance, see ["Create a Click
 </Step>
 
 <Step>
-### Ingest data [#ingest-data]
+### Ingest data 
 
 To ingest data see ["Ingesting data"](/use-cases/observability/clickstack/ingesting-data).
 </Step>
 
 </Steps>
 
-## Persisting data and settings [#persisting-data-and-settings]
+## Persisting data and settings 
 
 To persist data and settings across restarts of the container, users can modify the above docker command to mount the paths `/data/db`, `/var/lib/clickhouse` and `/var/log/clickhouse-server`. For example:
 
@@ -78,14 +78,14 @@ docker run \
   docker.hyperdx.io/hyperdx/hyperdx-all-in-one
 ```
 
-## Deploying to production [#deploying-to-production]
+## Deploying to production 
 
 This option should not be deployed to production for the following reasons:
 
 - **Non-persistent storage:** All data is stored using the Docker native overlay filesystem. This setup does not support performance at scale, and data will be lost if the container is removed or restarted - unless users [mount the required file paths](#persisting-data-and-settings).
 - **Lack of component isolation:** All components run within a single Docker container. This prevents independent scaling and monitoring and applies any `cgroup` limits globally to all processes. As a result, components may compete for CPU and memory.
 
-## Customizing ports [#customizing-ports-deploy]
+## Customizing ports 
 
 If you need to customize the application (8080) or API (8000) ports that HyperDX Local runs on, you'll need to modify the `docker run` command to forward the appropriate ports and set a few environment variables.
 
@@ -95,7 +95,7 @@ Customizing the OpenTelemetry ports can simply be changed by modifying the port 
 docker run -p 8080:8080 -p 4317:4317 -p 4999:4318 docker.hyperdx.io/hyperdx/hyperdx-all-in-one
 ```
 
-## Using ClickHouse Cloud [#using-clickhouse-cloud]
+## Using ClickHouse Cloud 
 
 This distribution can be used with ClickHouse Cloud. While the local ClickHouse instance will still be deployed (and ignored), the OTel collector can be configured to use a ClickHouse Cloud instance by setting the environment variables `CLICKHOUSE_ENDPOINT`, `CLICKHOUSE_USER` and `CLICKHOUSE_PASSWORD`. 
 
@@ -113,7 +113,7 @@ The `CLICKHOUSE_ENDPOINT` should be the ClickHouse Cloud HTTPS endpoint, includi
 
 On connecting to the HyperDX UI, navigate to [`Team Settings`](http://localhost:8080/team) and create a connection to your ClickHouse Cloud service - followed by the required sources. For an example flow, see [here](/use-cases/observability/clickstack/getting-started#create-a-cloud-connection).
 
-## Configuring the OpenTelemetry collector [#configuring-collector]
+## Configuring the OpenTelemetry collector 
 
 The OTel collector configuration can be modified if required - see ["Modifying configuration"](/use-cases/observability/clickstack/ingesting-data/otel-collector#modifying-otel-collector-configuration).
 

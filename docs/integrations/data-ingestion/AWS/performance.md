@@ -16,11 +16,11 @@ This section focuses on optimizing performance when reading and inserting data f
 
 Before tuning threads and block sizes to improve insert performance, we recommend users understand the mechanics of S3 inserts. If you're familiar with the insert mechanics, or just want some quick tips, skip to our example [below](/integrations/s3/performance#example-dataset).
 
-## Insert Mechanics (single node) [#insert-mechanics-single-node]
+## Insert Mechanics (single node) 
 
 Two main factors, in addition to hardware size, influence the performance and resource usage of ClickHouse's data insert mechanics (for a single node): **insert block size** and **insert parallelism**.
 
-### Insert block size [#insert-block-size]
+### Insert block size 
 
 <img src="/images/integrations/data-ingestion/s3/insert_mechanics.png" alt="Insert block size mechanics in ClickHouse"/>
 
@@ -51,7 +51,7 @@ When either the specified number of rows is collected in the insert block, or th
 
 Note that the `min_insert_block_size_bytes` value denotes the uncompressed in-memory block size (and not the compressed on-disk part size). Also, note that the created blocks and parts rarely precisely contain the configured number of rows or bytes because ClickHouse streams and [processes](https://clickhouse.com/company/events/query-performance-introspection) data row-[block](/operations/settings/settings#max_block_size)-wise. Therefore, these settings specify minimum thresholds.
 
-#### Be aware of merges [#be-aware-of-merges]
+#### Be aware of merges 
 
 The smaller the configured insert block size is, the more initial parts get created for a large data load, and the more background part merges are executed concurrently with the data ingestion. This can cause resource contention (CPU and memory) and require additional time (for reaching a [healthy](/operations/settings/merge-tree-settings#parts_to_throw_insert) (3000) number of parts) after the ingestion is finished. 
 
@@ -79,7 +79,7 @@ Note that [increasing](https://clickhouse.com/blog/supercharge-your-clickhouse-d
 
 Parts that were merged into larger parts are marked as [inactive](/operations/system-tables/parts) and finally deleted after a [configurable](/operations/settings/merge-tree-settings#old_parts_lifetime) number of minutes. Over time, this creates a tree of merged parts (hence the name [`MergeTree`](/engines/table-engines/mergetree-family) table).
 
-### Insert parallelism [#insert-parallelism]
+### Insert parallelism 
 
 <img src="/images/integrations/data-ingestion/s3/resource_usage.png" alt="Resource usage for insert parallelism"/>
 
@@ -105,11 +105,11 @@ With a large number of files, the parallel processing by multiple insert threads
 
 For the s3 function and table, parallel downloading of an individual file is determined by the values [max_download_threads](https://clickhouse.com/codebrowser/ClickHouse/src/Core/Settings.h.html#DB::SettingsTraits::Data::max_download_threads) and [max_download_buffer_size](https://clickhouse.com/codebrowser/ClickHouse/src/Core/Settings.h.html#DB::SettingsTraits::Data::max_download_buffer_size). Files will only be downloaded in parallel if their size is greater than `2 * max_download_buffer_size`. By default, the `max_download_buffer_size` default is set to 10MiB. In some cases, you can safely increase this buffer size to 50 MB (`max_download_buffer_size=52428800`), with the aim of ensuring each file was downloaded by a single thread. This can reduce the time each thread spends making S3 calls and thus also lower the S3 wait time. Furthermore, for files that are too small for parallel reading, to increase throughput, ClickHouse automatically prefetches data by pre-reading such files asynchronously.
 
-## Measuring performance [#measuring-performance]
+## Measuring performance 
 
 Optimizing the performance of queries using the S3 table functions is required when both running queries against data in place i.e. ad-hoc querying where only ClickHouse compute is used and the data remains in S3 in its original format, and when inserting data from S3 into a ClickHouse MergeTree table engine. Unless specified the following recommendations apply to both scenarios.
 
-## Impact of hardware size [#impact-of-hardware-size]
+## Impact of hardware size 
 
 <img src="/images/integrations/data-ingestion/s3/hardware_size.png" alt="Impact of hardware size on ClickHouse performance"/>
 
@@ -121,11 +121,11 @@ The number of available CPU cores and the size of RAM impacts the:
 
 and, therefore, the overall ingest throughput.
 
-## Region locality [#region-locality]
+## Region locality 
 
 Ensure your buckets are located in the same region as your ClickHouse instances. This simple optimization can dramatically improve throughput performance, especially if you deploy your ClickHouse instances on AWS infrastructure.
 
-## Formats [#formats]
+## Formats 
 
 ClickHouse can read files stored in S3 buckets in the [supported formats](/interfaces/formats#formats-overview) using the `s3` function and `S3` engine. If reading raw files, some of these formats have distinct advantages:
 
@@ -135,7 +135,7 @@ ClickHouse can read files stored in S3 buckets in the [supported formats](/inter
 * Each compression format brings pros and cons, often balancing the compression level for speed and biasing compression or decompression performance. If compressing raw files such as CSV or TSV, lz4 offers the fastest decompression performance, sacrificing the compression level. Gzip typically compresses better at the expense of slightly slower read speeds. Xz takes this further by usually offering the best compression with the slowest compression and decompression performance. If exporting, Gz and lz4 offer comparable compression speeds. Balance this against your connection speeds. Any gains from faster decompression or compression will be easily negated by a slower connection to your s3 buckets.
 * Formats such as native or parquet do not typically justify the overhead of compression. Any savings in data size are likely to be minimal since these formats are inherently compact. The time spent compressing and decompressing will rarely offset network transfer times - especially since s3 is globally available with higher network bandwidth.
 
-## Example dataset [#example-dataset]
+## Example dataset 
 
 To illustrate further potential optimizations, purposes we will use [the posts from the Stack Overflow dataset](/data-modeling/schema-design#stack-overflow-dataset) - optimizing both the query and insert performance of this data. 
 
@@ -180,7 +180,7 @@ In our example we only return a few rows. If measuring the performance of `SELEC
 When reading from queries, the initial query can often appear slower than if the same query is repeated. This can be attributed to both S3's own caching but also the [ClickHouse Schema Inference Cache](/operations/system-tables/schema_inference_cache). This stores the inferred schema for files and means the inference step can be skipped on subsequent accesses, thus reducing query time.
 </Info>
 
-## Using threads for reads [#using-threads-for-reads]
+## Using threads for reads 
 
 Read performance on S3 will scale linearly with the number of cores, provided you are not limited by network bandwidth or local I/O. Increasing the number of threads also has memory overhead permutations that users should be aware of. The following can be modified to improve read throughput performance potentially:
 
@@ -226,7 +226,7 @@ SETTINGS max_threads = 64
 Peak memory usage: 639.99 MiB.
 ```
 
-## Tuning threads and block size for inserts [#tuning-threads-and-block-size-for-inserts]
+## Tuning threads and block size for inserts 
 
 To achieve maximum ingestion performance, you must choose (1) an insert block size and (2) an appropriate level of insert parallelism based on (3) the amount of available CPU cores and RAM available. In summary:
 
@@ -263,11 +263,11 @@ FROM s3('https://datasets-documentation.s3.eu-west-3.amazonaws.com/stackoverflow
 
 As shown, tuning of these setting has improved insert performance by over `33%`. We leave this to the reader to see if they can improve single node performance further.
 
-## Scaling with resources and nodes [#scaling-with-resources-and-nodes]
+## Scaling with resources and nodes 
 
 Scaling with resources and nodes applies to both read and insert queries.
 
-### Vertical scaling [#vertical-scaling]
+### Vertical scaling 
 
 All previous tuning and queries have only used a single node in our ClickHouse Cloud cluster. Users will also often have more than one node of ClickHouse available. We recommend users scale vertically initially, improving S3 throughput linearly with the number of cores. If we repeat our earlier insert and read queries on a larger ClickHouse Cloud node to twice the resources (64GiB, 16 vCPUs) with appropriate settings, both execute approximately twice as fast.
 
@@ -294,7 +294,7 @@ SETTINGS max_threads = 92
 Individual nodes can also be bottlenecked by network and S3 GET requests, preventing linear scaling of performance vertically.
 </Note>
 
-### Horizontal scaling [#horizontal-scaling]
+### Horizontal scaling 
 
 Eventually, horizontal scaling is often necessary due to hardware availability and cost-efficiency. In ClickHouse Cloud, production clusters have at least 3 nodes. Users may also wish to therefore utilize all nodes for an insert.
 
@@ -356,9 +356,9 @@ Peak memory usage: 11.75 GiB.
 
 As expected, this reduces insert performance by 3x.
 
-## Further tuning [#further-tuning]
+## Further tuning 
 
-### Disable de-duplication [#disable-de-duplication]
+### Disable de-duplication 
 
 Insert operations can sometimes fail due to errors such as timeouts. When inserts fail, data may or may not have been successfully inserted. To allow inserts to be safely re-tried by the client, by default in distributed deployments such as ClickHouse Cloud, ClickHouse tries to determine whether the data has already been successfully inserted. If the inserted data is marked as a duplicate, ClickHouse does not insert it into the destination table. However, the user will still receive a successful operation status as if the data had been inserted normally.
 
@@ -375,7 +375,7 @@ SETTINGS parallel_distributed_insert_select = 2, min_insert_block_size_rows = 0,
 Peak memory usage: 26.57 GiB.
 ```
 
-### Optimize on insert [#optimize-on-insert]
+### Optimize on insert 
 
 In ClickHouse, the `optimize_on_insert` setting controls whether data parts are merged during the insert process. When enabled (`optimize_on_insert = 1` by default), small parts are merged into larger ones as they are inserted, improving query performance by reducing the number of parts that need to be read. However, this merging adds overhead to the insert process, potentially slowing down high-throughput insertions.
 
@@ -389,6 +389,6 @@ SETTINGS parallel_distributed_insert_select = 2, min_insert_block_size_rows = 0,
 0 rows in set. Elapsed: 49.688 sec. Processed 59.82 million rows, 24.03 GB (1.20 million rows/s., 483.66 MB/s.)
 ```
 
-## Misc notes [#misc-notes]
+## Misc notes 
 
 * For low memory scenarios, consider lowering `max_insert_delayed_streams_for_parallel_write` if inserting into S3.

@@ -18,13 +18,13 @@ This function will operate _correctly_ only in case the set of files matching th
 In case these files differ between nodes, the return value cannot be predetermined and depends on the order in which worker nodes request tasks from the initiator.
 </Note>
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 fileCluster(cluster_name, path[, format, structure, compression_method])
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument             | Description                                                                                                                                                                        |
 |----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -34,7 +34,7 @@ fileCluster(cluster_name, path[, format, structure, compression_method])
 | `structure`          | Table structure in `'UserID UInt64, Name String'` format. Determines column names and types. Type: [String](../../sql-reference/data-types/string.md).                             |
 | `compression_method` | Compression method. Supported compression types are `gz`, `br`, `xz`, `zst`, `lz4`, and `bz2`.                                                                                     |
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table with the specified format and structure and with data from files matching the specified path.
 
@@ -80,10 +80,10 @@ SELECT * FROM fileCluster('my_cluster', 'file{1,2}.csv', 'CSV', 'i UInt32, s Str
 └────┴────────┘
 ```
 
-## Globs in Path [#globs-in-path]
+## Globs in Path 
 
 All patterns supported by [File](../../sql-reference/table-functions/file.md#globs-in-path) table function are supported by FileCluster.
 
-## Related [#related]
+## Related 
 
 - [File table function](../../sql-reference/table-functions/file.md)

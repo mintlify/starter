@@ -13,7 +13,7 @@ doc_type: 'reference'
 
 import CommonRowBinaryFormatSettings from '/snippets/products/reference/formats/RowBinary/_snippets/common-row-binary-format-settings.mdx'
 
-## Description [#description]
+## Description 
 
 Similar to the [RowBinary](./RowBinary.md) format, but with added header:
 
@@ -21,9 +21,9 @@ Similar to the [RowBinary](./RowBinary.md) format, but with added header:
 - N `String`s specifying column names.
 - N `String`s specifying column types.
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 
 
 <RowBinaryFormatSettings/>
 

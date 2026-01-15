@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 Alias: `generateSeries`
 
-## Syntax [#syntax]
+## Syntax 
 
 Returns a table with the single 'generate_series' column (`UInt64`) that contains integers from start to stop inclusively:
 
@@ -23,7 +23,7 @@ Returns a table with the single 'generate_series' column (`UInt64`) that contain
 generate_series(START, STOP, STEP)
 ```
 
-## Examples [#examples]
+## Examples 
 
 The following queries return tables with the same content but different column names:
 

@@ -6,7 +6,7 @@ title: 'Functions for Generating SVG images from Geo data'
 doc_type: 'reference'
 ---
 
-## Svg [#svg]
+## Svg 
 
 Returns a string of select SVG element tags from Geo data.
 

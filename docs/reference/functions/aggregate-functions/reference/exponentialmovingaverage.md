@@ -7,7 +7,7 @@ title: 'exponentialMovingAverage'
 doc_type: 'reference'
 ---
 
-## exponentialMovingAverage [#exponentialmovingaverage]
+## exponentialMovingAverage 
 
 Calculates the exponential moving average of values for the determined time.
 

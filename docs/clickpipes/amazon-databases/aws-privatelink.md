@@ -14,7 +14,7 @@ AWS services, your on-premises systems, and ClickHouse Cloud without exposing tr
 This document outlines the ClickPipes reverse private endpoint functionality
 that allows setting up an AWS PrivateLink VPC endpoint.
 
-## Supported ClickPipes data sources [#supported-sources]
+## Supported ClickPipes data sources 
 
 ClickPipes reverse private endpoint functionality is limited to the following
 data source types:
@@ -22,7 +22,7 @@ data source types:
 - Postgres
 - MySQL
 
-## Supported AWS PrivateLink endpoint types [#aws-privatelink-endpoint-types]
+## Supported AWS PrivateLink endpoint types 
 
 ClickPipes reverse private endpoint can be configured with one of the following AWS PrivateLink approaches:
 
@@ -30,7 +30,7 @@ ClickPipes reverse private endpoint can be configured with one of the following 
 - [MSK multi-VPC connectivity for MSK ClickPipe](https://docs.aws.amazon.com/msk/latest/developerguide/aws-access-mult-vpc.html)
 - [VPC endpoint service](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html)
 
-### VPC resource [#vpc-resource]
+### VPC resource 
 
 Your VPC resources can be accessed in ClickPipes using [PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html). This approach doesn't require setting up a load balancer in front of your data source.
 
@@ -149,7 +149,7 @@ For more details on PrivateLink with VPC resource, see [AWS documentation](https
 
 </Steps>
 
-### MSK multi-VPC connectivity [#msk-multi-vpc]
+### MSK multi-VPC connectivity 
 
 The [Multi-VPC connectivity](https://docs.aws.amazon.com/msk/latest/developerguide/aws-access-mult-vpc.html) is a built-in feature of AWS MSK that allows you to connect multiple VPCs to a single MSK cluster.
 Private DNS support is out of the box and does not require any additional configuration.
@@ -165,7 +165,7 @@ See AWS guide for [attaching a cluster policy](https://docs.aws.amazon.com/msk/l
 
 Follow our [MSK setup guide for ClickPipes](/knowledgebase/aws-privatelink-setup-for-msk-clickpipes) to learn how to set up the connection.
 
-### VPC endpoint service [#vpc-endpoint-service]
+### VPC endpoint service 
 
 [VPC endpoint service](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html) is another approach to share your data source with ClickPipes.
 It requires setting up a NLB (Network Load Balancer) in front of your data source
@@ -192,7 +192,7 @@ See AWS guide for [managing permissions](https://docs.aws.amazon.com/vpc/latest/
 can be configured for ClickPipes. Add [your ClickPipe region](#aws-privatelink-regions) to the allowed regions in your VPC endpoint service.
 </Note>
 
-## Creating a ClickPipe with reverse private endpoint [#creating-clickpipe]
+## Creating a ClickPipe with reverse private endpoint 
 
 <Steps>
 
@@ -284,7 +284,7 @@ To see a full list of DNS names, access it in the cloud service settings.
 
 </Steps>
 
-## Managing existing reverse private endpoints [#managing-existing-endpoints]
+## Managing existing reverse private endpoints 
 
 You can manage existing reverse private endpoints in the ClickHouse Cloud service settings:
 
@@ -312,14 +312,14 @@ Endpoint can be removed from here. It will affect any ClickPipes using this endp
 
 </Steps>
 
-## Supported AWS regions [#aws-privatelink-regions]
+## Supported AWS regions 
 
 AWS PrivateLink support is limited to specific AWS regions for ClickPipes.
 Please refer to the [ClickPipes regions list](/integrations/clickpipes#list-of-static-ips) to see the available regions.
 
 This restriction does not apply to PrivateLink VPC endpoint service with a cross-region connectivity enabled.
 
-## Limitations [#limitations]
+## Limitations 
 
 AWS PrivateLink endpoints for ClickPipes created in ClickHouse Cloud are not guaranteed to be created
 in the same AWS region as the ClickHouse Cloud service.

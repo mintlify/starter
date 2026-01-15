@@ -15,7 +15,7 @@ integration:
 import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 
-<div class='vimeo-container'>
+<Frame>
   <iframe src="//www.youtube.com/embed/SQAiPVbd3gg"
     width="640"
     height="360"
@@ -25,31 +25,31 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
     picture-in-picture"
     allowfullscreen>
   </iframe>
-</div>
+</Frame>
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 We assume you are familiar with:
 * [ClickHouse Connector Sink](../kafka-clickhouse-connect-sink.md)
 * Confluent Cloud
 
-## The official Kafka connector from ClickHouse with Confluent Cloud [#the-official-kafka-connector-from-clickhouse-with-confluent-cloud]
+## The official Kafka connector from ClickHouse with Confluent Cloud 
 
-#### Create a Topic [#create-a-topic]
+#### Create a Topic 
 Creating a topic on Confluent Cloud is fairly simple, and there are detailed instructions [here](https://docs.confluent.io/cloud/current/client-apps/topics/manage.html).
 
-#### Important notes [#important-notes]
+#### Important notes 
 
 * The Kafka topic name must be the same as the ClickHouse table name. The way to tweak this is by using a transformer (for example [`ExtractTopic`](https://docs.confluent.io/platform/current/connect/transforms/extracttopic.html)).
 * More partitions does not always mean more performance - see our upcoming guide for more details and performance tips.
 
-#### Gather your connection details [#gather-your-connection-details]
+#### Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-#### Install Connector [#install-connector]
+#### Install Connector 
 Install the fully managed ClickHouse Sink Connector on Confluent Cloud following the [official documentation](https://docs.confluent.io/cloud/current/connectors/cc-clickhouse-sink-connector/cc-clickhouse-sink.html).
 
-#### Configure the Connector [#configure-the-connector]
+#### Configure the Connector 
 During the configuration of the ClickHouse Sink Connector, you will need to provide the following details:
 - hostname of your ClickHouse server
 - port of your ClickHouse server (default is 8443)
@@ -59,5 +59,5 @@ During the configuration of the ClickHouse Sink Connector, you will need to prov
 
 The Confluent Cloud UI supports advanced configuration options to adjust poll intervals, batch sizes, and other parameters to optimize performance.
 
-#### Known limitations [#known-limitations]
+#### Known limitations 
 * See the list of [Connectors limitations in the official docs](https://docs.confluent.io/cloud/current/connectors/cc-clickhouse-sink-connector/cc-clickhouse-sink.html#limitations)

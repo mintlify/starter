@@ -9,7 +9,7 @@ doc_type: 'guide'
 keywords: ['clickstack', 'ttl', 'data retention', 'lifecycle', 'storage management']
 ---
 
-## TTL in ClickStack [#ttl-clickstack]
+## TTL in ClickStack 
 
 Time-to-Live (TTL) is a crucial feature in ClickStack for efficient data retention and management, especially given vast amounts of data are continuously generated. TTL allows for automatic expiration and deletion of older data, ensuring that the storage is optimally used and performance is maintained without manual intervention. This capability is essential for keeping the database lean, reducing storage costs, and ensuring that queries remain fast and efficient by focusing on the most relevant and recent data. Moreover, it helps in compliance with data retention policies by systematically managing data life cycles, thus enhancing the overall sustainability and scalability of the observability solution.
 
@@ -71,7 +71,7 @@ By default, data with an expired TTL is removed when ClickHouse [merges data par
 TTLs are not applied immediately but rather on a schedule, as noted above. The MergeTree table setting `merge_with_ttl_timeout` sets the minimum delay in seconds before repeating a merge with delete TTL. The default value is 14400 seconds (4 hours). But that is just the minimum delay; it can take longer until a TTL merge is triggered. If the value is too low, it will perform many off-schedule merges that may consume a lot of resources. A TTL expiration can be forced using the command `ALTER TABLE my_table MATERIALIZE TTL`.
 </Note>
 
-## Modifying TTL [#modifying-ttl]
+## Modifying TTL 
 
 To modify TTL users can either:
 
@@ -91,7 +91,7 @@ exporters:
    ttl: 72h
 ```
 
-### Column level TTL [#column-level-ttl]
+### Column level TTL 
 
 The above examples expire data at a table level. Users can also expire data at a column level. As data ages, this can be used to drop columns whose value in investigations does not justify their resource overhead to retain. For example, we recommend retaining the `Body` column in case new dynamic metadata is added that has not been extracted at insert time, e.g., a new Kubernetes label. After a period e.g. 1 month, it might be obvious that this additional metadata is not useful - thus limiting the value in retaining the `Body` column.
 

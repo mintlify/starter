@@ -6,6 +6,6 @@ title: 'Functions for Implementing the IN Operator'
 doc_type: 'reference'
 ---
 
-## in, notIn, globalIn, globalNotIn [#in-notin-globalin-globalnotin]
+## in, notIn, globalIn, globalNotIn 
 
 See the section [IN operators](/sql-reference/operators/in).

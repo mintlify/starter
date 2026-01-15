@@ -8,11 +8,11 @@ keywords: ['Primary Key']
 
 
 
-## Checking your Primary Key [#checking-your-primary-key]
+## Checking your Primary Key
 
 Users may see cases where their query is slower than expected, in the belief they are ordering or filtering by a primary key. In this article we show how users can confirm the key is used, highlighting common reasons its not.
 
-## Create table [#create-table]
+## Create table
 
 Consider the following simple table:
 
@@ -28,7 +28,7 @@ ORDER BY (code, toUnixTimestamp(timestamp))
 
 Note how our ordering key includes `toUnixTimestamp(timestamp)` as the second entry. 
 
-## Populate data [#populate-data]
+## Populate data
 
 Populate this table with 100m rows:
 
@@ -50,7 +50,7 @@ FROM logs
 1 row in set. Elapsed: 0.002 sec.
 ```
 
-## Basic filtering [#basic-filtering]
+## Basic filtering
 
 If we filter by code we can see the number of rows scanned in the output. - `49.15 thousand`. Notice how this is a subset of the total 100m rows.
 
@@ -106,7 +106,7 @@ Granules are the unit of data processing in ClickHouse, with each typically hold
 Filtering on keys later in an ordering key will not be as efficient as filtering on those that are earlier in the tuple. For reasons why, see [here](/guides/best-practices/sparse-primary-indexes#secondary-key-columns-can-not-be-inefficient)
 :::
 
-## Multi-key filtering [#multi-key-filtering]
+## Multi-key filtering
 
 Suppose we filter, by `code` and `timestamp`:
 
@@ -149,7 +149,7 @@ WHERE (code = '200') AND (timestamp >= '2025-01-01 00:00:00') AND (timestamp <= 
 
 In this case both ordering keys are used to filter rows, resulting in the need to only read `87` granules.
 
-## Using keys in sorting [#using-keys-in-sorting]
+## Using keys in sorting
 
 ClickHouse can also exploit ordering keys for efficient sorting. Specifically,
 

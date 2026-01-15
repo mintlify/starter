@@ -1,0 +1,93 @@
+---
+sidebarTitle: 'Explorer'
+icon: 'house'
+title: 'Quickstarts explorer'
+description: 'Explore quickstart guides to get up and running with ClickHouse'
+keywords: ['quickstarts', 'explore', 'getting started', 'tutorials']
+mode: 'custom'
+---
+
+import { QuickStartsGrid } from '/snippets/components/QuickStartsGrid/QuickStartsGrid.jsx'
+
+{/* Define featured quickstarts - just list the IDs */}
+export const featuredQuickStartIds = [
+  'create-your-first-service-on-cloud',
+  'build-etl-pipeline-using-clickhouse',
+  'ingest-data-into-clickhouse',
+];
+
+{/* Define quickstarts data */}
+export const quickStartsData = [
+  {
+    id: 'build-etl-pipeline-using-clickhouse',
+    title: 'Build an ETL pipeline using ClickHouse',
+    description: 'Learn how to ingest data from CSV and parquet files into ClickHouse Cloud',
+    href: '/docs/get-started/quick-starts/build-etl-pipeline-using-clickhouse',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+    level: 'Beginner',
+  },
+  {
+    id: 'create-your-first-service-on-cloud',
+    title: 'Create your first Cloud service and load example data',
+    description: 'Get setup with Cloud by creating a service and loading an example dataset',
+    href: '/docs/get-started/quick-starts/create-your-first-service-on-cloud',
+    useCases: ['Data warehousing', 'Real-time analytics', 'Observability', 'AI/ML'],
+    products: ['Cloud'],
+    level: 'Beginner',
+  },
+  {
+    id: 'ingest-data-into-clickhouse',
+    title: 'Ingest data into ClickHouse',
+    description: 'Learn how to ingest data from CSV and parquet files into ClickHouse Cloud',
+    href: '/docs/get-started/quick-starts/ingest-data-into-clickhouse',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+    level: 'Beginner',
+  },
+  {
+    id: 'query-and-visualize-data-using-dashboards',
+    title: 'Query and visualize data using dashboards in ClickHouse Cloud',
+    description: 'Learn how to query your data in your Cloud service and visualize it using the dashboards feature',
+    href: '/docs/get-started/quick-starts/query-and-visualize-data-using-dashboards',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+    level: 'Beginner',
+  },
+  {
+    id: 'query-json-s3-using-chdb',
+    title: 'Querying JSON from S3 with chDB',
+    description: 'Learn to query data from S3 and insert it into a table using chDB',
+    href: '/docs/get-started/quick-starts/query-json-s3-using-chdb',
+    useCases: ['Real-time analytics'],
+    products: ['chdb'],
+    level: 'Beginner',
+  },
+  {
+    id: 'updating-data-with-replacingmergetree',
+    title: 'Update data using the ReplacingMergeTree engine',
+    description: 'Learn how to update data using the ReplacingMergeTree engine',
+    href: '/docs/get-started/quick-starts/updating-data-with-replacingmergetree',
+    useCases: ['Data warehousing', 'Real-time analytics'],
+    products: ['Cloud'],
+    level: 'Beginner',
+  },
+];
+
+<div className="relative">
+    <div className="absolute -top-14 left-0 right-0 opacity-80">
+        <img
+            src="/images/background-light.svg"
+            className="block dark:hidden pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+        <img
+            src="/images/background-dark.svg"
+            className="hidden dark:block pointer-events-none w-full h-auto"
+            alt="Decorative background image."
+        />
+    </div>
+
+    {/* Render the QuickStartsGrid component */}
+    <QuickStartsGrid quickStartsData={quickStartsData} featuredIds={featuredQuickStartIds} />
+</div>

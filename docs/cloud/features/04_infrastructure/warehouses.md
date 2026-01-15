@@ -6,7 +6,7 @@ description: 'Compute-compute separation in ClickHouse Cloud'
 doc_type: 'reference'
 ---
 
-## What is compute-compute separation? [#what-is-compute-compute-separation]
+## What is compute-compute separation? 
 
 Compute-compute separation is available for Scale and Enterprise tiers.
 
@@ -37,7 +37,7 @@ _Fig. 2 - compute separation in ClickHouse Cloud_
 
 It is possible to create extra services that share the same data with your existing services, or create a completely new setup with multiple services sharing the same data.
 
-## What is a warehouse? [#what-is-a-warehouse]
+## What is a warehouse? 
 
 In ClickHouse Cloud, a _warehouse_ is a set of services that share the same data.
 Each warehouse has a primary service (this service was created first) and secondary service(s). For example, in the screenshot below you can see a warehouse "DWH Prod" with two services:
@@ -59,9 +59,9 @@ All services in a warehouse share the same:
 
 You can sort services by the warehouse that they belong to.
 
-## Access controls [#access-controls]
+## Access controls 
 
-### Database credentials [#database-credentials]
+### Database credentials 
 
 Because all in a warehouse share the same set of tables, they also share access controls to those other services. This means that all database users that are created in Service 1 will also be able to use Service 2 with the same permissions (grants for tables, views, etc), and vice versa. Users will use another endpoint for each service but will use the same username and password. In other words, _users are shared across services that work with the same storage:_
 
@@ -71,7 +71,7 @@ Because all in a warehouse share the same set of tables, they also share access 
 
 _Fig. 4 - user Alice was created in Service 1, but she can use the same credentials to access all services that share same data_
 
-### Network access control [#network-access-control]
+### Network access control 
 
 It is often useful to restrict specific services from being used by other applications or ad-hoc users. This can be done by using network restrictions, similar to how it is configured currently for regular services (navigate to **Settings** in the service tab in the specific service in ClickHouse Cloud console).
 
@@ -83,7 +83,7 @@ You can apply IP filtering setting to each service separately, which means you c
 
 _Fig. 5 - Alice is restricted to access Service 2 because of the network settings_
 
-### Read vs read-write [#read-vs-read-write]
+### Read vs read-write 
 
 Sometimes it is useful to restrict write access to a specific service and allow writes only by a subset of services in a warehouse. This can be done when creating the second and nth services (the first service should always be read-write):
 
@@ -98,7 +98,7 @@ _Fig. 6 - Read-write and Read-only services in a warehouse_
 2. Currently, refreshable materialized views are executed on all services in the warehouse, including read-only services. This behavior will be changed in the future, however, and they will be executed on RW services only.
 </Note>
 
-## Scaling [#scaling]
+## Scaling 
 
 Each service in a warehouse can be adjusted to your workload in terms of:
 - Number of nodes (replicas). The primary service (the service that was created first in the warehouse) should have 2 or more nodes. Each secondary service can have 1 or more nodes.
@@ -106,10 +106,10 @@ Each service in a warehouse can be adjusted to your workload in terms of:
 - If the service should scale automatically
 - If the service should be idled on inactivity (cannot be applied to the first service in the group - please see the **Limitations** section)
 
-## Changes in behavior [#changes-in-behavior]
+## Changes in behavior 
 Once compute-compute is enabled for a service (at least one secondary service was created), the `clusterAllReplicas()` function call with the `default` cluster name will utilize only replicas from the service where it was called. That means, if there are two services connected to the same dataset, and `clusterAllReplicas(default, system, processes)` is called from service 1, only processes running on service 1 will be shown. If needed, you can still call `clusterAllReplicas('all_groups.default', system, processes)` for example to reach all replicas.
 
-## Limitations [#limitations]
+## Limitations 
 
 1. **Primary service should always be up and should not be idled (limitation will be removed some time after GA).** During the private preview and some time after GA, the primary service (usually the existing service that you want to extend by adding other services) will be always up and will have the idling setting disabled. You will not be able to stop or idle the primary service if there is at least one secondary service. Once all secondary services are removed, you can stop or idle the original service again.
 
@@ -130,20 +130,20 @@ SETTINGS distributed_ddl_task_timeout=0
 
 7. **Currently there is a soft limit of 5 services per warehouse.** Contact the support team if you need more than 5 services in a single warehouse.
 
-## Pricing [#pricing]
+## Pricing 
 
 Compute prices are the same for all services in a warehouse (primary and secondary). Storage is billed only once - it is included in the first (original) service.
 
 Please refer to the pricing calculator on the [pricing](https://clickhouse.com/pricing) page, which will help estimate the cost based on your workload size and tier selection.
 
-## Backups [#backups]
+## Backups 
 
 - As all services in a single warehouse share the same storage, backups are made only on the primary (initial) service. By this, the data for all services in a warehouse is backed up.
 - If you restore a backup from a primary service of a warehouse, it will be restored to a completely new service, not connected to the existing warehouse. You can then add more services to the new service immediately after the restore is finished.
 
-## Using warehouses [#using-warehouses]
+## Using warehouses 
 
-### Creating a warehouse [#creating-a-warehouse]
+### Creating a warehouse 
 
 To create a warehouse, you need to create a second service that will share the data with an existing service. This can be done by clicking the plus sign on any of the existing services:
 
@@ -155,14 +155,14 @@ _Fig. 7 - Click the plus sign to create a new service in a warehouse_
 
 On the service creation screen, the original service will be selected in the dropdown as the source for the data of the new service. Once created, these two services will form a warehouse.
 
-### Renaming a warehouse [#renaming-a-warehouse]
+### Renaming a warehouse 
 
 There are two ways to rename a warehouse:
 
 - You can select "Sort by warehouse" on the services page in the top right corner, and then click the pencil icon near the warehouse name
 - You can click the warehouse name on any of the services and rename the warehouse there
 
-### Deleting a warehouse [#deleting-a-warehouse]
+### Deleting a warehouse 
 
 Deleting a warehouse means deleting all the compute services and the data (tables, views, users, etc.). This action cannot be undone.
 You can only delete a warehouse by deleting the first service created. To do this:

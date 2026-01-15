@@ -12,16 +12,16 @@ doc_type: 'reference'
 
 import CommonRowBinaryFormatSettings from '/snippets/products/reference/formats/RowBinary/_snippets/common-row-binary-format-settings.mdx'
 
-## Description [#description]
+## Description 
 
 Similar to the [`RowBinary`](./RowBinary.md) format, but with added header:
 
 - [`LEB128`](https://en.wikipedia.org/wiki/LEB128)-encoded number of columns (N).
 - N `String`s specifying column names.
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 
 
 <RowBinaryFormatSettings/>
 

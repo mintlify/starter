@@ -11,13 +11,13 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 Differs from [`JSONEachRow`](./JSONEachRow.md) only in that data rows are output as arrays, not as objects.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using a JSON file with the following data, named as `football.json`:
 
@@ -47,7 +47,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.json' FORMAT JSONCompactEachRow;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `JSONCompactEachRow` format:
 
@@ -79,4 +79,4 @@ The output will be in JSON format:
 ["2022-05-07", 2021, "Walsall", "Swindon Town", 0, 3]
 ```
 
-## Format settings [#format-settings]
+## Format settings 

@@ -9,7 +9,7 @@ keywords: ['integrations', 'cloud features', 'third-party tools', 'data sources'
 
 ClickHouse Cloud allows you to connect the tools and services that you love.
 
-## Managed integration pipelines for ClickHouse Cloud [#clickpipes]
+## Managed integration pipelines for ClickHouse Cloud 
 
 ClickPipes is a managed integration platform that makes ingesting data from a diverse set of sources as simple as clicking a few buttons.
 Designed for the most demanding workloads, ClickPipes's robust and scalable architecture ensures consistent performance and reliability.
@@ -32,7 +32,7 @@ ClickPipes can be used for long-term streaming needs or one-time data loading jo
 | [MySQL](/integrations/clickpipes/mysql)            | <Mysqlsvg class="image" alt="MySQL logo" style={{width: '3rem', height: 'auto'}}/>               |DBMS| Private Beta | Configure ClickPipes and start ingesting data from MySQL into ClickHouse Cloud.                      |
 | [MongoDB](/integrations/clickpipes/mongodb)        | <Mongodbsvg class="image" alt="MongoDB logo" style={{width: '3rem', height: 'auto'}}/>           |DBMS| Private Preview | Configure ClickPipes and start ingesting data from MongoDB into ClickHouse Cloud.                   |
 
-## Language client integrations [#language-client-integrations]
+## Language client integrations 
 
 ClickHouse offers a number of language client integrations, for which the documentation for each is linked below.
 

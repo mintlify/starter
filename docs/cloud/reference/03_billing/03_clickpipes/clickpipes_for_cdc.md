@@ -23,7 +23,7 @@ Pricing started being metered in monthly bills on **September 1st, 2025**
 for all customers (both existing and new) using Postgres CDC ClickPipes.
 </Note>
 
-## Pricing dimensions [#pricing-dimensions]
+## Pricing dimensions 
 
 There are two main dimensions to pricing:
 
@@ -35,7 +35,7 @@ There are two main dimensions to pricing:
    to Postgres CDC ClickPipes. Compute is billed at the service level, not per
    individual pipe. Each compute unit includes 2 vCPUs and 8 GB of RAM.
 
-### Ingested data [#ingested-data]
+### Ingested data 
 
 The Postgres CDC connector operates in two main phases:
 
@@ -53,7 +53,7 @@ at once, we offer a lower rate for that phase.
 | **Initial load / resync**        | $0.10 per GB |
 | **Continuous Replication (CDC)** | $0.20 per GB |
 
-### Compute [#compute]
+### Compute 
 
 This dimension covers the compute units provisioned per service just for Postgres
 ClickPipes. Compute is shared across all Postgres pipes within a service. **It
@@ -66,7 +66,7 @@ organization's tier:
 | **Basic Tier**               | 0.5 compute unit per service — $0.10 per hour |
 | **Scale or Enterprise Tier** | 1 compute unit per service — $0.20 per hour   |
 
-### Example [#example]
+### Example 
 
 Let's say your service is in Scale tier and has the following setup:
 
@@ -74,7 +74,7 @@ Let's say your service is in Scale tier and has the following setup:
 - Each pipe ingests 500 GB of data changes (CDC) per month
 - When the first pipe is kicked off, the service provisions **1 compute unit under the Scale Tier** for Postgres CDC
 
-#### Monthly cost breakdown [#cost-breakdown]
+#### Monthly cost breakdown 
 
 **Ingested Data (CDC)**:
 
@@ -94,7 +94,7 @@ Compute is shared across both pipes
 
 $$\$200 \text{ (ingest)} + \$146 \text{ (compute)} = \$346$$
 
-## FAQ for Postgres CDC ClickPipes [#faq-postgres-cdc-clickpipe]
+## FAQ for Postgres CDC ClickPipes 
 
 <AccordionGroup>
 <Accordion title="Is the ingested data measured in pricing based on compressed or uncompressed size?">

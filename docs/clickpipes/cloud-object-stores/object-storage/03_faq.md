@@ -10,7 +10,7 @@ integration:
   - category: 'clickpipes'
 ---
 
-## FAQ [#faq]
+## FAQ 
 
 <AccordionGroup>
 <Accordion title="Does ClickPipes support GCS buckets prefixed with `gs://`?">

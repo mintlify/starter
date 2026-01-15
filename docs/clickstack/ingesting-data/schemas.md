@@ -13,7 +13,7 @@ The ClickStack OpenTelemetry (OTel) collector uses the [ClickHouse exporter](htt
 
 The following tables are created for each data type in the `default` database. Users can change this target database by modifying the environment variable `HYPERDX_OTEL_EXPORTER_CLICKHOUSE_DATABASE` for the image hosting the OTel collector.
 
-## Logs [#logs]
+## Logs 
 
 ```sql
 CREATE TABLE otel_logs
@@ -49,7 +49,7 @@ PRIMARY KEY (ServiceName, TimestampTime)
 ORDER BY (ServiceName, TimestampTime, Timestamp)
 ```
 
-## Traces [#traces]
+## Traces 
 
 ```sql
 CREATE TABLE otel_traces
@@ -88,9 +88,9 @@ PARTITION BY toDate(Timestamp)
 ORDER BY (ServiceName, SpanName, toDateTime(Timestamp))
 ```
 
-## Metrics [#metrics]
+## Metrics 
 
-### Gauge metrics [#gauge]
+### Gauge metrics 
 
 ```sql
 CREATE TABLE otel_metrics_gauge
@@ -128,7 +128,7 @@ PARTITION BY toDate(TimeUnix)
 ORDER BY (ServiceName, MetricName, Attributes, toUnixTimestamp64Nano(TimeUnix))
 ```
 
-### Sum metrics [#sum]
+### Sum metrics 
 
 ```sql
 CREATE TABLE otel_metrics_sum
@@ -168,7 +168,7 @@ PARTITION BY toDate(TimeUnix)
 ORDER BY (ServiceName, MetricName, Attributes, toUnixTimestamp64Nano(TimeUnix))
 ```
 
-### Histogram metrics [#histogram]
+### Histogram metrics 
 
 ```sql
 CREATE TABLE otel_metrics_histogram
@@ -212,7 +212,7 @@ PARTITION BY toDate(TimeUnix)
 ORDER BY (ServiceName, MetricName, Attributes, toUnixTimestamp64Nano(TimeUnix))
 ```
 
-### Exponential histograms [#exponential-histograms]
+### Exponential histograms 
 
 <Note>
 HyperDX does not support fetching/displaying exponential histogram metrics yet. Users may configure them in the metrics source but future support is forthcoming.
@@ -265,7 +265,7 @@ PARTITION BY toDate(TimeUnix)
 ORDER BY (ServiceName, MetricName, Attributes, toUnixTimestamp64Nano(TimeUnix))
 ```
 
-### Summary table [#summary-table]
+### Summary table 
 
 ```sql
 CREATE TABLE otel_metrics_summary
@@ -301,7 +301,7 @@ PARTITION BY toDate(TimeUnix)
 ORDER BY (ServiceName, MetricName, Attributes, toUnixTimestamp64Nano(TimeUnix))
 ```
 
-## Sessions [#sessions]
+## Sessions 
 
 ```sql
 CREATE TABLE hyperdx_sessions

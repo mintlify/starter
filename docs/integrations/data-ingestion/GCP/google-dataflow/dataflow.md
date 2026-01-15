@@ -19,19 +19,19 @@ These are:
 - [Java runner](#1-java-runner)
 - [Predefined templates](#2-predefined-templates)
 
-## Java runner [#1-java-runner]
+## Java runner 
 The [Java runner](./java-runner) allows users to implement custom Dataflow pipelines using the Apache Beam SDK `ClickHouseIO` integration. This approach provides full flexibility and control over the pipeline logic, enabling users to tailor the ETL process to specific requirements.
 However, this option requires knowledge of Java programming and familiarity with the Apache Beam framework.
 
-### Key features [#key-features]
+### Key features 
 - High degree of customization.
 - Ideal for complex or advanced use cases.
 - Requires coding and understanding of the Beam API.
 
-## Predefined templates [#2-predefined-templates]
+## Predefined templates 
 ClickHouse offers [predefined templates](./templates) designed for specific use cases, such as importing data from BigQuery into ClickHouse. These templates are ready-to-use and simplify the integration process, making them an excellent choice for users who prefer a no-code solution.
 
-### Key features [#key-features-1]
+### Key features 
 - No Beam coding required.
 - Quick and easy setup for simple use cases.
 - Suitable also for users with minimal programming expertise.

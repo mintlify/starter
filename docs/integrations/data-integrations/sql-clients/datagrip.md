@@ -17,15 +17,15 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 <CommunityMaintainedBadge/>
 
-## Start or download DataGrip [#start-or-download-datagrip]
+## Start or download DataGrip 
 
 DataGrip is available at https://www.jetbrains.com/datagrip/
 
-## 1. Gather your connection details [#1-gather-your-connection-details]
+## 1. Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-## 2. Load the ClickHouse driver [#2-load-the-clickhouse-driver]
+## 2. Load the ClickHouse driver 
 
 1. Launch DataGrip, and on the **Data Sources** tab in the **Data Sources and Drivers** dialog, click the **+** icon
 
@@ -46,7 +46,7 @@ DataGrip is available at https://www.jetbrains.com/datagrip/
 
 <img src="/images/integrations/sql-clients/datagrip-1.png" alt="DataGrip Drivers tab showing ClickHouse driver installation"/>
 
-## 3. Connect to ClickHouse [#3-connect-to-clickhouse]
+## 3. Connect to ClickHouse 
 
 - Specify your database connection details, and click **Test Connection**:
 
@@ -60,6 +60,6 @@ DataGrip is available at https://www.jetbrains.com/datagrip/
 
 <img src="/images/integrations/sql-clients/datagrip-7.png" alt="DataGrip connection details form with ClickHouse settings"/>
 
-## Learn more [#learn-more]
+## Learn more 
 
 Find more information about DataGrip visit the DataGrip documentation.

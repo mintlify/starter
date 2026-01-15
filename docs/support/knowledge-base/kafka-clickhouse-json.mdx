@@ -7,12 +7,12 @@ tags: ['Data Formats', 'Data Ingestion']
 
 
 
-## Kafka and the JSON Data Type [#kafka-and-the-json-data-type]
+## Kafka and the JSON Data Type
 
 With the introduction of the new [`JSON`](/sql-reference/data-types/newjson) data type, ClickHouse is now a good choice of [database for doing JSON analytics](https://clickhouse.com/engineering-resources/json-database).
 In this guide, we're going to learn how to load JSON messages from Apache Kafka directly into a single `JSON` column in ClickHouse.
 
-## Setup Kafka [#setup-kafka]
+## Setup Kafka
 
 Let's start by running a Kafka broker on our machine. We're also going to map port 9092 to port 9092 on our host operating system so that it's easier to interact with Kafka:
 
@@ -20,7 +20,7 @@ Let's start by running a Kafka broker on our machine. We're also going to map po
 docker run --name broker -p 9092:9092 apache/kafka:3.8.1
 ```
 
-## Ingest data into Kafka [#ingest-data-into-kafka]
+## Ingest data into Kafka
 
 Once that's running, we need to ingest some data.
 The Wikimedia recent changes feed is a good source of streaming data, so let's ingest that into the `wiki_events` topic:
@@ -45,7 +45,7 @@ kcat -C -b localhost:9092  -t wiki_events
 
 So far, so good.
 
-## Ingest data into ClickHouse [#ingest-data-into-clickhouse]
+## Ingest data into ClickHouse
 
 Next, we're going to ingest the data into ClickHouse.
 First, let's enable the JSON type (which is currently experimental), by setting the following property:
@@ -92,7 +92,7 @@ SELECT json
 FROM wiki_queue;
 ```
 
-## Querying JSON data in ClickHouse [#querying-json-data-in-clickhouse]
+## Querying JSON data in ClickHouse
 
 We can then write queries against the `wiki` table.
 For example, we could count the number of bots that have committed changes:

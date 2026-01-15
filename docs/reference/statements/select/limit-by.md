@@ -21,7 +21,7 @@ During query processing, ClickHouse selects data ordered by sorting key. The sor
 
 If you want to use column numbers instead of column names in the `LIMIT BY` clause, enable the setting [enable_positional_arguments](/operations/settings/settings#enable_positional_arguments).    
 
-## Examples [#examples]
+## Examples 
 
 Sample table:
 
@@ -74,7 +74,7 @@ LIMIT 5 BY domain, device_type
 LIMIT 100
 ```
 
-## LIMIT BY ALL [#limit-by-all]
+## LIMIT BY ALL 
 
 `LIMIT BY ALL` is equivalent to listing all the SELECT-ed expressions that are not aggregate functions.
 
@@ -104,7 +104,7 @@ is the same as
 SELECT substring(a, 4, 2), substring(substring(a, 1, 2), 1, count(b)) FROM t LIMIT 2 BY substring(a, 4, 2), substring(a, 1, 2)
 ```
 
-## Examples [#examples-limit-by-all]
+## Examples 
 
 Sample table:
 

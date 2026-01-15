@@ -17,9 +17,9 @@ The table engine (type of table) determines:
 - Whether multithread request execution is possible.
 - Data replication parameters.
 
-## Engine families [#engine-families]
+## Engine families 
 
-### MergeTree [#mergetree]
+### MergeTree 
 
 The most universal and functional table engines for high-load tasks. The property shared by these engines is quick data insertion with subsequent background data processing. `MergeTree` family engines support data replication (with [Replicated\*](/engines/table-engines/mergetree-family/replication) versions of engines), partitioning, secondary data-skipping indexes, and other features not supported in other engines.
 
@@ -36,7 +36,7 @@ Engines in the family:
 | [GraphiteMergeTree](/engines/table-engines/mergetree-family/graphitemergetree)                                  |
 | [CoalescingMergeTree](/engines/table-engines/mergetree-family/coalescingmergetree)                                     |
 
-### Log [#log]
+### Log 
 
 Lightweight [engines](../../engines/table-engines/log-family/index.md) with minimum functionality. They're the most effective when you need to quickly write many small tables (up to approximately 1 million rows) and read them later as a whole.
 
@@ -48,7 +48,7 @@ Engines in the family:
 | [StripeLog](/engines/table-engines/log-family/stripelog) |
 | [Log](/engines/table-engines/log-family/log)                   |
 
-### Integration engines [#integration-engines]
+### Integration engines 
 
 Engines for communicating with other data storage and processing systems.
 
@@ -70,7 +70,7 @@ Engines in the family:
 | [S3Queue](../../engines/table-engines/integrations/s3queue.md)                  |
 | [TimeSeries](../../engines/table-engines/integrations/time-series.md)           |
 
-### Special engines [#special-engines]
+### Special engines 
 
 Engines in the family:
 
@@ -93,7 +93,7 @@ Engines in the family:
 | [KeeperMap](/engines/table-engines/special/keeper-map)        |
 | [FileLog](/engines/table-engines/special/filelog)                                                   |
 
-## Virtual columns [#table_engines-virtual_columns]
+## Virtual columns 
 
 A virtual column is an integral table engine attribute that is defined in the engine source code.
 

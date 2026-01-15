@@ -8,7 +8,7 @@ keywords: ['PIVOT', 'Aggregate Function Combinators']
 
 
 
-## Introduction [#introduction]
+## Introduction
 
 ClickHouse has no pivot operator, but we can achieve similar behavior using [aggregate function combinators](/sql-reference/aggregate-functions/combinators) and, in particular, the ones with the [`-Map` suffix](/sql-reference/aggregate-functions/combinators#-map).
 
@@ -17,7 +17,7 @@ There is also a video covering the same material, which you can see below:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/nlRMOmwYtF4?si=0TZSNg-uo7zjiO52" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## Understanding aggregate function combinators [#understanding-aggregate-function-combinators]
+## Understanding aggregate function combinators
 
 Let's start with a simple example. We're going to use [clickhouse-local](/operations/utilities/clickhouse-local), which you can launch by running the following:
 
@@ -99,7 +99,7 @@ FROM values;
 
 Hopefully that's given you an idea of how these function combinators work.
 
-## Real-World Application: UK housing prices dataset [#real-world-application-uk-housing-prices-dataset]
+## Real-World Application: UK housing prices dataset
 
 Now we're going to use them on a bigger dataset in the [ClickHouse SQL playground](https://clickhouse.com/blog/announcing-the-new-sql-playground).
 
@@ -140,7 +140,7 @@ category:  0
 
 We can see above that the table contains various fields related to property sales in the UK.
 
-### Grouping and aggregating by decade [#grouping-and-aggregating-by-decade]
+### Grouping and aggregating by decade
 
 Let's work out the median prices grouped by county for each decade in the dataset:
 
@@ -170,7 +170,7 @@ LIMIT 10;
     └────────────────────┴────────────────────────────────────────────────────┘
 ```
 
-### Filtering results [#filtering-results]
+### Filtering results
 
 We can filter the results to only include data from 2010 and on:
 
@@ -201,7 +201,7 @@ LIMIT 10;
     └────────────────────┴─────────────────────────────┘
 ```
 
-## Combining multiple aggregations [#combining-multiple-aggregations]
+## Combining multiple aggregations
 
 And if we want to find the maximum price per decade we can do that using the `maxMap` function that we saw earlier:
 
@@ -233,7 +233,7 @@ LIMIT 10;
     └────────────────────┴───────────────────────────┴─────────────────────────────────┘
 ```
 
-## Applying functions to map values [#applying-functions-to-map-values]
+## Applying functions to map values
 
 Alternatively, we can compute the average price using `avgMap`.
 Those values have a lot of decimal points, which we can clean up by using the [`mapApply`](/sql-reference/functions/tuple-map-functions#mapapply) function to call the [`floor`](/sql-reference/functions/rounding-functions#floor) function on each value in the map:
@@ -266,7 +266,7 @@ LIMIT 10;
     └────────────────────┴───────────────────────────┴───────────────────────────┘
 ```
 
-## Flexible grouping: counties, districts, and postcodes [#flexible-grouping-counties-districts-and-postcodes]
+## Flexible grouping: counties, districts, and postcodes
 
 Let's try to group by some different fields.
 This time we're going to compute the median price per decade grouped by county and district:

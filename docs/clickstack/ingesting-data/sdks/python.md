@@ -19,9 +19,9 @@ This guide integrates:
 - **Metrics**
 - **Traces**
 
-## Getting started [#getting-started]
+## Getting started 
 
-### Install ClickStack OpenTelemetry instrumentation package [#install-clickstack-otel-instrumentation-package]
+### Install ClickStack OpenTelemetry instrumentation package 
 
 Use the following command to install the [ClickStack OpenTelemetry package](https://pypi.org/project/hyperdx-opentelemetry/).
 
@@ -36,7 +36,7 @@ Install the OpenTelemetry automatic instrumentation libraries for the packages u
 opentelemetry-bootstrap -a install
 ```
 
-### Configure environment variables [#configure-environment-variables]
+### Configure environment variables 
 
 Afterwards you'll need to configure the following environment variables in your shell to ship telemetry to ClickStack:
 
@@ -48,7 +48,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 
 _The `OTEL_SERVICE_NAME` environment variable is used to identify your service in the HyperDX app, it can be any name you want._
 
-### Run the application with OpenTelemetry Python agent [#run-the-application-with-otel-python-agent]
+### Run the application with OpenTelemetry Python agent 
 
 Now you can run the application with the OpenTelemetry Python agent (`opentelemetry-instrument`).
 
@@ -56,7 +56,7 @@ Now you can run the application with the OpenTelemetry Python agent (`openteleme
 opentelemetry-instrument python app.py
 ```
 
-#### If you are using `Gunicorn`, `uWSGI` or `uvicorn` [#using-uvicorn-gunicorn-uwsgi]
+#### If you are using `Gunicorn`, `uWSGI` or `uvicorn` 
 
 In this case, the OpenTelemetry Python agent will require additional changes to work. 
 
@@ -95,9 +95,9 @@ flag or with multi-workers (`--workers`). We recommend disabling those flags whi
 
 </Tabs>
 
-## Advanced configuration [#advanced-configuration]
+## Advanced configuration 
 
-#### Network capture [#network-capture]
+#### Network capture 
 
 By enabling network capture features, developers gain the capability to debug
 HTTP request headers and body payloads effectively. This can be accomplished
@@ -107,9 +107,9 @@ simply by setting `HYPERDX_ENABLE_ADVANCED_NETWORK_CAPTURE` flag to 1.
 export HYPERDX_ENABLE_ADVANCED_NETWORK_CAPTURE=1
 ```
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### Logs not appearing due to log level [#logs-not-appearing-due-to-log-level]
+### Logs not appearing due to log level 
 
 By default, OpenTelemetry logging handler uses `logging.NOTSET` level which
 defaults to WARNING level. You can specify the logging level when you create a
@@ -122,7 +122,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 ```
 
-### Exporting to the console [#exporting-to-the-console]
+### Exporting to the console 
 
 The OpenTelemetry Python SDK usually displays errors in the console when they
 occur. However, if you don't encounter any errors but notice that your data is

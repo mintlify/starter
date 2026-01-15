@@ -6,7 +6,7 @@ slug: /integrations/data-ingestion/kafka/kafka-table-engine-named-collections
 doc_type: 'guide'
 ---
 
-## Introduction [#introduction]
+## Introduction 
 
 In this guide, we will explore how to connect ClickHouse to Kafka using named collections. Using the configuration file for named collections offers several advantages:
 - Centralized and easier management of configuration settings.
@@ -15,14 +15,14 @@ In this guide, we will explore how to connect ClickHouse to Kafka using named co
 
 This guide has been tested on Apache Kafka 3.4.1 and ClickHouse 24.5.1.
 
-## Assumptions [#assumptions]
+## Assumptions 
 
 This document assumes you have:
 1. A working Kafka cluster.
 2. A ClickHouse cluster set up and running.
 3. Basic knowledge of SQL and familiarity with ClickHouse and Kafka configurations.
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 Ensure the user creating the named collection has the necessary access permissions:
 
@@ -35,7 +35,7 @@ Ensure the user creating the named collection has the necessary access permissio
 
 Refer to the [User Management Guide](./../../../guides/sre/user-management/index.md) for more details on enabling access control.
 
-## Configuration [#configuration]
+## Configuration 
 
 Add the following section to your ClickHouse `config.xml` file:
 
@@ -88,24 +88,24 @@ Add the following section to your ClickHouse `config.xml` file:
 </named_collections>
 ```
 
-### Configuration notes [#configuration-notes]
+### Configuration notes 
 
 1. Adjust Kafka addresses and related configurations to match your Kafka cluster setup.
 2. The section before `<kafka>` contains ClickHouse Kafka engine parameters. For a full list of parameters, refer to the [Kafka engine parameters ](/engines/table-engines/integrations/kafka).
 3. The section within `<kafka>` contains extended Kafka configuration options. For more options, refer to the [librdkafka configuration](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 4. This example uses the `SASL_SSL` security protocol and `PLAIN` mechanism. Adjust these settings based on your Kafka cluster configuration.
 
-## Creating tables and databases [#creating-tables-and-databases]
+## Creating tables and databases 
 
 Create the necessary databases and tables on your ClickHouse cluster. If you run ClickHouse as a single node, omit the cluster part of the SQL command and use any other engine instead of `ReplicatedMergeTree`.
 
-### Create the database [#create-the-database]
+### Create the database 
 
 ```sql
 CREATE DATABASE kafka_testing ON CLUSTER LAB_CLICKHOUSE_CLUSTER;
 ```
 
-### Create Kafka tables [#create-kafka-tables]
+### Create Kafka tables 
 
 Create the first Kafka table for the first Kafka cluster:
 
@@ -131,7 +131,7 @@ CREATE TABLE kafka_testing.second_kafka_table ON CLUSTER STAGE_CLICKHOUSE_CLUSTE
 ENGINE = Kafka(cluster_2);
 ```
 
-### Create replicated tables [#create-replicated-tables]
+### Create replicated tables 
 
 Create a table for the first Kafka table:
 
@@ -157,7 +157,7 @@ CREATE TABLE kafka_testing.second_replicated_table ON CLUSTER STAGE_CLICKHOUSE_C
 ORDER BY id;
 ```
 
-### Create materialized views [#create-materialized-views]
+### Create materialized views 
 
 Create a materialized view to insert data from the first Kafka table into the first replicated table:
 
@@ -181,7 +181,7 @@ SELECT
 FROM second_kafka_table;
 ```
 
-## Verifying the setup [#verifying-the-setup]
+## Verifying the setup 
 
 You should now see the relative consumer groups on your Kafka clusters:
 - `cluster_1_clickhouse_consumer` on `cluster_1`
@@ -197,7 +197,7 @@ SELECT * FROM first_replicated_table LIMIT 10;
 SELECT * FROM second_replicated_table LIMIT 10;
 ```
 
-### Note [#note]
+### Note 
 
 In this guide, the data ingested in both Kafka topics is the same. In your case, they would differ. You can add as many Kafka clusters as you want.
 

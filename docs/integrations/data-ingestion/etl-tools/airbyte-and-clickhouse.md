@@ -26,7 +26,7 @@ Please note that the Airbyte source and destination for ClickHouse are currently
 
 <Step>
 
-## Download and run Airbyte [#1-download-and-run-airbyte]
+## Download and run Airbyte 
 
 1. Airbyte runs on Docker and uses `docker-compose`. Make sure to download and install the latest versions of Docker.
 
@@ -50,7 +50,7 @@ Please note that the Airbyte source and destination for ClickHouse are currently
 
 <Step>
 
-## Add ClickHouse as a destination [#2-add-clickhouse-as-a-destination]
+## Add ClickHouse as a destination 
 
 In this section, we will display how to add a ClickHouse instance as a destination.
 
@@ -84,7 +84,7 @@ GRANT CREATE ON * TO my_airbyte_user;
 
 <Step>
 
-## Add a dataset as a source [#3-add-a-dataset-as-a-source]
+## Add a dataset as a source 
 
 The example dataset we will use is the <a href="https://clickhouse.com/docs/getting-started/example-datasets/nyc-taxi/" target="_blank">New York City Taxi Data</a> (on <a href="https://github.com/toddwschneider/nyc-taxi-data" target="_blank">Github</a>). For this tutorial, we will use a subset of this dataset which corresponds to the month of Jan 2022.
 
@@ -106,7 +106,7 @@ The example dataset we will use is the <a href="https://clickhouse.com/docs/gett
 
 <Step>
 
-## Create a connection and load the dataset into ClickHouse [#4-create-a-connection-and-load-the-dataset-into-clickhouse]
+## Create a connection and load the dataset into ClickHouse 
 
 1. Within Airbyte, select the "Connections" page and add a new connection
 

@@ -14,13 +14,13 @@ import {CloudNotSupportedBadge} from '/snippets/components/CloudNotSupportedBadg
 
 Provides a table-like interface to select/insert files in [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs). This table function is similar to the [s3 function](../../sql-reference/table-functions/s3.md).
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 azureBlobStorage(- connection_string|storage_account_url, container_name, blobpath, [account_name, account_key, format, compression, structure, partition_strategy, partition_columns_in_data_file, extra_credentials(client_id=, tenant_id=)])
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |---------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -36,11 +36,11 @@ azureBlobStorage(- connection_string|storage_account_url, container_name, blobpa
 | `partition_columns_in_data_file`            | Parameter is optional. Only used with `HIVE` partition strategy. Tells ClickHouse whether to expect partition columns to be written in the data file. Defaults `false`.                                                                                                                                                                                                                                                                                                                    |
 | `extra_credentials`                         | Use `client_id` and `tenant_id` for authentication. If extra_credentials are provided, they are given priority over `account_name` and `account_key`.
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table with the specified structure for reading or writing data in the specified file.
 
-## Examples [#examples]
+## Examples 
 
 Similar to the [AzureBlobStorage](/engines/table-engines/integrations/azureBlobStorage) table engine, users can use Azurite emulator for local Azure Storage development. Further details [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub%2Cblob-storage). Below we assume Azurite is available at the hostname `azurite1`.
 
@@ -79,16 +79,16 @@ SELECT count(*) FROM azureBlobStorage('DefaultEndpointsProtocol=https;AccountNam
 └─────────┘
 ```
 
-## Virtual Columns [#virtual-columns]
+## Virtual Columns 
 
 - `_path` — Path to the file. Type: `LowCardinality(String)`.
 - `_file` — Name of the file. Type: `LowCardinality(String)`.
 - `_size` — Size of the file in bytes. Type: `Nullable(UInt64)`. If the file size is unknown, the value is `NULL`.
 - `_time` — Last modified time of the file. Type: `Nullable(DateTime)`. If the time is unknown, the value is `NULL`.
 
-## Partitioned Write [#partitioned-write]
+## Partitioned Write 
 
-### Partition Strategy [#partition-strategy]
+### Partition Strategy 
 
 Supported for INSERT queries only.
 
@@ -111,7 +111,7 @@ select _path, * from azureBlobStorage(azure_conf2, storage_account_url = 'http:/
    └─────────────────────────────────────────────────────────────────────────────────┴────┴──────┴─────────┘
 ```
 
-## use_hive_partitioning setting [#hive-style-partitioning]
+## use_hive_partitioning setting 
 
 This is a hint for ClickHouse to parse hive style partitioned files upon reading time. It has no effect on writing. For symmetrical reads and writes, use the `partition_strategy` argument.
 
@@ -125,7 +125,7 @@ Use virtual column, created with Hive-style partitioning
 SELECT * FROM azureBlobStorage(config, storage_account_url='...', container='...', blob_path='http://data/path/date=*/country=*/code=*/*.parquet') WHERE _date > '2020-01-01' AND _country = 'Netherlands' AND _code = 42;
 ```
 
-## Using Shared Access Signatures (SAS) [#using-shared-access-signatures-sas-sas-tokens]
+## Using Shared Access Signatures (SAS) 
 
 A Shared Access Signature (SAS) is a URI that grants restricted access to an Azure Storage container or file. Use it to provide time-limited access to storage account resources without sharing your storage account key. More details [here](https://learn.microsoft.com/en-us/rest/api/storageservices/delegate-access-with-shared-access-signature).
 
@@ -157,5 +157,5 @@ FROM azureBlobStorage('https://clickhousedocstest.blob.core.windows.net/?sp=r&st
 1 row in set. Elapsed: 0.153 sec.
 ```
 
-## Related [#related]
+## Related 
 - [AzureBlobStorage Table Engine](engines/table-engines/integrations/azureBlobStorage.md)

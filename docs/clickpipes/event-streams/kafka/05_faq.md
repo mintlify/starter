@@ -8,9 +8,9 @@ doc_type: 'guide'
 keywords: ['kafka faq', 'clickpipes', 'upstash', 'azure event hubs', 'private link']
 ---
 
-## Kafka ClickPipes FAQ [#faq]
+## Kafka ClickPipes FAQ 
 
-### General [#general]
+### General 
 
 <AccordionGroup>
 <Accordion title="How does ClickPipes for Kafka work?">
@@ -39,7 +39,7 @@ Horizontal scaling adds more replicas to increase throughput, while vertical sca
 This can be configured during ClickPipe creation, or at any other point under **Settings** -> **Advanced Settings** -> **Scaling**.
 </Accordion>
 </AccordionGroup>
-### Azure Event Hubs [#azure-eventhubs]
+### Azure Event Hubs 
 
 <AccordionGroup>
 <Accordion title="Does the Azure Event Hubs ClickPipe work without the Kafka surface?">

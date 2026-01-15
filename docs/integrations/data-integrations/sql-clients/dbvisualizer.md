@@ -16,21 +16,21 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 <CommunityMaintainedBadge/>
 
-## Start or download DbVisualizer [#start-or-download-dbvisualizer]
+## Start or download DbVisualizer 
 
 DbVisualizer is available at https://www.dbvis.com/download/
 
-## 1. Gather your connection details [#1-gather-your-connection-details]
+## 1. Gather your connection details 
 
 <GatherYourDetailsHttp />
 
-## 2. Built-in JDBC driver management [#2-built-in-jdbc-driver-management]
+## 2. Built-in JDBC driver management 
 
 DbVisualizer has the most up-to-date JDBC drivers for ClickHouse included. It has full JDBC driver management built right in that points to the latest releases as well as historical versions for the drivers.
 
 <img src="/images/integrations/sql-clients/dbvisualizer-driver-manager.png" alt="DbVisualizer driver manager interface showing ClickHouse JDBC driver configuration"/>
 
-## 3. Connect to ClickHouse [#3-connect-to-clickhouse]
+## 3. Connect to ClickHouse 
 
 To connect a database with DbVisualizer, you must first create and setup a Database Connection.
 
@@ -50,7 +50,7 @@ To connect a database with DbVisualizer, you must first create and setup a Datab
 
 8. If the result from Ping Server shows that the server can be reached, click **Connect** to connect to the database server.
 
-## Learn more [#learn-more]
+## Learn more 
 
 See [Fixing Connection Issues](https://www.dbvis.com/docs/ug/troubleshooting/fixing-connection-issues/) for some tips if you have problems connecting to the database.
 

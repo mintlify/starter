@@ -20,7 +20,7 @@ If you're on ClickHouse Cloud, we recommend using [ClickPipes](/integrations/cli
 - Organize fault-tolerant storage.
 - Process streams as they become available.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -130,7 +130,7 @@ Kafka(kafka_broker_list, kafka_topic_list, kafka_group_name, kafka_format
 The Kafka table engine doesn't support columns with [default value](/sql-reference/statements/create/table#default_values). If you need columns with default value, you can add them at materialized view level (see below).
 </Note>
 
-## Description [#description]
+## Description 
 
 The delivered messages are tracked automatically, so each message in a group is only counted once. If you want to get the data twice, then create a copy of the table with another group name.
 
@@ -179,7 +179,7 @@ To stop receiving topic data or to change the conversion logic, detach the mater
 
 If you want to change the target table by using `ALTER`, we recommend disabling the material view to avoid discrepancies between the target table and the data from the view.
 
-## Configuration [#configuration]
+## Configuration 
 
 Similar to GraphiteMergeTree, the Kafka engine supports extended configuration using the ClickHouse config file. There are two configuration keys that you can use: global (below `<kafka>`) and topic-level (below `<kafka><kafka_topic>`). The global configuration is applied first, and then the topic-level configuration is applied (if it exists).
 
@@ -225,7 +225,7 @@ Similar to GraphiteMergeTree, the Kafka engine supports extended configuration u
 
 For a list of possible configuration options, see the [librdkafka configuration reference](https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md). Use the underscore (`_`) instead of a dot in the ClickHouse configuration. For example, `check.crcs=true` will be `<check_crcs>true</check_crcs>`.
 
-### Kerberos support [#kafka-kerberos-support]
+### Kerberos support 
 
 To deal with Kerberos-aware Kafka, add `security_protocol` child element with `sasl_plaintext` value. It is enough if Kerberos ticket-granting ticket is obtained and cached by OS facilities.
 ClickHouse is able to maintain Kerberos credentials using a keytab file. Consider `sasl_kerberos_service_name`, `sasl_kerberos_keytab` and `sasl_kerberos_principal` child elements.
@@ -241,7 +241,7 @@ Example:
 </kafka>
 ```
 
-## Virtual columns [#virtual-columns]
+## Virtual columns 
 
 - `_topic` — Kafka topic. Data type: `LowCardinality(String)`.
 - `_key` — Key of the message. Data type: `String`.
@@ -259,7 +259,7 @@ Additional virtual columns when `kafka_handle_error_mode='stream'`:
 
 Note: `_raw_message` and `_error` virtual columns are filled only in case of exception during parsing, they are always empty when message was parsed successfully.
 
-## Data formats support [#data-formats-support]
+## Data formats support 
 
 Kafka engine supports all [formats](../../../interfaces/formats.md) supported in ClickHouse.
 The number of rows in one Kafka message depends on whether the format is row-based or block-based:
@@ -267,7 +267,7 @@ The number of rows in one Kafka message depends on whether the format is row-bas
 - For row-based formats the number of rows in one Kafka message can be controlled by setting `kafka_max_rows_per_message`.
 - For block-based formats we cannot divide block into smaller parts, but the number of rows in one block can be controlled by general setting [max_block_size](/operations/settings/settings#max_block_size).
 
-## Engine to store committed offsets in ClickHouse Keeper [#engine-to-store-committed-offsets-in-clickhouse-keeper]
+## Engine to store committed offsets in ClickHouse Keeper 
 
 <ExperimentalBadge/>
 
@@ -288,7 +288,7 @@ SETTINGS
 SETTINGS allow_experimental_kafka_offsets_storage_in_keeper=1;
 ```
 
-### Known limitations [#known-limitations]
+### Known limitations 
 
 As the new engine is experimental, it is not production ready yet. There are few known limitations of the implementation:
 - The biggest limitation is the engine doesn't support direct reading. Reading from the engine using materialized views and writing to the engine work, but direct reading doesn't. As a result, all direct `SELECT` queries will fail.

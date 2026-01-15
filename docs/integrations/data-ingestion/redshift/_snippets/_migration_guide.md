@@ -1,4 +1,4 @@
-## Introduction [#introduction]
+## Introduction 
 
 [Amazon Redshift](https://aws.amazon.com/redshift/) is a popular cloud data warehousing solution that is part of the Amazon Web Services offerings. This guide presents different approaches to migrating data from a Redshift instance to ClickHouse. We will cover three options:
 
@@ -16,35 +16,35 @@ From the ClickHouse instance standpoint, you can either:
 We used Redshift as a data source in this tutorial. However, the migration approaches presented here are not exclusive to Redshift, and similar steps can be derived for any compatible data source.
 </Note>
 
-## Push Data from Redshift to ClickHouse [#push-data-from-redshift-to-clickhouse]
+## Push Data from Redshift to ClickHouse 
 
 In the push scenario, the idea is to leverage a third-party tool or service (either custom code or an [ETL/ELT](https://en.wikipedia.org/wiki/Extract,_transform,_load#ETL_vs._ELT)) to send your data to your ClickHouse instance. For example, you can use a software like [Airbyte](https://www.airbyte.com/) to move data between your Redshift instance (as a source) and ClickHouse as a destination ([see our integration guide for Airbyte](/integrations/data-ingestion/etl-tools/airbyte-and-clickhouse.md))
 
 <img src="/images/integrations/data-ingestion/redshift/push.png" alt="PUSH Redshift to ClickHouse"/>
 
-### Pros [#pros]
+### Pros 
 
 * It can leverage the existing catalog of connectors from the ETL/ELT software.
 * Built-in capabilities to keep data in sync (append/overwrite/increment logic).
 * Enable data transformation scenarios (for example, see our [integration guide for dbt](/integrations/data-ingestion/etl-tools/dbt/index.md)).
 
-### Cons [#cons]
+### Cons 
 
 * Users need to set up and maintain an ETL/ELT infrastructure.
 * Introduces a third-party element in the architecture which can turn into a potential scalability bottleneck.
 
-## Pull Data from Redshift to ClickHouse [#pull-data-from-redshift-to-clickhouse]
+## Pull Data from Redshift to ClickHouse 
 
 In the pull scenario, the idea is to leverage the ClickHouse JDBC Bridge to connect to a Redshift cluster directly from a ClickHouse instance and perform `INSERT INTO ... SELECT` queries:
 
 <img src="/images/integrations/data-ingestion/redshift/pull.png" alt="PULL from Redshift to ClickHouse"/>
 
-### Pros [#pros-1]
+### Pros 
 
 * Generic to all JDBC compatible tools
 * Elegant solution to allow querying multiple external data sources from within ClickHouse
 
-### Cons [#cons-1]
+### Cons 
 
 * Requires a ClickHouse JDBC Bridge instance which can turn into a potential scalability bottleneck
 
@@ -52,14 +52,14 @@ In the pull scenario, the idea is to leverage the ClickHouse JDBC Bridge to conn
 Even though Redshift is based on PostgreSQL, using the ClickHouse PostgreSQL table function or table engine is not possible since ClickHouse requires PostgreSQL version 9 or above and the Redshift API is based on an earlier version (8.x).
 </Note>
 
-### Tutorial [#tutorial]
+### Tutorial 
 
 To use this option, you need to set up a ClickHouse JDBC Bridge. ClickHouse JDBC Bridge is a standalone Java application that handles JDBC connectivity and acts as a proxy between the ClickHouse instance and the data sources. For this tutorial, we used a pre-populated Redshift instance with a [sample database](https://docs.aws.amazon.com/redshift/latest/dg/c_sampledb.html).
 
 <Steps>
 
 <Step>
-#### Deploy ClickHouse JDBC Bridge [#deploy-clickhouse-jdbc-bridge]
+#### Deploy ClickHouse JDBC Bridge 
 
 Deploy the ClickHouse JDBC Bridge. For more details, see our user guide on [JDBC for External Data sources](/integrations/data-ingestion/dbms/jdbc-with-clickhouse.md)
 
@@ -67,7 +67,7 @@ Deploy the ClickHouse JDBC Bridge. For more details, see our user guide on [JDBC
 If you are using ClickHouse Cloud, you will need to run your ClickHouse JDBC Bridge on a separate environment and connect to ClickHouse Cloud using the [remoteSecure](/sql-reference/table-functions/remote/) function
 </Note>
 
-#### Configure your Redshift datasource [#configure-your-redshift-datasource]
+#### Configure your Redshift datasource 
 
 Configure your Redshift datasource for ClickHouse JDBC Bridge. For example, `/etc/clickhouse-jdbc-bridge/config/datasources/redshift.json `
 
@@ -92,7 +92,7 @@ Configure your Redshift datasource for ClickHouse JDBC Bridge. For example, `/et
 </Step>
 
 <Step>
-#### Query your Redshift instance from ClickHouse [#query-your-redshift-instance-from-clickhouse]
+#### Query your Redshift instance from ClickHouse 
 
 Once ClickHouse JDBC Bridge deployed and running, you can start querying your Redshift instance from ClickHouse
 
@@ -133,7 +133,7 @@ Query id: 2d0f957c-8f4e-43b2-a66a-cc48cc96237b
 </Step>
 
 <Step>
-#### Import Data from Redshift to ClickHouse [#import-data-from-redshift-to-clickhouse]
+#### Import Data from Redshift to ClickHouse 
 
 In the following, we display importing data using an `INSERT INTO ... SELECT` statement
 
@@ -173,29 +173,29 @@ Ok.
 
 </Steps>
 
-## Pivot Data from Redshift to ClickHouse using S3 [#pivot-data-from-redshift-to-clickhouse-using-s3]
+## Pivot Data from Redshift to ClickHouse using S3 
 
 In this scenario, we export data to S3 in an intermediary pivot format and, in a second step, load the data from S3 into ClickHouse.
 
 <img src="/images/integrations/data-ingestion/redshift/pivot.png" alt="PIVOT from Redshift using S3"/>
 
-### Pros [#pros-2]
+### Pros 
 
 * Both Redshift and ClickHouse have powerful S3 integration features.
 * Leverages the existing features such as the Redshift `UNLOAD` command and ClickHouse S3 table function / table engine.
 * Scales seamlessly thanks to parallel reads and high throughput capabilities from/to S3 in ClickHouse.
 * Can leverage sophisticated and compressed formats like Apache Parquet.
 
-### Cons [#cons-2]
+### Cons 
 
 * Two steps in the process (unload from Redshift then load into ClickHouse).
 
-### Tutorial [#tutorial-1]
+### Tutorial 
 
 <Steps>
 
 <Step>
-#### Export data into an S3 bucket using UNLOAD [#export-data-into-an-s3-bucket-using-unload]
+#### Export data into an S3 bucket using UNLOAD 
 
 Using Redshift's [UNLOAD](https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html) feature, export the data into an existing private S3 bucket:
 
@@ -208,7 +208,7 @@ It will generate part files containing the raw data in S3
 </Step>
 
 <Step>
-#### Create the table in ClickHouse [#create-the-table-in-clickhouse]
+#### Create the table in ClickHouse 
 
 Create the table in ClickHouse:
 
@@ -237,7 +237,7 @@ This works especially well when the data is in a format that contains informatio
 </Step>
 
 <Step>
-#### Load S3 files into ClickHouse [#load-s3-files-into-clickhouse]
+#### Load S3 files into ClickHouse 
 
 Load the S3 files into ClickHouse using an `INSERT INTO ... SELECT` statement:
 

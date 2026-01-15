@@ -28,7 +28,7 @@ SELECT * FROM sometable FORMAT JSONCompactEachRow
 ["Ahmadabad-e_Kalij-e_Sofla", "2017-01-01", 3]
 ```
 
-## Overriding data types as strings [#overriding-data-types-as-strings]
+## Overriding data types as strings 
 
 ClickHouse respects data types and will export JSON accordingly to standards. But in cases where we need to have all values encoded as strings, we can use the [JSONStringsEachRow](/interfaces/formats/JSONStringsEachRow) format:
 
@@ -52,7 +52,7 @@ SELECT * FROM sometable FORMAT JSONCompactStringsEachRow
 ["Ahmadabad-e_Kalij-e_Sofla", "2017-01-01", "3"]
 ```
 
-## Exporting metadata together with data [#exporting-metadata-together-with-data]
+## Exporting metadata together with data 
 
 General [JSON](/interfaces/formats/JSON) format, which is popular in apps, will export not only resulting data but column types and query stats:
 
@@ -127,7 +127,7 @@ SELECT * FROM sometable FORMAT JSONCompact
 
 Consider [`JSONStrings`](/interfaces/formats/JSONStrings) or [`JSONCompactStrings`](/interfaces/formats/JSONCompactStrings) variants to encode all values as strings.
 
-## Compact way to export JSON data and structure [#compact-way-to-export-json-data-and-structure]
+## Compact way to export JSON data and structure 
 
 A more efficient way to have data, as well as it's structure, is to use [`JSONCompactEachRowWithNamesAndTypes`](/interfaces/formats/JSONCompactEachRowWithNamesAndTypes) format:
 
@@ -144,7 +144,7 @@ SELECT * FROM sometable FORMAT JSONCompactEachRowWithNamesAndTypes
 
 This will use a compact JSON format prepended by two header rows with column names and types. This format can then be used to ingest data into another ClickHouse instance (or other apps).
 
-## Exporting JSON to a file [#exporting-json-to-a-file]
+## Exporting JSON to a file 
 
 To save exported JSON data to a file, we can use an [INTO OUTFILE](/sql-reference/statements/select/into-outfile.md) clause:
 

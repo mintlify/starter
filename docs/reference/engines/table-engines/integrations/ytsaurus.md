@@ -16,7 +16,7 @@ import {ExperimentalBadge} from '/snippets/components/ExperimentalBadge/Experime
 
 The YTsaurus table engine allows you to import data from a YTsaurus cluster.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
     CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -42,7 +42,7 @@ You can do so using:
 - `cypress_path` — Cypress path to the data source.
 - `oauth_token` — OAuth token.
 
-## Usage example [#usage-example]
+## Usage example 
 
 Shows a query creating the YTsaurus table:
 
@@ -71,9 +71,9 @@ SELECT * FROM yt_saurus;
  └────┴────┘
 ```
 
-## Data types [#data-types]
+## Data types 
 
-### Primitive data types [#primitive-data-types]
+### Primitive data types 
 
 | YTsaurus data type | Clickhouse data type    |
 | ------------------ | ----------------------- |
@@ -106,7 +106,7 @@ SELECT * FROM yt_saurus;
 | `void`             | `Nothing`               |
 | `T` with `required = False`| `Nullable(T)`   |
 
-### Composite types [#composite-data-types]
+### Composite types 
 
 | YTsaurus data type | Clickhouse data type |
 | ------------------ | -------------------- |

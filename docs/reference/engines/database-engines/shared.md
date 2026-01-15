@@ -17,13 +17,13 @@ These table engines do not write persistent state to disk and are compatible wit
 The `Shared` database engine in Cloud removes the dependency for local disks.
 It is a purely in-memory engine, requiring only CPU and memory.
 
-## How does it work? [#how-it-works]
+## How does it work? 
 
 The `Shared` database engine stores all database and table definitions in a central Shared Catalog backed by Keeper. Instead of writing to local disk, it maintains a single versioned global state shared across all compute nodes.
 
 Each node tracks only the last applied version and, on startup, fetches the latest state without the need for local files or manual setup.
 
-## Syntax [#syntax]
+## Syntax 
 
 For end users, using Shared Catalog and the Shared database engine requires no additional configuration. Database creation is the same as always:
 

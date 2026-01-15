@@ -8,7 +8,7 @@ keywords: ['Exporting Data', 'INTO OUTFILE', 'File Table Engine']
 
 
 
-## Using INTO OUTFILE Clause [#using-into-outfile-clause]
+## Using INTO OUTFILE Clause
 
 Add an [INTO OUTFILE](https://clickhouse.com/docs/sql-reference/statements/select/into-outfile) clause to your query.
 
@@ -45,7 +45,7 @@ INTO OUTFILE 'taxi_rides.txt'
 FORMAT CSV
 ```
 
-## Using the File table engine [#using-a-file-engine-table]
+## Using the File table engine
 
 Another option is to use the [File](https://clickhouse.com/docs/engines/table-engines/special/file) table engine, where ClickHouse uses the file to store the data. You can perform queries and inserts directly on the file.
 
@@ -75,7 +75,7 @@ The file is stored in the `data` folder of your ClickHouse server - specifically
 Using the `File` table engine is incredibly handy for creating and querying files on your file system, but keep in mind that `File` tables are not `MergeTree` tables, so you don't get all the benefits that come with `MergeTree`. Use `File` for convenience when exporting data out of ClickHouse in convenient formats.
 :::
 
-## Using Command-Line Redirection [#using-command-line-redirection]
+## Using Command-Line Redirection
 
 ``` bash
 $ clickhouse-client --query "SELECT * from table" --format FormatName > result.txt

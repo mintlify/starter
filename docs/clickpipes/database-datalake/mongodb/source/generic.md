@@ -13,7 +13,7 @@ If you use MongoDB Atlas, please refer to the specific guide [here](./atlas).
 
 </Note>
 
-## Enable oplog retention [#enable-oplog-retention]
+## Enable oplog retention 
 
 Minimum oplog retention of 24 hours is required for replication. We recommend setting the oplog retention to 72 hours or longer to ensure that the oplog is not truncated before the initial snapshot is completed.
 
@@ -34,7 +34,7 @@ db.adminCommand({
 
 For more details on the `replSetResizeOplog` command and oplog retention, see [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/command/replSetResizeOplog/).
 
-## Configure a database user [#configure-database-user]
+## Configure a database user 
 
 Connect to your MongoDB instance as an admin user and execute the following command to create a user for MongoDB CDC ClickPipes:
 
@@ -52,7 +52,7 @@ Make sure to replace `clickpipes_user` and `some_secure_password` with your desi
 
 </Note>
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your MongoDB instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your MongoDB instance as you will need them during the ClickPipe creation process.

@@ -7,10 +7,10 @@ keywords: ['ClickHouse Cloud', 'service uptime', 'SLA', 'cloud reliability', 'st
 doc_type: 'reference'
 ---
 
-## Uptime alerts [#uptime-alerts]
+## Uptime alerts 
 
 Users can now see regional uptimes on the [status page](https://status.clickhouse.com/) and subscribe to alerts on service disruptions.
 
-## SLA [#sla]
+## SLA 
 
 We also offer Service Level Agreements for select committed spend contracts. Please contact us at [sales@clickhouse.com](mailto:sales@clickhouse.com) to learn more about our SLA policy.

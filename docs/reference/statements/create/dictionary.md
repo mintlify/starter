@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 Creates a new [dictionary](../../../sql-reference/dictionaries/index.md) with given [structure](../../../sql-reference/dictionaries/index.md#dictionary-key-and-fields), [source](../../../sql-reference/dictionaries/index.md#dictionary-sources), [layout](/sql-reference/dictionaries#storing-dictionaries-in-memory) and [lifetime](/sql-reference/dictionaries#refreshing-dictionary-data-using-lifetime).
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 CREATE [OR REPLACE] DICTIONARY [IF NOT EXISTS] [db.]dictionary_name [ON CLUSTER cluster]
@@ -33,7 +33,7 @@ The dictionary structure consists of attributes. Dictionary attributes are speci
 
 Depending on dictionary [layout](/sql-reference/dictionaries#storing-dictionaries-in-memory) one or more attributes can be specified as dictionary keys.
 
-## SOURCE [#source]
+## SOURCE 
 
 The source for a dictionary can be a:
 - table in the current ClickHouse service
@@ -41,7 +41,7 @@ The source for a dictionary can be a:
 - file available by HTTP(S)
 - another database
 
-### Create a dictionary from a table in the current ClickHouse service [#create-a-dictionary-from-a-table-in-the-current-clickhouse-service]
+### Create a dictionary from a table in the current ClickHouse service 
 
 Input table `source_table`:
 
@@ -113,7 +113,7 @@ LAYOUT(FLAT())
 LIFETIME(MIN 0 MAX 1000);
 ```
 
-### Create a dictionary from a table in a remote ClickHouse service [#create-a-dictionary-from-a-table-in-a-remote-clickhouse-service]
+### Create a dictionary from a table in a remote ClickHouse service 
 
 Input table (in the remote ClickHouse service) `source_table`:
 
@@ -138,7 +138,7 @@ LAYOUT(FLAT())
 LIFETIME(MIN 0 MAX 1000)
 ```
 
-### Create a dictionary from a file available by HTTP(S) [#create-a-dictionary-from-a-file-available-by-https]
+### Create a dictionary from a file available by HTTP(S) 
 
 ```sql
 CREATE DICTIONARY default.taxi_zone_dictionary
@@ -154,7 +154,7 @@ LIFETIME(MIN 0 MAX 0)
 LAYOUT(HASHED())
 ```
 
-### Create a dictionary from another database [#create-a-dictionary-from-another-database]
+### Create a dictionary from another database 
 
 Please see the details in [Dictionary sources](/sql-reference/dictionaries#dbms).
 

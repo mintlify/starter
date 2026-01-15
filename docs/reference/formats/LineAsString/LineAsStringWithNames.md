@@ -11,11 +11,11 @@ doc_type: 'reference'
 
 <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 The `LineAsStringWithNames` format is similar to the [`LineAsString`](./LineAsString.md) format but prints the header row with column names.
 
-## Example usage [#example-usage]
+## Example usage 
 
 ```sql title="Query"
 CREATE TABLE example (
@@ -36,4 +36,4 @@ Jane    25
 Peter    35
 ```
 
-## Format settings [#format-settings]
+## Format settings 

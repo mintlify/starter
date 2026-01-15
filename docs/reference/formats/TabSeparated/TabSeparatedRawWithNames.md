@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge> <Badge intent="success">Output</Badge> <Badge intent="info">Alias: `TSVRawWithNames`, `RawWithNames`</Badge>
 
-## Description [#description]
+## Description 
 
 Differs from the [`TabSeparatedWithNames`](./TabSeparatedWithNames.md) format, 
 in that the rows are written without escaping.
@@ -20,9 +20,9 @@ in that the rows are written without escaping.
 When parsing with this format, tabs or line-feeds are not allowed in each field.
 </Note>
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using the following tsv file, named as `football.tsv`:
 
@@ -53,7 +53,7 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.tsv' FORMAT TabSeparatedRawWithNames;
 ```
 
-### Reading data [#reading-data]
+### Reading data 
 
 Read data using the `TabSeparatedRawWithNames` format:
 
@@ -86,4 +86,4 @@ date    season  home_team       away_team       home_team_goals away_team_goals
 2022-05-07      2021    Walsall Swindon Town    0       3
 ```
 
-## Format settings [#format-settings]
+## Format settings 

@@ -20,7 +20,7 @@ It supports replication of the following database engines:
 - MySQL
 - DataLakeCatalog
 
-## Architecture and metadata storage [#architecture-and-metadata-storage]
+## Architecture and metadata storage 
 
 All metadata and DDL query history in Shared Catalog is stored centrally in ZooKeeper. Nothing is persisted on local disk. This architecture ensures:
 
@@ -28,13 +28,13 @@ All metadata and DDL query history in Shared Catalog is stored centrally in ZooK
 - Statelessness of compute nodes
 - Fast, reliable replica bootstrapping
 
-## Shared database engine [#shared-database-engine]
+## Shared database engine 
 
 The **Shared database engine** works in conjunction with Shared Catalog to manage databases whose tables use **stateless table engines** such as `SharedMergeTree`. These table engines do not write persistent state to disk and are compatible with dynamic compute environments.
 
 Shared database engine builds on and improves the behavior of the Replicated database engine while offering additional guarantees and operational benefits.
 
-### Key benefits [#key-benefits]
+### Key benefits 
 
 - **Atomic CREATE TABLE ... AS SELECT**
   Table creation and data insertion are executed atomically—either the entire operation completes, or the table is not created at all.
@@ -61,7 +61,7 @@ Shared database engine builds on and improves the behavior of the Replicated dat
 - **Centralized, versioned metadata state**
   Shared Catalog stores a single source of truth in ZooKeeper. When a replica starts, it fetches the latest state and applies the diff to reach consistency. During query execution, the system can wait for other replicas to reach at least the required version of metadata to ensure correctness.
 
-## Usage in ClickHouse Cloud [#usage-in-clickhouse-cloud]
+## Usage in ClickHouse Cloud 
 
 For end users, using Shared Catalog and the Shared database engine requires no additional configuration. Database creation is the same as always:
 
@@ -71,7 +71,7 @@ CREATE DATABASE my_database;
 
 ClickHouse Cloud automatically assigns the Shared database engine to databases. Any tables created within such a database using stateless engines will automatically benefit from Shared Catalog’s replication and coordination capabilities.
 
-## Summary [#summary]
+## Summary 
 
 Shared Catalog and the Shared database engine provide:
 

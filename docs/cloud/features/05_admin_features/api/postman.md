@@ -10,19 +10,19 @@ keywords: ['api', 'postman', 'rest api', 'cloud management', 'integration']
 This guide will help you test the ClickHouse Cloud API using [Postman](https://www.postman.com/product/what-is-postman/). 
 The Postman Application is available for use within a web browser or can be downloaded to a desktop.
 
-### Create an account [#create-an-account]
+### Create an account 
 
 * Free accounts are available at [https://www.postman.com](https://www.postman.com).
 
 <img src="/images/cloud/manage/postman/postman1.png" alt="Postman site"/>
 
-### Create a workspace [#create-a-workspace]
+### Create a workspace 
 
 * Name your workspace and set the visibility level. 
 
 <img src="/images/cloud/manage/postman/postman2.png" alt="Create workspace"/>
 
-### Create a collection [#create-a-collection]
+### Create a collection 
 
 * Below "Explore" on the top left Menu click "Import": 
 
@@ -40,7 +40,7 @@ The Postman Application is available for use within a web browser or can be down
 
 <img src="/images/cloud/manage/postman/postman6.png"/> Import" border/>
 
-### Interface with the ClickHouse Cloud API spec [#interface-with-the-clickhouse-cloud-api-spec]
+### Interface with the ClickHouse Cloud API spec 
 * The "API spec for ClickHouse Cloud" will now appear within "Collections" (Left Navigation).
 
 <img src="/images/cloud/manage/postman/postman7.png" alt="Import your API"/>
@@ -49,7 +49,7 @@ The Postman Application is available for use within a web browser or can be down
 
 <img src="/images/cloud/manage/postman/postman8.png" alt="Import complete"/>
 
-### Set authorization [#set-authorization]
+### Set authorization 
 * Toggle the dropdown menu to select "Basic Auth":
 
 <img src="/images/cloud/manage/postman/postman9.png" alt="Basic auth"/>
@@ -58,20 +58,20 @@ The Postman Application is available for use within a web browser or can be down
 
 <img src="/images/cloud/manage/postman/postman10.png" alt="credentials"/>
 
-### Enable variables [#enable-variables]
+### Enable variables 
 
 * [Variables](https://learning.postman.com/docs/sending-requests/variables/) enable the storage and reuse of values in Postman allowing for easier API testing.
 
-#### Set the organization ID and Service ID [#set-the-organization-id-and-service-id]
+#### Set the organization ID and Service ID 
 
 * Within the "Collection", click the "Variable" tab in the middle pane (The Base URL will have been set by the earlier API import):
 * Below `baseURL` click the open field "Add new value", and Substitute your organization ID and service ID:
 
 <img src="/images/cloud/manage/postman/postman11.png" alt="Organization ID and Service ID"/>
 
-## Test the ClickHouse Cloud API functionalities [#test-the-clickhouse-cloud-api-functionalities]
+## Test the ClickHouse Cloud API functionalities 
 
-### Test "GET list of available organizations" [#test-get-list-of-available-organizations]
+### Test "GET list of available organizations" 
 
 * Under the "OpenAPI spec for ClickHouse Cloud", expand the folder > V1 > organizations
 * Click "GET list of available organizations" and press the blue "Send" button on the right:
@@ -82,7 +82,7 @@ The Postman Application is available for use within a web browser or can be down
 
 <img src="/images/cloud/manage/postman/postman13.png" alt="Status"/>
 
-### Test "GET organizational details" [#test-get-organizational-details]
+### Test "GET organizational details" 
 
 * Under the `organizationid` folder, navigate to "GET organizational details":
 * In the middle frame menu under Params an `organizationid` is required.
@@ -99,7 +99,7 @@ The Postman Application is available for use within a web browser or can be down
 
 * The returned results should deliver your organization details with "status": 200. (If you receive a "status" 400 with no organization information your configuration is not correct).
 
-### Test "GET service details" [#test-get-service-details]
+### Test "GET service details" 
 
 * Click "GET service details"
 * Edit the Values for `organizationid` and `serviceid` with `{{orgid}}` and `{{serviceid}}` respectively.

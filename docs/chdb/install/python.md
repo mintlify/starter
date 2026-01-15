@@ -7,20 +7,20 @@ keywords: ['chdb', 'embedded', 'clickhouse-lite', 'python', 'install']
 doc_type: 'guide'
 ---
 
-## Requirements [#requirements]
+## Requirements 
 
 - Python 3.8+ 
 - Supported platforms: macOS and Linux (x86_64 and ARM64)
 
-## Installation [#install]
+## Installation 
 
 ```bash
 pip install chdb
 ```
 
-## Usage [#usage] 
+## Usage  
 
-### Command line interface [#command-line-interface]
+### Command line interface 
 
 Run SQL queries directly from the command line:
 
@@ -32,7 +32,7 @@ python3 -m chdb "SELECT 1, 'abc'" Pretty
 python3 -m chdb "SELECT version()" JSON
 ```
 
-### Basic python usage [#basic-python-usage]
+### Basic python usage 
 
 ```python
 import chdb
@@ -47,7 +47,7 @@ print(f"Bytes read: {result.bytes_read()}")
 print(f"Execution time: {result.elapsed()} seconds")
 ```
 
-### Connection-based API (recommended) [#connection-based-api]
+### Connection-based API (recommended) 
 
 For better resource management and performance:
 
@@ -81,9 +81,9 @@ cur.close()
 conn.close()
 ```
 
-## Data input methods [#data-input]
+## Data input methods 
 
-### File-based data sources [#file-based-data-sources]
+### File-based data sources 
 
 chDB supports 70+ data formats for direct file querying:
 
@@ -114,7 +114,7 @@ result = chdb.query("""
 """, 'Pretty')
 ```
 
-### Output format examples [#output-format-examples]
+### Output format examples 
 
 ```python
 # DataFrame for analysis
@@ -134,9 +134,9 @@ pretty_result = chdb.query('SELECT * FROM system.numbers LIMIT 3', 'Pretty')
 print(pretty_result)
 ```
 
-### DataFrame operations [#dataframe-operations]
+### DataFrame operations 
 
-#### Legacy DataFrame API [#legacy-dataframe-api]
+#### Legacy DataFrame API 
 
 ```python
 import chdb.dataframe as cdf
@@ -158,7 +158,7 @@ summary = result_df.query('SELECT b, sum(a) FROM __table__ GROUP BY b')
 print(summary)
 ```
 
-#### Python table engine (recommended) [#python-table-engine-recommended]
+#### Python table engine (recommended) 
 
 ```python
 import chdb
@@ -205,7 +205,7 @@ chdb.query("""
 """).show()
 ```
 
-### Stateful sessions [#stateful-sessions]
+### Stateful sessions 
 
 Sessions maintain query state across multiple operations, enabling complex workflows:
 
@@ -259,7 +259,7 @@ print(result)
 sess.close()  # Optional - auto-closed when object is deleted
 ```
 
-### Advanced session features [#advanced-session-features]
+### Advanced session features 
 
 ```python
 # Session with custom settings
@@ -279,7 +279,7 @@ result = sess.query("""
 
 See also: [test_stateful.py](https://github.com/chdb-io/chdb/blob/main/tests/test_stateful.py).
 
-### Python DB-API 2.0 interface [#python-db-api-20]
+### Python DB-API 2.0 interface 
 
 Standard database interface for compatibility with existing Python applications:
 
@@ -327,11 +327,11 @@ cursor.executemany(
 )
 ```
 
-### User defined functions (UDF) [#user-defined-functions]
+### User defined functions (UDF) 
 
 Extend SQL with custom Python functions:
 
-#### Basic UDF usage [#basic-udf-usage]
+#### Basic UDF usage 
 
 ```python
 from chdb.udf import chdb_udf
@@ -367,7 +367,7 @@ result = query("""
 print(result)
 ```
 
-#### Advanced UDF with custom return types [#advanced-udf-custom-return-types]
+#### Advanced UDF with custom return types 
 
 ```python
 # UDF with specific return type
@@ -401,7 +401,7 @@ result = query("""
 print(result)
 ```
 
-#### UDF best practices [#udf-best-practices]
+#### UDF best practices 
 
 1. **Stateless Functions**: UDFs should be pure functions without side effects
 2. **Import Inside Functions**: All required modules must be imported within the UDF
@@ -436,7 +436,7 @@ query("""
 """)
 ```
 
-### Streaming query processing [#streaming-queries]
+### Streaming query processing 
 
 Process large datasets with constant memory usage:
 
@@ -506,9 +506,9 @@ stream.close()
 sess.close()
 ```
 
-### Python table engine [#python-table-engine]
+### Python table engine 
 
-#### Query Pandas DataFrames [#query-pandas-dataframes]
+#### Query Pandas DataFrames 
 
 ```python
 import chdb
@@ -563,7 +563,7 @@ window_result = chdb.query("""
 print(window_result)
 ```
 
-#### Custom data sources with PyReader [#custom-data-sources-pyreader]
+#### Custom data sources with PyReader 
 
 Implement custom data readers for specialized data sources:
 
@@ -622,7 +622,7 @@ class DatabaseReader(chdb.PyReader):
         self.cursor = end_pos
         return result
 
-### JSON Type Inference and Handling [#json-type-inference-handling]
+### JSON Type Inference and Handling 
 
 chDB automatically handles complex nested data structures:
 
@@ -670,9 +670,9 @@ complex_json = chdb.query("""
 print(complex_json)
 ```
 
-## Performance and optimization [#performance-optimization]
+## Performance and optimization 
 
-### Benchmarks [#benchmarks]
+### Benchmarks 
 
 chDB consistently outperforms other embedded engines:
 - **DataFrame operations**: 2-5x faster than traditional DataFrame libraries for analytical queries
@@ -681,7 +681,7 @@ chDB consistently outperforms other embedded engines:
 
 [More benchmark result details](https://github.com/chdb-io/chdb?tab=readme-ov-file#benchmark)
 
-### Performance tips [#performance-tips]
+### Performance tips 
 
 ```python
 import chdb
@@ -754,7 +754,7 @@ stream.close()
 sess.close()
 ```
 
-## GitHub repository [#github-repository]
+## GitHub repository 
 
 - **Main Repository**: [chdb-io/chdb](https://github.com/chdb-io/chdb)
 - **Issues and Support**: Report issues on the [GitHub repository](https://github.com/chdb-io/chdb/issues)

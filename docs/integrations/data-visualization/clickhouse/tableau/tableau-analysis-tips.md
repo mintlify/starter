@@ -8,10 +8,10 @@ title: 'Analysis tips'
 doc_type: 'guide'
 ---
 
-## MEDIAN() and PERCENTILE() functions [#median-and-percentile-functions]
+## MEDIAN() and PERCENTILE() functions 
 - In Live mode the MEDIAN() and PERCENTILE() functions (since connector v0.1.3 release) use the [ClickHouse quantile()() function](/sql-reference/aggregate-functions/reference/quantile/), which significantly speeds up the calculation, but uses sampling. If you want to get accurate calculation results, then use functions `MEDIAN_EXACT()` and `PERCENTILE_EXACT()` (based on [quantileExact()()](/sql-reference/aggregate-functions/reference/quantileexact/)).
 - In Extract mode you can't use MEDIAN_EXACT() and PERCENTILE_EXACT() because MEDIAN() and PERCENTILE() are always accurate (and slow).
-## Additional functions for calculated fields in Live mode [#additional-functions-for-calculated-fields-in-live-mode]
+## Additional functions for calculated fields in Live mode 
 ClickHouse has a huge number of functions that can be used for data analysis — much more than Tableau supports. For the convenience of users, we have added new functions that are available for use in Live mode when creating Calculated Fields. Unfortunately, it is not possible to add descriptions to these functions in the Tableau interface, so we will add a description for them right here.
 - **[`-If` Aggregation Combinator](/sql-reference/aggregate-functions/combinators/#-if)** *(added in v0.2.3)* - allows to have Row-Level Filters right in the Aggregate Calculation. `SUM_IF(), AVG_IF(), COUNT_IF(), MIN_IF() & MAX_IF()` functions have been added.
 - **`BAR([my_int], [min_val_int], [max_val_int], [bar_string_length_int])`** *(added in v0.2.1)* — Forget about boring bar charts! Use `BAR()` function instead (equivalent of [`bar()`](/sql-reference/functions/other-functions#bar) in ClickHouse). For example, this calculated field returns nice bars as String:

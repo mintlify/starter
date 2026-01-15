@@ -10,7 +10,7 @@ doc_type: 'guide'
 
 While [schema inference](/integrations/data-formats/json/inference) can be used to establish an initial schema for JSON data and query JSON data files in place, e.g., in S3, users should aim to establish an optimized versioned schema for their data. We discuss the recommended approach for modeling JSON structures below.
 
-## Static vs dynamic JSON [#static-vs-dynamic-json]
+## Static vs dynamic JSON 
 
 The principal task on defining a schema for JSON is to determine the appropriate type for each key's value. We recommended users apply the following rules recursively on each key in the JSON hierarchy to determine the appropriate type for each key.
 
@@ -84,7 +84,7 @@ Applying these rules:
 Structures with hundreds or thousands of static keys can be considered dynamic, as it is rarely realistic to statically declare the columns for these. However, where possible [skip paths](#using-type-hints-and-skipping-paths) which are not needed to save both storage and inference overhead.
 </Note>
 
-## Handling static structures [#handling-static-structures]
+## Handling static structures 
 
 We recommend static structures are handled using named tuples i.e. `Tuple`. Arrays of objects can be held using arrays of tuples i.e. `Array(Tuple)`. Within tuples themselves, columns and their respective types should be defined using the same rules. This can result in nested Tuples to represent nested objects as shown below.
 
@@ -194,7 +194,7 @@ ENGINE = MergeTree
 ORDER BY company.name
 ```
 
-### Handling default values [#handling-default-values]
+### Handling default values 
 
 Even if JSON objects are structured, they are often sparse with only a subset of the known keys provided. Fortunately, the `Tuple` type does not require all columns in the JSON payload. If not provided, default values will be used.
 
@@ -272,7 +272,7 @@ FORMAT PrettyJSONEachRow
 If users need to differentiate between a value being empty and not provided, the [Nullable](/sql-reference/data-types/nullable) type can be used. This [should be avoided](/best-practices/select-data-types#avoid-nullable-columns) unless absolutely required, as it will negatively impact storage and query performance on these columns.
 </Note>
 
-### Handling new columns [#handling-new-columns]
+### Handling new columns 
 
 While a structured approach is simplest when the JSON keys are static, this approach can still be used if the changes to the schema can be planned, i.e., new keys are known in advance, and the schema can be modified accordingly.
 
@@ -349,7 +349,7 @@ SELECT id, nickname FROM people
 2 rows in set. Elapsed: 0.001 sec.
 ```
 
-## Handling semi-structured/dynamic structures [#handling-semi-structured-dynamic-structures]
+## Handling semi-structured/dynamic structures 
 
 If JSON data is semi-structured where keys can be dynamically added and/or have multiple types, the [`JSON`](/sql-reference/data-types/newjson) type is recommended.
 
@@ -479,7 +479,7 @@ A strict schema has a number of benefits:
 - **Avoids risk of column explosion** - Although the JSON type scales to potentially thousands of columns, where subcolumns are stored as dedicated columns, this can lead to a column file explosion where an excessive number of column files are created that impacts performance. To mitigate this, the underlying [Dynamic type](/sql-reference/data-types/dynamic) used by JSON offers a [`max_dynamic_paths`](/sql-reference/data-types/newjson#reading-json-paths-as-sub-columns) parameter, which limits the number of unique paths stored as separate column files. Once the threshold is reached, additional paths are stored in a shared column file using a compact encoded format, maintaining performance and storage efficiency while supporting flexible data ingestion. Accessing this shared column file is, however, not as performant. Note, however, that the JSON column can be used with [type hints](#using-type-hints-and-skipping-paths). "Hinted" columns will deliver the same performance as dedicated columns.
 - **Simpler introspection of paths and types** - Although the JSON type supports [introspection functions](/sql-reference/data-types/newjson#introspection-functions) to determine the types and paths that have been inferred, static structures can be simpler to explore e.g. with `DESCRIBE`.
 
-### Single JSON column [#single-json-column]
+### Single JSON column 
 
 This approach is useful for prototyping and data engineering tasks. For production, try use `JSON` only for dynamic sub structures where necessary.
 
@@ -652,7 +652,7 @@ FROM people
 2 rows in set. Elapsed: 0.004 sec.
 ```
 
-### Targeted JSON column [#targeted-json-column]
+### Targeted JSON column 
 
 While useful in prototyping and data engineering challenges, we recommend using an explicit schema in production where possible.
 
@@ -750,7 +750,7 @@ FORMAT PrettyJsonEachRow
 2 rows in set. Elapsed: 0.003 sec.
 ```
 
-### Using type hints and skipping paths [#using-type-hints-and-skipping-paths]
+### Using type hints and skipping paths 
 
 Type hints allow us to specify the type for a path and its sub-column, preventing unnecessary type inference. Consider the following example where we specify the types for the JSON keys `dissolved`, `employees`, and `founded` within the JSON column `company.labels`
 
@@ -907,7 +907,7 @@ FORMAT PrettyJSONEachRow
 2 rows in set. Elapsed: 0.004 sec.
 ```
 
-#### Optimizing performance with type hints [#optimizing-performance-with-type-hints]  
+#### Optimizing performance with type hints   
 
 Type hints offer more than just a way to avoid unnecessary type inference - they eliminate storage and processing indirection entirely, as well as allowing [optimal primitive types](/data-modeling/schema-design#optimizing-types) to be specified. JSON paths with type hints are always stored just like traditional columns, bypassing the need for [**discriminator columns**](https://clickhouse.com/blog/a-new-powerful-json-data-type-for-clickhouse#storage-extension-for-dynamically-changing-data) or dynamic resolution during query time. 
 
@@ -915,7 +915,7 @@ This means that with well-defined type hints, nested JSON keys achieve the same 
 
 As a result, for datasets that are mostly consistent but still benefit from the flexibility of JSON, type hints provide a convenient way to preserve performance without needing to restructure your schema or ingest pipeline.
 
-### Configuring dynamic paths [#configuring-dynamic-paths]
+### Configuring dynamic paths 
 
 ClickHouse stores each JSON path as a subcolumn in a true columnar layout, enabling the same performance benefits seen with traditional columns—such as compression, SIMD-accelerated processing, and minimal disk I/O. Each unique path and type combination in your JSON data can become its own column file on disk.
 

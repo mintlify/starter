@@ -8,11 +8,11 @@ keywords: ['Active Mutations', 'Queued Mutations']
 
 
 
-## Question [#question]
+## Question
 
 How do I view the number of active or queued mutations?
 
-## Answer [#answer]
+## Answer
 
 Monitoring the number of active or queued mutations is important if you are performing a lot of `ALTER` or `UPDATE` statements on your tables. These queries rewrite data parts and are not atomic - they are ordered by their creation part and applied to each part in that order. You can find more details on mutations in the [docs](https://clickhouse.com/docs/sql-reference/statements/alter#mutations).
 

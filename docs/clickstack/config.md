@@ -10,9 +10,9 @@ doc_type: 'reference'
 
 The following configuration options are available for each component of ClickStack:
 
-## Modifying settings [#modifying-settings]
+## Modifying settings 
 
-### Docker [#docker]
+### Docker 
 
 If using the [All in One](/use-cases/observability/clickstack/deployment/all-in-one), [HyperDX Only](/use-cases/observability/clickstack/deployment/hyperdx-only) or [Local Mode](/use-cases/observability/clickstack/deployment/local-mode-only) simply pass the desired setting via an environment variable e.g.
 
@@ -20,7 +20,7 @@ If using the [All in One](/use-cases/observability/clickstack/deployment/all-in-
 docker run  -e HYPERDX_LOG_LEVEL='debug' -p 8080:8080 -p 4317:4317 -p 4318:4318 docker.hyperdx.io/hyperdx/hyperdx-all-in-one
 ```
 
-### Docker Compose [#docker-compose]
+### Docker Compose 
 
 If using the [Docker Compose](/use-cases/observability/clickstack/deployment/docker-compose) deployment guide, the [`.env`](https://github.com/hyperdxio/hyperdx/blob/main/.env) file can be used to modify settings.
 
@@ -36,9 +36,9 @@ services:
       # ... other settings
 ```
 
-### Helm [#helm]
+### Helm 
 
-#### Customizing values (optional) [#customizing-values]
+#### Customizing values (optional) 
 
 You can customize settings by using `--set` flags e.g.
 
@@ -89,9 +89,9 @@ ingress:
       value: abc
 ```
 
-## HyperDX [#hyperdx]
+## HyperDX 
 
-### Data source settings [#datasource-settings]
+### Data source settings 
 
 HyperDX relies on the user defining a source for each of the Observability data types/pillars:
 
@@ -114,7 +114,7 @@ The default schema for ClickHouse distributed with ClickStack is the schema crea
 
 The following settings are available for each source:
 
-#### Logs [#logs]
+#### Logs 
 
 | Setting                        | Description                                                                                                             | Required | Inferred in Default Schema | Inferred Value                                      |
 |-------------------------------|-------------------------------------------------------------------------------------------------------------------------|----------|-----------------------------|-----------------------------------------------------|
@@ -136,7 +136,7 @@ The following settings are available for each source:
 | `Span Id Expression`          | Expression or column used to extract span ID.                                                                          | Yes       | Yes                         | `SpanId`                                              |
 | `Implicit Column Expression`  | Column used for full-text search if no field is specified (Lucene-style). Typically the log body.                      | Yes       | Yes                         | `Body`                                                |
 
-#### Traces [#traces]
+#### Traces 
 
 | Setting                          | Description                                                                                                             | Required | Inferred in Default Schema | Inferred Value         |
 |----------------------------------|-------------------------------------------------------------------------------------------------------------------------|----------|-----------------------------|------------------------|
@@ -165,7 +165,7 @@ The following settings are available for each source:
 | `Span Events Expression`        | Expression to extract span events. Typically a `Nested` type column. This allows rendering of exception stack traces with supported language SDKs.                                                   | Yes      | Yes                         | `Events`                 |
 | `Implicit Column Expression`   | Column used for full-text search if no field is specified (Lucene-style). Typically the log body.  | Yes  | Yes  | `SpanName`|
 
-#### Metrics [#metrics]
+#### Metrics 
 
 | Setting               | Description                                                                                   | Required | Inferred in Default Schema | Inferred Value              |
 |------------------------|-----------------------------------------------------------------------------------------------|----------|-----------------------------|-----------------------------|
@@ -177,7 +177,7 @@ The following settings are available for each source:
 | `Sum Table`            | Table storing sum-type (counter) metrics.                                                      | Yes      | No                         | `otel_metrics_sum`          |
 | `Correlated Log Source`| Optional. Linked log source (e.g. HyperDX logs).                                               | No       | No                          | –                           |
 
-#### Sessions [#settings]
+#### Sessions 
 
 | Setting                        | Description                                                                                         | Required | Inferred in Default Schema | Inferred Value         |
 |-------------------------------|-----------------------------------------------------------------------------------------------------|----------|-----------------------------|------------------------|
@@ -192,7 +192,7 @@ The following settings are available for each source:
 | `Correlated Trace Source`     | Optional. Linked trace source for session correlation.                                              | No       | No                          | –                      |
 | `Implicit Column Expression`  | Column used for full-text search when no field is specified (e.g. Lucene-style query parsing).      | Yes      | Yes                         | `Body` |
 
-### Correlated sources [#correlated-sources]
+### Correlated sources 
 
 To enable full cross-source correlation in ClickStack, users must configure correlated sources for logs, traces, metrics, and sessions. This allows HyperDX to associate related data and provide rich context when rendering events.
 
@@ -207,7 +207,7 @@ For example, below is the Logs source configured with correlated sources:
 
 <img src="/images/use-cases/observability/hyperdx-26.png" alt="HyperDX Source correlated"/>
 
-### Application configuration settings [#application-configuration-settings]
+### Application configuration settings 
 
 - `HYPERDX_API_KEY`
   - **Default:** None (required)
@@ -338,7 +338,7 @@ For example, below is the Logs source configured with correlated sources:
   - **Guidance:**
   - Set to `true` to enable JSON support in ClickStack.
 
-## OpenTelemetry collector [#otel-collector]
+## OpenTelemetry collector 
 
 See ["ClickStack OpenTelemetry Collector"](/use-cases/observability/clickstack/ingesting-data/otel-collector) for more details.
 
@@ -390,7 +390,7 @@ See ["ClickStack OpenTelemetry Collector"](/use-cases/observability/clickstack/i
   - **Guidance:**
   - Set to `true` to enable JSON support in ClickStack.
 
-## ClickHouse [#clickhouse]
+## ClickHouse 
 
 ClickStack ships with a default ClickHouse configuration designed for multi-terabyte scale, but users are free to modify and optimize it to suit their workload.
 

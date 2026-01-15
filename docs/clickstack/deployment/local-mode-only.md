@@ -21,20 +21,20 @@ Similar to the [all-in-one image](/use-cases/observability/clickstack/deployment
 
 **However, user authentication is disabled for this distribution of HyperDX**
 
-### Suitable for [#suitable-for]
+### Suitable for 
 
 * Demos
 * Debugging
 * Development where HyperDX is used
 
-## Deployment steps [#deployment-steps]
+## Deployment steps 
 <br/>
 
 <Steps>
 
 <Step>
 
-### Deploy with Docker [#deploy-with-docker]
+### Deploy with Docker 
 
 Local mode deploys the HyperDX UI on port 8080.
 
@@ -46,7 +46,7 @@ docker run -p 8080:8080 docker.hyperdx.io/hyperdx/hyperdx-local
 
 <Step>
 
-### Navigate to the HyperDX UI [#navigate-to-hyperdx-ui]
+### Navigate to the HyperDX UI 
 
 Visit [http://localhost:8080](http://localhost:8080) to access the HyperDX UI.
 

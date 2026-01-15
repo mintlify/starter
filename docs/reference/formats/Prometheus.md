@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 <Badge intent="success">Output</Badge>
 
-## Description [#description]
+## Description 
 
 Exposes metrics in the [Prometheus text-based exposition format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
 
@@ -26,7 +26,7 @@ For this format, it is a requirement for the output table to be structured corre
 There are special requirements for the `histogram` and `summary` labels - see [Prometheus doc](https://prometheus.io/docs/instrumenting/exposition_formats/#histograms-and-summaries) for the details. 
 Special rules are applied to rows with labels `{'count':''}` and `{'sum':''}`, which are converted to `<metric_name>_count` and `<metric_name>_sum` respectively.
 
-## Example usage [#example-usage]
+## Example usage 
 
 ```yaml
 ┌─name────────────────────────────────┬─type──────┬─help──────────────────────────────────────┬─labels─────────────────────────┬────value─┬─────timestamp─┐
@@ -84,4 +84,4 @@ rpc_duration_seconds_count 2693
 something_weird{problem="division by zero"} +Inf -3982045
 ```
 
-## Format settings [#format-settings]
+## Format settings 

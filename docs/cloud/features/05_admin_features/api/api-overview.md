@@ -8,7 +8,7 @@ doc_type: 'reference'
 keywords: ['ClickHouse Cloud', 'API overview', 'cloud API', 'REST API', 'programmatic access']
 ---
 
-## Overview [#overview]
+## Overview 
 
 The ClickHouse Cloud API is a REST API designed for developers to easily manage 
 organizations and services on ClickHouse Cloud. Using our Cloud API, you can 
@@ -17,7 +17,7 @@ organization, and more.
 
 [Learn how to create your first API key and start using the ClickHouse Cloud API.](/cloud/manage/openapi)
 
-## Swagger (OpenAPI) Endpoint and UI [#swagger-openapi-endpoint-and-ui]
+## Swagger (OpenAPI) Endpoint and UI 
 
 The ClickHouse Cloud API is built on the open-source [OpenAPI specification](https://www.openapis.org/)
 to allow for predictable client-side consumption. If you need to programmatically
@@ -32,14 +32,14 @@ The `tier` field has been removed from the service object as we no longer have s
 This will affect the objects returned by the `POST`, `GET`, and `PATCH` service requests. Therefore, any code that consumes these APIs may need to be adjusted to handle these changes.
 </Note>
 
-## Rate limits [#rate-limits]
+## Rate limits 
 
 Developers are limited to 100 API keys per organization. Each API key has a 
 limit of 10 requests over a 10-second window. If you'd like to increase the 
 number of API keys or requests per 10-second window for your organization, 
 please contact support@clickhouse.com
 
-## Terraform provider [#terraform-provider]
+## Terraform provider 
 
 The official ClickHouse Terraform Provider lets you use [Infrastructure as Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac)
 to create predictable, version-controlled configurations to make deployments much
@@ -56,13 +56,13 @@ If your organization has been migrated to one of the [new pricing plans](https:/
 You will now also be able to specify the `num_replicas` field as a property of the service resource.
 </Note>
 
-## Terraform and OpenAPI New Pricing: Replica Settings Explained [#terraform-and-openapi-new-pricing---replica-settings-explained]
+## Terraform and OpenAPI New Pricing: Replica Settings Explained 
 
 The number of replicas each service will be created with defaults to 3 for the Scale and Enterprise tiers, while it defaults to 1 for the Basic tier.
 For the Scale and the Enterprise tiers it is possible to adjust it by passing a `numReplicas` field in the service creation request. 
 The value of the `numReplicas` field must be between 2 and 20 for the first service in a warehouse. Services that are created in an existing warehouse can have a number of replicas as low as 1.
 
-## Support [#support]
+## Support 
 
 We recommend visiting [our Slack channel](https://clickhouse.com/slack) first to get quick support. If 
 you'd like additional help or more info about our API and its capabilities, 

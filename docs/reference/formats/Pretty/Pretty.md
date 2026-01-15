@@ -13,7 +13,7 @@ doc_type: 'reference'
 
 import CommonPrettyFormatSettings from '/snippets/products/reference/formats/Pretty/_snippets/common-pretty-format-settings.mdx';
 
-## Description [#description]
+## Description 
 
 The `Pretty` format outputs data as Unicode-art tables, 
 using ANSI-escape sequences for displaying colors in the terminal.
@@ -23,7 +23,7 @@ This is necessary so that blocks can be output without buffering results (buffer
 
 [NULL](/sql-reference/syntax.md) is output as `ᴺᵁᴸᴸ`.
 
-## Example usage [#example-usage]
+## Example usage 
 
 Example (shown for the [`PrettyCompact`](./PrettyCompact.md) format):
 
@@ -92,6 +92,6 @@ Extremes:
 └────────────┴─────────┘
 ```
 
-## Format settings [#format-settings]
+## Format settings 
 
 <PrettyFormatSettings/>

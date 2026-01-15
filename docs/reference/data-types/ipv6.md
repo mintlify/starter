@@ -8,11 +8,11 @@ title: 'IPv6'
 doc_type: 'reference'
 ---
 
-## IPv6 [#ipv6]
+## IPv6 
 
 IPv6 addresses. Stored in 16 bytes as UInt128 big-endian.
 
-### Basic Usage [#basic-usage]
+### Basic Usage 
 
 ```sql
 CREATE TABLE hits (url String, from IPv6) ENGINE = MergeTree() ORDER BY url;

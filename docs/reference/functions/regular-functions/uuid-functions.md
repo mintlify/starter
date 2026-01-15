@@ -8,7 +8,7 @@ doc_type: 'reference'
 
 import {DeprecatedBadge} from '/snippets/components/DeprecatedBadge/DeprecatedBadge.jsx'
 
-## UUIDv7 generation [#uuidv7-generation]
+## UUIDv7 generation 
 
 The generated UUID contains a 48-bit timestamp in Unix milliseconds, followed by version "7" (4 bits), a counter (42 bits) to distinguish UUIDs within a millisecond (including a variant field "2", 2 bits), and a random field (32 bits).
 For any given timestamp (`unix_ts_ms`), the counter starts at a random value and is incremented by 1 for each new UUID until the timestamp changes. In case the counter overflows, the timestamp field is incremented by 1 and the counter is reset to a random new start value.
@@ -28,7 +28,7 @@ The UUID generation functions guarantee that the counter field within a timestam
 └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
 ```
 
-## Snowflake ID generation [#snowflake-id-generation]
+## Snowflake ID generation 
 
 The generated Snowflake ID contains the current Unix timestamp in milliseconds (41 + 1 top zero bits), followed by a machine id (10 bits), and a counter (12 bits) to distinguish IDs within a millisecond. For any given timestamp (`unix_ts_ms`), the counter starts at 0 and is incremented by 1 for each new Snowflake ID until the timestamp changes. In case the counter overflows, the timestamp field is incremented by 1 and the counter is reset to 0.
 
@@ -47,7 +47,7 @@ The generated Snowflake IDs are based on the UNIX epoch 1970-01-01. While no sta
 ```
 
 
-## generateUUIDv4 [#generateuuidv4]
+## generateUUIDv4 
 
 Generates a [version 4](https://tools.ietf.org/html/rfc4122#section-4.4) [UUID](../data-types/uuid.md).
 
@@ -95,7 +95,7 @@ SELECT generateUUIDv4(1), generateUUIDv4(2);
 └──────────────────────────────────────┴──────────────────────────────────────┘
 ```
 
-## generateUUIDv7 [#generateUUIDv7]
+## generateUUIDv7 
 
 Generates a [version 7](https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04) [UUID](../data-types/uuid.md).
 
@@ -149,7 +149,7 @@ SELECT generateUUIDv7(1), generateUUIDv7(2);
 └──────────────────────────────────────┴──────────────────────────────────────┘
 ```
 
-## dateTimeToUUIDv7 [#datetimetouuidv7]
+## dateTimeToUUIDv7 
 
 Converts a [DateTime](../data-types/datetime.md) value to a [UUIDv7](https://en.wikipedia.org/wiki/UUID#Version_7) at the given time.
 
@@ -208,7 +208,7 @@ SELECT dateTimeToUUIDv7(toDateTime('2021-08-15 18:57:56'));
 
 The function ensures that multiple calls with the same timestamp generate unique, monotonically increasing UUIDs.
 
-## empty [#empty]
+## empty 
 
 Checks whether the input UUID is empty.
 
@@ -248,7 +248,7 @@ Result:
 └─────────────────────────┘
 ```
 
-## notEmpty [#notempty]
+## notEmpty 
 
 Checks whether the input UUID is non-empty.
 
@@ -288,7 +288,7 @@ Result:
 └────────────────────────────┘
 ```
 
-## toUUID [#touuid]
+## toUUID 
 
 Converts a value of type String to a UUID.
 
@@ -314,7 +314,7 @@ Result:
 └──────────────────────────────────────┘
 ```
 
-## toUUIDOrDefault [#touuidordefault]
+## toUUIDOrDefault 
 
 **Arguments**
 
@@ -363,7 +363,7 @@ Result:
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## toUUIDOrNull [#touuidornull]
+## toUUIDOrNull 
 
 Takes an argument of type String and tries to parse it into UUID. If failed, returns NULL.
 
@@ -389,7 +389,7 @@ Result:
 └──────┘
 ```
 
-## toUUIDOrZero [#touuidorzero]
+## toUUIDOrZero 
 
 It takes an argument of type String and tries to parse it into UUID. If failed, returns zero UUID.
 
@@ -415,7 +415,7 @@ Result:
 └──────────────────────────────────────┘
 ```
 
-## UUIDStringToNum [#uuidstringtonum]
+## UUIDStringToNum 
 
 Accepts `string` containing 36 characters in the format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`, and returns a [FixedString(16)](../data-types/fixedstring.md) as its binary representation, with its format optionally specified by `variant` (`Big-endian` by default).
 
@@ -464,7 +464,7 @@ Result:
 └──────────────────────────────────────┴──────────────────┘
 ```
 
-## UUIDNumToString [#uuidnumtostring]
+## UUIDNumToString 
 
 Accepts `binary` containing a binary representation of a UUID, with its format optionally specified by `variant` (`Big-endian` by default), and returns a string containing 36 characters in text format.
 
@@ -513,7 +513,7 @@ Result:
 └──────────────────┴──────────────────────────────────────┘
 ```
 
-## UUIDToNum [#uuidtonum]
+## UUIDToNum 
 
 Accepts a [UUID](../data-types/uuid.md) and returns its binary representation as a [FixedString(16)](../data-types/fixedstring.md), with its format optionally specified by `variant` (`Big-endian` by default). This function replaces calls to two separate functions `UUIDStringToNum(toString(uuid))` so no intermediate conversion from UUID to string is required to extract bytes from a UUID.
 
@@ -562,7 +562,7 @@ Result:
 └──────────────────────────────────────┴──────────────────┘
 ```
 
-## UUIDv7ToDateTime [#uuidv7todatetime]
+## UUIDv7ToDateTime 
 
 Returns the timestamp component of a UUID version 7.
 
@@ -607,7 +607,7 @@ Result:
 └──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## serverUUID [#serveruuid]
+## serverUUID 
 
 Returns the random UUID generated during the first start of the ClickHouse server. The UUID is stored in file `uuid` in the ClickHouse server directory (e.g. `/var/lib/clickhouse/`) and retained between server restarts.
 
@@ -621,7 +621,7 @@ serverUUID()
 
 - The UUID of the server. [UUID](../data-types/uuid.md).
 
-## generateSnowflakeID [#generatesnowflakeid]
+## generateSnowflakeID 
 
 Generates a [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID).
 This function guarantees that the counter field within a timestamp increments monotonically across all function invocations in concurrently running threads and queries.
@@ -683,7 +683,7 @@ SELECT generateSnowflakeID('expr', 1);
 └────────────────────────────────┘
 ```
 
-## snowflakeToDateTime [#snowflaketodatetime]
+## snowflakeToDateTime 
 
 <DeprecatedBadge/>
 
@@ -728,7 +728,7 @@ Result:
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-## snowflakeToDateTime64 [#snowflaketodatetime64]
+## snowflakeToDateTime64 
 
 <DeprecatedBadge/>
 
@@ -773,7 +773,7 @@ Result:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-## dateTimeToSnowflake [#datetimetosnowflake]
+## dateTimeToSnowflake 
 
 <DeprecatedBadge/>
 
@@ -816,7 +816,7 @@ Result:
 └─────────────────────────┘
 ```
 
-## dateTime64ToSnowflake [#datetime64tosnowflake]
+## dateTime64ToSnowflake 
 
 <DeprecatedBadge/>
 
@@ -859,7 +859,7 @@ Result:
 └─────────────────────────────┘
 ```
 
-## snowflakeIDToDateTime [#snowflakeidtodatetime]
+## snowflakeIDToDateTime 
 
 Returns the timestamp component of a [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) as a value of type [DateTime](../data-types/datetime.md).
 
@@ -895,7 +895,7 @@ Result:
 └─────────────────────┘
 ```
 
-## snowflakeIDToDateTime64 [#snowflakeidtodatetime64]
+## snowflakeIDToDateTime64 
 
 Returns the timestamp component of a [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) as a value of type [DateTime64](../data-types/datetime64.md).
 
@@ -931,7 +931,7 @@ Result:
 └─────────────────────┘
 ```
 
-## dateTimeToSnowflakeID [#datetimetosnowflakeid]
+## dateTimeToSnowflakeID 
 
 Converts a [DateTime](../data-types/datetime.md) value to the first [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) at the giving time.
 
@@ -966,7 +966,7 @@ Result:
 └─────────────────────┴─────────────────────┘
 ```
 
-## dateTime64ToSnowflakeID [#datetime64tosnowflakeid]
+## dateTime64ToSnowflakeID 
 
 Convert a [DateTime64](../data-types/datetime64.md) to the first [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) at the giving time.
 
@@ -1001,7 +1001,7 @@ Result:
 └─────────────────────────┴─────────────────────┘
 ```
 
-## See also [#see-also]
+## See also 
 
 - [dictGetUUID](/sql-reference/functions/ext-dict-functions#other-functions)
 
@@ -1012,7 +1012,7 @@ See: https://github.com/ClickHouse/clickhouse-docs/blob/main/contribute/autogene
 --> */}
 
 {/* <!--AUTOGENERATED_START--> */}
-## UUIDNumToString <Badge intent="info" className="version-badge">v1.1+</Badge> [#UUIDNumToString]
+## UUIDNumToString <Badge intent="info" className="version-badge">v1.1+</Badge> 
 
 
 Takes a binary representation of a UUID, with its format optionally specified by `variant` (`Big-endian` by default), and returns a string containing 36 characters in text format.
@@ -1066,7 +1066,7 @@ SELECT
 
 
 
-## UUIDStringToNum <Badge intent="info" className="version-badge">v1.1+</Badge> [#UUIDStringToNum]
+## UUIDStringToNum <Badge intent="info" className="version-badge">v1.1+</Badge> 
 
 
 Accepts a string containing 36 characters in the format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`, and returns a [FixedString(16)](../data-types/fixedstring.md) as its binary representation, with its format optionally specified by `variant` (`Big-endian` by default).
@@ -1120,7 +1120,7 @@ SELECT
 
 
 
-## UUIDToNum <Badge intent="info" className="version-badge">v24.5+</Badge> [#UUIDToNum]
+## UUIDToNum <Badge intent="info" className="version-badge">v24.5+</Badge> 
 
 
 Accepts a [UUID](../data-types/uuid.md) and returns its binary representation as a [FixedString(16)](../data-types/fixedstring.md), with its format optionally specified by `variant` (`Big-endian` by default).
@@ -1175,7 +1175,7 @@ SELECT
 
 
 
-## UUIDv7ToDateTime <Badge intent="info" className="version-badge">v24.5+</Badge> [#UUIDv7ToDateTime]
+## UUIDv7ToDateTime <Badge intent="info" className="version-badge">v24.5+</Badge> 
 
 
 Returns the timestamp component of a UUID version 7.
@@ -1225,7 +1225,7 @@ SELECT UUIDv7ToDateTime(toUUID('018f05c9-4ab8-7b86-b64e-c9f03fbd45d1'), 'America
 
 
 
-## dateTime64ToSnowflake <Badge intent="info" className="version-badge">v21.10+</Badge> [#dateTime64ToSnowflake]
+## dateTime64ToSnowflake <Badge intent="info" className="version-badge">v21.10+</Badge> 
 
 
 <DeprecatedBadge/>
@@ -1271,7 +1271,7 @@ WITH toDateTime64('2021-08-15 18:57:56.492', 3, 'Asia/Shanghai') AS dt64 SELECT 
 
 
 
-## dateTime64ToSnowflakeID <Badge intent="info" className="version-badge">v24.6+</Badge> [#dateTime64ToSnowflakeID]
+## dateTime64ToSnowflakeID <Badge intent="info" className="version-badge">v24.6+</Badge> 
 
 
 Converts a [`DateTime64`](../data-types/datetime64.md) to the first [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) at the giving time.
@@ -1311,7 +1311,7 @@ SELECT toDateTime64('2025-08-15 18:57:56.493', 3, 'Asia/Shanghai') AS dt, dateTi
 
 
 
-## dateTimeToSnowflake <Badge intent="info" className="version-badge">v21.10+</Badge> [#dateTimeToSnowflake]
+## dateTimeToSnowflake <Badge intent="info" className="version-badge">v21.10+</Badge> 
 
 
 
@@ -1358,7 +1358,7 @@ WITH toDateTime('2021-08-15 18:57:56', 'Asia/Shanghai') AS dt SELECT dateTimeToS
 
 
 
-## dateTimeToSnowflakeID <Badge intent="info" className="version-badge">v24.6+</Badge> [#dateTimeToSnowflakeID]
+## dateTimeToSnowflakeID <Badge intent="info" className="version-badge">v24.6+</Badge> 
 
 
 Converts a [DateTime](../data-types/datetime.md) value to the first [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) at the giving time.
@@ -1396,7 +1396,7 @@ SELECT toDateTime('2021-08-15 18:57:56', 'Asia/Shanghai') AS dt, dateTimeToSnowf
 
 
 
-## dateTimeToUUIDv7 <Badge intent="info" className="version-badge">v25.9+</Badge> [#dateTimeToUUIDv7]
+## dateTimeToUUIDv7 <Badge intent="info" className="version-badge">v25.9+</Badge> 
 
 
 Converts a [DateTime](../data-types/datetime.md) value to a [UUIDv7](https://en.wikipedia.org/wiki/UUID#Version_7) at the given time.
@@ -1455,7 +1455,7 @@ SELECT dateTimeToUUIDv7(toDateTime('2021-08-15 18:57:56'));
 
 
 
-## generateSnowflakeID <Badge intent="info" className="version-badge">v24.6+</Badge> [#generateSnowflakeID]
+## generateSnowflakeID <Badge intent="info" className="version-badge">v24.6+</Badge> 
 
 
 Generates a [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID).
@@ -1525,7 +1525,7 @@ SELECT generateSnowflakeID('expr', 1);
 
 
 
-## generateUUIDv4 <Badge intent="info" className="version-badge">v1.1+</Badge> [#generateUUIDv4]
+## generateUUIDv4 <Badge intent="info" className="version-badge">v1.1+</Badge> 
 
 Generates a [version 4](https://tools.ietf.org/html/rfc4122#section-4.4) [UUID](../data-types/uuid.md).
 
@@ -1573,7 +1573,7 @@ SELECT generateUUIDv4(1), generateUUIDv4(1);
 
 
 
-## generateUUIDv7 <Badge intent="info" className="version-badge">v24.5+</Badge> [#generateUUIDv7]
+## generateUUIDv7 <Badge intent="info" className="version-badge">v24.5+</Badge> 
 
 
 Generates a [version 7](https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04) [UUID](../data-types/uuid.md).
@@ -1630,7 +1630,7 @@ SELECT generateUUIDv7(1), generateUUIDv7(1);
 
 
 
-## readWKTLineString <Badge intent="info" className="version-badge">v+</Badge> [#readWKTLineString]
+## readWKTLineString <Badge intent="info" className="version-badge">v+</Badge> 
 
 
 Parses a Well-Known Text (WKT) representation of a LineString geometry and returns it in the internal ClickHouse format.
@@ -1679,7 +1679,7 @@ SELECT toTypeName(readWKTLineString('LINESTRING (1 1, 2 2, 3 3, 1 1)'));
 
 
 
-## snowflakeIDToDateTime <Badge intent="info" className="version-badge">v24.6+</Badge> [#snowflakeIDToDateTime]
+## snowflakeIDToDateTime <Badge intent="info" className="version-badge">v24.6+</Badge> 
 
 
 Returns the timestamp component of a [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) as a value of type [DateTime](../data-types/datetime.md).
@@ -1718,7 +1718,7 @@ SELECT snowflakeIDToDateTime(7204436857747984384) AS res
 
 
 
-## snowflakeIDToDateTime64 <Badge intent="info" className="version-badge">v24.6+</Badge> [#snowflakeIDToDateTime64]
+## snowflakeIDToDateTime64 <Badge intent="info" className="version-badge">v24.6+</Badge> 
 
 
 Returns the timestamp component of a [Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) as a value of type [DateTime64](../data-types/datetime64.md).
@@ -1757,7 +1757,7 @@ SELECT snowflakeIDToDateTime64(7204436857747984384) AS res
 
 
 
-## snowflakeToDateTime <Badge intent="info" className="version-badge">v21.10+</Badge> [#snowflakeToDateTime]
+## snowflakeToDateTime <Badge intent="info" className="version-badge">v21.10+</Badge> 
 
 
 <DeprecatedBadge/>
@@ -1804,7 +1804,7 @@ SELECT snowflakeToDateTime(CAST('1426860702823350272', 'Int64'), 'UTC');
 
 
 
-## snowflakeToDateTime64 <Badge intent="info" className="version-badge">v21.10+</Badge> [#snowflakeToDateTime64]
+## snowflakeToDateTime64 <Badge intent="info" className="version-badge">v21.10+</Badge> 
 
 
 <DeprecatedBadge/>
@@ -1852,7 +1852,7 @@ SELECT snowflakeToDateTime64(CAST('1426860802823350272', 'Int64'), 'UTC');
 
 
 
-## toUUIDOrDefault <Badge intent="info" className="version-badge">v21.1+</Badge> [#toUUIDOrDefault]
+## toUUIDOrDefault <Badge intent="info" className="version-badge">v21.1+</Badge> 
 
 
 Converts a String value to UUID type. If the conversion fails, returns a default UUID value instead of throwing an error.
@@ -1903,7 +1903,7 @@ SELECT toUUIDOrDefault('-----61f0c404-5cb3-11e7-907b-a6006ad3dba0', toUUID('59f0
 
 
 
-## toUUIDOrNull <Badge intent="info" className="version-badge">v20.12+</Badge> [#toUUIDOrNull]
+## toUUIDOrNull <Badge intent="info" className="version-badge">v20.12+</Badge> 
 
 
 Converts an input value to a value of type `UUID` but returns `NULL` in case of an error.

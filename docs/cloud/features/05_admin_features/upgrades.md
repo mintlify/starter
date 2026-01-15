@@ -18,7 +18,7 @@ We are introducing a new upgrade mechanism, a concept we call "make before break
 As part of this change, historical system table data will be retained for up to a maximum of 30 days as part of upgrade events. In addition, any system table data older than December 19, 2024, for services on AWS or GCP and older than January 14, 2025, for services on Azure will not be retained as part of the migration to the new organization tiers.
 </Note>
 
-## Version compatibility [#version-compatibility]
+## Version compatibility 
 
 When you create a service, the [`compatibility`](/operations/settings/settings#compatibility) setting is set to the most up-to-date ClickHouse version offered on ClickHouse Cloud at the time your service is initially provisioned.
 
@@ -26,13 +26,13 @@ The `compatibility` setting allows you to use default values of settings from pr
 
 You cannot manage the service-level default `compatibility` setting for your service. You must [contact support](https://clickhouse.com/support/program) if you would like to change the version set for your service's default `compatibility` setting. However, you can override the `compatibility` setting at the user, role, profile, query, or session level using standard ClickHouse setting mechanisms such as `SET compatibility = '22.3'` in a session or `SETTINGS compatibility = '22.3'` in a query.
 
-## Maintenance mode [#maintenance-mode]
+## Maintenance mode 
 
 At times, it may be necessary for us to update your service, which could require us to disable certain features such as scaling or idling. In rare cases, we may need to take action on a service that is experiencing issues and bring it back to a healthy state. During such maintenance, you will see a banner on the service page that says _"Maintenance in progress"_. You may still be able to use the service for queries during this time.
 
 You will not be charged for the time that the service is under maintenance. _Maintenance mode_ is a rare occurrence and should not be confused with regular service upgrades.
 
-## Release channels (upgrade schedule) [#release-channels-upgrade-schedule]
+## Release channels (upgrade schedule) 
 
 Users are able to specify the upgrade schedule for their ClickHouse Cloud service by subscribing to a specific release channel. There are three release channels, and the user has the ability to configure the day and time of the week for upgrades with the **scheduled upgrades** feature.
 
@@ -45,7 +45,7 @@ The three release channels are:
 Basic tier services are automatically enlisted to the fast release channel
 </Note>
 
-### Fast release channel (early upgrades) [#fast-release-channel-early-upgrades]
+### Fast release channel (early upgrades) 
 
 <ScalePlanFeatureBadge feature="The fast release channel"/>
 
@@ -70,7 +70,7 @@ You can modify the release schedule of the service in the Cloud console as shown
 
 This **Fast release** channel is suitable for testing new features in non-critical environments. **It is not recommended for production workloads with strict uptime and reliability requirements.**
 
-### Regular release channel [#regular-release-channel]
+### Regular release channel 
 
 For all Scale and Enterprise tier services that do not have a release channel or an upgrade schedule configured, upgrades will be performed as a part of the Regular channel release. This is recommended for production environments.
 
@@ -80,7 +80,7 @@ Upgrades to the regular release channel are typically performed two weeks after 
 Basic tier services are upgraded soon after the Fast release channel.
 </Note>
 
-### Slow release channel (deferred upgrades) [#slow-release-channel-deferred-upgrades]
+### Slow release channel (deferred upgrades) 
 
 <EnterprisePlanFeatureBadge feature="The slow release channel"/>
 
@@ -98,7 +98,7 @@ You can change release channels at any time. However, in certain cases, the chan
 - Moving to a slower channel will not downgrade your service and keep you on your current version until a newer one is available in that channel. i.e. Regular to Slow, Fast to Regular or Slow
 </Note>
 
-## Scheduled upgrades [#scheduled-upgrades]
+## Scheduled upgrades 
 
 <EnterprisePlanFeatureBadge feature="Scheduled upgrades" linking_verb_are="true"/>
 

@@ -36,7 +36,7 @@ You can use the [log_queries_probability](/operations/settings/settings#log_quer
 
 You can use the [log_formatted_queries](/operations/settings/settings#log_formatted_queries) setting to log formatted queries to the `formatted_query` column.
 
-## Columns [#columns]
+## Columns 
 
 - `hostname` ([LowCardinality(String)](../../sql-reference/data-types/string.md)) — Hostname of the server executing the query.
 - `type` ([Enum8](../../sql-reference/data-types/enum.md)) — Type of an event that occurred when executing the query. Values:
@@ -129,7 +129,7 @@ You can use the [log_formatted_queries](/operations/settings/settings#log_format
   - `'Write'` = The query result was written into the query cache.
   - `'Read'` = The query result was read from the query cache.
 
-## Examples [#examples]
+## Examples 
 
 **Basic example**
 

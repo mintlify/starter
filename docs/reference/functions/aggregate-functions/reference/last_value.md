@@ -11,7 +11,7 @@ Selects the last encountered value, similar to `anyLast`, but could accept NULL.
 Mostly it should be used with [Window Functions](../../window-functions/index.md).
 Without Window Functions the result will be random if the source stream is not ordered.
 
-## examples [#examples]
+## examples 
 
 ```sql
 CREATE TABLE test_data
@@ -24,7 +24,7 @@ ENGINE = Memory;
 INSERT INTO test_data (a, b) VALUES (1,null), (2,3), (4, 5), (6,null)
 ```
 
-### Example 1 [#example1]
+### Example 1 
 The NULL value is ignored at default.
 ```sql
 SELECT last_value(b) FROM test_data
@@ -36,7 +36,7 @@ SELECT last_value(b) FROM test_data
 └────────────────────────────┘
 ```
 
-### Example 2 [#example2]
+### Example 2 
 The NULL value is ignored.
 ```sql
 SELECT last_value(b) ignore nulls FROM test_data
@@ -48,7 +48,7 @@ SELECT last_value(b) ignore nulls FROM test_data
 └────────────────────────────┘
 ```
 
-### Example 3 [#example3]
+### Example 3 
 The NULL value is accepted.
 ```sql
 SELECT last_value(b) respect nulls FROM test_data
@@ -60,7 +60,7 @@ SELECT last_value(b) respect nulls FROM test_data
 └─────────────────────────────┘
 ```
 
-### Example 4 [#example4]
+### Example 4 
 Stabilized result using the sub-query with `ORDER BY`.
 ```sql
 SELECT

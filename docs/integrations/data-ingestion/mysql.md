@@ -22,11 +22,11 @@ This page covers using the `MySQL` table engine, for reading from a MySQL table.
 For ClickHouse Cloud, you can also use the [MySQL ClickPipe](/integrations/clickpipes/mysql) (currently in public beta) to easily move data from your MySQL tables to ClickHouse.
 </Note>
 
-## Connecting ClickHouse to MySQL using the MySQL Table Engine [#connecting-clickhouse-to-mysql-using-the-mysql-table-engine]
+## Connecting ClickHouse to MySQL using the MySQL Table Engine 
 
 The `MySQL` table engine allows you to connect ClickHouse to MySQL. **SELECT** and **INSERT** statements can be made in either ClickHouse or in the MySQL table. This article illustrates the basic methods of how to use the `MySQL` table engine.
 
-### 1. Configure MySQL [#1-configure-mysql]
+### 1. Configure MySQL 
 
 1.  Create a database in MySQL:
   ```sql
@@ -66,7 +66,7 @@ If you are using this feature in ClickHouse Cloud, you may need the to allow the
 Check the ClickHouse [Cloud Endpoints API](/cloud/get-started/query-endpoints.md) for egress traffic details.
 </Note>
 
-### 2. Define a Table in ClickHouse [#2-define-a-table-in-clickhouse]
+### 2. Define a Table in ClickHouse 
 
 1. Now let's create a ClickHouse table that uses the `MySQL` table engine:
   ```sql
@@ -91,7 +91,7 @@ The minimum parameters are:
 View the [MySQL table engine](/engines/table-engines/integrations/mysql.md) doc page for a complete list of parameters.
 </Note>
 
-### 3. Test the Integration [#3-test-the-integration]
+### 3. Test the Integration 
 
 1. In MySQL, insert a sample row:
   ```sql
@@ -150,6 +150,6 @@ You should see the new row:
   5 rows in set (0.01 sec)
   ```
 
-### Summary [#summary]
+### Summary 
 
 The `MySQL` table engine allows you to connect ClickHouse to MySQL to exchange data back and forth. For more details, be sure to check out the documentation page for the [MySQL table engine](/sql-reference/table-functions/mysql.md).

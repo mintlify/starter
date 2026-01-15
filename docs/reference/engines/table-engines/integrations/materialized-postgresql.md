@@ -30,7 +30,7 @@ SET allow_experimental_materialized_postgresql_table=1
 
 If more than one table is required, it is highly recommended to use the [MaterializedPostgreSQL](../../../engines/database-engines/materialized-postgresql.md) database engine instead of the table engine and use the `materialized_postgresql_tables_list` setting, which specifies the tables to be replicated (will also be possible to add database `schema`). It will be much better in terms of CPU, fewer connections and fewer replication slots inside the remote PostgreSQL database.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE postgresql_db.postgresql_replica (key UInt64, value UInt64)
@@ -46,7 +46,7 @@ PRIMARY KEY key;
 - `user` — PostgreSQL user.
 - `password` — User password.
 
-## Requirements [#requirements]
+## Requirements 
 
 1. The [wal_level](https://www.postgresql.org/docs/current/runtime-config-wal.html) setting must have a value `logical` and `max_replication_slots` parameter must have a value at least `2` in the PostgreSQL config file.
 
@@ -56,7 +56,7 @@ PRIMARY KEY key;
 
 4. The `MaterializedPostgreSQL` table engine only works for PostgreSQL versions >= 11 as the implementation requires the [pg_replication_slot_advance](https://pgpedia.info/p/pg_replication_slot_advance.html) PostgreSQL function.
 
-## Virtual columns [#virtual-columns]
+## Virtual columns 
 
 - `_version` — Transaction counter. Type: [UInt64](../../../sql-reference/data-types/int-uint.md).
 

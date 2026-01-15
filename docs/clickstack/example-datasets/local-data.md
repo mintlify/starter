@@ -21,11 +21,11 @@ This sample dataset can also be used with HyperDX in ClickHouse Cloud, with only
 
 <Steps>
 
-## Navigate to the HyperDX UI [#navigate-to-the-hyperdx-ui]
+## Navigate to the HyperDX UI 
 
 Visit [http://localhost:8080](http://localhost:8080) to access the HyperDX UI if deploying locally. If using HyperDX in ClickHouse Cloud, select your service and `HyperDX` from the left menu.
 
-## Copy ingestion API key [#copy-ingestion-api-key]
+## Copy ingestion API key 
 
 <Note title="HyperDX in ClickHouse Cloud">
 This step is not required if using HyperDX in ClickHouse Cloud.
@@ -35,7 +35,7 @@ Navigate to [`Team Settings`](http://localhost:8080/team) and copy the `Ingestio
 
 <img src="/images/use-cases/observability/copy_api_key.png" alt="Copy API key"/>
 
-## Create a local OpenTelemetry configuration [#create-otel-configuration]
+## Create a local OpenTelemetry configuration 
 
 Create a `otel-local-file-collector.yaml` file with the following content.
 
@@ -124,7 +124,7 @@ For more details on the OpenTelemetry (OTel) configuration structure, we recomme
 Users wanting more detailed logs on OSX can run the command `log stream --debug --style ndjson >> /tmp/all_events.log` before starting the collector below. This will capture detailed operating system logs to the file `/tmp/all_events.log`, already included in the above configuration.
 </Note>
 
-## Start the collector [#start-the-collector]
+## Start the collector 
 
 Run the following docker command to start an instance of the OTel collector.
 
@@ -144,13 +144,13 @@ We run the collector as the root user to access all system logs—this is necess
 
 The collector will immediately begin collecting local system logs and metrics.
 
-## Explore system logs [#explore-system-logs]
+## Explore system logs 
 
 Navigate to the HyperDX UI. The search UI should be populated with local system logs. Expand the filters to select the `system.log`:
 
 <img src="/images/use-cases/observability/hyperdx-20.png" alt="HyperDX Local logs"/>
 
-## Explore system metrics [#explore-system-metrics]
+## Explore system metrics 
 
 We can explore our metrics using charts.
 

@@ -16,7 +16,7 @@ JDBC is one of the most commonly used data sources in Spark.
 In this section, we will provide details on how to
 use the [ClickHouse official JDBC connector](/integrations/language-clients/java/jdbc) with Spark.
 
-## Read data [#read-data]
+## Read data 
 
 
 <Tabs>
@@ -155,7 +155,7 @@ df.show()
 </Tab>
 </Tabs>
 
-## Write data [#write-data]
+## Write data 
 
 
 <Tabs>
@@ -327,7 +327,7 @@ df.write \
 </Tab>
 </Tabs>
 
-## Parallelism [#parallelism]
+## Parallelism 
 
 When using Spark JDBC, Spark reads the data using a single partition. To achieve higher concurrency, you must specify
 `partitionColumn`, `lowerBound`, `upperBound`, and `numPartitions`, which describe how to partition the table when
@@ -335,7 +335,7 @@ reading in parallel from multiple workers.
 Please visit Apache Spark's official documentation for more information
 on [JDBC configurations](https://spark.apache.org/docs/latest/sql-data-sources-jdbc.html#data-source-option).
 
-## JDBC limitations [#jdbc-limitations]
+## JDBC limitations 
 
 * As of today, you can insert data using JDBC only into existing tables (currently there is no way to auto create the
   table on DF insertion, as Spark does with other connectors).

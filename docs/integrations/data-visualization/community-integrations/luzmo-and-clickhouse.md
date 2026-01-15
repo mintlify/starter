@@ -15,7 +15,7 @@ import {CommunityMaintainedBadge} from '/snippets/components/CommunityMaintained
 
 <CommunityMaintainedBadge/>
 
-## 1. Setup a ClickHouse connection [#1-setup-a-clickhouse-connection]
+## 1. Setup a ClickHouse connection 
 
 To make a connection to ClickHouse, navigate to the **Connections page**, select **New Connection**, then select the ClickHouse from the New Connection modal.
 
@@ -32,7 +32,7 @@ You'll be asked to provide a **host**, **username** and **password**:
 
 Please refer to the examples in our developer documentation to find out how to [create a connection to ClickHouse](https://developer.luzmo.com/api/createAccount?exampleSection=AccountCreateClickhouseRequestBody) via our API.
 
-## 2. Add datasets [#2-add-datasets]
+## 2. Add datasets 
 
 Once you have connected your ClickHouse you can add datasets as explained [here](https://academy.luzmo.com/article/ldx3iltg). You can select one or multiple datasets as available in your ClickHouse and [link](https://academy.luzmo.com/article/gkrx48x5) them in Luzmo to ensure they can be used together in a dashboard. Also make sure to check out this article on [Preparing your data for analytics](https://academy.luzmo.com/article/u492qov0).
 
@@ -42,7 +42,7 @@ You can now use your datasets to build beautiful (embedded) dashboards, or even 
 
 <img src="/images/integrations/data-visualization/luzmo_03.png" alt="Luzmo dashboard example showing multiple visualizations of data from ClickHouse"/>
 
-## Usage notes [#usage-notes]
+## Usage notes 
 
 1. The Luzmo ClickHouse connector uses the HTTP API interface (typically running on port 8123) to connect.
 2. If you use tables with the `Distributed` table engine some Luzmo-charts might fail when `distributed_product_mode` is `deny`. This should only occur, however, if you link the table to another table and use that link in a chart. In that case make sure to set the `distributed_product_mode` to another option that makes sense for you within your ClickHouse cluster. If you are using ClickHouse Cloud you can safely ignore this setting.

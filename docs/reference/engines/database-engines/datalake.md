@@ -11,7 +11,7 @@ data catalogs and query open table format data without the need for data duplica
 This transforms ClickHouse into a powerful query engine that works seamlessly with
 your existing data lake infrastructure.
 
-## Supported catalogs [#supported-catalogs]
+## Supported catalogs 
 
 The `DataLakeCatalog` engine supports the following data catalogs:
 
@@ -20,7 +20,7 @@ The `DataLakeCatalog` engine supports the following data catalogs:
 - **Hive Metastore** - Traditional Hadoop ecosystem catalog
 - **REST Catalogs** - Any catalog supporting the Iceberg REST specification
 
-## Creating a database [#creating-a-database]
+## Creating a database 
 
 You will need to enable the relevant settings below to use the `DataLakeCatalog` engine:
 
@@ -57,7 +57,7 @@ The following settings are supported:
 | `aws_secret_access_key` | AWS secret access key for S3/Glue access (if not using vended credentials) |
 | `region`                | AWS region for the service (e.g., `us-east-1`)                             |
 
-## Examples [#examples]
+## Examples 
 
 See below pages for examples of using the `DataLakeCatalog` engine:
 

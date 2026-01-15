@@ -1,215 +1,12 @@
-html.dark .code-block-background {
-    background-color: #161616 !important;
-}
 
 .nav-logo {
-    height: 3rem;
+    height: 2rem;
 }
 
 /* Product selector trigger button text size */
 .nav-dropdown-products-selector-trigger .truncate,
 .nav-dropdown-products-selector-trigger span.truncate {
     font-size: 1rem !important;
-}
-
-/* ============================================
-   Homepage Gemini-style Interface Styling
-   ============================================ */
-
-/* Hide all anchor links on the homepage */
-/* [data-radix-popper-content-wrapper]:has(span[id^="radix-"]) {
-  display: none !important;
-} */
-
-/* Make buttons slightly smaller */
-.cloud-button,
-.cloud-button-secondary {
-    padding: 0.625rem 1.25rem !important;
-    font-size: 0.875rem !important;
-}
-
-/* Fix hero image cropping */
-.hero-aside {
-    overflow: visible !important;
-}
-
-.hero-aside>img {
-    min-width: auto !important;
-    width: 70% !important;
-    height: auto !important;
-    max-width: 70% !important;
-    object-fit: contain !important;
-}
-
-/* Search card content */
-.search-card-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-}
-
-.search-hero-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 600px;
-    padding: 1.25rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 1.125rem;
-    color: inherit;
-}
-
-html:not(.dark) .search-hero-btn {
-    background: rgba(0, 0, 0, 0.02);
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-.search-hero-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-html:not(.dark) .search-hero-btn:hover {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-
-.btn-content {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.hero-action-shortcut {
-    padding: 0.25rem 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-html:not(.dark) .hero-action-shortcut {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-/* Custom cards grid layout */
-.docs-tour-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-@media (max-width: 1024px) {
-    .docs-tour-cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
-    .docs-tour-cards {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Individual card styling */
-.docs-tour-card {
-    background-color: #faf9fb;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.docs-tour-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: rgba(0, 0, 0, 0.2);
-}
-
-.dark .docs-tour-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark .docs-tour-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Card image */
-.docs-tour-card img {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0;
-    padding: 0;
-}
-
-/* Card content */
-.docs-tour-card-content {
-    padding: 1rem;
-}
-
-.docs-tour-card-content h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-}
-
-/* Light mode - black title text */
-html:not(.dark) .docs-tour-card-content h3 {
-    color: #000000;
-}
-
-/* Dark mode - white title text */
-.dark .docs-tour-card-content h3 {
-    color: #ffffff;
-}
-
-.docs-tour-card-content p {
-    margin: 0 0 0.75rem 0;
-    color: var(--grayscale-a11);
-    font-size: 0.875rem;
-}
-
-.docs-tour-card-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.docs-tour-card-content ul li {
-    margin-bottom: 0.375rem;
-    font-size: 0.875rem;
-}
-
-.docs-tour-card-content ul li:last-child {
-    margin-bottom: 0;
-}
-
-.docs-tour-card-content a {
-    color: var(--accent-a10);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.docs-tour-card-content a:hover {
-    color: var(--accent-a11);
-    text-decoration: underline;
 }
 
 /* Use case grid */
@@ -322,6 +119,50 @@ html:not(.dark) .gemini-nav-btn.active {
     display: inline-block !important;
     padding: 0.1em 0.5em !important;
     color: #000000 !important;
+}
+
+/* Generic Tilted Background Effect - for use anywhere */
+.tilted {
+    position: relative;
+    white-space: nowrap;
+}
+
+.tilted::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: skewY(-3deg);
+}
+
+.tilted-sm::before {
+    transform: skewY(-1deg);
+}
+
+.tilted-content {
+    position: relative;
+    padding: 1.25rem 1.25rem;
+}
+
+.tilted-yellow {
+    color: #1f1f1c;
+}
+
+.tilted-yellow::before {
+    background-color: #FCFF74;
+}
+
+.tilted-black {
+    color: #FCFF74;
+}
+
+.tilted-black::before {
+    background-color: #1a1a1a;
+}
+
+@media (min-width: 768px) {
+    .non-tilted-md::before {
+        transform: skewY(0deg);
+    }
 }
 
 /* Light mode - black text and black tilted background */
@@ -448,15 +289,16 @@ html:not(.dark) .hero-aside .product-item img {
 /* Product selector dropdown styling - Desktop only */
 @media (min-width: 1024px) {
 
-    /* Dropdown container - make it wider with backdrop blur */
+    /* Dropdown container - make it scale to content with backdrop blur */
     [data-testid="product-dropdown-content"],
     [class*="dropdown-content"],
     [class*="popover-content"]:has([class*="product"]) {
-        min-width: 1100px !important;
-        max-width: 1400px !important;
+        width: fit-content !important;
+        max-width: 900px !important;
         border-radius: 1.5rem !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
+        overflow: hidden !important;
     }
 
     /* Add backdrop overlay when product dropdown is open */
@@ -494,52 +336,72 @@ html:not(.dark) .hero-aside .product-item img {
         line-height: 1.5 !important;
     }
 
-    /* Product selector radio group - 3x3 grid layout */
+    /* Product selector radio group - Flex layout for new column structure */
     .product-selector-radio-group,
     [class*="product-selector"] [role="radiogroup"],
     [class*="ProductSelector"] {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.75rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.5rem !important;
         padding: 1rem !important;
-        height: 248px !important;
+        height: auto !important;
+        min-height: auto !important;
         width: 100% !important;
-        justify-items: center !important;
-        align-items: center !important;
+        justify-content: flex-start !important;
+        align-items: stretch !important;
+    }
+
+    /* New Column Styles */
+    .product-col-left,
+    .product-col-right {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 50% !important;
+    }
+
+    /* Column 1 (Left) - Add right border separator */
+    .product-col-left {
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding-right: 1rem !important;
+        margin-right: 0.5rem !important;
+    }
+
+    html:not(.dark) .product-col-left {
+        border-right-color: rgba(0, 0, 0, 0.08) !important;
     }
 
     /* Individual product items in dropdown */
-    .product-selector-radio-group>a,
-    [class*="product-selector"] [role="radiogroup"]>a,
-    [class*="ProductSelector"]>a,
+    .product-selector-radio-group a,
+    [class*="product-selector"] [role="radiogroup"] a,
+    [class*="ProductSelector"] a,
     a.link:has(.nav-dropdown-products-selector-item) {
-        max-width: 320px !important;
+        max-width: 100% !important;
+        /* Allow full width within column */
         margin: 0 !important;
         position: relative !important;
-        height: 100% !important;
+        height: auto !important;
     }
 
     /* Product selection item styling - uniform card sizes */
-    .product-selector-radio-group>a>*,
-    [class*="product-selector"] [role="radiogroup"]>a>*,
-    [class*="ProductSelector"]>a>*,
     .nav-dropdown-products-selector-item {
         border-radius: 0.75rem !important;
         height: 100% !important;
         display: flex !important;
         flex-direction: row !important;
         align-items: flex-start !important;
-        padding: 0.625rem 0.875rem !important;
+        padding: 0.5rem 0.75rem !important;
         background-color: transparent !important;
         border: 1px solid transparent !important;
         transition: all 0.2s ease-in-out !important;
-        gap: 0.75rem !important;
+        gap: 0.5rem !important;
+    }
+
+    /* Left col items should expand */
+    .product-col-left .nav-dropdown-products-selector-item {
+        height: 100% !important;
     }
 
     /* Product item hover state - subtle background */
-    .product-selector-radio-group>a:hover>*,
-    [class*="product-selector"] [role="radiogroup"]>a:hover>*,
-    [class*="ProductSelector"]>a:hover>*,
     .nav-dropdown-products-selector-item:hover {
         background-color: rgba(255, 255, 255, 0.05) !important;
         border-color: rgba(255, 255, 255, 0.1) !important;
@@ -607,59 +469,134 @@ html:not(.dark) .hero-aside .product-item img {
         color: #a3a3a3 !important;
     }
 
-    /* Grid positioning for specific products */
-    .product-selector-radio-group>a[href*="home"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="home"] {
-        grid-column: 1;
-        grid-row: 1;
+    /* REMOVED: Grid positioning for 2-column layout - relying on DOM order + Flex now */
+
+    /* Column 2 - List styling for right column */
+    .product-col-right a {
+        height: auto !important;
+        min-height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
     }
 
-    .product-selector-radio-group>a[href*="cloud"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="cloud"] {
-        grid-column: 1;
-        grid-row: 2;
+    .product-col-right a>* {
+        background-color: transparent !important;
+        border: none !important;
+        border-radius: 0.5rem !important;
+        padding: 0.5rem 0.75rem !important;
+        transition: background-color 0.2s ease-in-out !important;
+        gap: 0.5rem !important;
+        min-height: auto !important;
+        height: auto !important;
     }
 
-    .product-selector-radio-group>a[href*="open-source"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="open-source"] {
-        grid-column: 1;
-        grid-row: 3;
+    /* Column 2 - Smaller icons for list style */
+    .product-col-right .nav-dropdown-products-selector-item::before {
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
     }
 
-    .product-selector-radio-group>a[href*="clickpipes"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="clickpipes"] {
-        grid-column: 2;
-        grid-row: 1;
+    /* Column 2 - Hide descriptions */
+    .product-col-right .nav-dropdown-products-selector-item-description,
+    .product-col-right .nav-dropdown-products-selector-item p:last-child,
+    .product-col-right .nav-dropdown-products-selector-item .flex.flex-col p:last-child {
+        display: none !important;
     }
 
-    .product-selector-radio-group>a[href*="clickstack"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="clickstack"] {
-        grid-column: 2;
-        grid-row: 2;
+    /* Column 2 - Adjust title styling for list */
+    .product-col-right .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/clickstack"] .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/chdb"] .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/clickpipes"] .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/language-client"] .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/clients"] .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/integrations"] .nav-dropdown-products-selector-item-title,
+    [data-radix-menu-content] a[href*="/cloud"] .nav-dropdown-products-selector-item p:first-child,
+    [data-radix-menu-content] a[href*="/clickstack"] .nav-dropdown-products-selector-item p:first-child,
+    [data-radix-menu-content] a[href*="/chdb"] .nav-dropdown-products-selector-item p:first-child,
+    [data-radix-menu-content] a[href*="/clickpipes"] .nav-dropdown-products-selector-item p:first-child,
+    [data-radix-menu-content] a[href*="/language-client"] .nav-dropdown-products-selector-item p:first-child,
+    [data-radix-menu-content] a[href*="/clients"] .nav-dropdown-products-selector-item p:first-child,
+    [data-radix-menu-content] a[href*="/integrations"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/cloud"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/clickstack"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/chdb"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/clickpipes"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/language-client"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/clients"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/integrations"] .nav-dropdown-products-selector-item-title,
+    [role="radiogroup"] a[href*="/cloud"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/clickstack"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/chdb"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/clickpipes"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/language-client"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/clients"] .nav-dropdown-products-selector-item p:first-child,
+    [role="radiogroup"] a[href*="/integrations"] .nav-dropdown-products-selector-item p:first-child {
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
     }
 
-    .product-selector-radio-group>a[href*="chdb"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="chdb"] {
-        grid-column: 2;
-        grid-row: 3;
+    /* SPECIAL STYLING: Home Item (Left Column) - using stable class selector */
+    a.product-link-home {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        display: block !important;
+        margin-top: 0.6rem;
     }
 
-    .product-selector-radio-group>a[href*="integrations"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="integrations"] {
-        grid-column: 3;
-        grid-row: 1;
+    html:not(.dark) a.product-link-home {
+        border-bottom-color: rgba(0, 0, 0, 0.08) !important;
     }
 
-    .product-selector-radio-group>a[href*="reference"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="reference"] {
-        grid-column: 3;
-        grid-row: 2;
+    /* Simplified Home item icon styling */
+    a.product-link-home .nav-dropdown-products-selector-item-icon svg {
+        display: block !important;
+        width: 12px !important;
+        height: 12px !important;
     }
 
-    .product-selector-radio-group>a[href*="support"],
-    [class*="product-selector"] [role="radiogroup"]>a[href*="support"] {
-        grid-column: 3;
-        grid-row: 3;
+    /* Column 2 - List item hover state */
+    [data-radix-menu-content] a[href*="/cloud"]:hover>*,
+    [data-radix-menu-content] a[href*="/clickstack"]:hover>*,
+    [data-radix-menu-content] a[href*="/chdb"]:hover>*,
+    [data-radix-menu-content] a[href*="/clickpipes"]:hover>*,
+    [data-radix-menu-content] a[href*="/language-client"]:hover>*,
+    [data-radix-menu-content] a[href*="/clients"]:hover>*,
+    [data-radix-menu-content] a[href*="/integrations"]:hover>*,
+    [role="radiogroup"] a[href*="/cloud"]:hover>*,
+    [role="radiogroup"] a[href*="/clickstack"]:hover>*,
+    [role="radiogroup"] a[href*="/chdb"]:hover>*,
+    [role="radiogroup"] a[href*="/clickpipes"]:hover>*,
+    [role="radiogroup"] a[href*="/language-client"]:hover>*,
+    [role="radiogroup"] a[href*="/clients"]:hover>*,
+    [role="radiogroup"] a[href*="/integrations"]:hover>* {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border: none !important;
+        border-radius: 0.5rem !important;
+    }
+
+    /* Hide items we don't want to show */
+    .product-selector-radio-group>a[href*="/open-source"],
+    .product-selector-radio-group>a[href*="/oss"],
+    [class*="product-selector"] [role="radiogroup"]>a[href*="/open-source"],
+    [class*="product-selector"] [role="radiogroup"]>a[href*="/oss"] {
+        display: none !important;
+    }
+
+    /* Product dropdown headers styling */
+    .product-dropdown-header {
+        padding: 0.75rem 1rem 0.5rem !important;
+        font-size: 0.6875rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.1em !important;
+        margin-bottom: 0.25rem !important;
+        pointer-events: none !important;
+        display: flex !important;
+        align-items: center !important;
+        line-height: 1 !important;
     }
 }
 
@@ -864,315 +801,6 @@ html.dark .dark\:bg-primary-light,
     color: white !important;
 }
 
-/* ============================================
-   Product Icon Images (Light & Dark Mode)
-   ============================================ */
-
-/* Hide original img src and use background images instead */
-.nav-dropdown-products-selector-item img {
-    /* Hide the src attribute */
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-    position: absolute !important;
-}
-
-/* Create a wrapper for background images */
-.nav-dropdown-products-selector-item {
-    position: relative !important;
-}
-
-.nav-dropdown-products-selector-item::before {
-    content: "" !important;
-    display: block !important;
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    flex-shrink: 0 !important;
-    background-size: contain !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    margin-bottom: 0 !important;
-    /* Default fallback removed to prevent wrong icon showing */
-    /* background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/home-dark.svg") !important; */
-}
-
-/* Home - Dark */
-:is(.dark) a[href*="/home"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/home"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/home-dark.svg") !important;
-    filter: none !important;
-}
-
-/* Cloud - Dark */
-:is(.dark) a[href*="/cloud"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/cloud"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/cloud-dark.svg") !important;
-    filter: none !important;
-}
-
-/* Open Source - Dark */
-:is(.dark) a[href*="/oss"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/oss"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/oss-dark.svg") !important;
-    filter: none !important;
-}
-
-/* ClickPipes - Dark */
-:is(.dark) a[href*="/clickpipes"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/clickpipes"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/clickpipes-dark.svg") !important;
-    filter: none !important;
-}
-
-/* ClickStack - Dark */
-:is(.dark) a[href*="/clickstack"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/clickstack"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/clickstack-dark.svg") !important;
-    filter: none !important;
-}
-
-/* chDB - Dark */
-:is(.dark) a[href*="/chdb"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/chdb"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/chdb-dark.svg") !important;
-    filter: none !important;
-}
-
-/* Integrations - Dark */
-:is(.dark) a[href*="/integrations"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/integrations"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/integrations-dark.svg") !important;
-    filter: none !important;
-}
-
-/* Reference - Dark */
-:is(.dark) a[href*="/reference"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/reference"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/reference-dark.svg") !important;
-    filter: none !important;
-}
-
-/* Support center - Dark */
-:is(.dark) a[href*="/support"] .nav-dropdown-products-selector-item::before,
-:is([data-theme="dark"]) a[href*="/support"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/support-dark.svg") !important;
-    filter: none !important;
-}
-
-/* Default (Light) product icons */
-
-/* Home - Light */
-a[href*="/home"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/home-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* Cloud - Light */
-a[href*="/cloud"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/cloud-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* Open Source - Light */
-a[href*="/oss"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/oss-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* ClickPipes - Light */
-a[href*="/clickpipes"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/clickpipes-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* ClickStack - Light */
-a[href*="/clickstack"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/clickstack-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* chDB - Light */
-a[href*="/chdb"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/chdb-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* Integrations - Light */
-a[href*="/integrations"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/integrations-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* Reference - Light */
-a[href*="/reference"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/reference-dark.svg") !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-}
-
-/* Support center - Light */
-a[href*="/support"] .nav-dropdown-products-selector-item::before {
-    background-image: url("https://ch-docs-product-selector.s3.eu-central-1.amazonaws.com/support-dark.svg") !important;
-}
-
-
-
-/* ============================================
-   Product Selector Menu Styling
-   Based on ClickHouse Fern Docs Design
-   ============================================ */
-
-/* Mintlify Product Selector Dropdown Container */
-.nav-dropdown-products-selector-content {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(180px, 1fr)) !important;
-    gap: 12px !important;
-    padding: 20px !important;
-    max-width: 900px !important;
-}
-
-/* Individual product item wrapper links */
-.nav-dropdown-products-selector-content>a.link {
-    display: block !important;
-    text-decoration: none !important;
-    border-radius: 8px !important;
-    transition: all 0.2s ease-in-out !important;
-}
-
-/* Individual product item cards */
-.nav-dropdown-products-selector-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    gap: 12px !important;
-    padding: 16px !important;
-    text-align: left !important;
-
-    /* Transparent by default */
-    background-color: transparent !important;
-    border: 1px solid transparent !important;
-    border-radius: 8px !important;
-    box-shadow: none !important;
-
-    /* Smooth transitions */
-    transition: all 0.2s ease-in-out !important;
-
-    /* Reset grid layout from Mintlify's default */
-    grid-template-columns: 1fr !important;
-}
-
-/* Product item hover state */
-.nav-dropdown-products-selector-content>a.link:hover .nav-dropdown-products-selector-item,
-.nav-dropdown-products-selector-item:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    transform: translateY(-2px) !important;
-}
-
-/* Product item active/pressed state */
-.nav-dropdown-products-selector-content>a.link:active .nav-dropdown-products-selector-item,
-.nav-dropdown-products-selector-item:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* Product icon styling */
-.nav-dropdown-products-selector-item img,
-.nav-dropdown-products-selector-item .product-icon {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    object-fit: contain !important;
-    margin-bottom: 0 !important;
-    flex-shrink: 0 !important;
-}
-
-/* Product title and description container */
-.nav-dropdown-products-selector-item>div {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 4px !important;
-    flex: 1 !important;
-}
-
-/* Product title */
-.nav-dropdown-products-selector-item p:first-child {
-    margin: 0 !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-    color: inherit !important;
-}
-
-/* Product description */
-.nav-dropdown-products-selector-item p:last-child,
-.nav-dropdown-products-selector-item-description {
-    margin: 0 !important;
-    font-size: 0.875rem !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-    opacity: 1 !important;
-    display: block !important;
-}
-
-/* Extra specific selector for dark mode description */
-html.dark .nav-dropdown-products-selector-item-description,
-.dark .nav-dropdown-products-selector-item-description,
-html.dark .nav-dropdown-products-selector-item p:last-child {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-
-/* Hide the arrow icon that Mintlify adds by default */
-.nav-dropdown-products-selector-item svg {
-    display: none !important;
-}
-
-/* Light mode adjustments */
-@media (prefers-color-scheme: light) {
-    .nav-dropdown-products-selector-item {
-        background-color: rgba(0, 0, 0, 0.02) !important;
-        border-color: rgba(0, 0, 0, 0.08) !important;
-    }
-
-    .nav-dropdown-products-selector-content>a.link:hover .nav-dropdown-products-selector-item,
-    .nav-dropdown-products-selector-item:hover {
-        background-color: rgba(0, 0, 0, 0.04) !important;
-        border-color: rgba(0, 0, 0, 0.12) !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    }
-
-    .nav-dropdown-products-selector-item p:last-child,
-    .nav-dropdown-products-selector-item-description {
-        color: rgba(0, 0, 0, 0.5) !important;
-    }
-}
-
-/* Responsive design - 2 columns on tablets */
-@media (max-width: 1024px) {
-    .nav-dropdown-products-selector-content {
-        grid-template-columns: repeat(2, minmax(180px, 1fr)) !important;
-        max-width: 500px !important;
-    }
-}
-
-/* Responsive design - 1 column on mobile */
-@media (max-width: 640px) {
-    .nav-dropdown-products-selector-content {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-        max-width: 360px !important;
-    }
-
-    .nav-dropdown-products-selector-item {
-        padding: 14px !important;
-    }
-}
-
 
 /* ============================================
    Page Title Alignment
@@ -1244,6 +872,19 @@ body.clickpipes_home .hero-text {
 :is(.dark) a:hover {
     color: #FAFF69;
     opacity: 0.8;
+}
+
+/* Override yellow links for product selector items */
+[data-theme='dark'] .product-selector-radio-group a,
+[data-theme='dark'] [role="radiogroup"] a,
+[data-theme='dark'] .nav-dropdown-products-selector-content a,
+.dark .product-selector-radio-group a,
+.dark [role="radiogroup"] a,
+.dark .nav-dropdown-products-selector-content a,
+:is(.dark) .product-selector-radio-group a,
+:is(.dark) [role="radiogroup"] a,
+:is(.dark) .nav-dropdown-products-selector-content a {
+    color: inherit !important;
 }
 
 /* Beta Badge */
@@ -1670,4 +1311,167 @@ body.clickpipes_home .hero-text {
     .flex.flex-row-reverse>.relative.grow {
         max-width: calc(100% - 20rem) !important;
     }
+}
+
+/* ============================================
+   Hide System Table Description
+   ============================================ */
+
+/* Hide the system table description element */
+div.mt-2.text-lg.prose.prose-gray:has(p:first-child:only-child) {
+    display: none !important;
+}
+
+/* More specific targeting if the above hides too much */
+div.mt-2.text-lg.prose.prose-gray.dark\:prose-invert {
+    display: none !important;
+}
+
+/* ============================================
+   Hide Language Flag Icons in Localization Selector
+   ============================================ */
+
+/* Hide the circular flag icons in localization menu items */
+[id^="localization-select-item-"] .relative.size-4.rounded-full.shrink-0,
+[role="menuitem"][id^="localization-select-item-"] > div.relative.size-4.rounded-full {
+    display: none !important;
+}
+
+/* Hide the flag icon in the localization trigger button */
+#localization-select-trigger > div.relative.size-4.rounded-full {
+    display: none !important;
+}
+
+/* Remove left padding since flags are hidden */
+[id^="localization-select-item-"] {
+    padding-left: 1rem !important;
+}
+
+/* ============================================
+   Localization Select Positioning
+   ============================================ */
+
+/* Hide localization select in its original position (not in topbar-right-container) */
+#localization-select-trigger:not(.topbar-right-container #localization-select-trigger) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+}
+
+/* Show localization select when it's in the topbar right container */
+.topbar-right-container #localization-select-trigger {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+}
+
+/* ============================================
+   Navigation Group Headers
+   ============================================ */
+
+/* Product docs header */
+.nav-products::before {
+    content: "Product docs";
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 1rem 0.5rem;
+    margin-bottom: 0.25rem;
+    color: currentColor;
+    opacity: 0.7;
+}
+
+/* Integrations header */
+.nav-integrations::before {
+    content: "Integrations";
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 1rem 0.5rem;
+    margin-bottom: 0.25rem;
+    color: currentColor;
+    opacity: 0.7;
+}
+
+/* Resources header */
+.nav-resources::before {
+    content: "Resources";
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 1rem 0.5rem;
+    margin-bottom: 0.25rem;
+    color: currentColor;
+    opacity: 0.7;
+}
+
+/* ============================================
+   Compact Navigation Items in Grouped Columns
+   ============================================ */
+
+/* Make navigation items more compact in the grouped columns */
+.nav-user-intents a,
+.nav-products a,
+.nav-integrations a,
+.nav-resources a {
+    display: block !important;
+}
+
+.nav-user-intents .nav-dropdown-products-selector-item,
+.nav-products .nav-dropdown-products-selector-item,
+.nav-integrations .nav-dropdown-products-selector-item,
+.nav-resources .nav-dropdown-products-selector-item {
+    padding: 0.375rem 0.75rem !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+/* Hide descriptions in grouped navigation to save space */
+.nav-user-intents .nav-dropdown-products-selector-item-description,
+.nav-products .nav-dropdown-products-selector-item-description,
+.nav-integrations .nav-dropdown-products-selector-item-description,
+.nav-resources .nav-dropdown-products-selector-item-description,
+.nav-user-intents .nav-dropdown-products-selector-item p:last-child,
+.nav-products .nav-dropdown-products-selector-item p:last-child,
+.nav-integrations .nav-dropdown-products-selector-item p:last-child,
+.nav-resources .nav-dropdown-products-selector-item p:last-child {
+    display: none !important;
+}
+
+/* Adjust title font size for compact display */
+.nav-user-intents .nav-dropdown-products-selector-item-title,
+.nav-products .nav-dropdown-products-selector-item-title,
+.nav-integrations .nav-dropdown-products-selector-item-title,
+.nav-resources .nav-dropdown-products-selector-item-title {
+    font-size: 0.875rem !important;
+}
+
+/* ============================================
+   Sidebar Title Beta Tag Display
+   ============================================ */
+
+/* Make sidebar title display as inline-flex so Beta tag appears to the right */
+h5#sidebar-title {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.375rem !important;
+}
+
+/* Beta pill styling - blue colors (light and dark mode) */
+.nav-tag-pill-text {
+    background-color: #1e3a8a !important;
+    color: #93c5fd !important;
+}
+
+/* Ensure same blue colors in dark mode */
+.dark .nav-tag-pill-text,
+:is(.dark) .nav-tag-pill-text {
+    background-color: #1e3a8a !important;
+    color: #93c5fd !important;
 }

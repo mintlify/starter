@@ -8,13 +8,13 @@ title: 'HTTP Interface'
 doc_type: 'reference'
 ---
 
-## Prerequisites [#prerequisites]
+## Prerequisites 
 
 For the examples in this article you will need:
 - to have a running instance of ClickHouse server
 - have `curl` installed. On Ubuntu or Debian, run `sudo apt install curl` or refer to this [documentation](https://curl.se/download.html) for installation instructions.
 
-## Overview [#overview]
+## Overview 
 
 The HTTP interface lets you use ClickHouse on any platform from any programming language in the form of a REST API. The HTTP interface is more limited than the native interface, but it has better language support.
 
@@ -33,7 +33,7 @@ Ok.
 
 Also see: [HTTP response codes caveats](#http_response_codes_caveats).
 
-## Web user interface [#web-ui]
+## Web user interface 
 
 ClickHouse includes a web user interface, which can be accessed from the following address: 
 
@@ -57,7 +57,7 @@ $ curl 'http://localhost:8123/replicas_status'
 Ok.
 ```
 
-## Querying over HTTP/HTTPS [#querying]
+## Querying over HTTP/HTTPS 
 
 To query over HTTP/HTTPS there are three options:
 - send the request as a URL 'query' parameter
@@ -202,11 +202,11 @@ $ curl -X POST -F 'query=select {p1:UInt8} + {p2:UInt8}' -F "param_p1=3" -F "par
 7
 ```
 
-## Insert queries over HTTP/HTTPS [#insert-queries]
+## Insert queries over HTTP/HTTPS 
 
 The `POST` method of transmitting data is necessary for `INSERT` queries. In this case, you can write the beginning of the query in the URL parameter, and use POST to pass the data to insert. The data to insert could be, for example, a tab-separated dump from MySQL. In this way, the `INSERT` query replaces `LOAD DATA LOCAL INFILE` from MySQL.
 
-### Examples [#examples]
+### Examples 
 
 To create a table:
 
@@ -268,7 +268,7 @@ $ echo 'DROP TABLE t' | curl 'http://localhost:8123/' --data-binary @-
 
 For successful requests that do not return a data table, an empty response body is returned.
 
-## Compression [#compression]
+## Compression 
 
 Compression can be used to reduce network traffic when transmitting a large amount of data, or for creating dumps that are immediately compressed.
 
@@ -299,7 +299,7 @@ You can configure the data compression level using the [`http_zlib_compression_l
 Some HTTP clients might decompress data from the server by default (with `gzip` and `deflate`) and you might get decompressed data even if you use the compression settings correctly.
 </Info>
 
-## Examples [#examples-compression]
+## Examples 
 
 To send compressed data to the server:
 
@@ -330,7 +330,7 @@ curl -sS "http://localhost:8123/?enable_http_compression=1" \
 2
 ```
 
-## Default database [#default-database]
+## Default database 
 
 You can use the `database` URL parameter or the `X-ClickHouse-Database` header to specify the default database.
 
@@ -350,7 +350,7 @@ echo 'SELECT number FROM numbers LIMIT 10' | curl 'http://localhost:8123/?databa
 
 By default, the database that is registered in the server settings is used as the default database. Out of the box, this is the database called `default`. Alternatively, you can always specify the database using a dot before the table name.
 
-## Authentication [#authentication]
+## Authentication 
 
 The username and password can be indicated in one of three ways:
 
@@ -409,7 +409,7 @@ For more information see:
 - [Settings](/operations/settings/settings)
 - [SET](/sql-reference/statements/set)
 
-## Using ClickHouse sessions in the HTTP protocol [#using-clickhouse-sessions-in-the-http-protocol]
+## Using ClickHouse sessions in the HTTP protocol 
 
 You can also use ClickHouse sessions in the HTTP protocol. To do this, you need to add the `session_id` `GET` parameter to the request. You can use any string as the session ID. 
 
@@ -448,7 +448,7 @@ The following optional parameters exist:
 
 The HTTP interface allows passing external data (external temporary tables) for querying. For more information, see ["External data for query processing"](/engines/table-engines/special/external-data).
 
-## Response buffering [#response-buffering]
+## Response buffering 
 
 Response buffering can be enabled on the server-side. The following URL parameters are provided for this purpose:
 - `buffer_size`
@@ -472,7 +472,7 @@ curl -sS 'http://localhost:8123/?max_result_bytes=4000000&buffer_size=3000000&wa
 Use buffering to avoid situations where a query processing error occurred after the response code and HTTP headers were sent to the client. In this situation, an error message is written at the end of the response body, and on the client-side, the error can only be detected at the parsing stage.
 </Tip>
 
-## Setting a role with query parameters [#setting-role-with-query-parameters]
+## Setting a role with query parameters 
 
 This feature was added in ClickHouse 24.4.
 
@@ -505,7 +505,7 @@ curl -sS "http://localhost:8123?role=my_role&role=my_other_role" --data-binary "
 
 In this case, `?role=my_role&role=my_other_role` works similarly to executing `SET ROLE my_role, my_other_role` before the statement.
 
-## HTTP response codes caveats [#http_response_codes_caveats]
+## HTTP response codes caveats 
 
 Because of limitations of the HTTP protocol, a HTTP 200 response code does not guarantee that a query was successful.
 
@@ -596,17 +596,17 @@ Code: 395. DB::Exception: Value passed to 'throwIf' function is non-zero: while 
 __exception__
 ```
 
-## Queries with parameters [#cli-queries-with-parameters]
+## Queries with parameters 
 
 You can create a query with parameters and pass values for them from the corresponding HTTP request parameters. For more information, see [Queries with Parameters for CLI](../interfaces/cli.md#cli-queries-with-parameters).
 
-### Example [#example-3]
+### Example 
 
 ```bash
 $ curl -sS "<address>?param_id=2&param_phrase=test" -d "SELECT * FROM table WHERE int_column = {id:UInt8} and string_column = {phrase:String}"
 ```
 
-### Tabs in URL Parameters [#tabs-in-url-parameters]
+### Tabs in URL Parameters 
 
 Query parameters are parsed from the "escaped" format. This has some benefits, such as the possibility to unambiguously parse nulls as `\N`. This means the tab character should be encoded as `\t` (or `\` and a tab). For example, the following contains an actual tab between `abc` and `123` and the input string is split into two values:
 
@@ -635,7 +635,7 @@ curl -sS "http://localhost:8123?param_arg1=abc%5C%09123" -d "SELECT splitByChar(
 ['abc','123']
 ```
 
-## Predefined HTTP Interface [#predefined_http_interface]
+## Predefined HTTP Interface 
 
 ClickHouse supports specific queries through the HTTP interface. For example, you can write data to a table as follows:
 
@@ -761,7 +761,7 @@ Each of these are discussed below:
 
 The configuration methods for different `type`s are discussed next.
 
-### predefined_query_handler [#predefined_query_handler]
+### predefined_query_handler 
 
 `predefined_query_handler` supports setting `Settings` and `query_params` values. You can configure `query` in the type of `predefined_query_handler`.
 
@@ -806,7 +806,7 @@ max_threads    1
 In one `predefined_query_handler` only one `query` is supported.
 </Note>
 
-### dynamic_query_handler [#dynamic_query_handler]
+### dynamic_query_handler 
 
 In `dynamic_query_handler`, the query is written in the form of parameter of the HTTP request. The difference is that in `predefined_query_handler`, the query is written in the configuration file. `query_param_name` can be configured in `dynamic_query_handler`.
 
@@ -836,7 +836,7 @@ max_threads 1
 max_final_threads   2
 ```
 
-### static [#static]
+### static 
 
 `static` can return [`content_type`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type), [status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) and `response_content`. `response_content` can return the specified content.
 
@@ -1028,7 +1028,7 @@ $ curl -vv -H 'XXX:xxx' 'http://localhost:8123/get_relative_path_static_handler'
 * Connection #0 to host localhost left intact
 ```
 
-### redirect [#redirect]
+### redirect 
 
 `redirect` will do a `302` redirect to `location`
 
@@ -1049,7 +1049,7 @@ For instance this is how you can automatically add set user to `play` for ClickH
 </clickhouse>
 ```
 
-## HTTP response headers [#http-response-headers]
+## HTTP response headers 
 
 ClickHouse allows you to configure custom HTTP response headers that can be applied to any kind of handler that can be configured. These headers can be set using the `http_response_headers` setting, which accepts key-value pairs representing header names and their values. This feature is particularly useful for implementing custom security headers, CORS policies, or any other HTTP header requirements across your ClickHouse HTTP interface.
 
@@ -1084,7 +1084,7 @@ In the example below, every server response will contain two custom headers: `X-
 </clickhouse>
 ```
 
-## Valid JSON/XML response on exception during HTTP streaming [#valid-output-on-exception-http-streaming]
+## Valid JSON/XML response on exception during HTTP streaming 
 
 While query execution occurs over HTTP an exception can happen when part of the data has already been sent. Usually an exception is sent to the client in plain text.
 Even if some specific data format was used to output data and the output may become invalid in terms of specified data format.

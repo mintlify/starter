@@ -11,24 +11,24 @@ import {BetaBadge} from '/snippets/components/BetaBadge/BetaBadge.jsx'
 
 The SQL Console's dashboards feature allows you to collect and share visualizations from saved queries. Get started by saving and visualizing queries, adding query visualizations to a dashboard, and making the dashboard interactive using query parameters.
 
-## Core concepts [#core-concepts]
+## Core concepts 
 
-### Query sharing [#query-sharing]
+### Query sharing 
 
 In order to share your dashboard with colleagues, please be sure to share the underlying saved query. To view a visualization, users must have, at a minimum, read-only access to the underlying saved query. 
 
-### Interactivity [#interactivity]
+### Interactivity 
 
 Use [query parameters](/sql-reference/syntax#defining-and-using-query-parameters) to make your dashboard interactive. For instance, you can add a query parameter to a `WHERE` clause to function as a filter. 
 
 You can toggle the query parameter input via the **Global** filters side pane by selecting a “filter” type in the visualization settings. You can also toggle the query parameter input by linking to another object (like a table) on the dashboard.
 Please see the “[configure a filter](/cloud/manage/dashboards#configure-a-filter)” section of the quick start guide below. 
 
-## Quick start [#quick-start]
+## Quick start 
 
 Let's create a dashboard to monitor our ClickHouse service using the [query\_log](/operations/system-tables/query_log) system table.
 
-### Create a saved query [#create-a-saved-query]
+### Create a saved query 
 
 If you already have saved queries to visualize, you can skip this step. 
 
@@ -48,13 +48,13 @@ We can create and save another query, `query count by query kind`, to count the 
 
 Now that there's two queries, let's create a dashboard to visualize and collect these queries. 
 
-### Create a dashboard [#create-a-dashboard]
+### Create a dashboard 
 
 Navigate to the Dashboards panel, and hit “New Dashboard”. After you assign a name, you'll have successfully created your first dashboard!
 
 <img src="/images/cloud/dashboards/5_dashboards.png" alt="Create a new dashboard"/>
 
-### Add a visualization [#add-a-visualization]
+### Add a visualization 
 
 There's two saved queries, `queries over time` and `query count by query kind`. Let's visualize the first as a line chart. Give your visualization a title and subtitle, and select the query to visualize. Next, select the “Line” chart type, and assign an x and y axis.
 
@@ -68,7 +68,7 @@ Next, let's visualize the second query as a table, and position it below the lin
 
 You've created your first dashboard by visualizing two saved queries!
 
-### Configure a filter [#configure-a-filter]
+### Configure a filter 
 
 Let's make this dashboard interactive by adding a filter on query kind so you can display just the trends related to Insert queries. We'll accomplish this task using [query parameters](/sql-reference/syntax#defining-and-using-query-parameters). 
 

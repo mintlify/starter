@@ -32,7 +32,7 @@ The following actions are supported:
 - [MATERIALIZE COLUMN](#materialize-column) — Materializes the column in the parts where the column is missing.
 These actions are described in detail below.
 
-## ADD COLUMN [#add-column]
+## ADD COLUMN 
 
 ```sql
 ADD COLUMN [IF NOT EXISTS] name [type] [default_expr] [codec] [AFTER name_after | FIRST]
@@ -68,7 +68,7 @@ ToDrop  UInt32
 Added3  UInt32
 ```
 
-## DROP COLUMN [#drop-column]
+## DROP COLUMN 
 
 ```sql
 DROP COLUMN [IF EXISTS] name
@@ -88,7 +88,7 @@ Example:
 ALTER TABLE visits DROP COLUMN browser
 ```
 
-## RENAME COLUMN [#rename-column]
+## RENAME COLUMN 
 
 ```sql
 RENAME COLUMN [IF EXISTS] name to new_name
@@ -104,7 +104,7 @@ Example:
 ALTER TABLE visits RENAME COLUMN webBrowser TO browser
 ```
 
-## CLEAR COLUMN [#clear-column]
+## CLEAR COLUMN 
 
 ```sql
 CLEAR COLUMN [IF EXISTS] name IN PARTITION partition_name
@@ -120,7 +120,7 @@ Example:
 ALTER TABLE visits CLEAR COLUMN browser IN PARTITION tuple()
 ```
 
-## COMMENT COLUMN [#comment-column]
+## COMMENT COLUMN 
 
 ```sql
 COMMENT COLUMN [IF EXISTS] name 'Text comment'
@@ -138,7 +138,7 @@ Example:
 ALTER TABLE visits COMMENT COLUMN browser 'This column shows the browser used for accessing the site.'
 ```
 
-## MODIFY COLUMN [#modify-column]
+## MODIFY COLUMN 
 
 ```sql
 MODIFY COLUMN [IF EXISTS] name [type] [default_expr] [codec] [TTL] [settings] [AFTER name_after | FIRST]
@@ -217,7 +217,7 @@ The `ALTER` query for changing columns is replicated. The instructions are saved
 Please be careful when changing a Nullable column to Non-Nullable. Make sure it doesn't have any NULL values, otherwise it will cause problems when reading from it. In that case, the workaround would be to Kill the mutation and revert the column back to Nullable type.
 </Note>
 
-## MODIFY COLUMN REMOVE [#modify-column-remove]
+## MODIFY COLUMN REMOVE 
 
 Removes one of the column properties: `DEFAULT`, `ALIAS`, `MATERIALIZED`, `CODEC`, `COMMENT`, `TTL`, `SETTINGS`.
 
@@ -239,7 +239,7 @@ ALTER TABLE table_with_ttl MODIFY COLUMN column_ttl REMOVE TTL;
 
 - [REMOVE TTL](ttl.md).
 
-## MODIFY COLUMN MODIFY SETTING [#modify-column-modify-setting]
+## MODIFY COLUMN MODIFY SETTING 
 
 Modify a column setting.
 
@@ -257,7 +257,7 @@ Modify column's `max_compress_block_size` to `1MB`:
 ALTER TABLE table_name MODIFY COLUMN column_name MODIFY SETTING max_compress_block_size = 1048576;
 ```
 
-## MODIFY COLUMN RESET SETTING [#modify-column-reset-setting]
+## MODIFY COLUMN RESET SETTING 
 
 Reset a column setting, also removes the setting declaration in the column expression of the table's CREATE query.
 
@@ -275,7 +275,7 @@ Reset column setting `max_compress_block_size` to it's default value:
 ALTER TABLE table_name MODIFY COLUMN column_name RESET SETTING max_compress_block_size;
 ```
 
-## MATERIALIZE COLUMN [#materialize-column]
+## MATERIALIZE COLUMN 
 
 Materializes a column with a `DEFAULT` or `MATERIALIZED` value expression. When adding a materialized column using `ALTER TABLE table_name ADD COLUMN column_name MATERIALIZED`, existing rows without materialized values are not automatically filled. `MATERIALIZE COLUMN` statement can be used to rewrite existing column data after a `DEFAULT` or `MATERIALIZED` expression has been added or updated (which only updates the metadata but does not change existing data). Note that materializing a column in the sort key is an invalid operation because it could break the sort order.
 Implemented as a [mutation](/sql-reference/statements/alter/index.md#mutations).
@@ -333,7 +333,7 @@ SELECT groupArray(x), groupArray(s) FROM tmp;
 
 - [MATERIALIZED](/sql-reference/statements/create/view#materialized-view).
 
-## Limitations [#limitations]
+## Limitations 
 
 The `ALTER` query lets you create and delete separate elements (columns) in nested data structures, but not whole nested data structures. To add a nested data structure, you can add columns with a name like `name.nested_name` and the type `Array(T)`. A nested data structure is equivalent to multiple array columns with a name that has the same prefix before the dot.
 

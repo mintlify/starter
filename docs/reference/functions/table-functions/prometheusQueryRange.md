@@ -9,7 +9,7 @@ doc_type: 'reference'
 
 Evaluates a prometheus query using data from a TimeSeries table over a range of evaluation times.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 prometheusQueryRange('db_name', 'time_series_table', 'promql_query', start_time, end_time, step)
@@ -17,7 +17,7 @@ prometheusQueryRange(db_name.time_series_table, 'promql_query', start_time, end_
 prometheusQueryRange('time_series_table', 'promql_query', start_time, end_time, step)
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 - `db_name` - The name of the database where a TimeSeries table is located.
 - `time_series_table` - The name of a TimeSeries table.
@@ -26,7 +26,7 @@ prometheusQueryRange('time_series_table', 'promql_query', start_time, end_time, 
 - `end_time` - The end time of the evaluation range.
 - `step` - The step used to iterate the evaluation time from `start_time` to `end_time` (inclusively).
 
-## Returned value [#returned_value]
+## Returned value 
 
 The function can returns different columns depending on the result type of the query passed to parameter `promql_query`:
 
@@ -37,7 +37,7 @@ The function can returns different columns depending on the result type of the q
 | scalar      | scalar ValueType | prometheusQuery(mytable, '1h30m') |
 | string      | string String | prometheusQuery(mytable, '"abc"') |
 
-## Example [#example]
+## Example 
 
 ```sql
 SELECT * FROM prometheusQueryRange(mytable, 'rate(http_requests{job="prometheus"}[10m])[1h:10m]', now() - INTERVAL 10 MINUTES, now(), INTERVAL 1 MINUTE)

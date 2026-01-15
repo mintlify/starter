@@ -33,13 +33,13 @@ The reference vector is a constant array and given as a common table expression.
 Any of the available [distance function](/sql-reference/functions/distance-functions) can be used for that.
 `<N>` specifies how many neighbors should be returned.
 
-## Exact vector search [#exact-nearest-neighbor-search]
+## Exact vector search 
 
 An exact vector search can be performed using above SELECT query as is.
 The runtime of such queries is generally proportional to the number of stored vectors and their dimension, i.e. the number of array elements.
 Also, since ClickHouse performs a brute-force scan of all vectors, the runtime depends also on the number of threads by the query (see setting [max_threads](../../../operations/settings/settings.md#max_threads)).
 
-### Example [#exact-nearest-neighbor-search-example]
+### Example 
 
 ```sql
 CREATE TABLE tab(id Int32, vec Array(Float32)) ENGINE = MergeTree ORDER BY id;
@@ -63,9 +63,9 @@ returns
    └────┴─────────┘
 ```
 
-## Approximate vector search [#approximate-nearest-neighbor-search]
+## Approximate vector search 
 
-### Vector Similarity Indexes [#vector-similarity-index]
+### Vector Similarity Indexes 
 
 ClickHouse provides a special "vector similarity" index to perform approximate vector search.
 
@@ -74,7 +74,7 @@ Vector similarity indexes are available in ClickHouse version 25.8 and higher.
 If you run into problems, kindly open an issue in the [ClickHouse repository](https://github.com/clickhouse/clickhouse/issues).
 </Note>
 
-#### Creating a Vector Similarity Index [#creating-a-vector-similarity-index]
+#### Creating a Vector Similarity Index 
 
 A vector similarity index can be created on a new table like this:
 
@@ -188,7 +188,7 @@ Memory consumption = 3072 + 512 = 3584 MB
 
 Above formula does not account for additional memory required by vector similarity indexes to allocate runtime data structures like pre-allocated buffers and caches.
 
-#### Using a Vector Similarity Index [#using-a-vector-similarity-index]
+#### Using a Vector Similarity Index 
 
 <Note>
 To use vector similarity indexes, setting [compatibility](../../../operations/settings/settings.md) has be `''` (the default value), or `'25.1'` or newer.
@@ -392,7 +392,7 @@ Query id: a2a9d0c8-a525-45c1-96ca-c5a11fa66f47
 A query run without rescoring (`vector_search_with_rescoring = 0`) and with parallel replicas enabled may fall back to rescoring.
 </Note>
 
-#### Performance tuning [#performance-tuning]
+#### Performance tuning 
 
 **Tuning compression**
 
@@ -524,7 +524,7 @@ result = chclient.query(
 In the example, the reference vector is sent as-is in binary form and reinterpreted as array of floats on the server.
 This saves CPU time on the server side, and avoids bloat in the server logs and `system.query_log`.
 
-#### Administration and monitoring [#administration]
+#### Administration and monitoring 
 
 The on-disk size of vector similarity indexes can be obtained from [system.data_skipping_indices](../../../operations/system-tables/data_skipping_indices):
 
@@ -542,7 +542,7 @@ Example output:
 └──────────┴───────┴──────┴──────────────────────────┘
 ```
 
-#### Differences to regular skipping indexes [#differences-to-regular-skipping-indexes]
+#### Differences to regular skipping indexes 
 
 As all regular [skipping indexes](/optimize/skipping-indexes), vector similarity indexes are constructed over granules and each indexed block consists of `GRANULARITY = [N]`-many granules (`[N]` = 1 by default for normal skipping indexes).
 For example, if the primary index granularity of the table is 8192 (setting `index_granularity = 8192`) and `GRANULARITY = 2`, then each indexed block will contain 16384 rows.
@@ -567,7 +567,7 @@ Note that the search accuracy is with both cases equally good, only the processi
 It is generally recommended to use a large `GRANULARITY` for vector similarity indexes and fall back to a smaller `GRANULARITY` values only in case of problems like excessive memory consumption of the vector similarity structures.
 If no `GRANULARITY` was specified for vector similarity indexes, the default value is 100 million.
 
-#### Example [#approximate-nearest-neighbor-search-example]
+#### Example 
 
 ```sql
 CREATE TABLE tab(id Int32, vec Array(Float32), INDEX idx vec TYPE vector_similarity('hnsw', 'L2Distance', 2)) ENGINE = MergeTree ORDER BY id;
@@ -597,7 +597,7 @@ Further example datasets that use approximate vector search:
 - [dbpedia](../../../getting-started/example-datasets/dbpedia-dataset)
 - [hackernews](../../../getting-started/example-datasets/hackernews-vector-search-dataset)
 
-### Quantized Bit (QBit) [#approximate-nearest-neighbor-search-qbit]
+### Quantized Bit (QBit) 
 
 <ExperimentalBadge/>
 
@@ -628,7 +628,7 @@ Where:
 * `element_type` – the type of each vector element. Supported types are `BFloat16`, `Float32`, and `Float64`
 * `dimension` – the number of elements in each vector
 
-#### Creating a `QBit` Table and Adding Data [#qbit-create]
+#### Creating a `QBit` Table and Adding Data 
 
 ```sql
 CREATE TABLE fruit_animal (
@@ -646,7 +646,7 @@ INSERT INTO fruit_animal VALUES
     ('horse', [-0.61435682, 0.48542571, 1.21091247, -0.62530446, -1.33082533]);
 ```
 
-#### Vector Search with `QBit` [#qbit-search]
+#### Vector Search with `QBit` 
 
 Let's find the nearest neighbors to a vector representing word 'lemon' using L2 distance. The third parameter in the distance function specifies the precision in bits - higher values provide more accuracy but require more computation.
 
@@ -700,14 +700,14 @@ Notice that with 12-bit quantization, we get a good approximation of the distanc
 In the current state, the speed-up is due to reduced I/O as we read less data. If the original data was wide, like `Float64`, choosing a lower precision will still result in distance calculation on data of the same width – just with less precision.
 </Note>
 
-#### Performance Considerations [#qbit-performance]
+#### Performance Considerations 
 
 The performance benefit of `QBit` comes from reduced I/O operations, as less data needs to be read from storage when using lower precision. Moreover, when the `QBit` contains `Float32` data, if the precision parameter is 16 or below, there will be additional benefits from reduced computation. The precision parameter directly controls the trade-off between accuracy and speed:
 
 - **Higher precision** (closer to the original data width): More accurate results, slower queries
 - **Lower precision**: Faster queries with approximate results, reduced memory usage
 
-### References [#references]
+### References 
 
 Blogs:
 - [Vector Search with ClickHouse - Part 1](https://clickhouse.com/blog/vector-search-clickhouse-p1)

@@ -10,7 +10,7 @@ doc_type: 'reference'
 
 The `Dictionary` engine displays the [dictionary](../../../sql-reference/dictionaries/index.md) data as a ClickHouse table.
 
-## Example [#example]
+## Example 
 
 As an example, consider a dictionary of `products` with the following configuration:
 

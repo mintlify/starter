@@ -8,25 +8,25 @@ keywords: ['Exception', 'User Settings']
 
 
 
-## DB::Exception: Cannot update user `default` in users.xml because this storage is readonly. (ACCESS_STORAGE_READONLY) [#dbexception-cannot-update-user-default-in-usersxml-because-this-storage-is-readonly-access_storage_readonly]
+## DB::Exception: Cannot update user `default` in users.xml because this storage is readonly. (ACCESS_STORAGE_READONLY)
 
 When you try to alter a user's settings, you may encounter the above exception.
 
 Here are a few options to troubleshoot this error:
 
-## Edit users.xml directly [#edit-usersxml-directly]
+## Edit users.xml directly
 
 You can edit or add the desired settings for a specific user in `users.xml` directly in the file `/etc/clickhouse-server/users.d`.
 
 Read more about `users.xml` [here](/operations/settings/settings-profiles).
 
-## Create another user [#create-another-user]
+## Create another user
 
 You can create another user with the specified settings, then connect to ClickHouse using that new user.
 
 View [this page](/sql-reference/statements/create/user) to learn how to create users.
 
-## Enable SQL-driven access control [#enable-sql-driven-access-control]
+## Enable SQL-driven access control
 
 You can enable SQL-drive access control and account management for the default user. The steps to enable this are specified in this [page](/operations/access-rights#enabling-access-control
 ).

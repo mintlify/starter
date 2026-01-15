@@ -33,7 +33,7 @@ article. You can find more information in the official guide:
 runtime](https://learn.microsoft.com/en-us/azure/data-factory/create-self-hosted-integration-runtime?tabs=data-factory)
 </Info>
 
-## Turning ClickHouse into a REST service [#turning-clickhouse-to-a-rest-service]
+## Turning ClickHouse into a REST service 
 
 Azure Data Factory supports sending data to external systems over HTTP in JSON
 format. We can use this capability to insert data directly into ClickHouse
@@ -89,7 +89,7 @@ Service to your ClickHouse instance, define a Dataset for the
 [REST sink](https://learn.microsoft.com/en-us/azure/data-factory/connector-rest),
 and create a Copy Data activity to send data from Azure to ClickHouse.
 
-## Creating an Azure data factory instance [#create-an-azure-data-factory-instance]
+## Creating an Azure data factory instance 
 
 This guide assumes that you have access to Microsoft Azure account, and you
 already have configured a subscription and a resource group. If you have
@@ -116,7 +116,7 @@ and move to the next one using your existing service.
 Once the deployment completes successfully, you can start using your new Azure
 Data Factory instance.
 
-## Creating a new REST-Based linked service [#-creating-new-rest-based-linked-service]
+## Creating a new REST-Based linked service 
 
 1. Log in to the Microsoft Azure Portal and open your Data Factory instance.
    <img src="/images/integrations/data-ingestion/azure-data-factory/azure-home-with-data-factory.png" alt="Azure Portal Home Page with Data Factory"/>
@@ -167,7 +167,7 @@ Data Factory instance.
 
 You should now see your newly registered REST-based linked service in the list.
 
-## Creating a new dataset for the ClickHouse HTTP Interface [#creating-a-new-dataset-for-the-clickhouse-http-interface]
+## Creating a new dataset for the ClickHouse HTTP Interface 
 
 Now that we have a linked service configured for the ClickHouse HTTP interface,
 we can create a dataset that Azure Data Factory will use to send data to
@@ -232,7 +232,7 @@ Data](https://clickhouse.com/docs/getting-started/example-datasets/environmental
    all at the top of the page to save your changes.
    <img src="/images/integrations/data-ingestion/azure-data-factory/adf-new-dataset-connection-successful.png" alt="New Dataset Connection Successful"/>
 
-### Setting up an example dataset [#setting-up-an-example-dataset]
+### Setting up an example dataset 
 
 In this example, we will not use the full Environmental Sensors Dataset, but
 just a small subset available at the
@@ -250,7 +250,7 @@ service), Then, in Azure Data Factory Studio, go to the Factory Resources pane.
 Create a new dataset that points to the uploaded data. Click Publish all to
 save your changes.
 
-## Creating a Copy Activity to transfer data to ClickHouse [#creating-the-copy-activity-to-transfer-data-to-clickhouse]
+## Creating a Copy Activity to transfer data to ClickHouse 
 
 Now that we've configured both the input and output datasets, we can set up a
 **Copy Data** activity to transfer data from our example dataset into the
@@ -291,7 +291,7 @@ Now that we've configured both the input and output datasets, we can set up a
 
 6. Once complete, click **Publish all** to save your pipeline and dataset changes.
 
-## Additional resources [#additional-resources-1]
+## Additional resources 
 - [HTTP Interface](https://clickhouse.com/docs/interfaces/http)
 - [Copy and transform data from and to a REST endpoint by using Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/connector-rest?tabs=data-factory)
 - [Selecting an Insert Strategy](https://clickhouse.com/docs/best-practices/selecting-an-insert-strategy)

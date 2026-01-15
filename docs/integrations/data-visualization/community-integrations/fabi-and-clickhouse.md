@@ -17,11 +17,11 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 <img src="/images/integrations/data-visualization/fabi_01.png" alt="Fabi.ai data exploration and workflow platform" />
 
-## Gather Your Connection Details [#gather-your-connection-details]
+## Gather Your Connection Details 
 
 <GatherYourDetailsHttp />
 
-## Create your Fabi.ai account and connect ClickHouse [#connect-to-clickhouse]
+## Create your Fabi.ai account and connect ClickHouse 
 
 Log in or create your Fabi.ai account: https://app.fabi.ai/
 
@@ -35,13 +35,13 @@ Log in or create your Fabi.ai account: https://app.fabi.ai/
 
 3. Congratulations! You have now integrated ClickHouse into Fabi.ai.
 
-## Querying ClickHouse. [#querying-clickhouse]
+## Querying ClickHouse. 
 
 Once you’ve connected Fabi.ai to ClickHouse, go to any [Smartbook](https://docs.fabi.ai/analysis_and_reporting/smartbooks) and create a SQL cell. If you only have one data source connected to your Fabi.ai instance, the SQL cell will automatically default to ClickHouse, otherwise you can choose the source to query from the source dropdown.
 
    <img src="/images/integrations/data-visualization/fabi_04.png" alt="Querying ClickHouse" />
 
-## Additional Resources [#additional-resources]
+## Additional Resources 
 
 [Fabi.ai](https://www.fabi.ai) documentation: https://docs.fabi.ai/introduction
 

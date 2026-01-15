@@ -22,7 +22,7 @@ To implement the JDBC connection, ClickHouse uses the separate program [clickhou
 
 This engine supports the [Nullable](../../../sql-reference/data-types/nullable.md) data type.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -45,7 +45,7 @@ ENGINE = JDBC(datasource, external_database, external_table)
 
 - These parameters can also be passed using [named collections](operations/named-collections.md).
 
-## Usage example [#usage-example]
+## Usage example 
 
 Creating a table in MySQL server by connecting directly with it's console client:
 
@@ -100,6 +100,6 @@ SELECT toInt32(number), toFloat32(number * 1.0)
 FROM system.numbers
 ```
 
-## See also [#see-also]
+## See also 
 
 - [JDBC table function](../../../sql-reference/table-functions/jdbc.md).

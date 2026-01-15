@@ -8,7 +8,7 @@ doc_type: 'guide'
 
 If your ClickHouse organization is currently billed through an active cloud marketplace pay-as-you-go (PAYG) subscription (or order) and you wish to migrate to billing via a committed spend contract through the same cloud marketplace, please accept your new offer and then follow the steps below based on your cloud service provider.
 
-## Important Notes [#important-notes]
+## Important Notes 
 
 Please note that canceling your marketplace PAYG subscription does not delete your ClickHouse Cloud account - only the billing relationship via the marketplace. Once canceled, our system will stop billing for ClickHouse Cloud services through the marketplace. (Note: this process is not immediate and may take a few minutes to complete).
 
@@ -20,13 +20,13 @@ Any usage accrued after the subscription is canceled will be billed to the next 
 
 For any questions or support with issues configuring your organization to a new marketplace subscription please reach out to ClickHouse [support](https://clickhouse.com/support/program) for help.
 
-## AWS Marketplace [#aws-marketplace]
+## AWS Marketplace 
 
 If you want to use the same AWS Account ID for migrating your PAYG subscription to a committed spend contract then our recommended method is to [contact sales](https://clickhouse.com/company/contact) to make this amendment. Doing so means no additional steps are needed and no disruption to your ClickHouse organization or services will occur.
 
 If you want to use a different AWS Account ID for migrating your ClickHouse organization from a PAYG subscription to a committed spend contract then follow these steps:
 
-### Steps to Cancel AWS PAYG Subscription [#cancel-aws-payg]
+### Steps to Cancel AWS PAYG Subscription 
 
 1. **Go to the [AWS Marketplace](https://us-east-1.console.aws.amazon.com/marketplace)**
 2. **Click on the "Manage Subscriptions" button**
@@ -42,9 +42,9 @@ If you want to use a different AWS Account ID for migrating your ClickHouse orga
 
 Next follow these [steps](/cloud/billing/marketplace/aws-marketplace-committed-contract) to configure your ClickHouse organization to the new AWS committed spend contract you accepted.
 
-## GCP Marketplace [#gcp-marketplace]
+## GCP Marketplace 
 
-### Steps to Cancel GCP PAYG Order [#cancel-gcp-payg]
+### Steps to Cancel GCP PAYG Order 
 
 1. **Go to your [Google Cloud Marketplace Console](https://console.cloud.google.com/marketplace):**
     - Make sure you are logged in to the correct GCP account and have selected the appropriate project
@@ -58,9 +58,9 @@ Next follow these [steps](/cloud/billing/marketplace/aws-marketplace-committed-c
 
 Next follow these [steps](/cloud/billing/marketplace/gcp-marketplace-committed-contract) to configure your ClickHouse organization to your new GCP committed spend contract.
 
-## Azure Marketplace [#azure-marketplace]
+## Azure Marketplace 
 
-### Steps to Cancel Azure PAYG Subscription [#cancel-azure-payg]
+### Steps to Cancel Azure PAYG Subscription 
 
 1. **Go to the [Microsoft Azure Portal](http://portal.azure.com)**
 2. **Navigate to "Subscriptions"**
@@ -73,7 +73,7 @@ Next follow these [steps](/cloud/billing/marketplace/gcp-marketplace-committed-c
 
 Next, follow these [steps](/cloud/billing/marketplace/azure-marketplace-committed-contract) to configure your ClickHouse organization to your new Azure committed spend contract.
 
-## Requirements for Linking to Committed Spend Contract [#linking-requirements]
+## Requirements for Linking to Committed Spend Contract 
 
 > **Note:** In order to link your organization to a marketplace committed spend contract:
 > - The user following the steps must be an admin user of the ClickHouse organization you are attaching the subscription to

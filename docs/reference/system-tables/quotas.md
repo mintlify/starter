@@ -26,6 +26,6 @@ Columns:
 - `apply_to_list` ([Array](../../sql-reference/data-types/array.md)([String](../../sql-reference/data-types/string.md))) — List of user names/[roles](../../guides/sre/user-management/index.md#role-management) that the quota should be applied to.
 - `apply_to_except` ([Array](../../sql-reference/data-types/array.md)([String](../../sql-reference/data-types/string.md))) — List of user names/roles that the quota should not apply to.
 
-## See Also [#see-also]
+## See Also 
 
 - [SHOW QUOTAS](/sql-reference/statements/show#show-quotas)

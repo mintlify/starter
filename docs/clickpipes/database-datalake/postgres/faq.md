@@ -10,7 +10,7 @@ doc_type: 'reference'
 
 <AccordionGroup>
 <Accordion title="How does idling affect my Postgres CDC ClickPipe?">
-### How does idling affect my Postgres CDC ClickPipe? [#how-does-idling-affect-my-postgres-cdc-clickpipe]
+### How does idling affect my Postgres CDC ClickPipe? 
 
 If your ClickHouse Cloud service is idling, your Postgres CDC ClickPipe will continue to sync data, your service will wake-up at the next sync interval to handle the incoming data. Once the sync is finished and the idle period is reached, your service will go back to idling.
 
@@ -18,19 +18,19 @@ As an example, if your sync interval is set to 30 mins and your service idle tim
 </Accordion>
 
 <Accordion title="How are TOAST columns handled in ClickPipes for Postgres?">
-### How are TOAST columns handled in ClickPipes for Postgres? [#how-are-toast-columns-handled-in-clickpipes-for-postgres]
+### How are TOAST columns handled in ClickPipes for Postgres? 
 
 Please refer to the [Handling TOAST Columns](./toast) page for more information.
 </Accordion>
 
 <Accordion title="How are generated columns handled in ClickPipes for Postgres?">
-### How are generated columns handled in ClickPipes for Postgres? [#how-are-generated-columns-handled-in-clickpipes-for-postgres]
+### How are generated columns handled in ClickPipes for Postgres? 
 
 Please refer to the [Postgres Generated Columns: Gotchas and Best Practices](./generated_columns) page for more information.
 </Accordion>
 
 <Accordion title="Do tables need to have primary keys to be part of Postgres CDC?">
-### Do tables need to have primary keys to be part of Postgres CDC? [#do-tables-need-to-have-primary-keys-to-be-part-of-postgres-cdc]
+### Do tables need to have primary keys to be part of Postgres CDC? 
 
 For a table to be replicated using ClickPipes for Postgres, it must have either a primary key or a [REPLICA IDENTITY](https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY) defined.
 
@@ -48,13 +48,13 @@ It's important to note that if neither a primary key nor a replica identity is d
 </Accordion>
 
 <Accordion title="Do you support partitioned tables as part of Postgres CDC?">
-### Do you support partitioned tables as part of Postgres CDC? [#do-you-support-partitioned-tables-as-part-of-postgres-cdc]
+### Do you support partitioned tables as part of Postgres CDC? 
 
 Yes, partitioned tables are supported out of the box, as long as they have a PRIMARY KEY or REPLICA IDENTITY defined. The PRIMARY KEY and REPLICA IDENTITY must be present on both the parent table and its partitions. You can read more about it [here](https://blog.peerdb.io/real-time-change-data-capture-for-postgres-partitioned-tables).
 </Accordion>
 
 <Accordion title="Can I connect Postgres databases that don't have a public IP or are in private networks?">
-### Can I connect Postgres databases that don't have a public IP or are in private networks? [#can-i-connect-postgres-databases-that-dont-have-a-public-ip-or-are-in-private-networks]
+### Can I connect Postgres databases that don't have a public IP or are in private networks? 
 
 Yes! ClickPipes for Postgres offers two ways to connect to databases in private networks:
 
@@ -73,7 +73,7 @@ Yes! ClickPipes for Postgres offers two ways to connect to databases in private 
 </Accordion>
 
 <Accordion title="How do you handle UPDATEs and DELETEs?">
-### How do you handle UPDATEs and DELETEs? [#how-do-you-handle-updates-and-deletes]
+### How do you handle UPDATEs and DELETEs? 
 
 ClickPipes for Postgres captures both INSERTs and UPDATEs from Postgres as new rows with different versions (using the `_peerdb_` version column) in ClickHouse. The ReplacingMergeTree table engine periodically performs deduplication in the background based on the ordering key (ORDER BY columns), retaining only the row with the latest `_peerdb_` version.
 
@@ -88,7 +88,7 @@ For more details, refer to:
 </Accordion>
 
 <Accordion title="Can I update primary key columns in PostgreSQL?">
-### Can I update primary key columns in PostgreSQL? [#can-i-update-primary-key-columns-in-postgresql]
+### Can I update primary key columns in PostgreSQL? 
 
 <Warning>
 Primary key updates in PostgreSQL cannot be properly replayed in ClickHouse by default.
@@ -104,19 +104,19 @@ If your use case requires updating primary key columns in PostgreSQL and having 
 </Accordion>
 
 <Accordion title="Do you support schema changes?">
-### Do you support schema changes? [#do-you-support-schema-changes]
+### Do you support schema changes? 
 
 Please refer to the [ClickPipes for Postgres: Schema Changes Propagation Support](./schema-changes) page for more information.
 </Accordion>
 
 <Accordion title="What are the costs for ClickPipes for Postgres CDC?">
-### What are the costs for ClickPipes for Postgres CDC? [#what-are-the-costs-for-clickpipes-for-postgres-cdc]
+### What are the costs for ClickPipes for Postgres CDC? 
 
 For detailed pricing information, please refer to the [ClickPipes for Postgres CDC pricing section on our main billing overview page](/cloud/reference/billing/clickpipes).
 </Accordion>
 
 <Accordion title="My replication slot size is growing or not decreasing; what might be the issue?">
-### My replication slot size is growing or not decreasing; what might be the issue? [#my-replication-slot-size-is-growing-or-not-decreasing-what-might-be-the-issue]
+### My replication slot size is growing or not decreasing; what might be the issue? 
 
 If you're noticing that the size of your Postgres replication slot keeps increasing or isn't coming back down, it usually means that **WAL (Write-Ahead Log) records aren't being consumed (or "replayed") quickly enough** by your CDC pipeline or replication process. Below are the most common causes and how you can address them.
 
@@ -158,25 +158,25 @@ For an excellent deep dive into this topic, check out our blog post: [Overcoming
 </Accordion>
 
 <Accordion title="How are Postgres data types mapped to ClickHouse?">
-### How are Postgres data types mapped to ClickHouse? [#how-are-postgres-data-types-mapped-to-clickhouse]
+### How are Postgres data types mapped to ClickHouse? 
 
 ClickPipes for Postgres aims to map Postgres data types as natively as possible on the ClickHouse side. This document provides a comprehensive list of each data type and its mapping: [Data Type Matrix](https://docs.peerdb.io/datatypes/datatype-matrix).
 </Accordion>
 
 <Accordion title="Can I define my own data type mapping while replicating data from Postgres to ClickHouse?">
-### Can I define my own data type mapping while replicating data from Postgres to ClickHouse? [#can-i-define-my-own-data-type-mapping-while-replicating-data-from-postgres-to-clickhouse]
+### Can I define my own data type mapping while replicating data from Postgres to ClickHouse? 
 
 Currently, we don't support defining custom data type mappings as part of the pipe. However, note that the default data type mapping used by ClickPipes is highly native. Most column types in Postgres are replicated as closely as possible to their native equivalents on ClickHouse. Integer array types in Postgres, for instance, are replicated as integer array types on ClickHouse.
 </Accordion>
 
 <Accordion title="How are JSON and JSONB columns replicated from Postgres?">
-### How are JSON and JSONB columns replicated from Postgres? [#how-are-json-and-jsonb-columns-replicated-from-postgres]
+### How are JSON and JSONB columns replicated from Postgres? 
 
 JSON and JSONB columns are replicated as String type in ClickHouse. Since ClickHouse supports a native [JSON type](/sql-reference/data-types/newjson), you can create a materialized view over the ClickPipes tables to perform the translation if needed. Alternatively, you can use [JSON functions](/sql-reference/functions/json-functions) directly on the String column(s). We are actively working on a feature that replicates JSON and JSONB columns directly to the JSON type in ClickHouse. This feature is expected to be available in a few months.
 </Accordion>
 
 <Accordion title="What happens to inserts when a mirror is paused?">
-### What happens to inserts when a mirror is paused? [#what-happens-to-inserts-when-a-mirror-is-paused]
+### What happens to inserts when a mirror is paused? 
 
 When you pause the mirror, the messages are queued up in the replication slot on the source Postgres, ensuring they are buffered and not lost. However, pausing and resuming the mirror will re-establish the connection, which could take some time depending on the source.
 
@@ -189,13 +189,13 @@ In summary, while sync and normalize processes are terminated during a pause, it
 </Accordion>
 
 <Accordion title="Can ClickPipe creation be automated or done via API or CLI?">
-### Can ClickPipe creation be automated or done via API or CLI? [#can-clickpipe-creation-be-automated-or-done-via-api-or-cli]
+### Can ClickPipe creation be automated or done via API or CLI? 
 
 A Postgres ClickPipe can also be created and managed via [OpenAPI](https://clickhouse.com/docs/cloud/manage/openapi) endpoints. This feature is in beta, and the API reference can be found [here](https://clickhouse.com/docs/cloud/manage/api/swagger#tag/beta). We are actively working on Terraform support to create Postgres ClickPipes as well.
 </Accordion>
 
 <Accordion title="How do I speed up my initial load?">
-### How do I speed up my initial load? [#how-do-i-speed-up-my-initial-load]
+### How do I speed up my initial load? 
 
 You cannot speed up an already running initial load. However, you can optimize future initial loads by adjusting certain settings. By default, the settings are configured with 4 parallel threads and a snapshot number of rows per partition set to 100,000. These are advanced settings and are generally sufficient for most use cases.
 
@@ -209,7 +209,7 @@ These adjustments should significantly enhance the performance of the initial lo
 </Accordion>
 
 <Accordion title="How should I scope my publications when setting up replication?">
-### How should I scope my publications when setting up replication? [#how-should-i-scope-my-publications-when-setting-up-replication]
+### How should I scope my publications when setting up replication? 
 
 You can let ClickPipes manage your publications (requires additional permissions) or create them yourself. With ClickPipes-managed publications, we automatically handle table additions and removals as you edit the pipe. If self-managing, carefully scope your publications to only include tables you need to replicate - including unnecessary tables will slow down Postgres WAL decoding.
 
@@ -255,23 +255,23 @@ If you're replicating from a Postgres read replica/hot standby, you will need to
 </Accordion>
 
 <Accordion title="Recommended max_slot_wal_keep_size settings">
-### Recommended `max_slot_wal_keep_size` settings [#recommended-max_slot_wal_keep_size-settings]
+### Recommended `max_slot_wal_keep_size` settings 
 
 - **At Minimum:** Set [`max_slot_wal_keep_size`](https://www.postgresql.org/docs/devel/runtime-config-replication.html#GUC-MAX-SLOT-WAL-KEEP-SIZE) to retain at least **two days' worth** of WAL data.
 - **For Large Databases (High Transaction Volume):** Retain at least **2-3 times** the peak WAL generation per day.
 - **For Storage-Constrained Environments:** Tune this conservatively to **avoid disk exhaustion** while ensuring replication stability.
 
-#### How to calculate the right value [#how-to-calculate-the-right-value]
+#### How to calculate the right value 
 
 To determine the right setting, measure the WAL generation rate:
 
-##### For PostgreSQL 10+ [#for-postgresql-10]
+##### For PostgreSQL 10+ 
 
 ```sql
 SELECT pg_wal_lsn_diff(pg_current_wal_insert_lsn(), '0/0') / 1024 / 1024 AS wal_generated_mb;
 ```
 
-##### For PostgreSQL 9.6 and below: [#for-postgresql-96-and-below]
+##### For PostgreSQL 9.6 and below: 
 
 ```sql
 SELECT pg_xlog_location_diff(pg_current_xlog_insert_location(), '0/0') / 1024 / 1024 AS wal_generated_mb;
@@ -282,7 +282,7 @@ SELECT pg_xlog_location_diff(pg_current_xlog_insert_location(), '0/0') / 1024 / 
 * Multiply that number by 2 or 3 to provide sufficient retention.
 * Set `max_slot_wal_keep_size` to the resulting value in MB or GB.
 
-##### Example [#example]
+##### Example 
 
 If your database generates 100 GB of WAL per day, set:
 
@@ -292,7 +292,7 @@ max_slot_wal_keep_size = 200GB
 </Accordion>
 
 <Accordion title="I'm seeing a ReceiveMessage EOF error in the logs. What does it mean?">
-### I'm seeing a ReceiveMessage EOF error in the logs. What does it mean? [#im-seeing-a-receivemessage-eof-error-in-the-logs-what-does-it-mean]
+### I'm seeing a ReceiveMessage EOF error in the logs. What does it mean? 
 
 `ReceiveMessage` is a function in the Postgres logical decoding protocol that reads messages from the replication stream. An EOF (End of File) error indicates that the connection to the Postgres server was unexpectedly closed while trying to read from the replication stream.
 
@@ -305,7 +305,7 @@ It can happen for a few reasons:
 </Accordion>
 
 <Accordion title="My replication slot is invalidated. What should I do?">
-### My replication slot is invalidated. What should I do? [#my-replication-slot-is-invalidated-what-should-i-do]
+### My replication slot is invalidated. What should I do? 
 
 The only way to recover ClickPipe is by triggering a resync, which you can do in the Settings page.
 
@@ -315,7 +315,7 @@ In rare cases, we have seen this issue occur even when `max_slot_wal_keep_size` 
 </Accordion>
 
 <Accordion title="I am seeing out of memory (OOMs) on ClickHouse while my ClickPipe is ingesting data. Can you help?">
-### I am seeing out of memory (OOMs) on ClickHouse while my ClickPipe is ingesting data. Can you help? [#i-am-seeing-out-of-memory-ooms-on-clickhouse-while-my-clickpipe-is-ingesting-data-can-you-help]
+### I am seeing out of memory (OOMs) on ClickHouse while my ClickPipe is ingesting data. Can you help? 
 
 One common reason for OOMs on ClickHouse is that your service is undersized. This means that your current service configuration doesn't have enough resources (e.g., memory or CPU) to handle the ingestion load effectively. We strongly recommend scaling up the service to meet the demands of your ClickPipe data ingestion.
 
@@ -327,7 +327,7 @@ Another reason we've observed is the presence of downstream Materialized Views w
 </Accordion>
 
 <Accordion title="I am seeing an invalid snapshot identifier during the initial load. What should I do?">
-### I am seeing an `invalid snapshot identifier` during the initial load. What should I do? [#i-am-seeing-an-invalid-snapshot-identifier-during-the-initial-load-what-should-i-do]
+### I am seeing an `invalid snapshot identifier` during the initial load. What should I do? 
 
 The `invalid snapshot identifier` error occurs when there is a connection drop between ClickPipes and your Postgres database. This can happen due to gateway timeouts, database restarts, or other transient issues.
 
@@ -337,7 +337,7 @@ To resolve this issue, you can trigger a resync from the ClickPipes UI. This wil
 </Accordion>
 
 <Accordion title="What happens if I drop a publication in Postgres?">
-### What happens if I drop a publication in Postgres? [#what-happens-if-i-drop-a-publication-in-postgres]
+### What happens if I drop a publication in Postgres? 
 
 Dropping a publication in Postgres will break your ClickPipe connection since the publication is required for the ClickPipe to pull changes from the source. When this happens, you'll typically receive an error alert indicating that the publication no longer exists.
 
@@ -360,14 +360,14 @@ WITH (publish_via_partition_root = true);
 </Accordion>
 
 <Accordion title="What if I am seeing Unexpected Datatype errors or Cannot parse type XX ...">
-### What if I am seeing `Unexpected Datatype` errors or `Cannot parse type XX ...` [#what-if-i-am-seeing-unexpected-datatype-errors]
+### What if I am seeing `Unexpected Datatype` errors or `Cannot parse type XX ...` 
 
 This error typically occurs when the source Postgres database has a datatype which cannot be mapped during ingestion.
 For more specific issue, refer to the possibilities below.
 </Accordion>
 
 <Accordion title="Cannot parse type Decimal(XX, YY), expected non-empty binary data with size equal to or less than ...">
-### `Cannot parse type Decimal(XX, YY), expected non-empty binary data with size equal to or less than ...` [#cannot-parse-type-decimal-expected-non-empty-binary-data-with-size-equal-to-or-less-than]
+### `Cannot parse type Decimal(XX, YY), expected non-empty binary data with size equal to or less than ...` 
 
 Postgres `NUMERIC`s have really high precision (up to 131072 digits before the decimal point; up to 16383 digits after the decimal point) and ClickHouse Decimal type allows maximum of (76 digits, 39 scale).
 The system assumes that _usually_ the size would not get that high and does an optimistic cast for the same as source table can have large number of rows or the row can come in during the CDC phase.
@@ -376,13 +376,13 @@ The current workaround would be to map the NUMERIC type to string on ClickHouse.
 </Accordion>
 
 <Accordion title="I'm seeing errors like invalid memory alloc request size <XXX> during replication/slot creation">
-### I'm seeing errors like `invalid memory alloc request size <XXX>` during replication/slot creation [#postgres-invalid-memalloc-bug]
+### I'm seeing errors like `invalid memory alloc request size <XXX>` during replication/slot creation 
 
 There was a bug introduced in Postgres patch versions 17.5/16.9/15.13/14.18/13.21 due to which certain workloads can cause an exponential increase in memory usage, leading to a memory allocation request >1GB which Postgres considers invalid. This bug [has been fixed](https://github.com/postgres/postgres/commit/d87d07b7ad3b782cb74566cd771ecdb2823adf6a) and will be in the next Postgres patch series (17.6...). Please check with your Postgres provider when this patch version will be available for upgrade. If an upgrade isn't immediately possible, a resync of the pipe will be needed as it hits the error.
 </Accordion>
 
 <Accordion title="I need to maintain a complete historical record in ClickHouse, even when the data is deleted from the source Postgres database. Can I completely ignore DELETE and TRUNCATE operations from Postgres in ClickPipes?">
-### I need to maintain a complete historical record in ClickHouse, even when the data is deleted from the source Postgres database. Can I completely ignore DELETE and TRUNCATE operations from Postgres in ClickPipes? [#ignore-delete-truncate]
+### I need to maintain a complete historical record in ClickHouse, even when the data is deleted from the source Postgres database. Can I completely ignore DELETE and TRUNCATE operations from Postgres in ClickPipes? 
 
 Yes! Before creating your Postgres ClickPipe, create a publication without DELETE operations. For example:
 ```sql
@@ -394,14 +394,14 @@ Note that TRUNCATE operations are ignored by ClickPipes and will not be replicat
 </Accordion>
 
 <Accordion title="Why can I not replicate my table which has a dot in it?">
-### Why can I not replicate my table which has a dot in it? [#replicate-table-dot]
+### Why can I not replicate my table which has a dot in it? 
 
 PeerDB has a limitation currently where dots in source table identifiers - aka either schema name or table name - is not supported for replication as PeerDB cannot discern, in that case, what is the schema and what is the table as it splits on dot.
 Effort is being made to support input of schema and table separately to get around this limitation.
 </Accordion>
 
 <Accordion title="Initial load completed but there is no/missing data on ClickHouse. What could be the issue?">
-### Initial load completed but there is no/missing data on ClickHouse. What could be the issue? [#initial-load-issue]
+### Initial load completed but there is no/missing data on ClickHouse. What could be the issue? 
 
 If your initial load has completed without error but your destination ClickHouse table is missing data, it might be that you have RLS (Row Level Security) policies enabled on your source Postgres tables.
 Also worth checking:
@@ -410,7 +410,7 @@ Also worth checking:
 </Accordion>
 
 <Accordion title="Can I have the ClickPipe create a replication slot with failover enabled?">
-### Can I have the ClickPipe create a replication slot with failover enabled? [#failover-slot]
+### Can I have the ClickPipe create a replication slot with failover enabled? 
 
 Yes, for a Postgres ClickPipe with replication mode as CDC or Snapshot + CDC, you can have ClickPipes create a replication slot with failover enabled, by toggling the below switch in the `Advanced Settings` section while creating the ClickPipe. Note that your Postgres version must be 17 or above to use this feature.
 
@@ -420,13 +420,13 @@ If the source is configured accordingly, the slot is preserved after failovers t
 </Accordion>
 
 <Accordion title="I am seeing errors like Internal error encountered during logical decoding of aborted sub-transaction">
-### I am seeing errors like `Internal error encountered during logical decoding of aborted sub-transaction` [#transient-logical-decoding-errors]
+### I am seeing errors like `Internal error encountered during logical decoding of aborted sub-transaction` 
 
 This error suggests a transient issue with the logical decoding of aborted sub-transaction, and is specific to custom implementations of Aurora Postgres. Given the error is coming from `ReorderBufferPreserveLastSpilledSnapshot` routine, this suggests that logical decoding is not able to read the snapshot spilled to disk. It may be worth trying to increase [`logical_decoding_work_mem`](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-LOGICAL-DECODING-WORK-MEM) to a higher value.
 </Accordion>
 
 <Accordion title="I am seeing errors like error converting new tuple to map or error parsing logical message during CDC replication">
-### I am seeing errors like `error converting new tuple to map` or `error parsing logical message` during CDC replication [#logical-message-processing-errors]
+### I am seeing errors like `error converting new tuple to map` or `error parsing logical message` during CDC replication 
 
 Postgres sends information about changes in the form of messages that have a fixed protocol. These errors arise when the ClickPipe receives a message that it is unable to parse, either due to corruption in transit or invalid messages being sent. While the exact issue tends to vary, we've seen several cases from Neon Postgres sources. In case you are seeing this issue with Neon as well, please raise a support ticket with them. In other cases, please reach out to our support team for guidance.
 </Accordion>

@@ -13,15 +13,15 @@ import ClickhouseMysqlOnPremiseSetup from '/snippets/_clickhouse_mysql_on_premis
 
 Tableau Online can connect to ClickHouse Cloud or on-premise ClickHouse setup via MySQL interface using the official MySQL data source.
 
-## ClickHouse Cloud setup [#clickhouse-cloud-setup]
+## ClickHouse Cloud setup 
 
 <ClickhouseMysqlCloudSetup />
 
-## On-premise ClickHouse server setup [#on-premise-clickhouse-server-setup]
+## On-premise ClickHouse server setup 
 
 <ClickhouseMysqlOnPremiseSetup />
 
-## Connecting Tableau Online to ClickHouse (on-premise without SSL) [#connecting-tableau-online-to-clickhouse-on-premise-without-ssl]
+## Connecting Tableau Online to ClickHouse (on-premise without SSL) 
 
 Login to your Tableau Cloud site and add a new Published Data Source.
 
@@ -43,7 +43,7 @@ After that, all that remains is to click "Publish As" in the top right corner, a
 
 NB: if you want to use Tableau Online in combination with Tableau Desktop and share ClickHouse datasets between them, make sure you use Tableau Desktop with the default MySQL connector as well, following the setup guide that is displayed [here](https://www.tableau.com/support/drivers) if you select MySQL from the Data Source drop-down. If you have an M1 Mac, check [this troubleshooting thread](https://community.tableau.com/s/question/0D58b0000Ar6OhvCQE/unable-to-install-mysql-driver-for-m1-mac) for a driver installation workaround.
 
-## Connecting Tableau Online to ClickHouse (cloud or on-premise setup with SSL) [#connecting-tableau-online-to-clickhouse-cloud-or-on-premise-setup-with-ssl]
+## Connecting Tableau Online to ClickHouse (cloud or on-premise setup with SSL) 
 
 As it is not possible to provide the SSL certificates via the Tableau Online MySQL connection setup wizard, 
 the only way is to use Tableau Desktop to set the connection up, and then export it to Tableau Online. This process is, however, pretty straightforward.
@@ -80,6 +80,6 @@ Additionally, choose "Update workbook to use the published data source".
 
 Finally, click "Publish", and your datasource with embedded credentials will be opened automatically in Tableau Online.
 
-## Known limitations (ClickHouse 23.11) [#known-limitations-clickhouse-2311]
+## Known limitations (ClickHouse 23.11) 
 
 All the known limitations has been fixed in ClickHouse `23.11`. If you encounter any other incompatibilities, please do not hesitate to [contact us](https://clickhouse.com/company/contact) or create a [new issue](https://github.com/ClickHouse/ClickHouse/issues).

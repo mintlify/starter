@@ -7,7 +7,7 @@ doc_type: 'guide'
 keywords: ['clickpipes', 'postgresql', 'cdc', 'data ingestion', 'real-time sync']
 ---
 
-### What does Resync do? [#what-postgres-resync-do]
+### What does Resync do? 
 
 Resync involves the following operations in order:
 1. The existing ClickPipe is dropped, and a new "resync" ClickPipe is kicked off. Thus, changes to source table structures will be picked up when you resync.
@@ -17,7 +17,7 @@ Resync involves the following operations in order:
 
 All the settings of the original ClickPipe are retained in the resync ClickPipe. The statistics of the original ClickPipe are cleared in the UI.
 
-### Use cases for resyncing a ClickPipe [#use-cases-postgres-resync]
+### Use cases for resyncing a ClickPipe 
 
 Here are a few scenarios:
 
@@ -30,7 +30,7 @@ You can resync multiple times, however please account for the load on the source
 since initial load with parallel threads is involved each time.
 </Note>
 
-### Resync ClickPipe Guide [#guide-postgres-resync]
+### Resync ClickPipe Guide 
 
 1. In the Data Sources tab, click on the Postgres ClickPipe you wish to resync.
 2. Head over to the **Settings** tab.

@@ -13,7 +13,7 @@ If you use one of the supported providers (in the sidebar), please refer to the 
 
 </Note>
 
-## Enable binary log retention [#enable-binlog-retention]
+## Enable binary log retention 
 
 Binary logs contain information about data modifications made to a MariaDB server instance and are required for replication.
 
@@ -59,7 +59,7 @@ Column exclusion is not supported for MariaDB \<= 10.4 because the `binlog_row_m
 
 </Note>
 
-## Configure a database user [#configure-database-user]
+## Configure a database user 
 
 Connect to your MariaDB instance as the root user and execute the following commands:
 
@@ -88,7 +88,7 @@ Make sure to replace `clickpipes_user` and `some_secure_password` with your desi
 
 </Note>
 
-## SSL/TLS configuration (recommended) [#ssl-tls-configuration]
+## SSL/TLS configuration (recommended) 
 
 SSL certificates ensure secure connections to your MariaDB database. Configuration depends on your certificate type:
 
@@ -102,7 +102,7 @@ SSL certificates ensure secure connections to your MariaDB database. Configurati
 
 For more information on SSL/TLS options, check out our [FAQ](https://clickhouse.com/docs/integrations/clickpipes/mysql/faq#tls-certificate-validation-error).
 
-## What's next? [#whats-next]
+## What's next? 
 
 You can now [create your ClickPipe](../index.md) and start ingesting data from your MariaDB instance into ClickHouse Cloud.
 Make sure to note down the connection details you used while setting up your MariaDB instance as you will need them during the ClickPipe creation process.

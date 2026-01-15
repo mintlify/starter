@@ -10,7 +10,7 @@ doc_type: 'reference'
 Reads time series from a TimeSeries table filtered by a selector and with timestamps in a specified interval.
 This function is similar to [range selectors](https://prometheus.io/docs/prometheus/latest/querying/basics/#range-vector-selectors) but it's used to implement [instant selectors](https://prometheus.io/docs/prometheus/latest/querying/basics/#instant-vector-selectors) too.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 timeSeriesSelector('db_name', 'time_series_table', 'instant_query', min_time, max_time)
@@ -18,7 +18,7 @@ timeSeriesSelector(db_name.time_series_table, 'instant_query', min_time, max_tim
 timeSeriesSelector('time_series_table', 'instant_query', min_time, max_time)
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 - `db_name` - The name of the database where a TimeSeries table is located.
 - `time_series_table` - The name of a TimeSeries table.
@@ -26,7 +26,7 @@ timeSeriesSelector('time_series_table', 'instant_query', min_time, max_time)
 - `min_time - Start timestamp, inclusive.
 - `max_time - End timestamp, inclusive.
 
-## Returned value [#returned_value]
+## Returned value 
 
 The function returns three columns:
 - `id` - Contains the identifiers of time series matching the specified selector.
@@ -35,7 +35,7 @@ The function returns three columns:
 
 There is no specific order for returned data.
 
-## Example [#example]
+## Example 
 
 ```sql
 SELECT * FROM timeSeriesSelector(mytable, 'http_requests{job="prometheus"}', now() - INTERVAL 10 MINUTES, now())

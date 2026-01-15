@@ -7,7 +7,7 @@ title: 'exponentialTimeDecayedSum'
 doc_type: 'reference'
 ---
 
-## exponentialTimeDecayedSum [#exponentialtimedecayedsum]
+## exponentialTimeDecayedSum 
 
 Returns the sum of exponentially smoothed moving average values of a time series at the index `t` in time.
 

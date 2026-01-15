@@ -8,7 +8,7 @@ description: 'Quotas and Query Complexity are powerful ways to limit and restric
 
 
 
-## About Quotas and Query complexity [#about-quotas-and-query-complexity]
+## About Quotas and Query complexity
 
 [Quotas](https://clickhouse.com/docs/operations/quotas) and [query complexity](https://clickhouse.com/docs/operations/settings/query-complexity) are powerful ways to limit and restrict what users can do in ClickHouse.
 
@@ -16,7 +16,7 @@ Quotas do apply restrictions within the context of a time interval, while query 
 
 This KB article shows examples on how to apply these two different approaches.
 
-## The sample data [#the-sample-data]
+## The sample data
 
 We refer to this simple sample table for the purpose of these examples:
 
@@ -68,7 +68,7 @@ clickhouse-cloud :) SELECT * FROM default.test_table_00006488 LIMIT 5
 -- 5 rows in set. Elapsed: 0.003 sec.
 ```
 
-## Using Quotas [#using-quotas]
+## Using Quotas
 
 In this example we create a role to which we'll apply a Quota that allows only 10 result rows to be retrieved for each 10 seconds interval:
 
@@ -234,7 +234,7 @@ clickhouse-cloud :) select now()
 Note that the user will need to wait another 5 seconds before can get a new 10 rows resultset "allowance".
 
 
-## Using Query Complexity [#using-query-complexity]
+## Using Query Complexity
 
 In this example we create a role to which we'll apply a Query Complexity `SETTING` that allows only 1 rows to be returned for each query.
 

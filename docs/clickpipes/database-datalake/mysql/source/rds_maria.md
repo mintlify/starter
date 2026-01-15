@@ -14,10 +14,10 @@ This is a step-by-step guide on how to configure your RDS MariaDB instance for r
 We also recommend going through the MySQL FAQs [here](/integrations/data-ingestion/clickpipes/mysql/faq.md). The FAQs page is being actively updated.
 </Note>
 
-## Enable binary log retention [#enable-binlog-retention-rds]
+## Enable binary log retention 
 The binary log is a set of log files that contain information about data modifications made to a MySQL server instance. Binary log files are required for replication. Both of the steps below must be followed:
 
-### 1. Enable binary logging via automated backup[#enable-binlog-logging-rds]
+### 1. Enable binary logging via automated backup
 
 The automated backups feature determines whether binary logging is turned on or off for MySQL. It can be set in the AWS console:
 
@@ -25,7 +25,7 @@ The automated backups feature determines whether binary logging is turned on or 
 
 Setting backup retention to a reasonably long value depending on the replication use-case is advisable.
 
-### 2. Binlog retention hours[#binlog-retention-hours-rds]
+### 2. Binlog retention hours
 Amazon RDS for MariaDB has a different method of setting binlog retention duration, which is the amount of time a binlog file containing changes is kept. If some changes are not read before the binlog file is removed, replication will be unable to continue. The default value of binlog retention hours is NULL, which means binary logs aren't retained.
 
 To specify the number of hours to retain binary logs on a DB instance, use the mysql.rds_set_configuration function with a binlog retention period long enough for replication to occur. `24 hours` is the recommended minimum.
@@ -34,7 +34,7 @@ To specify the number of hours to retain binary logs on a DB instance, use the m
 mysql=> call mysql.rds_set_configuration('binlog retention hours', 24);
 ```
 
-## Configure binlog settings in the parameter group [#binlog-parameter-group-rds]
+## Configure binlog settings in the parameter group 
 
 The parameter group can be found when you click on your MariaDB instance in the RDS Console, and then navigate to the `Configurations` tab.
 
@@ -65,10 +65,10 @@ Next, click on `Save Changes` in the top-right. You may need to reboot your inst
 If you have a MariaDB cluster, the above parameters would be found in a [DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) parameter group and not the DB instance group.
 </Tip>
 
-## Enabling GTID Mode [#gtid-mode-rds]
+## Enabling GTID Mode 
 Global Transaction Identifiers (GTIDs) are unique IDs assigned to each committed transaction in MySQL/MariaDB. They simplify binlog replication and make troubleshooting more straightforward. MariaDB enables GTID mode by default, so no user action is needed to use it.
 
-## Configure a database user [#configure-database-user-rds]
+## Configure a database user 
 
 Connect to your RDS MariaDB instance as an admin user and execute the following commands:
 
@@ -90,9 +90,9 @@ Connect to your RDS MariaDB instance as an admin user and execute the following 
     GRANT REPLICATION CLIENT ON *.* TO 'clickpipes_user'@'%';
     GRANT REPLICATION SLAVE ON *.* TO 'clickpipes_user'@'%';
 
-## Configure network access [#configure-network-access]
+## Configure network access 
 
-### IP-based access control [#ip-based-access-control]
+### IP-based access control 
 
 If you want to restrict traffic to your RDS instance, please add the [documented static NAT IPs](../../index.md#list-of-static-ips) to the `Inbound rules` of your RDS security group.
 
@@ -100,6 +100,6 @@ If you want to restrict traffic to your RDS instance, please add the [documented
 
 <img src="/images/integrations/data-ingestion/clickpipes/postgres/source/rds/edit_inbound_rules.png" alt="Edit inbound rules for the above security group"/>
 
-### Private access via AWS PrivateLink [#private-access-via-aws-privatelink]
+### Private access via AWS PrivateLink 
 
 To connect to your RDS instance through a private network, you can use AWS PrivateLink. Follow our [AWS PrivateLink setup guide for ClickPipes](/knowledgebase/aws-privatelink-setup-for-clickpipes) to set up the connection.

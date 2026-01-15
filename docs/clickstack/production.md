@@ -11,7 +11,7 @@ keywords: ['clickstack', 'production', 'deployment', 'best practices', 'operatio
 
 When deploying ClickStack in production, there are several additional considerations to ensure security, stability, and correct configuration.
 
-## Network and port security [#network-security]
+## Network and port security 
 
 By default, Docker Compose exposes ports on the host, making them accessible from outside the container - even if tools like `ufw` (Uncomplicated Firewall) are enabled. This behavior is due to the Docker networking stack, which can bypass host-level firewall rules unless explicitly configured.
 
@@ -31,7 +31,7 @@ ports:
 
 Refer to the [Docker networking documentation](https://docs.docker.com/network/) for details on isolating containers and hardening access.
 
-## Session secret configuration [#session-secret]
+## Session secret configuration 
 
 In production, you must set a strong, random value for the `EXPRESS_SESSION_SECRET` environment variable to protect session data and prevent tampering.
 
@@ -71,7 +71,7 @@ openssl rand -hex 32
 
 Avoid committing secrets to source control. In production, consider using environment variable management tools (e.g. Docker Secrets, HashiCorp Vault, or environment-specific CI/CD configs).
 
-## Secure ingestion [#secure-ingestion]
+## Secure ingestion 
 
 All ingestion should occur via the OTLP ports exposed by ClickStack distribution of the OpenTelemetry (OTel) collector. By default, this requires a secure ingestion API key generated at startup. This key is required when sending data to the OTel ports, and can be found in the HyperDX UI under `Team Settings → API Keys`.
 
@@ -79,13 +79,13 @@ All ingestion should occur via the OTLP ports exposed by ClickStack distribution
 
 Additionally, we recommend enabling TLS for OTLP endpoints and creating a [dedicated user for ClickHouse ingestion](#database-ingestion-user).
 
-## ClickHouse [#clickhouse]
+## ClickHouse 
 
 For production deployments, we recommend using [ClickHouse Cloud](https://clickhouse.com/cloud), which applies industry-standard [security practices](/cloud/security) by default - including enhanced encryption, authentication and connectivity, and managed access controls. See ["ClickHouse Cloud"](#clickhouse-cloud-production) for a step-by-step guide of using ClickHouse Cloud with best practices.
 
-### User permissions [#user-permissions]
+### User permissions 
 
-#### HyperDX user [#hyperdx-user]
+#### HyperDX user 
 
 The ClickHouse user for HyperDX only needs to be a `readonly` user with access to change the following settings:
 
@@ -96,11 +96,11 @@ The ClickHouse user for HyperDX only needs to be a `readonly` user with access t
 
 By default the `default` user in both OSS and ClickHouse Cloud will have these permissions available but we recommend you create a new user with these permissions.
 
-#### Database and ingestion user [#database-ingestion-user]
+#### Database and ingestion user 
 
 We recommend creating a dedicated user for the OTel collector for ingestion into ClickHouse and ensuring ingestion is sent to a specific database e.g. `otel`. See ["Creating an ingestion user"](/use-cases/observability/clickstack/ingesting-data/otel-collector#creating-an-ingestion-user) for further details.
 
-### Self-managed security [#self-managed-security]
+### Self-managed security 
 
 If you are managing your own ClickHouse instance, it's essential to enable **SSL/TLS**, enforce authentication, and follow best practices for hardening access. See [this blog post](https://www.wiz.io/blog/clickhouse-and-wiz) for context on real-world misconfigurations and how to avoid them.
 
@@ -119,15 +119,15 @@ ClickHouse OSS provides robust security features out of the box. However, these 
 
 See also [external authenticators](/operations/external-authenticators) and [query complexity settings](/operations/settings/query-complexity) for managing users and ensuring query/resource limits.
 
-### Configure Time To Live (TTL) [#configure-ttl]
+### Configure Time To Live (TTL) 
 
 Ensure the [Time To Live (TTL)](/use-cases/observability/clickstack/ttl) has been [appropriately configured](/use-cases/observability/clickstack/ttl#modifying-ttl) for your ClickStack deployment. This controls how long data is retained for - the default of 3 days often needs to be modified.
 
-## MongoDB guidelines [#mongodb-guidelines]
+## MongoDB guidelines 
 
 Follow the official [MongoDB security checklist](https://www.mongodb.com/docs/manual/administration/security-checklist/).
 
-## ClickHouse Cloud [#clickhouse-cloud-production]
+## ClickHouse Cloud 
 
 The following represents a simple deployment of ClickStack using ClickHouse Cloud which meets best practices.
 

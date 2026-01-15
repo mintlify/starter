@@ -13,7 +13,7 @@ doc_type: 'reference'
 
 import CommonPrettyFormatSettings from '/snippets/products/reference/formats/Pretty/_snippets/common-pretty-format-settings.mdx';
 
-## Description [#description]
+## Description 
 
 Differs from the [`Pretty`](./Pretty.md) format in that the table is displayed with a grid drawn between rows. 
 Because of this the result is more compact.
@@ -22,8 +22,8 @@ Because of this the result is more compact.
 This format is used by default in the command-line client in interactive mode.
 </Note>
 
-## Example usage [#example-usage]
+## Example usage 
 
-## Format settings [#format-settings]
+## Format settings 
 
 <PrettyFormatSettings />

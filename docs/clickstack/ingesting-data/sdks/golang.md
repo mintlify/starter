@@ -25,9 +25,9 @@ instrumentation isn't required to get value out of tracing.
   </tbody>
 </table>
 
-## Getting started [#getting-started]
+## Getting started 
 
-### Install OpenTelemetry instrumentation packages [#install-opentelemetry]
+### Install OpenTelemetry instrumentation packages 
 
 To install the OpenTelemetry and HyperDX Go packages, use the command below. It is recommended to check out the [current instrumentation packages](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/v1.4.0/instrumentation#instrumentation-packages) and install the necessary packages to ensure that the trace information is attached correctly.
 
@@ -38,7 +38,7 @@ go get -u github.com/hyperdxio/opentelemetry-go
 go get -u github.com/hyperdxio/opentelemetry-logs-go
 ```
 
-### Native HTTP server example (net/http) [#native-http-server-example]
+### Native HTTP server example (net/http) 
 
 For this example, we will be using `net/http/otelhttp`.
 
@@ -146,7 +146,7 @@ func ExampleHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-### Gin application example [#gin-application-example]
+### Gin application example 
 
 For this example, we will be using `gin-gonic/gin`.
 
@@ -230,7 +230,7 @@ func main() {
 }
 ```
 
-### Configure environment variables [#configure-environment-variables]
+### Configure environment variables 
 
 Afterwards you'll need to configure the following environment variables in your shell to ship telemetry to ClickStack:
 

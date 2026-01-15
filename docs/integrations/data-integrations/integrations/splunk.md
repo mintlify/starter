@@ -19,7 +19,7 @@ This add-on contains only a modular input, no additional UI are provided with th
 
 ## Installation
 
-### For Splunk Enterprise [#for-splunk-enterprise]
+### For Splunk Enterprise 
 
 Download the ClickHouse Cloud Audit Add-on for Splunk from [Splunkbase](https://splunkbase.splunk.com/app/7709).
 
@@ -42,7 +42,7 @@ To configure the modular input, you'll first need information from your ClickHou
 - The organization ID
 - An admin [API Key](/cloud/manage/openapi)
 
-### Getting information from ClickHouse Cloud [#getting-information-from-clickhouse-cloud]
+### Getting information from ClickHouse Cloud 
 
 Log in to the [ClickHouse Cloud console](https://console.clickhouse.cloud/).
 
@@ -62,7 +62,7 @@ Save the API Key and secret in a safe place.
 
 <img src="/images/integrations/tools/data-integration/splunk/splunk_007.png" alt="ClickHouse Cloud console showing the generated API Key and secret to be saved"/>
 
-## Configure data input in Splunk [#configure-data-input-in-splunk]
+## Configure data input in Splunk 
 
 Back in Splunk, navigate to Settings -> Data inputs.
 

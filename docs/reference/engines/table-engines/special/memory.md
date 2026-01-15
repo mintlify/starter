@@ -27,7 +27,7 @@ The Memory engine is used by the system for temporary tables with external query
 
 Upper and lower bounds can be specified to limit Memory engine table size, effectively allowing it to act as a circular buffer (see [Engine Parameters](#engine-parameters)).
 
-## Engine parameters [#engine-parameters]
+## Engine parameters 
 
 - `min_bytes_to_keep` — Minimum bytes to keep when memory table is size-capped.
   - Default value: `0`
@@ -42,7 +42,7 @@ Upper and lower bounds can be specified to limit Memory engine table size, effec
 - `compress` - Whether to compress data in memory.
   - Default value: `false`
 
-## Usage [#usage]
+## Usage 
 
 **Initialize settings**
 ```sql
@@ -56,7 +56,7 @@ ALTER TABLE memory MODIFY SETTING min_rows_to_keep = 100, max_rows_to_keep = 100
 
 **Note:** Both `bytes` and `rows` capping parameters can be set at the same time, however, the lower bounds of `max` and `min` will be adhered to.
 
-## Examples [#examples]
+## Examples 
 ```sql
 CREATE TABLE memory (i UInt32) ENGINE = Memory SETTINGS min_bytes_to_keep = 4096, max_bytes_to_keep = 16384;
 

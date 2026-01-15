@@ -11,7 +11,7 @@ import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFea
 
 # Supported cloud regions
 
-## AWS regions [#aws-regions]
+## AWS regions 
 
 - ap-northeast-1 (Tokyo)
 - ap-south-1 (Mumbai)
@@ -32,7 +32,7 @@ import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFea
 - sa-east-1 (South America)
 - ap-northeast-2 (South Korea, Seoul)
  
-## Google Cloud regions [#google-cloud-regions]
+## Google Cloud regions 
 
 - asia-southeast1 (Singapore)
 - europe-west4 (Netherlands)
@@ -48,7 +48,7 @@ import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFea
 - europe-west6 (Zurich)
 - northamerica-northeast1 (Montréal)
 
-## Azure regions [#azure-regions]
+## Azure regions 
 
 - West US 3 (Arizona)
 - East US 2 (Virginia)
@@ -62,7 +62,7 @@ import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFea
 Need to deploy to a region not currently listed? [Submit a request](https://clickhouse.com/pricing?modal=open). 
 </Note>
 
-## Private regions [#private-regions]
+## Private regions 
 
 <EnterprisePlanFeatureBadge feature="Private regions feature"/>
 
@@ -77,7 +77,7 @@ Key considerations for private regions:
   
 Additional requirements may apply for HIPAA compliance (including signing a BAA). Note that HIPAA is currently available only for Enterprise tier services
 
-## HIPAA compliant regions [#hipaa-compliant-regions]
+## HIPAA compliant regions 
 
 <EnterprisePlanFeatureBadge feature="HIPAA" support="true"/>
 
@@ -91,7 +91,7 @@ Customers must sign a Business Associate Agreement (BAA) and request onboarding 
 - GCP us-central1 (Iowa)
 - GCP us-east1 (South Carolina)
 
-## PCI compliant regions [#pci-compliant-regions]
+## PCI compliant regions 
 
 <EnterprisePlanFeatureBadge feature="PCI" support="true"/>
 

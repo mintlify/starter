@@ -6,13 +6,13 @@ title: 'Markdown'
 doc_type: 'reference'
 ---
 
-## Description [#description]
+## Description 
 
 You can export results using [Markdown](https://en.wikipedia.org/wiki/Markdown) format to generate output ready to be pasted into your `.md` files:
 
 The markdown table will be generated automatically and can be used on markdown-enabled platforms, like Github. This format is used only for output.
 
-## Example usage [#example-usage]
+## Example usage 
 
 ```sql
 SELECT
@@ -31,4 +31,4 @@ FORMAT Markdown
 | 4 | 8 |
 ```
 
-## Format settings [#format-settings]
+## Format settings 

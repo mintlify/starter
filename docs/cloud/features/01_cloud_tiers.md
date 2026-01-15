@@ -161,7 +161,7 @@ This page discusses which tiers are right for your specific use case.
   </tr>
 </tbody></table>
 
-## Basic [#basic]
+## Basic 
 
 - This is a cost-effective option that supports single-replica deployments.
 - It is Ideal for departmental use cases with smaller data volumes that do not have hard reliability guarantees.
@@ -171,7 +171,7 @@ Services in the basic tier are meant to be fixed in size and do not allow scalin
 You can upgrade to the Scale or Enterprise tier to scale their services.
 </Note>
 
-## Scale [#scale]
+## Scale 
 
 Designed for workloads requiring enhanced SLAs (2+ replica deployments), scalability, and advanced security.
 
@@ -181,7 +181,7 @@ Designed for workloads requiring enhanced SLAs (2+ replica deployments), scalabi
   - [Flexible scaling](/manage/scaling) options (scale up/down, in/out)
   - [Configurable backups](/cloud/manage/backups/configurable-backups)
 
-## Enterprise [#enterprise]
+## Enterprise 
 
 Caters to large-scale, mission critical deployments that have stringent security and compliance needs.
 
@@ -198,7 +198,7 @@ Caters to large-scale, mission critical deployments that have stringent security
 Single replica services across all three tiers are meant to be fixed in size (`8 GiB`, `12 GiB`)
 </Note>
 
-## Upgrading to a different tier [#upgrading-to-a-different-tier]
+## Upgrading to a different tier 
 
 You can always upgrade from Basic to Scale or from Scale to Enterprise. Downgrading tiers will require disabling premium features.
 

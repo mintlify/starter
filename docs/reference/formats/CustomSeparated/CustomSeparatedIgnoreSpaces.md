@@ -8,11 +8,11 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge>
 
-## Description [#description]
+## Description 
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Inserting data [#inserting-data]
+### Inserting data 
 
 Using the following txt file, named as `football.txt`:
 
@@ -36,4 +36,4 @@ Insert the data:
 INSERT INTO football FROM INFILE 'football.txt' FORMAT CustomSeparatedIgnoreSpaces;
 ```
 
-## Format settings [#format-settings]
+## Format settings 

@@ -13,9 +13,9 @@ import {EnterprisePlanFeatureBadge} from '/snippets/components/EnterprisePlanFea
 Database backups provide a safety net by ensuring that if data is lost for any unforeseen reason, the service can be restored to a previous state from the last successful backup.
 This minimizes downtime and prevents business critical data from being permanently lost.
 
-## Backups [#backups]
+## Backups 
 
-### How backups work in ClickHouse Cloud [#how-backups-work-in-clickhouse-cloud]
+### How backups work in ClickHouse Cloud 
 
 ClickHouse Cloud backups are a combination of "full" and "incremental" backups that constitute a backup chain. The chain starts with a full backup, and incremental backups are then taken over the next several scheduled time periods to create a sequence of backups. Once a backup chain reaches a certain length, a new chain is started. This entire chain of backups can then be utilized to restore data to a new service if needed. Once all backups included in a specific chain are past the retention time frame set for the service (more on retention below), the chain is discarded.
 
@@ -25,7 +25,7 @@ On Day 1, a full backup is taken to start the backup chain. On Day 2, an increme
 
 <img src="/images/cloud/manage/backup-chain.png" alt="Backup chain example in ClickHouse Cloud"/>
 
-### Default backup policy [#default-backup-policy]
+### Default backup policy 
 
 In the Basic, Scale, and Enterprise tiers, backups are metered and billed separately from storage.
 All services will default to one daily backup with the ability to configure more, starting with the Scale tier, via the Settings tab of the Cloud console.
@@ -33,7 +33,7 @@ Each backup will be retained for at least 24 hours.
 
 See ["Review and restore backups"](/cloud/manage/backups/overview) for further details.
 
-## Configurable backups [#configurable-backups]
+## Configurable backups 
 
 <ScalePlanFeatureBadge feature="Configurable Backups" linking_verb_are="True"/>
 
@@ -51,7 +51,7 @@ In some rare scenarios, the backup scheduler will not respect the **Start Time**
 
 See ["Configure backup schedules"](/cloud/manage/backups/configurable-backups) for steps to configure your backups.
 
-## Bring Your Own Bucket (BYOB) Backups [#byob]
+## Bring Your Own Bucket (BYOB) Backups 
 
 <EnterprisePlanFeatureBadge/>
 
@@ -73,7 +73,7 @@ Currently, we do not support cross-cloud backups, nor backup / restore for servi
 
 See ["Export backups to your own Cloud account"](/cloud/manage/backups/export-backups-to-own-cloud-account) for examples of how to take full and incremental backups to AWS, GCP, Azure object storage as well as how to restore from the backups.
 
-### Backup options [#backup-options]
+### Backup options 
 
 To export backups to your own cloud account, you have two options:
 
@@ -81,7 +81,7 @@ To export backups to your own cloud account, you have two options:
 
 <Step>
 
-##### Via Cloud Console UI [#via-ui]
+##### Via Cloud Console UI 
 
 External backups can be [configured in the UI](/cloud/manage/backups/backup-restore-via-ui).
 By default, backups will then be taken daily (as specified in the [default backup policy](/cloud/features/backups#default-backup-policy)).
@@ -92,7 +92,7 @@ It is important to note that all backups to your bucket are full backups with no
 
 <Step>
 
-##### Using SQL commands [#using-commands]
+##### Using SQL commands 
 
 You can use [SQL commands](/cloud/manage/backups/backup-restore-via-commands) to export backups to your bucket.
 

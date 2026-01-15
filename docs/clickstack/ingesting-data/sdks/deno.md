@@ -17,7 +17,7 @@ This guide Integrates the following:
 Currently only supports OpenTelemetry Logging. For tracing support, [see the following guide](https://dev.to/grunet/leveraging-opentelemetry-in-deno-45bj#a-minimal-interesting-example).
 </Note>
 
-## Logging [#logging]
+## Logging 
 
 Logging is supported by exporting a custom logger for the `std/log` module.
 
@@ -43,7 +43,7 @@ log.setup({
 log.getLogger('my-otel-logger').info('Hello from Deno!');
 ```
 
-### Run the application [#run-the-application]
+### Run the application 
 
 ```shell
 OTEL_EXPORTER_OTLP_HEADERS="authorization=<YOUR_INGESTION_API_KEY>" \

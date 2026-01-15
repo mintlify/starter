@@ -21,7 +21,7 @@ The advanced dashboard is available in both ClickHouse OSS (Open Source Software
 and Cloud. In this article we will show you how to use the advanced dashboard in
 Cloud.
 
-## Accessing the advanced dashboard [#accessing-the-advanced-dashboard]
+## Accessing the advanced dashboard 
 
 The advanced dashboard can be accessed by navigating to:
 
@@ -30,7 +30,7 @@ The advanced dashboard can be accessed by navigating to:
 
 <img src="/images/cloud/manage/monitoring/advanced_dashboard.png" alt="Advanced dashboard"/>
 
-## Accessing the native advanced dashboard [#accessing-the-native-advanced-dashboard]
+## Accessing the native advanced dashboard 
 
 The native advanced dashboard can be accessed by navigating to:
 
@@ -48,13 +48,13 @@ edit this query by clicking on the pen icon.
 
 <img src="/images/cloud/manage/monitoring/edit_visualization.png" alt="Advanced dashboard"/>
 
-## Out-of-box visualizations [#out-of-box-visualizations]
+## Out-of-box visualizations 
 
 The default charts in the Advanced Dashboard are designed to provide real-time 
 visibility into your ClickHouse system. Below is a list with descriptions for 
 each chart. They are grouped into three categories to help you navigate them.
 
-### ClickHouse specific [#clickhouse-specific]
+### ClickHouse specific 
 
 These metrics are tailored to monitor the health and performance of your 
 ClickHouse instance.
@@ -69,7 +69,7 @@ ClickHouse instance.
 | Queries Running           | Displays the number of queries currently executing                                       |
 | Selected Bytes Per Second | Indicates the volume of data being read by queries                                       |
 
-### System health specific [#system-health-specific]
+### System health specific 
 
 Monitoring the underlying system is just as important as watching ClickHouse itself.
 
@@ -84,7 +84,7 @@ Monitoring the underlying system is just as important as watching ClickHouse its
 | OS CPU Usage (Userspace)  | CPU Usage running userspace code                                          |
 | OS CPU Usage (Kernel)     | CPU Usage running kernel code                                             |
 
-## ClickHouse Cloud specific [#clickhouse-cloud-specific]
+## ClickHouse Cloud specific 
 
 ClickHouse Cloud stores data using object storage (S3 type). Monitoring this 
 interface can help detect issues.
@@ -103,13 +103,13 @@ interface can help detect issues.
 | Network receive bytes/sec      | Tracks the current speed of outbound network traffic        |
 | Concurrent network connections | Tracks the number of current concurrent network connections |
 
-## Identifying issues using the advanced dashboard [#identifying-issues-with-the-advanced-dashboard]
+## Identifying issues using the advanced dashboard 
 
 Having this real-time view of the health of your ClickHouse service greatly helps
 mitigate issues before they impact your business or help solve them. Below are a
 few issues you can spot using the advanced dashboard.
 
-### Unbatched inserts [#unbatched-inserts]
+### Unbatched inserts 
 
 As described in the [best practices documentation](/best-practices/selecting-an-insert-strategy#batch-inserts-if-synchronous), it is recommended to always
 bulk insert data into ClickHouse if able to do so synchronously.
@@ -131,7 +131,7 @@ very slow **Inserted Rows/sec speed**. A lot of parts are being created with
 very little data generated, which indicates that the size of the parts is 
 sub-optimal.
 
-### Resource intensive query [#resource-intensive-query]
+### Resource intensive query 
 
 It is common to run SQL queries that consume a large amount of resources, such as
 CPU or memory. However, it is important to monitor these queries and understand 
@@ -147,7 +147,7 @@ number of queries per second executed.
 
 <img src="/images/cloud/manage/monitoring/resource_intensive_query.png" alt="Resource intensive query"/>
 
-### Bad primary key design [#bad-primary-key-design]
+### Bad primary key design 
 
 Another issue you can spot using the advanced dashboard is a bad primary key design.
 As described in ["A practical introduction to primary indexes in ClickHouse"](/guides/best-practices/sparse-primary-indexes#a-table-with-a-primary-key),

@@ -21,7 +21,7 @@ Text representation range: [-999:59:59, 999:59:59].
 
 Resolution: 1 second.
 
-## Implementation details [#implementation-details]
+## Implementation details 
 
 **Representation and Performance**.
 Data type `Time` internally stores a signed 32-bit integer that encodes the seconds.
@@ -46,7 +46,7 @@ Specifying a time zone for `Time` as a type parameter or during value creation t
 Likewise, attempts to apply or change the time zone on `Time` columns are not supported and result in an error.
 `Time` values are not silently reinterpreted under different time zones.
 
-## Examples [#examples]
+## Examples 
 
 **1.** Creating a table with a `Time`-type column and inserting data into it:
 
@@ -113,7 +113,7 @@ SELECT CAST('14:30:25' AS Time) AS column, toTypeName(column) AS type
    └───────────┴──────┘
 ```
 
-## See Also [#see-also]
+## See Also 
 
 - [Type conversion functions](../functions/type-conversion-functions.md)
 - [Functions for working with dates and times](../functions/date-time-functions.md)

@@ -26,7 +26,7 @@ The engine processes all columns with the following types:
 
 It is appropriate to use `AggregatingMergeTree` if it reduces the number of rows by orders.
 
-## Creating a table [#creating-a-table]
+## Creating a table 
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
@@ -66,14 +66,14 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
 All of the parameters have the same meaning as in `MergeTree`.
 </Accordion>
 </AccordionGroup>
-## SELECT and INSERT [#select-and-insert]
+## SELECT and INSERT 
 
 To insert data, use [INSERT SELECT](../../../sql-reference/statements/insert-into.md) query with aggregate -State- functions.
 When selecting data from `AggregatingMergeTree` table, use `GROUP BY` clause and the same aggregate functions as when inserting data, but using the `-Merge` suffix.
 
 In the results of `SELECT` query, the values of `AggregateFunction` type have implementation-specific binary representation for all of the ClickHouse output formats. For example, if you dump data into `TabSeparated` format with a `SELECT` query, then this dump can be loaded back using an `INSERT` query.
 
-## Example of an aggregated materialized view [#example-of-an-aggregated-materialized-view]
+## Example of an aggregated materialized view 
 
 The following example assumes that you have a database named `test`. Create it if it doesn't already exist using the command below:
 
@@ -185,6 +185,6 @@ Each source row produces one row in the materialized view, and the actual aggreg
 `AggregatingMergeTree` merges parts. This is only true if `optimize_on_insert = 0`.
 </Note>
 
-## Related content [#related-content]
+## Related content 
 
 - Blog: [Using Aggregate Combinators in ClickHouse](https://clickhouse.com/blog/aggregate-functions-combinators-in-clickhouse-for-arrays-maps-and-states)

@@ -17,7 +17,7 @@ At the core of ClickStack is a simple but powerful idea: all observability data 
 
 ClickStack is built to handle high-cardinality workloads efficiently by leveraging ClickHouse's column-oriented architecture, native JSON support, and fully parallelized execution engine. This enables sub-second queries across massive datasets, fast aggregations over wide time ranges, and deep inspection of individual traces. JSON is stored in a compressed, columnar format, allowing schema evolution without manual intervention or upfront definitions.
 
-## Features [#features]
+## Features 
 
 The stack includes several key features designed for debugging and root cause analysis:
 
@@ -35,7 +35,7 @@ The stack includes several key features designed for debugging and root cause an
 - Event deltas for identifying anomalies and performance regressions
 - Log pattern recognition
 
-## Components [#components]
+## Components 
 
 ClickStack consists of three core components:
 
@@ -47,35 +47,35 @@ These components can be deployed independently or together. A browser-hosted ver
 
 To get started, visit the [Getting started guide](/use-cases/observability/clickstack/getting-started) before loading a [sample dataset](/use-cases/observability/clickstack/sample-datasets). You can also explore documentation on [deployment options](/use-cases/observability/clickstack/deployment) and [production best practices](/use-cases/observability/clickstack/production).
 
-## Principles [#clickstack-principles]
+## Principles 
 
 ClickStack is designed with a set of core principles that prioritize ease of use, performance, and flexibility at every layer of the observability stack:
 
-### Easy to set up in minutes [#clickstack-easy-to-setup]
+### Easy to set up in minutes 
 
 ClickStack works out of the box with any ClickHouse instance and schema, requiring minimal configuration. Whether you're starting fresh or integrating with an existing setup, you can be up and running in minutes.
 
-### User-friendly and purpose-built [#user-friendly-purpose-built]
+### User-friendly and purpose-built 
 
 The HyperDX UI supports both SQL and Lucene-style syntax, allowing users to choose the query interface that fits their workflow. Purpose-built for observability, the UI is optimized to help teams identify root causes quickly and navigate complex data without friction.
 
-### End-to-end observability [#end-to-end-observability]
+### End-to-end observability 
 
 ClickStack provides full-stack visibility, from front-end user sessions to backend infrastructure metrics, application logs, and distributed traces. This unified view enables deep correlation and analysis across the entire system.
 
-### Built for ClickHouse [#built-for-clickhouse]
+### Built for ClickHouse 
 
 Every layer of the stack is designed to make full use of ClickHouse's capabilities. Queries are optimized to leverage ClickHouse's analytical functions and columnar engine, ensuring fast search and aggregation over massive volumes of data.
 
-### OpenTelemetry-native [#open-telemetry-native]
+### OpenTelemetry-native 
 
 ClickStack is natively integrated with OpenTelemetry, ingesting all data through an OpenTelemetry collector endpoint. For advanced users, it also supports direct ingestion into ClickHouse using native file formats, custom pipelines, or third-party tools like Vector.
 
-### Open source and fully customizable [#open-source-and-customizable]
+### Open source and fully customizable 
 
 ClickStack is fully open source and can be deployed anywhere. The schema is flexible and user-modifiable, and the UI is designed to be configurable to custom schemas without requiring changes. All components—including collectors, ClickHouse, and the UI - can be scaled independently to meet ingestion, query, or storage demands.
 
-## Architectural overview [#architectural-overview]
+## Architectural overview 
 
 <img src="/images/use-cases/observability/clickstack-simple-architecture.png" alt="Simple architecture"/>
 

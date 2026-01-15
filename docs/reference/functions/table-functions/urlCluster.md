@@ -10,13 +10,13 @@ doc_type: 'reference'
 
 Allows processing files from URL in parallel from many nodes in a specified cluster. On initiator it creates a connection to all nodes in the cluster, discloses asterisk in URL file path, and dispatches each file dynamically. On the worker node it asks the initiator about the next task to process and processes it. This is repeated until all tasks are finished.
 
-## Syntax [#syntax]
+## Syntax 
 
 ```sql
 urlCluster(cluster_name, URL, format, structure)
 ```
 
-## Arguments [#arguments]
+## Arguments 
 
 | Argument       | Description                                                                                                                                            |
 |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -25,11 +25,11 @@ urlCluster(cluster_name, URL, format, structure)
 | `format`       | [Format](/sql-reference/formats) of the data. Type: [String](../../sql-reference/data-types/string.md).                                                |
 | `structure`    | Table structure in `'UserID UInt64, Name String'` format. Determines column names and types. Type: [String](../../sql-reference/data-types/string.md). |
 
-## Returned value [#returned_value]
+## Returned value 
 
 A table with the specified format and structure and with data from the defined `URL`.
 
-## Examples [#examples]
+## Examples 
 
 Getting the first 3 lines of a table that contains columns of `String` and [UInt32](../../sql-reference/data-types/int-uint.md) type from HTTP-server which answers in [CSV](/interfaces/formats/CSV) format.
 
@@ -55,12 +55,12 @@ if __name__ == "__main__":
 SELECT * FROM urlCluster('cluster_simple','http://127.0.0.1:12345', CSV, 'column1 String, column2 UInt32')
 ```
 
-## Globs in URL [#globs-in-url]
+## Globs in URL 
 
 Patterns in curly brackets `{ }` are used to generate a set of shards or to specify failover addresses. Supported pattern types and examples see in the description of the [remote](remote.md#globs-in-addresses) function.
 Character `|` inside patterns is used to specify failover addresses. They are iterated in the same order as listed in the pattern. The number of generated addresses is limited by [glob_expansion_max_elements](../../operations/settings/settings.md#glob_expansion_max_elements) setting.
 
-## Related [#related]
+## Related 
 
 -   [HDFS engine](/engines/table-engines/integrations/hdfs)
 -   [URL table function](/engines/table-engines/special/url)

@@ -14,13 +14,13 @@ import {CommunityMaintainedBadge} from '/snippets/components/CommunityMaintained
 [Dot](https://www.getdot.ai/) is your **AI Data Analyst**.
 It connects directly to ClickHouse so you can ask data questions in natural language, discover data, test hypotheses, and answer why questions — directly in Slack, Microsoft Teams, ChatGPT or the native Web UI.
 
-## Pre-requisites [#pre-requisites]
+## Pre-requisites 
 
 - A ClickHouse database, either self-hosted or in [ClickHouse Cloud](https://clickhouse.com/cloud)  
 - A [Dot](https://www.getdot.ai/) account  
 - A [Hashboard](https://www.hashboard.com/) account and project.
 
-## Connecting Dot to ClickHouse [#connecting-dot-to-clickhouse]
+## Connecting Dot to ClickHouse 
 
 <img src="/images/integrations/data-visualization/dot_01.png" alt="Configuring ClickHouse connection in Dot (light mode)" />
 <br/>
@@ -38,7 +38,7 @@ It connects directly to ClickHouse so you can ask data questions in natural lang
 
 Dot uses **query-pushdown**: ClickHouse handles the heavy number-crunching at scale, while Dot ensures correct and trusted answers.
 
-## Highlights [#highlights]
+## Highlights 
 
 Dot makes data accessible through conversation:
 
@@ -48,7 +48,7 @@ Dot makes data accessible through conversation:
 - **Trusted results**: Dot validates queries against your schemas and definitions to minimize errors.  
 - **Scalable**: Built on query-pushdown, pairing Dot’s intelligence with ClickHouse’s speed.
 
-## Security and governance [#security]
+## Security and governance 
 
 Dot is enterprise-ready:
 
@@ -58,7 +58,7 @@ Dot is enterprise-ready:
 - **Governance & validation**: Training/validation space helps prevent hallucinations  
 - **Compliance**: SOC 2 Type I certified
 
-## Additional resources [#additional-resources]
+## Additional resources 
 
 - Dot website: [https://www.getdot.ai/](https://www.getdot.ai/)  
 - Documentation: [https://docs.getdot.ai/](https://docs.getdot.ai/)  

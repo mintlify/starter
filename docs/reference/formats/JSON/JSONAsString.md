@@ -11,7 +11,7 @@ doc_type: 'reference'
 
 <Badge intent="success">Input</Badge>
 
-## Description [#description]
+## Description 
 
 In this format, a single JSON object is interpreted as a single value. 
 If the input has several JSON objects (which are comma separated), they are interpreted as separate rows. 
@@ -25,9 +25,9 @@ or be omitted.
 
 Once you serialize the entire JSON object to a String you can use the [JSON functions](/sql-reference/functions/json-functions.md) to process it.
 
-## Example usage [#example-usage]
+## Example usage 
 
-### Basic example [#basic-example]
+### Basic example 
 
 ```sql title="Query"
 DROP TABLE IF EXISTS json_as_string;
@@ -44,7 +44,7 @@ SELECT * FROM json_as_string;
 └───────────────────────────────────┘
 ```
 
-### An array of JSON objects [#an-array-of-json-objects]
+### An array of JSON objects 
 
 ```sql title="Query"
 CREATE TABLE json_square_brackets (field String) ENGINE = Memory;
@@ -60,4 +60,4 @@ SELECT * FROM json_square_brackets;
 └────────────────────────────┘
 ```
 
-## Format settings [#format-settings]
+## Format settings 

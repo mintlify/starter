@@ -7,7 +7,7 @@ title: 'gRPC Interface'
 doc_type: 'reference'
 ---
 
-## Introduction [#grpc-interface-introduction]
+## Introduction 
 
 ClickHouse supports [gRPC](https://grpc.io/) interface. It is an open source remote procedure call system that uses HTTP/2 and [Protocol Buffers](https://en.wikipedia.org/wiki/Protocol_Buffers). The implementation of gRPC in ClickHouse supports:
 
@@ -22,7 +22,7 @@ ClickHouse supports [gRPC](https://grpc.io/) interface. It is an open source rem
 
 The specification of the interface is described in [clickhouse_grpc.proto](https://github.com/ClickHouse/ClickHouse/blob/master/src/Server/grpc_protos/clickhouse_grpc.proto).
 
-## gRPC configuration [#grpc-interface-configuration]
+## gRPC configuration 
 
 To use the gRPC interface set `grpc_port` in the main [server configuration](../operations/configuration-files.md). Other configuration options see in the following example:
 
@@ -58,7 +58,7 @@ To use the gRPC interface set `grpc_port` in the main [server configuration](../
     </grpc>
 ```
 
-## Built-in client [#grpc-client]
+## Built-in client 
 
 You can write a client in any of the programming languages supported by gRPC using the provided [specification](https://github.com/ClickHouse/ClickHouse/blob/master/src/Server/grpc_protos/clickhouse_grpc.proto).
 Or you can use a built-in Python client. It is placed in [utils/grpc-client/clickhouse-grpc-client.py](https://github.com/ClickHouse/ClickHouse/blob/master/utils/grpc-client/clickhouse-grpc-client.py) in the repository. The built-in client requires [grpcio and grpcio-tools](https://grpc.io/docs/languages/python/quickstart) Python modules.

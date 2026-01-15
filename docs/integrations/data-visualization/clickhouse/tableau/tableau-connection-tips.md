@@ -13,7 +13,7 @@ import ClickHouseSupportedBadge from '/snippets/components/ClickHouseSupported/C
 
 <ClickHouseSupportedBadge/>
 
-## Initial SQL tab [#initial-sql-tab]
+## Initial SQL tab 
 
 If the *Set Session ID* checkbox is activated on the Advanced tab (by default), feel free to set session level [settings](/operations/settings/settings/) using
 
@@ -21,7 +21,7 @@ If the *Set Session ID* checkbox is activated on the Advanced tab (by default), 
 SET my_setting=value;
 ```
 
-## Advanced tab [#advanced-tab]
+## Advanced tab 
 
 In 99% of cases you don't need the Advanced tab, for the remaining 1% you can use the following settings:
 - **Custom Connection Parameters**. By default, `socket_timeout` is already specified, this parameter may need to be changed if some extracts are updated for a very long time. The value of this parameter is specified in milliseconds. The rest of the parameters can be found [here](https://github.com/ClickHouse/clickhouse-jdbc/blob/master/clickhouse-client/src/main/java/com/clickhouse/client/config/ClickHouseClientOption.java), add them in this field separated by commas
@@ -35,7 +35,7 @@ In 99% of cases you don't need the Advanced tab, for the remaining 1% you can us
 - **JDBC Driver URL Parameters**. You can pass the remaining [driver parameters](https://github.com/ClickHouse/clickhouse-jdbc#configuration), for example `jdbcCompliance`, in this field. Be careful, the parameter values must be passed in the URL Encoded format, and in the case of passing `custom_http_params` or `typeMappings` in this field and in the previous fields of the Advanced tab, the values of the preceding two fields on the Advanced tab have a higher priority
 - **Set Session ID** checkbox. It is needed to set session-level settings in Initial SQL tab, generates a `session_id` with a timestamp and a pseudo-random number in the format `"tableau-jdbc-connector-*{timestamp}*-*{number}*"`
 
-## Limited support for UInt64, Int128, (U)Int256 data types [#limited-support-for-uint64-int128-uint256-data-types]
+## Limited support for UInt64, Int128, (U)Int256 data types 
 
 By default, the driver displays fields of types *UInt64, Int128, (U)Int256* as strings, **but it displays, not converts**. This means that when you try to write the next calculated field, you will get an error
 

@@ -8,14 +8,14 @@ doc_type: 'guide'
 
 ClickHouse can automatically determine the structure of JSON data. This can be used to query JSON data directly e.g. on disk with `clickhouse-local` or S3 buckets, and/or automatically create schemas prior to loading the data into ClickHouse.
 
-## When to use type inference [#when-to-use-type-inference]
+## When to use type inference 
 
 * **Consistent structure** - The data from which you are going to infer types contains all the keys that you are interested in. Type inference is based on sampling the data up to a [maximum number of rows](/operations/settings/formats#input_format_max_rows_to_read_for_schema_inference) or [bytes](/operations/settings/formats#input_format_max_bytes_to_read_for_schema_inference). Data after the sample, with additional columns, will be ignored and can't be queried.
 * **Consistent types** - Data types for specific keys need to be compatible i.e. it must be possible to coerce one type to the other automatically.
 
 If you have more dynamic JSON, to which new keys are added and multiple types are possible for the same path, see ["Working with semi-structured and dynamic data"](/integrations/data-formats/json/inference#working-with-semi-structured-data).
 
-## Detecting types [#detecting-types]
+## Detecting types 
 
 The following assumes the JSON is consistently structured and has a single type for each path.
 
@@ -99,7 +99,7 @@ We can see that most columns have automatically been detected as `String`, with 
 The auto-detection of dates and datetimes can be controlled through the settings [`input_format_try_infer_dates`](/operations/settings/formats#input_format_try_infer_dates) and [`input_format_try_infer_datetimes`](/operations/settings/formats#input_format_try_infer_datetimes) respectively (both enabled by default). The inference of objects as tuples is controlled by the setting [`input_format_json_try_infer_named_tuples_from_objects`](/operations/settings/formats#input_format_json_try_infer_named_tuples_from_objects). Other settings which control schema inference for JSON, such as the auto-detection of numbers, can be found [here](/interfaces/schema-inference#text-formats).
 </Note>
 
-## Querying JSON [#querying-json]
+## Querying JSON 
 
 The following assumes the JSON is consistently structured and has a single type for each path.
 
@@ -145,7 +145,7 @@ LIMIT 1 BY year
 
 Schema inference allows us to query JSON files without needing to specify the schema, accelerating ad-hoc data analysis tasks.
 
-## Creating tables [#creating-tables]
+## Creating tables 
 
 We can rely on schema inference to create the schema for a table. The following `CREATE AS EMPTY` command causes the DDL for the table to be inferred and the table to created. This does not load any data:
 
@@ -186,7 +186,7 @@ ORDER BY update_date
 
 The above is the correct schema for this data. Schema inference is based on sampling the data and reading the data row by row. Column values are extracted according to the format, with recursive parsers and heuristics used to determine the type for each value. The maximum number of rows and bytes read from the data in schema inference is controlled by the settings [`input_format_max_rows_to_read_for_schema_inference`](/operations/settings/formats#input_format_max_rows_to_read_for_schema_inference) (25000 by default) and [`input_format_max_bytes_to_read_for_schema_inference`](/operations/settings/formats#input_format_max_bytes_to_read_for_schema_inference) (32MB by default). In the event detection is not correct, users can provide hints as described [here](/operations/settings/formats#schema_inference_make_columns_nullable).
 
-### Creating tables from snippets [#creating-tables-from-snippets]
+### Creating tables from snippets 
 
 The above example uses a file on S3 to create the table schema. Users may wish to create a schema from a single-row snippet. This can be achieved using the [format](/sql-reference/table-functions/format) function as shown below:
 
@@ -219,7 +219,7 @@ ENGINE = MergeTree
 ORDER BY update_date
 ```
 
-## Loading JSON data [#loading-json-data]
+## Loading JSON data 
 
 The following assumes the JSON is consistently structured and has a single type for each path.
 
@@ -273,11 +273,11 @@ FORMAT PrettyJSONEachRow
 1 row in set. Elapsed: 0.009 sec.
 ```
 
-## Handling errors [#handling-errors]
+## Handling errors 
 
 Sometimes, you might have bad data. For example, specific columns that do not have the right type or an improperly formatted JSON object. For this, you can use the settings [`input_format_allow_errors_num`](/operations/settings/formats#input_format_allow_errors_num) and [`input_format_allow_errors_ratio`](/operations/settings/formats#input_format_allow_errors_ratio) to allow a certain number of rows to be ignored if the data is triggering insert errors. Additionally, [hints](/operations/settings/formats#schema_inference_hints) can be provided to assist inference.
 
-## Working with semi-structured and dynamic data [#working-with-semi-structured-data]
+## Working with semi-structured and dynamic data 
 
 Our previous example used JSON which was static with well known key names and types. This is often not the case - keys can be added or their types can change. This is common in use cases such as Observability data.
 
@@ -387,6 +387,6 @@ SETTINGS enable_json_type = 1, describe_compact_output = 1
 1 row in set. Elapsed: 0.010 sec.
 ```
 
-## Further reading [#further-reading]
+## Further reading 
 
 To learn more about the data type inference, you can refer to [this](/interfaces/schema-inference) documentation page.

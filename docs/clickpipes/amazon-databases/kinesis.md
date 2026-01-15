@@ -10,10 +10,10 @@ integration:
 keywords: ['clickpipes', 'kinesis', 'streaming', 'aws', 'data ingestion']
 ---
 
-## Prerequisite [#prerequisite]
+## Prerequisite 
 You have familiarized yourself with the [ClickPipes intro](./index.md) and setup [IAM credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) or an [IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). Follow the [Kinesis Role-Based Access guide](./secure-kinesis.md) for information on how to setup a role that works with ClickHouse Cloud.
 
-## Creating your first ClickPipe [#creating-your-first-clickpipe]
+## Creating your first ClickPipe 
 
 1. Access the SQL Console for your ClickHouse Cloud Service.
 
@@ -71,14 +71,14 @@ You have familiarized yourself with the [ClickPipes intro](./index.md) and setup
 
 10. **Congratulations!** you have successfully set up your first ClickPipe. If this is a streaming ClickPipe it will be continuously running, ingesting data in real-time from your remote data source. Otherwise it will ingest the batch and complete.
 
-## Supported data formats [#supported-data-formats]
+## Supported data formats 
 
 The supported formats are:
 - [JSON](/interfaces/formats/JSON)
 
-## Supported data types [#supported-data-types]
+## Supported data types 
 
-### Standard types support [#standard-types-support]
+### Standard types support 
 The following ClickHouse data types are currently supported in ClickPipes:
 
 - Base numeric types - \[U\]Int8/16/32/64, Float32/64, and BFloat16
@@ -98,16 +98,16 @@ The following ClickHouse data types are currently supported in ClickPipes:
 - Tuple and Array with elements using any of the above types (including Nullables, one level depth only)
 - SimpleAggregateFunction types (for AggregatingMergeTree or SummingMergeTree destinations)
 
-### Variant type support [#variant-type-support]
+### Variant type support 
 You can manually specify a Variant type (such as `Variant(String, Int64, DateTime)`) for any JSON field
 in the source data stream.  Because of the way ClickPipes determines the correct variant subtype to use, only one integer or datetime
 type can be used in the Variant definition - for example, `Variant(Int64, UInt32)` is not supported.
 
-### JSON type support [#json-type-support]
+### JSON type support 
 JSON fields that are always a JSON object can be assigned to a JSON destination column.  You will have to manually change the destination
 column to the desired JSON type, including any fixed or skipped paths. 
 
-## Kinesis virtual columns [#kinesis-virtual-columns]
+## Kinesis virtual columns 
 
 The following virtual columns are supported for Kinesis stream.  When creating a new destination table virtual columns can be added by using the `Add Column` button.
 
@@ -122,26 +122,26 @@ The following virtual columns are supported for Kinesis stream.  When creating a
 The _raw_message field can be used in cases where only full Kinesis JSON record is required (such as using ClickHouse [`JsonExtract*`](/sql-reference/functions/json-functions#jsonextract-functions) functions to populate a downstream materialized
 view).  For such pipes, it may improve ClickPipes performance to delete all the "non-virtual" columns.
 
-## Limitations [#limitations]
+## Limitations 
 
 - [DEFAULT](/sql-reference/statements/create/table#default) is not supported.
 
-## Performance [#performance]
+## Performance 
 
-### Batching [#batching]
+### Batching 
 ClickPipes inserts data into ClickHouse in batches. This is to avoid creating too many parts in the database which can lead to performance issues in the cluster.
 
 Batches are inserted when one of the following criteria has been met:
 - The batch size has reached the maximum size (100,000 rows or 32MB per 1GB of replica memory)
 - The batch has been open for a maximum amount of time (5 seconds)
 
-### Latency [#latency]
+### Latency 
 
 Latency (defined as the time between the Kinesis message being sent to the stream and the message being available in ClickHouse) will be dependent on a number of factors (i.e. Kinesis latency, network latency, message size/format). The [batching](#batching) described in the section above will also impact latency. We always recommend testing your specific use case to understand the latency you can expect.
 
 If you have specific low-latency requirements, please [contact us](https://clickhouse.com/company/contact?loc=clickpipes).
 
-### Scaling [#scaling]
+### Scaling 
 
 ClickPipes for Kinesis is designed to scale both horizontally and vertically. By default, we create a consumer group with one consumer. This can be configured during ClickPipe creation, or at any other point under **Settings** -> **Advanced Settings** -> **Scaling**.
 
@@ -152,6 +152,6 @@ Regardless number of running consumers, fault tolerance is available by design.
 If a consumer or its underlying infrastructure fails,
 the ClickPipe will automatically restart the consumer and continue processing messages.
 
-## Authentication [#authentication]
+## Authentication 
 
 To access Amazon Kinesis streams, you can use [IAM credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) or an [IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). For more details on how to setup an IAM role, you can [refer to this guide](./secure-kinesis.md) for information on how to setup a role that works with ClickHouse Cloud

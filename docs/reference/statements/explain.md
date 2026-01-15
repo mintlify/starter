@@ -57,7 +57,7 @@ Union
                   ReadFromStorage (SystemNumbers)
 ```
 
-## EXPLAIN Types [#explain-types]
+## EXPLAIN Types 
 
 - `AST` — Abstract syntax tree.
 - `SYNTAX` — Query text after AST-level optimizations.
@@ -65,7 +65,7 @@ Union
 - `PLAN` — Query execution plan.
 - `PIPELINE` — Query execution pipeline.
 
-### EXPLAIN AST [#explain-ast]
+### EXPLAIN AST 
 
 Dump query AST. Supports all types of queries, not only `SELECT`.
 
@@ -99,7 +99,7 @@ EXPLAIN AST ALTER TABLE t1 DELETE WHERE date = today();
         ExpressionList
 ```
 
-### EXPLAIN SYNTAX [#explain-syntax]
+### EXPLAIN SYNTAX 
 
 Shows the Abstract Syntax Tree (AST) of a query after syntax analysis.
 
@@ -143,7 +143,7 @@ ALL INNER JOIN system.numbers AS __table2 ON __table1.number = __table2.number
 ALL INNER JOIN system.numbers AS __table3 ON __table2.number = __table3.number
 ```
 
-### EXPLAIN QUERY TREE [#explain-query-tree]
+### EXPLAIN QUERY TREE 
 
 Settings:
 
@@ -171,7 +171,7 @@ QUERY id: 0
     TABLE id: 3, table_name: default.test_table
 ```
 
-### EXPLAIN PLAN [#explain-plan]
+### EXPLAIN PLAN 
 
 Dump query plan steps.
 
@@ -452,7 +452,7 @@ EXPLAIN json = 1, actions = 1, description = 0 SELECT 1 FORMAT TSVRaw;
 ]
 ```
 
-### EXPLAIN PIPELINE [#explain-pipeline]
+### EXPLAIN PIPELINE 
 
 Settings:
 
@@ -483,7 +483,7 @@ ExpressionTransform
             (ReadFromStorage)
             NumbersRange × 2 0 → 1
 ```
-### EXPLAIN ESTIMATE [#explain-estimate]
+### EXPLAIN ESTIMATE 
 
 Shows the estimated number of rows, marks and parts to be read from the tables while processing the query. Works with tables in the [MergeTree](/engines/table-engines/mergetree-family/mergetree) family.
 
@@ -511,7 +511,7 @@ Result:
 └──────────┴───────┴───────┴──────┴───────┘
 ```
 
-### EXPLAIN TABLE OVERRIDE [#explain-table-override]
+### EXPLAIN TABLE OVERRIDE 
 
 Shows the result of a table override on a table schema accessed through a table function.
 Also does some validation, throwing an exception if the override would have caused some kind of failure.

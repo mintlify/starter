@@ -22,12 +22,12 @@ A demo dataset with sample traces is available if you want to test the integrati
 Time Required: 5-10 minutes
 </Note>
 
-## Integration with existing Nginx [#existing-nginx]
+## Integration with existing Nginx 
 
 This section covers adding distributed tracing to your existing Nginx installation by installing the OpenTelemetry module and configuring it to send traces to ClickStack.
 If you would like to test the integration before configuring your own existing setup, you can test with our preconfigured setup and sample data in the [following section](/use-cases/observability/clickstack/integrations/nginx-traces#demo-dataset).
 
-##### Prerequisites [#prerequisites]
+##### Prerequisites 
 
 - ClickStack instance running with OTLP endpoints accessible (ports 4317/4318)
 - Existing Nginx installation (version 1.18 or higher)
@@ -173,7 +173,7 @@ Once configured, log into HyperDX and verify traces are flowing, you should see 
 </Step>
 </Steps>
 
-## Demo dataset [#demo-dataset]
+## Demo dataset 
 
 For users who want to test the nginx trace integration before configuring their production systems, we provide a sample dataset of pre-generated Nginx Traces with realistic traffic patterns.
 
@@ -260,7 +260,7 @@ If you don't see logs, ensure the time range is set to 2025-10-26 13:00:00 - 202
 </Step>
 </Steps>
 
-## Dashboards and visualization [#dashboards]
+## Dashboards and visualization 
 
 To help you get started monitoring traces with ClickStack, we provide essential visualizations for trace data.
 
@@ -298,9 +298,9 @@ Ensure the time range is set to 2025-10-26 13:00:00 - 2025-10-27 13:00:00. The i
 </Step>
 </Steps>
 
-## Troubleshooting [#troubleshooting]
+## Troubleshooting 
 
-### No traces appearing in HyperDX [#no-traces]
+### No traces appearing in HyperDX 
 
 **Verify nginx module is loaded:**
 
@@ -343,7 +343,7 @@ Look for OpenTelemetry-related errors.
 tail -f /var/log/nginx/access.log
 ```
 
-## Next steps [#next-steps]
+## Next steps 
 If you want to explore further, here are some next steps to experiment with your dashboard
 
 - Set up alerts for critical metrics (error rates, latency thresholds)

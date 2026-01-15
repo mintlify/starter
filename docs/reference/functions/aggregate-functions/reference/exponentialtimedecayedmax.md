@@ -7,7 +7,7 @@ title: 'exponentialTimeDecayedMax'
 doc_type: 'reference'
 ---
 
-## exponentialTimeDecayedMax [#exponentialtimedecayedmax]
+## exponentialTimeDecayedMax 
 
 Returns the maximum of the computed exponentially smoothed moving average at index `t` in time with that at `t-1`. 
 

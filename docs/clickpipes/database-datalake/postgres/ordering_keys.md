@@ -13,7 +13,7 @@ As describe in the [migration guide](/migrations/postgresql/data-modeling-techni
 
 By default with CDC, choosing an ordering key different from the Postgres primary key can cause data deduplication issues in ClickHouse. This happens because the ordering key in ClickHouse serves a dual role: it controls data indexing and sorting while acting as the deduplication key. The easiest way to address this issue is by defining refreshable materialized views.
 
-## Use refreshable materialized views [#use-refreshable-materialized-views]
+## Use refreshable materialized views 
 
 A simple way to define custom ordering keys (ORDER BY) is using [refreshable materialized views](/materialized-view/refreshable-materialized-view) (MVs). These allow you to periodically (e.g., every 5 or 10 minutes) copy the entire table with the desired ordering key. 
 
@@ -28,17 +28,17 @@ SELECT * FROM posts FINAL
 WHERE _peerdb_is_deleted = 0; -- this does the deduplication
 ```
 
-## Custom ordering keys without refreshable materialized views [#custom-ordering-keys-without-refreshable-materialized-views]
+## Custom ordering keys without refreshable materialized views 
 
 If refreshable materialized views don't work due to the scale of data, here are a few recommendations you can follow to define custom ordering keys on larger tables and overcome deduplication-related issues.
 
-### Choose ordering key columns that don't change for a given row [#choose-ordering-key-columns-that-dont-change-for-a-given-row]
+### Choose ordering key columns that don't change for a given row 
 
 When including additional columns in the ordering key for ClickHouse (besides the primary key from Postgres), we recommend selecting columns that don't change for each row. This helps prevent data consistency and deduplication issues with ReplacingMergeTree.
 
 For example, in a multi-tenant SaaS application, using (`tenant_id`, `id`) as the ordering key is a good choice. These columns uniquely identify each row, and `tenant_id` remains constant for an `id` even if other columns change. Since deduplication by id aligns with deduplication by (tenant_id, id), it helps avoid data [deduplication issues](https://docs.peerdb.io/mirror/ordering-key-different) that could arise if tenant_id were to change.
 
-### Set Replica Identity on Postgres tables to custom ordering key [#set-replica-identity-on-postgres-tables-to-custom-ordering-key]
+### Set Replica Identity on Postgres tables to custom ordering key 
 
 For Postgres CDC to function as expected, it is important to modify the `REPLICA IDENTITY` on tables to include the ordering key columns. This is essential for handling DELETEs accurately.
 

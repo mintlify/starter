@@ -20,12 +20,12 @@ We recommend using [ClickPipes](/integrations/clickpipes/postgres), a managed in
 Alternatively, [PeerDB](https://github.com/PeerDB-io/peerdb) is available as an an open-source CDC tool specifically designed for PostgreSQL database replication to both self-hosted ClickHouse and ClickHouse Cloud.
 </Tip>
 
-## Using the PostgreSQL table engine [#using-the-postgresql-table-engine]
+## Using the PostgreSQL table engine 
 
 The `PostgreSQL` table engine allows **SELECT** and **INSERT** operations on data stored on the remote PostgreSQL server from ClickHouse.
 This article is to illustrate basic methods of integration using one table.
 
-### 1. Setting up PostgreSQL [#1-setting-up-postgresql]
+### 1. Setting up PostgreSQL 
 1.  In `postgresql.conf`, add the following entry to enable PostgreSQL to listen on the network interfaces:
   ```text
   listen_addresses = '*'
@@ -79,7 +79,7 @@ If you are using this feature in ClickHouse Cloud, you may need the to allow the
 Check the ClickHouse [Cloud Endpoints API](/cloud/get-started/query-endpoints) for egress traffic details.
 </Note>
 
-### 2. Define a Table in ClickHouse [#2-define-a-table-in-clickhouse]
+### 2. Define a Table in ClickHouse 
 1. Login to the `clickhouse-client`:
   ```bash
   clickhouse-client --user default --password ClickHouse123!
@@ -113,7 +113,7 @@ Check the ClickHouse [Cloud Endpoints API](/cloud/get-started/query-endpoints) f
   View the [PostgreSQL table engine](/engines/table-engines/integrations/postgresql) doc page for a complete list of parameters.
   :::
 
-### 3 Test the Integration [#3-test-the-integration]
+### 3 Test the Integration 
 
 1. In ClickHouse, view initial rows:
   ```sql
@@ -182,7 +182,7 @@ Check the ClickHouse [Cloud Endpoints API](/cloud/get-started/query-endpoints) f
 This example demonstrated the basic integration between PostgreSQL and ClickHouse using the `PostrgeSQL` table engine.
 Check out the [doc page for the PostgreSQL table engine](/engines/table-engines/integrations/postgresql) for more features, such as specifying schemas, returning only a subset of columns, and connecting to multiple replicas. Also check out the [ClickHouse and PostgreSQL - a match made in data heaven - part 1](https://clickhouse.com/blog/migrating-data-between-clickhouse-postgres) blog.
 
-## Using the MaterializedPostgreSQL database engine [#using-the-materializedpostgresql-database-engine]
+## Using the MaterializedPostgreSQL database engine 
 
 <CloudNotSupportedBadge />
 <ExperimentalBadge />
@@ -192,7 +192,7 @@ This article is to illustrate basic methods of integration using one database, o
 
 ***In the following procedures, the PostgreSQL CLI (psql) and the ClickHouse CLI (clickhouse-client) are used. The PostgreSQL server is installed on linux. The following has minimum settings if the postgresql database is new test install***
 
-### 1. In PostgreSQL [#1-in-postgresql]
+### 1. In PostgreSQL 
 1.  In `postgresql.conf`, set minimum listen levels, replication wal level and replication slots:
 
 add the following entries:
@@ -254,7 +254,7 @@ _*for demonstration purposes, this is using clear text password authentication m
  psql -U clickhouse_user -W -d db1 -h <your_postgresql_host>
 ```
 
-### 2. In ClickHouse [#2-in-clickhouse]
+### 2. In ClickHouse 
 1. log into the ClickHouse CLI
 ```bash
 clickhouse-client --user default --password ClickHouse123!
@@ -303,7 +303,7 @@ Query id: df2381ac-4e30-4535-b22e-8be3894aaafc
 └────┴─────────┘
 ```
 
-### 3. Test basic replication [#3-test-basic-replication]
+### 3. Test basic replication 
 1. In PostgreSQL, add new rows:
 ```sql
 INSERT INTO table1
@@ -336,7 +336,7 @@ Query id: b0729816-3917-44d3-8d1a-fed912fb59ce
 └────┴─────────┘
 ```
 
-### 4. Summary [#4-summary]
+### 4. Summary 
 This integration guide focused on a simple example on how to replicate a database with a table, however, there exist more advanced options which include replicating the whole database or adding new tables and schemas to the existing replications. Although DDL commands are not supported for this replication, the engine can be set to detect changes and reload the tables when there are structural changes made.
 
 <Note>

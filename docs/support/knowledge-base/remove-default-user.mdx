@@ -8,7 +8,7 @@ words: ['Remove Default User', 'ClickHouse Server']
 
 
 
-## Removing the default user [#removing-the-default-user]
+## Removing the default user
 
 :::note
 This guide is not applicable to ClickHouse Cloud.
@@ -26,7 +26,7 @@ users:
 
 The location of this file depends on how we have ClickHouse installed.
 
-## Running the executable directly [#running-the-executable-directly]
+## Running the executable directly
 
 If we're running the ClickHouse directly (`clickhouse server`), we need to put the file under the `config.d` directory.
 
@@ -52,7 +52,7 @@ Connecting to localhost:9000 as user default.
 Code: 516. DB::Exception: Received from localhost:9000. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 ```
 
-## Docker or installed [#docker-or-installed]
+## Docker or installed
 
 If we're running ClickHouse via Docker or have it installed on our machine, we need to put the file under the `/etc/clickhouse-server/users.d` directory instead.
 

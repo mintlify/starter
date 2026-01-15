@@ -22,12 +22,12 @@ import GatherYourDetailsHttp from '/snippets/_gather_your_details_http.mdx';
 
 This guide assumes you already have a Deepnote account and that you have a running ClickHouse instance.
 
-## Interactive example [#interactive-example]
+## Interactive example 
 If you would like to explore an interactive example of querying ClickHouse from Deepnote data notebooks, click the button below to  launch a template project connected to the [ClickHouse playground](../../../getting-started/playground.md).
 
 [<img src="https://deepnote.com/buttons/launch-in-deepnote.svg" alt="Launch in Deepnote" />](https://deepnote.com/launch?template=ClickHouse%20and%20Deepnote)
 
-## Connect to ClickHouse [#connect-to-clickhouse]
+## Connect to ClickHouse 
 
 1. Within Deepnote, select the "Integrations" overview and click on the ClickHouse tile.
 
@@ -42,7 +42,7 @@ If you would like to explore an interactive example of querying ClickHouse from 
 
 3. Congratulations! You have now integrated ClickHouse into Deepnote.
 
-## Using ClickHouse integration. [#using-clickhouse-integration]
+## Using ClickHouse integration. 
 
 1. Start by connecting to the ClickHouse integration on the right of your notebook.
 
