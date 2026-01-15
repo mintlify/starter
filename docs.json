@@ -26,17 +26,16 @@
         "language": "en",
         "products": [
       {
+        "product": "Home",
+        "pages": [
+          "/index"
+        ]
+      },
+      {
         "product": "Get started",
-        "tabs": [
+        "groups": [
           {
-            "tab": "Home",
-            "icon": "house",
-            "pages": [
-              "/index"
-            ]
-          },
-          {
-            "tab": "About",
+            "group": "About",
             "icon": "circle-info",
             "pages": [
               "docs/get-started/about/intro",
@@ -65,9 +64,9 @@
             ]
           },
           {
-            "tab": "Setup",
+            "group": "Setup",
             "icon": "server",
-            "groups": [
+            "pages": [
               {
                 "group": "Cloud",
                 "icon": "cloud",
@@ -92,9 +91,9 @@
             ]
           },
           {
-            "tab": "Migrate",
+            "group": "Migrate",
             "icon": "arrow-down-from-arc",
-            "groups": [
+            "pages": [
               {
                 "group": "Migration guides",
                 "pages": [
@@ -163,14 +162,14 @@
             ]
           },
           {
-            "tab": "Quickstarts",
+            "group": "Quickstarts",
             "icon": "bolt-lightning",
             "pages": [
               "docs/get-started/quick-starts/home"
             ]
           },
           {
-            "tab": "Concepts",
+            "group": "Concepts",
             "icon": "lightbulb",
             "pages": [
               {
@@ -205,8 +204,10 @@
             ]
           },
           {
-            "tab": "Sample datasets",
+            "group": "Sample datasets",
             "icon": "database",
+            "expandable": true,
+            "expanded": false,
             "pages": [
               "docs/get-started/sample-datasets/github",
               "docs/get-started/sample-datasets/nyc-taxi",
@@ -243,231 +244,215 @@
       },
       {
         "product": "Guides",
-        "tabs": [
+        "dropdowns": [
           {
-            "tab": "Best practices",
-            "icon": "badge-check",
+            "dropdown": "Core (OSS + Cloud)",
+            "icon": "book",
             "groups": [
               {
-                "group": "Cloud best practices",
-                "expanded": false,
+                "group": "Data modelling",
+                "icon": "sitemap",
                 "pages": [
-                  "docs/guides/cloud/best_practices/multitenancy",
-                  "docs/guides/cloud/best_practices/usagelimits"
-                ]
-              },
-              {
-                "group": "OSS best practices",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/oss/best_practices/sizing-and-hardware-recommendations",
-                  "docs/guides/oss/best_practices/tips"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Data modelling",
-            "icon": "sitemap",
-            "pages": [
-              "docs/guides/data_modelling/schema-design",
-              "docs/guides/data_modelling/sparse-primary-indexes",
-              "docs/guides/data_modelling/denormalization",
-              "docs/guides/data_modelling/backfilling",
-              {
-                "group": "Compression",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/data_modelling/compression/compression-in-clickhouse",
-                  "docs/guides/data_modelling/compression/compression-modes"
-                ]
-              },
-              {
-                "group": "Dictionaries",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/data_modelling/dictionaries/index",
-                  "docs/guides/data_modelling/dictionaries/defining_dictionaries"
-                ]
-              },
-              {
-                "group": "Materialized views",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/data_modelling/materialized_views/incremental-materialized-view",
-                  "docs/guides/data_modelling/materialized_views/refreshable-materialized-view",
-                  "docs/guides/data_modelling/materialized_views/cascading-materialized-views"
-                ]
-              },
-              {
-                "group": "Projections",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/data_modelling/projections/1_projections",
-                  "docs/guides/data_modelling/materialized-views-versus-projections"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Operations",
-            "icon": "gears",
-            "groups": [
-              {
-                "group": "Insert",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/operations/insert/asyncinserts",
-                  "docs/guides/operations/insert/bulkinserts",
-                  "docs/guides/operations/insert/deduplication",
-                  "docs/guides/operations/insert/deduplicating-inserts-on-retries",
-                  "docs/guides/operations/insert/transactions"
-                ]
-              },
-              {
-                "group": "Select",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/operations/select/joining-tables"
-                ]
-              },
-              {
-                "group": "Update",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/operations/update/overview",
-                  "docs/guides/operations/update/on-fly-mutations",
-                  "docs/guides/operations/update/replacing-merge-tree",
-                  "docs/guides/operations/update/update_mutations"
-                ]
-              },
-              {
-                "group": "Delete",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/operations/delete/overview",
-                  "docs/guides/operations/delete/delete_mutations",
-                  "docs/guides/operations/delete/drop_partition",
-                  "docs/guides/operations/delete/lightweight-delete",
-                  "docs/guides/operations/delete/truncate",
-                  "docs/guides/operations/delete/ttl"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Performance & monitoring",
-            "icon": "gauge-high",
-            "pages": [
-              "docs/guides/performance_and_monitoring/query-optimization",
-              "docs/guides/performance_and_monitoring/query-cache",
-              "docs/guides/performance_and_monitoring/query-condition-cache",
-              "docs/guides/performance_and_monitoring/prewhere",
-              "docs/guides/performance_and_monitoring/analyzer",
-              "docs/guides/performance_and_monitoring/understanding-query-execution-with-the-analyzer",
-              "docs/guides/performance_and_monitoring/skipping-indexes",
-              "docs/guides/performance_and_monitoring/skipping-indexes-examples",
-              "docs/guides/performance_and_monitoring/userspace-page-cache",
-              "docs/guides/performance_and_monitoring/performance-test",
-              "docs/guides/performance_and_monitoring/sampling-query-profiler",
-              "docs/guides/performance_and_monitoring/debugging-memory-issues"
-            ]
-          },
-          {
-            "tab": "Use cases",
-            "icon": "lightbulb-on",
-            "groups": [
-              {
-                "group": "Time series",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/use-case-guides/time-series/index",
-                  "docs/guides/use-case-guides/time-series/date-time-data-types",
-                  "docs/guides/use-case-guides/time-series/basic-operations",
-                  "docs/guides/use-case-guides/time-series/analysis-functions",
-                  "docs/guides/use-case-guides/time-series/storage-efficiency",
-                  "docs/guides/use-case-guides/time-series/query-performance",
-                  "docs/guides/use-case-guides/time-series/materialized-view-rollup",
-                  "docs/guides/use-case-guides/time-series/time-series-filling-gaps"
-                ]
-              },
-              {
-                "group": "Observability",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/use-case-guides/observability/index",
-                  "docs/guides/use-case-guides/observability/cloud-monitoring",
-                  "docs/guides/use-case-guides/observability/self-managed-monitoring",
+                  "docs/guides/data_modelling/schema-design",
+                  "docs/guides/data_modelling/sparse-primary-indexes",
+                  "docs/guides/data_modelling/denormalization",
+                  "docs/guides/data_modelling/backfilling",
                   {
-                    "group": "Build your own",
+                    "group": "Compression",
+                    "expanded": false,
                     "pages": [
-                      "docs/guides/use-case-guides/observability/build-your-own/index",
-                      "docs/guides/use-case-guides/observability/build-your-own/introduction",
-                      "docs/guides/use-case-guides/observability/build-your-own/schema-design",
-                      "docs/guides/use-case-guides/observability/build-your-own/integrating-opentelemetry",
-                      "docs/guides/use-case-guides/observability/build-your-own/managing-data",
-                      "docs/guides/use-case-guides/observability/build-your-own/grafana",
-                      "docs/guides/use-case-guides/observability/build-your-own/demo-application"
+                      "docs/guides/data_modelling/compression/compression-in-clickhouse",
+                      "docs/guides/data_modelling/compression/compression-modes"
+                    ]
+                  },
+                  {
+                    "group": "Dictionaries",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/data_modelling/dictionaries/index",
+                      "docs/guides/data_modelling/dictionaries/defining_dictionaries"
+                    ]
+                  },
+                  {
+                    "group": "Materialized views",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/data_modelling/materialized_views/incremental-materialized-view",
+                      "docs/guides/data_modelling/materialized_views/refreshable-materialized-view",
+                      "docs/guides/data_modelling/materialized_views/cascading-materialized-views"
+                    ]
+                  },
+                  {
+                    "group": "Projections",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/data_modelling/projections/1_projections",
+                      "docs/guides/data_modelling/materialized-views-versus-projections"
                     ]
                   }
                 ]
               },
               {
-                "group": "Data lake",
-                "expanded": false,
+                "group": "Operations",
+                "icon": "gears",
                 "pages": [
-                  "docs/guides/use-case-guides/data_lake/index",
-                  "docs/guides/use-case-guides/data_lake/glue_catalog",
-                  "docs/guides/use-case-guides/data_lake/lakekeeper_catalog",
-                  "docs/guides/use-case-guides/data_lake/nessie_catalog",
-                  "docs/guides/use-case-guides/data_lake/onelake_catalog",
-                  "docs/guides/use-case-guides/data_lake/rest_catalog",
-                  "docs/guides/use-case-guides/data_lake/unity_catalog"
-                ]
-              },
-              {
-                "group": "AI/ML",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/use-case-guides/AI_ML/index",
-                  "docs/guides/use-case-guides/AI_ML/vector-search",
-                  "docs/guides/use-case-guides/AI_ML/ai-powered-sql-generation",
                   {
-                    "group": "Data exploration",
+                    "group": "Insert",
+                    "expanded": false,
                     "pages": [
-                      "docs/guides/use-case-guides/AI_ML/data-exploration/jupyter-notebook",
-                      "docs/guides/use-case-guides/AI_ML/data-exploration/marimo-notebook"
+                      "docs/guides/operations/insert/asyncinserts",
+                      "docs/guides/operations/insert/bulkinserts",
+                      "docs/guides/operations/insert/deduplication",
+                      "docs/guides/operations/insert/deduplicating-inserts-on-retries",
+                      "docs/guides/operations/insert/transactions"
                     ]
                   },
                   {
-                    "group": "MCP",
+                    "group": "Select",
+                    "expanded": false,
                     "pages": [
-                      "docs/guides/use-case-guides/AI_ML/MCP/index",
-                      "docs/guides/use-case-guides/AI_ML/MCP/claude-desktop",
-                      "docs/guides/use-case-guides/AI_ML/MCP/librechat",
-                      "docs/guides/use-case-guides/AI_ML/MCP/anythingllm",
-                      "docs/guides/use-case-guides/AI_ML/MCP/open-webui",
-                      "docs/guides/use-case-guides/AI_ML/MCP/ollama",
-                      "docs/guides/use-case-guides/AI_ML/MCP/janai",
+                      "docs/guides/operations/select/joining-tables"
+                    ]
+                  },
+                  {
+                    "group": "Update",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/operations/update/overview",
+                      "docs/guides/operations/update/on-fly-mutations",
+                      "docs/guides/operations/update/replacing-merge-tree",
+                      "docs/guides/operations/update/update_mutations"
+                    ]
+                  },
+                  {
+                    "group": "Delete",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/operations/delete/overview",
+                      "docs/guides/operations/delete/delete_mutations",
+                      "docs/guides/operations/delete/drop_partition",
+                      "docs/guides/operations/delete/lightweight-delete",
+                      "docs/guides/operations/delete/truncate",
+                      "docs/guides/operations/delete/ttl"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Performance & monitoring",
+                "icon": "gauge-high",
+                "pages": [
+                  "docs/guides/performance_and_monitoring/query-optimization",
+                  "docs/guides/performance_and_monitoring/query-cache",
+                  "docs/guides/performance_and_monitoring/query-condition-cache",
+                  "docs/guides/performance_and_monitoring/prewhere",
+                  "docs/guides/performance_and_monitoring/analyzer",
+                  "docs/guides/performance_and_monitoring/understanding-query-execution-with-the-analyzer",
+                  "docs/guides/performance_and_monitoring/skipping-indexes",
+                  "docs/guides/performance_and_monitoring/skipping-indexes-examples",
+                  "docs/guides/performance_and_monitoring/userspace-page-cache",
+                  "docs/guides/performance_and_monitoring/performance-test",
+                  "docs/guides/performance_and_monitoring/sampling-query-profiler",
+                  "docs/guides/performance_and_monitoring/debugging-memory-issues"
+                ]
+              },
+              {
+                "group": "Use cases",
+                "icon": "lightbulb-on",
+                "pages": [
+                  {
+                    "group": "Time series",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/use-case-guides/time-series/index",
+                      "docs/guides/use-case-guides/time-series/date-time-data-types",
+                      "docs/guides/use-case-guides/time-series/basic-operations",
+                      "docs/guides/use-case-guides/time-series/analysis-functions",
+                      "docs/guides/use-case-guides/time-series/storage-efficiency",
+                      "docs/guides/use-case-guides/time-series/query-performance",
+                      "docs/guides/use-case-guides/time-series/materialized-view-rollup",
+                      "docs/guides/use-case-guides/time-series/time-series-filling-gaps"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/use-case-guides/observability/index",
+                      "docs/guides/use-case-guides/observability/cloud-monitoring",
+                      "docs/guides/use-case-guides/observability/self-managed-monitoring",
                       {
-                        "group": "AI agent libraries",
+                        "group": "Build your own",
                         "pages": [
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/index",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/streamlit",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/langchain",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/llamaindex",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/pydantic-ai",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/slackbot",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/agno",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/chainlit",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/claude-agent-sdk",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/copilotkit",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/crewai",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/dspy",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/mcp-agent",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/microsoft-agent-framework",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/upsonic",
-                          "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/openai-agents"
+                          "docs/guides/use-case-guides/observability/build-your-own/index",
+                          "docs/guides/use-case-guides/observability/build-your-own/introduction",
+                          "docs/guides/use-case-guides/observability/build-your-own/schema-design",
+                          "docs/guides/use-case-guides/observability/build-your-own/integrating-opentelemetry",
+                          "docs/guides/use-case-guides/observability/build-your-own/managing-data",
+                          "docs/guides/use-case-guides/observability/build-your-own/grafana",
+                          "docs/guides/use-case-guides/observability/build-your-own/demo-application"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Data lake",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/use-case-guides/data_lake/index",
+                      "docs/guides/use-case-guides/data_lake/glue_catalog",
+                      "docs/guides/use-case-guides/data_lake/lakekeeper_catalog",
+                      "docs/guides/use-case-guides/data_lake/nessie_catalog",
+                      "docs/guides/use-case-guides/data_lake/onelake_catalog",
+                      "docs/guides/use-case-guides/data_lake/rest_catalog",
+                      "docs/guides/use-case-guides/data_lake/unity_catalog"
+                    ]
+                  },
+                  {
+                    "group": "AI/ML",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/use-case-guides/AI_ML/index",
+                      "docs/guides/use-case-guides/AI_ML/vector-search",
+                      "docs/guides/use-case-guides/AI_ML/ai-powered-sql-generation",
+                      {
+                        "group": "Data exploration",
+                        "pages": [
+                          "docs/guides/use-case-guides/AI_ML/data-exploration/jupyter-notebook",
+                          "docs/guides/use-case-guides/AI_ML/data-exploration/marimo-notebook"
+                        ]
+                      },
+                      {
+                        "group": "MCP",
+                        "pages": [
+                          "docs/guides/use-case-guides/AI_ML/MCP/index",
+                          "docs/guides/use-case-guides/AI_ML/MCP/claude-desktop",
+                          "docs/guides/use-case-guides/AI_ML/MCP/librechat",
+                          "docs/guides/use-case-guides/AI_ML/MCP/anythingllm",
+                          "docs/guides/use-case-guides/AI_ML/MCP/open-webui",
+                          "docs/guides/use-case-guides/AI_ML/MCP/ollama",
+                          "docs/guides/use-case-guides/AI_ML/MCP/janai",
+                          {
+                            "group": "AI agent libraries",
+                            "pages": [
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/index",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/streamlit",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/langchain",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/llamaindex",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/pydantic-ai",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/slackbot",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/agno",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/chainlit",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/claude-agent-sdk",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/copilotkit",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/crewai",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/dspy",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/mcp-agent",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/microsoft-agent-framework",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/upsonic",
+                              "docs/guides/use-case-guides/AI_ML/MCP/ai_agent_libraries/openai-agents"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -477,9 +462,109 @@
             ]
           },
           {
-            "tab": "ClickHouse Cloud",
+            "dropdown": "Self-managed (OSS)",
+            "icon": "server",
+            "groups": [
+              {
+                "group": "Best practices",
+                "icon": "badge-check",
+                "pages": [
+                  "docs/guides/oss/best_practices/sizing-and-hardware-recommendations",
+                  "docs/guides/oss/best_practices/tips"
+                ]
+              },
+              {
+                "group": "Deployment and scaling",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/deployment_and_scaling/terminology",
+                  "docs/guides/oss/deployment_and_scaling/shards",
+                  "docs/guides/oss/deployment_and_scaling/scaling-clusters",
+                  "docs/guides/oss/deployment_and_scaling/separation-storage-compute",
+                  "docs/guides/oss/deployment_and_scaling/cluster-discovery",
+                  {
+                    "group": "Backup",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/backup/00_overview",
+                      "docs/guides/oss/deployment_and_scaling/backup/01_local_disk",
+                      "docs/guides/oss/deployment_and_scaling/backup/02_s3_endpoint",
+                      "docs/guides/oss/deployment_and_scaling/backup/03_azure_blob_storage",
+                      "docs/guides/oss/deployment_and_scaling/backup/04_alternative_methods"
+                    ]
+                  },
+                  {
+                    "group": "Keeper",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/keeper/index",
+                      "docs/guides/oss/deployment_and_scaling/keeper/ssl-zookeeper"
+                    ]
+                  },
+                  {
+                    "group": "Monitoring",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/monitoring/monitoring",
+                      "docs/guides/oss/deployment_and_scaling/monitoring/opentelemetry"
+                    ]
+                  },
+                  {
+                    "group": "Examples",
+                    "expanded": false,
+                    "pages": [
+                      "docs/guides/oss/deployment_and_scaling/examples/01_1_shard_2_replicas",
+                      "docs/guides/oss/deployment_and_scaling/examples/02_2_shards_1_replica",
+                      "docs/guides/oss/deployment_and_scaling/examples/03_2_shards_2_replicas"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Server configuration",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/server_config/configuration-files",
+                  "docs/guides/oss/server_config/storing-data",
+                  "docs/guides/oss/server_config/named-collections",
+                  "docs/guides/oss/server_config/workload-scheduling",
+                  "docs/guides/oss/server_config/quotas",
+                  "docs/guides/oss/server_config/caches",
+                  "docs/guides/oss/server_config/composable-protocols",
+                  "docs/guides/oss/server_config/allocation-profiling",
+                  "docs/guides/oss/server_config/startup-scripts"
+                ]
+              },
+              {
+                "group": "Settings",
+                "expanded": false,
+                "pages": [
+                  "docs/guides/oss/settings/overview",
+                  "docs/guides/oss/settings/settings-query-level",
+                  "docs/guides/oss/settings/settings-users",
+                  "docs/guides/oss/settings/settings-profiles",
+                  "docs/guides/oss/settings/constraints-on-settings",
+                  "docs/guides/oss/settings/query-complexity",
+                  "docs/guides/oss/settings/permissions-for-queries",
+                  "docs/guides/oss/settings/memory-overcommit",
+                  "docs/guides/oss/settings/server-overload",
+                  "docs/guides/oss/settings/tcp-connection-limits"
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "ClickHouse Cloud",
             "icon": "cloud",
             "groups": [
+              {
+                "group": "Best practices",
+                "icon": "badge-check",
+                "pages": [
+                  "docs/guides/cloud/best_practices/multitenancy",
+                  "docs/guides/cloud/best_practices/usagelimits"
+                ]
+              },
               {
                 "group": "General",
                 "expanded": false,
@@ -616,90 +701,6 @@
                       "docs/guides/cloud/security/06_compliance/pci-onboarding"
                     ]
                   }
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Self-managed",
-            "icon": "server",
-            "groups": [
-              {
-                "group": "Deployment and scaling",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/oss/deployment_and_scaling/terminology",
-                  "docs/guides/oss/deployment_and_scaling/shards",
-                  "docs/guides/oss/deployment_and_scaling/scaling-clusters",
-                  "docs/guides/oss/deployment_and_scaling/separation-storage-compute",
-                  "docs/guides/oss/deployment_and_scaling/cluster-discovery",
-                  {
-                    "group": "Backup",
-                    "expanded": false,
-                    "pages": [
-                      "docs/guides/oss/deployment_and_scaling/backup/00_overview",
-                      "docs/guides/oss/deployment_and_scaling/backup/01_local_disk",
-                      "docs/guides/oss/deployment_and_scaling/backup/02_s3_endpoint",
-                      "docs/guides/oss/deployment_and_scaling/backup/03_azure_blob_storage",
-                      "docs/guides/oss/deployment_and_scaling/backup/04_alternative_methods"
-                    ]
-                  },
-                  {
-                    "group": "Keeper",
-                    "expanded": false,
-                    "pages": [
-                      "docs/guides/oss/deployment_and_scaling/keeper/index",
-                      "docs/guides/oss/deployment_and_scaling/keeper/ssl-zookeeper"
-                    ]
-                  },
-                  {
-                    "group": "Monitoring",
-                    "expanded": false,
-                    "pages": [
-                      "docs/guides/oss/deployment_and_scaling/monitoring/monitoring",
-                      "docs/guides/oss/deployment_and_scaling/monitoring/opentelemetry"
-                    ]
-                  },
-                  {
-                    "group": "Examples",
-                    "expanded": false,
-                    "pages": [
-                      "docs/guides/oss/deployment_and_scaling/examples/01_1_shard_2_replicas",
-                      "docs/guides/oss/deployment_and_scaling/examples/02_2_shards_1_replica",
-                      "docs/guides/oss/deployment_and_scaling/examples/03_2_shards_2_replicas"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Server configuration",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/oss/server_config/configuration-files",
-                  "docs/guides/oss/server_config/storing-data",
-                  "docs/guides/oss/server_config/named-collections",
-                  "docs/guides/oss/server_config/workload-scheduling",
-                  "docs/guides/oss/server_config/quotas",
-                  "docs/guides/oss/server_config/caches",
-                  "docs/guides/oss/server_config/composable-protocols",
-                  "docs/guides/oss/server_config/allocation-profiling",
-                  "docs/guides/oss/server_config/startup-scripts"
-                ]
-              },
-              {
-                "group": "Settings",
-                "expanded": false,
-                "pages": [
-                  "docs/guides/oss/settings/overview",
-                  "docs/guides/oss/settings/settings-query-level",
-                  "docs/guides/oss/settings/settings-users",
-                  "docs/guides/oss/settings/settings-profiles",
-                  "docs/guides/oss/settings/constraints-on-settings",
-                  "docs/guides/oss/settings/query-complexity",
-                  "docs/guides/oss/settings/permissions-for-queries",
-                  "docs/guides/oss/settings/memory-overcommit",
-                  "docs/guides/oss/settings/server-overload",
-                  "docs/guides/oss/settings/tcp-connection-limits"
                 ]
               }
             ]

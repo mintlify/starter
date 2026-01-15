@@ -82,7 +82,7 @@
         const groups = {
             'nav-user-intents': {
                 title: 'ClickHouse docs',
-                items: ['Guides', 'Reference', 'Get started']
+                items: ['Home', 'Get started', 'Guides', 'Reference']
             },
             'nav-products': {
                 title: 'Products',
