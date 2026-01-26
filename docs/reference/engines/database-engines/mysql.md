@@ -1,7 +1,7 @@
 ---
 description: 'Allows connecting to databases on a remote MySQL server and perform
   `INSERT` and `SELECT` queries to exchange data between ClickHouse and MySQL.'
-sidebarTitle: 'MySQL database engine'
+sidebarTitle: 'MySQL'
 sidebar_position: 50
 slug: /engines/database-engines/mysql
 title: 'MySQL'

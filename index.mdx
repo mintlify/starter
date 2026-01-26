@@ -1,8 +1,9 @@
 ---
-mode: "custom"
+mode: "frame"
 max-toc-depth: 3
 slug: home
-sidebarTitle: "Introduction"
+sidebarTitle: "Home"
+icon: "house"
 ---
 
 import { useState, useEffect } from 'react';
@@ -321,7 +322,7 @@ export const ContentSwitcher = () => {
         </h1>
 
         <div className="max-w-xl mx-auto px-4 mt-4 text-lg text-center text-gray-500 dark:text-zinc-500">
-            Docs for speed, clarity, and getting things done.
+            Documentation for the fastest analytics database
         </div>
 
         <div className="flex items-center justify-center gap-3 mx-auto mt-8">
@@ -334,11 +335,11 @@ export const ContentSwitcher = () => {
                     bubbles: true
                 });
                 document.dispatchEvent(event);
-            }} className="flex pointer-events-auto items-center text-sm leading-6 h-9 pl-3.5 pr-3 text-gray-500 dark:text-white/50 dark:brightness-[1.1] dark:hover:brightness-[1.25] justify-between truncate gap-2 min-w-[43px] w-[400px] bg-gray-950/[0.03] dark:bg-white/[0.03] hover:bg-gray-950/10 dark:hover:bg-white/10 rounded-full shadow-none border-none ring-0 dark:ring-0" aria-label="Open search">
+            }} className="flex pointer-events-auto items-center text-sm leading-6 h-9 pl-3.5 pr-3 text-gray-500 dark:text-white/50 dark:brightness-[1.1] dark:hover:brightness-[1.25] justify-between truncate gap-2 min-w-[43px] w-[400px] bg-gray-950/[0.03] dark:bg-white/[0.03] hover:bg-gray-950/10 dark:hover:bg-white/10 shadow-none border border-white/10 ring-0 dark:ring-0" style={{ borderRadius: '4px' }} aria-label="Open search">
                 <div className="flex items-center gap-2 min-w-[42px]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search min-w-4 flex-none text-gray-700 hover:text-gray-800 dark:text-gray-400 hover:dark:text-gray-200"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><div className="truncate min-w-0">Search...</div></div>
                 <span className="flex-none text-xs font-semibold">⌘{/* */}K</span>
             </button>
-            <button type="button" className="flex-none hidden lg:flex items-center justify-center gap-1.5 pl-3 pr-3.5 h-9 rounded-xl shadow-none bg-gray-950/[0.03] dark:bg-white/[0.03] border border-white/10" id="assistant-entry" aria-label="Toggle assistant panel" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" className="size-4 shrink-0 text-gray-700 hover:text-gray-800 dark:text-[#fdff75]"><g fill="currentColor"><path d="M5.658,2.99l-1.263-.421-.421-1.263c-.137-.408-.812-.408-.949,0l-.421,1.263-1.263,.421c-.204,.068-.342,.259-.342,.474s.138,.406,.342,.474l1.263,.421,.421,1.263c.068,.204,.26,.342,.475,.342s.406-.138,.475-.342l.421-1.263,1.263-.421c.204-.068,.342-.259,.342-.474s-.138-.406-.342-.474Z" fill="currentColor" data-stroke="none" stroke="none"></path><polygon points="9.5 2.75 11.412 7.587 16.25 9.5 11.412 11.413 9.5 16.25 7.587 11.413 2.75 9.5 7.587 7.587 9.5 2.75" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></polygon></g></svg><span className="text-sm text-gray-500 dark:text-white/50 whitespace-nowrap">Ask AI</span></button>
+            <button type="button" className="flex-none hidden lg:flex items-center justify-center gap-1.5 pl-3 pr-3.5 h-9 shadow-none bg-gray-950/[0.03] dark:bg-white/[0.03] border border-white/10" style={{ borderRadius: '4px' }} id="assistant-entry" aria-label="Toggle assistant panel" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" className="size-4 shrink-0 text-gray-700 hover:text-gray-800 dark:text-[#fdff75]"><g fill="currentColor"><path d="M5.658,2.99l-1.263-.421-.421-1.263c-.137-.408-.812-.408-.949,0l-.421,1.263-1.263,.421c-.204,.068-.342,.259-.342,.474s.138,.406,.342,.474l1.263,.421,.421,1.263c.068,.204,.26,.342,.475,.342s.406-.138,.475-.342l.421-1.263,1.263-.421c.204-.068,.342-.259,.342-.474s-.138-.406-.342-.474Z" fill="currentColor" data-stroke="none" stroke="none"></path><polygon points="9.5 2.75 11.412 7.587 16.25 9.5 11.412 11.413 9.5 16.25 7.587 11.413 2.75 9.5 7.587 7.587 9.5 2.75" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></polygon></g></svg><span className="text-sm text-gray-500 dark:text-white/50 whitespace-nowrap">Ask AI</span></button>
         </div>
 
         <div className="text-center my-6">

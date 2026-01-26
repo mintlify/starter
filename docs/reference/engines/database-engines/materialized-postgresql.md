@@ -1,6 +1,6 @@
 ---
 description: 'Creates a ClickHouse database with tables from PostgreSQL database.'
-sidebarTitle: 'MaterializedPostgreSQL database engine'
+sidebarTitle: 'MaterializedPostgreSQL'
 sidebar_position: 60
 slug: /engines/database-engines/materialized-postgresql
 title: 'MaterializedPostgreSQL'
