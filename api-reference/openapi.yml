@@ -1481,6 +1481,15 @@ components:
           description: Lookback period of the payroll to search on account creation. Overrides the same setting if present in client level configuration.
           type: integer
           format: int32
+        hmrc_enabled:
+          type: boolean
+          description: Determines if HMRC provider is enabled for this user. Overrides the same setting if present in client level configuration.
+        payslip_upload_enabled:
+          type: boolean
+          description: Determines if payslip upload is enabled for this user. Overrides the same setting if present in client level configuration.
+        payroll_connections_enabled:
+          type: boolean
+          description: Determines if payroll connections feature is enabled for this user. Overrides the same setting if present in client level configuration.
     CreatedUser:
       allOf:
         - required: [user_id, created_at]
@@ -1538,6 +1547,19 @@ components:
         recurring_check_end_date:
           "$ref": "#/components/schemas/Date"
           description: End date of the recurring check schedule client-wide
+        hmrc_enabled:
+          type: boolean
+          description: Determines if HMRC provider is enabled for this client. When disabled, HMRC provider will not be available in the providers list and HMRC connection endpoints will return an error.
+          example: true
+        payroll_connections_enabled:
+          type: boolean
+          description: Determines if payroll connections feature is enabled for this client. When disabled, the payroll connections endpoint will return an error.
+          example: true
+        client_display_name:
+          type: string
+          nullable: true
+          description: Editable display name for the client. This can be customized and is separate from the internal client name.
+          example: "Acme Corporation"
     Accounts:
       type: object
       required: [payroll_provider]
