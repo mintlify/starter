@@ -1,0 +1,113 @@
+---
+title: "Import a GML file"
+sidebarTitle: "GML"
+description: "Load a GML graph file into TuringDB"
+---
+
+Graph Modeling Language (GML) is a widely used format for describing graphs. TuringDB supports importing GML files natively via the `LOAD GML` command.
+
+## Expected file format
+
+```
+graph [
+  node [ id 0  label "Alice"  type "Person"  age 30 ]
+  node [ id 1  label "Bob"    type "Person"  age 25 ]
+  node [ id 2  label "Acme"   type "Company"        ]
+  edge [ source 0  target 1  weight 1.0 ]
+  edge [ source 0  target 2  weight 0.8 ]
+]
+```
+
+**Nodes:**
+
+| Field        | Requirement                            |
+| ------------ | -------------------------------------- |
+| `id`         | Required. Unique non-negative integer. |
+| other fields | Optional. Stored as node properties.   |
+
+**Edges:**
+
+| Field               | Requirement                                                           |
+| ------------------- | --------------------------------------------------------------------- |
+| `source` / `target` | Required. Must reference the `id` of a node defined in the same file. |
+| other fields        | Optional. Stored as edge properties.                                  |
+
+**Supported property value types:** String, Integer, Double, Boolean. All property values are stored as strings in the TuringDB graph regardless of their original type in the GML file.
+
+<Warning>
+  All imported nodes are assigned the label `GMLNode` and all edges the type `GMLEdge`, regardless of any fields present in the file. Any field other than `id`, `source`, and `target` is treated as a plain property. To query your data after import, use `MATCH (n:GMLNode)` and `MATCH ()-[e:GMLEdge]->()`.
+</Warning>
+
+## Import steps
+
+<Steps>
+  <Step title="Place the GML file in the TuringDB data directory">
+    TuringDB only reads external files from the `data` subdirectory of its working directory (set by `--turing-dir`, default `$HOME/.turing`).
+
+    ```bash
+    cp mygraph.gml ~/.turing/data/
+    ```
+  </Step>
+  <Step title="Load the file into a new graph">
+    <Tabs>
+      <Tab title="Cypher">
+        ```jsx
+        LOAD GML 'mygraph.gml' AS mygraph
+        ```
+      </Tab>
+      <Tab title="Python SDK">
+        ```python
+        from turingdb import TuringDB
+        
+        client = TuringDB(host="http://localhost:6666")
+        client.query("LOAD GML 'mygraph.gml' AS mygraph")
+        ```
+      </Tab>
+    </Tabs>
+    TuringDB creates a new graph named `mygraph` and populates it with all nodes and relationships from the file.
+  </Step>
+  <Step title="Set the graph as active and query it">
+    <Tabs>
+      <Tab title="Cypher">
+        ```jsx
+        cd mygraph
+        
+        MATCH (n) RETURN n
+        ```
+      </Tab>
+      <Tab title="Python SDK">
+        ```python
+        client.set_graph("mygraph")
+        
+        df = client.query("MATCH (n) RETURN n")
+        print(df)
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+<Check>
+  Your GML graph is now imported and ready to query.
+</Check>
+
+## Verify the import
+
+Use meta-queries to inspect what was imported:
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    CALL db.labels()
+    CALL db.edgeTypes()
+    CALL db.propertyTypes()
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    print(client.query("CALL db.labels()"))
+    print(client.query("CALL db.edgeTypes()"))
+    print(client.query("CALL db.propertyTypes()"))
+    ```
+  </Tab>
+</Tabs>

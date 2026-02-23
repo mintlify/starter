@@ -1,0 +1,115 @@
+---
+title: "Migrate from Neo4j"
+sidebarTitle: "Neo4j"
+description: "Export a Neo4j graph and import it into TuringDB"
+---
+
+This guide walks you through importing a Neo4j graph into TuringDB. The process uses **APOC** to export the Neo4j graph as JSONL, which TuringDB can load directly.
+
+## Prerequisites
+
+- A running or restorable Neo4j instance (version 4.x or 5.x) with the **APOC plugin** installed
+- A running TuringDB instance
+
+<Tip>
+  APOC comes bundled with Neo4j Desktop. For server installs, follow the [APOC installation guide](https://neo4j.com/docs/apoc/current/installation/).
+</Tip>
+
+## Migrating from Neo4j 4.x
+
+If your database was created with Neo4j 4.x, you need to migrate it to the 5.x format before exporting. Using `neo4j-admin`:
+
+```bash
+# Load your v4 dump
+neo4j-admin database load --from-stdin neo4j --overwrite-destination=true < mydb.dump
+
+# Migrate to v5 format
+neo4j-admin database migrate neo4j --force-btree-indexes-to-range
+```
+
+Then start Neo4j 5.x and proceed with the export below.
+
+<Steps>
+  <Step title="Export from Neo4j with APOC">
+    Connect to your Neo4j instance (via Neo4j Browser, `cypher-shell`, or any client) and run:
+
+    ```jsx
+    CALL apoc.export.json.all("output.json", {useTypes: true});
+    ```
+
+    This writes the entire graph to `output.json` in Neo4j's import directory (typically `$NEO4J_HOME/import/`). The file contains one JSON object per line — one for each node and one for each relationship.
+
+    <Warning>
+      Make sure Neo4j has write access to its import directory and that APOC's configuration allows file export (`apoc.export.file.enabled=true` in `apoc.conf`).
+    </Warning>
+  </Step>
+  <Step title="Copy the file to TuringDB's data directory">
+    TuringDB only reads external files from the `data` subdirectory of its working directory (set by `--turing-dir`, default `$HOME/.turing`).
+
+    ```bash
+    cp $NEO4J_HOME/import/output.json ~/.turing/data/
+    ```
+  </Step>
+  <Step title="Load the file into a new graph">
+    <Tabs>
+      <Tab title="Cypher">
+        ```jsx
+        LOAD JSONL 'output.json' AS mygraph
+        ```
+      </Tab>
+      <Tab title="Python SDK">
+        ```python
+        from turingdb import TuringDB
+        
+        client = TuringDB(host="http://localhost:6666")
+        client.query("LOAD JSONL 'output.json' AS mygraph")
+        ```
+      </Tab>
+    </Tabs>
+    TuringDB creates a new graph named `mygraph` and populates it with all nodes and relationships from the file.
+  </Step>
+  <Step title="Set the graph as active and query it">
+    <Tabs>
+      <Tab title="Cypher">
+        ```jsx
+        cd mygraph
+        
+        MATCH (n) RETURN n
+        ```
+      </Tab>
+      <Tab title="Python SDK">
+        ```python
+        client.set_graph("mygraph")
+        
+        df = client.query("MATCH (n) RETURN n")
+        print(df)
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+<Check>
+  Your Neo4j graph is now available in TuringDB as `mygraph`.
+</Check>
+
+## Verify the import
+
+Use meta-queries to inspect what was imported:
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    CALL db.labels()
+    CALL db.edgeTypes()
+    CALL db.propertyTypes()
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    print(client.query("CALL db.labels()"))
+    print(client.query("CALL db.edgeTypes()"))
+    print(client.query("CALL db.propertyTypes()"))
+    ```
+  </Tab>
+</Tabs>

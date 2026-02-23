@@ -1,0 +1,116 @@
+---
+title: "Import a JSONL file"
+sidebarTitle: "JSONL"
+description: "Load a JSONL graph file into TuringDB using the LOAD JSONL command"
+---
+
+TuringDB natively imports JSONL files through the `LOAD JSONL` command. The expected format is compatible with **Neo4j APOC's JSON export** (produced by `apoc.export.json.all` with `useTypes:true`).
+
+<Tip>
+  If you are migrating from Neo4j, you do not need to write this file by hand — see the [Neo4j import guide](/neo4j).
+</Tip>
+
+## Expected file format
+
+Each line is a self-contained JSON object representing either a node or a relationship:
+
+```json
+{"type":"node","id":"0","labels":["Person"],"properties":{"name":"Alice","age":30}}
+{"type":"node","id":"1","labels":["Person"],"properties":{"name":"Bob","age":25}}
+{"type":"node","id":"2","labels":["Company"],"properties":{"name":"Acme Corp"}}
+{"type":"relationship","id":"0","label":"KNOWS","start":{"id":"0"},"end":{"id":"1"},"properties":{"since":2021}}
+{"type":"relationship","id":"1","label":"WORKS_AT","start":{"id":"0"},"end":{"id":"2"}}
+```
+
+**Nodes** (`"type": "node"`):
+
+| Field        | Requirement                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------------ |
+| `type`       | Must be the string `"node"`                                                                            |
+| `id`         | Required. Integer or string parseable as integer. Must start at `0` and increment by `1` with no gaps. |
+| `labels`     | Required. Array with at least one label.                                                               |
+| `properties` | Optional. Dictionary with property keys and values.                                                    |
+
+**Relationships** (`"type": "relationship"`):
+
+| Field           | Requirement                                                                                                                                                                                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`          | Must be the string `"relationship"`                                                                                                                                                                                 |
+| `id`            | Required. Integer or string parseable as integer. Must start at `0` and increment by `1` with no gaps.                                                                                                              |
+| `label`         | Required. Exactly one label.                                                                                                                                                                                        |
+| `start` / `end` | Required. Either: <br />- a bare integer (or string parseable as integer) referencing a node `id`<br />- a dictionary with an `id` key holding an integer (or string parseable as integer) referencing a node `id`. |
+| `properties`    | Optional. Dictionary with property keys and values.                                                                                                                                                                 |
+
+## Import steps
+
+<Steps>
+  <Step title="Place your file in the TuringDB data directory">
+    TuringDB only reads external files from the `data` subdirectory of its working directory (set by `--turing-dir`, default `$HOME/.turing`).
+
+    ```bash
+    cp mydata.jsonl ~/.turing/data/
+    ```
+  </Step>
+  <Step title="Load the file into a new graph">
+    <Tabs>
+      <Tab title="Cypher">
+        ```jsx
+        LOAD JSONL 'mydata.jsonl' AS mygraph
+        ```
+      </Tab>
+      <Tab title="Python SDK">
+        ```python
+        from turingdb import TuringDB
+        
+        client = TuringDB(host="http://localhost:6666")
+        client.query("LOAD JSONL 'mydata.jsonl' AS mygraph")
+        ```
+      </Tab>
+    </Tabs>
+    TuringDB creates a new graph named `mygraph` and populates it with all nodes and relationships from the file.
+  </Step>
+  <Step title="Set the graph as active and query it">
+    <Tabs>
+      <Tab title="Cypher">
+        ```jsx
+        cd mygraph
+        
+        MATCH (n) RETURN n
+        ```
+      </Tab>
+      <Tab title="Python SDK">
+        ```python
+        client.set_graph("mygraph")
+        
+        df = client.query("MATCH (n) RETURN n")
+        print(df)
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+<Check>
+  Your JSONL data is now loaded and queryable as a TuringDB graph.
+</Check>
+
+## Verify the import
+
+Use meta-queries to inspect what was imported:
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    CALL db.labels()
+    CALL db.edgeTypes()
+    CALL db.propertyTypes()
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    print(client.query("CALL db.labels()"))
+    print(client.query("CALL db.edgeTypes()"))
+    print(client.query("CALL db.propertyTypes()"))
+    ```
+  </Tab>
+</Tabs>

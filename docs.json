@@ -40,6 +40,14 @@
             ]
           },
           {
+            "group": "Importing data",
+            "pages": [
+              "jsonl",
+              "neo4j",
+              "gml"
+            ]
+          },
+          {
             "group": "Graph Development",
             "pages": [
               "graph_dev/create_graph",
