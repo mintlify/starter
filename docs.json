@@ -42,9 +42,9 @@
           {
             "group": "Importing data",
             "pages": [
-              "jsonl",
-              "neo4j",
-              "gml"
+              "import_data/jsonl",
+              "import_data/neo4j",
+              "import_data/gml"
             ]
           },
           {
