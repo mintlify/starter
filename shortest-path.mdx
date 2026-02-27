@@ -40,13 +40,13 @@ CREATE (asch)-[:LINK {distance: 7.25}]->(cnm),
 shortestPath(sourceSet, targetSet, edgePropName, distanceReturnVar, pathReturnVar)
 ```
 
-| Parameter | Description |
-|---|---|
-| `sourceSet` | Variable bound to the source node(s) via a preceding `MATCH` clause |
-| `targetSet` | Variable bound to the target node(s) via a preceding `MATCH` clause |
-| `edgePropName` | Name of the numeric edge property to use as weight |
-| `distanceReturnVar` | Output variable name for the total shortest distance |
-| `pathReturnVar` | Output variable name for the path string |
+| Parameter           | Description                                                         |
+| ------------------- | ------------------------------------------------------------------- |
+| `sourceSet`         | Variable bound to the source node(s) via a preceding `MATCH` clause |
+| `targetSet`         | Variable bound to the target node(s) via a preceding `MATCH` clause |
+| `edgePropName`      | Name of the numeric edge property to use as weight                  |
+| `distanceReturnVar` | Output variable name for the total shortest distance                |
+| `pathReturnVar`     | Output variable name for the path string                            |
 
 ## Basic usage
 
@@ -147,7 +147,7 @@ You can pass multiple nodes to the source or target set — `shortestPath` will 
 ## Limitations
 
 <Warning>
-  Variables passed to `shortestPath` as source or target cannot be used in the `RETURN` clause — they are consumed by the processor. The following query will produce an error:
+  Any variable on a pattern going into a `shortestPath` processor cannot be returned in the `RETURN` clause — they are consumed by the processor. The following query will produce an error:
 
   ```jsx
   MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"})

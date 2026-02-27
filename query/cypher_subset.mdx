@@ -6,7 +6,7 @@ description: "TuringDB uses Cypher as a query language and has some unique types
 
 TuringDB supports most of the **Cypher query language**, extended with versioning, metadata search, and flexible property matching.
 
-This guide covers some examples of queries types, including `MATCH`, `CREATE`, property filters, metaqueries, and available data types.
+This guide covers some examples of queries types, including `MATCH`, `CREATE`, property filters, procedures, and available data types.
 
 # Basics
 
@@ -292,9 +292,9 @@ Implemented comparison operators:
   RETURN pub.displayName, pub.institution, pub.published_year
   ```
 
-# Metaqueries
+# Procedures
 
-On top of supporting queries which return or alter information _in the graph_, TuringDB supports a number of _“metaqueries”_ which return information, or metadata, _about the graph_.
+On top of supporting queries which return or alter information _in the graph_, TuringDB supports a number of _procedures_ which return information, or metadata, _about the graph_.
 
 These queries follow the `CALL` syntax, and the following variants are supported:
 
@@ -303,7 +303,7 @@ These queries follow the `CALL` syntax, and the following variants are supported
 3. `CALL db.edgeTypes()` - returns a column of all the different edge types (edge equivalent of node labels)
 4. `CALL db.history ()` - returns a dataframe containing commit history
 
-These metaqueries are useful for exploring the data which is available in the graph, and using this to plan `MATCH` queries.
+These procedures are useful for exploring the data which is available in the graph, and using this to plan `MATCH` queries.
 
 # Commands
 

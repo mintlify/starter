@@ -201,7 +201,7 @@ LOAD GML 'mygml.gml' AS my_graph
 LOAD JSONL 'myjsonl.jsonl' AS my_graph
 ```
 
-## Metaqueries (`CALL`)
+## Procedures (`CALL`)
 
 | Query                     | Description                         |
 | ------------------------- | ----------------------------------- |
@@ -209,6 +209,12 @@ LOAD JSONL 'myjsonl.jsonl' AS my_graph
 | `CALL db.propertyTypes()` | All node/edge property keys & types |
 | `CALL db.edgeTypes()`     | All edge types                      |
 | `CALL db.history()`       | Commit history                      |
+
+## Graph algorithms
+
+| Function                                   | Description                                              |
+| ------------------------------------------ | -------------------------------------------------------- |
+| `shortestPath(n, m, distance, dist, path)` | Shortest path between nodes using the Dijkstra processor |
 
 ## Engine Commands
 
