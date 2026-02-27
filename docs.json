@@ -61,6 +61,12 @@
             ]
           },
           {
+            "group": "Graph Algorithms",
+            "pages": [
+              "shortest-path"
+            ]
+          },
+          {
             "group": "Tutorials",
             "pages": [
               "tutorials/example_notebooks"

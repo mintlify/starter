@@ -184,6 +184,7 @@ MATCH (n)-->(m) RETURN n.name, n.age, m.name, m.age
 ### Load TuringDB graph
 
 Files have to be available in `graphs` subdirectory of `turing-dir`.
+
 ```jsx
 LOAD graph_name
 ```
@@ -191,6 +192,7 @@ LOAD graph_name
 ### Load external data into TuringDB graph
 
 Files have to be available in `data` subdirectory of `turing-dir`.
+
 ```jsx
 LOAD GML 'mygml.gml' AS my_graph
 ```
@@ -203,8 +205,8 @@ LOAD JSONL 'myjsonl.jsonl' AS my_graph
 
 | Query                     | Description                         |
 | ------------------------- | ----------------------------------- |
-| `CALL db.propertyTypes()` | All node/edge property keys & types |
 | `CALL db.labels()`        | All node labels                     |
+| `CALL db.propertyTypes()` | All node/edge property keys & types |
 | `CALL db.edgeTypes()`     | All edge types                      |
 | `CALL db.history()`       | Commit history                      |
 

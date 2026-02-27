@@ -1,0 +1,179 @@
+---
+title: "Shortest Path"
+sidebarTitle: "Shortest Path"
+description: "Find the shortest path between nodes in a TuringDB graph using the Dijkstra processor"
+---
+
+TuringDB's `shortestPath` processor runs a Dijkstra search from a source set of nodes to a target set of nodes, returning the shortest distance and the path taken based on a numeric edge weight property.
+
+## Sample dataset
+
+The examples on this page use a small railway network. Run the following query to create it:
+
+```jsx
+CREATE (asch:Station {name:"Ashchurch"}),
+  (bmv:Station {name:"Bromsgrove"}),
+  (cnm:Station {name:"Cheltenham Spa"}),
+  (dtw:Station {name:"Droitwich Spa"}),
+  (hby:Station {name:"Hartlebury"}),
+  (psh:Station {name:"Pershore"}),
+  (wop:Station {name:"Worcestershire Parkway"}),
+  (wof:Station {name:"Worcester Foregate Street"}),
+  (wos:Station {name:"Worcester Shrub Hill"})
+CREATE (asch)-[:LINK {distance: 7.25}]->(cnm),
+  (asch)-[:LINK {distance: 11.29}]->(wop),
+  (asch)-[:LINK {distance: 14.75}]->(wos),
+  (bmv)-[:LINK {distance: 31.14}]->(cnm),
+  (bmv)-[:LINK {distance: 6.16}]->(dtw),
+  (bmv)-[:LINK {distance: 12.6}]->(wop),
+  (dtw)-[:LINK {distance: 5.64}]->(hby),
+  (dtw)-[:LINK {distance: 6.03}]->(wof),
+  (dtw)-[:LINK {distance: 5.76}]->(wos),
+  (psh)-[:LINK {distance: 4.16}]->(wop),
+  (wop)-[:LINK {distance: 3.71}]->(wos),
+  (wof)-[:LINK {distance: 0.65}]->(wos)
+```
+
+## Syntax
+
+```jsx
+shortestPath(sourceSet, targetSet, edgePropName, distanceReturnVar, pathReturnVar)
+```
+
+| Parameter | Description |
+|---|---|
+| `sourceSet` | Variable bound to the source node(s) via a preceding `MATCH` clause |
+| `targetSet` | Variable bound to the target node(s) via a preceding `MATCH` clause |
+| `edgePropName` | Name of the numeric edge property to use as weight |
+| `distanceReturnVar` | Output variable name for the total shortest distance |
+| `pathReturnVar` | Output variable name for the path string |
+
+## Basic usage
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"})
+    shortestPath(n, m, distance, dist, path)
+    RETURN dist, path
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    df = client.query("""
+    MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"})
+    shortestPath(n, m, distance, dist, path)
+    RETURN dist, path
+    """)
+    print(df)
+    ```
+  </Tab>
+</Tabs>
+
+```
++-------+--------------+
+| dist  | path         |
++-------+--------------+
+| 11.29 | (0)-[1]->(6) |
++-------+--------------+
+```
+
+### Returning only the distance or only the path
+
+Both output variables are always computed — you can choose to return one or both:
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"})
+    shortestPath(n, m, distance, dist, path)
+    RETURN dist
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    df = client.query("""
+    MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"})
+    shortestPath(n, m, distance, dist, path)
+    RETURN dist
+    """)
+    print(df)
+    ```
+  </Tab>
+</Tabs>
+
+```
++-------+
+| dist  |
++-------+
+| 11.29 |
++-------+
+```
+
+## Multiple sources or targets
+
+You can pass multiple nodes to the source or target set — `shortestPath` will find the shortest distance across all combinations and return the best one:
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    MATCH (n), (m{name:"Worcestershire Parkway"})
+    WHERE n.name = "Bromsgrove" OR n.name = "Cheltenham Spa"
+    shortestPath(n, m, distance, dist, path)
+    RETURN dist, path
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    df = client.query("""
+    MATCH (n), (m{name:"Worcestershire Parkway"})
+    WHERE n.name = "Bromsgrove" OR n.name = "Cheltenham Spa"
+    shortestPath(n, m, distance, dist, path)
+    RETURN dist, path
+    """)
+    print(df)
+    ```
+  </Tab>
+</Tabs>
+
+```
++------+--------------+
+| dist | path         |
++------+--------------+
+| 12.6 | (1)-[5]->(6) |
++------+--------------+
+```
+
+## Limitations
+
+<Warning>
+  Variables passed to `shortestPath` as source or target cannot be used in the `RETURN` clause — they are consumed by the processor. The following query will produce an error:
+
+  ```jsx
+  MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"})
+  shortestPath(n, m, distance, dist, path)
+  RETURN dist, path, n
+  ```
+
+  ```
+  PLAN_ERROR: Unexpected exception: projection variable n not found in output column
+  ```
+</Warning>
+
+<Tip>
+  You can still `MATCH` additional nodes outside of the source and target sets and include them in `RETURN`. The result will be a cartesian product with the shortest path output:
+
+  ```jsx
+  MATCH (n{name:"Ashchurch"}), (m{name:"Worcestershire Parkway"}), (p{name:"Cheltenham Spa"})
+  shortestPath(n, m, distance, dist, path)
+  RETURN dist, path, p.name
+  ```
+
+  ```
+  +-------+--------------+----------------+
+  | dist  | path         | p.name         |
+  +-------+--------------+----------------+
+  | 11.29 | (0)-[1]->(6) | Cheltenham Spa |
+  +-------+--------------+----------------+
+  ```
+</Tip>
