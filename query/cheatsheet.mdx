@@ -90,6 +90,16 @@ AND e.play_poker_together = true
 RETURN n.name, m.age
 ```
 
+## SKIP and LIMIT
+
+```jsx
+// Return first 10 results
+MATCH (n) RETURN n LIMIT 10
+
+// Pagination: skip 10, return next 10
+MATCH (n) RETURN n SKIP 10 LIMIT 10
+```
+
 ## Property Match Operators
 
 ```jsx
@@ -178,6 +188,19 @@ MATCH (n)-->(m) RETURN n.name, n.age, m.name, m.age
 ```
 
 - Select fields with `RETURN n.prop, m.prop`
+
+## Expression evaluation
+
+```jsx
+// Multiply property by constant
+MATCH (n) RETURN n.price * 1.1
+
+// Divide two properties
+MATCH ()-[r]->() RETURN r.a / r.b
+
+// Add two properties
+MATCH (n) RETURN n.val + n.tax
+```
 
 ## LOAD graphs
 

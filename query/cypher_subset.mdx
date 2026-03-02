@@ -53,8 +53,6 @@ Multiple labels and properties can be specified:
 
 Queries are built up of combinations of nodes and edges, as specified above.
 
-TuringDB supports two main query operations: `MATCH` and `CREATE`.
-
 ## `MATCH` queries
 
 `MATCH` queries are used to retrieve nodes, edges, and their property values from the database via specification of relationships and properties.
@@ -201,6 +199,35 @@ AND e.play_poker = true
 RETURN n.name, m.age
 ```
 
+## `LIMIT` keyword
+
+**LIMIT** restricts the number of returned results. The following query returns only the first 10 results:
+
+```cypher
+MATCH (n)
+RETURN n
+LIMIT 10
+```
+
+## `SKIP` keyword
+
+**SKIP** skips the first N results before returning the rest. The following query skips the first 10 results:
+
+```cypher
+MATCH (n)
+RETURN n
+SKIP 10
+```
+
+`SKIP` and `LIMIT` can be combined for pagination. The following query will return the 11th to 20th results:
+
+```cypher
+MATCH (n)
+RETURN n
+SKIP 10
+LIMIT 10
+```
+
 # Data Types
 
 TuringDB offers the following data types for node and edge properties:
@@ -291,6 +318,25 @@ Implemented comparison operators:
   AND pub.institution IS NOT NULL
   RETURN pub.displayName, pub.institution, pub.published_year
   ```
+
+# Expression Evaluation in RETURN
+
+Since v1.22.0, TuringDB supports arithmetic expressions directly in `RETURN` projections.
+
+**Supported operators:** `+`, `-`, `*`, `/`
+
+```cypher
+-- Single property with constant
+MATCH (n)
+WHERE n.type = 'Patient'
+RETURN n.age * 12
+
+-- Two properties combined
+MATCH ()-[r]->()
+WHERE r.value_satoshi > 0
+AND r.value_usd > 0
+RETURN r.value_usd / r.value_satoshi * 100000000.0
+```
 
 # Procedures
 
