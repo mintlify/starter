@@ -32,11 +32,17 @@
             ]
           },
           {
+            "group": "Benchmarks",
+            "pages": [
+              "query/results-summary",
+              "query/technical-report"
+            ]
+          },
+          {
             "group": "Query Language",
             "pages": [
               "query/cypher_subset",
-              "query/cheatsheet",
-              "query/benchmark-report"
+              "query/cheatsheet"
             ]
           },
           {
