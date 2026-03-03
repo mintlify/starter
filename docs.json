@@ -34,8 +34,8 @@
           {
             "group": "Benchmarks",
             "pages": [
-              "query/results-summary",
-              "query/technical-report"
+              "benchmarks/results-summary",
+              "benchmarks/technical-report"
             ]
           },
           {
