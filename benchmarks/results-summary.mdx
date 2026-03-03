@@ -4,7 +4,9 @@ title: "Results Summary"
 
 # TuringDB Benchmarks
 
-This page showcases the performance of TuringDB vs Neo4j and Memgraph across a series of real-world graph analytics queries using the [Reactome biological knowledge graph](https://reactome.org/).
+This page showcases the performance of TuringDB vs Neo4j and Memgraph across a series of real-world graph analytics queries using:
+- [Reactome biological knowledge graph](https://reactome.org/).
+- [POLE (Person, Object, Location, Event) Crime Investigation Graph](https://github.com/neo4j-graph-examples/pole) 
 
 The goal of this benchmark is to compare the out-of-the-box performance of TuringDB with Neo4J and Memgraph on a few basic queries on the Reactome knowledge graph.
 
@@ -13,6 +15,14 @@ The goal of this benchmark is to compare the out-of-the-box performance of Turin
 You can find more technical details in the [Technical Report](/benchmarks/technical-report) page and on [turing-bench GitHub repo](https://github.com/turing-db/turing-bench/tree/main). Especially you can find daily run information [here](https://github.com/turing-db/turing-bench/tree/bench-results/results).
 
 ### Reactome
+
+| Metric             | Count      |
+| ------------------ | ---------- |
+| Nodes              | 2,978,202  |
+| Relationships      | 11,537,843 |
+| Node Labels        | 108        |
+| Relationship Types | 88         |
+| Benchmark Queries  | 34         |
 
 | Query                                                                                                       | TuringDB | Neo4j   | Memgraph | Speedup vs Neo4j | Speedup vs Memgraph |
 | ----------------------------------------------------------------------------------------------------------- | -------- | ------- | -------- | ---------------- | ------------------- |
@@ -52,6 +62,14 @@ You can find more technical details in the [Technical Report](/benchmarks/techni
 | `MATCH (c)-->(b)-->(a:Pathway) RETURN a`                                                                    | 1977ms   | 22424ms | 23598ms  | 11x              | 12x                 |
 
 ### Poledb
+
+| Metric             | Count   |
+| ------------------ | ------- |
+| Nodes              | 61,521  |
+| Relationships      | 105,840 |
+| Node Labels        | 11      |
+| Relationship Types | 17      |
+| Benchmark Queries  | 14      |
 
 | Query                                                                                                              | TuringDB | Neo4j  | Memgraph | Speedup vs Neo4j | Speedup vs Memgraph |
 | ------------------------------------------------------------------------------------------------------------------ | -------- | ------ | -------- | ---------------- | ------------------- |
