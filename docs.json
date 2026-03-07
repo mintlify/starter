@@ -12,16 +12,26 @@
   "favicon": "/favicon.svg",
   "api": {
     "playground": {
-      "display": "none"
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "bash",
+        "typescript"
+      ],
+      "defaults": "required",
+      "prefill": true
     }
   },
   "navigation": {
     "tabs": [
       {
         "tab": "Documentation",
+        "icon": "book-open",
         "groups": [
           {
             "group": "Getting Started",
+            "icon": "play",
             "pages": [
               "index",
               "getting-started/authentication",
@@ -30,6 +40,7 @@
           },
           {
             "group": "Guides",
+            "icon": "notebook-text",
             "pages": [
               "guides/how-to-create-first-payin",
               "guides/how-to-create-first-payout"
@@ -37,7 +48,43 @@
           },
           {
             "group": "API reference",
-            "openapi": "https://api.hellopay.com.co/api-yaml"
+            "icon": "square-terminal",
+            "openapi": "https://api.hellopay.com.co/api-yaml",
+            "pages": [
+              {
+                "group": "Payins",
+                "icon": "code",
+                "pages": [
+                  "POST /payins",
+                  "GET /payins",
+                  "GET /payins/{id}"
+                ]
+              },
+              {
+                "group": "Payouts",
+                "icon": "code",
+                "pages": [
+                  "POST /payouts",
+                  "GET /payouts",
+                  "GET /payouts/{id}"
+                ]
+              },
+              {
+                "group": "Ledger",
+                "icon": "list",
+                "pages": [
+                  "GET /ledger/balance",
+                  "GET /ledger/entries"
+                ]
+              },
+              {
+                "group": "BreB",
+                "icon": "wallet",
+                "pages": [
+                  "GET /breb/keys/{keyString}"
+                ]
+              }
+            ]
           }
         ]
       }
@@ -53,13 +100,17 @@
   "navbar": {
     "links": [
       {
+        "label": "Website",
+        "href": "https://hellopay.com.co/"
+      },
+      {
         "label": "Support",
         "href": "mailto:support@hellopay.com.co"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Portal de Clientes",
+      "label": "Client Portal",
       "href": "https://portal.hellopay.com.co"
     }
   },
@@ -75,11 +126,5 @@
      "vscode"
    ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
-  }
+  "footer": {}
 }
