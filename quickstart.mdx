@@ -83,15 +83,20 @@ description: "Start using TuringDB Community Version with the TuringDB python SD
     ```
   </Step>
   <Step title="Visualise the graph you have created in TuringDB" titleSize="h2">
-    TuringDB has a high performance visualiser that you can download here:
+    TuringDB has a built-in visualiser to explore your graphs in the browser. Launch it with the `-ui` flag:
 
-    [TuringDB Visualiser](https://github.com/turing-db/turingdb-visualizer)
+    ```bash
+    turingdb -ui
+    ```
 
-    ### Exemple of a biological interaction graph built in TuringDB:
+    Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
-    1. Choose on the top right the graph
-    2. Search & select a node(s) of interest (magnifying glass button on the left)
-    3. Then go to visualiser (network logo) and you can start exploring paths, expanding neighbours, inspect nodes (parameters, hyperlinks, and texts stored on the nodes)
+    ### Exploring your graph:
+
+    1. Launch the UI with `turingdb -ui`
+    2. Choose on the top right the graph you want to explore
+    3. Search a node of interest using the search tool or type a CYPHER query
+    4. Click on nodes to inspect nodes, double click to expand neighbors..etc.
 
     ![Graph visualisation](/images/get_started/graph_viz_2.png)
   </Step>
