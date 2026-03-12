@@ -67,6 +67,12 @@
             ]
           },
           {
+            "group": "Vector Search",
+            "pages": [
+              "vector-search"
+            ]
+          },
+          {
             "group": "Graph Algorithms",
             "pages": [
               "shortest-path"
