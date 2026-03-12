@@ -1,0 +1,205 @@
+---
+title: "Vector Search"
+sidebarTitle: "Vector Search"
+description: "Search through high-dimensional embeddings and connect the results to your graph data"
+---
+
+TuringDB has a built-in vector index that lets you run k-nearest-neighbor searches over embedding vectors. You bring your own embeddings, from any model or provider, and TuringDB handles the indexing, storage, and fast retrieval.
+
+Each vector is associated with a numerical ID. That ID can be a node property, an edge property, or a foreign key referencing data in an external system. This keeps the index lightweight and flexible: the vector store doesn't need to know what your data looks like.
+
+<Tip>
+  Vector indexes live at the TuringDB root level, independent of graphs and versioning. A single vector index can serve searches across multiple graphs and commits.
+</Tip>
+
+## Create a vector index
+
+A vector index is defined by a name, a dimension, and a distance metric.
+
+**Syntax:**
+```
+CREATE VECTOR INDEX <name> WITH DIMENSION <dim> METRIC <metric>
+```
+
+| Parameter  | Description                                                                 |
+| ---------- | --------------------------------------------------------------------------- |
+| `<name>`   | Identifier for the vector index                                             |
+| `<dim>`    | Dimension of the embedding vectors (positive integer)                       |
+| `<metric>` | Distance metric: `EUCLID` (Euclidean distance) or `COSINE` (cosine similarity) |
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    CREATE VECTOR INDEX doc_embeddings WITH DIMENSION 768 METRIC COSINE
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    client.query("CREATE VECTOR INDEX doc_embeddings WITH DIMENSION 768 METRIC COSINE")
+    ```
+  </Tab>
+</Tabs>
+
+## Load embeddings
+
+Once the index exists, load your pre-computed embeddings from a file. Each row in the file maps a numerical ID to a vector.
+
+The file path is relative to your TuringDB data directory (`~/.turing/data` by default).
+
+<Info>
+  The TuringDB data directory defaults to `~/.turing/data`. You can change it at startup with the `-turing-dir` flag.
+</Info>
+
+**Syntax:**
+```
+LOAD VECTOR FROM "<filepath>" IN <index_name>
+```
+
+| Parameter      | Description                                                          |
+| -------------- | -------------------------------------------------------------------- |
+| `<filepath>`   | Path to the embeddings file, relative to the TuringDB data directory |
+| `<index_name>` | Name of the target vector index                                      |
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    LOAD VECTOR FROM "document_vectors.csv" IN doc_embeddings
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    client.query('LOAD VECTOR FROM "document_vectors.csv" IN doc_embeddings')
+    ```
+  </Tab>
+</Tabs>
+
+## Search
+
+`VECTOR SEARCH` finds the k nearest neighbors of a query vector and yields their IDs. It is a read statement, so you can chain it with `MATCH` to pull back the actual graph data.
+
+**Syntax:**
+```
+VECTOR SEARCH IN <index_name> FOR <k> [<vector>] YIELD <variable>
+```
+
+| Parameter      | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+| `<index_name>` | Name of the vector index to search                         |
+| `<k>`          | Number of nearest neighbors to return (positive integer)   |
+| `<vector>`     | Query vector as a list literal of float values             |
+| `<variable>`   | Variable name to hold the result IDs                       |
+
+### Standalone search
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    VECTOR SEARCH IN doc_embeddings FOR 5 [0.12, 0.45, 0.78, 0.33] YIELD ids
+    RETURN ids
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    df = client.query("""
+    VECTOR SEARCH IN doc_embeddings FOR 5 [0.12, 0.45, 0.78, 0.33] YIELD ids
+    RETURN ids
+    """)
+    print(df)
+    ```
+  </Tab>
+</Tabs>
+
+### Combining with MATCH
+
+This is where it gets interesting. Chain `VECTOR SEARCH` with a `MATCH` clause to join the nearest-neighbor IDs back to your graph:
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    VECTOR SEARCH IN doc_embeddings FOR 10 [0.12, 0.45, 0.78, 0.33] YIELD ids
+    MATCH (d:Document) WHERE d.id = ids
+    RETURN d.title, d.summary
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    df = client.query("""
+    VECTOR SEARCH IN doc_embeddings FOR 10 [0.12, 0.45, 0.78, 0.33] YIELD ids
+    MATCH (d:Document) WHERE d.id = ids
+    RETURN d.title, d.summary
+    """)
+    print(df)
+    ```
+  </Tab>
+</Tabs>
+
+The `ids` variable works exactly like a variable introduced by `CALL ... YIELD`, so any subsequent `MATCH` clause can reference it.
+
+## Manage indexes
+
+### List all vector indexes
+
+```jsx
+SHOW VECTOR INDEXES
+```
+
+### Delete a vector index
+
+```jsx
+DELETE VECTOR INDEX doc_embeddings
+```
+
+This removes the index and frees the associated resources.
+
+## Complete workflow
+
+<Tabs>
+  <Tab title="Cypher">
+    ```jsx
+    // 1. Create a vector index for product embeddings
+    CREATE VECTOR INDEX product_vectors WITH DIMENSION 384 METRIC COSINE
+
+    // 2. Load embeddings generated by your model
+    LOAD VECTOR FROM "product_embeddings.csv" IN product_vectors
+
+    // 3. Find the 10 most similar products to a query embedding
+    VECTOR SEARCH IN product_vectors FOR 10 [0.15, 0.82, 0.44, 0.91] YIELD ids
+    MATCH (p:Product) WHERE p.id = ids
+    RETURN p.name, p.price, p.category
+
+    // 4. Inspect existing indexes
+    SHOW VECTOR INDEXES
+
+    // 5. Clean up
+    DELETE VECTOR INDEX product_vectors
+    ```
+  </Tab>
+  <Tab title="Python SDK">
+    ```python
+    from turingdb import TuringDB
+
+    client = TuringDB(host="http://localhost:6666")
+
+    # 1. Create a vector index for product embeddings
+    client.query("CREATE VECTOR INDEX product_vectors WITH DIMENSION 384 METRIC COSINE")
+
+    # 2. Load embeddings generated by your model
+    client.query('LOAD VECTOR FROM "product_embeddings.csv" IN product_vectors')
+
+    # 3. Find the 10 most similar products to a query embedding
+    df = client.query("""
+    VECTOR SEARCH IN product_vectors FOR 10 [0.15, 0.82, 0.44, 0.91] YIELD ids
+    MATCH (p:Product) WHERE p.id = ids
+    RETURN p.name, p.price, p.category
+    """)
+    print(df)
+
+    # 4. Inspect existing indexes
+    client.query("SHOW VECTOR INDEXES")
+
+    # 5. Clean up
+    client.query("DELETE VECTOR INDEX product_vectors")
+    ```
+  </Tab>
+</Tabs>
+
