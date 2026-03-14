@@ -15,14 +15,15 @@
         "groups": [
           {
             "group": "Getting started",
+            "root": "index",
             "pages": [
-              "index",
               "quickstart",
               "development"
             ]
           },
           {
             "group": "Customization",
+            "root": "essentials/index",
             "pages": [
               "essentials/settings",
               "essentials/navigation"
@@ -30,6 +31,7 @@
           },
           {
             "group": "Writing content",
+            "root": "essentials/writing",
             "pages": [
               "essentials/markdown",
               "essentials/code",
@@ -39,6 +41,7 @@
           },
           {
             "group": "AI tools",
+            "root": "ai-tools/index",
             "pages": [
               "ai-tools/cursor",
               "ai-tools/claude-code",
@@ -52,12 +55,14 @@
         "groups": [
           {
             "group": "API documentation",
+            "root": "api-reference/index",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
             "group": "Endpoint examples",
+            "root": "api-reference/endpoint/index",
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
