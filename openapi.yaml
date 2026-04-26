@@ -3719,6 +3719,179 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
+  /partner/incorporation/{incorporationId}/issues:
+    get:
+      summary: List incorporation issues
+      description: List partner-visible issues for an incorporation. Active issues are returned by default. Issues are read-only over the Partner API; fix the underlying intake, participant, or document data to resolve them.
+      operationId: listPartnerIncorporationIssues
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: incorporationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Incorporation identifier returned by create or list endpoints.
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PartnerIncorporationIssueStatusFilter'
+          description: Filter issues by status. Defaults to `active`.
+      responses:
+        '200':
+          description: Issues retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerIncorporationIssuesResponse'
+        '400':
+          description: Unsupported status filter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '403':
+          description: Incorporation is not accessible to the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '404':
+          description: Incorporation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+  /partner/webhook-subscriptions:
+    post:
+      summary: Create webhook subscription
+      description: Create a partner-level webhook subscription for incorporation issue events. The full signing secret is returned only in this create response.
+      operationId: createPartnerWebhookSubscription
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnerCreateWebhookSubscriptionRequest'
+      responses:
+        '201':
+          description: Webhook subscription created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerWebhookSubscriptionResponse'
+        '400':
+          description: Malformed request or unsafe webhook URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+    get:
+      summary: List webhook subscriptions
+      description: List active webhook subscriptions for the authenticated partner. Responses include `secretPreview`, not the full signing secret.
+      operationId: listPartnerWebhookSubscriptions
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      responses:
+        '200':
+          description: Webhook subscriptions retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerWebhookSubscriptionsResponse'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+  /partner/webhook-subscriptions/{subscriptionId}:
+    get:
+      summary: Get webhook subscription
+      description: Retrieve one active webhook subscription for the authenticated partner. Responses include `secretPreview`, not the full signing secret.
+      operationId: getPartnerWebhookSubscription
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: subscriptionId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook subscription identifier.
+      responses:
+        '200':
+          description: Webhook subscription retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerWebhookSubscriptionResponse'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '404':
+          description: Webhook subscription not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+    delete:
+      summary: Delete webhook subscription
+      description: Delete a webhook subscription for the authenticated partner. Deleted subscriptions stop receiving future webhook events.
+      operationId: deletePartnerWebhookSubscription
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: subscriptionId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook subscription identifier.
+      responses:
+        '204':
+          description: Webhook subscription deleted successfully
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '404':
+          description: Webhook subscription not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
 components:
   schemas:
     GetWebhookResponse:
@@ -8280,6 +8453,244 @@ components:
         count:
           type: integer
           example: 12
+    PartnerIncorporationIssueStatusFilter:
+      type: string
+      enum:
+        - active
+        - resolved
+        - all
+    PartnerIncorporationIssueCode:
+      type: string
+      description: Current partner-visible issue code. Commenda may add additional issue codes in future API updates.
+      enum:
+        - missing_information
+        - invalid_information
+        - document_required
+        - document_invalid
+        - company_name_rejected
+        - other
+    PartnerIncorporationIssueStatus:
+      type: string
+      enum:
+        - active
+        - resolved
+    PartnerIncorporationIssueScope:
+      type: object
+      description: Location the issue applies to. The `type` field determines which additional fields are present.
+      required:
+        - type
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - incorporation
+            - intake_field
+            - participant
+            - participant_document
+            - file
+        path:
+          type: string
+          description: Intake field path for `intake_field` scopes.
+          example: companyNameOptions
+        participantId:
+          type: string
+          description: Incorporation participant id for participant-scoped issues.
+          example: participant_123
+        resource:
+          type: object
+          description: Reusable Commenda OS resource for participant-scoped issues.
+          properties:
+            resourceType:
+              type: string
+              enum:
+                - keyPerson
+                - businessEntity
+            resourceId:
+              type: string
+              example: '12'
+        documentKind:
+          type: string
+          description: Participant document kind for participant-document issues.
+          example: passport_scan
+        fileId:
+          type: integer
+          description: Commenda file id for file or participant-document issues.
+          example: 456
+      example:
+        type: participant_document
+        participantId: participant_123
+        documentKind: passport_scan
+        fileId: 456
+    PartnerIncorporationIssue:
+      type: object
+      required:
+        - id
+        - code
+        - message
+        - status
+        - scope
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          description: Stable identifier for one remediation episode.
+          example: issue_123
+        code:
+          $ref: '#/components/schemas/PartnerIncorporationIssueCode'
+        message:
+          type: string
+          example: The passport scan for Jane Founder is unreadable. Please upload a clearer scan.
+        status:
+          $ref: '#/components/schemas/PartnerIncorporationIssueStatus'
+        scope:
+          $ref: '#/components/schemas/PartnerIncorporationIssueScope'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-25T20:58:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2026-04-25T20:59:00.000Z'
+        resolvedAt:
+          type: string
+          format: date-time
+          description: Present when `status` is `resolved`.
+          example: '2026-04-25T21:15:00.000Z'
+    PartnerIncorporationIssuesResponse:
+      type: object
+      required:
+        - issues
+        - count
+      properties:
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerIncorporationIssue'
+        count:
+          type: integer
+          example: 1
+    PartnerWebhookEventType:
+      type: string
+      description: Partner webhook event type. Commenda may add additional event types in future API updates.
+      enum:
+        - incorporation.issue.created
+        - incorporation.issue.resolved
+    PartnerWebhookSubscriptionStatus:
+      type: string
+      enum:
+        - active
+    PartnerWebhookSubscription:
+      type: object
+      required:
+        - id
+        - url
+        - eventTypes
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: whsub_123
+        url:
+          type: string
+          format: uri
+          example: https://partner.example.com/commenda/webhooks
+        eventTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerWebhookEventType'
+        status:
+          $ref: '#/components/schemas/PartnerWebhookSubscriptionStatus'
+        secret:
+          type: string
+          description: Full signing secret. Returned only when the subscription is created.
+          example: whsec_abc123
+        secretPreview:
+          type: string
+          description: Redacted signing secret preview returned by read/list endpoints.
+          example: whsec_...c123
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-25T21:00:00.000Z'
+    PartnerWebhookSubscriptionsResponse:
+      type: object
+      required:
+        - webhookSubscriptions
+        - count
+      properties:
+        webhookSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerWebhookSubscription'
+        count:
+          type: integer
+          example: 1
+    PartnerCreateWebhookSubscriptionRequest:
+      type: object
+      required:
+        - url
+        - eventTypes
+      properties:
+        url:
+          type: string
+          format: uri
+          description: HTTPS webhook URL reachable on a public address.
+          example: https://partner.example.com/commenda/webhooks
+        eventTypes:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/PartnerWebhookEventType'
+      example:
+        url: https://partner.example.com/commenda/webhooks
+        eventTypes:
+          - incorporation.issue.created
+          - incorporation.issue.resolved
+    PartnerWebhookSubscriptionResponse:
+      type: object
+      required:
+        - webhookSubscription
+      properties:
+        webhookSubscription:
+          $ref: '#/components/schemas/PartnerWebhookSubscription'
+    PartnerIncorporationIssueWebhookPayload:
+      type: object
+      required:
+        - eventId
+        - eventType
+        - createdAt
+        - data
+      properties:
+        eventId:
+          type: string
+          description: Stable event id. Use this for idempotency.
+          example: evt_incorporation_issue_created_issue_123
+        eventType:
+          $ref: '#/components/schemas/PartnerWebhookEventType'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-25T21:00:00.000Z'
+        data:
+          type: object
+          required:
+            - companyId
+            - incorporationId
+            - issue
+          properties:
+            companyId:
+              type: integer
+              example: 77
+            incorporationId:
+              type: string
+              example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
+            issue:
+              $ref: '#/components/schemas/PartnerIncorporationIssue'
     transaction_status:
       type: string
       enum:

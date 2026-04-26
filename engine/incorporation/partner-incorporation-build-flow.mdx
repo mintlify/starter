@@ -22,6 +22,7 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, create company documents to obtain `fileId`, register each file to the incorporation, then link it as a typed participant document. |
 | Intake | What non-participant fields are needed? | Submit partial or complete intake updates. |
 | Completion | How do I hand it to Commenda? | Read validation, call the submit endpoint when `intakeState.validation.isComplete` is `true`, then track `incorporationStatus`. |
+| Issues | What if Commenda needs corrections? | Read active/resolved issues, update the underlying intake/participants/documents, and optionally receive issue webhooks. |
 
 ## ID map
 
@@ -37,6 +38,8 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | `upload.hostedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/companies/{companyId}/documents` | Stable S3 URL for the uploaded object. |
 | `fileId` | `POST /partner/commenda-os/companies/{companyId}/documents` | Register file; link participant document | Company-scoped file id. Upload bytes directly to S3 first, then create the company document. |
 | `documentId` | Link participant document | Read/list participant state | Incorporation-scoped typed document link. |
+| `issue.id` | List issues or issue webhook payload | Dedupe issue webhooks; correlate correction requests | One issue row represents one remediation episode. |
+| `webhookSubscription.id` | Create/list webhook subscriptions | Read or delete webhook subscription | Partner-level subscription, not scoped to one company. |
 
 ## Happy path: Singapore private limited company
 
@@ -324,7 +327,45 @@ collecting_information
   -> completed          when the incorporation is complete
 ```
 
-Before Commenda starts processing, if validation later becomes incomplete, reads return `collecting_information` again. Public correction, rejection, and webhook flows are not part of the MVP surface.
+Before Commenda starts processing, if validation later becomes incomplete, reads return `collecting_information` again. Rejection/cancellation flows are not part of the MVP surface; correction requests are represented by read-only issues.
+
+## Issues and correction requests
+
+Commenda can create partner-visible issues when an incorporation needs correction or additional information.
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/issues?status=active' \
+  --header 'x-api-key: <partner_api_key>'
+```
+
+Issues are read-only over the Partner API. To resolve them, fix the underlying data through the normal endpoints: update intake fields, register or update participants, upload/register/link replacement documents, or otherwise provide the requested information. Commenda resolves the issue after review.
+
+Each issue row represents one remediation episode. Resolved incorporation issues are not reopened; if the same kind of correction is needed again later, Commenda creates a new issue with a new `issue.id`.
+
+Issue codes include `missing_information`, `invalid_information`, `document_required`, `document_invalid`, `company_name_rejected`, and `other`. Commenda may add additional issue codes in future API updates.
+
+## Issue webhooks
+
+Subscribe to issue events if your integration should react without polling:
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "url": "https://partner.example.com/commenda/webhooks",
+    "eventTypes": [
+      "incorporation.issue.created",
+      "incorporation.issue.resolved"
+    ]
+  }'
+```
+
+The create response includes the full signing secret once. Later reads return only `secretPreview`.
+
+Webhook delivery is asynchronous and retried. Your endpoint should respond within 10 seconds and dedupe deliveries by `eventId`.
 
 ## Common errors and fixes
 

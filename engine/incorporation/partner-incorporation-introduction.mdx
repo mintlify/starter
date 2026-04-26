@@ -39,10 +39,14 @@ curl --request GET \
 10. Update partial or complete non-participant intake data with `POST /partner/incorporation/{incorporationId}/intake`.
 11. Submit a complete incorporation for Commenda review with `POST /partner/incorporation/{incorporationId}/submit`.
 12. Read the incorporation to track `intakeState`, participants, missing requirements, and status.
+13. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
+14. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
 
 This API does not create or return payment intents. Partners using this surface should treat billing as separate from the incorporation resource lifecycle.
 
 KYC, e-signature execution, and document-review workflows are not part of the MVP. The participant/document model is designed so those workflows can be added later without changing how incorporations identify people, entities, and required documents.
+
+Issue tracking and issue webhooks are available for correction and request-for-information flows. Issues are created and resolved by Commenda; partners fix the underlying data by updating intake, participants, or documents.
 
 ## End-to-end Singapore example
 

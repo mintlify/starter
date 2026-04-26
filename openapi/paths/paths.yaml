@@ -3783,3 +3783,176 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+"/partner/incorporation/{incorporationId}/issues":
+  get:
+    summary: List incorporation issues
+    description: List partner-visible issues for an incorporation. Active issues are returned by default. Issues are read-only over the Partner API; fix the underlying intake, participant, or document data to resolve them.
+    operationId: listPartnerIncorporationIssues
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: incorporationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Incorporation identifier returned by create or list endpoints.
+      - name: status
+        in: query
+        required: false
+        schema:
+          "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationIssueStatusFilter"
+        description: Filter issues by status. Defaults to `active`.
+    responses:
+      "200":
+        description: Issues retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationIssuesResponse"
+      "400":
+        description: Unsupported status filter
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "403":
+        description: Incorporation is not accessible to the partner
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Incorporation not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/webhook-subscriptions":
+  post:
+    summary: Create webhook subscription
+    description: Create a partner-level webhook subscription for incorporation issue events. The full signing secret is returned only in this create response.
+    operationId: createPartnerWebhookSubscription
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/PartnerCreateWebhookSubscriptionRequest"
+    responses:
+      "201":
+        description: Webhook subscription created successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerWebhookSubscriptionResponse"
+      "400":
+        description: Malformed request or unsafe webhook URL
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+  get:
+    summary: List webhook subscriptions
+    description: List active webhook subscriptions for the authenticated partner. Responses include `secretPreview`, not the full signing secret.
+    operationId: listPartnerWebhookSubscriptions
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    responses:
+      "200":
+        description: Webhook subscriptions retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerWebhookSubscriptionsResponse"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/webhook-subscriptions/{subscriptionId}":
+  get:
+    summary: Get webhook subscription
+    description: Retrieve one active webhook subscription for the authenticated partner. Responses include `secretPreview`, not the full signing secret.
+    operationId: getPartnerWebhookSubscription
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Webhook subscription identifier.
+    responses:
+      "200":
+        description: Webhook subscription retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerWebhookSubscriptionResponse"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Webhook subscription not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+  delete:
+    summary: Delete webhook subscription
+    description: Delete a webhook subscription for the authenticated partner. Deleted subscriptions stop receiving future webhook events.
+    operationId: deletePartnerWebhookSubscription
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Webhook subscription identifier.
+    responses:
+      "204":
+        description: Webhook subscription deleted successfully
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Webhook subscription not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"

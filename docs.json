@@ -201,6 +201,20 @@
                   "engine/incorporation/partner-incorporation-intake-POST",
                   "engine/incorporation/partner-incorporation-submit-POST"
                 ]
+              },
+              {
+                "group": "Issues",
+                "pages": ["engine/incorporation/partner-incorporation-issues-GET"]
+              },
+              {
+                "group": "Webhooks",
+                "pages": [
+                  "engine/incorporation/partner-incorporation-webhooks",
+                  "engine/incorporation/partner-webhook-subscriptions-POST",
+                  "engine/incorporation/partner-webhook-subscriptions-LIST",
+                  "engine/incorporation/partner-webhook-subscriptions-GET",
+                  "engine/incorporation/partner-webhook-subscriptions-DELETE"
+                ]
               }
             ]
           },

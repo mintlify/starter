@@ -1,0 +1,8 @@
+---
+title: "Get webhook subscription"
+openapi: "GET /partner/webhook-subscriptions/{subscriptionId}"
+---
+
+Retrieves one active webhook subscription for the authenticated partner.
+
+Read responses include `secretPreview`, not the full signing secret. If you lose the full secret returned at creation time, create a new subscription and delete the old one.

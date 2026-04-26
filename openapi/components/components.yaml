@@ -323,6 +323,32 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantsResponse"
     PartnerIncorporationParticipantDocumentResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentResponse"
+    PartnerIncorporationIssueCode:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueCode"
+    PartnerIncorporationIssueStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueStatus"
+    PartnerIncorporationIssueStatusFilter:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueStatusFilter"
+    PartnerIncorporationIssueScope:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueScope"
+    PartnerIncorporationIssue:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssue"
+    PartnerIncorporationIssuesResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssuesResponse"
+    PartnerWebhookEventType:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookEventType"
+    PartnerWebhookSubscriptionStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionStatus"
+    PartnerWebhookSubscription:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscription"
+    PartnerCreateWebhookSubscriptionRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateWebhookSubscriptionRequest"
+    PartnerWebhookSubscriptionResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionResponse"
+    PartnerWebhookSubscriptionsResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionsResponse"
+    PartnerIncorporationIssueWebhookPayload:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueWebhookPayload"
     PartnerIncorporation:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporation"
     PartnerIncorporationResponse:

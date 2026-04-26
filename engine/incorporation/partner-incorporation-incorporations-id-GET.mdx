@@ -9,6 +9,8 @@ Use this endpoint to refresh `incorporationStatus` and the latest `intakeState` 
 
 `intakeState.validation.isComplete` tells you whether the current state is eligible to submit. `ready_for_review` is returned only after `POST /partner/incorporation/{incorporationId}/submit` succeeds for a currently complete incorporation.
 
+Use [List incorporation issues](/engine/incorporation/partner-incorporation-issues-GET) to track active or resolved correction requests. Issues are not embedded in this response.
+
 ## Incorporation status
 
 `incorporationStatus` can be one of:

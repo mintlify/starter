@@ -1,0 +1,73 @@
+---
+title: "List incorporation issues"
+openapi: "GET /partner/incorporation/{incorporationId}/issues"
+---
+
+Lists partner-visible issues for an incorporation.
+
+Issues are created and resolved by Commenda. Partners use this endpoint to understand what needs attention, then update intake data, participants, or documents through the normal incorporation endpoints. There is no public issue mutation endpoint in this phase.
+
+By default this endpoint returns active issues only. Use `status=resolved` for resolved issues or `status=all` for the full issue history.
+
+## Correction cycle semantics
+
+Each issue row represents one remediation episode. If Commenda needs the same kind of correction again after a prior issue was resolved, Commenda creates a new issue instead of reopening the old issue.
+
+This keeps webhook delivery and partner reconciliation simple:
+
+- `issue.id` is stable for one correction episode.
+- `incorporation.issue.created` is emitted when that episode starts.
+- `incorporation.issue.resolved` is emitted once when that episode is resolved.
+
+Issues do not change `incorporationStatus` in this phase. Continue reading the incorporation resource for lifecycle status, and read issues for correction/request-for-information state.
+
+## Issue codes
+
+Current issue codes:
+
+| Code | Meaning |
+| --- | --- |
+| `missing_information` | Required information is missing. |
+| `invalid_information` | Submitted information is present but invalid or inconsistent. |
+| `document_required` | A required document has not been linked. |
+| `document_invalid` | A linked document could not be accepted. |
+| `company_name_rejected` | A proposed company name was rejected or cannot be used. |
+| `other` | General issue not covered by a more specific code. |
+
+Commenda may add additional issue codes in future API updates. Avoid hard-coding business logic that assumes this list is permanently exhaustive.
+
+## Issue scopes
+
+`scope` tells you where the issue applies.
+
+| Scope type | Meaning |
+| --- | --- |
+| `incorporation` | The issue applies to the overall incorporation. |
+| `intake_field` | The issue applies to an intake field path, such as `companyNameOptions`. |
+| `participant` | The issue applies to a registered participant. |
+| `participant_document` | The issue applies to a participant document kind or linked file. |
+| `file` | The issue applies to a registered file. |
+
+Example response:
+
+```json
+{
+  "issues": [
+    {
+      "id": "issue_123",
+      "code": "document_invalid",
+      "message": "The passport scan for Jane Founder is unreadable. Please upload a clearer scan.",
+      "status": "active",
+      "scope": {
+        "type": "participant_document",
+        "participantId": "participant_123",
+        "documentKind": "passport_scan",
+        "fileId": 456
+      },
+      "createdAt": "2026-04-25T20:58:00.000Z",
+      "updatedAt": "2026-04-25T20:59:00.000Z"
+    }
+  ],
+  "count": 1
+}
+```
