@@ -3793,7 +3793,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartnerWebhookSubscriptionResponse'
+                $ref: '#/components/schemas/PartnerCreateWebhookSubscriptionResponse'
         '400':
           description: Malformed request or unsafe webhook URL
           content:
@@ -8492,7 +8492,7 @@ components:
         path:
           type: string
           description: Intake field path for `intake_field` scopes.
-          example: companyNameOptions
+          example: companyNames.companyNameOptions
         participantId:
           type: string
           description: Incorporation participant id for participant-scoped issues.
@@ -8589,6 +8589,7 @@ components:
         - url
         - eventTypes
         - status
+        - secretPreview
         - createdAt
       properties:
         id:
@@ -8604,10 +8605,6 @@ components:
             $ref: '#/components/schemas/PartnerWebhookEventType'
         status:
           $ref: '#/components/schemas/PartnerWebhookSubscriptionStatus'
-        secret:
-          type: string
-          description: Full signing secret. Returned only when the subscription is created.
-          example: whsec_abc123
         secretPreview:
           type: string
           description: Redacted signing secret preview returned by read/list endpoints.
@@ -8651,6 +8648,24 @@ components:
         eventTypes:
           - incorporation.issue.created
           - incorporation.issue.resolved
+    PartnerCreatedWebhookSubscription:
+      allOf:
+        - $ref: '#/components/schemas/PartnerWebhookSubscription'
+        - type: object
+          required:
+            - secret
+          properties:
+            secret:
+              type: string
+              description: Full signing secret. Returned only when the subscription is created.
+              example: whsec_abc123
+    PartnerCreateWebhookSubscriptionResponse:
+      type: object
+      required:
+        - webhookSubscription
+      properties:
+        webhookSubscription:
+          $ref: '#/components/schemas/PartnerCreatedWebhookSubscription'
     PartnerWebhookSubscriptionResponse:
       type: object
       required:

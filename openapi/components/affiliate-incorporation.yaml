@@ -721,7 +721,7 @@ schemas:
       path:
         type: string
         description: Intake field path for `intake_field` scopes.
-        example: companyNameOptions
+        example: companyNames.companyNameOptions
       participantId:
         type: string
         description: Incorporation participant id for participant-scoped issues.
@@ -818,6 +818,7 @@ schemas:
       - url
       - eventTypes
       - status
+      - secretPreview
       - createdAt
     properties:
       id:
@@ -833,10 +834,6 @@ schemas:
           $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookEventType"
       status:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionStatus"
-      secret:
-        type: string
-        description: Full signing secret. Returned only when the subscription is created.
-        example: whsec_abc123
       secretPreview:
         type: string
         description: Redacted signing secret preview returned by read/list endpoints.
@@ -845,6 +842,17 @@ schemas:
         type: string
         format: date-time
         example: 2026-04-25T21:00:00.000Z
+  PartnerCreatedWebhookSubscription:
+    allOf:
+      - $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscription"
+      - type: object
+        required:
+          - secret
+        properties:
+          secret:
+            type: string
+            description: Full signing secret. Returned only when the subscription is created.
+            example: whsec_abc123
   PartnerCreateWebhookSubscriptionRequest:
     type: object
     required:
@@ -874,6 +882,13 @@ schemas:
     properties:
       webhookSubscription:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscription"
+  PartnerCreateWebhookSubscriptionResponse:
+    type: object
+    required:
+      - webhookSubscription
+    properties:
+      webhookSubscription:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreatedWebhookSubscription"
   PartnerWebhookSubscriptionsResponse:
     type: object
     required:

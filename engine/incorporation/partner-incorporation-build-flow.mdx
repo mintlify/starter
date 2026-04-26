@@ -309,8 +309,8 @@ Validation issues use paths that point to the missing or invalid requirement.
 
 | Example path | Meaning | Fix |
 | --- | --- | --- |
-| `companyNameOptions` | Company name options are missing or invalid | Submit valid names through the intake endpoint. |
-| `providedRegisteredAddress` | A provided registered address is required | Submit a Commenda OS location reference or choose `standardAddress`, which means Commenda should use its standard registered address service. |
+| `companyNames.companyNameOptions` | Company name options are missing or invalid | Submit valid names through the intake endpoint as `requirements.companyNameOptions`. |
+| `registeredAddress.providedRegisteredAddress` | A provided registered address is required | Submit a Commenda OS location reference as `requirements.providedRegisteredAddress` or choose `standardAddress`, which means Commenda should use its standard registered address service. |
 | `participants.directors` | A required director participant is missing | Register a person or business entity as a director. |
 | `participants.participant_123.documents.passport_scan` | A participant is missing a passport scan | Register a file, then link it as `passport_scan` for that participant. |
 

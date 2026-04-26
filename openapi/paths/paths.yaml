@@ -3857,7 +3857,7 @@
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/PartnerWebhookSubscriptionResponse"
+              "$ref": "../components/components.yaml#/components/schemas/PartnerCreateWebhookSubscriptionResponse"
       "400":
         description: Malformed request or unsafe webhook URL
         content:

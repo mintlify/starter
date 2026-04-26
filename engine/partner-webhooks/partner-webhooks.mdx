@@ -32,7 +32,6 @@ Your endpoint should:
 - Be reachable on a public address.
 - Return a 2xx response within 10 seconds.
 - Treat events as at-least-once delivery and dedupe by `eventId`.
-- Avoid relying on signed upload URLs or file download URLs being durable unless the relevant endpoint explicitly says they are.
 
 Commenda stores only a bounded snippet of partner response bodies for delivery diagnostics.
 

@@ -341,8 +341,12 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionStatus"
     PartnerWebhookSubscription:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscription"
+    PartnerCreatedWebhookSubscription:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreatedWebhookSubscription"
     PartnerCreateWebhookSubscriptionRequest:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateWebhookSubscriptionRequest"
+    PartnerCreateWebhookSubscriptionResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateWebhookSubscriptionResponse"
     PartnerWebhookSubscriptionResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionResponse"
     PartnerWebhookSubscriptionsResponse:
