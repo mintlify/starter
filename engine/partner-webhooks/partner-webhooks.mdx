@@ -1,0 +1,87 @@
+---
+title: "Partner webhooks"
+description: "Subscribe to partner API events."
+---
+
+Partner webhooks notify your integration when important partner API events happen.
+
+Webhook subscriptions are partner-level resources under:
+
+```text
+https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions
+```
+
+They are not scoped to a single company or incorporation. A subscription receives events for partner-accessible resources when its `eventTypes` includes the emitted event.
+
+## Supported events
+
+| Event type | Trigger |
+| --- | --- |
+| `incorporation.issue.created` | Commenda creates a partner-visible issue for an incorporation. |
+| `incorporation.issue.resolved` | Commenda resolves a partner-visible issue. |
+
+Commenda may add additional event types in future API updates.
+
+## Delivery behavior
+
+Webhook delivery is asynchronous. Commenda retries failed deliveries.
+
+Your endpoint should:
+
+- Use HTTPS.
+- Be reachable on a public address.
+- Return a 2xx response within 10 seconds.
+- Treat events as at-least-once delivery and dedupe by `eventId`.
+- Avoid relying on signed upload URLs or file download URLs being durable unless the relevant endpoint explicitly says they are.
+
+Commenda stores only a bounded snippet of partner response bodies for delivery diagnostics.
+
+## Signatures
+
+Each delivery includes these headers:
+
+| Header | Description |
+| --- | --- |
+| `Commenda-Webhook-Id` | Stable event id. Use this for idempotency. |
+| `Commenda-Webhook-Timestamp` | ISO timestamp generated for this delivery. |
+| `Commenda-Webhook-Signature` | HMAC SHA-256 signature in the form `v1=<hex_digest>`. |
+
+The signature is computed with the subscription secret over:
+
+```text
+{Commenda-Webhook-Timestamp}.{raw_request_body}
+```
+
+The full secret is returned only when you create the subscription. Later reads return `secretPreview`.
+
+## Incorporation issue payload
+
+```json
+{
+  "eventId": "evt_incorporation_issue_created_issue_123",
+  "eventType": "incorporation.issue.created",
+  "createdAt": "2026-04-25T21:00:00.000Z",
+  "data": {
+    "companyId": 77,
+    "incorporationId": "0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91",
+    "issue": {
+      "id": "issue_123",
+      "code": "document_invalid",
+      "message": "The passport scan for Jane Founder is unreadable. Please upload a clearer scan.",
+      "status": "active",
+      "scope": {
+        "type": "participant_document",
+        "participantId": "participant_123",
+        "documentKind": "passport_scan",
+        "fileId": 456
+      },
+      "createdAt": "2026-04-25T20:58:00.000Z",
+      "updatedAt": "2026-04-25T20:59:00.000Z"
+    }
+  }
+}
+```
+
+## Correction cycle semantics
+
+Resolved incorporation issues are not reopened. If Commenda needs another correction after a previous issue was resolved, a new issue is created and a new `incorporation.issue.created` event is emitted.

@@ -1,87 +1,41 @@
 ---
 title: "Incorporation webhooks"
-description: "Subscribe to partner incorporation issue events."
+description: "Receive partner incorporation issue events."
 ---
 
 Partner incorporation webhooks notify your integration when Commenda creates or resolves a partner-visible incorporation issue.
 
-Webhook subscriptions are partner-level resources under:
-
-```text
-https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions
-```
-
-They are not scoped to a single company or incorporation. A subscription receives events for partner-accessible incorporations when its `eventTypes` includes the emitted event.
-
-## Supported events
+Supported incorporation event types:
 
 | Event type | Trigger |
 | --- | --- |
 | `incorporation.issue.created` | Commenda creates a partner-visible issue for an incorporation. |
 | `incorporation.issue.resolved` | Commenda resolves a partner-visible issue. |
 
-Commenda may add additional event types in future API updates.
+Use [List incorporation issues](/engine/incorporation/partner-incorporation-issues-GET) to fetch the current issue state directly.
 
-## Delivery behavior
+Use the top-level [Partner webhooks](/engine/partner-webhooks/partner-webhooks) docs for subscription management, delivery behavior, signatures, payload shape, retries, and event idempotency.
 
-Webhook delivery is asynchronous. Commenda retries failed deliveries.
+## Subscribe
 
-Your endpoint should:
+Create a partner-level webhook subscription with the issue events you want to receive:
 
-- Use HTTPS.
-- Be reachable on a public address.
-- Return a 2xx response within 10 seconds.
-- Treat events as at-least-once delivery and dedupe by `eventId`.
-- Avoid relying on signed upload URLs or file download URLs being durable unless the relevant endpoint explicitly says they are.
-
-Commenda stores only a bounded snippet of partner response bodies for delivery diagnostics.
-
-## Signatures
-
-Each delivery includes these headers:
-
-| Header | Description |
-| --- | --- |
-| `Commenda-Webhook-Id` | Stable event id. Use this for idempotency. |
-| `Commenda-Webhook-Timestamp` | ISO timestamp generated for this delivery. |
-| `Commenda-Webhook-Signature` | HMAC SHA-256 signature in the form `v1=<hex_digest>`. |
-
-The signature is computed with the subscription secret over:
-
-```text
-{Commenda-Webhook-Timestamp}.{raw_request_body}
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "url": "https://partner.example.com/commenda/webhooks",
+    "eventTypes": [
+      "incorporation.issue.created",
+      "incorporation.issue.resolved"
+    ]
+  }'
 ```
 
-The full secret is returned only when you create the subscription. Later reads return `secretPreview`.
-
-## Payload
-
-```json
-{
-  "eventId": "evt_incorporation_issue_created_issue_123",
-  "eventType": "incorporation.issue.created",
-  "createdAt": "2026-04-25T21:00:00.000Z",
-  "data": {
-    "companyId": 77,
-    "incorporationId": "0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91",
-    "issue": {
-      "id": "issue_123",
-      "code": "document_invalid",
-      "message": "The passport scan for Jane Founder is unreadable. Please upload a clearer scan.",
-      "status": "active",
-      "scope": {
-        "type": "participant_document",
-        "participantId": "participant_123",
-        "documentKind": "passport_scan",
-        "fileId": 456
-      },
-      "createdAt": "2026-04-25T20:58:00.000Z",
-      "updatedAt": "2026-04-25T20:59:00.000Z"
-    }
-  }
-}
-```
+The subscription is partner-level, not scoped to one company or incorporation.
 
 ## Correction cycle semantics
 
-Resolved incorporation issues are not reopened. If Commenda needs another correction after a previous issue was resolved, a new issue is created and a new `incorporation.issue.created` event is emitted.
+Each issue row represents one remediation episode. Resolved incorporation issues are not reopened; if the same kind of correction is needed again later, Commenda creates a new issue and emits a new `incorporation.issue.created` event.

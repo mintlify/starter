@@ -208,13 +208,7 @@
               },
               {
                 "group": "Webhooks",
-                "pages": [
-                  "engine/incorporation/partner-incorporation-webhooks",
-                  "engine/incorporation/partner-webhook-subscriptions-POST",
-                  "engine/incorporation/partner-webhook-subscriptions-LIST",
-                  "engine/incorporation/partner-webhook-subscriptions-GET",
-                  "engine/incorporation/partner-webhook-subscriptions-DELETE"
-                ]
+                "pages": ["engine/incorporation/partner-incorporation-webhooks"]
               }
             ]
           },
@@ -270,6 +264,16 @@
                   "engine/commendaos/partner-api/commenda-os-registrations-supported-GET"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "engine/partner-webhooks/partner-webhooks",
+              "engine/partner-webhooks/partner-webhook-subscriptions-POST",
+              "engine/partner-webhooks/partner-webhook-subscriptions-LIST",
+              "engine/partner-webhooks/partner-webhook-subscriptions-GET",
+              "engine/partner-webhooks/partner-webhook-subscriptions-DELETE"
             ]
           }
         ]
