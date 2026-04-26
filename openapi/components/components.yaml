@@ -283,6 +283,8 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationIssue"
     PartnerIncorporationValidationSummary:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
+    PartnerIncorporationSubmitError:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationSubmitError"
     PartnerIncorporationRequirementValues:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirementValues"
     PartnerUpdateIntakeRequest:

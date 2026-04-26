@@ -311,7 +311,9 @@ Validation issues use paths that point to the missing or invalid requirement.
 | --- | --- | --- |
 | `companyNames.companyNameOptions` | Company name options are missing or invalid | Submit valid names through the intake endpoint as `requirements.companyNameOptions`. |
 | `registeredAddress.providedRegisteredAddress` | A provided registered address is required | Submit a Commenda OS location reference as `requirements.providedRegisteredAddress` or choose `standardAddress`, which means Commenda should use its standard registered address service. |
+| `registeredAddress.providedRegisteredAddress.resourceId` | The referenced registered address location is missing or inaccessible | Use a company-accessible Commenda OS location, or update/create the location before submitting the intake reference. |
 | `participants.directors` | A required director participant is missing | Register a person or business entity as a director. |
+| `participants.participant_123.resource.lastName` | A referenced participant resource is missing a required field | Update the reusable Commenda OS person or business entity, then reread the incorporation validation. |
 | `participants.participant_123.documents.passport_scan` | A participant is missing a passport scan | Register a file, then link it as `passport_scan` for that participant. |
 
 Fetch requirements after the user chooses a jurisdiction and corporation type. You may cache requirements by `country` plus `countryOptions`, but always rely on the validation returned by write/read calls because Commenda may update requirements over time.

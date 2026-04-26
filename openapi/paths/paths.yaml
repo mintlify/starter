@@ -2501,7 +2501,7 @@
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationSubmitError"
       "401":
         description: Missing or invalid partner API key
         content:

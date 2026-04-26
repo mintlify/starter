@@ -2437,7 +2437,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AffiliatePublicError'
+                $ref: '#/components/schemas/PartnerIncorporationSubmitError'
         '401':
           description: Missing or invalid partner API key
           content:
@@ -6893,6 +6893,25 @@ components:
           $ref: '#/components/schemas/PartnerIncorporationIntakeState'
         requirements:
           $ref: '#/components/schemas/PartnerIncorporationRequirements'
+    PartnerIncorporationSubmitError:
+      type: object
+      required:
+        - statusCode
+        - message
+        - error
+        - validation
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Incorporation intake is incomplete and cannot be submitted for review
+        error:
+          type: string
+          example: Bad Request
+        validation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
     PartnerRegisterFileRequest:
       type: object
       required:

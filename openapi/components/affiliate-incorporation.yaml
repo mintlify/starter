@@ -397,6 +397,25 @@ schemas:
         type: array
         items:
           $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationIssue"
+  PartnerIncorporationSubmitError:
+    type: object
+    required:
+      - statusCode
+      - message
+      - error
+      - validation
+    properties:
+      statusCode:
+        type: integer
+        example: 400
+      message:
+        type: string
+        example: Incorporation intake is incomplete and cannot be submitted for review
+      error:
+        type: string
+        example: Bad Request
+      validation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
   PartnerIncorporationRequirementValues:
     type: object
     description: Partner-submitted requirement values keyed by DSL field keys.
