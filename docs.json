@@ -183,12 +183,6 @@
               "engine/incorporation/partner-incorporation-core-concepts",
               "engine/incorporation/partner-incorporation-build-flow",
               {
-                "group": "Objects",
-                "pages": [
-                  "engine/incorporation/partner-incorporation-object"
-                ]
-              },
-              {
                 "group": "Discovery",
                 "pages": [
                   "engine/incorporation/partner-incorporation-jurisdiction-catalog-GET",
@@ -199,6 +193,7 @@
               {
                 "group": "Incorporations",
                 "pages": [
+                  "engine/incorporation/partner-incorporation-object",
                   "engine/incorporation/partner-incorporation-incorporations-POST",
                   "engine/incorporation/partner-incorporation-incorporations-GET",
                   "engine/incorporation/partner-incorporation-incorporations-id-GET"
