@@ -2137,7 +2137,7 @@ paths:
   /partner/incorporation/requirements:
     get:
       summary: Get incorporation requirements
-      description: Retrieve the current requirements DSL for a selected incorporation jurisdiction and type. This endpoint is informational; intake updates are validated against the current server-side DSL.
+      description: Retrieve the current requirements schema for a selected incorporation jurisdiction and type. This endpoint is informational; intake updates are validated against the current server-side incorporation requirements.
       operationId: getPartnerIncorporationRequirements
       servers:
         - url: https://api.prod.commenda.io/api/v1
@@ -2822,7 +2822,7 @@ paths:
   /partner/incorporation/{incorporationId}/documents:
     post:
       summary: Link a participant document
-      description: Link a registered incorporation file to a participant as a typed document required by the current requirements DSL. Calling this endpoint again with the same participantId and documentKind replaces the linked fileId.
+      description: Link a registered incorporation file to a participant as a typed document required by the current incorporation requirements. Calling this endpoint again with the same participantId and documentKind replaces the linked fileId.
       operationId: linkPartnerIncorporationParticipantDocument
       servers:
         - url: https://api.prod.commenda.io/api/v1
@@ -6928,7 +6928,7 @@ components:
         corporationType: PRIVATE_LIMITED_COMPANY
     PartnerIncorporationRequirements:
       type: object
-      description: Requirements DSL for the selected incorporation. Clients can use this to render their own intake UI, but intake updates are always validated against the current server-side DSL.
+      description: Requirements schema for the selected incorporation. Clients can use this to render their own intake UI, but intake updates are always validated against the current server-side incorporation requirements.
       additionalProperties: true
       example:
         schemaVersion: '2026-04-22'
@@ -7107,7 +7107,7 @@ components:
           example: 1
     PartnerIncorporationRequirementValues:
       type: object
-      description: Partner-submitted requirement values keyed by DSL field keys.
+      description: Partner-submitted requirement values keyed by requirements field keys.
       additionalProperties: true
       example:
         companyNameOptions:
@@ -7153,7 +7153,7 @@ components:
       properties:
         isComplete:
           type: boolean
-          description: True when the current intake state satisfies the current requirements DSL and is eligible to submit for review.
+          description: True when the current intake state satisfies the current incorporation requirements and is eligible to submit for review.
           example: false
         missingRequirements:
           type: array

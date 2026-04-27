@@ -29,7 +29,7 @@ curl --request GET \
 
 1. Create a company with the existing `POST /public/company` endpoint.
 2. Review the informational jurisdiction catalog with `GET /partner/incorporation/jurisdiction-catalog`.
-3. Fetch the current requirements DSL with `GET /partner/incorporation/requirements` and the progress stages with `GET /partner/incorporation/status-workflow` for the selected `country` and `countryOptions`.
+3. Fetch the current requirements schema with `GET /partner/incorporation/requirements` and the progress stages with `GET /partner/incorporation/status-workflow` for the selected `country` and `countryOptions`.
 4. Start an incorporation with `POST /partner/incorporation/companies/{companyId}/incorporations`.
 5. Create or reference reusable people, business entities, and addresses through the Commenda OS Partner API. If an individual director or shareholder does not exist yet, create one with `POST /partner/commenda-os/companies/{companyId}/persons`.
 6. Register people or business entities as incorporation participants with `POST /partner/incorporation/{incorporationId}/participants`.
@@ -239,12 +239,12 @@ See [List jurisdiction catalog](/engine/incorporation/partner-incorporation-juri
 
 Participants are incorporation-specific registrations of reusable Commenda OS people or business entities. Assign roles such as `director` and `shareholder` on the participant so the same person can be both a director and shareholder without being duplicated.
 
-Documents are typed files attached to participants. Files remain the low-level storage object; documents are the incorporation requirement being satisfied. The current requirements DSL determines which document kinds are required for each participant role and resource type.
+Documents are typed files attached to participants. Files remain the low-level storage object; documents are the incorporation requirement being satisfied. The current incorporation requirements determine which document kinds are required for each participant role and resource type.
 
 ## Two-stage intake
 
-The requirements endpoint returns a DSL with field names, descriptions, validation rules, participant rules, document rules, and other incorporation requirements. Use it to power your own UI, but treat it as informational: Commenda validates every intake update against the current server-side requirements.
+The requirements endpoint returns a requirements schema with field names, descriptions, validation rules, participant rules, document rules, and other incorporation requirements. Use it to power your own UI, but treat it as informational: Commenda validates every intake update against the current server-side requirements.
 
-Intake updates may be partial. Each update is merged into the current intake state and returns `intakeState.validation.isComplete: false` plus `missingRequirements` and `invalidRequirements` until the state is complete. Participant and document requirements are evaluated from registered participants and linked documents. Once the current incorporation state satisfies the DSL, call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda and start the dedicated workflow.
+Intake updates may be partial. Each update is merged into the current intake state and returns `intakeState.validation.isComplete: false` plus `missingRequirements` and `invalidRequirements` until the state is complete. Participant and document requirements are evaluated from registered participants and linked documents. Once the current incorporation state satisfies the incorporation requirements, call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda and start the dedicated workflow.
 
-Country-specific validation rules, such as ownership totals, address requirements, and required participant documents, are determined by the current requirements DSL for the selected incorporation.
+Country-specific validation rules, such as ownership totals, address requirements, and required participant documents, are determined by the current incorporation requirements for the selected incorporation.
