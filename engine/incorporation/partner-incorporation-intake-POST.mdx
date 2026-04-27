@@ -5,7 +5,7 @@ openapi: "POST /partner/incorporation/{incorporationId}/intake"
 
 Updates partial or complete non-participant requirement data for an incorporation.
 
-Each update is merged into the current intake state and validated against the current requirements DSL. Incomplete updates are accepted and return a structured validation summary.
+Each update is merged into the current intake state and validated against the current incorporation requirements. Incomplete updates are accepted and return a structured validation summary.
 
 The Partner API does not expose a submission history endpoint. To read progress after an update, call `GET /partner/incorporation/{incorporationId}` and inspect `intakeState`.
 
@@ -15,7 +15,7 @@ Participant roles and participant documents are managed through the participant 
 
 ## Intake fields
 
-Use this endpoint for incorporation-level requirements such as company name options and registered address choice.
+Use this endpoint for incorporation-level requirements such as company name options and registered office address choice.
 
 ### Company name options
 
@@ -33,32 +33,32 @@ Submit preferred legal names under `companyNameOptions`.
 }
 ```
 
-### Registered address
+### Registered office address
 
-Most incorporations require a registered office address. Choose how that address should be satisfied with `registeredAddressMode`.
+Most incorporations require a registered office address. Choose how that address should be satisfied with `registeredOfficeAddressSource`.
 
-| Mode | Use when | Required fields |
+| Source | Use when | Required fields |
 | --- | --- | --- |
-| `standardAddress` | Commenda should use its standard registered address service for this incorporation. | `registeredAddressMode` |
-| `providedAddress` | You already have a Commenda OS location to use as the registered address. | `registeredAddressMode` and `providedRegisteredAddress` |
+| `commendaService` | Commenda should provide the registered office address service for this incorporation. | `registeredOfficeAddressSource` |
+| `partnerProvidedLocation` | You already have a Commenda OS location to use as the registered office address. | `registeredOfficeAddressSource` and `registeredOfficeAddressLocation` |
 
-Use `standardAddress` when Commenda should provide the registered address service:
+Use `commendaService` when Commenda should provide the registered office address service:
 
 ```json
 {
   "requirements": {
-    "registeredAddressMode": "standardAddress"
+    "registeredOfficeAddressSource": "commendaService"
   }
 }
 ```
 
-Use `providedAddress` when you are providing a reusable Commenda OS location:
+Use `partnerProvidedLocation` when you are providing a reusable Commenda OS location:
 
 ```json
 {
   "requirements": {
-    "registeredAddressMode": "providedAddress",
-    "providedRegisteredAddress": {
+    "registeredOfficeAddressSource": "partnerProvidedLocation",
+    "registeredOfficeAddressLocation": {
       "mode": "existingResource",
       "resourceId": "location_001"
     }
@@ -66,13 +66,13 @@ Use `providedAddress` when you are providing a reusable Commenda OS location:
 }
 ```
 
-The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer/company record as the incorporation. If the existing location is missing a field required by the current requirements DSL, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
+The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer/company record as the incorporation. If the existing location is missing a field required by the current incorporation requirements, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
 
-If you later switch `registeredAddressMode` back to `standardAddress`, any previously submitted `providedRegisteredAddress` value may remain in `currentState`, but it is no longer applicable and will not block validation.
+If you later switch `registeredOfficeAddressSource` back to `commendaService`, any previously submitted `registeredOfficeAddressLocation` value may remain in `currentState`, but it is no longer applicable and will not block validation.
 
 ## Validation notes
 
-Country-specific validation rules are determined by the current requirements DSL.
+Country-specific validation rules are determined by the current incorporation requirements.
 
 If a selected incorporation requires shareholder ownership totals, address details, or participant documents, the response returns `missingRequirements` and `invalidRequirements` until the current incorporation state satisfies those rules.
 
