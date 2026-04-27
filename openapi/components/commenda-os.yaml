@@ -1211,7 +1211,7 @@ schemas:
         example: 2
   CommendaOsPersonCreateRequest:
     type: object
-    description: Create a reusable Commenda OS key person under a partner-accessible company. This uses the same person-create semantics as the internal Commenda OS API, with `companyId` taken from the URL path.
+    description: Create a reusable Commenda OS key person under a partner-accessible company. The `companyId` is taken from the URL path.
     required:
       - firstName
     properties:

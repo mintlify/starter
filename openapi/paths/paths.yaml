@@ -2724,7 +2724,7 @@
 "/partner/incorporation/{incorporationId}/submit":
   post:
     summary: Submit an incorporation
-    description: Submit a currently complete incorporation for Commenda review and start the dedicated partner incorporation workflow. The server refreshes validation before accepting the submit request. `intakeState.validation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
+    description: Submit a currently complete incorporation for Commenda review. The server refreshes validation before accepting the submit request. `intakeState.validation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
     operationId: submitPartnerIncorporation
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -3724,7 +3724,7 @@
 "/partner/commenda-os/companies/{companyId}/persons/{personId}":
   patch:
     summary: Update a person
-    description: Partially update a reusable Commenda OS key person using the same person-update semantics as the internal Commenda OS API. Omitted fields are left unchanged.
+    description: Partially update a reusable Commenda OS key person. Omitted fields are left unchanged.
     operationId: updatePartnerCommendaOsPerson
     servers:
       - url: https://api.prod.commenda.io/api/v1

@@ -64,9 +64,9 @@ curl --request GET \
 | Status | Meaning |
 | --- | --- |
 | `awaiting_customer_input` | Required intake information, participant roles, or documents are missing or invalid, or the complete intake has not been submitted yet. |
-| `submitted` | The incorporation was submitted and still validates, but workflow work has not started yet. |
-| `in_progress` | Commenda is processing the incorporation through the dedicated workflow. |
-| `blocked` | The incorporation has active partner-visible issues or workflow start/runtime failures. |
+| `submitted` | The incorporation was submitted and still validates, but Commenda review has not started yet. |
+| `in_progress` | Commenda review is in progress. |
+| `blocked` | The incorporation has active partner-visible issues or review start/runtime failures. |
 | `completed` | The incorporation is complete. |
 
 ## Stage status
@@ -75,7 +75,7 @@ curl --request GET \
 | --- | --- |
 | `not_started` | The stage has not started. |
 | `in_progress` | At least one task in the stage has started and the stage is not complete. |
-| `blocked` | The stage is blocked by active issue ids or failed workflow work. |
+| `blocked` | The stage is blocked by active issue ids or failed review work. |
 | `completed` | The stage is complete. |
 
 Active issues are listed in `blockingIssueIds`. If an issue has a `scope.stageId`, that issue appears on the matching stage's `blockedByIssueIds`; otherwise it blocks the first non-completed stage.

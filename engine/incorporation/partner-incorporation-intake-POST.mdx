@@ -76,6 +76,30 @@ Country-specific validation rules are determined by the current incorporation re
 
 If a selected incorporation requires shareholder ownership totals, address details, or participant documents, the response returns `missingRequirements` and `invalidRequirements` until the current incorporation state satisfies those rules.
 
+Example validation details:
+
+```json
+{
+  "intakeState": {
+    "validation": {
+      "isComplete": false,
+      "missingRequirements": [
+        {
+          "path": "participants.directors",
+          "message": "At least one director is required"
+        }
+      ],
+      "invalidRequirements": [
+        {
+          "path": "companyNames.companyNameOptions",
+          "message": "Provide at least 3 company name options"
+        }
+      ]
+    }
+  }
+}
+```
+
 For participant-specific requirements, register participants with roles and link documents to each participant:
 
 - Use `POST /partner/incorporation/{incorporationId}/participants` for director/shareholder roles.

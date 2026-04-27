@@ -5,9 +5,9 @@ openapi: "GET /partner/incorporation/status-workflow"
 
 Retrieves the public status workflow for a selected incorporation jurisdiction and type.
 
-Use this endpoint after the customer chooses `country` and `countryOptions` if you want to render a progress UI before the incorporation is created. The response is derived from Commenda's active workflow template for that selection, with a synthetic `intake` stage added first.
+Use this endpoint after the customer chooses `country` and `countryOptions` if you want to render a progress UI before the incorporation is created. Commenda adds an `intake` stage first so your progress UI can show data collection before review.
 
-The workflow is informational and versioned. Case progress is returned by [Get incorporation status](/engine/incorporation/partner-incorporation-status-GET).
+The workflow is informational and versioned. Incorporation progress is returned by [Get incorporation status](/engine/incorporation/partner-incorporation-status-GET).
 
 ## Query shape
 

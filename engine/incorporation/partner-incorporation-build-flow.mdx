@@ -44,7 +44,7 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | `upload.hostedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/companies/{companyId}/documents` | Stable S3 URL for the uploaded object. |
 | `fileId` | `POST /partner/commenda-os/companies/{companyId}/documents` | Register file; link participant document | Company-scoped file id. Upload bytes directly to S3 first, then create the company document. |
 | `documentId` | Link participant document | Read/list participant state | Incorporation-scoped typed document link. |
-| `statusWorkflow.stages[].id` | Status workflow or case status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition, plus the synthetic `intake` stage. |
+| `statusWorkflow.stages[].id` | Status workflow or case status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition. Commenda also adds an `intake` stage so progress can show data collection before review. |
 | `issue.id` | List issues or issue webhook payload | Dedupe issue webhooks; correlate correction requests | One issue row represents one remediation episode. |
 | `webhookSubscription.id` | Create/list webhook subscriptions | Read or delete webhook subscription | Partner-level subscription, not scoped to one company. |
 
@@ -371,7 +371,7 @@ curl --request POST \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-The submit endpoint refreshes validation before accepting the handoff. If the incorporation is incomplete, it returns `400` with validation details. If it succeeds, Commenda creates or reuses the dedicated workflow execution for the incorporation. The response usually returns `incorporationStatus: "in_progress"` once the workflow starts.
+The submit endpoint refreshes validation before accepting the handoff. If the incorporation is incomplete, it returns `400` with validation details. If it succeeds, Commenda begins review. The response usually returns `incorporationStatus: "in_progress"` once review starts.
 
 ### 10. Track status
 
@@ -413,13 +413,13 @@ Fetch requirements after the user chooses a jurisdiction and corporation type. R
 
 ```text
 awaiting_customer_input
-  -> submitted    after POST /partner/incorporation/{incorporationId}/submit succeeds and before workflow work starts
-  -> in_progress  when the dedicated workflow starts processing
-  -> blocked      when there are active partner-visible issues or workflow start/runtime failures
+  -> submitted    after POST /partner/incorporation/{incorporationId}/submit succeeds and before Commenda review work starts
+  -> in_progress  when Commenda review is in progress
+  -> blocked      when there are active partner-visible issues or review start/runtime failures
   -> completed    when the incorporation is complete
 ```
 
-Before workflow work starts, if validation later becomes incomplete, reads return `awaiting_customer_input` again. Rejection/cancellation flows are not part of the MVP surface; correction requests are represented by read-only issues and surface as `blocked` while active.
+Before Commenda review work starts, if validation later becomes incomplete, reads return `awaiting_customer_input` again. Correction requests are represented by read-only issues and surface as `blocked` while active.
 
 ## Issues and correction requests
 
