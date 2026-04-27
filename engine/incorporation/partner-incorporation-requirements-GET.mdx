@@ -3,7 +3,7 @@ title: "Get incorporation requirements"
 openapi: "GET /partner/incorporation/requirements"
 ---
 
-Returns the current requirements DSL for a selected incorporation.
+Returns the current requirements for a selected incorporation.
 
 For Singapore private limited companies:
 
@@ -13,13 +13,13 @@ curl --request GET \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-Use the returned DSL to render your intake UI and to understand required fields, participant roles, document requirements, and validation constraints.
+Use the returned requirements to render your intake UI and to understand required fields, participant roles, document requirements, and validation constraints.
 
-The requirements response is informational. Intake updates are always validated against the current server-side DSL, so clients should handle `missingRequirements` and `invalidRequirements` from intake responses.
+The requirements response is informational. Intake updates are always validated against the current server-side requirements, so clients should handle `missingRequirements` and `invalidRequirements` from intake responses.
 
-## How to use the DSL
+## How to use the requirements response
 
-| DSL area | What it means | How to satisfy it |
+| Field | What it means | How to satisfy it |
 | --- | --- | --- |
 | `blocks` | UI-friendly groupings of incorporation-level fields | Render these groups in your intake UI if useful. |
 | `fields` | Data submitted through `POST /partner/incorporation/{incorporationId}/intake` | Send values under `requirements` using each field key. |
@@ -29,7 +29,7 @@ The requirements response is informational. Intake updates are always validated 
 
 ## Participant role/resource combinations
 
-The requirements DSL describes participant requirements in terms of role, participant type, and resource type. For Singapore private limited companies:
+The requirements response describes participant requirements in terms of role, participant type, and resource type. For Singapore private limited companies:
 
 | Role requirement | `participantType` | `resource.resourceType` | Notes |
 | --- | --- | --- | --- |
@@ -40,6 +40,6 @@ The requirements DSL describes participant requirements in terms of role, partic
 
 When `documentRequirements` are returned, match them by `role`, `participantType`, and `resourceType`. Individual Singapore directors and shareholders require `passport_scan` and `utility_bill`; corporate shareholder documents, if required by the selected case type, are surfaced by the same `documentRequirements` array.
 
-Validation paths in `missingRequirements` and `invalidRequirements` correspond to DSL fields or participant/document requirements. Field validation paths include the DSL block key, such as `companyNames.companyNameOptions`, even though the intake payload key remains `requirements.companyNameOptions`. Participant document paths look like `participants.participant_123.documents.passport_scan`.
+Validation paths in `missingRequirements` and `invalidRequirements` correspond to requirements fields or participant/document requirements. Field validation paths include the requirements block key, such as `companyNames.companyNameOptions`, even though the intake payload key remains `requirements.companyNameOptions`. Participant document paths look like `participants.participant_123.documents.passport_scan`.
 
 You may cache the requirements response by `country` plus `countryOptions`, but do not send a requirements version back to Commenda. If validation returns new missing or invalid requirements, update your UI from the latest response.
