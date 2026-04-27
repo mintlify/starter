@@ -50,6 +50,29 @@ When members are first added to a service request, Commenda automatically assign
 
 Each task shows the assigned person's name and avatar, so everyone on the team can see who is responsible for what. When a task is reassigned, the new assignee receives an email notification.
 
+## Pending on
+
+Each service request in your services list shows a **Pending on** indicator that tells you exactly who needs to act next to move the request forward. This makes it easy to scan a long list of services and immediately spot which ones are blocked on you versus which ones are with your agent or with Commenda.
+
+The indicator reflects the assignees of the service request's currently active tasks:
+
+- **In progress tasks** — if any tasks are in progress, Pending on lists everyone assigned to those tasks. Service requests can run multiple tasks in parallel, so you may see more than one name.
+- **Next not-started task** — if no tasks are in progress, Pending on shows the next not-started task's assignee, so you can see who is up next.
+
+The displayed assignee depends on the task's assignee type:
+
+| Task assignee type | Pending on shows |
+|--------------------|------------------|
+| **Client** | The team member assigned to the task. If no specific assignee is set, the request's primary client contact is shown. Falls back to "Customer" when no user is available. |
+| **Agent** | The agent firm user assigned to the request. Falls back to the agent firm's name when no individual is assigned. Falls back to "Agent" when neither is available. |
+| **Admin** | Shown as "Commenda" — the request is with our internal team. |
+
+Names are deduplicated, so a person assigned to multiple parallel tasks only appears once.
+
+<Tip>
+Filter or sort your services list by Pending on to quickly surface every request that's currently waiting on your team.
+</Tip>
+
 ## Communication
 
 Each service request has a built-in chat room where you can communicate with the service team, ask questions, and share updates. You'll also receive notifications when tasks need your attention.
