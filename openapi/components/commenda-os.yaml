@@ -430,7 +430,7 @@ schemas:
         example: 2026-03-01T00:00:00.000Z
   CommendaOsBusinessEntityCreateRequest:
     type: object
-    description: Create a reusable Commenda OS business entity under a partner-accessible customer. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
+    description: Create a reusable Commenda OS business entity for one of your customers. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
     required:
       - incorporationCountry
       - legalName
@@ -1183,6 +1183,61 @@ schemas:
       count:
         type: integer
         example: 1
+  CommendaOsLocationCreateRequest:
+    type: object
+    description: Create a reusable Commenda OS location for a business entity. The `businessEntityId` is taken from the URL path.
+    required:
+      - locationTypes
+      - address
+    properties:
+      locationName:
+        type: string
+        description: Optional display name. Required by some location types such as registered office and mailing address.
+        example: Singapore registered office
+      startDate:
+        type: string
+        format: date
+        example: "2026-04-27"
+      employeeCount:
+        type: integer
+        description: Employee count for employee work locations.
+        example: 12
+      locationTypes:
+        type: array
+        items:
+          type: string
+        example:
+          - REGISTERED_OFFICE_ADDRESS
+      address:
+        $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationAddress"
+  CommendaOsLocationUpdateRequest:
+    type: object
+    description: Update a reusable Commenda OS location. Omitted fields are left unchanged by the Partner API client, but `locationTypes` and `address` are required by the current location update contract.
+    required:
+      - locationTypes
+      - address
+    properties:
+      locationName:
+        type: string
+        description: Optional display name. Required by some location types such as registered office and mailing address.
+        example: Singapore registered office
+      startDate:
+        type: string
+        format: date
+        nullable: true
+        example: "2026-04-27"
+      employeeCount:
+        type: integer
+        description: Employee count for employee work locations.
+        example: 12
+      locationTypes:
+        type: array
+        items:
+          type: string
+        example:
+          - REGISTERED_OFFICE_ADDRESS
+      address:
+        $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationAddress"
   CommendaOsBusinessEntityPersonsResponse:
     type: object
     required:
@@ -1211,7 +1266,7 @@ schemas:
         example: 2
   CommendaOsPersonCreateRequest:
     type: object
-    description: Create a reusable Commenda OS key person under a partner-accessible customer. The `customerId` is taken from the URL path.
+    description: Create a reusable Commenda OS key person for one of your customers. The `customerId` is taken from the URL path.
     required:
       - firstName
     properties:

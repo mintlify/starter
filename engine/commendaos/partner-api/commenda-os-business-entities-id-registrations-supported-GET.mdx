@@ -3,4 +3,4 @@ title: "List supported registrations for a business entity"
 openapi: "GET /partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/registrations/supported"
 ---
 
-Returns the registration types available for a specific business entity within a partner-accessible customer. The `businessEntityId` must belong to the provided `customerId` or the API returns `404 Not Found`.
+Returns the registration types available for a customer's business entity. The `businessEntityId` must match the provided `customerId`, or the API returns `404 Not Found`.
