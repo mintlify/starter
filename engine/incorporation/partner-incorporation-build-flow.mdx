@@ -301,7 +301,7 @@ The submit endpoint refreshes validation before accepting the handoff. If the in
 | `schemaVersion` / `dslVersion` | Descriptive server-side requirement version | Useful for logs and debugging. Clients do not send a requirements version back. |
 | `blocks` | UI-friendly groups of fields | Render fields by block if you want a guided UI. |
 | `fields` | Incorporation-level data, such as company names or registered address data | Submit these keys under `requirements` in the intake endpoint. |
-| `required.when` / `visibility` | Rules that make a field required or visible only when another field has a value | Re-evaluate the UI when the controlling field changes. |
+| `required.when` / `appliesWhen` | Rules that make a field required or applicable only when another field has a value | Re-evaluate the UI when the controlling field changes. Non-applicable fields are ignored by validation. |
 | `participantRequirements` | Required roles such as director or shareholder | Satisfy these by registering participants, not by sending arrays in intake. |
 | `documentRequirements` | Required typed documents for a participant role/type | Satisfy these by linking files as participant documents. |
 

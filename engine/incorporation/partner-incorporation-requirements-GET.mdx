@@ -23,7 +23,7 @@ The requirements response is informational. Intake updates are always validated 
 | --- | --- | --- |
 | `blocks` | UI-friendly groupings of incorporation-level fields | Render these groups in your intake UI if useful. |
 | `fields` | Data submitted through `POST /partner/incorporation/{incorporationId}/intake` | Send values under `requirements` using each field key. |
-| `conditions` | Rules that make fields required only when another value is selected | Recompute visible/required fields when users change controlling values. |
+| `required.when` / `appliesWhen` | Rules that make fields required or applicable only when another value is selected | Recompute visible/required fields when users change controlling values. Fields whose `appliesWhen` rule is not satisfied are ignored by validation. |
 | `participantRequirements` | Required participant roles such as director or shareholder | Register reusable Commenda OS resources with `POST /partner/incorporation/{incorporationId}/participants`. |
 | `documentRequirements` | Required typed documents for participant roles/types | Register files, then link them with `POST /partner/incorporation/{incorporationId}/documents`. |
 

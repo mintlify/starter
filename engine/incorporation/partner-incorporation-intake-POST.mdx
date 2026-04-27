@@ -51,6 +51,8 @@ If `registeredAddressMode` is `providedAddress`, include `providedRegisteredAddr
 
 The referenced location must belong to a partner-accessible Commenda OS business entity for the same company. If the existing location is missing a field required by the current requirements DSL, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
 
+If you later switch `registeredAddressMode` back to `standardAddress`, any previously submitted `providedRegisteredAddress` value may remain in `currentState`, but it is no longer applicable and will not block validation.
+
 ## Validation notes
 
 Country-specific validation rules are determined by the current requirements DSL.
