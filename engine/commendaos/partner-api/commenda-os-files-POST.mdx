@@ -13,7 +13,7 @@ Call this before [upserting a participant document](/engine/incorporation/partne
 
 ## Request
 
-Send a single multipart part named `file` containing the binary body. The part's filename and detected MIME type are stored as `fileName` and `mimeType` on the file record. No other fields are accepted.
+Send a single multipart part named `file` containing the binary body. The part's filename and detected MIME type are stored as `fileName` and `mimeType` on the file record. The `file` part must include a `filename`; requests without one return `400`. If the filename contains path segments, only the basename is kept. No other fields are accepted.
 
 ## Limits
 
