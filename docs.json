@@ -202,7 +202,8 @@
                 "pages": [
                   "engine/incorporation/partner-incorporation-participants-POST",
                   "engine/incorporation/partner-incorporation-participants-id-PATCH",
-                  "engine/incorporation/partner-incorporation-participants-GET"
+                  "engine/incorporation/partner-incorporation-participants-GET",
+                  "engine/incorporation/partner-incorporation-participants-id-DELETE"
                 ]
               },
               {

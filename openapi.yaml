@@ -2777,6 +2777,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AffiliatePublicError'
+    delete:
+      summary: Remove an incorporation participant
+      description: Remove an incorporation-specific participant registration and its linked participant documents. This does not delete the underlying Commenda OS person or business entity referenced by the participant.
+      operationId: removePartnerIncorporationParticipant
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: incorporationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Incorporation identifier returned by create or list endpoints.
+        - name: participantId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Incorporation-specific participant identifier returned by register, list, or read endpoints.
+      responses:
+        '204':
+          description: Participant removed successfully
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '403':
+          description: Incorporation is not accessible to the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '404':
+          description: Incorporation or participant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
   /partner/incorporation/{incorporationId}/documents:
     post:
       summary: Link a participant document
