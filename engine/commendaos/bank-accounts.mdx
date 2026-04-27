@@ -220,10 +220,23 @@ PATCH /business-entity/:businessEntityId/bank-accounts/:bankAccountId
 
 **Request body**
 
-Include only the fields you want to update:
+Include only the fields you want to update. All fields are optional.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `bankName` | string | Full legal name of the financial institution |
+| `accountHolderName` | string | Legal name on the account |
+| `country` | string | ISO 3166-1 alpha-2 country code where the account is held |
+| `currency` | string | ISO 4217 currency code (e.g., `USD`, `EUR`, `INR`) |
+| `bankAddress` | string | Address of the bank |
+| `taxRegistrationId` | string | Linked tax registration identifier |
+| `isPrimary` | boolean | Whether this account is the primary account for the entity |
+| `credentials` | object | Country-specific routing and identification fields |
 
 ```json
 {
+  "accountHolderName": "Acme GmbH",
+  "country": "DE",
   "currency": "EUR",
   "credentials": {
     "iban": "DE89370400440532013000"
@@ -233,6 +246,10 @@ Include only the fields you want to update:
 
 <Info>
 Credential updates are merged with existing values. Sending `{ "credentials": { "iban": "..." } }` adds or overwrites the `iban` field without removing other credential fields already stored on the account.
+</Info>
+
+<Info>
+Credential keys that are not part of the country's field configuration are silently dropped before validation. This lets you safely update accounts that were created when the legacy schema (for example, a top-level `swiftCode`) was still in use, without having to clean up the existing record first.
 </Info>
 
 **Response**
