@@ -2782,7 +2782,7 @@
 "/partner/incorporation/{incorporationId}/participants/{participantId}":
   patch:
     summary: Update an incorporation participant
-    description: Replace the roles for an existing incorporation participant. Use this endpoint to correct director/shareholder roles or shareholder ownership percentages without recreating the underlying Commenda OS person or business entity. Writes that make shareholder ownership exceed the selected requirements total are rejected.
+    description: Update an existing incorporation participant. Use this endpoint to correct director/shareholder roles or shareholder ownership percentages without modifying the underlying Commenda OS person or business entity.
     operationId: updatePartnerIncorporationParticipant
     servers:
       - url: https://api.prod.commenda.io/api/v1
