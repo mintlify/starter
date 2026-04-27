@@ -77,3 +77,213 @@ schemas:
         type: array
         items:
           "$ref": "#/schemas/FilingContribution"
+
+  LiabilityReportBreakdown:
+    type: object
+    description: >-
+      Filing-level liability snapshot. Populated only for filings whose
+      liability values live on the filing row itself (US sales/use tax,
+      Canadian GST/HST/PST). For VAT filings (UK/EU country VAT and OSS/IOSS
+      variants), this object is `null` on the parent entry — fetch box-level
+      values from `POST /filings/contributions` instead. Money fields are
+      major-unit decimals.
+    properties:
+      transactions_count:
+        type: integer
+        format: int64
+        description: Number of transactions contributing to this filing.
+        example: 142
+      estimated_taxable_amount:
+        type: number
+        format: double
+        description: Estimated taxable amount in major currency units.
+        example: 12500.00
+      estimated_non_taxable_amount:
+        type: number
+        format: double
+        description: Estimated non-taxable amount in major currency units.
+        example: 1500.50
+      estimated_exempt_amount:
+        type: number
+        format: double
+        description: Estimated exempt amount in major currency units.
+        example: 250.00
+      estimated_tax_collected:
+        type: number
+        format: double
+        description: Estimated tax collected in major currency units.
+        example: 1031.25
+
+  LiabilityReportFiling:
+    type: object
+    description: >-
+      One filing's slot in the liability report response. Common metadata
+      (form title, jurisdiction, period) is always present so the consumer
+      has enough context to render the row even when `breakdown` is `null`.
+    properties:
+      filing_id:
+        type: string
+        format: uuid
+        description: Unique identifier for the filing.
+        example: "f1e2d3c4-b5a6-7890-abcd-ef1234567890"
+      form_title:
+        type: string
+        description: Display name of the tax return form.
+        example: "Sales and Use Tax Return"
+      jurisdiction:
+        type: string
+        description: Human-readable jurisdiction name.
+        example: "California"
+      tax_period_start_date:
+        type: string
+        format: date
+        description: ISO 8601 start date of the tax period.
+        example: "2025-01-01"
+      tax_period_end_date:
+        type: string
+        format: date
+        description: ISO 8601 end date of the tax period.
+        example: "2025-03-31"
+      due_date:
+        type: string
+        format: date
+        description: ISO 8601 due date of the filing.
+        example: "2025-04-30"
+      filing_status:
+        type: string
+        description: Current status of the filing (e.g., `SCHEDULED`, `UPCOMING`, `OVERDUE`, `FILED`).
+        example: "UPCOMING"
+      breakdown:
+        nullable: true
+        allOf:
+          - "$ref": "#/schemas/LiabilityReportBreakdown"
+
+  GetLiabilityReportRequest:
+    type: object
+    required:
+      - filing_ids
+    properties:
+      filing_ids:
+        type: array
+        description: >-
+          List of filing UUIDs to include in the report. Maximum 100 entries.
+        minItems: 1
+        maxItems: 100
+        items:
+          type: string
+          format: uuid
+        example:
+          - "f1e2d3c4-b5a6-7890-abcd-ef1234567890"
+          - "a2b3c4d5-e6f7-8901-bcde-f23456789012"
+
+  GetLiabilityReportResponse:
+    type: object
+    properties:
+      filings:
+        type: array
+        items:
+          "$ref": "#/schemas/LiabilityReportFiling"
+
+  GetFilingContributionsBatchRequest:
+    type: object
+    required:
+      - filing_ids
+    properties:
+      filing_ids:
+        type: array
+        description: >-
+          List of filing UUIDs to fetch contributions for. Maximum 100 entries.
+        minItems: 1
+        maxItems: 100
+        items:
+          type: string
+          format: uuid
+
+  FilingContributionsBatchEntry:
+    type: object
+    description: >-
+      One filing's slot in the batched contributions response. Common filing
+      metadata is always populated. `contributions` is non-null for filings
+      whose liability is computed from the filing contribution table (UK/EU
+      VAT — country-level VATs and OSS variants); for US/Canada filings
+      whose liability lives on the filing row itself, `contributions` is
+      `null`. An empty array means "this is a contribution-type filing but
+      the engine hasn't computed its boxes yet" — different from `null`
+      ("does not apply").
+    properties:
+      filing_id:
+        type: string
+        format: uuid
+        example: "f1e2d3c4-b5a6-7890-abcd-ef1234567890"
+      form_title:
+        type: string
+        example: "VAT Return"
+      jurisdiction:
+        type: string
+        example: "Germany"
+      tax_period_start_date:
+        type: string
+        format: date
+        example: "2025-01-01"
+      tax_period_end_date:
+        type: string
+        format: date
+        example: "2025-03-31"
+      due_date:
+        type: string
+        format: date
+        example: "2025-04-30"
+      filing_status:
+        type: string
+        example: "UPCOMING"
+      contributions:
+        nullable: true
+        type: array
+        items:
+          "$ref": "#/schemas/FilingContribution"
+
+  GetFilingContributionsBatchResponse:
+    type: object
+    properties:
+      filings:
+        type: array
+        items:
+          "$ref": "#/schemas/FilingContributionsBatchEntry"
+
+  ExportLiabilityReportRequest:
+    type: object
+    required:
+      - filing_ids
+      - delivery_recipients
+    properties:
+      filing_ids:
+        type: array
+        description: >-
+          List of filing UUIDs to include in the export. Maximum 100 entries.
+        minItems: 1
+        maxItems: 100
+        items:
+          type: string
+          format: uuid
+      delivery_recipients:
+        type: array
+        description: >-
+          Email addresses that will receive a signed download link to the
+          generated zip when the export job completes.
+        minItems: 1
+        items:
+          type: string
+          format: email
+        example:
+          - "tax-team@example.com"
+
+  ExportLiabilityReportResponse:
+    type: object
+    properties:
+      job_id:
+        type: string
+        description: >-
+          Identifier of the queued export job. Poll job status via the jobs
+          endpoint, filtering by `entity=FILING` and
+          `operation=EXPORT_INDIRECT_TAX_FILINGS_LIABILITY_REPORT`.
+        example: "j1a2b3c4-d5e6-7890-abcd-ef1234567890"

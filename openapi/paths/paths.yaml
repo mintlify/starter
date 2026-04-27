@@ -1597,6 +1597,141 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/Error"
+"/filings/liability-report":
+  post:
+    summary: Get liability report
+    description: >-
+      Returns per-filing liability snapshots for a list of filing IDs (max
+      100). Each entry's `breakdown` object is populated for US and Canadian
+      filings, where liability values live on the filing row itself, and
+      `null` for VAT filings (UK and EU country VAT, Union OSS, Non-Union
+      OSS, IOSS) — fetch the box-level VAT detail for those via
+      `POST /filings/contributions`.
+    operationId: getLiabilityReport
+    tags:
+      - Filings
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/filings.yaml#/schemas/GetLiabilityReportRequest"
+    responses:
+      "200":
+        description: Liability report built successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  "$ref": "../components/filings.yaml#/schemas/GetLiabilityReportResponse"
+                message:
+                  type: string
+                  example: Successfully built liability report.
+      "400":
+        description: Bad request — invalid body or filing not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/Error"
+      "403":
+        description: Caller is not authorized to access one or more filings
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/Error"
+"/filings/contributions":
+  post:
+    summary: Get filing contributions for a batch of filings
+    description: >-
+      Multi-filing analog of `GET /filings/{id}/contributions`. Returns
+      per-filing contribution boxes for a list of filing IDs (max 100). Each
+      entry's `contributions` array is non-null for VAT filings (UK/EU
+      country VAT and OSS/IOSS variants) — possibly empty if the engine
+      has not computed boxes yet — and `null` for US and Canadian filings
+      whose liability lives on the filing row itself.
+    operationId: getFilingContributionsBatch
+    tags:
+      - Filings
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/filings.yaml#/schemas/GetFilingContributionsBatchRequest"
+    responses:
+      "200":
+        description: Filing contributions retrieved successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  "$ref": "../components/filings.yaml#/schemas/GetFilingContributionsBatchResponse"
+                message:
+                  type: string
+                  example: Successfully fetched filing contributions.
+      "400":
+        description: Bad request — invalid body or filing not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/Error"
+      "403":
+        description: Caller is not authorized to access one or more filings
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/Error"
+"/filings/liability-report/export":
+  post:
+    summary: Export liability report as zipped CSVs
+    description: >-
+      Queues an asynchronous export job that produces one CSV per filing,
+      bundles them into a zip, uploads the zip to storage, and emails a
+      signed download link to `delivery_recipients` when complete. All
+      filings in a single request must belong to the same corporation
+      (max 100 filings). Poll job status via the jobs endpoint, filtering
+      by `entity=FILING` and
+      `operation=EXPORT_INDIRECT_TAX_FILINGS_LIABILITY_REPORT`.
+    operationId: exportLiabilityReport
+    tags:
+      - Filings
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/filings.yaml#/schemas/ExportLiabilityReportRequest"
+    responses:
+      "200":
+        description: Export job queued successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  "$ref": "../components/filings.yaml#/schemas/ExportLiabilityReportResponse"
+                message:
+                  type: string
+                  example: Successfully queued liability report export.
+      "400":
+        description: >-
+          Bad request — invalid body, filing not found, or filings span
+          multiple corporations
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/Error"
+      "403":
+        description: Caller is not authorized to access one or more filings
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/Error"
 "/customers":
   post:
     summary: Create a customer

@@ -527,7 +527,10 @@
               "engine/indirect-tax/filings/filings-bulk-create-POST",
               "engine/indirect-tax/filings/filings-bulk-delete-DELETE",
               "engine/indirect-tax/filings/filings-GET-ONE",
-              "engine/indirect-tax/filings/filings-contributions-GET"
+              "engine/indirect-tax/filings/filings-contributions-GET",
+              "engine/indirect-tax/filings/filings-contributions-batch-POST",
+              "engine/indirect-tax/filings/filings-liability-report-POST",
+              "engine/indirect-tax/filings/filings-liability-report-export-POST"
             ]
           },
           {

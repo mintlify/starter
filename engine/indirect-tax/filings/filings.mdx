@@ -87,7 +87,7 @@ For country-level filings, box values are computed once using the filing jurisdi
 
 ### Retrieving contributions
 
-Use the [`GET /filings/{id}/contributions`](/engine/indirect-tax/filings/filings-contributions-GET) endpoint to retrieve computed contributions for a filing. Each contribution includes:
+Use the [`GET /filings/{id}/contributions`](/engine/indirect-tax/filings/filings-contributions-GET) endpoint to retrieve computed contributions for a single filing, or the [`POST /filings/contributions`](/engine/indirect-tax/filings/filings-contributions-batch-POST) batched endpoint to fetch contributions for up to 100 filings in one request. Each contribution includes:
 
 | Field | Description |
 |---|---|
@@ -131,6 +131,18 @@ During contribution processing, Commenda validates that each invoice has the dat
 Contributions are idempotent — each processing run replaces all previous contribution values for the filing. This means contributions always reflect the current state of your transaction data.
 </Info>
 
+## Liability report
+
+The liability report endpoints provide per-filing snapshots and bulk exports across multiple filings. The two read endpoints return distinct shapes — call them in parallel and merge by `filing_id` when you need both filing-level totals and box-level VAT detail.
+
+| Endpoint | Description |
+|---|---|
+| [`POST /filings/liability-report`](/engine/indirect-tax/filings/filings-liability-report-POST) | Returns per-filing liability snapshots. Each entry's `breakdown` object is populated for US and Canadian filings, and `null` for VAT filings. |
+| [`POST /filings/contributions`](/engine/indirect-tax/filings/filings-contributions-batch-POST) | Returns per-filing tax-return box contributions for up to 100 filings. `contributions` is non-null for VAT filings and `null` for US and Canadian filings. |
+| [`POST /filings/liability-report/export`](/engine/indirect-tax/filings/filings-liability-report-export-POST) | Queues an asynchronous job that produces one CSV per filing, bundles them into a zip, and emails a signed download link to the recipients you specify. |
+
+All three endpoints accept up to 100 filing IDs per request. The export endpoint also requires every filing in the request to belong to the same corporation. Track the export job with the jobs endpoint, filtering by `entity=FILING` and `operation=EXPORT_INDIRECT_TAX_FILINGS_LIABILITY_REPORT`. For multi-filing exports, the worker creates one child job row per filing (with `entity_id` set to the filing UUID) so the per-filing detail page surfaces the export.
+
 ## Managed filing
 
 When you enable `managed_filing_enabled` on a [V2 registration](/engine/indirect-tax/registrations/v2/registrations-v2-POST), Commenda handles the filing process for that jurisdiction on your behalf. You can toggle this setting when creating or updating a registration.
@@ -144,3 +156,6 @@ When you enable `managed_filing_enabled` on a [V2 registration](/engine/indirect
 | [`/internal/filings/bulk/delete`](/engine/indirect-tax/filings/filings-bulk-delete-DELETE) | DELETE | Delete filings by registration or filing IDs |
 | [`/filings/{id}`](/engine/indirect-tax/filings/filings-GET-ONE) | GET | Get a single filing |
 | [`/filings/{id}/contributions`](/engine/indirect-tax/filings/filings-contributions-GET) | GET | List filing contributions |
+| [`/filings/contributions`](/engine/indirect-tax/filings/filings-contributions-batch-POST) | POST | Get filing contributions for up to 100 filings |
+| [`/filings/liability-report`](/engine/indirect-tax/filings/filings-liability-report-POST) | POST | Get per-filing liability snapshots |
+| [`/filings/liability-report/export`](/engine/indirect-tax/filings/filings-liability-report-export-POST) | POST | Queue an async zipped-CSV export of liability reports |
