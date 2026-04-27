@@ -32,6 +32,7 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | `incorporation.id` | Create/list/get incorporation | Participants, files, documents, intake, direct read route | Use this as `{incorporationId}`. |
 | `corporationId` | Incorporation response | Commenda OS business-entity endpoints after available | May be `null` while intake is still being collected. |
 | Person `id` | `POST /partner/commenda-os/companies/{companyId}/persons` | Participant `resource.resourceId` | Encode as a string, for example `"12"`. |
+| Business entity `id` | `POST /partner/commenda-os/companies/{companyId}/business-entities` | Corporate participant `resource.resourceId` | Encode as a string, for example `"44"`. |
 | `participantId` | Register participant | Link participant documents | Incorporation-scoped participant id. |
 | `upload.signedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | Direct S3 `PUT` only | Temporary upload URL. Do not store it as the document URL. |
 | `upload.hostedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/companies/{companyId}/documents` | Stable S3 URL for the uploaded object. |
@@ -134,6 +135,15 @@ Save the returned person `id`. When you register the participant, send it as a s
 
 ### 5. Register participants and roles
 
+For Singapore private limited companies, use this role/type matrix:
+
+| Participant case | `participantType` | `resource.resourceType` | Supported role payload |
+| --- | --- | --- | --- |
+| Individual director | `individual` | `keyPerson` | `{ "role": "director" }` |
+| Individual shareholder | `individual` | `keyPerson` | `{ "role": "shareholder", "ownershipPercentage": number }` |
+| Corporate shareholder | `corporate` | `businessEntity` | `{ "role": "shareholder", "ownershipPercentage": number }` |
+| Corporate director | `corporate` | `businessEntity` | Not supported. |
+
 ```bash
 curl --request POST \
   --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/participants' \
@@ -156,6 +166,43 @@ curl --request POST \
 ```
 
 For Singapore private limited companies, registered shareholder participant `ownershipPercentage` values must total 100.
+
+If the shareholder is a company, create or reuse a Commenda OS business entity first:
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/77/business-entities' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "incorporationCountry": "SG",
+    "legalName": "Acme Holdings Pte. Ltd.",
+    "jurisdiction": "JUR_SG__GENERAL",
+    "corporationType": "PteLtd"
+  }'
+```
+
+Then register it as a corporate shareholder:
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/participants' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "participantType": "corporate",
+    "resource": {
+      "resourceType": "businessEntity",
+      "resourceId": "44"
+    },
+    "roles": [
+      {
+        "role": "shareholder",
+        "ownershipPercentage": 60
+      }
+    ]
+  }'
+```
 
 ### 6. Register and link documents
 

@@ -3027,6 +3027,61 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
 "/partner/commenda-os/companies/{companyId}/business-entities":
+  post:
+    summary: Create a business entity
+    description: Create a reusable Commenda OS business entity under a partner-accessible company. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
+    operationId: createPartnerCommendaOsBusinessEntity
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: companyId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda company identifier accessible to the authenticated partner.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsBusinessEntityCreateRequest"
+          examples:
+            singaporeCorporateShareholder:
+              value:
+                incorporationCountry: SG
+                legalName: Acme Holdings Pte. Ltd.
+                jurisdiction: JUR_SG__GENERAL
+                corporationType: PteLtd
+                formationDate: "2020-03-15"
+                isIncorporationInProgress: false
+    responses:
+      "201":
+        description: Business entity created successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsBusinessEntityResponse"
+      "400":
+        description: Malformed business entity create payload or unsupported country/jurisdiction/corporation type combination
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "403":
+        description: Company does not belong to this partner firm
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
   get:
     summary: List business entities for a company
     description: List the business entities attached to a partner-accessible company.
@@ -3062,6 +3117,70 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
 "/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}":
+  patch:
+    summary: Update a business entity
+    description: Partially update a reusable Commenda OS business entity. Omitted fields are left unchanged. Use this endpoint to complete corporate shareholder details before registering or validating incorporation participants.
+    operationId: updatePartnerCommendaOsBusinessEntity
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: companyId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda company identifier accessible to the authenticated partner.
+      - name: businessEntityId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda business-entity identifier for the specified company.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsBusinessEntityUpdateRequest"
+          examples:
+            updateBusinessEntity:
+              value:
+                legalName: Acme Holdings Pte. Ltd.
+                businessDescription: Investment holding company.
+                publicFacingWebsiteUrl: https://acme.example
+    responses:
+      "200":
+        description: Business entity updated successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsBusinessEntityResponse"
+      "400":
+        description: Malformed business entity update payload
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "403":
+        description: Company does not belong to this partner firm
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "404":
+        description: Business entity not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
   get:
     summary: Get a business entity for a company
     description: Retrieve a single business entity attached to a partner-accessible company.

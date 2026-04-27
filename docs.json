@@ -224,8 +224,10 @@
               {
                 "group": "Business Entities",
                 "pages": [
+                  "engine/commendaos/partner-api/commenda-os-business-entities-POST",
                   "engine/commendaos/partner-api/commenda-os-business-entities-GET",
-                  "engine/commendaos/partner-api/commenda-os-business-entities-id-GET"
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-PATCH"
                 ]
               },
               {

@@ -1,0 +1,8 @@
+---
+title: "Create a business entity"
+openapi: "POST /partner/commenda-os/companies/{companyId}/business-entities"
+---
+
+Create a reusable Commenda OS business entity under a partner-accessible company.
+
+For incorporation flows, use the returned `businessEntity.id` as a string in `resource.resourceId` when registering a corporate participant with `resource.resourceType: "businessEntity"`.

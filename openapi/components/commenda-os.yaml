@@ -428,6 +428,122 @@ schemas:
         type: string
         format: date-time
         example: 2026-03-01T00:00:00.000Z
+  CommendaOsBusinessEntityCreateRequest:
+    type: object
+    description: Create a reusable Commenda OS business entity under a partner-accessible company. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
+    required:
+      - incorporationCountry
+      - legalName
+      - jurisdiction
+      - corporationType
+    properties:
+      incorporationCountry:
+        type: string
+        description: ISO country code for the entity's incorporation country.
+        example: SG
+      legalName:
+        type: string
+        minLength: 1
+        maxLength: 1024
+        example: Acme Holdings Pte. Ltd.
+      jurisdiction:
+        type: string
+        description: Commenda jurisdiction enum for the entity. Singapore private limited companies use `JUR_SG__GENERAL`.
+        example: JUR_SG__GENERAL
+      corporationType:
+        type: string
+        description: Commenda corporation type enum for the entity.
+        example: PteLtd
+      formationDate:
+        type: string
+        format: date
+        description: Entity formation date when already known.
+        example: "2020-03-15"
+      isIncorporationInProgress:
+        type: boolean
+        description: Whether this entity is still being incorporated in Commenda.
+        example: false
+    example:
+      incorporationCountry: SG
+      legalName: Acme Holdings Pte. Ltd.
+      jurisdiction: JUR_SG__GENERAL
+      corporationType: PteLtd
+      formationDate: "2020-03-15"
+      isIncorporationInProgress: false
+  CommendaOsBusinessEntityUpdateRequest:
+    type: object
+    description: Partially update a reusable Commenda OS business entity. Omitted fields are left unchanged.
+    properties:
+      legalName:
+        type: string
+        minLength: 1
+        maxLength: 1024
+        example: Acme Holdings Pte. Ltd.
+      dbaName:
+        type: string
+        minLength: 1
+        maxLength: 1024
+        example: Acme
+      businessCode:
+        type: string
+        maxLength: 128
+        example: "64202"
+      businessDescription:
+        type: string
+        maxLength: 4096
+        example: Investment holding company.
+      dateOfClosure:
+        type: string
+        format: date-time
+        description: ISO 8601 closure date.
+        example: "2026-03-01T00:00:00.000Z"
+      accountingBasis:
+        type: string
+        example: CASH
+      taxedAs:
+        type: string
+        example: CORPORATION
+      bookkeepingFrequency:
+        type: string
+        nullable: true
+        example: MONTHLY
+      nonUSBusinessEntityEIN:
+        type: string
+        description: Temporary non-US EIN handling field.
+        example: 12-3456789
+      requestedEIN:
+        type: boolean
+        description: Temporary non-US EIN handling field.
+        example: false
+      publicFacingWebsiteUrl:
+        type: string
+        format: uri
+        example: https://acme.example
+      fiscalYearDay:
+        type: integer
+        minimum: 1
+        maximum: 31
+        example: 31
+      fiscalYearMonth:
+        type: integer
+        minimum: 1
+        maximum: 12
+        example: 12
+      naicsCode:
+        type: string
+        description: NAICS business code.
+        example: "551112"
+      isIncorporationInProgress:
+        type: boolean
+        example: false
+      countrySpecificFields:
+        type: object
+        description: Country-specific update payloads supported by the underlying Commenda OS business entity API.
+        additionalProperties: true
+    example:
+      legalName: Acme Holdings Pte. Ltd.
+      businessDescription: Investment holding company.
+      publicFacingWebsiteUrl: https://acme.example
   CommendaOsPersonLocation:
     type: object
     required:
