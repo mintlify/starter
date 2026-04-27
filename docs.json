@@ -546,7 +546,8 @@
                   "engine/workflow-builder/reference/runtime-types",
                   "engine/workflow-builder/reference/data-models",
                   "engine/workflow-builder/reference/validation-rules",
-                  "engine/workflow-builder/reference/service-request-integration"
+                  "engine/workflow-builder/reference/service-request-integration",
+                  "engine/workflow-builder/reference/mcp-tools"
                 ]
               }
             ]

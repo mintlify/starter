@@ -1,0 +1,199 @@
+---
+title: 'MCP tools'
+description: 'Manage workflow templates and versions from an AI assistant using the Commenda MCP server.'
+---
+
+The Commenda [MCP server](/engine/mcp-server/overview) exposes Workflow Builder operations as tools, so AI assistants like Claude Desktop and Cursor can create, version, publish, and manage workflow templates through natural language.
+
+## When to use these tools
+
+Reach for the MCP workflow tools when you want to:
+
+- Scaffold a new workflow template and its first version directly from a chat-based AI assistant.
+- List, inspect, or compare existing workflow templates and versions across companies.
+- Update template metadata or replace a version's full definition without leaving your editor.
+- Publish a `DRAFT` version once it has passed validation.
+- Clean up unused templates or versions during development.
+
+For the underlying concepts (templates, versions, definitions, steps, transitions), see the [Workflow Builder overview](/engine/workflow-builder/overview).
+
+## Prerequisites
+
+Before calling any of these tools, make sure:
+
+- The MCP server is installed and connected to your AI client. Follow the [MCP server setup guide](/engine/mcp-server/setup).
+- The service account behind your `MCP_SERVER_API_KEY` has permission to manage workflow templates.
+- You know which `companyId` (or `workflowTemplateId` / version `id`) the operation targets.
+
+## Template tools
+
+These tools operate on workflow templates — the top-level named container that holds one or more versioned definitions.
+
+| Tool | Description |
+| --- | --- |
+| `create_workflow_template` | Create a new workflow template. After creating it, call `create_workflow_template_version` to add the first version. |
+| `get_workflow_template` | Get a workflow template by ID, including its metadata and active version info. |
+| `list_workflow_templates` | List workflow templates, optionally filtered by `name` (text search) or `companyId`. |
+| `update_workflow_template` | Update a template's `name`, `description`, or `externalName` (the user-facing title shown in service requests). |
+| `delete_workflow_template` | **Destructive.** Permanently delete a template and all its versions. |
+
+### `create_workflow_template`
+
+Creates a new workflow template. The template starts empty — you must create a version next before you can design or publish a workflow.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | string | Yes | Internal name of the workflow template. |
+| `externalName` | string | Yes | User-facing title shown in service requests. |
+| `description` | string | No | Description of the workflow template. |
+| `key` | string | No | Human-readable key. Auto-generated from `name` if not provided. |
+
+**Example prompt**
+
+```
+Create a workflow template called "Customer onboarding" with the
+external name "Onboard a new customer" for company 1.
+```
+
+### `list_workflow_templates`
+
+Returns workflow templates, optionally filtered by name or company.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | string | No | Filter by template name (text search). |
+| `companyId` | number | No | Filter to templates owned by a specific company. |
+
+### `update_workflow_template`
+
+Updates editable metadata on an existing template. The version definitions are not affected.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | The ID of the workflow template to update. |
+| `name` | string | No | New internal name. |
+| `description` | string | No | New description. |
+| `externalName` | string | No | New user-facing title. |
+
+### `delete_workflow_template`
+
+<Warning>
+  This permanently deletes the template **and all of its versions**. Version history and definitions cannot be recovered.
+</Warning>
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | The ID of the workflow template to delete. |
+
+## Version tools
+
+Version tools operate on a single version of a template. A template can have multiple versions in `DRAFT`, `PUBLISHED`, or `ARCHIVED` status, but only one version is published at a time.
+
+| Tool | Description |
+| --- | --- |
+| `create_workflow_template_version` | Create a new version. If no `definition` is provided, a default definition with wired-up `START` and `END` steps is generated. |
+| `get_workflow_template_version` | Get a version by ID, including the full definition (steps, transitions, step groups, triggers). |
+| `update_workflow_template_version` | Update a version's metadata or replace its full definition JSON. |
+| `list_workflow_template_versions` | List versions filtered by `workflowTemplateId`, `status`, or `version` string. |
+| `publish_workflow_template_version` | Publish a `DRAFT` version. Validates the definition first — fails if structural elements are missing. |
+| `delete_workflow_template_version` | Delete a version. A `PUBLISHED` version that is actively in use must be archived or unpublished first. |
+
+### `create_workflow_template_version`
+
+Creates a new version under an existing template. If you don't pass a `definition`, the server seeds the version with a minimal valid definition: a `START` step and an `END` step with no transitions yet.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `workflowTemplateId` | string | Yes | ID of the template this version belongs to. |
+| `version` | string | Yes | Version string, e.g. `"1.0.0"`. |
+| `versionNote` | string | No | Changelog or notes for this version. |
+| `definition` | object | No | Full workflow definition JSON. If omitted, a default `START` + `END` skeleton is generated. |
+
+<Tip>
+  Prefer letting the server scaffold the default definition, then build up the workflow incrementally with the visual editor or the lower-level step and transition APIs. Only pass a full `definition` when you have a complete, verified JSON.
+</Tip>
+
+**Example prompt**
+
+```
+Create version 1.0.0 of workflow template wt_abc123 with the note
+"Initial draft".
+```
+
+### `update_workflow_template_version`
+
+Updates version metadata or replaces the full definition JSON.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | The ID of the version to update. |
+| `version` | string | No | New version string. |
+| `versionNote` | string | No | Updated notes/changelog. |
+| `definition` | object | No | Replacement workflow definition JSON. |
+
+<Warning>
+  Passing `definition` replaces the entire workflow definition. For incremental edits, use the workflow editor or step/transition tools instead.
+</Warning>
+
+### `list_workflow_template_versions`
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `workflowTemplateId` | string | No | Filter by template ID. |
+| `status` | enum | No | `DRAFT`, `PUBLISHED`, or `ARCHIVED`. |
+| `version` | string | No | Filter by version string. |
+
+### `publish_workflow_template_version`
+
+Publishes a `DRAFT` version, making it available for execution. The server validates the definition before publishing — for example, it checks that there is a path from a `START` step to an `END` step. See [validation rules](/engine/workflow-builder/reference/validation-rules) for the full list.
+
+Only one version can be published per template at a time.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | The ID of the version to publish. |
+
+### `delete_workflow_template_version`
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | The ID of the version to delete. |
+
+You cannot delete a `PUBLISHED` version that is actively in use. Archive or unpublish it first.
+
+## End-to-end example
+
+A typical sequence for spinning up a new workflow from an AI assistant:
+
+```
+1. "Create a workflow template named 'Customer onboarding' with the
+    external name 'Onboard a new customer' for company 1."
+   → create_workflow_template
+
+2. "Create version 1.0.0 of that template with the note 'Initial draft'."
+   → create_workflow_template_version
+   (server returns a version seeded with START and END steps)
+
+3. "List all draft versions for template wt_abc123."
+   → list_workflow_template_versions
+
+4. "Publish version wtv_xyz789."
+   → publish_workflow_template_version
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="MCP server overview" icon="plug" href="/engine/mcp-server/overview">
+    Learn how Commenda exposes APIs as MCP tools.
+  </Card>
+  <Card title="MCP server setup" icon="screwdriver-wrench" href="/engine/mcp-server/setup">
+    Connect Claude Desktop, Cursor, or another MCP client.
+  </Card>
+  <Card title="Validation rules" icon="check" href="/engine/workflow-builder/reference/validation-rules">
+    Understand which checks run before a version can be published.
+  </Card>
+  <Card title="Creating workflows" icon="hammer" href="/engine/workflow-builder/guides/creating-workflows">
+    Design workflow logic in the visual editor.
+  </Card>
+</CardGroup>
