@@ -2198,7 +2198,7 @@
 "/partner/incorporation/requirements":
   get:
     summary: Get incorporation requirements
-    description: Retrieve the current requirements DSL for a selected incorporation jurisdiction and type. This endpoint is informational; intake updates are validated against the current server-side DSL.
+    description: Retrieve the current requirements schema for a selected incorporation jurisdiction and type. This endpoint is informational; intake updates are validated against the current server-side incorporation requirements.
     operationId: getPartnerIncorporationRequirements
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2883,7 +2883,7 @@
 "/partner/incorporation/{incorporationId}/documents":
   post:
     summary: Link a participant document
-    description: Link a registered incorporation file to a participant as a typed document required by the current requirements DSL. Calling this endpoint again with the same participantId and documentKind replaces the linked fileId.
+    description: Link a registered incorporation file to a participant as a typed document required by the current incorporation requirements. Calling this endpoint again with the same participantId and documentKind replaces the linked fileId.
     operationId: linkPartnerIncorporationParticipantDocument
     servers:
       - url: https://api.prod.commenda.io/api/v1

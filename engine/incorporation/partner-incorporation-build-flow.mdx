@@ -12,7 +12,7 @@ This guide shows the recommended implementation sequence for a partner-owned inc
 | --- | --- | --- |
 | Setup | What container owns the work? | Create a company and save `companyId`. |
 | Discovery | What can I incorporate and how will progress display? | Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the status workflow for the selected case type. |
-| Requirements | What data do I need? | Fetch the requirements DSL for the selected jurisdiction/type. |
+| Requirements | What data do I need? | Fetch the requirements schema for the selected jurisdiction/type. |
 | Incorporation | How do I start the case? | Create the incorporation and save `incorporation.id`. |
 | Resource prep | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
 | Participants | Who is involved? | Register reusable people/entities as directors and shareholders. |
@@ -91,7 +91,7 @@ curl --request GET \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-Render your UI from the returned requirements DSL, but treat the server response as informational. Commenda validates every intake update against the current server-side requirements.
+Render your UI from the returned requirements schema, but treat the server response as informational. Commenda validates every intake update against the current server-side requirements.
 
 ### 3. Create the incorporation
 
@@ -374,11 +374,11 @@ curl --request GET \
 
 Use this response for customer-facing progress. It includes the top-level `incorporationStatus`, ordered `stages`, and active `blockingIssueIds`.
 
-## Requirements DSL quick guide
+## Requirements guide
 
-| DSL area | What it means | How to use it |
+| Requirements area | What it means | How to use it |
 | --- | --- | --- |
-| `schemaVersion` / `dslVersion` | Descriptive server-side requirement version | Useful for logs and debugging. Clients do not send a requirements version back. |
+| `schemaVersion` / `dslVersion` | Server-side requirements version identifiers | Useful for logs and debugging. Clients do not send a requirements version back. |
 | `blocks` | UI-friendly groups of fields | Render fields by block if you want a guided UI. |
 | `fields` | Incorporation-level data, such as company names or registered address choice | Submit these keys under `requirements` in the intake endpoint. |
 | `required.when` / `appliesWhen` | Rules that make a field required or applicable only when another field has a value | Re-evaluate the UI when the controlling field changes. Non-applicable fields are ignored by validation. |
@@ -400,7 +400,7 @@ Fetch requirements after the user chooses a jurisdiction and corporation type. Y
 
 ## Completion semantics
 
-`intakeState.validation.isComplete` means the current data satisfies the requirements DSL and is eligible to submit. It does not by itself hand the incorporation to Commenda.
+`intakeState.validation.isComplete` means the current data satisfies the incorporation requirements and is eligible to submit. It does not by itself hand the incorporation to Commenda.
 
 ```text
 awaiting_customer_input
@@ -459,10 +459,10 @@ Webhook delivery is asynchronous and retried. Your endpoint should respond withi
 | `400` on create incorporation | Unsupported `countryOptions` or missing `countryOptions[corporationType]` | Fetch the jurisdiction catalog and use an advertised option value. |
 | `403` on company-scoped call | The company is not accessible to the partner API key | Check the `companyId` and API key. |
 | `404` when registering participant | The referenced person or business entity is not visible to the company | Create or fetch the resource through Commenda OS first. |
-| `400` when registering or updating participant | Shareholder role is missing `ownershipPercentage`, role/resource type is unsupported, or ownership would exceed 100 | Follow the selected requirements DSL and adjust existing shareholder roles before adding more ownership. |
+| `400` when registering or updating participant | Shareholder role is missing `ownershipPercentage`, role/resource type is unsupported, or ownership would exceed 100 | Follow the selected incorporation requirements and adjust existing shareholder roles before adding more ownership. |
 | Incomplete validation for shareholders | Ownership percentages do not total 100 | Update shareholder participant roles so totals equal 100. |
 | `400` when creating company document | `fileUrl` is not the `upload.hostedUrl` returned for this company | Request a document upload URL, upload bytes to `upload.signedUrl`, then create the document with `upload.hostedUrl`. |
 | `404` when linking document | The participant or file cannot be found | Register the participant and file first. |
 | `400` when linking document | File is not registered to the incorporation or document kind is not required | Call the file registration endpoint, then use a required `documentKind`. |
-| `400` for intake | Field value does not match the current DSL | Read `invalidRequirements` and update the field. |
+| `400` for intake | Field value does not match the current incorporation requirements | Read `invalidRequirements` and update the field. |
 | `400` on submit | The current state is incomplete | Read the returned validation details or call `GET /partner/incorporation/{incorporationId}`, then fix missing/invalid requirements before retrying submit. |

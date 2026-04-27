@@ -557,7 +557,7 @@ schemas:
           $ref: "./affiliate-incorporation.yaml#/schemas/PartnerJurisdictionCatalogCountry"
   PartnerIncorporationRequirements:
     type: object
-    description: Requirements DSL for the selected incorporation. Clients can use this to render their own intake UI, but intake updates are always validated against the current server-side DSL.
+    description: Requirements schema for the selected incorporation. Clients can use this to render their own intake UI, but intake updates are always validated against the current server-side incorporation requirements.
     additionalProperties: true
     example:
       schemaVersion: "2026-04-22"
@@ -605,7 +605,7 @@ schemas:
     properties:
       isComplete:
         type: boolean
-        description: True when the current intake state satisfies the current requirements DSL and is eligible to submit for review.
+        description: True when the current intake state satisfies the current incorporation requirements and is eligible to submit for review.
         example: false
       missingRequirements:
         type: array
@@ -636,7 +636,7 @@ schemas:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
   PartnerIncorporationRequirementValues:
     type: object
-    description: Partner-submitted requirement values keyed by DSL field keys.
+    description: Partner-submitted requirement values keyed by requirements field keys.
     additionalProperties: true
     example:
       companyNameOptions:

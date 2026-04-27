@@ -5,7 +5,7 @@ openapi: "POST /partner/incorporation/{incorporationId}/intake"
 
 Updates partial or complete non-participant requirement data for an incorporation.
 
-Each update is merged into the current intake state and validated against the current requirements DSL. Incomplete updates are accepted and return a structured validation summary.
+Each update is merged into the current intake state and validated against the current incorporation requirements. Incomplete updates are accepted and return a structured validation summary.
 
 The Partner API does not expose a submission history endpoint. To read progress after an update, call `GET /partner/incorporation/{incorporationId}` and inspect `intakeState`.
 
@@ -66,13 +66,13 @@ Use `providedAddress` when you are providing a reusable Commenda OS location:
 }
 ```
 
-The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer/company record as the incorporation. If the existing location is missing a field required by the current requirements DSL, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
+The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer/company record as the incorporation. If the existing location is missing a field required by the current incorporation requirements, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
 
 If you later switch `registeredAddressMode` back to `standardAddress`, any previously submitted `providedRegisteredAddress` value may remain in `currentState`, but it is no longer applicable and will not block validation.
 
 ## Validation notes
 
-Country-specific validation rules are determined by the current requirements DSL.
+Country-specific validation rules are determined by the current incorporation requirements.
 
 If a selected incorporation requires shareholder ownership totals, address details, or participant documents, the response returns `missingRequirements` and `invalidRequirements` until the current incorporation state satisfies those rules.
 
