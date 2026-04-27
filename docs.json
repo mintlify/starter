@@ -202,6 +202,7 @@
               {
                 "group": "Participants",
                 "pages": [
+                  "engine/incorporation/partner-incorporation-participant-object",
                   "engine/incorporation/partner-incorporation-participants-POST",
                   "engine/incorporation/partner-incorporation-participants-id-PATCH",
                   "engine/incorporation/partner-incorporation-participants-GET",
