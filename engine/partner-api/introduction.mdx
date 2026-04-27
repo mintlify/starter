@@ -1,0 +1,81 @@
+---
+title: "Partner API"
+sidebarTitle: "Introduction"
+description: "Use Commenda's Partner API to create companies, manage entity data, start incorporations, upload documents, track issues, and receive webhooks."
+---
+
+The Partner API gives partners a company-scoped way to build Commenda-powered incorporation and entity management flows inside their own product.
+
+Use it when you need to:
+
+- create a company workspace for a customer
+- create or update business entities, people, documents, and related records
+- start and submit incorporations
+- track incorporation requirements, status, and issues
+- receive webhooks when incorporation issues are created or resolved
+
+Base URL:
+
+```text
+https://api.prod.commenda.io/api/v1
+```
+
+Pass your partner API key in the `x-api-key` header on every request.
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/jurisdiction-catalog' \
+  --header 'x-api-key: <partner_api_key>'
+```
+
+## API areas
+
+<Columns cols={2}>
+  <Card title="Company setup" icon="building" href="/engine/incorporation/company-POST">
+    Create the company record that scopes later partner incorporation and Commenda OS calls.
+  </Card>
+  <Card title="Partner Incorporation API" icon="handshake" href="/engine/incorporation/partner-incorporation-introduction">
+    Discover jurisdiction requirements, create incorporations, submit intake, track status, and resolve issues.
+  </Card>
+  <Card title="Commenda OS Partner API" icon="database" href="/engine/commendaos/partner-api/commenda-os-introduction">
+    Manage reusable company data such as business entities, people, documents, government identifiers, and registrations.
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/engine/partner-webhooks/partner-webhooks">
+    Subscribe to partner events and receive signed webhook deliveries.
+  </Card>
+</Columns>
+
+## Recommended incorporation flow
+
+1. Create a company with `POST /public/company`.
+2. Fetch available incorporation options with `GET /partner/incorporation/jurisdiction-catalog`.
+3. Fetch requirements with `GET /partner/incorporation/requirements`.
+4. Start an incorporation with `POST /partner/incorporation/companies/{companyId}/incorporations`.
+5. Create reusable people, business entities, and company documents through Commenda OS Partner API.
+6. Register participants, files, and participant documents on the incorporation.
+7. Submit intake updates with `POST /partner/incorporation/{incorporationId}/intake`.
+8. Submit the incorporation for Commenda review.
+9. Track status and issues with the status, issue, and webhook APIs.
+
+<Info>
+For the full sequence, including ID handoffs and a Singapore happy path, start with [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
+</Info>
+
+## Response conventions
+
+- Company-scoped endpoints only return resources visible to the partner firm associated with the API key.
+- List endpoints return an object containing the resource list and `count`.
+- Detail endpoints return an object containing the requested resource.
+- Requests without a valid `x-api-key` return `401`.
+- Requests for a company or resource outside the partner firm's scope return `403` or `404`, depending on the endpoint boundary.
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Create a company" icon="plus" href="/engine/incorporation/company-POST">
+    Start by creating the company that scopes later partner API calls.
+  </Card>
+  <Card title="Build an incorporation flow" icon="list-checks" href="/engine/incorporation/partner-incorporation-build-flow">
+    Follow the recommended end-to-end sequence for partner-led incorporations.
+  </Card>
+</Columns>

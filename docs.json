@@ -157,6 +157,10 @@
         "icon": "handshake",
         "groups": [
           {
+            "group": "Overview",
+            "pages": ["engine/partner-api/introduction"]
+          },
+          {
             "group": "Company setup",
             "pages": ["engine/incorporation/company-POST"]
           },
