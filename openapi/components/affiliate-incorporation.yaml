@@ -396,7 +396,6 @@ schemas:
     required:
       - incorporationStatus
       - incorporationId
-      - serviceRequestId
       - companyId
       - country
       - countryOptions
@@ -409,9 +408,6 @@ schemas:
       incorporationStatus:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatus"
       incorporationId:
-        type: string
-        example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
-      serviceRequestId:
         type: string
         example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
       companyId:
@@ -1144,7 +1140,7 @@ schemas:
     type: object
     required:
       - id
-      - serviceRequestId
+      - incorporationId
       - companyId
       - country
       - countryOptions
@@ -1157,10 +1153,10 @@ schemas:
         type: string
         description: Incorporation identifier.
         example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
-      serviceRequestId:
+      incorporationId:
         type: string
-        description: Temporary bridge/debugging field. Use `id` as the primary incorporation identifier.
-        example: sr_123
+        description: Stable incorporation identifier. Same value as `id`.
+        example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
       companyId:
         type: integer
         description: Company that owns the incorporation.

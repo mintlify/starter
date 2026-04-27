@@ -9,7 +9,7 @@ Use this endpoint after the current incorporation state satisfies the requiremen
 
 This endpoint refreshes validation before accepting the submit request. If required intake fields, participants, ownership totals, or participant documents are still missing or invalid, the request returns `400` and the response includes validation details.
 
-Submit is idempotent for an already-submitted, still-complete incorporation. The workflow execution is created or reused with the same id as the incorporation's `serviceRequestId`. The response returns the current incorporation resource.
+Submit is idempotent for an already-submitted, still-complete incorporation. The workflow execution is created or reused with the same id as the incorporation's `incorporationId`. The response returns the current incorporation resource.
 
 ## Incomplete submit response
 

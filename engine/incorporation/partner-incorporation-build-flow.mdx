@@ -30,7 +30,6 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | --- | --- | --- | --- |
 | `companyId` | `POST /public/company` | Create incorporation; Commenda OS company-scoped endpoints | Numeric company container id. |
 | `incorporation.id` | Create/list/get incorporation | Participants, files, documents, intake, direct read route | Use this as `{incorporationId}`. |
-| `serviceRequestId` | Incorporation response | Support/debugging only | Temporary bridge field. Use `incorporation.id` in API calls. |
 | `corporationId` | Incorporation response | Commenda OS business-entity endpoints after available | May be `null` while intake is still being collected. |
 | Person `id` | `POST /partner/commenda-os/companies/{companyId}/persons` | Participant `resource.resourceId` | Encode as a string, for example `"12"`. |
 | `participantId` | Register participant | Link participant documents | Incorporation-scoped participant id. |
