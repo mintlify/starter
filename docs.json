@@ -221,7 +221,7 @@
                 "group": "Intake",
                 "pages": [
                   "engine/incorporation/partner-incorporation-intake-state-object",
-                  "engine/incorporation/partner-incorporation-intake-POST",
+                  "engine/incorporation/partner-incorporation-intake-PATCH",
                   "engine/incorporation/partner-incorporation-submit-POST"
                 ]
               },

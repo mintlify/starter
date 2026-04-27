@@ -2677,9 +2677,9 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
 "/partner/incorporation/{incorporationId}/intake":
-  post:
+  patch:
     summary: Update incorporation intake
-    description: Update partial or complete requirement data for an incorporation. Each write returns the updated intake state and validation summary.
+    description: Partially update incorporation intake details. Each write returns the updated intake state and validation summary.
     operationId: updatePartnerIncorporationIntake
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2699,8 +2699,8 @@
           schema:
             "$ref": "../components/components.yaml#/components/schemas/PartnerUpdateIntakeRequest"
     responses:
-      "201":
-        description: Intake update accepted and validated
+      "200":
+        description: Intake updated and validated
         content:
           application/json:
             schema:
