@@ -1,0 +1,65 @@
+---
+title: "Participant object"
+description: "Field reference for an incorporation-specific participant registration."
+---
+
+The participant object represents a reusable Commenda OS person or business entity registered to one incorporation. The participant stores incorporation-specific roles, ownership data, and linked participant documents. It does not duplicate or replace the underlying Commenda OS resource.
+
+## Attributes
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `participantId` | string | Incorporation-specific participant identifier. Use this value as `{participantId}` when updating or removing the participant. |
+| `participantType` | string | Whether the participant represents an `individual` or `corporate` participant. |
+| `resource` | object | Pointer to the reusable Commenda OS resource represented by this participant. |
+| `resource.resourceType` | string | Type of reusable resource. Supported values are `keyPerson` and `businessEntity`. |
+| `resource.resourceId` | string | Numeric Commenda OS identifier encoded as a string. For `keyPerson`, use a Commenda OS person id. For `businessEntity`, use a Commenda OS business entity id. |
+| `roles` | array | Incorporation roles assigned to this participant. |
+| `documents` | array | Participant document links attached to this participant. |
+
+## Participant types
+
+| Value | Meaning |
+| --- | --- |
+| `individual` | A natural person registered to the incorporation through a Commenda OS person resource. |
+| `corporate` | A legal entity registered to the incorporation through a Commenda OS business entity resource. |
+
+## Resource types
+
+| Value | Use with | Description |
+| --- | --- | --- |
+| `keyPerson` | `participantType: "individual"` | References a person created or read through the Commenda OS Partner API. |
+| `businessEntity` | `participantType: "corporate"` | References a business entity created or read through the Commenda OS Partner API. |
+
+## Roles
+
+Each role object includes a `role` value and, when required, role-specific fields.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `role` | string | Role the participant holds in this incorporation. Supported values are `director` and `shareholder`. |
+| `ownershipPercentage` | number | Required when the participant has a shareholder role and ownership is represented by percentage. Participant writes are rejected if shareholder ownership would exceed the selected requirements total. |
+
+One participant can hold multiple roles when the same reusable resource satisfies multiple incorporation requirements.
+
+## Documents
+
+The `documents` array contains participant document links created through [Link a participant document](/engine/incorporation/partner-incorporation-participant-documents-POST).
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `documentId` | string | Identifier for the participant document link. |
+| `participantId` | string | Participant this document belongs to. |
+| `documentKind` | string | Type of document linked to the participant. Supported values include `passport_scan` and `utility_bill`. |
+| `fileId` | integer | Registered Commenda file satisfying this document requirement. |
+| `status` | string | Current status of the participant document link. Current value is `submitted`. |
+
+## Endpoints
+
+| Action | Endpoint |
+| --- | --- |
+| Register | [Register an incorporation participant](/engine/incorporation/partner-incorporation-participants-POST) |
+| List | [List incorporation participants](/engine/incorporation/partner-incorporation-participants-GET) |
+| Update roles | [Update an incorporation participant](/engine/incorporation/partner-incorporation-participants-id-PATCH) |
+| Remove | [Remove an incorporation participant](/engine/incorporation/partner-incorporation-participants-id-DELETE) |
+| Link document | [Link a participant document](/engine/incorporation/partner-incorporation-participant-documents-POST) |
