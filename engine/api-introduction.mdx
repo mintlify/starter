@@ -104,8 +104,14 @@ The CommendaOS Partner API uses a partner API key passed in the `x-api-key` head
 ```bash
 curl --request GET \
   --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/business-entities' \
-  --header 'x-api-key: <your_api_key>'
+  --header 'x-api-key: <partner_api_key>'
 ```
+
+### Managing partner API keys
+
+Manage partner API keys in the Commenda dashboard under **Settings > API keys**. New keys are prefixed with `cmda_` and are shown only once when they are created. Copy the key immediately and store it securely, because Commenda stores only a SHA-256 hash of the key and cannot show the raw value again later.
+
+To rotate a key, create a new key in the dashboard, update your integration to use it, confirm requests succeed, and then delete the old key.
 
 ### Global Indirect Tax API
 
@@ -118,7 +124,7 @@ curl --request GET \
 ```
 
 <Info>
-Contact the Commenda team to get API keys for both testing and production environments.
+If **Settings > API keys** is not available in your dashboard, contact the Commenda team to enable API key management for your account.
 </Info>
 
 ## Base URLs
