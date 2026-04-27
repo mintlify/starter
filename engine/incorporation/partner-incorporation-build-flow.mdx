@@ -12,7 +12,7 @@ This guide shows the recommended implementation sequence for a customer incorpor
 3. Create the incorporation and save `incorporation.id`.
 4. Create or reuse required Commenda OS records, such as people, business entities, locations, and documents.
 5. Register participants and link required participant documents.
-6. Submit incorporation-level intake fields, then read validation until `intakeState.validation.isComplete` is `true`.
+6. Submit incorporation-level intake fields, then read validation until `incorporationValidation.isComplete` is `true`.
 7. Submit for review, then track status and active issues.
 
 ## Detailed implementation sequence
@@ -20,14 +20,14 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | Phase | Developer question | What to do |
 | --- | --- | --- |
 | Setup | What record owns the work? | Create a customer and save `customerId`. |
-| Discovery | What can I incorporate and how will progress display? | Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the status workflow for the selected case type. |
+| Discovery | What can I incorporate and how will progress display? | Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the status workflow for the selected incorporation type. |
 | Requirements | What data do I need? | Fetch the requirements schema for the selected jurisdiction/type. |
 | Incorporation | How do I start the incorporation? | Create the incorporation and save `incorporation.id`. |
 | Add customer records | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
 | Participants | Who is involved? | Register reusable people/entities as directors and shareholders. |
 | Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, create customer documents to obtain `fileId`, register each file to the incorporation, then link it as a typed participant document. |
 | Intake | What non-participant fields are needed? | Submit partial or complete intake updates. |
-| Submit for review | How do I hand it to Commenda? | Read validation, call the submit endpoint when `intakeState.validation.isComplete` is `true`, then track `GET /partner/incorporation/{incorporationId}/status`. |
+| Submit for review | How do I hand it to Commenda? | Read validation, call the submit endpoint when `incorporationValidation.isComplete` is `true`, then track `GET /partner/incorporation/{incorporationId}/status`. |
 | Issues | What if Commenda needs corrections? | Read active/resolved issues, update the underlying intake/participants/documents, and optionally receive issue webhooks. Active issues set top-level status to `blocked`. |
 
 ## IDs you'll save
@@ -44,7 +44,7 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | `upload.hostedUrl` | `POST /partner/commenda-os/customers/{customerId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/customers/{customerId}/documents` | Stable S3 URL for the uploaded object. |
 | `fileId` | `POST /partner/commenda-os/customers/{customerId}/documents` | Register file; link participant document | Customer-scoped file id. Upload bytes directly to S3 first, then create the customer document. |
 | `documentId` | Link participant document | Read/list participant state | Incorporation-scoped typed document link. |
-| `statusWorkflow.stages[].id` | Status workflow or case status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition. |
+| `statusWorkflow.stages[].id` | Status workflow or incorporation status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition. |
 | `issue.id` | List issues or issue webhook payload | Dedupe issue webhooks; correlate correction requests | One issue row represents one remediation episode. |
 | `webhookSubscription.id` | Create/list webhook subscriptions | Read or delete webhook subscription | Partner-level subscription, not scoped to one customer. |
 
@@ -143,7 +143,7 @@ Save the returned person `id`. When you register the participant, send it as a s
 
 For Singapore private limited companies, use this role/type matrix:
 
-| Participant case | `participantType` | `resource.resourceType` | Supported role payload |
+| Participant scenario | `participantType` | `resource.resourceType` | Supported role payload |
 | --- | --- | --- | --- |
 | Individual director | `individual` | `keyPerson` | `{ "role": "director" }` |
 | Individual shareholder | `individual` | `keyPerson` | `{ "role": "shareholder", "ownershipPercentage": number }` |
@@ -357,11 +357,11 @@ curl --request PATCH \
 
 ```bash
 curl --request GET \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91' \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/validation' \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-Check `intakeState.validation.isComplete`. When it is `true`, the incorporation is eligible to submit for Commenda review.
+Check `incorporationValidation.isComplete`. When it is `true`, the incorporation is eligible to submit for Commenda review.
 
 ### 9. Submit for review
 
@@ -409,7 +409,7 @@ Fetch requirements after the user chooses a jurisdiction and corporation type. R
 
 ## Completion semantics
 
-`intakeState.validation.isComplete` means the current data satisfies the incorporation requirements and is eligible to submit. It does not by itself hand the incorporation to Commenda.
+`incorporationValidation.isComplete` means the current data satisfies the incorporation requirements and is eligible to submit. It does not by itself hand the incorporation to Commenda.
 
 ```text
 awaiting_customer_input
@@ -419,7 +419,7 @@ awaiting_customer_input
   -> completed    when the incorporation is complete
 ```
 
-Before Commenda review work starts, if validation later becomes incomplete, reads return `awaiting_customer_input` again. Correction requests are represented by read-only issues and surface as `blocked` while active.
+Correction requests are represented by read-only issues and surface as `blocked` while active.
 
 ## Issues and correction requests
 

@@ -23,7 +23,7 @@ Send the full desired `roles` array. Omitted roles are removed.
 }
 ```
 
-The response shape matches participant registration and list responses.
+The response returns the updated participant and the refreshed `incorporationValidation` for the incorporation.
 
 ```json
 {
@@ -44,6 +44,16 @@ The response shape matches participant registration and list responses.
       }
     ],
     "documents": []
+  },
+  "incorporationValidation": {
+    "isComplete": false,
+    "missingRequirements": [],
+    "invalidRequirements": [
+      {
+        "path": "participants.shareholders",
+        "message": "Shareholders ownershipPercentage values must total 100"
+      }
+    ]
   }
 }
 ```

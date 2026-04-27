@@ -1,0 +1,38 @@
+---
+title: "Incorporation validation object"
+description: "Field reference for incorporation readiness and validation issues."
+---
+
+The `incorporationValidation` object represents validation for the full incorporation: incorporation-level intake fields, participants, ownership totals, participant resources, and participant documents.
+
+Use `incorporationValidation` to decide whether the incorporation is ready to submit. It is returned by incorporation read/write endpoints and can be refreshed directly with [Get incorporation validation](/engine/incorporation/partner-incorporation-validation-GET).
+
+## Attributes
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `isComplete` | boolean | `true` when the current incorporation state satisfies the current requirements and is eligible to submit for review. This does not submit the incorporation by itself. |
+| `missingRequirements` | array | Required fields, participants, ownership totals, participant resource fields, or participant documents that have not been provided yet. |
+| `invalidRequirements` | array | Submitted values that do not satisfy the current requirements. |
+
+When `incorporationValidation.isComplete` is `true`, call [Submit an incorporation](/engine/incorporation/partner-incorporation-submit-POST) to hand the incorporation to Commenda for review.
+
+## Validation issues
+
+Each item in `missingRequirements` and `invalidRequirements` has the same shape.
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `path` | string | Dot/bracket path for the missing or invalid requirement. Values depend on the current requirements and participant ids, such as `companyNames.companyNameOptions` or `participants.participant_123.documents.passport_scan`. |
+| `message` | string | Human-readable explanation of what is missing or invalid. |
+
+## Endpoints
+
+| Action | Endpoint |
+| --- | --- |
+| Read current validation | [Get incorporation validation](/engine/incorporation/partner-incorporation-validation-GET) |
+| Update intake and validate | [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-PATCH) |
+| Register participant and validate | [Register an incorporation participant](/engine/incorporation/partner-incorporation-participants-POST) |
+| Update participant and validate | [Update an incorporation participant](/engine/incorporation/partner-incorporation-participants-id-PATCH) |
+| Link document and validate | [Link a participant document](/engine/incorporation/partner-incorporation-participant-documents-POST) |
+| Retrieve incorporation with validation | [Get an incorporation](/engine/incorporation/partner-incorporation-incorporations-id-GET) |

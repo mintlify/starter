@@ -2676,10 +2676,51 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/incorporation/{incorporationId}/validation":
+  get:
+    summary: Get incorporation validation
+    description: Refresh and retrieve validation for the full incorporation, including intake fields, participants, ownership totals, and participant documents.
+    operationId: getPartnerIncorporationValidation
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: incorporationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Incorporation identifier returned by create or list endpoints.
+    responses:
+      "200":
+        description: Incorporation validation retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationValidationResponse"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "403":
+        description: Incorporation is not accessible to the partner
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Incorporation not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
 "/partner/incorporation/{incorporationId}/intake":
   patch:
     summary: Update incorporation intake
-    description: Partially update incorporation intake details. Each write returns the updated intake state and validation summary.
+    description: Partially update incorporation intake details. Each write returns the updated intake state and incorporation validation summary.
     operationId: updatePartnerIncorporationIntake
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2732,7 +2773,7 @@
 "/partner/incorporation/{incorporationId}/submit":
   post:
     summary: Submit an incorporation
-    description: Submit a currently complete incorporation for Commenda review. The server refreshes validation before accepting the submit request. `intakeState.validation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
+    description: Submit a currently complete incorporation for Commenda review. The server refreshes validation before accepting the submit request. `incorporationValidation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
     operationId: submitPartnerIncorporation
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2897,7 +2938,7 @@
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantResponse"
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantMutationResponse"
       "400":
         description: Malformed participant registration payload, invalid participant/resource/role combination, missing shareholder ownership percentage, or shareholder ownership exceeding the selected requirements total
         content:
@@ -2956,7 +2997,7 @@
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantResponse"
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantMutationResponse"
       "400":
         description: Malformed participant update payload, invalid role combination, missing shareholder ownership percentage, or shareholder ownership exceeding the selected requirements total
         content:
@@ -3003,8 +3044,12 @@
           type: string
         description: Incorporation-specific participant identifier returned by register, list, or read endpoints.
     responses:
-      "204":
+      "200":
         description: Participant removed successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantRemovalResponse"
       "401":
         description: Missing or invalid partner API key
         content:
@@ -3051,7 +3096,7 @@
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantDocumentResponse"
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantDocumentMutationResponse"
       "400":
         description: Malformed document link payload, incompatible file type, or file not registered to this incorporation
         content:

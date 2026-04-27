@@ -194,6 +194,7 @@
                 "group": "Incorporations",
                 "pages": [
                   "engine/incorporation/partner-incorporation-object",
+                  "engine/incorporation/partner-incorporation-validation-object",
                   "engine/incorporation/partner-incorporation-incorporations-POST",
                   "engine/incorporation/partner-incorporation-incorporations-GET",
                   "engine/incorporation/partner-incorporation-incorporations-id-GET"
@@ -222,6 +223,7 @@
                 "pages": [
                   "engine/incorporation/partner-incorporation-intake-state-object",
                   "engine/incorporation/partner-incorporation-intake-PATCH",
+                  "engine/incorporation/partner-incorporation-validation-GET",
                   "engine/incorporation/partner-incorporation-submit-POST"
                 ]
               },

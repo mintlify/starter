@@ -1,6 +1,6 @@
 ---
 title: "Partner Incorporation API"
-description: "Incorporate entities for your customers. Share information, track case status, and resolve issues."
+description: "Incorporate entities for your customers. Share information, track incorporation status, and resolve issues."
 ---
 
 ## Overview
@@ -50,7 +50,7 @@ For the full object map, see [Core concepts](/engine/incorporation/partner-incor
 3. Create the incorporation and save `incorporation.id`.
 4. Create or reuse Commenda OS records for people, business entities, locations, and files.
 5. Register participants and link required participant documents.
-6. Submit incorporation-level intake fields and check `intakeState.validation.isComplete`.
+6. Submit incorporation-level intake fields and check `incorporationValidation.isComplete`.
 7. Submit the incorporation for Commenda review, then track status and issues.
 
 For the endpoint-by-endpoint version, including a Singapore private limited company example, see [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
@@ -74,6 +74,6 @@ Participant and document requirements are satisfied by registering participants 
 
 ## Status and issues
 
-`intakeState.validation.isComplete` means the current data is eligible to submit. It does not submit the incorporation by itself.
+`incorporationValidation.isComplete` means the current data is eligible to submit. It does not submit the incorporation by itself.
 
 After submit, use `GET /partner/incorporation/{incorporationId}/status` for customer-facing progress. Commenda may create partner-visible issues when an incorporation needs correction or additional information. Issues are read-only over the Partner API; fix the underlying data through intake, participants, or documents, and Commenda resolves the issue after review.

@@ -13,6 +13,8 @@ If you are starting from a passport scan, utility bill, or other local file, fir
 
 Linking is replacement-based per participant and document kind. If you call this endpoint again with the same `participantId` and `documentKind`, Commenda updates that participant document to point at the new `fileId`.
 
+The response returns the linked participant document and the refreshed `incorporationValidation` for the incorporation.
+
 ```json
 {
   "participantId": "participant_123",

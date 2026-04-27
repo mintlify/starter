@@ -2594,10 +2594,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AffiliatePublicError'
+  /partner/incorporation/{incorporationId}/validation:
+    get:
+      summary: Get incorporation validation
+      description: Refresh and retrieve validation for the full incorporation, including intake fields, participants, ownership totals, and participant documents.
+      operationId: getPartnerIncorporationValidation
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: incorporationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Incorporation identifier returned by create or list endpoints.
+      responses:
+        '200':
+          description: Incorporation validation retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerIncorporationValidationResponse'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '403':
+          description: Incorporation is not accessible to the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
+        '404':
+          description: Incorporation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
   /partner/incorporation/{incorporationId}/intake:
     patch:
       summary: Update incorporation intake
-      description: Partially update incorporation intake details. Each write returns the updated intake state and validation summary.
+      description: Partially update incorporation intake details. Each write returns the updated intake state and incorporation validation summary.
       operationId: updatePartnerIncorporationIntake
       servers:
         - url: https://api.prod.commenda.io/api/v1
@@ -2650,7 +2691,7 @@ paths:
   /partner/incorporation/{incorporationId}/submit:
     post:
       summary: Submit an incorporation
-      description: Submit a currently complete incorporation for Commenda review. The server refreshes validation before accepting the submit request. `intakeState.validation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
+      description: Submit a currently complete incorporation for Commenda review. The server refreshes validation before accepting the submit request. `incorporationValidation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
       operationId: submitPartnerIncorporation
       servers:
         - url: https://api.prod.commenda.io/api/v1
@@ -2815,7 +2856,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartnerIncorporationParticipantResponse'
+                $ref: '#/components/schemas/PartnerIncorporationParticipantMutationResponse'
         '400':
           description: Malformed participant registration payload, invalid participant/resource/role combination, missing shareholder ownership percentage, or shareholder ownership exceeding the selected requirements total
           content:
@@ -2874,7 +2915,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartnerIncorporationParticipantResponse'
+                $ref: '#/components/schemas/PartnerIncorporationParticipantMutationResponse'
         '400':
           description: Malformed participant update payload, invalid role combination, missing shareholder ownership percentage, or shareholder ownership exceeding the selected requirements total
           content:
@@ -2921,8 +2962,12 @@ paths:
             type: string
           description: Incorporation-specific participant identifier returned by register, list, or read endpoints.
       responses:
-        '204':
+        '200':
           description: Participant removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerIncorporationParticipantRemovalResponse'
         '401':
           description: Missing or invalid partner API key
           content:
@@ -2969,7 +3014,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartnerIncorporationParticipantDocumentResponse'
+                $ref: '#/components/schemas/PartnerIncorporationParticipantDocumentMutationResponse'
         '400':
           description: Malformed document link payload, incompatible file type, or file not registered to this incorporation
           content:
@@ -7531,7 +7576,6 @@ components:
         - id
         - incorporationId
         - currentState
-        - validation
         - createdAt
         - updatedAt
       properties:
@@ -7543,8 +7587,6 @@ components:
           example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
         currentState:
           $ref: '#/components/schemas/PartnerIncorporationRequirementValues'
-        validation:
-          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
         createdAt:
           type: string
           format: date-time
@@ -7681,9 +7723,12 @@ components:
       type: object
       required:
         - incorporation
+        - incorporationValidation
       properties:
         incorporation:
           $ref: '#/components/schemas/PartnerIncorporation'
+        incorporationValidation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
         requirements:
           $ref: '#/components/schemas/PartnerIncorporationRequirements'
         intakeState:
@@ -7792,6 +7837,13 @@ components:
           type: string
           format: date-time
           example: '2026-04-26T19:15:00.000Z'
+    PartnerIncorporationValidationResponse:
+      type: object
+      required:
+        - incorporationValidation
+      properties:
+        incorporationValidation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
     PartnerUpdateIntakeRequest:
       type: object
       required:
@@ -7803,10 +7855,13 @@ components:
       type: object
       required:
         - intakeState
+        - incorporationValidation
         - requirements
       properties:
         intakeState:
           $ref: '#/components/schemas/PartnerIncorporationIntakeState'
+        incorporationValidation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
         requirements:
           $ref: '#/components/schemas/PartnerIncorporationRequirements'
     PartnerIncorporationSubmitError:
@@ -7815,7 +7870,7 @@ components:
         - statusCode
         - message
         - error
-        - validation
+        - incorporationValidation
       properties:
         statusCode:
           type: integer
@@ -7826,7 +7881,7 @@ components:
         error:
           type: string
           example: Bad Request
-        validation:
+        incorporationValidation:
           $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
     PartnerRegisterFileRequest:
       type: object
@@ -7899,13 +7954,28 @@ components:
           - role: director
           - role: shareholder
             ownershipPercentage: 100
-    PartnerIncorporationParticipantResponse:
+    PartnerIncorporationParticipantMutationResponse:
       type: object
       required:
         - participant
+        - incorporationValidation
       properties:
         participant:
           $ref: '#/components/schemas/PartnerIncorporationParticipant'
+        incorporationValidation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
+    PartnerIncorporationParticipantRemovalResponse:
+      type: object
+      required:
+        - participantId
+        - incorporationValidation
+      properties:
+        participantId:
+          type: string
+          description: Incorporation-specific participant identifier that was removed.
+          example: participant_123
+        incorporationValidation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
     PartnerPatchParticipantRequest:
       type: object
       description: Replaces the roles on an existing incorporation participant. Omitted roles are removed.
@@ -7943,13 +8013,16 @@ components:
         participantId: participant_123
         documentKind: passport_scan
         fileId: 456
-    PartnerIncorporationParticipantDocumentResponse:
+    PartnerIncorporationParticipantDocumentMutationResponse:
       type: object
       required:
         - document
+        - incorporationValidation
       properties:
         document:
           $ref: '#/components/schemas/PartnerIncorporationParticipantDocument'
+        incorporationValidation:
+          $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
     AffiliatePaymentIntentStatus:
       type: string
       enum:
@@ -9745,6 +9818,20 @@ components:
       properties:
         webhookSubscription:
           $ref: '#/components/schemas/PartnerWebhookSubscription'
+    PartnerIncorporationParticipantResponse:
+      type: object
+      required:
+        - participant
+      properties:
+        participant:
+          $ref: '#/components/schemas/PartnerIncorporationParticipant'
+    PartnerIncorporationParticipantDocumentResponse:
+      type: object
+      required:
+        - document
+      properties:
+        document:
+          $ref: '#/components/schemas/PartnerIncorporationParticipantDocument'
     PartnerIncorporationIssueWebhookPayload:
       type: object
       required:

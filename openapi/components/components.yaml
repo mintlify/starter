@@ -351,10 +351,18 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipant"
     PartnerIncorporationParticipantResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantResponse"
+    PartnerIncorporationParticipantMutationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantMutationResponse"
+    PartnerIncorporationParticipantRemovalResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRemovalResponse"
     PartnerIncorporationParticipantsResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantsResponse"
     PartnerIncorporationParticipantDocumentResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentResponse"
+    PartnerIncorporationParticipantDocumentMutationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentMutationResponse"
+    PartnerIncorporationValidationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationResponse"
     PartnerIncorporationIssueCode:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueCode"
     PartnerIncorporationIssueStatus:
