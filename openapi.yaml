@@ -2575,7 +2575,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartnerIncorporationCaseStatusResponse'
+                $ref: '#/components/schemas/PartnerIncorporationStatusResponse'
         '401':
           description: Missing or invalid partner API key
           content:
@@ -7762,7 +7762,7 @@ components:
         - in_progress
         - blocked
         - completed
-    PartnerIncorporationCaseStage:
+    PartnerIncorporationStatusStage:
       allOf:
         - $ref: '#/components/schemas/PartnerIncorporationStatusWorkflowStage'
         - type: object
@@ -7791,7 +7791,7 @@ components:
                 type: string
               example:
                 - issue_123
-    PartnerIncorporationCaseStatusResponse:
+    PartnerIncorporationStatusResponse:
       type: object
       required:
         - incorporationStatus
@@ -7832,7 +7832,7 @@ components:
         stages:
           type: array
           items:
-            $ref: '#/components/schemas/PartnerIncorporationCaseStage'
+            $ref: '#/components/schemas/PartnerIncorporationStatusStage'
         updatedAt:
           type: string
           format: date-time

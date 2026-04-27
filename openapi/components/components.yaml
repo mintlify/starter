@@ -289,10 +289,10 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowResponse"
     PartnerIncorporationStatusWorkflowSummary:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowSummary"
-    PartnerIncorporationCaseStage:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
-    PartnerIncorporationCaseStatusResponse:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStatusResponse"
+    PartnerIncorporationStatusStage:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStage"
+    PartnerIncorporationStatusResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusResponse"
     PartnerIncorporationCountryOptions:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
     PartnerCreateCustomerScopedIncorporationRequest:

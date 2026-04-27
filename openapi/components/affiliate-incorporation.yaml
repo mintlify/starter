@@ -467,7 +467,7 @@ schemas:
       key:
         type: string
         example: singapore-incorporation-partner-api
-  PartnerIncorporationCaseStage:
+  PartnerIncorporationStatusStage:
     allOf:
       - $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowStage"
       - type: object
@@ -496,7 +496,7 @@ schemas:
               type: string
             example:
               - issue_123
-  PartnerIncorporationCaseStatusResponse:
+  PartnerIncorporationStatusResponse:
     type: object
     required:
       - incorporationStatus
@@ -537,7 +537,7 @@ schemas:
       stages:
         type: array
         items:
-          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
+          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStage"
       updatedAt:
         type: string
         format: date-time

@@ -2657,7 +2657,7 @@
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationCaseStatusResponse"
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationStatusResponse"
       "401":
         description: Missing or invalid partner API key
         content:
