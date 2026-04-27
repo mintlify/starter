@@ -162,7 +162,10 @@
           },
           {
             "group": "Company setup",
-            "pages": ["engine/incorporation/company-POST"]
+            "pages": [
+              "engine/incorporation/company-POST",
+              "engine/incorporation/companies-GET"
+            ]
           },
           {
             "group": "Partner Incorporation API",
@@ -531,7 +534,10 @@
           },
           {
             "group": "Companies",
-            "pages": ["engine/incorporation/company-POST"]
+            "pages": [
+              "engine/incorporation/company-POST",
+              "engine/incorporation/companies-GET"
+            ]
           },
           {
             "group": "Services",

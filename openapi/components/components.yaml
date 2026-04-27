@@ -235,6 +235,10 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateCreateCompanyRequest"
     AffiliateCreateCompanyResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateCreateCompanyResponse"
+    AffiliateCompany:
+      $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateCompany"
+    AffiliateListCompaniesResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateListCompaniesResponse"
     AffiliateServiceCatalog:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateServiceCatalog"
     AffiliateCreateServiceRequest:

@@ -2077,6 +2077,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/Error"
+"/public/companies":
+  get:
+    summary: List companies
+    description: List companies visible to the authenticated partner or affiliate API key. Use this to recover company ids for follow-on incorporation, service, and company-scoped Commenda OS calls.
+    operationId: listAffiliateCompanies
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    responses:
+      "200":
+        description: Companies retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliateListCompaniesResponse"
+      "401":
+        description: Missing or invalid partner or affiliate API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
 "/public/company":
   post:
     summary: Create a company

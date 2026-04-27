@@ -2016,6 +2016,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /public/companies:
+    get:
+      summary: List companies
+      description: List companies visible to the authenticated partner or affiliate API key. Use this to recover company ids for follow-on incorporation, service, and company-scoped Commenda OS calls.
+      operationId: listAffiliateCompanies
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      responses:
+        '200':
+          description: Companies retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliateListCompaniesResponse'
+        '401':
+          description: Missing or invalid partner or affiliate API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AffiliatePublicError'
   /public/company:
     post:
       summary: Create a company
@@ -6617,6 +6639,67 @@ components:
         corporation_id:
           type: string
           description: The unique identifier for a corporation associated with this file.
+    AffiliateCompany:
+      type: object
+      required:
+        - companyId
+        - name
+        - createdAt
+        - updatedAt
+      properties:
+        companyId:
+          type: integer
+          description: Internal Commenda company identifier.
+          example: 77
+        name:
+          type: string
+          nullable: true
+          description: Display name for the company.
+          example: Acme Holdings
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp when the company container was created.
+          example: '2026-04-20T19:35:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the company container was last updated.
+          example: '2026-04-20T19:40:00.000Z'
+    AffiliateListCompaniesResponse:
+      type: object
+      required:
+        - companies
+        - count
+      properties:
+        companies:
+          type: array
+          items:
+            $ref: '#/components/schemas/AffiliateCompany'
+        count:
+          type: integer
+          example: 1
+    AffiliatePublicError:
+      type: object
+      required:
+        - statusCode
+        - message
+        - error
+      properties:
+        statusCode:
+          type: integer
+          example: 403
+        message:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          example: Company does not belong to this affiliate firm
+        error:
+          type: string
+          example: Forbidden
     AffiliateCreateCompanyRequest:
       type: object
       required:
@@ -6640,26 +6723,6 @@ components:
           type: integer
           description: Internal Commenda company identifier.
           example: 77
-    AffiliatePublicError:
-      type: object
-      required:
-        - statusCode
-        - message
-        - error
-      properties:
-        statusCode:
-          type: integer
-          example: 403
-        message:
-          oneOf:
-            - type: string
-            - type: array
-              items:
-                type: string
-          example: Company does not belong to this affiliate firm
-        error:
-          type: string
-          example: Forbidden
     AffiliateServiceCatalog:
       type: string
       description: Incorporation service types currently supported by the legacy affiliate API.
