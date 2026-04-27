@@ -1,0 +1,63 @@
+---
+title: "Intake state object"
+description: "Field reference for the current incorporation intake values and validation state."
+---
+
+The intake state object represents the latest merged incorporation-level intake data for one incorporation, plus the validation summary for the current requirements. Use it to decide what still needs to be collected before submitting the incorporation for Commenda review.
+
+The intake state is not a submission history. Each intake update merges new values into `currentState`, and Commenda revalidates the resulting incorporation state against the current requirements.
+
+## Attributes
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `id` | string | Unique identifier for this intake state record. |
+| `incorporationId` | string | Incorporation this intake state belongs to. Same value used as `{incorporationId}` in intake, participant, document, status, issue, and submit endpoints. |
+| `currentState` | object | Latest partner-submitted incorporation-level requirement values. Keys vary by the current requirements for the selected country and incorporation options. |
+| `validation` | object | Current validation result for intake fields, participants, ownership totals, and participant documents. |
+| `createdAt` | string | ISO timestamp for when the intake state record was created. |
+| `updatedAt` | string | ISO timestamp for when the intake state record was last updated. |
+
+## Current state values
+
+`currentState` contains the merged requirement values submitted through [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-POST). The top-level `currentState` property is always returned, but the values inside it are requirements-driven.
+
+When writing intake data, send requirement values under the `requirements` request property. When reading intake state, Commenda returns those same requirement keys under `currentState`.
+
+For example, an incorporation type that requires company name options and a registered office address may use these paths:
+
+| Example read path | Matching write path | Description |
+| --- | --- | --- |
+| `currentState.companyNameOptions` | `requirements.companyNameOptions` | Preferred legal names for the company being incorporated. |
+| `currentState.registeredOfficeAddressSource` | `requirements.registeredOfficeAddressSource` | How the registered office address should be satisfied. |
+| `currentState.registeredOfficeAddressLocation` | `requirements.registeredOfficeAddressLocation` | Commenda OS location reference used when the registered office address source is `partnerProvidedLocation`. |
+
+Fetch [Get incorporation requirements](/engine/incorporation/partner-incorporation-requirements-GET) to see the fields for the selected incorporation type. Because updates are merge-based, `currentState` can contain previously submitted values that are no longer applicable after later choices. Treat `validation` as the source of truth for whether the current incorporation can be submitted.
+
+## Validation
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `validation.isComplete` | boolean | `true` when the current incorporation state satisfies the current requirements and is eligible to submit for review. This does not submit the incorporation by itself. |
+| `validation.missingRequirements` | array | Required fields, participants, ownership totals, or participant documents that have not been provided yet. |
+| `validation.invalidRequirements` | array | Submitted values that do not satisfy the current requirements. |
+
+When `validation.isComplete` is `true`, call [Submit an incorporation](/engine/incorporation/partner-incorporation-submit-POST) to hand the incorporation to Commenda for review.
+
+## Validation issues
+
+Each item in `missingRequirements` and `invalidRequirements` has the same shape.
+
+| Attribute | Type | Description |
+| --- | --- | --- |
+| `path` | string | Dot/bracket path for the missing or invalid requirement. Values depend on the current requirements and participant ids, such as `companyNames.companyNameOptions` or `participants.participant_123.documents.passport_scan`. |
+| `message` | string | Human-readable explanation of what is missing or invalid. |
+
+## Endpoints
+
+| Action | Endpoint |
+| --- | --- |
+| Create with initial intake | [Create an incorporation](/engine/incorporation/partner-incorporation-incorporations-POST) |
+| Update intake | [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-POST) |
+| Retrieve current state | [Get an incorporation](/engine/incorporation/partner-incorporation-incorporations-id-GET) |
+| Submit when complete | [Submit an incorporation](/engine/incorporation/partner-incorporation-submit-POST) |
