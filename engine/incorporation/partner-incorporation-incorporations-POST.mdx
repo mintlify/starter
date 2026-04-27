@@ -3,7 +3,7 @@ title: "Create an incorporation"
 openapi: "POST /partner/incorporation/customers/{customerId}/incorporations"
 ---
 
-Starts an incorporation for a company accessible to your partner account.
+Starts an incorporation for one of your customers.
 
 The response returns the incorporation resource directly, plus the current requirements and `intakeState` when available.
 
@@ -15,7 +15,7 @@ Create requests use a `country` plus country-specific `countryOptions` instead o
 
 - `country` is the ISO 3166-1 alpha-2 code for the jurisdiction.
 - `countryOptions` is an object whose shape depends on `country`.
-- `customerId` is the path parameter for the Commenda company that owns the incorporation.
+- `customerId` is the path parameter for the customer that owns the incorporation.
 - `intake.requirements` is optional and can contain initial partial intake data.
 - Unknown or unsupported options are rejected by this endpoint.
 
