@@ -3,13 +3,13 @@ title: "Submit an incorporation"
 openapi: "POST /partner/incorporation/{incorporationId}/submit"
 ---
 
-Submits a complete incorporation for Commenda review and starts the dedicated partner incorporation workflow.
+Submits a complete incorporation and begins Commenda review.
 
 Use this endpoint after the current incorporation state satisfies the incorporation requirements. `intakeState.validation.isComplete` means the incorporation is eligible to submit; it does not move to `submitted` or `in_progress` until you call this endpoint.
 
 This endpoint refreshes validation before accepting the submit request. If required intake fields, participants, ownership totals, or participant documents are still missing or invalid, the request returns `400` and the response includes validation details.
 
-Submit is idempotent for an already-submitted, still-complete incorporation. The workflow execution is created or reused with the same id as the incorporation's `incorporationId`. The response returns the current incorporation resource.
+Submit is idempotent for an already-submitted, still-complete incorporation. Retrying submit returns the current incorporation resource instead of starting a second review.
 
 ## Incomplete submit response
 
@@ -35,10 +35,8 @@ Submit is idempotent for an already-submitted, still-complete incorporation. The
 
 ```text
 awaiting_customer_input
-  -> submitted    after POST /submit succeeds and before workflow work starts
-  -> in_progress  when the dedicated workflow starts processing
-  -> blocked      when there are active partner-visible issues or workflow start/runtime failures
+  -> submitted    after POST /submit succeeds and before Commenda review work starts
+  -> in_progress  when Commenda review is in progress
+  -> blocked      when there are active partner-visible issues or review start/runtime failures
   -> completed    when the incorporation is complete
 ```
-
-If the incorporation becomes incomplete before workflow work starts, reads can return `awaiting_customer_input` again until the current state is fixed.
