@@ -1,0 +1,28 @@
+---
+title: "List customers"
+openapi: "GET /partner/customers"
+---
+
+List customers visible to the authenticated partner API key.
+
+Use this endpoint when you need to recover a `customerId` before creating incorporations or managing customer-scoped Commenda OS resources.
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/customers' \
+  --header 'x-api-key: YOUR_API_KEY'
+```
+
+```json
+{
+  "customers": [
+    {
+      "customerId": 77,
+      "name": "Acme Holdings",
+      "createdAt": "2026-04-20T19:35:00.000Z",
+      "updatedAt": "2026-04-20T19:40:00.000Z"
+    }
+  ],
+  "count": 1
+}
+```

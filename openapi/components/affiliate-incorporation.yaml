@@ -84,6 +84,70 @@ schemas:
       count:
         type: integer
         example: 1
+  PartnerCreateCustomerRequest:
+    type: object
+    required:
+      - email
+    properties:
+      email:
+        type: string
+        format: email
+        description: Email address for the customer owner.
+        example: founder@example.com
+      name:
+        type: string
+        description: Optional display name for the customer record.
+        example: Acme Holdings
+  PartnerCreateCustomerResponse:
+    type: object
+    required:
+      - customerId
+    properties:
+      customerId:
+        type: integer
+        description: Commenda customer identifier.
+        example: 77
+  PartnerCustomer:
+    type: object
+    required:
+      - customerId
+      - name
+      - createdAt
+      - updatedAt
+    properties:
+      customerId:
+        type: integer
+        description: Commenda customer identifier.
+        example: 77
+      name:
+        type: string
+        nullable: true
+        description: Display name for the customer.
+        example: Acme Holdings
+      createdAt:
+        type: string
+        format: date-time
+        nullable: true
+        description: Timestamp when the customer record was created.
+        example: 2026-04-20T19:35:00.000Z
+      updatedAt:
+        type: string
+        format: date-time
+        description: Timestamp when the customer record was last updated.
+        example: 2026-04-20T19:40:00.000Z
+  PartnerListCustomersResponse:
+    type: object
+    required:
+      - customers
+      - count
+    properties:
+      customers:
+        type: array
+        items:
+          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCustomer"
+      count:
+        type: integer
+        example: 1
   AffiliateServiceCatalog:
     type: string
     description: Incorporation service types currently supported by the legacy affiliate API.
@@ -437,7 +501,7 @@ schemas:
     required:
       - incorporationStatus
       - incorporationId
-      - companyId
+      - customerId
       - country
       - countryOptions
       - statusWorkflow
@@ -451,7 +515,7 @@ schemas:
       incorporationId:
         type: string
         example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
-      companyId:
+      customerId:
         type: integer
         example: 77
       country:
@@ -484,7 +548,7 @@ schemas:
     additionalProperties: true
     example:
       corporationType: PRIVATE_LIMITED_COMPANY
-  PartnerCreateCompanyScopedIncorporationRequest:
+  PartnerCreateCustomerScopedIncorporationRequest:
     type: object
     required:
       - country
@@ -1181,11 +1245,11 @@ schemas:
       data:
         type: object
         required:
-          - companyId
+          - customerId
           - incorporationId
           - issue
         properties:
-          companyId:
+          customerId:
             type: integer
             example: 77
           incorporationId:
@@ -1198,13 +1262,13 @@ schemas:
     required:
       - id
       - incorporationId
-      - companyId
+      - customerId
       - country
       - countryOptions
       - incorporationStatus
       - createdAt
       - updatedAt
-      - corporationId
+      - businessEntityId
     properties:
       id:
         type: string
@@ -1214,9 +1278,9 @@ schemas:
         type: string
         description: Stable incorporation identifier. Same value as `id`.
         example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
-      companyId:
+      customerId:
         type: integer
-        description: Company that owns the incorporation.
+        description: Customer that owns the incorporation.
         example: 77
       country:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountry"
@@ -1232,10 +1296,10 @@ schemas:
         type: string
         format: date-time
         example: 2026-04-21T17:10:00.000Z
-      corporationId:
+      businessEntityId:
         type: integer
         nullable: true
-        description: Target Commenda business entity id for the company being incorporated. For new Partner API incorporations, this is returned on create. Corporate shareholder business entity ids are separate participant resource ids.
+        description: Target Commenda business entity id for the entity being incorporated. Corporate shareholder business entity ids are separate participant resource ids.
         example: 44
   PartnerIncorporationResponse:
     type: object

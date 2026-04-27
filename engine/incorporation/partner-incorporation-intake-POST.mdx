@@ -66,7 +66,7 @@ Use `partnerProvidedLocation` when you are providing a reusable Commenda OS loca
 }
 ```
 
-The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer/company record as the incorporation. If the existing location is missing a field required by the current incorporation requirements, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
+The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer record as the incorporation. If the existing location is missing a field required by the current incorporation requirements, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
 
 If you later switch `registeredOfficeAddressSource` back to `commendaService`, any previously submitted `registeredOfficeAddressLocation` value may remain in `currentState`, but it is no longer applicable and will not block validation.
 
