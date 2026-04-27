@@ -1,20 +1,20 @@
 ---
 title: "Core concepts"
-description: "Understand the records, IDs, and API surfaces that make up a customer incorporation flow."
+description: "Understand the records, IDs, and API choices that make up a customer incorporation flow."
 ---
 
-Use this page to understand the main objects before you start wiring endpoints together.
+Before you write data, decide whether each record is reusable customer data or incorporation-specific work. That distinction determines which API to call and which IDs to save.
 
 ## Object model
 
-| Concept | What it means | Main ID |
-| --- | --- | --- |
-| Customer/company container | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `companyId` |
-| Incorporation | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` |
-| Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs |
-| Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` |
-| Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` |
-| Status and issues | Post-submit progress and partner-visible correction requests. | `incorporationStatus`, `issue.id` |
+| Concept | What it means | Main ID | Example |
+| --- | --- | --- | --- |
+| Customer/company container | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `companyId` | Acme Singapore customer record |
+| Incorporation | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` | Singapore private limited company incorporation |
+| Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs | Jane Founder, Acme Holdings Pte. Ltd., or passport.pdf |
+| Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` | Jane Founder as director and 40% shareholder |
+| Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` | `companyNameOptions` or `registeredOfficeAddressSource` |
+| Status and issues | Post-submit progress and partner-visible correction requests. | `incorporationStatus`, `issue.id` | `blocked` because a utility bill is invalid |
 
 ```text
 Customer/company container
@@ -28,7 +28,7 @@ Customer/company container
 
 ## Reusable records vs incorporation-specific records
 
-The Incorporation API does not duplicate people, business entities, locations, or files. Those records live in Commenda OS so they can be reused across KYC, entity management, registrations, documents, and future workflows. The Incorporation API links those reusable records to a specific incorporation.
+People, business entities, locations, and files live in Commenda OS so customers can reuse them across KYC, entity management, registrations, and documents. The Incorporation API links those reusable records to a specific incorporation.
 
 | Need | Create or read in | Link through |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ The Incorporation API does not duplicate people, business entities, locations, o
 | Registered office location | Commenda OS Locations | Intake `registeredOfficeAddressLocation` |
 | Passport, utility bill, or other source file | Commenda OS Documents | Incorporation Files, then Participant Documents |
 
-## API surfaces
+## Which API to call
 
 | API surface | Use it for |
 | --- | --- |

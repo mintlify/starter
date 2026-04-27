@@ -23,20 +23,20 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | Discovery | What can I incorporate and how will progress display? | Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the status workflow for the selected case type. |
 | Requirements | What data do I need? | Fetch the requirements schema for the selected jurisdiction/type. |
 | Incorporation | How do I start the incorporation? | Create the incorporation and save `incorporation.id`. |
-| Resource prep | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
+| Add customer records | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
 | Participants | Who is involved? | Register reusable people/entities as directors and shareholders. |
 | Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, create company documents to obtain `fileId`, register each file to the incorporation, then link it as a typed participant document. |
 | Intake | What non-participant fields are needed? | Submit partial or complete intake updates. |
-| Completion | How do I hand it to Commenda? | Read validation, call the submit endpoint when `intakeState.validation.isComplete` is `true`, then track `GET /partner/incorporation/{incorporationId}/status`. |
+| Submit for review | How do I hand it to Commenda? | Read validation, call the submit endpoint when `intakeState.validation.isComplete` is `true`, then track `GET /partner/incorporation/{incorporationId}/status`. |
 | Issues | What if Commenda needs corrections? | Read active/resolved issues, update the underlying intake/participants/documents, and optionally receive issue webhooks. Active issues set top-level status to `blocked`. |
 
-## ID map
+## IDs you'll save
 
 | ID | Returned by | Used in | Notes |
 | --- | --- | --- | --- |
 | `companyId` | `POST /public/company` | Create incorporation; Commenda OS company-scoped endpoints | Numeric company container id. |
 | `incorporation.id` | Create/list/get incorporation | Participants, files, documents, intake, direct read route | Use this as `{incorporationId}`. |
-| `corporationId` | Incorporation response | Commenda OS business-entity endpoints after available | May be `null` while intake is still being collected. |
+| `corporationId` | Create/list/get incorporation | Commenda OS business-entity endpoints for the entity being incorporated | Target business entity id for the new company being incorporated. For new Partner API incorporations, this is returned on create. It is different from corporate shareholder `businessEntity.id` values. |
 | Person `id` | `POST /partner/commenda-os/companies/{companyId}/persons` | Participant `resource.resourceId` | Encode as a string, for example `"12"`. |
 | Business entity `id` | `POST /partner/commenda-os/companies/{companyId}/business-entities` | Corporate participant `resource.resourceId` | Encode as a string, for example `"44"`. |
 | `participantId` | Register participant | Update participant roles; link participant documents | Incorporation-scoped participant id. |
@@ -387,12 +387,12 @@ Use this response for customer-facing progress. It includes the top-level `incor
 
 | Requirements area | What it means | How to use it |
 | --- | --- | --- |
-| `schemaVersion` / `dslVersion` | Server-side requirements version identifiers | Useful for logs and debugging. Clients do not send a requirements version back. |
 | `blocks` | UI-friendly groups of fields | Render fields by block if you want a guided UI. |
 | `fields` | Incorporation-level data, such as company names or registered office address choice | Submit these keys under `requirements` in the intake endpoint. |
 | `required.when` / `appliesWhen` | Rules that make a field required or applicable only when another field has a value | Re-evaluate the UI when the controlling field changes. Non-applicable fields are ignored by validation. |
 | `participantRequirements` | Required roles such as director or shareholder | Satisfy these by registering participants, not by sending arrays in intake. |
 | `documentRequirements` | Required typed documents for a participant role/type | Satisfy these by linking files as participant documents. |
+| Version fields, such as `schemaVersion` and `dslVersion` | Requirements version metadata | Store these in logs for debugging. Do not send them back or gate UI behavior on exact values. |
 
 Validation issues use paths that point to the missing or invalid requirement.
 
@@ -405,7 +405,7 @@ Validation issues use paths that point to the missing or invalid requirement.
 | `participants.participant_123.resource.lastName` | A referenced participant resource is missing a required field | Update the reusable Commenda OS person or business entity, then reread the incorporation validation. |
 | `participants.participant_123.documents.passport_scan` | A participant is missing a passport scan | Register a file, then link it as `passport_scan` for that participant. |
 
-Fetch requirements after the user chooses a jurisdiction and corporation type. You may cache requirements by `country` plus `countryOptions`, but always rely on the validation returned by write/read calls because Commenda may update requirements over time.
+Fetch requirements after the user chooses a jurisdiction and corporation type. Render your UI from the requirements response, but decide readiness from validation returned by write/read calls because Commenda may update requirements over time.
 
 ## Completion semantics
 

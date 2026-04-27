@@ -1235,7 +1235,7 @@ schemas:
       corporationId:
         type: integer
         nullable: true
-        description: Commenda corporation/entity id once one is attached.
+        description: Target Commenda business entity id for the company being incorporated. For new Partner API incorporations, this is returned on create. Corporate shareholder business entity ids are separate participant resource ids.
         example: 44
   PartnerIncorporationResponse:
     type: object
