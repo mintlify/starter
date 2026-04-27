@@ -2729,7 +2729,7 @@
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
   post:
     summary: Register an incorporation participant
-    description: Register a reusable Commenda OS key person or business entity as an incorporation participant with roles such as director or shareholder.
+    description: Register an existing Commenda OS key person or business entity as a participant in an incorporation, including details about their role.
     operationId: registerPartnerIncorporationParticipant
     servers:
       - url: https://api.prod.commenda.io/api/v1
