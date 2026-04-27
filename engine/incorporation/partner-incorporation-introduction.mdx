@@ -8,7 +8,7 @@ description: "Create and track incorporations for partner-owned companies withou
 The Partner Incorporation API lets a partner start and track incorporations for companies they manage in Commenda.
 
 <Info>
-If you are implementing the flow for the first time, start with [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow). It includes the recommended sequence, ID handoffs, validation behavior, and a Singapore happy path.
+If you are implementing the flow for the first time, read [Core concepts](/engine/incorporation/partner-incorporation-core-concepts) first, then follow [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
 </Info>
 
 Base URL:
@@ -25,226 +25,55 @@ curl --request GET \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-## Flow
+## Object model
 
-1. Create a company with the existing `POST /public/company` endpoint.
-2. Review the informational jurisdiction catalog with `GET /partner/incorporation/jurisdiction-catalog`.
-3. Fetch the current requirements schema with `GET /partner/incorporation/requirements` and the progress stages with `GET /partner/incorporation/status-workflow` for the selected `country` and `countryOptions`.
-4. Start an incorporation with `POST /partner/incorporation/companies/{companyId}/incorporations`.
-5. Create or reference reusable people, business entities, and addresses through the Commenda OS Partner API. If an individual director or shareholder does not exist yet, create one with `POST /partner/commenda-os/companies/{companyId}/persons`.
-6. Register people or business entities as incorporation participants with `POST /partner/incorporation/{incorporationId}/participants`.
-7. If needed, correct existing participant roles or ownership percentages with `PATCH /partner/incorporation/{incorporationId}/participants/{participantId}`.
-8. Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, then create company documents through Commenda OS to obtain `fileId`.
-9. Register company files with `POST /partner/incorporation/{incorporationId}/files`.
-10. Link registered files as participant documents with `POST /partner/incorporation/{incorporationId}/documents`.
-11. Update partial or complete non-participant intake data with `POST /partner/incorporation/{incorporationId}/intake`.
-12. Submit a complete incorporation for Commenda review with `POST /partner/incorporation/{incorporationId}/submit`.
-13. Read the incorporation to track `intakeState`, participants, and missing requirements.
-14. Read `GET /partner/incorporation/{incorporationId}/status` to track top-level status, blocking issues, and ordered stage progress.
-15. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
-16. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
+Partner-led incorporations are built from a few related records:
 
-Issue tracking and issue webhooks are available for correction and request-for-information flows. Issues are created and resolved by Commenda; partners fix the underlying data by updating intake, participants, or documents. Active issues make the incorporation status `blocked` and are listed in the status response as blocking issue ids.
-
-## End-to-end Singapore example
-
-This example assumes you already created a company and have a `companyId`. It starts a Singapore private limited company incorporation, registers one individual as both director and shareholder, uploads and links documents for that participant, sends the remaining intake data, submits the incorporation for review, and reads back progress.
-
-```bash
-curl --request GET \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/requirements?country=SG&countryOptions[corporationType]=PRIVATE_LIMITED_COMPANY' \
-  --header 'x-api-key: <partner_api_key>'
+```text
+Customer/company container
+  -> Incorporation case
+       -> Participants
+            -> Commenda OS people/business entities
+            -> Participant documents
+       -> Intake fields
+       -> Status and issues
 ```
 
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/companies/<company_id>/incorporations' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "country": "SG",
-    "countryOptions": {
-      "corporationType": "PRIVATE_LIMITED_COMPANY"
-    }
-  }'
-```
+The `companyId` identifies the customer/company container that owns the work. It is not the legal entity being incorporated. The `incorporation.id` identifies the incorporation case for that customer. Participants, documents, intake, status, and issues all attach to that incorporation case.
 
-Use the returned `incorporation.id` in later calls.
+For the full object map, see [Core concepts](/engine/incorporation/partner-incorporation-core-concepts).
 
-Register the individual as a reusable incorporation participant. The `resourceId` should be the numeric Commenda OS key person id encoded as a string, and the person must be visible to this company.
+## Flow at a glance
 
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/participants' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "participantType": "individual",
-    "resource": {
-      "resourceType": "keyPerson",
-      "resourceId": "12"
-    },
-    "roles": [
-      { "role": "director" },
-      {
-        "role": "shareholder",
-        "ownershipPercentage": 100
-      }
-    ]
-  }'
-```
+1. Create or find the customer/company container and save `companyId`.
+2. Choose a jurisdiction and corporation type with the jurisdiction catalog.
+3. Create the incorporation case and save `incorporation.id`.
+4. Create or reuse Commenda OS records for people, business entities, locations, and files.
+5. Register participants and link required participant documents.
+6. Submit incorporation-level intake fields and check `intakeState.validation.isComplete`.
+7. Submit the incorporation for Commenda review, then track status and issues.
 
-Use the returned `participant.participantId` when linking documents.
+For the endpoint-by-endpoint version, including a Singapore private limited company example, see [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
 
-Create signed upload URLs for the participant's passport scan and utility bill, then upload the file bytes directly to the returned `upload.signedUrl` values.
+## Commenda OS resources
 
-<Info>
-The upload URL and company-document endpoints are documented under Commenda OS Partner API because they create reusable company files. The incorporation-specific flow is summarized in [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow).
-</Info>
+The Incorporation API does not duplicate reusable customer records. People, business entities, locations, and files live in the Commenda OS Partner API. The Incorporation API links those records into a specific incorporation case.
 
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/<company_id>/documents/upload-url' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileName": "passport.pdf" }'
+| Need | Create or read in | Link through |
+| --- | --- | --- |
+| Director or shareholder person | Commenda OS Persons | Incorporation Participants |
+| Corporate shareholder | Commenda OS Business Entities | Incorporation Participants |
+| Registered office location | Commenda OS Locations | Intake `registeredOfficeAddressLocation` |
+| Passport, utility bill, or other source file | Commenda OS Documents | Incorporation Files, then Participant Documents |
 
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/<company_id>/documents/upload-url' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileName": "utility-bill.pdf" }'
-```
+## Incorporation requirements
 
-Upload each file with HTTP `PUT` to its temporary `upload.signedUrl`. Then create company document records from the returned `upload.hostedUrl` values. Save each returned `file.fileId`.
+Fetch requirements after the user chooses a jurisdiction and corporation type. The requirements response describes the current checklist and field contract for that incorporation type. Use it to render your own UI, but treat server validation as authoritative.
 
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/<company_id>/documents' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "fileName": "passport.pdf",
-    "fileUrl": "<passport_hosted_url>",
-    "mimeType": "application/pdf",
-    "personId": 12,
-    "documentName": "Passport scan"
-  }'
+Participant and document requirements are satisfied by registering participants and linking participant documents. Incorporation-level fields, such as company name options and registered office address choice, are submitted through the intake endpoint.
 
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/<company_id>/documents' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "fileName": "utility-bill.pdf",
-    "fileUrl": "<utility_bill_hosted_url>",
-    "mimeType": "application/pdf",
-    "personId": 12,
-    "documentName": "Utility bill"
-  }'
-```
+## Status and issues
 
-Register those company files to the incorporation:
+`intakeState.validation.isComplete` means the current data is eligible to submit. It does not submit the incorporation by itself.
 
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/files' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileId": 456 }'
-
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/files' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileId": 789 }'
-```
-
-Link the registered files as participant documents:
-
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/documents' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "participantId": "<participant_id>",
-    "documentKind": "passport_scan",
-    "fileId": 456
-  }'
-
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/documents' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "participantId": "<participant_id>",
-    "documentKind": "utility_bill",
-    "fileId": 789
-  }'
-```
-
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/intake' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "requirements": {
-      "companyNameOptions": [
-        { "name": "Acme SG Pte. Ltd." },
-        { "name": "Acme Asia Pte. Ltd." },
-        { "name": "Acme Global Pte. Ltd." }
-      ],
-      "registeredOfficeAddressSource": "commendaService"
-    }
-  }'
-```
-
-```bash
-curl --request GET \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>' \
-  --header 'x-api-key: <partner_api_key>'
-```
-
-The read response includes `intakeState.validation`. When `isComplete` is `true`, the incorporation is eligible to submit for Commenda review.
-
-Submit the complete incorporation for Commenda review:
-
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/<incorporation_id>/submit' \
-  --header 'x-api-key: <partner_api_key>'
-```
-
-After submit succeeds, Commenda starts the dedicated incorporation workflow idempotently. Reads usually return `incorporationStatus: "in_progress"` once that workflow starts; if the workflow has not started yet, the status is `submitted`.
-
-## Jurisdiction options
-
-Create requests use a `country` plus country-specific `countryOptions` instead of a flat product id.
-
-```json
-{
-  "country": "US",
-  "countryOptions": {
-    "state": "DE",
-    "corporationType": "LLC"
-  }
-}
-```
-
-See [List jurisdiction catalog](/engine/incorporation/partner-incorporation-jurisdiction-catalog-GET) for available country options and [Create an incorporation](/engine/incorporation/partner-incorporation-incorporations-POST) for request examples.
-
-## Participants and documents
-
-Participants are incorporation-specific registrations of reusable Commenda OS people or business entities. Assign roles such as `director` and `shareholder` on the participant so the same person can be both a director and shareholder without being duplicated.
-
-Documents are typed files attached to participants. Files remain the low-level storage object; documents are the incorporation requirement being satisfied. The current incorporation requirements determine which document kinds are required for each participant role and resource type.
-
-## Two-stage intake
-
-The requirements endpoint returns a requirements schema with field names, descriptions, validation rules, participant rules, document rules, and other incorporation requirements. Use it to power your own UI, but treat it as informational: Commenda validates every intake update against the current server-side requirements.
-
-Intake updates may be partial. Each update is merged into the current intake state and returns `intakeState.validation.isComplete: false` plus `missingRequirements` and `invalidRequirements` until the state is complete. Participant and document requirements are evaluated from registered participants and linked documents. Once the current incorporation state satisfies the incorporation requirements, call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda and start the dedicated workflow.
-
-Country-specific validation rules, such as ownership totals, address requirements, and required participant documents, are determined by the current incorporation requirements for the selected incorporation.
+After submit, use `GET /partner/incorporation/{incorporationId}/status` for customer-facing progress. Commenda may create partner-visible issues when an incorporation needs correction or additional information. Issues are read-only over the Partner API; fix the underlying data through intake, participants, or documents, and Commenda resolves the issue after review.
