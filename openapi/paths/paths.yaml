@@ -2215,7 +2215,7 @@
 "/public/companies":
   get:
     summary: List companies
-    description: List companies visible to the authenticated partner or affiliate API key. Use this to recover company ids for follow-on incorporation, service, and company-scoped Commenda OS calls.
+    description: List companies visible to the authenticated legacy affiliate API key.
     operationId: listAffiliateCompanies
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2229,7 +2229,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliateListCompaniesResponse"
       "401":
-        description: Missing or invalid partner or affiliate API key
+        description: Missing or invalid affiliate API key
         content:
           application/json:
             schema:
@@ -2237,7 +2237,7 @@
 "/public/company":
   post:
     summary: Create a company
-    description: Create a new company container for partner and legacy affiliate workflows. Partner Incorporation API callers should save the returned `companyId`.
+    description: Create a new company container for legacy affiliate workflows.
     operationId: createAffiliateCompany
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2263,7 +2263,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
       "401":
-        description: Missing or invalid partner or affiliate API key
+        description: Missing or invalid affiliate API key
         content:
           application/json:
             schema:
@@ -2304,6 +2304,61 @@
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
       "403":
         description: Company is not accessible to the affiliate
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/customers":
+  post:
+    summary: Create a customer
+    description: Create a customer record that scopes later Partner API calls.
+    operationId: createPartnerCustomer
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/PartnerCreateCustomerRequest"
+    responses:
+      "201":
+        description: Customer created successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerCreateCustomerResponse"
+      "400":
+        description: Invalid request body
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+  get:
+    summary: List customers
+    description: List customers visible to the authenticated partner API key.
+    operationId: listPartnerCustomers
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    responses:
+      "200":
+        description: Customers retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerListCustomersResponse"
+      "401":
+        description: Missing or invalid partner API key
         content:
           application/json:
             schema:
@@ -2430,7 +2485,7 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
-"/partner/incorporation/companies/{companyId}/incorporations":
+"/partner/incorporation/customers/{customerId}/incorporations":
   post:
     summary: Create an incorporation
     description: Begin an incorporation for one of your customers.
@@ -2440,18 +2495,18 @@
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Company that should own the incorporation.
+        description: Customer that should own the incorporation.
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            "$ref": "../components/components.yaml#/components/schemas/PartnerCreateCompanyScopedIncorporationRequest"
+            "$ref": "../components/components.yaml#/components/schemas/PartnerCreateCustomerScopedIncorporationRequest"
           examples:
             singaporePrivateLimited:
               summary: Singapore private limited company
@@ -2479,26 +2534,26 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
       "403":
-        description: Company is not accessible to the partner
+        description: Customer is not accessible to the partner
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
   get:
-    summary: List incorporations for a company
-    description: List incorporations visible to the authenticated partner for a single company.
+    summary: List incorporations for a customer
+    description: List incorporations visible to the authenticated partner for a single customer.
     operationId: listPartnerIncorporations
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Company whose incorporations should be listed.
+        description: Customer whose incorporations should be listed.
       - name: limit
         in: query
         required: false
@@ -2534,7 +2589,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
       "403":
-        description: Company is not accessible to the partner
+        description: Customer is not accessible to the partner
         content:
           application/json:
             schema:
@@ -2724,7 +2779,7 @@
 "/partner/incorporation/{incorporationId}/files":
   post:
     summary: Register an incorporation file
-    description: Register a company-scoped Commenda file to the incorporation context and return a `fileId` that can be linked as a participant document. This endpoint does not upload binary content.
+    description: Register a customer-scoped Commenda file to the incorporation context and return a `fileId` that can be linked as a participant document. This endpoint does not upload binary content.
     operationId: registerPartnerIncorporationFile
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -3237,22 +3292,22 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
-"/partner/commenda-os/companies/{companyId}/business-entities":
+"/partner/commenda-os/customers/{customerId}/business-entities":
   post:
     summary: Create a business entity
-    description: Create a reusable Commenda OS business entity under a partner-accessible company. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
+    description: Create a reusable Commenda OS business entity under a partner-accessible customer. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
     operationId: createPartnerCommendaOsBusinessEntity
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
     requestBody:
       required: true
       content:
@@ -3288,26 +3343,26 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
   get:
-    summary: List business entities for a company
-    description: List the business entities attached to a partner-accessible company.
+    summary: List business entities for a customer
+    description: List the business entities attached to a partner-accessible customer.
     operationId: listPartnerCommendaOsBusinessEntities
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
     responses:
       "200":
         description: Business entities retrieved successfully
@@ -3322,12 +3377,12 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}":
   patch:
     summary: Update a business entity
     description: Partially update a reusable Commenda OS business entity. Omitted fields are left unchanged. Use this endpoint to complete corporate shareholder details before registering or validating incorporation participants.
@@ -3337,18 +3392,18 @@
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     requestBody:
       required: true
       content:
@@ -3359,7 +3414,7 @@
             updateBusinessEntity:
               value:
                 legalName: Acme Holdings Pte. Ltd.
-                businessDescription: Investment holding company.
+                businessDescription: Investment holding customer.
                 publicFacingWebsiteUrl: https://acme.example
     responses:
       "200":
@@ -3381,7 +3436,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3393,26 +3448,26 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
   get:
-    summary: Get a business entity for a company
-    description: Retrieve a single business entity attached to a partner-accessible company.
+    summary: Get a business entity for a customer
+    description: Retrieve a single business entity attached to a partner-accessible customer.
     operationId: getPartnerCommendaOsBusinessEntity
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Business entity retrieved successfully
@@ -3427,7 +3482,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3438,28 +3493,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/locations":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/locations":
   get:
     summary: List locations for a business entity
-    description: List locations attached to a business entity within a partner-accessible company.
+    description: List locations attached to a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsLocations
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Locations retrieved successfully
@@ -3474,7 +3529,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3485,28 +3540,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/locations/{locationId}":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/locations/{locationId}":
   get:
     summary: Get a location
-    description: Retrieve a single location for a business entity within a partner-accessible company.
+    description: Retrieve a single location for a business entity within a partner-accessible customer.
     operationId: getPartnerCommendaOsLocation
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
       - name: locationId
         in: path
         required: true
@@ -3527,7 +3582,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3538,28 +3593,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/persons":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/persons":
   get:
     summary: List persons for a business entity
-    description: List people associated with a business entity within a partner-accessible company.
+    description: List people associated with a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsBusinessEntityPersons
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Persons retrieved successfully
@@ -3574,7 +3629,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3585,22 +3640,22 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/persons":
+"/partner/commenda-os/customers/{customerId}/persons":
   get:
-    summary: List persons for a company
-    description: List people visible for a single partner-accessible company across all of its business entities.
+    summary: List persons for a customer
+    description: List people visible for a single partner-accessible customer across all of its business entities.
     operationId: listPartnerCommendaOsPersons
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
     responses:
       "200":
         description: Persons retrieved successfully
@@ -3615,26 +3670,26 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
   post:
     summary: Create a person
-    description: Create a reusable Commenda OS key person under a partner-accessible company. Use the returned `id` as a `keyPerson` resource id when registering incorporation participants.
+    description: Create a reusable Commenda OS key person under a partner-accessible customer. Use the returned `id` as a `keyPerson` resource id when registering incorporation participants.
     operationId: createPartnerCommendaOsPerson
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
     requestBody:
       required: true
       content:
@@ -3669,12 +3724,12 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/persons/{personId}":
+"/partner/commenda-os/customers/{customerId}/persons/{personId}":
   patch:
     summary: Update a person
     description: Partially update a reusable Commenda OS key person. Omitted fields are left unchanged.
@@ -3684,18 +3739,18 @@
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: personId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda OS person identifier for the specified company.
+        description: Commenda OS person identifier for the specified customer.
     requestBody:
       required: true
       content:
@@ -3724,39 +3779,39 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "404":
-        description: Person not found for this company
+        description: Person not found for this customer
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/government-identifiers":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/government-identifiers":
   get:
     summary: List government identifiers
-    description: List government identifiers attached to a business entity within a partner-accessible company.
+    description: List government identifiers attached to a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsGovernmentIdentifiers
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Government identifiers retrieved successfully
@@ -3771,7 +3826,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3782,28 +3837,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/government-identifiers/{governmentIdentifierId}":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/government-identifiers/{governmentIdentifierId}":
   get:
     summary: Get a government identifier
-    description: Retrieve a single government identifier for a business entity within a partner-accessible company.
+    description: Retrieve a single government identifier for a business entity within a partner-accessible customer.
     operationId: getPartnerCommendaOsGovernmentIdentifier
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
       - name: governmentIdentifierId
         in: path
         required: true
@@ -3824,7 +3879,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3835,35 +3890,35 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/documents/upload-url":
+"/partner/commenda-os/customers/{customerId}/documents/upload-url":
   post:
     summary: Create a document upload URL
-    description: Create a signed S3 upload URL so a partner client can upload company document bytes directly to S3 without sending the file body through Commenda's API server.
-    operationId: createPartnerCommendaOsCompanyDocumentUploadUrl
+    description: Create a signed S3 upload URL so a partner client can upload customer document bytes directly to S3 without sending the file body through Commenda's API server.
+    operationId: createPartnerCommendaOsCustomerDocumentUploadUrl
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            "$ref": "../components/components.yaml#/components/schemas/CommendaOsCompanyDocumentUploadUrlRequest"
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerDocumentUploadUrlRequest"
     responses:
       "201":
         description: Signed upload URL created successfully
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/CommendaOsCompanyDocumentUploadUrlResponse"
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerDocumentUploadUrlResponse"
       "400":
         description: Missing or malformed file name
         content:
@@ -3877,46 +3932,46 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "404":
-        description: Company not found
+        description: Customer not found
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/documents":
+"/partner/commenda-os/customers/{customerId}/documents":
   post:
-    summary: Create a company document
-    description: Create a company-scoped Commenda document from a hosted URL returned by the document upload URL endpoint. The S3 object must exist before the document can be created. Optionally link the file to one business entity or one key person in the same company.
-    operationId: createPartnerCommendaOsCompanyDocument
+    summary: Create a customer document
+    description: Create a customer-scoped Commenda document from a hosted URL returned by the document upload URL endpoint. The S3 object must exist before the document can be created. Optionally link the file to one business entity or one key person in the same customer.
+    operationId: createPartnerCommendaOsCustomerDocument
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            "$ref": "../components/components.yaml#/components/schemas/CommendaOsCompanyDocumentCreateRequest"
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerDocumentCreateRequest"
     responses:
       "201":
-        description: Company document created successfully
+        description: Customer document created successfully
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/CommendaOsCompanyDocumentResponse"
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerDocumentResponse"
       "400":
         description: Missing file metadata, upload has not completed, invalid document type, invalid resource id, or both personId and businessEntityId were provided
         content:
@@ -3930,39 +3985,39 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company or linked resource does not belong to this partner firm
+        description: Customer or linked resource does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "404":
-        description: Company, business entity, or key person not found
+        description: Customer, business entity, or key person not found
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/documents":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/documents":
   get:
     summary: List documents for a business entity
-    description: List documents for a business entity within a partner-accessible company.
+    description: List documents for a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsDocuments
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Documents retrieved successfully
@@ -3977,7 +4032,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -3988,28 +4043,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/documents/supported":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/documents/supported":
   get:
     summary: List supported document types
-    description: List the document types Commenda OS supports for a business entity within a partner-accessible company.
+    description: List the document types Commenda OS supports for a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsSupportedDocuments
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Supported document types retrieved successfully
@@ -4024,7 +4079,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -4035,28 +4090,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/registrations":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/registrations":
   get:
     summary: List registrations for a business entity
-    description: List registrations for a business entity within a partner-accessible company.
+    description: List registrations for a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsRegistrations
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Registrations retrieved successfully
@@ -4071,7 +4126,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -4082,28 +4137,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/registrations/{registrationId}":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/registrations/{registrationId}":
   get:
     summary: Get a registration
-    description: Retrieve a single registration for a business entity within a partner-accessible company.
+    description: Retrieve a single registration for a business entity within a partner-accessible customer.
     operationId: getPartnerCommendaOsRegistration
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
       - name: registrationId
         in: path
         required: true
@@ -4124,7 +4179,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
@@ -4135,28 +4190,28 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/companies/{companyId}/business-entities/{businessEntityId}/registrations/supported":
+"/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/registrations/supported":
   get:
     summary: List supported registrations for a business entity
-    description: List the registrations Commenda OS supports for a business entity within a partner-accessible company.
+    description: List the registrations Commenda OS supports for a business entity within a partner-accessible customer.
     operationId: listPartnerCommendaOsBusinessEntitySupportedRegistrations
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
       - xApiKeyAuth: []
     parameters:
-      - name: companyId
+      - name: customerId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda company identifier accessible to the authenticated partner.
+        description: Commenda customer identifier accessible to the authenticated partner.
       - name: businessEntityId
         in: path
         required: true
         schema:
           type: integer
-        description: Commenda business-entity identifier for the specified company.
+        description: Commenda business-entity identifier for the specified customer.
     responses:
       "200":
         description: Supported registrations retrieved successfully
@@ -4171,7 +4226,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Company does not belong to this partner firm
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:

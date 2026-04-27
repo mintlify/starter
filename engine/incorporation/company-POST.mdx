@@ -8,7 +8,7 @@ Creates a new company for incorporation and entity management workflows.
 A company is the Commenda account-level container for the customer you are onboarding. It is not the incorporated legal entity itself.
 
 <Info>
-For the Partner Incorporation API, this creates the Commenda company container that owns incorporations and Commenda OS resources. Save the returned `companyId`; you will use it in `POST /partner/incorporation/companies/{companyId}/incorporations` and in company-scoped Commenda OS endpoints such as `POST /partner/commenda-os/companies/{companyId}/persons`.
+Partner API callers should use [Create a customer](/engine/partner-api/customers-POST), which returns `customerId` for incorporation and Commenda OS calls.
 </Info>
 
 After creating the company, call `GET /partner/incorporation/jurisdiction-catalog` and `GET /partner/incorporation/requirements` to choose the incorporation jurisdiction and understand the required data.

@@ -1,7 +1,7 @@
 ---
 title: "Partner API"
 sidebarTitle: "Introduction"
-description: "Use Commenda's Partner API to create companies, manage entity data, start incorporations, upload documents, track issues, and receive webhooks."
+description: "Use Commenda's Partner API to create customers, manage entity data, start incorporations, upload documents, track issues, and receive webhooks."
 ---
 
 The Partner API gives you a customer-scoped API surface for building incorporation and entity management flows inside your product.
@@ -23,7 +23,7 @@ curl --request GET \
 ## What you can build
 
 <Columns cols={2}>
-  <Card title="Create a customer" icon="building" href="/engine/incorporation/company-POST">
+  <Card title="Create a customer" icon="building" href="/engine/partner-api/customers-POST">
     Create the customer record that owns incorporations and reusable entity data.
   </Card>
   <Card title="Start an incorporation" icon="handshake" href="/engine/incorporation/partner-incorporation-introduction">
@@ -39,11 +39,11 @@ curl --request GET \
 
 ## Response conventions
 
-- Company-scoped endpoints only return resources visible to the partner firm associated with the API key.
+- Customer-scoped endpoints only return resources visible to the partner firm associated with the API key.
 - List endpoints return an object containing the resource list and `count`.
 - Detail endpoints return an object containing the requested resource.
 - Requests without a valid `x-api-key` return `401`.
-- Requests for a company or resource outside the partner firm's scope return `403` or `404`, depending on the endpoint boundary.
+- Requests for a customer or resource outside the partner firm's scope return `403` or `404`, depending on the endpoint boundary.
 
 ## Next steps
 

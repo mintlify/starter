@@ -172,8 +172,8 @@
           {
             "group": "Customer setup",
             "pages": [
-              "engine/incorporation/company-POST",
-              "engine/incorporation/companies-GET"
+              "engine/partner-api/customers-POST",
+              "engine/partner-api/customers-GET"
             ]
           },
           {

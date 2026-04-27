@@ -239,6 +239,14 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateCompany"
     AffiliateListCompaniesResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateListCompaniesResponse"
+    PartnerCreateCustomerRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateCustomerRequest"
+    PartnerCreateCustomerResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateCustomerResponse"
+    PartnerCustomer:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCustomer"
+    PartnerListCustomersResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerListCustomersResponse"
     AffiliateServiceCatalog:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateServiceCatalog"
     AffiliateCreateServiceRequest:
@@ -287,8 +295,8 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStatusResponse"
     PartnerIncorporationCountryOptions:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
-    PartnerCreateCompanyScopedIncorporationRequest:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateCompanyScopedIncorporationRequest"
+    PartnerCreateCustomerScopedIncorporationRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateCustomerScopedIncorporationRequest"
     PartnerJurisdictionCatalogField:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerJurisdictionCatalogField"
     PartnerJurisdictionCatalogCountry:
@@ -415,18 +423,18 @@ components:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsDocumentsResponse"
     CommendaOsSupportedDocumentsResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsSupportedDocumentsResponse"
-    CommendaOsCompanyDocumentUploadUrlRequest:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentUploadUrlRequest"
-    CommendaOsCompanyDocumentUpload:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentUpload"
-    CommendaOsCompanyDocumentUploadUrlResponse:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentUploadUrlResponse"
-    CommendaOsCompanyDocumentCreateRequest:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentCreateRequest"
-    CommendaOsCompanyDocument:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocument"
-    CommendaOsCompanyDocumentResponse:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentResponse"
+    CommendaOsCustomerDocumentUploadUrlRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUploadUrlRequest"
+    CommendaOsCustomerDocumentUpload:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUpload"
+    CommendaOsCustomerDocumentUploadUrlResponse:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUploadUrlResponse"
+    CommendaOsCustomerDocumentCreateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentCreateRequest"
+    CommendaOsCustomerDocument:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocument"
+    CommendaOsCustomerDocumentResponse:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentResponse"
     CommendaOsRegistrationResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsRegistrationResponse"
     CommendaOsRegistrationsResponse:

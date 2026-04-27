@@ -11,7 +11,7 @@ Webhook subscriptions are partner-level resources under:
 https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions
 ```
 
-They are not scoped to a single company or incorporation. A subscription receives events for partner-accessible resources when its `eventTypes` includes the emitted event.
+They are not scoped to a single customer or incorporation. A subscription receives events for partner-accessible resources when its `eventTypes` includes the emitted event.
 
 ## Supported events
 
@@ -61,7 +61,7 @@ The full secret is returned only when you create the subscription. Later reads r
   "eventType": "incorporation.issue.created",
   "createdAt": "2026-04-25T21:00:00.000Z",
   "data": {
-    "companyId": 77,
+    "customerId": 77,
     "incorporationId": "0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91",
     "issue": {
       "id": "issue_123",

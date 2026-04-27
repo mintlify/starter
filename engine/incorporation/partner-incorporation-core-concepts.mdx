@@ -9,15 +9,15 @@ Before you write data, decide whether each record is reusable customer data or i
 
 | Concept | What it means | Main ID |
 | --- | --- | --- |
-| Customer/company container | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `companyId` |
-| Incorporation | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` |
+| Customer | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `customerId` |
+| Incorporation | The incorporation workflow for one customer and selected jurisdiction/type. | `incorporation.id` |
 | Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs |
 | Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` |
 | Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` |
 | Status and issues | Post-submit progress and partner-visible correction requests. | `incorporationStatus`, `issue.id` |
 
 ```text
-Customer/company container
+Customer
   -> Incorporation
        -> Participants
             -> Commenda OS people/business entities
@@ -41,7 +41,7 @@ People, business entities, locations, and files live in Commenda OS so customers
 
 | API surface | Use it for |
 | --- | --- |
-| Customer setup | Create or list the customer/company container that scopes later calls. |
+| Customer setup | Create or list the customer record that scopes later calls. |
 | Partner Incorporation API | Discover requirements, create incorporations, register participants, link documents, submit intake, track status, and read issues. |
 | Commenda OS Partner API | Manage reusable customer data such as people, business entities, locations, documents, government identifiers, and registrations. |
 | Partner webhooks | Subscribe to partner events such as incorporation issue creation and resolution. |
@@ -49,5 +49,5 @@ People, business entities, locations, and files live in Commenda OS so customers
 ## What to read next
 
 - Start the implementation with [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
-- Create or find a customer record with [Create a company](/engine/incorporation/company-POST) or [List companies](/engine/incorporation/companies-GET).
+- Create or find a customer record with [Create a customer](/engine/partner-api/customers-POST) or [List customers](/engine/partner-api/customers-GET).
 - Use the [Commenda OS Partner API](/engine/commendaos/partner-api/commenda-os-introduction) when you need reusable customer records.
