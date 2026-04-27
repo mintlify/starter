@@ -2729,7 +2729,7 @@
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
   post:
     summary: Register an incorporation participant
-    description: Register a reusable Commenda OS key person or business entity as an incorporation participant with roles such as director or shareholder. This endpoint creates the incorporation-specific role registration; KYC checks, e-signature execution, and document review are future extensions and are not performed by this endpoint. Writes that make shareholder ownership exceed the selected requirements total are rejected.
+    description: Register a reusable Commenda OS key person or business entity as an incorporation participant with roles such as director or shareholder. This endpoint creates the incorporation-specific role registration. Writes that make shareholder ownership exceed the selected requirements total are rejected.
     operationId: registerPartnerIncorporationParticipant
     servers:
       - url: https://api.prod.commenda.io/api/v1
