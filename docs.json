@@ -170,7 +170,7 @@
             ]
           },
           {
-            "group": "Customer setup",
+            "group": "Customer container setup",
             "pages": [
               "engine/incorporation/company-POST",
               "engine/incorporation/companies-GET"
@@ -180,6 +180,7 @@
             "group": "Partner Incorporation API",
             "pages": [
               "engine/incorporation/partner-incorporation-introduction",
+              "engine/incorporation/partner-incorporation-core-concepts",
               "engine/incorporation/partner-incorporation-build-flow",
               {
                 "group": "Discovery",

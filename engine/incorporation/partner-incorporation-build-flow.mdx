@@ -3,10 +3,19 @@ title: "Build an incorporation flow"
 description: "Implement a partner-owned incorporation workflow from company creation through final submit for review."
 ---
 
-This guide shows the recommended implementation sequence for a partner-owned incorporation flow. Use the endpoint reference pages for exact request and response schemas.
+This guide shows the recommended implementation sequence for a partner-owned incorporation flow. Use [Core concepts](/engine/incorporation/partner-incorporation-core-concepts) for the object model and the endpoint reference pages for exact request and response schemas.
 
+## Minimum happy path
 
-## Recommended sequence
+1. Create or find the customer/company container and save `companyId`.
+2. Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the requirements schema.
+3. Create the incorporation case and save `incorporation.id`.
+4. Create or reuse required Commenda OS records, such as people, business entities, locations, and documents.
+5. Register participants and link required participant documents.
+6. Submit incorporation-level intake fields, then read validation until `intakeState.validation.isComplete` is `true`.
+7. Submit for review, then track status and active issues.
+
+## Detailed implementation sequence
 
 | Phase | Developer question | What to do |
 | --- | --- | --- |
