@@ -3539,6 +3539,64 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
 "/partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/locations":
+  post:
+    summary: Create a location
+    description: Create a reusable Commenda OS location for a business entity within a partner-accessible customer.
+    operationId: createPartnerCommendaOsLocation
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda customer identifier accessible to the authenticated partner.
+      - name: businessEntityId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda business-entity identifier for the specified customer.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsLocationCreateRequest"
+    responses:
+      "201":
+        description: Location created successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsLocationResponse"
+      "400":
+        description: Invalid location payload
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "403":
+        description: Customer does not belong to this partner firm
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "404":
+        description: Business entity not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
   get:
     summary: List locations for a business entity
     description: List locations attached to a business entity within a partner-accessible customer.
@@ -3633,7 +3691,71 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "404":
-        description: Business entity not found or location not found
+        description: Location not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+  patch:
+    summary: Update a location
+    description: Update a reusable Commenda OS location for a business entity within a partner-accessible customer.
+    operationId: updatePartnerCommendaOsLocation
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda customer identifier accessible to the authenticated partner.
+      - name: businessEntityId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Commenda business-entity identifier for the specified customer.
+      - name: locationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Commenda location identifier.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsLocationUpdateRequest"
+    responses:
+      "200":
+        description: Location updated successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsLocationResponse"
+      "400":
+        description: Invalid location payload
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "403":
+        description: Customer does not belong to this partner firm
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "404":
+        description: Location not found
         content:
           application/json:
             schema:

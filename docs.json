@@ -263,8 +263,10 @@
               {
                 "group": "Locations",
                 "pages": [
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-POST",
                   "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-GET",
-                  "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-location-id-GET"
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-location-id-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-location-id-PATCH"
                 ]
               },
               {

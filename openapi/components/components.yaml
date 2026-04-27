@@ -413,6 +413,10 @@ components:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationResponse"
     CommendaOsLocationsResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationsResponse"
+    CommendaOsLocationCreateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationCreateRequest"
+    CommendaOsLocationUpdateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationUpdateRequest"
     CommendaOsBusinessEntityPersonsResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsBusinessEntityPersonsResponse"
     CommendaOsPersonsResponse:

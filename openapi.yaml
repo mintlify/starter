@@ -3457,6 +3457,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
   /partner/commenda-os/customers/{customerId}/business-entities/{businessEntityId}/locations:
+    post:
+      summary: Create a location
+      description: Create a reusable Commenda OS location for a business entity within a partner-accessible customer.
+      operationId: createPartnerCommendaOsLocation
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Commenda customer identifier accessible to the authenticated partner.
+        - name: businessEntityId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Commenda business-entity identifier for the specified customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommendaOsLocationCreateRequest'
+      responses:
+        '201':
+          description: Location created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsLocationResponse'
+        '400':
+          description: Invalid location payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '403':
+          description: Customer does not belong to this partner firm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '404':
+          description: Business entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
     get:
       summary: List locations for a business entity
       description: List locations attached to a business entity within a partner-accessible customer.
@@ -3551,7 +3609,71 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
         '404':
-          description: Business entity not found or location not found
+          description: Location not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+    patch:
+      summary: Update a location
+      description: Update a reusable Commenda OS location for a business entity within a partner-accessible customer.
+      operationId: updatePartnerCommendaOsLocation
+      servers:
+        - url: https://api.prod.commenda.io/api/v1
+      security:
+        - xApiKeyAuth: []
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Commenda customer identifier accessible to the authenticated partner.
+        - name: businessEntityId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Commenda business-entity identifier for the specified customer.
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Commenda location identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommendaOsLocationUpdateRequest'
+      responses:
+        '200':
+          description: Location updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsLocationResponse'
+        '400':
+          description: Invalid location payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '401':
+          description: Missing or invalid partner API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '403':
+          description: Customer does not belong to this partner firm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '404':
+          description: Location not found
           content:
             application/json:
               schema:
@@ -8761,6 +8883,33 @@ components:
         count:
           type: integer
           example: 1
+    CommendaOsLocationCreateRequest:
+      type: object
+      description: Create a reusable Commenda OS location for a business entity. The `businessEntityId` is taken from the URL path.
+      required:
+        - locationTypes
+        - address
+      properties:
+        locationName:
+          type: string
+          description: Optional display name. Required by some location types such as registered office and mailing address.
+          example: Singapore registered office
+        startDate:
+          type: string
+          format: date
+          example: '2026-04-27'
+        employeeCount:
+          type: integer
+          description: Employee count for employee work locations.
+          example: 12
+        locationTypes:
+          type: array
+          items:
+            type: string
+          example:
+            - REGISTERED_OFFICE_ADDRESS
+        address:
+          $ref: '#/components/schemas/CommendaOsLocationAddress'
     CommendaOsLocationResponse:
       type: object
       required:
@@ -8768,6 +8917,34 @@ components:
       properties:
         location:
           $ref: '#/components/schemas/CommendaOsLocation'
+    CommendaOsLocationUpdateRequest:
+      type: object
+      description: Update a reusable Commenda OS location. Omitted fields are left unchanged by the Partner API client, but `locationTypes` and `address` are required by the current location update contract.
+      required:
+        - locationTypes
+        - address
+      properties:
+        locationName:
+          type: string
+          description: Optional display name. Required by some location types such as registered office and mailing address.
+          example: Singapore registered office
+        startDate:
+          type: string
+          format: date
+          nullable: true
+          example: '2026-04-27'
+        employeeCount:
+          type: integer
+          description: Employee count for employee work locations.
+          example: 12
+        locationTypes:
+          type: array
+          items:
+            type: string
+          example:
+            - REGISTERED_OFFICE_ADDRESS
+        address:
+          $ref: '#/components/schemas/CommendaOsLocationAddress'
     CommendaOsKycId:
       type: object
       required:
