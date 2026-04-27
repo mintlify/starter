@@ -1,0 +1,46 @@
+---
+title: "Create a company document"
+openapi: "POST /partner/commenda-os/companies/{companyId}/documents"
+---
+
+Create a Commenda company document from a signed-upload `hostedUrl` and receive a reusable `fileId`.
+
+Use this endpoint after uploading file bytes directly to S3 with [Create a document upload URL](/engine/commendaos/partner-api/commenda-os-documents-upload-url-POST). Pass the `upload.hostedUrl` returned by that endpoint as `fileUrl`. Commenda verifies that the S3 object exists before creating the document record. The created file is scoped to the company. You may optionally link it to one reusable Commenda OS resource:
+
+- Use `personId` to link the file to a key person.
+- Use `businessEntityId` to link the file to a business entity.
+- Omit both fields to keep the file company-scoped only.
+
+Do not send both `personId` and `businessEntityId` in the same request. For incorporation, save the returned `file.fileId`, register it with `POST /partner/incorporation/{incorporationId}/files`, then link it as a typed participant document with `POST /partner/incorporation/{incorporationId}/documents`.
+
+## Example
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/77/documents' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "fileName": "passport.pdf",
+    "fileUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf",
+    "mimeType": "application/pdf",
+    "fileSize": 382144,
+    "personId": 12,
+    "documentName": "Passport scan"
+  }'
+```
+
+```json
+{
+  "file": {
+    "fileId": 456,
+    "fileName": "passport.pdf",
+    "mimeType": "application/pdf",
+    "fileSize": 382144,
+    "documentSubType": "Other",
+    "documentName": "Passport scan",
+    "companyId": 77,
+    "personId": 12
+  }
+}
+```

@@ -1,0 +1,47 @@
+---
+title: "Create a document upload URL"
+openapi: "POST /partner/commenda-os/companies/{companyId}/documents/upload-url"
+---
+
+Create a signed S3 upload URL for a company document.
+
+Use this endpoint before creating a company document when your integration needs to upload new binary content. The file bytes are uploaded directly from your client to S3; Commenda does not receive the file body through the API server.
+
+## Flow
+
+1. Call this endpoint with `fileName`.
+2. Upload the file bytes to `upload.signedUrl` using HTTP `PUT`.
+3. Save `upload.hostedUrl`.
+4. Call [Create a company document](/engine/commendaos/partner-api/commenda-os-documents-POST) with `fileName`, `fileUrl: upload.hostedUrl`, `mimeType`, and any optional `personId` or `businessEntityId`.
+
+Use `upload.signedUrl` only for the direct S3 upload. Use `upload.hostedUrl` as the file URL when creating the company document. `upload.signedGetUrl` is short-lived and is only useful for immediate preview/debugging after upload; do not store it as the durable document reference.
+
+## Example
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/77/documents/upload-url' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{ "fileName": "passport.pdf" }'
+```
+
+```json
+{
+  "upload": {
+    "signedUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf?X-Amz-Signature=...",
+    "hostedUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf",
+    "signedGetUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf?X-Amz-Signature=..."
+  }
+}
+```
+
+Use the returned signed URL only for the direct upload:
+
+```bash
+curl --request PUT \
+  --upload-file ./passport.pdf \
+  '<signed_upload_url>'
+```
+
+After the upload succeeds, pass `upload.hostedUrl`, not `upload.signedUrl` or `upload.signedGetUrl`, as `fileUrl` when creating the company document.

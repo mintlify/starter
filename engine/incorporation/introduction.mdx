@@ -39,9 +39,15 @@ curl --request GET \
 - Filtering payment intents by `companyId` enforces affiliate ownership — requests for companies outside your affiliate return `403 Forbidden`.
 - `GET /public/documents` is deprecated. Callers should use the Commenda OS documents endpoints instead.
 
-## Commenda OS Read API
+## Partner Incorporation API
 
-A separate Commenda OS API is also available under the same `/public` base URL.
+New partner integrations that need an incorporation resource lifecycle can use the [Partner Incorporation API](/engine/incorporation/partner-incorporation-introduction).
 
-- See [Commenda OS API](/engine/commendaos/public-api/commenda-os-introduction) for business-entity, persons, documents, and registrations endpoints.
-- Use [List documents](/engine/commendaos/public-api/commenda-os-business-entities-id-documents-GET) and [List supported document types](/engine/commendaos/public-api/commenda-os-business-entities-id-documents-supported-GET) instead of the deprecated `GET /public/documents` route.
+That surface is scoped under `/partner/incorporation`, creates incorporations directly under a company, and does not create or return payment intents.
+
+## Commenda OS Partner API
+
+A separate Commenda OS Partner API is available under the `/partner/commenda-os` base URL.
+
+- See [Commenda OS Partner API](/engine/commendaos/partner-api/commenda-os-introduction) for business-entity, persons, documents, and registrations endpoints.
+- Use [List documents](/engine/commendaos/partner-api/commenda-os-business-entities-id-documents-GET) and [List supported document types](/engine/commendaos/partner-api/commenda-os-business-entities-id-documents-supported-GET) instead of the deprecated `GET /public/documents` route.

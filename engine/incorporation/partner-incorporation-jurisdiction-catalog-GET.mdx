@@ -1,0 +1,52 @@
+---
+title: "List jurisdiction catalog"
+openapi: "GET /partner/incorporation/jurisdiction-catalog"
+---
+
+Returns the currently supported incorporation countries and country-specific option fields.
+
+Use this endpoint as an informational catalog for rendering choices in your UI. The create incorporation endpoint remains the source of truth for validation.
+
+Field keys map to `countryOptions`. Dotted field keys, such as `corporationTypeOptions.freeZone`, represent nested objects in the create request.
+
+## Supported countries
+
+The catalog currently includes `AE`, `CA`, `GB`, `IE`, `IN`, `KY`, `NZ`, `SG`, and `US`.
+
+## Field format
+
+Each country returns a list of fields:
+
+```json
+{
+  "country": "US",
+  "fields": [
+    {
+      "key": "state",
+      "type": "select",
+      "required": false,
+      "options": ["AL", "AK", "AZ"]
+    },
+    {
+      "key": "corporationType",
+      "type": "select",
+      "required": true,
+      "options": ["CORPORATION", "LLC"]
+    }
+  ]
+}
+```
+
+Use `key` as the path inside `countryOptions`. For example, `corporationTypeOptions.freeZone` should be sent as:
+
+```json
+{
+  "countryOptions": {
+    "corporationTypeOptions": {
+      "freeZone": "DMCC"
+    }
+  }
+}
+```
+
+This endpoint is informational only. It is safe to use for UI rendering, but clients should still handle validation errors from `POST /partner/incorporation/companies/{companyId}/incorporations`.

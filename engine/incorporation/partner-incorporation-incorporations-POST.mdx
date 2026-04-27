@@ -1,0 +1,67 @@
+---
+title: "Create an incorporation"
+openapi: "POST /partner/incorporation/companies/{companyId}/incorporations"
+---
+
+Starts an incorporation for a company accessible to your partner account.
+
+This endpoint does not create a payment intent. The response returns the incorporation resource directly, plus the current requirements and `intakeState` when available.
+
+For a complete Singapore walkthrough with ID handoffs, see [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
+
+## Request shape
+
+Create requests use a `country` plus country-specific `countryOptions` instead of a flat product id.
+
+- `country` is the ISO 3166-1 alpha-2 code for the jurisdiction.
+- `countryOptions` is an object whose shape depends on `country`.
+- `companyId` is the path parameter for the Commenda company that owns the incorporation.
+- `intake.requirements` is optional and can contain initial partial intake data.
+- Unknown or unsupported options are rejected by this endpoint.
+
+## Singapore example
+
+```json
+{
+  "country": "SG",
+  "countryOptions": {
+    "corporationType": "PRIVATE_LIMITED_COMPANY"
+  }
+}
+```
+
+Use `GET /partner/incorporation/jurisdiction-catalog` to see currently supported countries and option values. Use `GET /partner/incorporation/requirements` before building an intake UI.
+
+## Initial partial intake example
+
+```json
+{
+  "country": "SG",
+  "countryOptions": {
+    "corporationType": "PRIVATE_LIMITED_COMPANY"
+  },
+  "intake": {
+    "requirements": {
+      "companyNameOptions": [
+        { "name": "Acme SG Pte Ltd" }
+      ]
+    }
+  }
+}
+```
+
+## Supported options
+
+| Country | Required options | Optional options |
+|---|---|---|
+| `US` | `corporationType`: `CORPORATION`, `LLC` | `state`: US state abbreviation |
+| `CA` | `corporationType`: `CORPORATION` | None |
+| `IN` | `corporationType`: `LLP`, `PRIVATE_LIMITED_COMPANY` | None |
+| `AE` | `corporationType`: `FZC` | `corporationTypeOptions.freeZone`: `ADGM`, `DIFC`, `DMCC`, `IFZA` |
+| `GB`, `IE`, `NZ` | `corporationType`: `LIMITED_COMPANY` | None |
+| `KY` | `corporationType`: `EXEMPTED_COMPANY` | None |
+| `SG` | `corporationType`: `PRIVATE_LIMITED_COMPANY` | None |
+
+## Response status
+
+New incorporations are returned with `incorporationStatus: "awaiting_customer_input"`. Once required intake data, participant roles, and documents validate, call `POST /partner/incorporation/{incorporationId}/submit`; after submit succeeds, the status becomes `submitted` or `in_progress` depending on workflow start state.

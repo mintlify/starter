@@ -1,0 +1,26 @@
+---
+title: "Create webhook subscription"
+openapi: "POST /partner/webhook-subscriptions"
+---
+
+Creates a partner-level webhook subscription.
+
+The response includes the full `secret` exactly once. Store it securely and use it to verify webhook signatures. Later reads return only `secretPreview`.
+
+Webhook URLs must use HTTPS and must be reachable on public addresses.
+
+## Example
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "url": "https://partner.example.com/commenda/webhooks",
+    "eventTypes": [
+      "incorporation.issue.created",
+      "incorporation.issue.resolved"
+    ]
+  }'
+```

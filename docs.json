@@ -39,9 +39,7 @@
               "product/entities/bank-accounts",
               {
                 "group": "Jurisdictions",
-                "pages": [
-                  "product/entities/philippines"
-                ]
+                "pages": ["product/entities/philippines"]
               }
             ]
           },
@@ -96,16 +94,11 @@
           },
           {
             "group": "Tools",
-            "pages": [
-              "product/tools/esign",
-              "product/tools/general-thread"
-            ]
+            "pages": ["product/tools/esign", "product/tools/general-thread"]
           },
           {
             "group": "Settings",
-            "pages": [
-              "product/settings/overview"
-            ]
+            "pages": ["product/settings/overview"]
           },
           {
             "group": "Integrations",
@@ -160,52 +153,176 @@
         ]
       },
       {
-        "tab": "API Documentation",
-        "icon": "code",
+        "tab": "Partner API",
+        "icon": "handshake",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Company setup",
+            "pages": ["engine/incorporation/company-POST"]
+          },
+          {
+            "group": "Partner Incorporation API",
             "pages": [
-              "engine/api-introduction"
+              "engine/incorporation/partner-incorporation-introduction",
+              "engine/incorporation/partner-incorporation-build-flow",
+              {
+                "group": "Discovery",
+                "pages": [
+                  "engine/incorporation/partner-incorporation-jurisdiction-catalog-GET",
+                  "engine/incorporation/partner-incorporation-requirements-GET",
+                  "engine/incorporation/partner-incorporation-status-workflow-GET"
+                ]
+              },
+              {
+                "group": "Incorporations",
+                "pages": [
+                  "engine/incorporation/partner-incorporation-incorporations-POST",
+                  "engine/incorporation/partner-incorporation-incorporations-GET",
+                  "engine/incorporation/partner-incorporation-incorporations-id-GET"
+                ]
+              },
+              {
+                "group": "Participants",
+                "pages": [
+                  "engine/incorporation/partner-incorporation-participants-POST",
+                  "engine/incorporation/partner-incorporation-participants-GET"
+                ]
+              },
+              {
+                "group": "Documents",
+                "pages": [
+                  "engine/incorporation/partner-incorporation-document-upload-flow",
+                  "engine/incorporation/partner-incorporation-files-POST",
+                  "engine/incorporation/partner-incorporation-participant-documents-POST"
+                ]
+              },
+              {
+                "group": "Intake",
+                "pages": [
+                  "engine/incorporation/partner-incorporation-intake-POST",
+                  "engine/incorporation/partner-incorporation-submit-POST"
+                ]
+              },
+              {
+                "group": "Status",
+                "pages": ["engine/incorporation/partner-incorporation-status-GET"]
+              },
+              {
+                "group": "Issues",
+                "pages": ["engine/incorporation/partner-incorporation-issues-GET"]
+              },
+              {
+                "group": "Webhooks",
+                "pages": ["engine/incorporation/partner-incorporation-webhooks"]
+              }
             ]
           },
           {
-            "group": "Global Indirect Tax",
+            "group": "Commenda OS Partner API",
             "pages": [
+              "engine/commendaos/partner-api/commenda-os-introduction",
               {
-                "group": "Get Started",
+                "group": "Business Entities",
                 "pages": [
-                  "engine/indirect-tax/introduction",
-                  "engine/indirect-tax/taxcode",
-                  {
-                    "group": "Core Concepts",
-                    "pages": [
-                      "engine/indirect-tax/core-concepts/transactions",
-                      "engine/indirect-tax/core-concepts/nexus",
-                      "engine/indirect-tax/core-concepts/global-exposure",
-                      "engine/indirect-tax/core-concepts/exemptions"
-                    ]
-                  },
-                  {
-                    "group": "Common Use Cases",
-                    "pages": [
-                      "engine/indirect-tax/use-cases/us-sales-tax-calculation"
-                    ]
-                  }
+                  "engine/commendaos/partner-api/commenda-os-business-entities-POST",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-PATCH"
+                ]
+              },
+              {
+                "group": "Locations",
+                "pages": [
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-locations-location-id-GET"
+                ]
+              },
+              {
+                "group": "Persons",
+                "pages": [
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-persons-GET",
+                  "engine/commendaos/partner-api/commenda-os-persons-GET",
+                  "engine/commendaos/partner-api/commenda-os-persons-POST",
+                  "engine/commendaos/partner-api/commenda-os-persons-id-PATCH"
+                ]
+              },
+              {
+                "group": "Government Identifiers",
+                "pages": [
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-government-identifiers-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-government-identifiers-government-identifier-id-GET"
+                ]
+              },
+              {
+                "group": "Documents",
+                "pages": [
+                  "engine/commendaos/partner-api/commenda-os-documents-upload-url-POST",
+                  "engine/commendaos/partner-api/commenda-os-documents-POST",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-documents-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-documents-supported-GET"
                 ]
               },
               {
                 "group": "Registrations",
                 "pages": [
-                  "engine/indirect-tax/registrations/registrations",
-                  "engine/indirect-tax/registrations/registrations-POST",
-                  "engine/indirect-tax/registrations/registrations-GET",
-                  "engine/indirect-tax/registrations/registrations-id-GET",
-                  "engine/indirect-tax/registrations/registrations-id-POST",
-                  "engine/indirect-tax/registrations/registrations-id-DELETE",
-                  "engine/indirect-tax/registrations/registrations-id-request-validation-POST",
-                  "engine/indirect-tax/registrations/registrations-id-archive-POST",
-                  "engine/indirect-tax/registrations/registrations-id-close-POST",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-registrations-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-registrations-registration-id-GET",
+                  "engine/commendaos/partner-api/commenda-os-business-entities-id-registrations-supported-GET",
+                  "engine/commendaos/partner-api/commenda-os-registrations-supported-GET"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "engine/partner-webhooks/partner-webhooks",
+              "engine/partner-webhooks/partner-webhook-subscriptions-POST",
+              "engine/partner-webhooks/partner-webhook-subscriptions-LIST",
+              "engine/partner-webhooks/partner-webhook-subscriptions-GET",
+              "engine/partner-webhooks/partner-webhook-subscriptions-DELETE"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Indirect Tax API",
+        "icon": "receipt",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "engine/indirect-tax/introduction",
+              "engine/indirect-tax/taxcode",
+              {
+                "group": "Core Concepts",
+                "pages": [
+                  "engine/indirect-tax/core-concepts/transactions",
+                  "engine/indirect-tax/core-concepts/nexus",
+                  "engine/indirect-tax/core-concepts/global-exposure",
+                  "engine/indirect-tax/core-concepts/exemptions"
+                ]
+              },
+              {
+                "group": "Common Use Cases",
+                "pages": [
+                  "engine/indirect-tax/use-cases/us-sales-tax-calculation"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Registrations",
+            "pages": [
+              "engine/indirect-tax/registrations/registrations",
+              "engine/indirect-tax/registrations/registrations-POST",
+              "engine/indirect-tax/registrations/registrations-GET",
+              "engine/indirect-tax/registrations/registrations-id-GET",
+              "engine/indirect-tax/registrations/registrations-id-POST",
+              "engine/indirect-tax/registrations/registrations-id-DELETE",
+              "engine/indirect-tax/registrations/registrations-id-request-validation-POST",
+              "engine/indirect-tax/registrations/registrations-id-archive-POST",
+              "engine/indirect-tax/registrations/registrations-id-close-POST",
               {
                 "group": "Registration Content",
                 "pages": [
@@ -244,8 +361,6 @@
                   "engine/indirect-tax/registrations/v2/content/tax-type-details-POST"
                 ]
               }
-            ]
-          }
             ]
           },
           {
@@ -294,9 +409,7 @@
           },
           {
             "group": "Registration Thresholds",
-            "pages": [
-              "engine/indirect-tax/nexus/nexus-GET"
-            ]
+            "pages": ["engine/indirect-tax/nexus/nexus-GET"]
           },
           {
             "group": "Products",
@@ -344,9 +457,7 @@
           },
           {
             "group": "Exemptions",
-            "pages": [
-              "engine/indirect-tax/exemptions/exemptions-GET"
-            ]
+            "pages": ["engine/indirect-tax/exemptions/exemptions-GET"]
           },
           {
             "group": "Files",
@@ -392,12 +503,6 @@
             ]
           },
           {
-            "group": "Address Requirements",
-            "pages": [
-              "engine/indirect-tax/address-requirements/address-requirements-GET"
-            ]
-          },
-          {
             "group": "Webhooks",
             "pages": [
               "engine/indirect-tax/webhooks/webhooks",
@@ -409,113 +514,50 @@
               "engine/indirect-tax/webhooks/webhooks-DELETE",
               "engine/indirect-tax/webhooks/webhooks-TEST"
             ]
+          }
+        ]
+      },
+      {
+        "tab": "Legacy Affiliate API",
+        "icon": "link",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": ["engine/incorporation/introduction"]
           },
           {
-            "group": "CommendaOS",
+            "group": "Companies",
+            "pages": ["engine/incorporation/company-POST"]
+          },
+          {
+            "group": "Services",
+            "pages": ["engine/incorporation/services-POST"]
+          },
+          {
+            "group": "Payment Intents",
             "pages": [
-              "engine/commendaos/overview",
-              {
-                "group": "APIs",
-                "pages": [
-                  "engine/commendaos/business-entity",
-                  "engine/commendaos/bank-accounts",
-                  "engine/commendaos/government-identifiers",
-                  "engine/commendaos/registrations",
-                  "engine/commendaos/locations",
-                  "engine/commendaos/credentials",
-                  "engine/commendaos/documents",
-                  "engine/commenda-os/apis/settings"
-                ]
-              },
-              {
-                "group": "Public API",
-                "pages": [
-                  "engine/commendaos/public-api/commenda-os-introduction",
-                  {
-                    "group": "Business Entities",
-                    "pages": [
-                      "engine/commendaos/public-api/commenda-os-business-entities-GET",
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-GET"
-                    ]
-                  },
-                  {
-                    "group": "Locations",
-                    "pages": [
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-locations-GET",
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-locations-location-id-GET"
-                    ]
-                  },
-                  {
-                    "group": "Persons",
-                    "pages": [
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-persons-GET",
-                      "engine/commendaos/public-api/commenda-os-persons-GET"
-                    ]
-                  },
-                  {
-                    "group": "Government Identifiers",
-                    "pages": [
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-government-identifiers-GET",
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-government-identifiers-government-identifier-id-GET"
-                    ]
-                  },
-                  {
-                    "group": "Documents",
-                    "pages": [
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-documents-GET",
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-documents-supported-GET"
-                    ]
-                  },
-                  {
-                    "group": "Registrations",
-                    "pages": [
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-registrations-GET",
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-registrations-registration-id-GET",
-                      "engine/commendaos/public-api/commenda-os-business-entities-id-registrations-supported-GET",
-                      "engine/commendaos/public-api/commenda-os-registrations-supported-GET"
-                    ]
-                  }
-                ]
-              }
+              "engine/incorporation/payment-intents-GET",
+              "engine/incorporation/payment-intents-id-GET",
+              "engine/incorporation/payment-intents-id-service-status-GET"
             ]
           },
+          {
+            "group": "Documents",
+            "pages": [
+              "engine/incorporation/documents-GET",
+              "engine/incorporation/file-id-GET"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Developer APIs",
+        "icon": "code",
+        "groups": [
           {
             "group": "Company Name Checker",
             "pages": [
               "engine/company-name-checker/introduction"
-            ]
-          },
-          {
-            "group": "Incorporation",
-            "pages": [
-              "engine/incorporation/introduction",
-              {
-                "group": "Companies",
-                "pages": [
-                  "engine/incorporation/company-POST"
-                ]
-              },
-              {
-                "group": "Services",
-                "pages": [
-                  "engine/incorporation/services-POST"
-                ]
-              },
-              {
-                "group": "Payment Intents",
-                "pages": [
-                  "engine/incorporation/payment-intents-GET",
-                  "engine/incorporation/payment-intents-id-GET",
-                  "engine/incorporation/payment-intents-id-service-status-GET"
-                ]
-              },
-              {
-                "group": "Documents",
-                "pages": [
-                  "engine/incorporation/documents-GET",
-                  "engine/incorporation/file-id-GET"
-                ]
-              }
             ]
           },
           {

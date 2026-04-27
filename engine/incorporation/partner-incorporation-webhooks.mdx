@@ -1,0 +1,41 @@
+---
+title: "Incorporation webhooks"
+description: "Receive partner incorporation issue events."
+---
+
+Partner incorporation webhooks notify your integration when Commenda creates or resolves a partner-visible incorporation issue.
+
+Supported incorporation event types:
+
+| Event type | Trigger |
+| --- | --- |
+| `incorporation.issue.created` | Commenda creates a partner-visible issue for an incorporation. |
+| `incorporation.issue.resolved` | Commenda resolves a partner-visible issue. |
+
+Use [List incorporation issues](/engine/incorporation/partner-incorporation-issues-GET) to fetch the current issue state directly.
+
+Use the top-level [Partner webhooks](/engine/partner-webhooks/partner-webhooks) docs for subscription management, delivery behavior, signatures, payload shape, retries, and event idempotency.
+
+## Subscribe
+
+Create a partner-level webhook subscription with the issue events you want to receive:
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/webhook-subscriptions' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "url": "https://partner.example.com/commenda/webhooks",
+    "eventTypes": [
+      "incorporation.issue.created",
+      "incorporation.issue.resolved"
+    ]
+  }'
+```
+
+The subscription is partner-level, not scoped to one company or incorporation.
+
+## Correction cycle semantics
+
+Each issue row represents one remediation episode. Resolved incorporation issues are not reopened; if the same kind of correction is needed again later, Commenda creates a new issue and emits a new `incorporation.issue.created` event.

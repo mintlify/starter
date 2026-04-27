@@ -3,4 +3,10 @@ title: "Create a company"
 openapi: "POST /public/company"
 ---
 
-Creates a new company for an affiliate incorporation workflow.
+Creates a new company for partner and legacy affiliate incorporation workflows.
+
+<Info>
+For the Partner Incorporation API, this creates the Commenda company container that owns incorporations and Commenda OS resources. Save the returned `companyId`; you will use it in `POST /partner/incorporation/companies/{companyId}/incorporations` and in company-scoped Commenda OS endpoints such as `POST /partner/commenda-os/companies/{companyId}/persons`.
+</Info>
+
+After creating the company, call `GET /partner/incorporation/jurisdiction-catalog` and `GET /partner/incorporation/requirements` to choose the incorporation jurisdiction and understand the required data.

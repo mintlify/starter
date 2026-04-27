@@ -1,0 +1,10 @@
+---
+title: "Update a person"
+openapi: "PATCH /partner/commenda-os/companies/{companyId}/persons/{personId}"
+---
+
+Partially update a reusable Commenda OS key person for a partner-accessible company.
+
+This endpoint uses the same person-update semantics as the internal Commenda OS API: omitted fields are left unchanged, and the response returns the updated person identifier.
+
+Use incorporation participant and document endpoints for incorporation-specific roles and documents.

@@ -33,12 +33,14 @@ components:
       properties:
         id:
           type: string
-          description: The unique identifier for this webhook. You will need this if
+          description:
+            The unique identifier for this webhook. You will need this if
             you need to update or delete this webhook.
           example: 2535af08-a139-4d0c-9827-1651e46dfbcf
         api_version:
           type: string
-          description: The version of the API for which you registered the webhook.
+          description:
+            The version of the API for which you registered the webhook.
             This will be 'v1.0' for now. This helps to maintain backward compatibility.
             If in newer versions the event payload is changed, your webhook will keep
             receiving the payload from the original api version.
@@ -52,21 +54,24 @@ components:
           items:
             type: string
             enum:
-            - REGISTRATIONS.EXISTING.VALIDATION_FAILED
-            - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
-          description: An array of topics to listen to. When any of these topics are
+              - REGISTRATIONS.EXISTING.VALIDATION_FAILED
+              - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
+          description:
+            An array of topics to listen to. When any of these topics are
             triggered, the webhook will be pinged.
         url:
           type: string
-          description: Your webhook url that will be hit once a topic is triggered.
+          description:
+            Your webhook url that will be hit once a topic is triggered.
             Only https:// urls will work.
           example: https://bruno-simon.com/
         status:
           type: string
           enum:
-          - ENABLED
-          - DISABLED
-          description: If the webhook is active or not. If a webhook id disabled it
+            - ENABLED
+            - DISABLED
+          description:
+            If the webhook is active or not. If a webhook id disabled it
             won't be called when a topic is triggered.
         created_at:
           type: number
@@ -77,7 +82,8 @@ components:
       properties:
         api_version:
           type: string
-          description: The version of the API for which you registered the webhook.
+          description:
+            The version of the API for which you registered the webhook.
             This helps to maintain backward compatibility. If in newer versions the
             event payload is changed, your webhook will keep receiving the payload from
             this api version. This will be 'v1.0' for now and we will come up with more
@@ -90,29 +96,32 @@ components:
           items:
             type: string
             enum:
-            - REGISTRATIONS.EXISTING.VALIDATION_FAILED
-            - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
-          description: An array of topics to listen to. When any of these topics are
+              - REGISTRATIONS.EXISTING.VALIDATION_FAILED
+              - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
+          description:
+            An array of topics to listen to. When any of these topics are
             triggered, the webhook will be pinged.
         status:
           type: string
           enum:
-          - ENABLED
-          - DISABLED
-          description: If the webhook is active or not. If a webhook is disabled it
+            - ENABLED
+            - DISABLED
+          description:
+            If the webhook is active or not. If a webhook is disabled it
             won't be called when a topic is triggered.
     CreateWebhookRequest:
       type: object
       required:
-      - api_version
-      - url
-      - key
-      - status
-      - topics
+        - api_version
+        - url
+        - key
+        - status
+        - topics
       properties:
         api_version:
           type: string
-          description: The version of the API for which you registered the webhook.
+          description:
+            The version of the API for which you registered the webhook.
             This helps to maintain backward compatibility. If in newer versions the
             event payload is changed, your webhook will keep receiving the payload from
             this api version. This will be 'v1.0' for now and we will come up with more
@@ -125,38 +134,44 @@ components:
           items:
             type: string
             enum:
-            - REGISTRATIONS.EXISTING.VALIDATION_FAILED
-            - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
-          description: An array of topics to listen to. When any of these topics are
+              - REGISTRATIONS.EXISTING.VALIDATION_FAILED
+              - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
+          description:
+            An array of topics to listen to. When any of these topics are
             triggered, the webhook will be pinged.
         url:
           type: string
-          description: Your webhook url that will be hit once an event happens. Only
+          description:
+            Your webhook url that will be hit once an event happens. Only
             HTTPS urls are allowed.
         key:
           type: string
-          description: Secure string provided by the user. It will be used during HMCA
+          description:
+            Secure string provided by the user. It will be used during HMCA
             process to keep the event payloads secure. Make sure to keep it safe as
             you will need it during validating event payloads. This key won't be returned
             back by any other endpoint.
         status:
           type: string
           enum:
-          - ENABLED
-          - DISABLED
-          description: If the webhook is active or not. If a webhook is disabled it
+            - ENABLED
+            - DISABLED
+          description:
+            If the webhook is active or not. If a webhook is disabled it
             won't be called when a topic is triggered.
     CreateWebhookResponse:
       type: object
       properties:
         id:
           type: string
-          description: The unique identifier for this webhook. You will need this if
+          description:
+            The unique identifier for this webhook. You will need this if
             you need to update or delete this webhook.
           example: 2535af08-a139-4d0c-9827-1651e46dfbcf
         api_version:
           type: string
-          description: The version of the API for which you registered the webhook.
+          description:
+            The version of the API for which you registered the webhook.
             This will be 'v1.0' for now. This helps to maintain backward compatibility.
             If in newer versions the event payload is changed, your webhook will keep
             receiving the payload from the original api version.
@@ -170,27 +185,31 @@ components:
           items:
             type: string
             enum:
-            - REGISTRATIONS.EXISTING.VALIDATION_FAILED
-            - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
-          description: An array of topics to listen to. When any of these topics are
+              - REGISTRATIONS.EXISTING.VALIDATION_FAILED
+              - REGISTRATIONS.EXISTING.VALIDATION_SUCCEEDED
+          description:
+            An array of topics to listen to. When any of these topics are
             triggered, the webhook will be pinged.
         url:
           type: string
-          description: Your webhook url that will be hit once a topic is triggered.
+          description:
+            Your webhook url that will be hit once a topic is triggered.
             Only https:// urls will work.
           example: https://bruno-simon.com/
         key:
           type: string
-          description: Use for signing the event payloads. All the event payloads will
+          description:
+            Use for signing the event payloads. All the event payloads will
             be signed using this key. Make sure to keep it safe as you will need it
             during validating event payloads.
           example: couabowugowubfvow2efgofqpifhdiubvafobafou2ee
         status:
           type: string
           enum:
-          - ENABLED
-          - DISABLED
-          description: If the webhook is active or not. If a webhook id disabled it
+            - ENABLED
+            - DISABLED
+          description:
+            If the webhook is active or not. If a webhook id disabled it
             won't be called when a topic is triggered.
         created_at:
           type: number
@@ -201,12 +220,12 @@ components:
     Product:
       "$ref": "./products.yaml#/schemas/Product"
     CreateProduct:
-        $ref: "./products.yaml#/schemas/CreateProduct"
+      $ref: "./products.yaml#/schemas/CreateProduct"
     UpdateProduct:
       $ref: "./products.yaml#/schemas/UpdateProduct"
-    TaxCalculationRequest: 
+    TaxCalculationRequest:
       "$ref": "./tax-calculations.yaml#/schemas/TaxCalculationRequest"
-    TaxCalculationResponse: 
+    TaxCalculationResponse:
       "$ref": "./tax-calculations.yaml#/schemas/TaxCalculationResponse"
     AddressRequirementsResponse:
       $ref: "./address-requirements.yaml#/schemas/AddressRequirementsResponse"
@@ -242,12 +261,132 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateListDocumentsResponse"
     AffiliateFileSignedUrlResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateFileSignedUrlResponse"
-    CommendaOsPublicError:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsPublicError"
+    PartnerIncorporationCountry:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountry"
+    PartnerIncorporationStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatus"
+    PartnerIncorporationStageStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStageStatus"
+    PartnerIncorporationStatusStageOwner:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStageOwner"
+    PartnerIncorporationStatusWorkflowStage:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowStage"
+    PartnerIncorporationStatusWorkflow:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflow"
+    PartnerIncorporationStatusWorkflowResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowResponse"
+    PartnerIncorporationStatusWorkflowSummary:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowSummary"
+    PartnerIncorporationCaseStage:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
+    PartnerIncorporationCaseStatusResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStatusResponse"
+    PartnerIncorporationCountryOptions:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
+    PartnerCreateCompanyScopedIncorporationRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateCompanyScopedIncorporationRequest"
+    PartnerJurisdictionCatalogField:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerJurisdictionCatalogField"
+    PartnerJurisdictionCatalogCountry:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerJurisdictionCatalogCountry"
+    PartnerJurisdictionCatalogResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerJurisdictionCatalogResponse"
+    PartnerRequirementsResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRequirementsResponse"
+    PartnerIncorporationRequirements:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirements"
+    PartnerIncorporationValidationIssue:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationIssue"
+    PartnerIncorporationValidationSummary:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
+    PartnerIncorporationSubmitError:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationSubmitError"
+    PartnerIncorporationRequirementValues:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirementValues"
+    PartnerUpdateIntakeRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerUpdateIntakeRequest"
+    PartnerIncorporationIntakeState:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIntakeState"
+    PartnerIncorporationIntakeResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIntakeResponse"
+    PartnerRegisterFileRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRegisterFileRequest"
+    PartnerRegisterFileResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRegisterFileResponse"
+    PartnerIncorporationParticipantType:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantType"
+    PartnerIncorporationParticipantResourceType:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantResourceType"
+    PartnerIncorporationParticipantRoleName:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRoleName"
+    PartnerIncorporationParticipantResource:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantResource"
+    PartnerIncorporationParticipantRole:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRole"
+    PartnerRegisterParticipantRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRegisterParticipantRequest"
+    PartnerIncorporationDocumentKind:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationDocumentKind"
+    PartnerIncorporationParticipantDocumentStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentStatus"
+    PartnerIncorporationParticipantDocument:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocument"
+    PartnerLinkParticipantDocumentRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerLinkParticipantDocumentRequest"
+    PartnerIncorporationParticipant:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipant"
+    PartnerIncorporationParticipantResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantResponse"
+    PartnerIncorporationParticipantsResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantsResponse"
+    PartnerIncorporationParticipantDocumentResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentResponse"
+    PartnerIncorporationIssueCode:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueCode"
+    PartnerIncorporationIssueStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueStatus"
+    PartnerIncorporationIssueStatusFilter:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueStatusFilter"
+    PartnerIncorporationIssueScope:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueScope"
+    PartnerIncorporationIssue:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssue"
+    PartnerIncorporationIssuesResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssuesResponse"
+    PartnerWebhookEventType:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookEventType"
+    PartnerWebhookSubscriptionStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionStatus"
+    PartnerWebhookSubscription:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscription"
+    PartnerCreatedWebhookSubscription:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreatedWebhookSubscription"
+    PartnerCreateWebhookSubscriptionRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateWebhookSubscriptionRequest"
+    PartnerCreateWebhookSubscriptionResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerCreateWebhookSubscriptionResponse"
+    PartnerWebhookSubscriptionResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionResponse"
+    PartnerWebhookSubscriptionsResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerWebhookSubscriptionsResponse"
+    PartnerIncorporationIssueWebhookPayload:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueWebhookPayload"
+    PartnerIncorporation:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporation"
+    PartnerIncorporationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationResponse"
+    PartnerIncorporationListResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationListResponse"
+    CommendaOsPartnerError:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsPartnerError"
     CommendaOsBusinessEntityResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsBusinessEntityResponse"
     CommendaOsBusinessEntityListResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsBusinessEntityListResponse"
+    CommendaOsBusinessEntityCreateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsBusinessEntityCreateRequest"
+    CommendaOsBusinessEntityUpdateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsBusinessEntityUpdateRequest"
     CommendaOsLocationResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsLocationResponse"
     CommendaOsLocationsResponse:
@@ -256,6 +395,12 @@ components:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsBusinessEntityPersonsResponse"
     CommendaOsPersonsResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsPersonsResponse"
+    CommendaOsPersonCreateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsPersonCreateRequest"
+    CommendaOsPersonUpdateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsPersonUpdateRequest"
+    CommendaOsPersonMutationResponse:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsPersonMutationResponse"
     CommendaOsGovernmentIdentifierResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsGovernmentIdentifierResponse"
     CommendaOsGovernmentIdentifiersResponse:
@@ -264,6 +409,18 @@ components:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsDocumentsResponse"
     CommendaOsSupportedDocumentsResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsSupportedDocumentsResponse"
+    CommendaOsCompanyDocumentUploadUrlRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentUploadUrlRequest"
+    CommendaOsCompanyDocumentUpload:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentUpload"
+    CommendaOsCompanyDocumentUploadUrlResponse:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentUploadUrlResponse"
+    CommendaOsCompanyDocumentCreateRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentCreateRequest"
+    CommendaOsCompanyDocument:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocument"
+    CommendaOsCompanyDocumentResponse:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCompanyDocumentResponse"
     CommendaOsRegistrationResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsRegistrationResponse"
     CommendaOsRegistrationsResponse:
@@ -273,16 +430,17 @@ components:
     CustomsDutyCalculationRequest:
       type: object
       required:
-      - corporation_id
-      - invoice_currency
-      - subtotal
-      - origin_country
-      - destination_country
-      - line_items
+        - corporation_id
+        - invoice_currency
+        - subtotal
+        - origin_country
+        - destination_country
+        - line_items
       properties:
         corporation_id:
           type: string
-          description: The unique identifier for the corporation to calculate an import
+          description:
+            The unique identifier for the corporation to calculate an import
             duty rate for.
           example: b6d009b0-d174-463f-b030-94643c28e209
         invoice_currency:
@@ -306,11 +464,12 @@ components:
         line_items:
           type: object
           required:
-          - amount
-          - quantity
+            - amount
+            - quantity
           properties:
             items:
-              description: Array of line items representing individual products in the
+              description:
+                Array of line items representing individual products in the
                 shipment. For each line item, pass exactly one of `customs_code` or
                 the `product_id`. If the `product_id` is passed, the `customs_code`
                 will be fetched from the product itself.
@@ -320,7 +479,8 @@ components:
                 properties:
                   amount:
                     type: number
-                    description: Total price for the line item, including any discounts
+                    description:
+                      Total price for the line item, including any discounts
                       and shipping and handling costs.
                   quantity:
                     type: number
@@ -329,7 +489,8 @@ components:
                   #   "$ref": "#/components/schemas/customs_code"
                   product_id:
                     type: string
-                    description: The unique identifier for the product getting sold
+                    description:
+                      The unique identifier for the product getting sold
                       in this line item.
     CreateTaxTransactionRequest:
       "$ref": "./tax-transactions.yaml#/schemas/CreateTaxTransactionRequest"
@@ -342,18 +503,18 @@ components:
     filing_frequency:
       type: string
       enum:
-      - MONTHLY
-      - QUARTERLY
-      - SEMI_ANNUALLY
-      - ANNUAL_CALENDAR_YEAR
-      - FISCAL_YEAR
-      - MONTHLY_ACCELERATED_PREPAY_EARLY
-      - QUARTERLY_PREPAY_MONTHLY
-      - ANNUAL_RECONCILIATION
-      - BI_MONTHLY
-      - TRI_ANNUALLY
-      - QUARTERLY_FEB
-      - QUARTERLY_MAR
+        - MONTHLY
+        - QUARTERLY
+        - SEMI_ANNUALLY
+        - ANNUAL_CALENDAR_YEAR
+        - FISCAL_YEAR
+        - MONTHLY_ACCELERATED_PREPAY_EARLY
+        - QUARTERLY_PREPAY_MONTHLY
+        - ANNUAL_RECONCILIATION
+        - BI_MONTHLY
+        - TRI_ANNUALLY
+        - QUARTERLY_FEB
+        - QUARTERLY_MAR
       description: >-
         How often the business is required to submit tax returns.
         V1 registrations typically use MONTHLY, QUARTERLY, SEMI_ANNUALLY, or ANNUAL_CALENDAR_YEAR.
@@ -363,11 +524,11 @@ components:
     Tax_filing_status:
       type: string
       enum:
-      - SCHEDULED
-      - ACCRUING
-      - ACTIVE
-      - FILED
-      - OVERDUE
+        - SCHEDULED
+        - ACCRUING
+        - ACTIVE
+        - FILED
+        - OVERDUE
       description: >-
         Current status of the filing. SCHEDULED means the filing has been created
         but the tax period has not yet started. ACCRUING means transactions are being
@@ -382,7 +543,8 @@ components:
           description: The unique identifier for the filing.
         corporation_id:
           type: string
-          description: The unique identifier for a corporation associated with this
+          description:
+            The unique identifier for a corporation associated with this
             filing.
         form_title:
           type: string
@@ -431,7 +593,8 @@ components:
         period_start_date:
           type: string
           format: date
-          description: ISO 8601 date string, identifying the start date of the period
+          description:
+            ISO 8601 date string, identifying the start date of the period
             period for which the sales tax is being filed (e.g., '2024-09-01' for September
             2024). For a quarter 1 filing where the fiscal year starts in March, the
             period_start_date will be 2024-03-01 and frequency will be QUARTERLY.
@@ -449,7 +612,8 @@ components:
         due_date:
           type: string
           format: date
-          description: ISO 8601 date string, identifying the date when by which the
+          description:
+            ISO 8601 date string, identifying the date when by which the
             filing must be submitted.
         filing_status:
           "$ref": "#/components/schemas/Tax_filing_status"
@@ -459,11 +623,13 @@ components:
           description: Date when the taxes were filed with the state, in ISO 8601 format.
         registration_id:
           type: string
-          description: The unique identifier for the tax registration associated with
+          description:
+            The unique identifier for the tax registration associated with
             this filing.
         total_tax_filed:
           type: number
-          description: Total amount of sales tax filed with various jurisdictions for
+          description:
+            Total amount of sales tax filed with various jurisdictions for
             this period. May differ slightly from the total tax collected.
           example: 135.92
         payment_details:
@@ -475,19 +641,21 @@ components:
             payment_status:
               type: string
               enum:
-              - PENDING
-              - COMPLETED
-              - FAILED
+                - PENDING
+                - COMPLETED
+                - FAILED
               description: Status of the payment.
             failure_details:
               type: object
-              description: This object will be populated if the payment fails for any
+              description:
+                This object will be populated if the payment fails for any
                 reason.
               properties:
                 failed_at:
                   type: string
                   format: date
-                  description: ISO 8601 date string, identifying the date when the payment
+                  description:
+                    ISO 8601 date string, identifying the date when the payment
                     failed.
                 reason:
                   type: string
@@ -511,7 +679,8 @@ components:
           description: The unique identifier for the filing.
         corporation_id:
           type: string
-          description: The unique identifier for a corporation associated with this
+          description:
+            The unique identifier for a corporation associated with this
             filing.
         form_title:
           type: string
@@ -560,7 +729,8 @@ components:
         period_start_date:
           type: string
           format: date
-          description: ISO 8601 date string, identifying the start date of the period
+          description:
+            ISO 8601 date string, identifying the start date of the period
             period for which the sales tax is being filed (e.g., '2024-09-01' for September
             2024). For a quarter 1 filing where the fiscal year starts in March, the
             period_start_date will be 2024-03-01 and frequency will be QUARTERLY.
@@ -576,7 +746,8 @@ components:
         due_date:
           type: string
           format: date
-          description: ISO 8601 date string, identifying the date when by which the
+          description:
+            ISO 8601 date string, identifying the date when by which the
             filing must be submitted.
         filing_status:
           "$ref": "#/components/schemas/Tax_filing_status"
@@ -586,11 +757,13 @@ components:
           description: Date when the taxes were filed with the state, in ISO 8601 format.
         registration_id:
           type: string
-          description: The unique identifier for the tax registration associated with
+          description:
+            The unique identifier for the tax registration associated with
             this filing.
         total_tax_filed:
           type: number
-          description: Total amount of sales tax filed with various jurisdictions for
+          description:
+            Total amount of sales tax filed with various jurisdictions for
             this period. May differ slightly from the total tax collected.
           example: 135.92
         sales_details:
@@ -602,7 +775,8 @@ components:
               example: 12345.91
             taxable_sales:
               type: number
-              description: Total sales amount that was subject to sales tax for the
+              description:
+                Total sales amount that was subject to sales tax for the
                 filing period.
               example: 12345.91
             sales_tax_collected:
@@ -619,18 +793,20 @@ components:
             payment_status:
               type: string
               enum:
-              - PENDING
-              - COMPLETED
-              - FAILED
+                - PENDING
+                - COMPLETED
+                - FAILED
               description: Status of the payment.
             failure_details:
               type: object
-              description: This object will be populated if the payment fails for any
+              description:
+                This object will be populated if the payment fails for any
                 reason.
               properties:
                 failed_at:
                   type: string
-                  description: ISO 8601 date string, identifying the date when the payment
+                  description:
+                    ISO 8601 date string, identifying the date when the payment
                     failed.
                 reason:
                   type: string
@@ -640,7 +816,7 @@ components:
     Country:
       type: string
       example: US
-      description: 'ISO 3166 2-letter country code. Ex: US, IN, GB.'
+      description: "ISO 3166 2-letter country code. Ex: US, IN, GB."
     Currency:
       type: string
       example: USD
@@ -679,42 +855,47 @@ components:
           example: 102400
         corporation_id:
           type: string
-          description: The unique identifier for a corporation associated with this
+          description:
+            The unique identifier for a corporation associated with this
             file.
     Error:
       type: object
       required:
-      - error
+        - error
       properties:
         error:
           type: object
           properties:
             type:
               type: string
-              description: 'Specific Error type. Example: CLIENT_INVALID_REQUEST_BODY.'
+              description: "Specific Error type. Example: CLIENT_INVALID_REQUEST_BODY."
               example: CLIENT_INVALID_REQUEST_BODY
             doc_url:
               type: string
-              description: 'A link to the docs with details about this error. Example:
-                https://sales-tax-docs.commenda.io/'
+              description:
+                "A link to the docs with details about this error. Example:
+                https://sales-tax-docs.commenda.io/"
               example: https://sales-tax-docs.commenda.io/
             title:
               type: string
-              description: 'A short title describing the error. Example: Missing query
-                parameters.'
+              description:
+                "A short title describing the error. Example: Missing query
+                parameters."
               example: Failed to validate the request body
             detail:
               type: string
-              description: A json string with a description on how to fix the error.
+              description:
+                A json string with a description on how to fix the error.
                 Example {"description":"Please pass in a valid corporation_id"}
             status:
               type: number
-              description: 'The status code. It should be the same as the HTTP protocol
-                status code. Example: 200'
+              description:
+                "The status code. It should be the same as the HTTP protocol
+                status code. Example: 200"
               example: 400
             instance:
               type: string
-              description: 'The relative path that was hit by the user. Example: /api/v1/corporations/1'
+              description: "The relative path that was hit by the user. Example: /api/v1/corporations/1"
             Errors:
               type: array
               items:
@@ -725,7 +906,8 @@ components:
                     description: More details on how to solve this particular error.
                   pointer:
                     type: string
-                    description: Relative reference to missing or invalid piece of passed
+                    description:
+                      Relative reference to missing or invalid piece of passed
                       information.
   securitySchemes:
     bearerAuth:

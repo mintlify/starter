@@ -1,0 +1,65 @@
+---
+title: "Update incorporation intake"
+openapi: "POST /partner/incorporation/{incorporationId}/intake"
+---
+
+Updates partial or complete non-participant requirement data for an incorporation.
+
+Each update is merged into the current intake state and validated against the current requirements DSL. Incomplete updates are accepted and return a structured validation summary.
+
+The Partner API does not expose a submission history endpoint. To read progress after an update, call `GET /partner/incorporation/{incorporationId}` and inspect `intakeState`.
+
+When `intakeState.validation.isComplete` is `true`, call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda for review.
+
+Participant roles and participant documents are managed through the participant and document endpoints, not by sending array indexes or document files inside this intake payload.
+
+## Intake fields
+
+Use this endpoint for incorporation-level requirements such as company name options and registered address data.
+
+```json
+{
+  "requirements": {
+    "companyNameOptions": [
+      { "name": "Acme Holdings" },
+      { "name": "Acme Global" },
+      { "name": "Acme Ventures" }
+    ],
+    "registeredAddressMode": "standardAddress"
+  }
+}
+```
+
+`registeredAddressMode` is a data choice, not UI rendering instruction:
+
+- `standardAddress` means Commenda should use its standard registered address service for this incorporation.
+- `providedAddress` means the partner is providing a reusable Commenda OS location.
+
+If `registeredAddressMode` is `providedAddress`, include `providedRegisteredAddress` as a Commenda OS location reference.
+
+```json
+{
+  "requirements": {
+    "registeredAddressMode": "providedAddress",
+    "providedRegisteredAddress": {
+      "mode": "existingResource",
+      "resourceId": "location_001"
+    }
+  }
+}
+```
+
+The referenced location must belong to a partner-accessible Commenda OS business entity for the same company. If the existing location is missing a field required by the current requirements DSL, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
+
+If you later switch `registeredAddressMode` back to `standardAddress`, any previously submitted `providedRegisteredAddress` value may remain in `currentState`, but it is no longer applicable and will not block validation.
+
+## Validation notes
+
+Country-specific validation rules are determined by the current requirements DSL.
+
+If a selected incorporation requires shareholder ownership totals, address details, or participant documents, the response returns `missingRequirements` and `invalidRequirements` until the current incorporation state satisfies those rules.
+
+For participant-specific requirements, register participants with roles and link documents to each participant:
+
+- Use `POST /partner/incorporation/{incorporationId}/participants` for director/shareholder roles.
+- Use `POST /partner/incorporation/{incorporationId}/documents` for participant document requirements.

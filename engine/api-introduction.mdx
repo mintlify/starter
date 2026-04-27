@@ -87,9 +87,9 @@ Commenda exposes several APIs that let you programmatically manage business enti
 
 Commenda APIs use two authentication methods depending on the API:
 
-### Incorporation API
+### Legacy Affiliate API
 
-The Incorporation API uses an affiliate API key passed in the `x-api-key` header:
+The legacy affiliate API uses an affiliate API key passed in the `x-api-key` header:
 
 ```bash
 curl --request GET \
@@ -97,13 +97,13 @@ curl --request GET \
   --header 'x-api-key: <your_api_key>'
 ```
 
-### CommendaOS public API
+### CommendaOS Partner API
 
-The CommendaOS public API also uses an affiliate API key passed in the `x-api-key` header:
+The CommendaOS Partner API uses a partner API key passed in the `x-api-key` header:
 
 ```bash
 curl --request GET \
-  --url 'https://api.prod.commenda.io/api/v1/public/companies/77/business-entities' \
+  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/companies/77/business-entities' \
   --header 'x-api-key: <your_api_key>'
 ```
 
@@ -126,7 +126,9 @@ Contact the Commenda team to get API keys for both testing and production enviro
 | API | Base URL |
 |-----|----------|
 | Global Indirect Tax | `https://transaction-tax.api.in.commenda.io/api/v1` |
-| CommendaOS / Incorporation | `https://api.prod.commenda.io/api/v1/public` |
+| Partner Incorporation API | `https://api.prod.commenda.io/api/v1/partner/incorporation` |
+| CommendaOS Partner API | `https://api.prod.commenda.io/api/v1/partner/commenda-os` |
+| Legacy Affiliate API | `https://api.prod.commenda.io/api/v1/public` |
 
 All endpoint paths in this documentation are relative to their respective base URL.
 

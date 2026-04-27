@@ -1,0 +1,102 @@
+---
+title: "Register an incorporation participant"
+openapi: "POST /partner/incorporation/{incorporationId}/participants"
+---
+
+Registers a reusable Commenda OS key person or business entity as a participant in an incorporation.
+
+Participants are the incorporation-specific layer that assigns roles such as `director` and `shareholder`. The underlying person or business entity remains reusable across Commenda OS and can be used by future KYC, e-signature, and document-review workflows.
+
+KYC checks, e-signature execution, and document review are not performed by this endpoint in the MVP.
+
+The `resource.resourceId` value is the numeric Commenda OS person or business entity id encoded as a string.
+
+```json
+{
+  "participantType": "individual",
+  "resource": {
+    "resourceType": "keyPerson",
+    "resourceId": "12"
+  },
+  "roles": [
+    {
+      "role": "director"
+    },
+    {
+      "role": "shareholder",
+      "ownershipPercentage": 100
+    }
+  ]
+}
+```
+
+The current requirements DSL determines which participant roles are required and which document requirements apply to those participants.
+
+Registering a participant does not by itself make the underlying Commenda OS resource complete. The incorporation validation also checks required fields on the referenced person or business entity, such as legal names, email, nationality, date of birth, address, and corporate registration data when those fields are required by the selected jurisdiction.
+
+## Role and resource matrix
+
+For Singapore private limited companies, use this matrix when mapping the requirements DSL into participant registration calls:
+
+| Participant case | `participantType` | `resource.resourceType` | Supported role payload | Ownership | Documents |
+| --- | --- | --- | --- | --- | --- |
+| Individual director | `individual` | `keyPerson` | `{ "role": "director" }` | Not applicable | `passport_scan` and `utility_bill` when required by the DSL. |
+| Individual shareholder | `individual` | `keyPerson` | `{ "role": "shareholder", "ownershipPercentage": number }` | Required for percentage ownership. All shareholders must total 100. | `passport_scan` and `utility_bill` when required by the DSL. |
+| Same individual director and shareholder | `individual` | `keyPerson` | Include both role objects in one `roles` array. | Shareholder role still needs `ownershipPercentage`. | One participant record can satisfy both role document requirements once its required documents are linked. |
+| Corporate shareholder | `corporate` | `businessEntity` | `{ "role": "shareholder", "ownershipPercentage": number }` | Required for percentage ownership. All shareholders must total 100. | Follow `documentRequirements` for `participantType: "corporate"` and `resourceType: "businessEntity"` when present. |
+| Corporate director | `corporate` | `businessEntity` | Not supported for Singapore private limited companies. | Not applicable | Not applicable. |
+
+Create individual resources with `POST /partner/commenda-os/companies/{companyId}/persons`. Create corporate resources with `POST /partner/commenda-os/companies/{companyId}/business-entities`.
+
+## Role examples
+
+Director only:
+
+```json
+{
+  "participantType": "individual",
+  "resource": {
+    "resourceType": "keyPerson",
+    "resourceId": "12"
+  },
+  "roles": [
+    { "role": "director" }
+  ]
+}
+```
+
+Shareholder only:
+
+```json
+{
+  "participantType": "individual",
+  "resource": {
+    "resourceType": "keyPerson",
+    "resourceId": "13"
+  },
+  "roles": [
+    {
+      "role": "shareholder",
+      "ownershipPercentage": 40
+    }
+  ]
+}
+```
+
+Corporate shareholder:
+
+```json
+{
+  "participantType": "corporate",
+  "resource": {
+    "resourceType": "businessEntity",
+    "resourceId": "44"
+  },
+  "roles": [
+    {
+      "role": "shareholder",
+      "ownershipPercentage": 60
+    }
+  ]
+}
+```

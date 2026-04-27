@@ -1,0 +1,24 @@
+---
+title: "Get an incorporation"
+openapi: "GET /partner/incorporation/{incorporationId}"
+---
+
+Retrieves a single incorporation accessible to your partner account.
+
+Use this endpoint to refresh the latest `intakeState`, participants, and top-level `incorporationStatus` for an ongoing incorporation.
+
+`intakeState.validation.isComplete` tells you whether the current state is eligible to submit. `submitted` or `in_progress` is returned only after `POST /partner/incorporation/{incorporationId}/submit` succeeds for a currently complete incorporation.
+
+Use [Get incorporation status](/engine/incorporation/partner-incorporation-status-GET) for stage-level progress and blocking issue ids. Use [List incorporation issues](/engine/incorporation/partner-incorporation-issues-GET) to track active or resolved correction requests.
+
+## Incorporation status
+
+`incorporationStatus` can be one of:
+
+| Status | Meaning |
+|---|---|
+| `awaiting_customer_input` | Required intake information, participant roles, or documents are still missing or invalid, or the current state is complete but has not been submitted for review. |
+| `submitted` | The incorporation was explicitly submitted and currently validates against the requirements DSL, but workflow work has not started yet. |
+| `in_progress` | Commenda is actively processing the incorporation through the dedicated workflow. |
+| `blocked` | The incorporation has active partner-visible issues or workflow start/runtime failures. |
+| `completed` | The incorporation has been completed. |

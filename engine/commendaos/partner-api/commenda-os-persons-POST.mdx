@@ -1,0 +1,21 @@
+---
+title: "Create a person"
+openapi: "POST /partner/commenda-os/companies/{companyId}/persons"
+---
+
+Create a reusable Commenda OS key person under a partner-accessible company.
+
+Use this endpoint when an incorporation participant does not already exist in Commenda OS. After creation, pass the returned `id` as the participant resource id:
+
+```json
+{
+  "participantType": "individual",
+  "resource": {
+    "resourceType": "keyPerson",
+    "resourceId": "12"
+  },
+  "roles": [{ "role": "director" }]
+}
+```
+
+Use incorporation participant and document endpoints for incorporation-specific roles and documents. This endpoint only creates the reusable person record.

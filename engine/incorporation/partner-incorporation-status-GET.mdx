@@ -1,0 +1,81 @@
+---
+title: "Get incorporation status"
+openapi: "GET /partner/incorporation/{incorporationId}/status"
+---
+
+Retrieves the current public status projection for an incorporation.
+
+Use this endpoint for progress views after an incorporation is created. It returns the top-level `incorporationStatus`, the workflow version used for the case, ordered stages, and any active issues blocking the case.
+
+## Example
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/status' \
+  --header 'x-api-key: <partner_api_key>'
+```
+
+```json
+{
+  "incorporationStatus": "blocked",
+  "incorporationId": "0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91",
+  "companyId": 77,
+  "country": "SG",
+  "countryOptions": {
+    "corporationType": "PRIVATE_LIMITED_COMPANY"
+  },
+  "statusWorkflow": {
+    "schemaVersion": "2026-04-26",
+    "definitionVersion": "1.0.0",
+    "key": "singapore-incorporation-partner-api"
+  },
+  "blockingIssueIds": ["issue_123"],
+  "blockingIssueCount": 1,
+  "stages": [
+    {
+      "id": "intake",
+      "label": "Intake",
+      "description": "Collect required incorporation information and documents.",
+      "owner": "partner",
+      "position": 1,
+      "status": "completed",
+      "startedAt": "2026-04-26T18:10:00.000Z",
+      "completedAt": "2026-04-26T18:30:00.000Z",
+      "blockedByIssueIds": []
+    },
+    {
+      "id": "kyc",
+      "label": "KYC",
+      "description": "Review required identity, ownership, and compliance materials.",
+      "owner": "commenda",
+      "position": 2,
+      "status": "blocked",
+      "startedAt": "2026-04-26T19:05:00.000Z",
+      "completedAt": null,
+      "blockedByIssueIds": ["issue_123"]
+    }
+  ],
+  "updatedAt": "2026-04-26T19:15:00.000Z"
+}
+```
+
+## Top-level status
+
+| Status | Meaning |
+| --- | --- |
+| `awaiting_customer_input` | Required intake information, participant roles, or documents are missing or invalid, or the complete intake has not been submitted yet. |
+| `submitted` | The incorporation was submitted and still validates, but workflow work has not started yet. |
+| `in_progress` | Commenda is processing the incorporation through the dedicated workflow. |
+| `blocked` | The incorporation has active partner-visible issues or workflow start/runtime failures. |
+| `completed` | The incorporation is complete. |
+
+## Stage status
+
+| Status | Meaning |
+| --- | --- |
+| `not_started` | The stage has not started. |
+| `in_progress` | At least one task in the stage has started and the stage is not complete. |
+| `blocked` | The stage is blocked by active issue ids or failed workflow work. |
+| `completed` | The stage is complete. |
+
+Active issues are listed in `blockingIssueIds`. If an issue has a `scope.stageId`, that issue appears on the matching stage's `blockedByIssueIds`; otherwise it blocks the first non-completed stage.

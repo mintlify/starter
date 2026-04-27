@@ -1,0 +1,22 @@
+---
+title: "Register an incorporation file"
+openapi: "POST /partner/incorporation/{incorporationId}/files"
+---
+
+Registers a company-scoped Commenda file to the incorporation context and returns that `fileId`.
+
+Use this endpoint before linking files as typed participant documents.
+
+<Info>
+This endpoint does not upload binary content. For new partner-collected files, first create a company document with [Create a company document](/engine/commendaos/partner-api/commenda-os-documents-POST) after using [Create a document upload URL](/engine/commendaos/partner-api/commenda-os-documents-upload-url-POST), then pass the returned `file.fileId` here.
+</Info>
+
+For the full file handoff from S3 upload URL to participant document, see [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow).
+
+```json
+{
+  "fileId": 456
+}
+```
+
+MIME compatibility is checked when the file is linked as a typed participant document, not only when it is registered. Accepted file types are determined by the current requirements DSL for the selected incorporation.

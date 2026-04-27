@@ -1,0 +1,45 @@
+---
+title: "Get incorporation requirements"
+openapi: "GET /partner/incorporation/requirements"
+---
+
+Returns the current requirements DSL for a selected incorporation.
+
+For Singapore private limited companies:
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/requirements?country=SG&countryOptions[corporationType]=PRIVATE_LIMITED_COMPANY' \
+  --header 'x-api-key: <partner_api_key>'
+```
+
+Use the returned DSL to render your intake UI and to understand required fields, participant roles, document requirements, and validation constraints.
+
+The requirements response is informational. Intake updates are always validated against the current server-side DSL, so clients should handle `missingRequirements` and `invalidRequirements` from intake responses.
+
+## How to use the DSL
+
+| DSL area | What it means | How to satisfy it |
+| --- | --- | --- |
+| `blocks` | UI-friendly groupings of incorporation-level fields | Render these groups in your intake UI if useful. |
+| `fields` | Data submitted through `POST /partner/incorporation/{incorporationId}/intake` | Send values under `requirements` using each field key. |
+| `required.when` / `appliesWhen` | Rules that make fields required or applicable only when another value is selected | Recompute visible/required fields when users change controlling values. Fields whose `appliesWhen` rule is not satisfied are ignored by validation. |
+| `participantRequirements` | Required participant roles such as director or shareholder | Register reusable Commenda OS resources with `POST /partner/incorporation/{incorporationId}/participants`. |
+| `documentRequirements` | Required typed documents for participant roles/types | Register files, then link them with `POST /partner/incorporation/{incorporationId}/documents`. |
+
+## Participant role/resource combinations
+
+The requirements DSL describes participant requirements in terms of role, participant type, and resource type. For Singapore private limited companies:
+
+| Role requirement | `participantType` | `resource.resourceType` | Notes |
+| --- | --- | --- | --- |
+| Individual director | `individual` | `keyPerson` | Use a Commenda OS person id. One person can also hold a shareholder role. |
+| Individual shareholder | `individual` | `keyPerson` | Use a Commenda OS person id and include `ownershipPercentage`. |
+| Corporate shareholder | `corporate` | `businessEntity` | Use a Commenda OS business entity id and include `ownershipPercentage`. |
+| Corporate director | `corporate` | `businessEntity` | Not supported for Singapore private limited companies. |
+
+When `documentRequirements` are returned, match them by `role`, `participantType`, and `resourceType`. Individual Singapore directors and shareholders require `passport_scan` and `utility_bill`; corporate shareholder documents, if required by the selected case type, are surfaced by the same `documentRequirements` array.
+
+Validation paths in `missingRequirements` and `invalidRequirements` correspond to DSL fields or participant/document requirements. Field validation paths include the DSL block key, such as `companyNames.companyNameOptions`, even though the intake payload key remains `requirements.companyNameOptions`. Participant document paths look like `participants.participant_123.documents.passport_scan`.
+
+You may cache the requirements response by `country` plus `countryOptions`, but do not send a requirements version back to Commenda. If validation returns new missing or invalid requirements, update your UI from the latest response.

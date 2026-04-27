@@ -1,0 +1,24 @@
+---
+title: "Link a participant document"
+openapi: "POST /partner/incorporation/{incorporationId}/documents"
+---
+
+Links a registered incorporation file to a participant as a typed document.
+
+Files are the low-level storage object. Documents are the typed incorporation requirement being satisfied for a participant.
+
+The `fileId` must first be registered to this incorporation with `POST /partner/incorporation/{incorporationId}/files`.
+
+If you are starting from a passport scan, utility bill, or other local file, first follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow) to get a registered incorporation `fileId`.
+
+Linking is replacement-based per participant and document kind. If you call this endpoint again with the same `participantId` and `documentKind`, Commenda updates that participant document to point at the new `fileId`.
+
+```json
+{
+  "participantId": "participant_123",
+  "documentKind": "passport_scan",
+  "fileId": 456
+}
+```
+
+The current requirements DSL determines which `documentKind` values are required for each participant and which MIME types are accepted. If a registered file has an unsupported MIME type or the document kind is not valid for the participant, this endpoint returns a validation error.

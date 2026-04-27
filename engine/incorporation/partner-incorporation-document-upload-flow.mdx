@@ -1,0 +1,33 @@
+---
+title: "Upload documents for incorporation"
+description: "Use Commenda OS company documents to satisfy incorporation participant document requirements."
+---
+
+Incorporation documents are built from reusable Commenda OS company files.
+
+The upload and company-document creation endpoints live in the [Commenda OS Partner API](/engine/commendaos/partner-api/commenda-os-introduction) because files can be reused outside incorporation for KYC, entity records, registrations, and future document-review workflows. The Incorporation API only registers those files to an incorporation and links them to participants as typed documents.
+
+## Flow
+
+1. Create a company document upload URL with [Create a document upload URL](/engine/commendaos/partner-api/commenda-os-documents-upload-url-POST).
+2. Upload bytes directly to `upload.signedUrl` with HTTP `PUT`.
+3. Create a company document with [Create a company document](/engine/commendaos/partner-api/commenda-os-documents-POST), passing `upload.hostedUrl` as `fileUrl`.
+4. Register the returned `file.fileId` to the incorporation with [Register an incorporation file](/engine/incorporation/partner-incorporation-files-POST).
+5. Link the registered `fileId` to a participant with [Link a participant document](/engine/incorporation/partner-incorporation-participant-documents-POST).
+
+## Endpoint map
+
+| Step | Endpoint | API surface | Output |
+| --- | --- | --- | --- |
+| Create upload target | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | Commenda OS Partner API | `upload.signedUrl`, `upload.hostedUrl` |
+| Create company file record | `POST /partner/commenda-os/companies/{companyId}/documents` | Commenda OS Partner API | `file.fileId` |
+| Register file to incorporation | `POST /partner/incorporation/{incorporationId}/files` | Partner Incorporation API | Registered `fileId` |
+| Link typed participant document | `POST /partner/incorporation/{incorporationId}/documents` | Partner Incorporation API | `document.documentId` |
+
+## Important handoffs
+
+- Use `upload.signedUrl` only for the direct S3 `PUT`.
+- Use `upload.hostedUrl` as `fileUrl` when creating the company document.
+- Do not store `upload.signedGetUrl` as the document reference. It is short-lived and only useful for immediate preview/debugging.
+- Use `file.fileId` when registering and linking incorporation documents.
+- The current requirements DSL determines which participant roles need documents, which `documentKind` values are valid, and which file types are accepted.
