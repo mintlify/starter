@@ -15,7 +15,7 @@ curl --request GET \
 
 Use the returned requirements to render your intake UI and to understand required fields, participant roles, document requirements, and validation constraints.
 
-The requirements response is informational. Intake updates are always validated against the current server-side requirements, so clients should handle `missingRequirements` and `invalidRequirements` from intake responses.
+Rule of thumb: render from the requirements response, but validate from write/read responses. Intake updates are always validated against the current server-side requirements, so clients should handle `missingRequirements` and `invalidRequirements` from intake responses.
 
 ## How to use the requirements response
 
@@ -26,6 +26,7 @@ The requirements response is informational. Intake updates are always validated 
 | `required.when` / `appliesWhen` | Rules that make fields required or applicable only when another value is selected | Recompute visible/required fields when users change controlling values. Fields whose `appliesWhen` rule is not satisfied are ignored by validation. |
 | `participantRequirements` | Required participant roles such as director or shareholder | Register reusable Commenda OS resources with `POST /partner/incorporation/{incorporationId}/participants`. |
 | `documentRequirements` | Required typed documents for participant roles/types | Register files, then link them with `POST /partner/incorporation/{incorporationId}/documents`. |
+| Version fields, such as `schemaVersion` and `dslVersion` | Requirements version metadata | Store these in logs for debugging. Do not send them back to Commenda. |
 
 ## Participant role/resource combinations
 
