@@ -98,7 +98,7 @@ Example validation details:
 }
 ```
 
-For participant-specific requirements, register participants with roles and link documents to each participant:
+For participant-specific requirements, register participants with roles and upsert documents to each participant:
 
 - Use `POST /partner/incorporation/{incorporationId}/participants` for director/shareholder roles.
-- Use `POST /partner/incorporation/{incorporationId}/documents` for participant document requirements.
+- Use `PUT /partner/incorporation/{incorporationId}/participants/{participantId}/documents/{documentKind}` for participant document requirements.

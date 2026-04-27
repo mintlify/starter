@@ -44,14 +44,14 @@ One participant can hold multiple roles when the same reusable resource satisfie
 
 ## Documents
 
-The `documents` array contains participant document links created through [Link a participant document](/engine/incorporation/partner-incorporation-participant-documents-POST).
+The `documents` array contains participant document links created or replaced through [Upsert a participant document](/engine/incorporation/partner-incorporation-participant-documents-PUT).
 
 | Attribute | Type | Description |
 | --- | --- | --- |
 | `documentId` | string | Identifier for the participant document link. |
 | `participantId` | string | Participant this document belongs to. |
 | `documentKind` | string | Type of document linked to the participant. Supported values include `passport_scan` and `utility_bill`. |
-| `fileId` | integer | Registered Commenda file satisfying this document requirement. |
+| `fileId` | integer | Commenda file satisfying this document requirement. |
 | `status` | string | Current status of the participant document link. Current value is `submitted`. |
 
 ## Endpoints
@@ -62,4 +62,4 @@ The `documents` array contains participant document links created through [Link 
 | List | [List incorporation participants](/engine/incorporation/partner-incorporation-participants-GET) |
 | Update roles | [Update an incorporation participant](/engine/incorporation/partner-incorporation-participants-id-PATCH) |
 | Remove | [Remove an incorporation participant](/engine/incorporation/partner-incorporation-participants-id-DELETE) |
-| Link document | [Link a participant document](/engine/incorporation/partner-incorporation-participant-documents-POST) |
+| Upsert document | [Upsert a participant document](/engine/incorporation/partner-incorporation-participant-documents-PUT) |

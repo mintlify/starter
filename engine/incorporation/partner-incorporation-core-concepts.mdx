@@ -34,14 +34,14 @@ People, business entities, locations, and files live in Commenda OS so customers
 | Director or shareholder person | Commenda OS Persons | Incorporation Participants |
 | Corporate shareholder | Commenda OS Business Entities | Incorporation Participants |
 | Registered office location | Commenda OS Locations | Intake `registeredOfficeAddressLocation` |
-| Passport, utility bill, or other source file | Commenda OS Documents | Incorporation Files, then Participant Documents |
+| Passport, utility bill, or other source file | Commenda OS Documents | Participant document upsert |
 
 ## Which API to call
 
 | API surface | Use it for |
 | --- | --- |
 | Customer setup | Create or list the customer record that scopes later calls. |
-| Partner Incorporation API | Discover requirements, create incorporations, register participants, link documents, submit intake, track status, and read issues. |
+| Partner Incorporation API | Discover requirements, create incorporations, register participants, upsert participant documents, submit intake, track status, and read issues. |
 | Commenda OS Partner API | Manage reusable customer data such as people, business entities, locations, documents, government identifiers, and registrations. |
 | Partner webhooks | Subscribe to partner events such as incorporation issue creation and resolution. |
 

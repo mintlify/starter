@@ -29,8 +29,8 @@ Current issue codes:
 | --- | --- |
 | `missing_information` | Required information is missing. |
 | `invalid_information` | Submitted information is present but invalid or inconsistent. |
-| `document_required` | A required document has not been linked. |
-| `document_invalid` | A linked document could not be accepted. |
+| `document_required` | A required participant document has not been provided. |
+| `document_invalid` | A participant document file could not be accepted. |
 | `company_name_rejected` | A proposed company name was rejected or cannot be used. |
 | `other` | General issue not covered by a more specific code. |
 
@@ -46,7 +46,7 @@ Commenda may add additional issue codes in future API updates. Avoid hard-coding
 | `intake_field` | The issue applies to an intake field validation path, such as `companyNames.companyNameOptions`. |
 | `participant` | The issue applies to a registered participant. |
 | `participant_document` | The issue applies to a participant document kind or linked file. |
-| `file` | The issue applies to a registered file. |
+| `file` | The issue applies to an uploaded customer file used for the incorporation. |
 
 Scopes may also include `stageId`. When present, it matches a stage returned by the status workflow and is used to attach the issue to that stage in the status response.
 

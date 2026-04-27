@@ -321,10 +321,6 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIntakeState"
     PartnerIncorporationIntakeResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIntakeResponse"
-    PartnerRegisterFileRequest:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRegisterFileRequest"
-    PartnerRegisterFileResponse:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRegisterFileResponse"
     PartnerIncorporationParticipantType:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantType"
     PartnerIncorporationParticipantResourceType:
@@ -345,8 +341,8 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentStatus"
     PartnerIncorporationParticipantDocument:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocument"
-    PartnerLinkParticipantDocumentRequest:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerLinkParticipantDocumentRequest"
+    PartnerUpsertParticipantDocumentRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerUpsertParticipantDocumentRequest"
     PartnerIncorporationParticipant:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipant"
     PartnerIncorporationParticipantResponse:
@@ -435,14 +431,8 @@ components:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsDocumentsResponse"
     CommendaOsSupportedDocumentsResponse:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsSupportedDocumentsResponse"
-    CommendaOsCustomerDocumentUploadUrlRequest:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUploadUrlRequest"
-    CommendaOsCustomerDocumentUpload:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUpload"
-    CommendaOsCustomerDocumentUploadUrlResponse:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUploadUrlResponse"
-    CommendaOsCustomerDocumentCreateRequest:
-      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentCreateRequest"
+    CommendaOsCustomerDocumentUploadRequest:
+      $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUploadRequest"
     CommendaOsCustomerDocument:
       $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocument"
     CommendaOsCustomerDocumentResponse:

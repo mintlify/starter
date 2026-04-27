@@ -1,33 +1,29 @@
 ---
-title: "Create a customer document"
+title: "Upload a customer document"
 openapi: "POST /partner/commenda-os/customers/{customerId}/documents"
 ---
 
-Create a Commenda customer document from a signed-upload `hostedUrl` and receive a reusable `fileId`.
+Upload a file with `multipart/form-data` and create a reusable Commenda customer document in one request.
 
-Use this endpoint after uploading file bytes directly to S3 with [Create a document upload URL](/engine/commendaos/partner-api/commenda-os-documents-upload-url-POST). Pass the `upload.hostedUrl` returned by that endpoint as `fileUrl`. Commenda verifies that the S3 object exists before creating the document record. The created file is scoped to the customer. You may optionally link it to one reusable Commenda OS resource:
+The created file is scoped to the customer and the response includes `file.fileId`. You may optionally link it to one reusable Commenda OS resource:
 
 - Use `personId` to link the file to a key person.
 - Use `businessEntityId` to link the file to a business entity.
 - Omit both fields to keep the file customer-scoped only.
 
-Do not send both `personId` and `businessEntityId` in the same request. For incorporation, save the returned `file.fileId`, register it with `POST /partner/incorporation/{incorporationId}/files`, then link it as a typed participant document with `POST /partner/incorporation/{incorporationId}/documents`.
+Do not send both `personId` and `businessEntityId` in the same request. For incorporation, save the returned `file.fileId`, then upsert it as a typed participant document with `PUT /partner/incorporation/{incorporationId}/participants/{participantId}/documents/{documentKind}`.
+
+The `file` part must include the binary file body. Send `documentName`, `documentSubType`, `personId`, and `businessEntityId` as regular form fields when needed. Commenda infers `fileName`, `mimeType`, and `fileSize` from the uploaded part.
 
 ## Example
 
 ```bash
 curl --request POST \
   --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/documents' \
-  --header 'content-type: application/json' \
   --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "fileName": "passport.pdf",
-    "fileUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf",
-    "mimeType": "application/pdf",
-    "fileSize": 382144,
-    "personId": 12,
-    "documentName": "Passport scan"
-  }'
+  --form 'file=@./passport.pdf;type=application/pdf' \
+  --form 'personId=12' \
+  --form 'documentName=Passport scan'
 ```
 
 ```json
