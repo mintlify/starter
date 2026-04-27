@@ -329,6 +329,8 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRole"
     PartnerRegisterParticipantRequest:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerRegisterParticipantRequest"
+    PartnerPatchParticipantRequest:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerPatchParticipantRequest"
     PartnerIncorporationDocumentKind:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationDocumentKind"
     PartnerIncorporationParticipantDocumentStatus:

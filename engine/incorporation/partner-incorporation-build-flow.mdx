@@ -33,7 +33,7 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | `corporationId` | Incorporation response | Commenda OS business-entity endpoints after available | May be `null` while intake is still being collected. |
 | Person `id` | `POST /partner/commenda-os/companies/{companyId}/persons` | Participant `resource.resourceId` | Encode as a string, for example `"12"`. |
 | Business entity `id` | `POST /partner/commenda-os/companies/{companyId}/business-entities` | Corporate participant `resource.resourceId` | Encode as a string, for example `"44"`. |
-| `participantId` | Register participant | Link participant documents | Incorporation-scoped participant id. |
+| `participantId` | Register participant | Update participant roles; link participant documents | Incorporation-scoped participant id. |
 | `upload.signedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | Direct S3 `PUT` only | Temporary upload URL. Do not store it as the document URL. |
 | `upload.hostedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/companies/{companyId}/documents` | Stable S3 URL for the uploaded object. |
 | `fileId` | `POST /partner/commenda-os/companies/{companyId}/documents` | Register file; link participant document | Company-scoped file id. Upload bytes directly to S3 first, then create the company document. |
@@ -159,13 +159,13 @@ curl --request POST \
       { "role": "director" },
       {
         "role": "shareholder",
-        "ownershipPercentage": 100
+        "ownershipPercentage": 40
       }
     ]
   }'
 ```
 
-For Singapore private limited companies, registered shareholder participant `ownershipPercentage` values must total 100.
+For Singapore private limited companies, registered shareholder participant `ownershipPercentage` values must total 100. Participant writes that would make shareholder ownership exceed 100 are rejected; totals below 100 are accepted while the customer is still entering shareholders, but validation remains incomplete until the total equals 100.
 
 If the shareholder is a company, create or reuse a Commenda OS business entity first:
 
@@ -199,6 +199,24 @@ curl --request POST \
       {
         "role": "shareholder",
         "ownershipPercentage": 60
+      }
+    ]
+  }'
+```
+
+To correct roles or ownership after registration, send the full desired roles array for that participant:
+
+```bash
+curl --request PATCH \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/participants/participant_123' \
+  --header 'content-type: application/json' \
+  --header 'x-api-key: <partner_api_key>' \
+  --data '{
+    "roles": [
+      { "role": "director" },
+      {
+        "role": "shareholder",
+        "ownershipPercentage": 40
       }
     ]
   }'
@@ -444,7 +462,7 @@ Webhook delivery is asynchronous and retried. Your endpoint should respond withi
 | `400` on create incorporation | Unsupported `countryOptions` or missing `countryOptions[corporationType]` | Fetch the jurisdiction catalog and use an advertised option value. |
 | `403` on company-scoped call | The company is not accessible to the partner API key | Check the `companyId` and API key. |
 | `404` when registering participant | The referenced person or business entity is not visible to the company | Create or fetch the resource through Commenda OS first. |
-| `400` when registering participant | Shareholder role is missing `ownershipPercentage`, or role/resource type is unsupported | Follow the selected requirements DSL. |
+| `400` when registering or updating participant | Shareholder role is missing `ownershipPercentage`, role/resource type is unsupported, or ownership would exceed 100 | Follow the selected requirements DSL and adjust existing shareholder roles before adding more ownership. |
 | Incomplete validation for shareholders | Ownership percentages do not total 100 | Update shareholder participant roles so totals equal 100. |
 | `400` when creating company document | `fileUrl` is not the `upload.hostedUrl` returned for this company | Request a document upload URL, upload bytes to `upload.signedUrl`, then create the document with `upload.hostedUrl`. |
 | `404` when linking document | The participant or file cannot be found | Register the participant and file first. |

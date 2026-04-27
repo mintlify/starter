@@ -33,15 +33,16 @@ curl --request GET \
 4. Start an incorporation with `POST /partner/incorporation/companies/{companyId}/incorporations`.
 5. Create or reference reusable people, business entities, and addresses through the Commenda OS Partner API. If an individual director or shareholder does not exist yet, create one with `POST /partner/commenda-os/companies/{companyId}/persons`.
 6. Register people or business entities as incorporation participants with `POST /partner/incorporation/{incorporationId}/participants`.
-7. Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, then create company documents through Commenda OS to obtain `fileId`.
-8. Register company files with `POST /partner/incorporation/{incorporationId}/files`.
-9. Link registered files as participant documents with `POST /partner/incorporation/{incorporationId}/documents`.
-10. Update partial or complete non-participant intake data with `POST /partner/incorporation/{incorporationId}/intake`.
-11. Submit a complete incorporation for Commenda review with `POST /partner/incorporation/{incorporationId}/submit`.
-12. Read the incorporation to track `intakeState`, participants, and missing requirements.
-13. Read `GET /partner/incorporation/{incorporationId}/status` to track top-level status, blocking issues, and ordered stage progress.
-14. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
-15. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
+7. If needed, correct existing participant roles or ownership percentages with `PATCH /partner/incorporation/{incorporationId}/participants/{participantId}`.
+8. Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, then create company documents through Commenda OS to obtain `fileId`.
+9. Register company files with `POST /partner/incorporation/{incorporationId}/files`.
+10. Link registered files as participant documents with `POST /partner/incorporation/{incorporationId}/documents`.
+11. Update partial or complete non-participant intake data with `POST /partner/incorporation/{incorporationId}/intake`.
+12. Submit a complete incorporation for Commenda review with `POST /partner/incorporation/{incorporationId}/submit`.
+13. Read the incorporation to track `intakeState`, participants, and missing requirements.
+14. Read `GET /partner/incorporation/{incorporationId}/status` to track top-level status, blocking issues, and ordered stage progress.
+15. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
+16. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
 
 Issue tracking and issue webhooks are available for correction and request-for-information flows. Issues are created and resolved by Commenda; partners fix the underlying data by updating intake, participants, or documents. Active issues make the incorporation status `blocked` and are listed in the status response as blocking issue ids.
 
