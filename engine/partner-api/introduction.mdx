@@ -4,7 +4,7 @@ sidebarTitle: "Introduction"
 description: "Use Commenda's Partner API to create companies, manage entity data, start incorporations, upload documents, track issues, and receive webhooks."
 ---
 
-The Partner API gives partners a company-scoped way to build Commenda-powered incorporation and entity management flows inside their own product.
+The Partner API gives you a customer-scoped API surface for building incorporation and entity management flows inside your product.
 
 Base URL:
 
@@ -20,20 +20,20 @@ curl --request GET \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-## API areas
+## What you can build
 
 <Columns cols={2}>
-  <Card title="Customer container setup" icon="building" href="/engine/incorporation/company-POST">
-    Create the customer/company container that scopes later partner incorporation and Commenda OS calls.
+  <Card title="Create a customer" icon="building" href="/engine/incorporation/company-POST">
+    Create the customer record that owns incorporations and reusable entity data.
   </Card>
-  <Card title="Partner Incorporation API" icon="handshake" href="/engine/incorporation/partner-incorporation-introduction">
-    Discover jurisdiction requirements, create incorporations, submit intake, track status, and resolve issues.
+  <Card title="Start an incorporation" icon="handshake" href="/engine/incorporation/partner-incorporation-introduction">
+    Collect requirements, submit intake, track status, and resolve correction requests.
   </Card>
-  <Card title="Commenda OS Partner API" icon="database" href="/engine/commendaos/partner-api/commenda-os-introduction">
-    Manage reusable company data such as business entities, people, documents, government identifiers, and registrations.
+  <Card title="Manage people and entities" icon="database" href="/engine/commendaos/partner-api/commenda-os-introduction">
+    Create and reuse customer records such as business entities, people, documents, government identifiers, and registrations.
   </Card>
-  <Card title="Webhooks" icon="webhook" href="/engine/partner-webhooks/partner-webhooks">
-    Subscribe to partner events and receive signed webhook deliveries.
+  <Card title="Receive updates" icon="webhook" href="/engine/partner-webhooks/partner-webhooks">
+    Subscribe to events and verify signed webhook deliveries.
   </Card>
 </Columns>
 

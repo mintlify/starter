@@ -170,7 +170,7 @@
             ]
           },
           {
-            "group": "Customer container setup",
+            "group": "Customer setup",
             "pages": [
               "engine/incorporation/company-POST",
               "engine/incorporation/companies-GET"

@@ -1,15 +1,15 @@
 ---
 title: "Build an incorporation flow"
-description: "Implement a partner-owned incorporation workflow from company creation through final submit for review."
+description: "Implement a customer incorporation workflow from company creation through final submit for review."
 ---
 
-This guide shows the recommended implementation sequence for a partner-owned incorporation flow. Use [Core concepts](/engine/incorporation/partner-incorporation-core-concepts) for the object model and the endpoint reference pages for exact request and response schemas.
+This guide shows the recommended implementation sequence for a customer incorporation flow. Use [Core concepts](/engine/incorporation/partner-incorporation-core-concepts) for the object model and the endpoint reference pages for exact request and response schemas.
 
 ## Minimum happy path
 
 1. Create or find the customer/company container and save `companyId`.
 2. Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the requirements schema.
-3. Create the incorporation case and save `incorporation.id`.
+3. Create the incorporation and save `incorporation.id`.
 4. Create or reuse required Commenda OS records, such as people, business entities, locations, and documents.
 5. Register participants and link required participant documents.
 6. Submit incorporation-level intake fields, then read validation until `intakeState.validation.isComplete` is `true`.
@@ -22,7 +22,7 @@ This guide shows the recommended implementation sequence for a partner-owned inc
 | Setup | What container owns the work? | Create a company and save `companyId`. |
 | Discovery | What can I incorporate and how will progress display? | Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the status workflow for the selected case type. |
 | Requirements | What data do I need? | Fetch the requirements schema for the selected jurisdiction/type. |
-| Incorporation | How do I start the case? | Create the incorporation and save `incorporation.id`. |
+| Incorporation | How do I start the incorporation? | Create the incorporation and save `incorporation.id`. |
 | Resource prep | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
 | Participants | Who is involved? | Register reusable people/entities as directors and shareholders. |
 | Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, create company documents to obtain `fileId`, register each file to the incorporation, then link it as a typed participant document. |
