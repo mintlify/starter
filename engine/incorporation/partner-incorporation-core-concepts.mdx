@@ -7,14 +7,14 @@ Before you write data, decide whether each record is reusable customer data or i
 
 ## Object model
 
-| Concept | What it means | Main ID | Example |
-| --- | --- | --- | --- |
-| Customer/company container | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `companyId` | Acme Singapore customer record |
-| Incorporation | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` | Singapore private limited company incorporation |
-| Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs | Jane Founder, Acme Holdings Pte. Ltd., or passport.pdf |
-| Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` | Jane Founder as director and 40% shareholder |
-| Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` | `companyNameOptions` or `registeredOfficeAddressSource` |
-| Status and issues | Post-submit progress and partner-visible correction requests. | `incorporationStatus`, `issue.id` | `blocked` because a utility bill is invalid |
+| Concept | What it means | Main ID |
+| --- | --- | --- |
+| Customer/company container | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `companyId` |
+| Incorporation | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` |
+| Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs |
+| Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` |
+| Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` |
+| Status and issues | Post-submit progress and partner-visible correction requests. | `incorporationStatus`, `issue.id` |
 
 ```text
 Customer/company container
