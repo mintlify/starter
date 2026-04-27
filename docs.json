@@ -193,6 +193,7 @@
               {
                 "group": "Incorporations",
                 "pages": [
+                  "engine/incorporation/partner-incorporation-object",
                   "engine/incorporation/partner-incorporation-incorporations-POST",
                   "engine/incorporation/partner-incorporation-incorporations-GET",
                   "engine/incorporation/partner-incorporation-incorporations-id-GET"
@@ -201,6 +202,7 @@
               {
                 "group": "Participants",
                 "pages": [
+                  "engine/incorporation/partner-incorporation-participant-object",
                   "engine/incorporation/partner-incorporation-participants-POST",
                   "engine/incorporation/partner-incorporation-participants-id-PATCH",
                   "engine/incorporation/partner-incorporation-participants-GET",

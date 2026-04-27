@@ -2594,53 +2594,6 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
-"/partner/incorporation/customers/{customerId}/incorporations/{incorporationId}":
-  get:
-    summary: Get an incorporation
-    description: Retrieve one incorporation visible to the authenticated partner.
-    operationId: getPartnerIncorporation
-    servers:
-      - url: https://api.prod.commenda.io/api/v1
-    security:
-      - xApiKeyAuth: []
-    parameters:
-      - name: customerId
-        in: path
-        required: true
-        schema:
-          type: integer
-        description: Customer that owns the incorporation.
-      - name: incorporationId
-        in: path
-        required: true
-        schema:
-          type: string
-        description: Incorporation identifier returned by the create or list endpoint.
-    responses:
-      "200":
-        description: Incorporation retrieved successfully
-        content:
-          application/json:
-            schema:
-              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationResponse"
-      "401":
-        description: Missing or invalid partner API key
-        content:
-          application/json:
-            schema:
-              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
-      "403":
-        description: Customer or incorporation is not accessible to the partner
-        content:
-          application/json:
-            schema:
-              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
-      "404":
-        description: Incorporation not found
-        content:
-          application/json:
-            schema:
-              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
 "/partner/incorporation/{incorporationId}":
   get:
     summary: Get an incorporation
