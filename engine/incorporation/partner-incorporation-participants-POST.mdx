@@ -28,7 +28,7 @@ The `resource.resourceId` value is the numeric Commenda OS person or business en
 }
 ```
 
-The response determines which participant roles are required and which document requirements apply to those participants.
+The response returns the registered participant and the refreshed `incorporationValidation` for the incorporation.
 
 Registering a participant does not by itself make the underlying Commenda OS resource complete. The incorporation validation also checks required fields on the referenced person or business entity, such as legal names, email, nationality, date of birth, address, and corporate registration data when those fields are required by the selected jurisdiction.
 
@@ -36,7 +36,7 @@ Registering a participant does not by itself make the underlying Commenda OS res
 
 For Singapore private limited companies, use this matrix when mapping the requirements response into participant registration calls:
 
-| Participant case | `participantType` | `resource.resourceType` | Supported role payload | Ownership | Documents |
+| Participant scenario | `participantType` | `resource.resourceType` | Supported role payload | Ownership | Documents |
 | --- | --- | --- | --- | --- | --- |
 | Individual director | `individual` | `keyPerson` | `{ "role": "director" }` | Not applicable | `passport_scan` and `utility_bill` when required. |
 | Individual shareholder | `individual` | `keyPerson` | `{ "role": "shareholder", "ownershipPercentage": number }` | Required for percentage ownership. All shareholders must total 100. | `passport_scan` and `utility_bill` when required. |

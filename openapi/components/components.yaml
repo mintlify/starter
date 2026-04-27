@@ -289,10 +289,10 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowResponse"
     PartnerIncorporationStatusWorkflowSummary:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowSummary"
-    PartnerIncorporationCaseStage:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
-    PartnerIncorporationCaseStatusResponse:
-      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStatusResponse"
+    PartnerIncorporationStatusStage:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStage"
+    PartnerIncorporationStatusResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusResponse"
     PartnerIncorporationCountryOptions:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
     PartnerCreateCustomerScopedIncorporationRequest:
@@ -351,10 +351,18 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipant"
     PartnerIncorporationParticipantResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantResponse"
+    PartnerIncorporationParticipantMutationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantMutationResponse"
+    PartnerIncorporationParticipantRemovalResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRemovalResponse"
     PartnerIncorporationParticipantsResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantsResponse"
     PartnerIncorporationParticipantDocumentResponse:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentResponse"
+    PartnerIncorporationParticipantDocumentMutationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentMutationResponse"
+    PartnerIncorporationValidationResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationResponse"
     PartnerIncorporationIssueCode:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIssueCode"
     PartnerIncorporationIssueStatus:

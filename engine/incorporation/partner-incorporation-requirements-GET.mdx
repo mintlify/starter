@@ -39,7 +39,7 @@ The requirements response describes participant requirements in terms of role, p
 | Corporate shareholder | `corporate` | `businessEntity` | Use a Commenda OS business entity id and include `ownershipPercentage`. |
 | Corporate director | `corporate` | `businessEntity` | Not supported for Singapore private limited companies. |
 
-When `documentRequirements` are returned, match them by `role`, `participantType`, and `resourceType`. Individual Singapore directors and shareholders require `passport_scan` and `utility_bill`; corporate shareholder documents, if required by the selected case type, are surfaced by the same `documentRequirements` array.
+When `documentRequirements` are returned, match them by `role`, `participantType`, and `resourceType`. Individual Singapore directors and shareholders require `passport_scan` and `utility_bill`; corporate shareholder documents, if required by the selected incorporation type, are surfaced by the same `documentRequirements` array.
 
 Validation paths in `missingRequirements` and `invalidRequirements` correspond to requirements fields or participant/document requirements. Field validation paths include the requirements block key, such as `companyNames.companyNameOptions`, even though the intake payload key remains `requirements.companyNameOptions`. Participant document paths look like `participants.participant_123.documents.passport_scan`.
 

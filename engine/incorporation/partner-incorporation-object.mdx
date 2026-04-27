@@ -1,9 +1,9 @@
 ---
 title: "Incorporation object"
-description: "Field reference for the top-level Partner Incorporation API case record."
+description: "Field reference for the top-level Partner Incorporation API record."
 ---
 
-The incorporation object represents one customer incorporation case. Create it after the customer chooses a jurisdiction and incorporation type, then use its `id` as `{incorporationId}` for participant, document, intake, status, issue, and submit endpoints.
+The incorporation object represents one customer incorporation. Create it after the customer chooses a jurisdiction and incorporation type, then use its `id` as `{incorporationId}` for participant, document, intake, status, issue, and submit endpoints.
 
 ## Attributes
 
@@ -36,7 +36,8 @@ Some endpoints return the incorporation object inside a response wrapper with re
 | Field | Description |
 | --- | --- |
 | `requirements` | Current incorporation requirements for the selected jurisdiction and options. |
-| `intakeState` | Current submitted intake values and validation state. |
+| `incorporationValidation` | Current validation result for the full incorporation. |
+| `intakeState` | Current submitted incorporation-level intake values. |
 | `participants` | Participants registered to this incorporation, when requested or available. |
 
 ## Endpoints

@@ -1,0 +1,8 @@
+---
+title: "Get incorporation validation"
+openapi: "GET /partner/incorporation/{incorporationId}/validation"
+---
+
+Refreshes and returns validation for the full incorporation.
+
+Use this endpoint when your UI needs the latest readiness state without fetching the full incorporation resource. The response includes `incorporationValidation` only.

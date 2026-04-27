@@ -467,7 +467,7 @@ schemas:
       key:
         type: string
         example: singapore-incorporation-partner-api
-  PartnerIncorporationCaseStage:
+  PartnerIncorporationStatusStage:
     allOf:
       - $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowStage"
       - type: object
@@ -496,7 +496,7 @@ schemas:
               type: string
             example:
               - issue_123
-  PartnerIncorporationCaseStatusResponse:
+  PartnerIncorporationStatusResponse:
     type: object
     required:
       - incorporationStatus
@@ -537,7 +537,7 @@ schemas:
       stages:
         type: array
         items:
-          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
+          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStage"
       updatedAt:
         type: string
         format: date-time
@@ -685,7 +685,7 @@ schemas:
       - statusCode
       - message
       - error
-      - validation
+      - incorporationValidation
     properties:
       statusCode:
         type: integer
@@ -696,7 +696,7 @@ schemas:
       error:
         type: string
         example: Bad Request
-      validation:
+      incorporationValidation:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
   PartnerIncorporationRequirementValues:
     type: object
@@ -721,7 +721,6 @@ schemas:
       - id
       - incorporationId
       - currentState
-      - validation
       - createdAt
       - updatedAt
     properties:
@@ -733,8 +732,6 @@ schemas:
         example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
       currentState:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirementValues"
-      validation:
-        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
       createdAt:
         type: string
         format: date-time
@@ -745,10 +742,13 @@ schemas:
     type: object
     required:
       - intakeState
+      - incorporationValidation
       - requirements
     properties:
       intakeState:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationIntakeState"
+      incorporationValidation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
       requirements:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirements"
   PartnerRegisterFileRequest:
@@ -978,6 +978,28 @@ schemas:
     properties:
       participant:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipant"
+  PartnerIncorporationParticipantMutationResponse:
+    type: object
+    required:
+      - participant
+      - incorporationValidation
+    properties:
+      participant:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipant"
+      incorporationValidation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
+  PartnerIncorporationParticipantRemovalResponse:
+    type: object
+    required:
+      - participantId
+      - incorporationValidation
+    properties:
+      participantId:
+        type: string
+        description: Incorporation-specific participant identifier that was removed.
+        example: participant_123
+      incorporationValidation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
   PartnerIncorporationParticipantsResponse:
     type: object
     required:
@@ -999,6 +1021,23 @@ schemas:
     properties:
       document:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocument"
+  PartnerIncorporationParticipantDocumentMutationResponse:
+    type: object
+    required:
+      - document
+      - incorporationValidation
+    properties:
+      document:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocument"
+      incorporationValidation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
+  PartnerIncorporationValidationResponse:
+    type: object
+    required:
+      - incorporationValidation
+    properties:
+      incorporationValidation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
   PartnerIncorporationIssueCode:
     type: string
     description: Current partner-visible issue code. Commenda may add additional issue codes in future API updates.
@@ -1305,9 +1344,12 @@ schemas:
     type: object
     required:
       - incorporation
+      - incorporationValidation
     properties:
       incorporation:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporation"
+      incorporationValidation:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
       requirements:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirements"
       intakeState:
