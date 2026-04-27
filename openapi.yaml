@@ -7114,7 +7114,7 @@ components:
           - name: Acme SG Pte Ltd
           - name: Acme Asia Pte Ltd
           - name: Acme Global Pte Ltd
-        registeredAddressMode: standardAddress
+        registeredOfficeAddressSource: commendaService
     PartnerCreateCompanyScopedIncorporationRequest:
       type: object
       required:

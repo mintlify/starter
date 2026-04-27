@@ -325,7 +325,7 @@ For Singapore private limited companies, every individual director and individua
 
 ### 7. Submit intake data
 
-Intake updates are merge-based and may be partial. Use this endpoint for non-participant data such as company name options and registered address data.
+Intake updates are merge-based and may be partial. Use this endpoint for non-participant data such as company name options and registered office address choice.
 
 ```bash
 curl --request POST \
@@ -339,7 +339,7 @@ curl --request POST \
         { "name": "Acme Asia Pte. Ltd." },
         { "name": "Acme Global Pte. Ltd." }
       ],
-      "registeredAddressMode": "standardAddress"
+      "registeredOfficeAddressSource": "commendaService"
     }
   }'
 ```
@@ -380,7 +380,7 @@ Use this response for customer-facing progress. It includes the top-level `incor
 | --- | --- | --- |
 | `schemaVersion` / `dslVersion` | Server-side requirements version identifiers | Useful for logs and debugging. Clients do not send a requirements version back. |
 | `blocks` | UI-friendly groups of fields | Render fields by block if you want a guided UI. |
-| `fields` | Incorporation-level data, such as company names or registered address choice | Submit these keys under `requirements` in the intake endpoint. |
+| `fields` | Incorporation-level data, such as company names or registered office address choice | Submit these keys under `requirements` in the intake endpoint. |
 | `required.when` / `appliesWhen` | Rules that make a field required or applicable only when another field has a value | Re-evaluate the UI when the controlling field changes. Non-applicable fields are ignored by validation. |
 | `participantRequirements` | Required roles such as director or shareholder | Satisfy these by registering participants, not by sending arrays in intake. |
 | `documentRequirements` | Required typed documents for a participant role/type | Satisfy these by linking files as participant documents. |
@@ -390,8 +390,8 @@ Validation issues use paths that point to the missing or invalid requirement.
 | Example path | Meaning | Fix |
 | --- | --- | --- |
 | `companyNames.companyNameOptions` | Company name options are missing or invalid | Submit valid names through the intake endpoint as `requirements.companyNameOptions`. |
-| `registeredAddress.providedRegisteredAddress` | A provided registered address is required | Submit a Commenda OS location reference as `requirements.providedRegisteredAddress` or choose `standardAddress`, which means Commenda should use its standard registered address service. |
-| `registeredAddress.providedRegisteredAddress.resourceId` | The referenced registered address location is missing or inaccessible | Use a Commenda OS location for the same customer/company record as the incorporation, or update/create the location before submitting the intake reference. |
+| `registeredOfficeAddress.registeredOfficeAddressLocation` | A partner-provided registered office address location is required | Submit a Commenda OS location reference as `requirements.registeredOfficeAddressLocation` or choose `commendaService`, which means Commenda should provide the registered office address service. |
+| `registeredOfficeAddress.registeredOfficeAddressLocation.resourceId` | The referenced registered office address location is missing or inaccessible | Use a Commenda OS location for the same customer/company record as the incorporation, or update/create the location before submitting the intake reference. |
 | `participants.directors` | A required director participant is missing | Register a person or business entity as a director. |
 | `participants.participant_123.resource.lastName` | A referenced participant resource is missing a required field | Update the reusable Commenda OS person or business entity, then reread the incorporation validation. |
 | `participants.participant_123.documents.passport_scan` | A participant is missing a passport scan | Register a file, then link it as `passport_scan` for that participant. |
