@@ -1,6 +1,6 @@
 ---
 title: "Core concepts"
-description: "Understand the records, IDs, and API surfaces that make up a partner-led incorporation flow."
+description: "Understand the records, IDs, and API surfaces that make up a customer incorporation flow."
 ---
 
 Use this page to understand the main objects before you start wiring endpoints together.
@@ -10,7 +10,7 @@ Use this page to understand the main objects before you start wiring endpoints t
 | Concept | What it means | Main ID |
 | --- | --- | --- |
 | Customer/company container | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `companyId` |
-| Incorporation case | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` |
+| Incorporation | The incorporation workflow for one customer/company container and selected jurisdiction/type. | `incorporation.id` |
 | Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs |
 | Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` |
 | Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` |
@@ -18,7 +18,7 @@ Use this page to understand the main objects before you start wiring endpoints t
 
 ```text
 Customer/company container
-  -> Incorporation case
+  -> Incorporation
        -> Participants
             -> Commenda OS people/business entities
             -> Participant documents
@@ -28,7 +28,7 @@ Customer/company container
 
 ## Reusable records vs incorporation-specific records
 
-The Incorporation API does not duplicate people, business entities, locations, or files. Those records live in Commenda OS so they can be reused across KYC, entity management, registrations, documents, and future workflows. The Incorporation API links those reusable records into a specific incorporation case.
+The Incorporation API does not duplicate people, business entities, locations, or files. Those records live in Commenda OS so they can be reused across KYC, entity management, registrations, documents, and future workflows. The Incorporation API links those reusable records to a specific incorporation.
 
 | Need | Create or read in | Link through |
 | --- | --- | --- |
@@ -41,13 +41,13 @@ The Incorporation API does not duplicate people, business entities, locations, o
 
 | API surface | Use it for |
 | --- | --- |
-| Customer container setup | Create or list the customer/company container that scopes later calls. |
-| Partner Incorporation API | Discover requirements, create incorporation cases, register participants, link documents, submit intake, track status, and read issues. |
+| Customer setup | Create or list the customer/company container that scopes later calls. |
+| Partner Incorporation API | Discover requirements, create incorporations, register participants, link documents, submit intake, track status, and read issues. |
 | Commenda OS Partner API | Manage reusable customer data such as people, business entities, locations, documents, government identifiers, and registrations. |
 | Partner webhooks | Subscribe to partner events such as incorporation issue creation and resolution. |
 
 ## What to read next
 
 - Start the implementation with [Build an incorporation flow](/engine/incorporation/partner-incorporation-build-flow).
-- Create or find a customer/company container with [Create a company](/engine/incorporation/company-POST) or [List companies](/engine/incorporation/companies-GET).
+- Create or find a customer record with [Create a company](/engine/incorporation/company-POST) or [List companies](/engine/incorporation/companies-GET).
 - Use the [Commenda OS Partner API](/engine/commendaos/partner-api/commenda-os-introduction) when you need reusable customer records.
