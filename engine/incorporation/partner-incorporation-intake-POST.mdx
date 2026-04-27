@@ -3,9 +3,9 @@ title: "Update incorporation intake"
 openapi: "POST /partner/incorporation/{incorporationId}/intake"
 ---
 
-Save incorporation-level form fields for an incorporation: anything the current requirements ask for that is not a participant registration or participant document. Examples can include company name options, registered office address choice, share capital, or business activities, depending on the selected country and incorporation options.
+Save incorporation-level form fields for the company being formed and the incorporation setup. These fields can include company name options, registered office address choice, share capital, or business activities, depending on the selected country and incorporation options.
 
-Updates are merge-based: send only the `requirements` keys you want to add or change. Commenda merges those values into the current intake state, validates the full incorporation against the current requirements, and returns an updated `intakeState` with a validation summary.
+Updates are merge-based: include only the fields inside `requirements` that you want to add or change. Commenda merges those values into the current intake state, validates the full incorporation against the current requirements, and returns an updated `intakeState` with a validation summary.
 
 The Partner API does not expose a submission history endpoint. To read progress after an update, call `GET /partner/incorporation/{incorporationId}` and inspect `intakeState`.
 
