@@ -30,7 +30,7 @@ curl --request GET \
 Each incorporation is built from a few related records:
 
 ```text
-Customer/company container
+Customer
   -> Incorporation
        -> Participants
             -> Commenda OS people/business entities
@@ -39,13 +39,13 @@ Customer/company container
        -> Status and issues
 ```
 
-The `customerId` identifies the customer/company container that owns the work. It is not the legal entity being incorporated. The `incorporation.id` identifies the incorporation for that customer. Participants, documents, intake, status, and issues all attach to that incorporation.
+The `customerId` identifies the customer that owns the work. It is not the legal entity being incorporated. The `incorporation.id` identifies the incorporation for that customer. Participants, documents, intake, status, and issues all attach to that incorporation.
 
 For the full object map, see [Core concepts](/engine/incorporation/partner-incorporation-core-concepts).
 
 ## Flow at a glance
 
-1. Create or find the customer/company container and save `customerId`.
+1. Create or find the customer and save `customerId`.
 2. Choose a jurisdiction and corporation type with the jurisdiction catalog.
 3. Create the incorporation and save `incorporation.id`.
 4. Create or reuse Commenda OS records for people, business entities, locations, and files.

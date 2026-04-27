@@ -11,7 +11,7 @@ The incorporation object represents one customer incorporation case. Create it a
 | --- | --- | --- |
 | `id` | string | Unique incorporation identifier. Use this value as `{incorporationId}`. |
 | `incorporationId` | string | Stable incorporation identifier. Same value as `id`. |
-| `customerId` | integer | Customer container that owns the incorporation. This is not the legal entity being incorporated. |
+| `customerId` | integer | Customer that owns the incorporation. This is not the legal entity being incorporated. |
 | `country` | string | ISO 3166-1 alpha-2 jurisdiction code for the incorporation. |
 | `countryOptions` | object | Country-specific incorporation selections. The shape depends on `country`; use the jurisdiction catalog to discover supported keys and values. |
 | `incorporationStatus` | string | Top-level lifecycle status for the incorporation. |
