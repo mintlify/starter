@@ -2433,7 +2433,7 @@
 "/partner/incorporation/companies/{companyId}/incorporations":
   post:
     summary: Create an incorporation
-    description: Create an incorporation for a partner-owned company without creating or returning a payment intent. You may include initial partial intake data.
+    description: Begin an incorporation for one of your customers.
     operationId: createPartnerIncorporation
     servers:
       - url: https://api.prod.commenda.io/api/v1
