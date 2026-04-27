@@ -1,0 +1,49 @@
+---
+title: "Upload a file"
+openapi: "POST /partner/commenda-os/customers/{customerId}/files"
+---
+
+Upload a file with `multipart/form-data` and receive a reusable `fileId`. This endpoint stores bytes only — it does not link the file to a person, a business entity, or a participant document. Use the returned `fileId` with a separate attach call to put the file to work.
+
+This is the only Commenda Partner API endpoint that accepts binary content. Files are scoped to the customer named in the path and can be referenced by any downstream attach call that takes a `fileId` for that customer.
+
+## When to use this endpoint
+
+Call this before [upserting a participant document](/engine/incorporation/partner-incorporation-participant-documents-PUT) for an incorporation, or before any future endpoint that accepts a `fileId`. A single `fileId` can be reused across multiple attach calls without re-uploading bytes.
+
+## Request
+
+Send a single multipart part named `file` containing the binary body. The part's filename and detected MIME type are stored as `fileName` and `mimeType` on the file record. No other fields are accepted.
+
+## Limits
+
+| Limit | Value |
+| --- | --- |
+| Maximum file size | 100 MB per request |
+| Request timeout | 120 seconds |
+| Accepted MIME types | `application/pdf`, `image/png`, `image/jpeg`, `image/heic`, `image/heif`, `image/tiff`, `image/webp`, `application/msword`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` |
+
+Requests that exceed the file-size limit return `413 Payload Too Large`. Requests with an unsupported MIME type return `415 Unsupported Media Type`. Commenda detects the MIME type from the uploaded part's content rather than trusting the declared `Content-Type` alone, so renaming a file extension does not change which limits apply.
+
+If you need to upload files larger than 100 MB, contact Commenda. A separate direct-to-object-storage upload flow is available for those cases.
+
+## Example
+
+```bash
+curl --request POST \
+  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/files' \
+  --header 'x-api-key: <partner_api_key>' \
+  --form 'file=@./passport.pdf;type=application/pdf'
+```
+
+```json
+{
+  "file": {
+    "fileId": 456,
+    "fileName": "passport.pdf",
+    "mimeType": "application/pdf",
+    "fileSize": 382144,
+    "customerId": 77
+  }
+}
+```

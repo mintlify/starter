@@ -890,96 +890,27 @@ schemas:
       canBeAddedByAddDocument:
         type: boolean
         nullable: true
-  CommendaOsCustomerDocumentUploadUrlRequest:
+  CommendaOsCustomerFileUploadRequest:
     type: object
     required:
-      - fileName
+      - file
     properties:
-      fileName:
+      file:
         type: string
-        description: File name to use in the S3 object key.
-        example: passport.pdf
-  CommendaOsCustomerDocumentUpload:
-    type: object
-    required:
-      - signedUrl
-      - hostedUrl
-      - signedGetUrl
-    properties:
-      signedUrl:
-        type: string
-        format: uri
-        description: Signed S3 URL where the client should upload file bytes with HTTP PUT.
-        example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf?X-Amz-Signature=...
-      hostedUrl:
-        type: string
-        format: uri
-        description: Stable S3 file URL to pass to the customer document creation endpoint after upload succeeds.
-        example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf
-      signedGetUrl:
-        type: string
-        format: uri
-        description: Short-lived signed read URL, useful for immediate preview/debugging after upload. Do not store this as the durable document reference.
-        example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf?X-Amz-Signature=...
-  CommendaOsCustomerDocumentUploadUrlResponse:
-    type: object
-    required:
-      - upload
-    properties:
-      upload:
-        $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocumentUpload"
-  CommendaOsCustomerDocumentCreateRequest:
-    type: object
-    required:
-      - fileName
-      - fileUrl
-      - mimeType
-    properties:
-      fileName:
-        type: string
-        example: passport.pdf
-      fileUrl:
-        type: string
-        format: uri
-        description: Hosted URL returned by the signed upload URL endpoint after the client uploads bytes directly to S3. The object must exist before the document can be created.
-        example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf
-      mimeType:
-        type: string
-        description: MIME type of the uploaded file. Incorporation document requirements validate against this value.
-        example: application/pdf
-      fileSize:
-        type: integer
-        description: Optional file size in bytes.
-        example: 382144
-      documentSubType:
-        type: string
-        description: Optional Commenda document subtype. Defaults to `Other` when omitted.
-        example: Other
-      documentName:
-        type: string
-        description: Human-readable document name. Used as the explicit document type when `documentSubType` is `Other`.
-        example: Passport scan
-      businessEntityId:
-        type: integer
-        description: Optional business entity to link this uploaded file to. Do not provide together with `personId`.
-        example: 44
-      personId:
-        type: integer
-        description: Optional key person to link this uploaded file to. Do not provide together with `businessEntityId`.
-        example: 12
-  CommendaOsCustomerDocument:
+        format: binary
+        description: Binary file part. The part filename and detected MIME type are recorded on the file. No other multipart fields are accepted.
+  CommendaOsCustomerFile:
     type: object
     required:
       - fileId
       - fileName
       - mimeType
       - fileSize
-      - documentSubType
       - customerId
     properties:
       fileId:
         type: integer
-        description: Commenda file id. Use this value when registering a file to an incorporation.
+        description: Commenda file id. Pass to a downstream attach call (for example, create a customer document or upsert a participant document) to put the file to work.
         example: 456
       fileName:
         type: string
@@ -991,28 +922,16 @@ schemas:
         type: integer
         nullable: true
         example: 382144
-      documentSubType:
-        type: string
-        example: Other
-      documentName:
-        type: string
-        example: Passport scan
       customerId:
         type: integer
         example: 77
-      businessEntityId:
-        type: integer
-        example: 44
-      personId:
-        type: integer
-        example: 12
-  CommendaOsCustomerDocumentResponse:
+  CommendaOsCustomerFileResponse:
     type: object
     required:
       - file
     properties:
       file:
-        $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerDocument"
+        $ref: "./commenda-os.yaml#/schemas/CommendaOsCustomerFile"
   CommendaOsRegistration:
     type: object
     required:

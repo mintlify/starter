@@ -751,38 +751,6 @@ schemas:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationValidationSummary"
       requirements:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationRequirements"
-  PartnerRegisterFileRequest:
-    type: object
-    required:
-      - fileId
-    properties:
-      fileId:
-        type: integer
-        description: Existing Commenda file id to register to this incorporation.
-        example: 456
-  PartnerRegisterFileResponse:
-    type: object
-    required:
-      - file
-    properties:
-      file:
-        type: object
-        required:
-          - fileId
-          - fileName
-        properties:
-          fileId:
-            type: integer
-            example: 456
-          fileName:
-            type: string
-            example: passport.pdf
-          mimeType:
-            type: string
-            example: application/pdf
-          fileSize:
-            type: integer
-            example: 123456
   PartnerIncorporationParticipantType:
     type: string
     description: Type of reusable Commenda OS resource registered to the incorporation.
@@ -900,30 +868,20 @@ schemas:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationDocumentKind"
       fileId:
         type: integer
-        description: Registered Commenda file satisfying this document requirement.
+        description: Commenda file satisfying this document requirement. Files are scoped to the incorporation when they are upserted into a participant document slot.
         example: 456
       status:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantDocumentStatus"
-  PartnerLinkParticipantDocumentRequest:
+  PartnerUpsertParticipantDocumentRequest:
     type: object
     required:
-      - participantId
-      - documentKind
       - fileId
     properties:
-      participantId:
-        type: string
-        description: Participant this document belongs to.
-        example: participant_123
-      documentKind:
-        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationDocumentKind"
       fileId:
         type: integer
-        description: File id previously registered to this incorporation.
+        description: Existing customer-scoped Commenda file id to scope to this incorporation and assign to the participant document slot.
         example: 456
     example:
-      participantId: participant_123
-      documentKind: passport_scan
       fileId: 456
   PartnerIncorporationParticipant:
     type: object

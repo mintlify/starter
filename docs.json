@@ -214,8 +214,7 @@
                 "group": "Documents",
                 "pages": [
                   "engine/incorporation/partner-incorporation-document-upload-flow",
-                  "engine/incorporation/partner-incorporation-files-POST",
-                  "engine/incorporation/partner-incorporation-participant-documents-POST"
+                  "engine/incorporation/partner-incorporation-participant-documents-PUT"
                 ]
               },
               {
@@ -286,10 +285,9 @@
                 ]
               },
               {
-                "group": "Documents",
+                "group": "Files & Documents",
                 "pages": [
-                  "engine/commendaos/partner-api/commenda-os-documents-upload-url-POST",
-                  "engine/commendaos/partner-api/commenda-os-documents-POST",
+                  "engine/commendaos/partner-api/commenda-os-files-POST",
                   "engine/commendaos/partner-api/commenda-os-business-entities-id-documents-GET",
                   "engine/commendaos/partner-api/commenda-os-business-entities-id-documents-supported-GET"
                 ]

@@ -40,7 +40,7 @@ For Singapore private limited companies, use this matrix when mapping the requir
 | --- | --- | --- | --- | --- | --- |
 | Individual director | `individual` | `keyPerson` | `{ "role": "director" }` | Not applicable | `passport_scan` and `utility_bill` when required. |
 | Individual shareholder | `individual` | `keyPerson` | `{ "role": "shareholder", "ownershipPercentage": number }` | Required for percentage ownership. All shareholders must total 100. | `passport_scan` and `utility_bill` when required. |
-| Same individual director and shareholder | `individual` | `keyPerson` | Include both role objects in one `roles` array. | Shareholder role still needs `ownershipPercentage`. | One participant record can satisfy both role document requirements once its required documents are linked. |
+| Same individual director and shareholder | `individual` | `keyPerson` | Include both role objects in one `roles` array. | Shareholder role still needs `ownershipPercentage`. | One participant record can satisfy both role document requirements once its required documents are upserted. |
 | Corporate shareholder | `corporate` | `businessEntity` | `{ "role": "shareholder", "ownershipPercentage": number }` | Required for percentage ownership. All shareholders must total 100. | Follow `documentRequirements` for `participantType: "corporate"` and `resourceType: "businessEntity"` when present. |
 | Corporate director | `corporate` | `businessEntity` | Not supported for Singapore private limited companies. | Not applicable | Not applicable. |
 

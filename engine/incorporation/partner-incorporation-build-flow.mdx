@@ -11,7 +11,7 @@ This guide shows the recommended implementation sequence for a customer incorpor
 2. Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the requirements schema.
 3. Create the incorporation and save `incorporation.id`.
 4. Create or reuse required Commenda OS records, such as people, business entities, locations, and documents.
-5. Register participants and link required participant documents.
+5. Register participants and upsert required participant documents.
 6. Submit incorporation-level intake fields, then read validation until `incorporationValidation.isComplete` is `true`.
 7. Submit for review, then track status and active issues.
 
@@ -25,7 +25,7 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | Incorporation | How do I start the incorporation? | Create the incorporation and save `incorporation.id`. |
 | Add customer records | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
 | Participants | Who is involved? | Register reusable people/entities as directors and shareholders. |
-| Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, create customer documents to obtain `fileId`, register each file to the incorporation, then link it as a typed participant document. |
+| Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload customer documents with multipart form data to obtain `fileId`, then upsert each file as a typed participant document. |
 | Intake | What non-participant fields are needed? | Submit partial or complete intake updates. |
 | Submit for review | How do I hand it to Commenda? | Read validation, call the submit endpoint when `incorporationValidation.isComplete` is `true`, then track `GET /partner/incorporation/{incorporationId}/status`. |
 | Issues | What if Commenda needs corrections? | Read active/resolved issues, update the underlying intake/participants/documents, and optionally receive issue webhooks. Active issues set top-level status to `blocked`. |
@@ -35,15 +35,13 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | ID | Returned by | Used in | Notes |
 | --- | --- | --- | --- |
 | `customerId` | `POST /partner/customers` | Create incorporation; Commenda OS customer-scoped endpoints | Numeric customer id. |
-| `incorporation.id` | Create/list/get incorporation | Participants, files, documents, intake, direct read route | Use this as `{incorporationId}`. |
+| `incorporation.id` | Create/list/get incorporation | Participants, documents, intake, direct read route | Use this as `{incorporationId}`. |
 | `businessEntityId` | Create/list/get incorporation | Commenda OS business-entity endpoints for the entity being incorporated | Target business entity id for the entity being incorporated. For new Partner API incorporations, this is returned on create. It is different from corporate shareholder `businessEntity.id` values. |
 | Person `id` | `POST /partner/commenda-os/customers/{customerId}/persons` | Participant `resource.resourceId` | Encode as a string, for example `"12"`. |
 | Business entity `id` | `POST /partner/commenda-os/customers/{customerId}/business-entities` | Corporate participant `resource.resourceId` | Encode as a string, for example `"44"`. |
-| `participantId` | Register participant | Update participant roles; link participant documents | Incorporation-scoped participant id. |
-| `upload.signedUrl` | `POST /partner/commenda-os/customers/{customerId}/documents/upload-url` | Direct S3 `PUT` only | Temporary upload URL. Do not store it as the document URL. |
-| `upload.hostedUrl` | `POST /partner/commenda-os/customers/{customerId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/customers/{customerId}/documents` | Stable S3 URL for the uploaded object. |
-| `fileId` | `POST /partner/commenda-os/customers/{customerId}/documents` | Register file; link participant document | Customer-scoped file id. Upload bytes directly to S3 first, then create the customer document. |
-| `documentId` | Link participant document | Read/list participant state | Incorporation-scoped typed document link. |
+| `participantId` | Register participant | Update participant roles; upsert participant documents | Incorporation-scoped participant id. |
+| `fileId` | `POST /partner/commenda-os/customers/{customerId}/documents` | Upsert participant document | Customer-scoped file id returned after multipart upload. |
+| `documentId` | Upsert participant document | Read/list participant state | Incorporation-scoped typed document link. |
 | `statusWorkflow.stages[].id` | Status workflow or incorporation status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition. |
 | `issue.id` | List issues or issue webhook payload | Dedupe issue webhooks; correlate correction requests | One issue row represents one remediation episode. |
 | `webhookSubscription.id` | Create/list webhook subscriptions | Read or delete webhook subscription | Partner-level subscription, not scoped to one customer. |
@@ -228,104 +226,46 @@ curl --request PATCH \
   }'
 ```
 
-### 6. Register and link documents
+### 6. Upload and upsert documents
 
-Upload each source document directly to S3, then create a customer document, before registering it to the incorporation.
+Upload each source document as multipart form data to create a reusable customer file. Upserting the participant document scopes the file to the incorporation and assigns it to the participant document slot in one request.
 
 <Info>
-The upload URL and customer-document creation endpoints live in the Commenda OS Partner API because files are reusable customer resources. For a shorter document-only walkthrough, see [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow).
+The multipart upload endpoint lives in the Commenda OS Partner API because files are reusable customer resources. For a shorter document-only walkthrough, see [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow).
 </Info>
 
 ```bash
 curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/documents/upload-url' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileName": "passport.pdf" }'
-
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/documents/upload-url' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileName": "utility-bill.pdf" }'
-```
-
-Upload each file to the returned `upload.signedUrl` with HTTP `PUT`. The signed URL is temporary and is only used for the upload request:
-
-```bash
-curl --request PUT \
-  --upload-file ./passport.pdf \
-  '<passport_signed_url>'
-
-curl --request PUT \
-  --upload-file ./utility-bill.pdf \
-  '<utility_bill_signed_url>'
-```
-
-Then create the customer documents from the returned `upload.hostedUrl` values. The `fileUrl` must be the `upload.hostedUrl` for this customer:
-
-```bash
-curl --request POST \
   --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/documents' \
-  --header 'content-type: application/json' \
   --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "fileName": "passport.pdf",
-    "fileUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf",
-    "mimeType": "application/pdf",
-    "personId": 12,
-    "documentName": "Passport scan"
-  }'
+  --form 'file=@./passport.pdf;type=application/pdf' \
+  --form 'personId=12' \
+  --form 'documentName=Passport scan'
 
 curl --request POST \
   --url 'https://api.prod.commenda.io/api/v1/partner/commenda-os/customers/77/documents' \
+  --header 'x-api-key: <partner_api_key>' \
+  --form 'file=@./utility-bill.pdf;type=application/pdf' \
+  --form 'personId=12' \
+  --form 'documentName=Utility bill'
+```
+
+Then upsert each file as a typed participant document:
+
+```bash
+curl --request PUT \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/participants/participant_123/documents/passport_scan' \
   --header 'content-type: application/json' \
   --header 'x-api-key: <partner_api_key>' \
   --data '{
-    "fileName": "utility-bill.pdf",
-    "fileUrl": "https://commenda-bucket.s3.amazonaws.com/77/uuid/utility-bill.pdf",
-    "mimeType": "application/pdf",
-    "personId": 12,
-    "documentName": "Utility bill"
-  }'
-```
-
-Register each file to the incorporation:
-
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/files' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileId": 456 }'
-
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/files' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{ "fileId": 789 }'
-```
-
-Then link each file as a typed participant document:
-
-```bash
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/documents' \
-  --header 'content-type: application/json' \
-  --header 'x-api-key: <partner_api_key>' \
-  --data '{
-    "participantId": "participant_123",
-    "documentKind": "passport_scan",
     "fileId": 456
   }'
 
-curl --request POST \
-  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/documents' \
+curl --request PUT \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/participants/participant_123/documents/utility_bill' \
   --header 'content-type: application/json' \
   --header 'x-api-key: <partner_api_key>' \
   --data '{
-    "participantId": "participant_123",
-    "documentKind": "utility_bill",
     "fileId": 789
   }'
 ```
@@ -391,7 +331,7 @@ Use this response for customer-facing progress. It includes the top-level `incor
 | `fields` | Incorporation-level data, such as company names or registered office address choice | Submit these keys under `requirements` in the intake endpoint. |
 | `required.when` / `appliesWhen` | Rules that make a field required or applicable only when another field has a value | Re-evaluate the UI when the controlling field changes. Non-applicable fields are ignored by validation. |
 | `participantRequirements` | Required roles such as director or shareholder | Satisfy these by registering participants, not by sending arrays in intake. |
-| `documentRequirements` | Required typed documents for a participant role/type | Satisfy these by linking files as participant documents. |
+| `documentRequirements` | Required typed documents for a participant role/type | Satisfy these by upserting customer files as participant documents. |
 | Version fields, such as `schemaVersion` and `dslVersion` | Requirements version metadata | Store these in logs for debugging. Do not send them back or gate UI behavior on exact values. |
 
 Validation issues use paths that point to the missing or invalid requirement.
@@ -403,7 +343,7 @@ Validation issues use paths that point to the missing or invalid requirement.
 | `registeredOfficeAddress.registeredOfficeAddressLocation.resourceId` | The referenced registered office address location is missing or inaccessible | Use a Commenda OS location for the same customer record as the incorporation, create or update the location through the Commenda OS Partner API, or choose `commendaService`. |
 | `participants.directors` | A required director participant is missing | Register a person or business entity as a director. |
 | `participants.participant_123.resource.lastName` | A referenced participant resource is missing a required field | Update the reusable Commenda OS person or business entity, then reread the incorporation validation. |
-| `participants.participant_123.documents.passport_scan` | A participant is missing a passport scan | Register a file, then link it as `passport_scan` for that participant. |
+| `participants.participant_123.documents.passport_scan` | A participant is missing a passport scan | Upload a customer file, then upsert it as `passport_scan` for that participant. |
 
 Fetch requirements after the user chooses a jurisdiction and corporation type. Render your UI from the requirements response, but decide readiness from validation returned by write/read calls because Commenda may update requirements over time.
 
@@ -431,7 +371,7 @@ curl --request GET \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-Issues are read-only over the Partner API. To resolve them, fix the underlying data through the normal endpoints: update intake fields, register or update participants, upload/register/link replacement documents, or otherwise provide the requested information. Commenda resolves the issue after review.
+Issues are read-only over the Partner API. To resolve them, fix the underlying data through the normal endpoints: update intake fields, register or update participants, upload and upsert replacement documents, or otherwise provide the requested information. Commenda resolves the issue after review.
 
 Each issue row represents one remediation episode. Resolved incorporation issues are not reopened; if the same kind of correction is needed again later, Commenda creates a new issue with a new `issue.id`.
 
@@ -470,8 +410,8 @@ Webhook delivery is asynchronous and retried. Your endpoint should respond withi
 | `404` when registering participant | The referenced person or business entity is not visible to the customer | Create or fetch the resource through Commenda OS first. |
 | `400` when registering or updating participant | Shareholder role is missing `ownershipPercentage`, role/resource type is unsupported, or ownership would exceed 100 | Follow the selected incorporation requirements and adjust existing shareholder roles before adding more ownership. |
 | Incomplete validation for shareholders | Ownership percentages do not total 100 | Update shareholder participant roles so totals equal 100. |
-| `400` when creating customer document | `fileUrl` is not the `upload.hostedUrl` returned for this customer | Request a document upload URL, upload bytes to `upload.signedUrl`, then create the document with `upload.hostedUrl`. |
-| `404` when linking document | The participant or file cannot be found | Register the participant and file first. |
-| `400` when linking document | File is not registered to the incorporation or document kind is not required | Call the file registration endpoint, then use a required `documentKind`. |
+| `400` when uploading customer document | Missing file part, unsupported MIME type, file too large, or both `personId` and `businessEntityId` were provided | Send exactly one binary `file` part, valid optional metadata, and a supported file type. |
+| `404` when upserting document | The participant or file cannot be found | Register the participant and upload the customer file first. |
+| `400` when upserting document | File type is incompatible or the document kind is not required for this participant | Use a required `documentKind` from the requirements response and a compatible customer file. |
 | `400` for intake | Field value does not match the current incorporation requirements | Read `invalidRequirements` and update the field. |
 | `400` on submit | The current state is incomplete | Read the returned validation details or call `GET /partner/incorporation/{incorporationId}`, then fix missing/invalid requirements before retrying submit. |

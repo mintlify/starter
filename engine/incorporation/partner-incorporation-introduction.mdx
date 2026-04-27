@@ -49,7 +49,7 @@ For the full object map, see [Core concepts](/engine/incorporation/partner-incor
 2. Choose a jurisdiction and corporation type with the jurisdiction catalog.
 3. Create the incorporation and save `incorporation.id`.
 4. Create or reuse Commenda OS records for people, business entities, locations, and files.
-5. Register participants and link required participant documents.
+5. Register participants and upsert required participant documents.
 6. Submit incorporation-level intake fields and check `incorporationValidation.isComplete`.
 7. Submit the incorporation for Commenda review, then track status and issues.
 
@@ -64,13 +64,13 @@ Reusable customer records live in the Commenda OS Partner API: people, business 
 | Director or shareholder person | Commenda OS Persons | Incorporation Participants |
 | Corporate shareholder | Commenda OS Business Entities | Incorporation Participants |
 | Registered office location | Commenda OS Locations | Intake `registeredOfficeAddressLocation` |
-| Passport, utility bill, or other source file | Commenda OS Documents | Incorporation Files, then Participant Documents |
+| Passport, utility bill, or other source file | Commenda OS Documents | Participant document upsert |
 
 ## Incorporation requirements
 
 Fetch requirements after the user chooses a jurisdiction and corporation type. The requirements response describes the current checklist and field contract for that incorporation type. Use it to render your own UI, but treat server validation as authoritative.
 
-Participant and document requirements are satisfied by registering participants and linking participant documents. Incorporation-level fields, such as company name options and registered office address choice, are submitted through the intake endpoint.
+Participant and document requirements are satisfied by registering participants and upserting participant documents. Incorporation-level fields, such as company name options and registered office address choice, are submitted through the intake endpoint.
 
 ## Status and issues
 

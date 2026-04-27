@@ -1,0 +1,20 @@
+---
+title: "Upsert a participant document"
+openapi: "PUT /partner/incorporation/{incorporationId}/participants/{participantId}/documents/{documentKind}"
+---
+
+Assigns a customer-scoped Commenda file to one participant document slot.
+
+Use this endpoint after uploading a customer document with the Commenda OS Partner API. Commenda scopes the file to the incorporation and creates or replaces the typed participant document in one transaction. There is no separate file registration call.
+
+If you are starting from a passport scan, utility bill, or other local file, first follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow) to upload the file and get a `file.fileId`.
+
+The slot is replacement-based by `participantId` and `documentKind`. Calling this endpoint again with a different `fileId` replaces the file for that participant document. Calling it again with the same `fileId` is safe.
+
+The `documentKind` path value comes from the incorporation requirements. Current values include `passport_scan` and `utility_bill`.
+
+```json
+{
+  "fileId": 456
+}
+```

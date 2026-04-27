@@ -25,7 +25,7 @@ Rule of thumb: render from the requirements response, but validate from write/re
 | `fields` | Data submitted through `PATCH /partner/incorporation/{incorporationId}/intake` | Send values under `requirements` using each field key. |
 | `required.when` / `appliesWhen` | Rules that make fields required or applicable only when another value is selected | Recompute visible/required fields when users change controlling values. Fields whose `appliesWhen` rule is not satisfied are ignored by validation. |
 | `participantRequirements` | Required participant roles such as director or shareholder | Register reusable Commenda OS resources with `POST /partner/incorporation/{incorporationId}/participants`. |
-| `documentRequirements` | Required typed documents for participant roles/types | Register files, then link them with `POST /partner/incorporation/{incorporationId}/documents`. |
+| `documentRequirements` | Required typed documents for participant roles/types | Upsert a customer `fileId` into each participant document slot with `PUT /partner/incorporation/{incorporationId}/participants/{participantId}/documents/{documentKind}`. |
 | Version fields, such as `schemaVersion` and `dslVersion` | Requirements version metadata | Store these in logs for debugging. Do not send them back to Commenda. |
 
 ## Participant role/resource combinations

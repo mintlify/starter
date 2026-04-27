@@ -2735,59 +2735,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AffiliatePublicError'
-  /partner/incorporation/{incorporationId}/files:
-    post:
-      summary: Register an incorporation file
-      description: Register a customer-scoped Commenda file to the incorporation context and return a `fileId` that can be linked as a participant document. This endpoint does not upload binary content.
-      operationId: registerPartnerIncorporationFile
-      servers:
-        - url: https://api.prod.commenda.io/api/v1
-      security:
-        - xApiKeyAuth: []
-      parameters:
-        - name: incorporationId
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Incorporation identifier returned by create or list endpoints.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PartnerRegisterFileRequest'
-      responses:
-        '201':
-          description: File registered successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PartnerRegisterFileResponse'
-        '400':
-          description: Malformed file registration payload
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AffiliatePublicError'
-        '401':
-          description: Missing or invalid partner API key
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AffiliatePublicError'
-        '403':
-          description: Incorporation is not accessible to the partner
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AffiliatePublicError'
-        '404':
-          description: Incorporation not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AffiliatePublicError'
   /partner/incorporation/{incorporationId}/participants:
     get:
       summary: List incorporation participants
@@ -2986,11 +2933,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AffiliatePublicError'
-  /partner/incorporation/{incorporationId}/documents:
-    post:
-      summary: Link a participant document
-      description: Link a registered incorporation file to a participant as a typed document required by the current incorporation requirements. Calling this endpoint again with the same participantId and documentKind replaces the linked fileId.
-      operationId: linkPartnerIncorporationParticipantDocument
+  /partner/incorporation/{incorporationId}/participants/{participantId}/documents/{documentKind}:
+    put:
+      summary: Upsert a participant document
+      description: Assign a customer-scoped Commenda file to one participant document slot. This request scopes the file to the incorporation and creates or replaces the typed participant document in one transaction. Repeating the request with the same fileId is safe.
+      operationId: upsertPartnerIncorporationParticipantDocument
       servers:
         - url: https://api.prod.commenda.io/api/v1
       security:
@@ -3002,21 +2949,33 @@ paths:
           schema:
             type: string
           description: Incorporation identifier returned by create or list endpoints.
+        - name: participantId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Incorporation-specific participant identifier returned by register, list, or read endpoints.
+        - name: documentKind
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/PartnerIncorporationDocumentKind'
+          description: Typed document requirement to satisfy for this participant.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PartnerLinkParticipantDocumentRequest'
+              $ref: '#/components/schemas/PartnerUpsertParticipantDocumentRequest'
       responses:
-        '201':
-          description: Participant document linked successfully
+        '200':
+          description: Participant document upserted successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PartnerIncorporationParticipantDocumentMutationResponse'
         '400':
-          description: Malformed document link payload, incompatible file type, or file not registered to this incorporation
+          description: Malformed participant document payload, incompatible file type, or document kind not required for this participant
           content:
             application/json:
               schema:
@@ -3975,11 +3934,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
-  /partner/commenda-os/customers/{customerId}/documents/upload-url:
+  /partner/commenda-os/customers/{customerId}/files:
     post:
-      summary: Create a document upload URL
-      description: Create a signed S3 upload URL so a partner client can upload customer document bytes directly to S3 without sending the file body through Commenda's API server.
-      operationId: createPartnerCommendaOsCustomerDocumentUploadUrl
+      summary: Upload a file
+      description: Upload a file with multipart/form-data and receive a reusable fileId. Stores bytes only; does not link the file to any other resource. Use the returned fileId with a separate attach call to put the file to work.
+      operationId: uploadPartnerCommendaOsCustomerFile
       servers:
         - url: https://api.prod.commenda.io/api/v1
       security:
@@ -3994,18 +3953,18 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CommendaOsCustomerDocumentUploadUrlRequest'
+              $ref: '#/components/schemas/CommendaOsCustomerFileUploadRequest'
       responses:
         '201':
-          description: Signed upload URL created successfully
+          description: File uploaded successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommendaOsCustomerDocumentUploadUrlResponse'
+                $ref: '#/components/schemas/CommendaOsCustomerFileResponse'
         '400':
-          description: Missing or malformed file name
+          description: Missing file part or malformed multipart body
           content:
             application/json:
               schema:
@@ -4017,7 +3976,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
         '403':
-          description: Forbidden
+          description: Customer does not belong to this partner firm
           content:
             application/json:
               schema:
@@ -4028,55 +3987,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
-  /partner/commenda-os/customers/{customerId}/documents:
-    post:
-      summary: Create a customer document
-      description: Create a customer-scoped Commenda document from a hosted URL returned by the document upload URL endpoint. The S3 object must exist before the document can be created. Optionally link the file to one business entity or one key person in the same customer.
-      operationId: createPartnerCommendaOsCustomerDocument
-      servers:
-        - url: https://api.prod.commenda.io/api/v1
-      security:
-        - xApiKeyAuth: []
-      parameters:
-        - name: customerId
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Commenda customer identifier.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommendaOsCustomerDocumentCreateRequest'
-      responses:
-        '201':
-          description: Customer document created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommendaOsCustomerDocumentResponse'
-        '400':
-          description: Missing file metadata, upload has not completed, invalid document type, invalid resource id, or both personId and businessEntityId were provided
+        '413':
+          description: Uploaded file exceeds the 100 MB per-request size limit
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
-        '401':
-          description: Missing or invalid partner API key
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommendaOsPartnerError'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommendaOsPartnerError'
-        '404':
-          description: Customer, business entity, or key person not found
+        '415':
+          description: Detected MIME type of the uploaded file is not in the accepted list
           content:
             application/json:
               schema:
@@ -7791,7 +7709,7 @@ components:
           $ref: '#/components/schemas/PartnerIncorporationDocumentKind'
         fileId:
           type: integer
-          description: Registered Commenda file satisfying this document requirement.
+          description: Commenda file satisfying this document requirement. Files are scoped to the incorporation when they are upserted into a participant document slot.
           example: 456
         status:
           $ref: '#/components/schemas/PartnerIncorporationParticipantDocumentStatus'
@@ -8005,38 +7923,6 @@ components:
           example: Bad Request
         incorporationValidation:
           $ref: '#/components/schemas/PartnerIncorporationValidationSummary'
-    PartnerRegisterFileRequest:
-      type: object
-      required:
-        - fileId
-      properties:
-        fileId:
-          type: integer
-          description: Existing Commenda file id to register to this incorporation.
-          example: 456
-    PartnerRegisterFileResponse:
-      type: object
-      required:
-        - file
-      properties:
-        file:
-          type: object
-          required:
-            - fileId
-            - fileName
-          properties:
-            fileId:
-              type: integer
-              example: 456
-            fileName:
-              type: string
-              example: passport.pdf
-            mimeType:
-              type: string
-              example: application/pdf
-            fileSize:
-              type: integer
-              example: 123456
     PartnerIncorporationParticipantsResponse:
       type: object
       required:
@@ -8114,26 +8000,16 @@ components:
           - role: director
           - role: shareholder
             ownershipPercentage: 40
-    PartnerLinkParticipantDocumentRequest:
+    PartnerUpsertParticipantDocumentRequest:
       type: object
       required:
-        - participantId
-        - documentKind
         - fileId
       properties:
-        participantId:
-          type: string
-          description: Participant this document belongs to.
-          example: participant_123
-        documentKind:
-          $ref: '#/components/schemas/PartnerIncorporationDocumentKind'
         fileId:
           type: integer
-          description: File id previously registered to this incorporation.
+          description: Existing customer-scoped Commenda file id to scope to this incorporation and assign to the participant document slot.
           example: 456
       example:
-        participantId: participant_123
-        documentKind: passport_scan
         fileId: 456
     PartnerIncorporationParticipantDocumentMutationResponse:
       type: object
@@ -9338,96 +9214,27 @@ components:
       properties:
         governmentIdentifier:
           $ref: '#/components/schemas/CommendaOsGovernmentIdentifier'
-    CommendaOsCustomerDocumentUploadUrlRequest:
+    CommendaOsCustomerFileUploadRequest:
       type: object
       required:
-        - fileName
+        - file
       properties:
-        fileName:
+        file:
           type: string
-          description: File name to use in the S3 object key.
-          example: passport.pdf
-    CommendaOsCustomerDocumentUpload:
-      type: object
-      required:
-        - signedUrl
-        - hostedUrl
-        - signedGetUrl
-      properties:
-        signedUrl:
-          type: string
-          format: uri
-          description: Signed S3 URL where the client should upload file bytes with HTTP PUT.
-          example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf?X-Amz-Signature=...
-        hostedUrl:
-          type: string
-          format: uri
-          description: Stable S3 file URL to pass to the customer document creation endpoint after upload succeeds.
-          example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf
-        signedGetUrl:
-          type: string
-          format: uri
-          description: Short-lived signed read URL, useful for immediate preview/debugging after upload. Do not store this as the durable document reference.
-          example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf?X-Amz-Signature=...
-    CommendaOsCustomerDocumentUploadUrlResponse:
-      type: object
-      required:
-        - upload
-      properties:
-        upload:
-          $ref: '#/components/schemas/CommendaOsCustomerDocumentUpload'
-    CommendaOsCustomerDocumentCreateRequest:
-      type: object
-      required:
-        - fileName
-        - fileUrl
-        - mimeType
-      properties:
-        fileName:
-          type: string
-          example: passport.pdf
-        fileUrl:
-          type: string
-          format: uri
-          description: Hosted URL returned by the signed upload URL endpoint after the client uploads bytes directly to S3. The object must exist before the document can be created.
-          example: https://commenda-bucket.s3.amazonaws.com/77/uuid/passport.pdf
-        mimeType:
-          type: string
-          description: MIME type of the uploaded file. Incorporation document requirements validate against this value.
-          example: application/pdf
-        fileSize:
-          type: integer
-          description: Optional file size in bytes.
-          example: 382144
-        documentSubType:
-          type: string
-          description: Optional Commenda document subtype. Defaults to `Other` when omitted.
-          example: Other
-        documentName:
-          type: string
-          description: Human-readable document name. Used as the explicit document type when `documentSubType` is `Other`.
-          example: Passport scan
-        businessEntityId:
-          type: integer
-          description: Optional business entity to link this uploaded file to. Do not provide together with `personId`.
-          example: 44
-        personId:
-          type: integer
-          description: Optional key person to link this uploaded file to. Do not provide together with `businessEntityId`.
-          example: 12
-    CommendaOsCustomerDocument:
+          format: binary
+          description: Binary file part. The part filename and detected MIME type are recorded on the file. No other multipart fields are accepted.
+    CommendaOsCustomerFile:
       type: object
       required:
         - fileId
         - fileName
         - mimeType
         - fileSize
-        - documentSubType
         - customerId
       properties:
         fileId:
           type: integer
-          description: Commenda file id. Use this value when registering a file to an incorporation.
+          description: Commenda file id. Pass to a downstream attach call (for example, create a customer document or upsert a participant document) to put the file to work.
           example: 456
         fileName:
           type: string
@@ -9439,28 +9246,16 @@ components:
           type: integer
           nullable: true
           example: 382144
-        documentSubType:
-          type: string
-          example: Other
-        documentName:
-          type: string
-          example: Passport scan
         customerId:
           type: integer
           example: 77
-        businessEntityId:
-          type: integer
-          example: 44
-        personId:
-          type: integer
-          example: 12
-    CommendaOsCustomerDocumentResponse:
+    CommendaOsCustomerFileResponse:
       type: object
       required:
         - file
       properties:
         file:
-          $ref: '#/components/schemas/CommendaOsCustomerDocument'
+          $ref: '#/components/schemas/CommendaOsCustomerFile'
     CommendaOsDocument:
       type: object
       required:
