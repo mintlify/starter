@@ -3,17 +3,16 @@ title: "Core concepts"
 description: "Understand the records, IDs, and API choices that make up a customer incorporation flow."
 ---
 
-Before you write data, decide whether each record is reusable customer data or incorporation-specific work. That distinction determines which API to call and which IDs to save.
 
 ## Object model
 
 | Concept | What it means | Main ID |
 | --- | --- | --- |
-| Customer | The account-level customer record that owns the work. It is not the legal entity being incorporated. | `customerId` |
-| Incorporation | The incorporation workflow for one customer and selected jurisdiction/type. | `incorporation.id` |
+| Customer | One of your customers. Every resource in the incorporation API is scoped to a specific customer. | `customerId` |
+| Incorporation | A specific incorporation workflow, including selected jurisdiction/entity type. | `incorporation.id` |
 | Commenda OS reusable resource | Customer data that can be reused across workflows, such as people, business entities, locations, and files. | Resource-specific IDs |
-| Participant | An incorporation-specific registration of a reusable person or business entity, with roles such as `director` or `shareholder`. | `participantId` |
-| Intake | Incorporation-level requirement values that are not participant registrations or document links, such as company name options and registered office address choice. | `intakeState` |
+| Participant | A reference to a person or business entity in Commenda OS, attached to this incorporation with a role such as `director` or `shareholder`. | `participantId` |
+| Intake | A collection of user-provided information about the entity being incorporated, such as company name options and registered office address choice. | `intakeState` |
 | Status and issues | Post-submit progress and partner-visible correction requests. | `incorporationStatus`, `issue.id` |
 
 ```text
