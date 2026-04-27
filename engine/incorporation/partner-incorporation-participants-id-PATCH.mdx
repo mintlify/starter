@@ -1,0 +1,53 @@
+---
+title: "Update an incorporation participant"
+openapi: "PATCH /partner/incorporation/{incorporationId}/participants/{participantId}"
+---
+
+Replaces the roles for an existing incorporation participant.
+
+Use this endpoint when a customer needs to correct director/shareholder roles or shareholder percentages after the participant has already been registered. The underlying Commenda OS resource does not change; this endpoint only updates the participant's incorporation-specific `roles` array.
+
+Send the full desired `roles` array. Omitted roles are removed.
+
+```json
+{
+  "roles": [
+    {
+      "role": "director"
+    },
+    {
+      "role": "shareholder",
+      "ownershipPercentage": 40
+    }
+  ]
+}
+```
+
+The response shape matches participant registration and list responses.
+
+```json
+{
+  "participant": {
+    "participantId": "participant_123",
+    "participantType": "individual",
+    "resource": {
+      "resourceType": "keyPerson",
+      "resourceId": "12"
+    },
+    "roles": [
+      {
+        "role": "director"
+      },
+      {
+        "role": "shareholder",
+        "ownershipPercentage": 40
+      }
+    ],
+    "documents": []
+  }
+}
+```
+
+For Singapore private limited companies, shareholder ownership may not exceed 100 across registered shareholder participants. Updates below 100 are accepted, but incorporation validation remains incomplete until the shareholder total equals 100.
+
+If the participant references the wrong person or business entity, register the correct Commenda OS resource as a new participant instead.

@@ -2729,7 +2729,7 @@
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
   post:
     summary: Register an incorporation participant
-    description: Register a reusable Commenda OS key person or business entity as an incorporation participant with roles such as director or shareholder. This endpoint creates the incorporation-specific role registration; KYC checks, e-signature execution, and document review are future extensions and are not performed by this endpoint.
+    description: Register a reusable Commenda OS key person or business entity as an incorporation participant with roles such as director or shareholder. This endpoint creates the incorporation-specific role registration. Writes that make shareholder ownership exceed the selected requirements total are rejected.
     operationId: registerPartnerIncorporationParticipant
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2756,7 +2756,7 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantResponse"
       "400":
-        description: Malformed participant registration payload, invalid participant/resource/role combination, or missing shareholder ownership percentage
+        description: Malformed participant registration payload, invalid participant/resource/role combination, missing shareholder ownership percentage, or shareholder ownership exceeding the selected requirements total
         content:
           application/json:
             schema:
@@ -2775,6 +2775,65 @@
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
       "404":
         description: Incorporation or referenced Commenda OS resource not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/incorporation/{incorporationId}/participants/{participantId}":
+  patch:
+    summary: Update an incorporation participant
+    description: Replace the roles for an existing incorporation participant. Use this endpoint to correct director/shareholder roles or shareholder ownership percentages without recreating the underlying Commenda OS person or business entity. Writes that make shareholder ownership exceed the selected requirements total are rejected.
+    operationId: updatePartnerIncorporationParticipant
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: incorporationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Incorporation identifier returned by create or list endpoints.
+      - name: participantId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Incorporation-specific participant identifier returned by register, list, or read endpoints.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            "$ref": "../components/components.yaml#/components/schemas/PartnerPatchParticipantRequest"
+    responses:
+      "200":
+        description: Participant updated successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationParticipantResponse"
+      "400":
+        description: Malformed participant update payload, invalid role combination, missing shareholder ownership percentage, or shareholder ownership exceeding the selected requirements total
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "403":
+        description: Incorporation is not accessible to the partner
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Incorporation or participant not found
         content:
           application/json:
             schema:

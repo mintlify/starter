@@ -46,6 +46,10 @@ For Singapore private limited companies, use this matrix when mapping the requir
 
 Create individual resources with `POST /partner/commenda-os/companies/{companyId}/persons`. Create corporate resources with `POST /partner/commenda-os/companies/{companyId}/business-entities`.
 
+For Singapore private limited companies, writes that would make shareholder ownership exceed 100 are rejected. Ownership below 100 is accepted while the customer is still entering shareholders, but incorporation validation remains incomplete until the total equals 100.
+
+Use `PATCH /partner/incorporation/{incorporationId}/participants/{participantId}` to replace an existing participant's roles or correct ownership percentages.
+
 ## Role examples
 
 Director only:
