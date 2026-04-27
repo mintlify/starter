@@ -44,7 +44,7 @@ This guide shows the recommended implementation sequence for a customer incorpor
 | `upload.hostedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/companies/{companyId}/documents` | Stable S3 URL for the uploaded object. |
 | `fileId` | `POST /partner/commenda-os/companies/{companyId}/documents` | Register file; link participant document | Company-scoped file id. Upload bytes directly to S3 first, then create the company document. |
 | `documentId` | Link participant document | Read/list participant state | Incorporation-scoped typed document link. |
-| `statusWorkflow.stages[].id` | Status workflow or case status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition. Commenda also adds an `intake` stage so progress can show data collection before review. |
+| `statusWorkflow.stages[].id` | Status workflow or case status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition. |
 | `issue.id` | List issues or issue webhook payload | Dedupe issue webhooks; correlate correction requests | One issue row represents one remediation episode. |
 | `webhookSubscription.id` | Create/list webhook subscriptions | Read or delete webhook subscription | Partner-level subscription, not scoped to one company. |
 
