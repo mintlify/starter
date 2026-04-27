@@ -39,7 +39,9 @@
               "product/entities/bank-accounts",
               {
                 "group": "Jurisdictions",
-                "pages": ["product/entities/philippines"]
+                "pages": [
+                  "product/entities/philippines"
+                ]
               }
             ]
           },
@@ -94,11 +96,16 @@
           },
           {
             "group": "Tools",
-            "pages": ["product/tools/esign", "product/tools/general-thread"]
+            "pages": [
+              "product/tools/esign",
+              "product/tools/general-thread"
+            ]
           },
           {
             "group": "Settings",
-            "pages": ["product/settings/overview"]
+            "pages": [
+              "product/settings/overview"
+            ]
           },
           {
             "group": "Integrations",
@@ -158,10 +165,12 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["engine/partner-api/introduction"]
+            "pages": [
+              "engine/partner-api/introduction"
+            ]
           },
           {
-            "group": "Company setup",
+            "group": "Customer setup",
             "pages": [
               "engine/incorporation/company-POST",
               "engine/incorporation/companies-GET"
@@ -212,15 +221,21 @@
               },
               {
                 "group": "Status",
-                "pages": ["engine/incorporation/partner-incorporation-status-GET"]
+                "pages": [
+                  "engine/incorporation/partner-incorporation-status-GET"
+                ]
               },
               {
                 "group": "Issues",
-                "pages": ["engine/incorporation/partner-incorporation-issues-GET"]
+                "pages": [
+                  "engine/incorporation/partner-incorporation-issues-GET"
+                ]
               },
               {
                 "group": "Webhooks",
-                "pages": ["engine/incorporation/partner-incorporation-webhooks"]
+                "pages": [
+                  "engine/incorporation/partner-incorporation-webhooks"
+                ]
               }
             ]
           },
@@ -416,7 +431,9 @@
           },
           {
             "group": "Registration Thresholds",
-            "pages": ["engine/indirect-tax/nexus/nexus-GET"]
+            "pages": [
+              "engine/indirect-tax/nexus/nexus-GET"
+            ]
           },
           {
             "group": "Products",
@@ -464,7 +481,9 @@
           },
           {
             "group": "Exemptions",
-            "pages": ["engine/indirect-tax/exemptions/exemptions-GET"]
+            "pages": [
+              "engine/indirect-tax/exemptions/exemptions-GET"
+            ]
           },
           {
             "group": "Files",
@@ -530,7 +549,9 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": ["engine/incorporation/introduction"]
+            "pages": [
+              "engine/incorporation/introduction"
+            ]
           },
           {
             "group": "Companies",
@@ -541,7 +562,9 @@
           },
           {
             "group": "Services",
-            "pages": ["engine/incorporation/services-POST"]
+            "pages": [
+              "engine/incorporation/services-POST"
+            ]
           },
           {
             "group": "Payment Intents",

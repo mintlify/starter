@@ -43,10 +43,6 @@ curl --request GET \
 14. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
 15. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
 
-This API does not create or return payment intents. Partners using this surface should treat billing as separate from the incorporation resource lifecycle.
-
-KYC, e-signature execution, and document-review steps may appear in status tracking, but their task internals are not exposed through the Partner API in this MVP. The participant/document model is designed so those workflows can evolve without changing how incorporations identify people, entities, and required documents.
-
 Issue tracking and issue webhooks are available for correction and request-for-information flows. Issues are created and resolved by Commenda; partners fix the underlying data by updating intake, participants, or documents. Active issues make the incorporation status `blocked` and are listed in the status response as blocking issue ids.
 
 ## End-to-end Singapore example
