@@ -3,13 +3,13 @@ title: "Update incorporation intake"
 openapi: "POST /partner/incorporation/{incorporationId}/intake"
 ---
 
-Updates partial or complete non-participant requirement data for an incorporation.
+Use this endpoint to save the details required to prepare an incorporation, such as proposed company names, registered office address preference, share capital, and business activities. The available fields depend on the selected country and incorporation options.
 
-Each update is merged into the current intake state and validated against the current incorporation requirements. Incomplete updates are accepted and return a structured validation summary.
+Each request can be partial. Include only the values you want to add or change in `requirements`. Commenda merges them into the current intake state, validates the incorporation, and returns the updated `intakeState` with a validation summary.
 
 The Partner API does not expose a submission history endpoint. To read progress after an update, call `GET /partner/incorporation/{incorporationId}` and inspect `intakeState`.
 
-When `intakeState.validation.isComplete` is `true`, call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda for review.
+The incorporation is ready to submit when `intakeState.validation.isComplete` is `true`. Call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda for review.
 
 Participant roles and participant documents are managed through the participant and document endpoints, not by sending array indexes or document files inside this intake payload.
 
