@@ -15,7 +15,11 @@ Participant roles and participant documents are managed through the participant 
 
 ## Intake fields
 
-Use this endpoint for incorporation-level requirements such as company name options and registered address data.
+Use this endpoint for incorporation-level requirements such as company name options and registered address choice.
+
+### Company name options
+
+Submit preferred legal names under `companyNameOptions`.
 
 ```json
 {
@@ -24,18 +28,31 @@ Use this endpoint for incorporation-level requirements such as company name opti
       { "name": "Acme Holdings" },
       { "name": "Acme Global" },
       { "name": "Acme Ventures" }
-    ],
+    ]
+  }
+}
+```
+
+### Registered address
+
+Most incorporations require a registered office address. Choose how that address should be satisfied with `registeredAddressMode`.
+
+| Mode | Use when | Required fields |
+| --- | --- | --- |
+| `standardAddress` | Commenda should use its standard registered address service for this incorporation. | `registeredAddressMode` |
+| `providedAddress` | You already have a Commenda OS location to use as the registered address. | `registeredAddressMode` and `providedRegisteredAddress` |
+
+Use `standardAddress` when Commenda should provide the registered address service:
+
+```json
+{
+  "requirements": {
     "registeredAddressMode": "standardAddress"
   }
 }
 ```
 
-`registeredAddressMode` is a data choice, not UI rendering instruction:
-
-- `standardAddress` means Commenda should use its standard registered address service for this incorporation.
-- `providedAddress` means the partner is providing a reusable Commenda OS location.
-
-If `registeredAddressMode` is `providedAddress`, include `providedRegisteredAddress` as a Commenda OS location reference.
+Use `providedAddress` when you are providing a reusable Commenda OS location:
 
 ```json
 {
@@ -49,7 +66,7 @@ If `registeredAddressMode` is `providedAddress`, include `providedRegisteredAddr
 }
 ```
 
-The referenced location must belong to a partner-accessible Commenda OS business entity for the same company. If the existing location is missing a field required by the current requirements DSL, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
+The referenced location must belong to a partner-accessible Commenda OS business entity for the same customer/company record as the incorporation. If the existing location is missing a field required by the current requirements DSL, you can include supplemental `data` on the `existingResource` reference for incorporation validation.
 
 If you later switch `registeredAddressMode` back to `standardAddress`, any previously submitted `providedRegisteredAddress` value may remain in `currentState`, but it is no longer applicable and will not block validation.
 
