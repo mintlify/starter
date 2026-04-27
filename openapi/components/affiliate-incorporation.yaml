@@ -759,7 +759,7 @@ schemas:
         $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRoleName"
       ownershipPercentage:
         type: number
-        description: Required when the participant has a shareholder role and ownership is represented by percentage.
+        description: Required when the participant has a shareholder role and ownership is represented by percentage. Participant writes are rejected if shareholder ownership would exceed the selected requirements total.
         minimum: 0
         maximum: 100
         example: 100
@@ -788,6 +788,22 @@ schemas:
         - role: director
         - role: shareholder
           ownershipPercentage: 100
+  PartnerPatchParticipantRequest:
+    type: object
+    description: Replaces the roles on an existing incorporation participant. Omitted roles are removed.
+    required:
+      - roles
+    properties:
+      roles:
+        type: array
+        minItems: 1
+        items:
+          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationParticipantRole"
+    example:
+      roles:
+        - role: director
+        - role: shareholder
+          ownershipPercentage: 40
   PartnerIncorporationDocumentKind:
     type: string
     description: Type of document linked to an incorporation participant.
