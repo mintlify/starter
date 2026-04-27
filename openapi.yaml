@@ -3934,11 +3934,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
-  /partner/commenda-os/customers/{customerId}/documents:
+  /partner/commenda-os/customers/{customerId}/files:
     post:
-      summary: Upload a customer document
-      description: Upload a file with multipart/form-data and create a customer-scoped Commenda document in one request. Optionally link the file to one business entity or one key person in the same customer.
-      operationId: uploadPartnerCommendaOsCustomerDocument
+      summary: Upload a file
+      description: Upload a file with multipart/form-data and receive a reusable fileId. Stores bytes only; does not link the file to any other resource. Use the returned fileId with a separate attach call to put the file to work.
+      operationId: uploadPartnerCommendaOsCustomerFile
       servers:
         - url: https://api.prod.commenda.io/api/v1
       security:
@@ -3955,16 +3955,16 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CommendaOsCustomerDocumentUploadRequest'
+              $ref: '#/components/schemas/CommendaOsCustomerFileUploadRequest'
       responses:
         '201':
-          description: Customer document uploaded successfully
+          description: File uploaded successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommendaOsCustomerDocumentResponse'
+                $ref: '#/components/schemas/CommendaOsCustomerFileResponse'
         '400':
-          description: Missing file part, unsupported MIME type, file too large, invalid document type, invalid resource id, or both personId and businessEntityId were provided
+          description: Missing file part or malformed multipart body
           content:
             application/json:
               schema:
@@ -3976,13 +3976,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
         '403':
-          description: Forbidden
+          description: Customer does not belong to this partner firm
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommendaOsPartnerError'
         '404':
-          description: Customer, business entity, or key person not found
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '413':
+          description: Uploaded file exceeds the 100 MB per-request size limit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommendaOsPartnerError'
+        '415':
+          description: Detected MIME type of the uploaded file is not in the accepted list
           content:
             application/json:
               schema:
@@ -9202,7 +9214,7 @@ components:
       properties:
         governmentIdentifier:
           $ref: '#/components/schemas/CommendaOsGovernmentIdentifier'
-    CommendaOsCustomerDocumentUploadRequest:
+    CommendaOsCustomerFileUploadRequest:
       type: object
       required:
         - file
@@ -9210,36 +9222,19 @@ components:
         file:
           type: string
           format: binary
-          description: Binary file part. The part filename, content type, and byte size are used as the customer document metadata.
-        documentSubType:
-          type: string
-          description: Optional Commenda document subtype. Defaults to `Other` when omitted.
-          example: Other
-        documentName:
-          type: string
-          description: Human-readable document name. Used as the explicit document type when `documentSubType` is `Other`.
-          example: Passport scan
-        businessEntityId:
-          type: integer
-          description: Optional business entity to link this uploaded file to. Do not provide together with `personId`.
-          example: 44
-        personId:
-          type: integer
-          description: Optional key person to link this uploaded file to. Do not provide together with `businessEntityId`.
-          example: 12
-    CommendaOsCustomerDocument:
+          description: Binary file part. The part filename and detected MIME type are recorded on the file. No other multipart fields are accepted.
+    CommendaOsCustomerFile:
       type: object
       required:
         - fileId
         - fileName
         - mimeType
         - fileSize
-        - documentSubType
         - customerId
       properties:
         fileId:
           type: integer
-          description: Commenda file id. Use this value when upserting a participant document for an incorporation.
+          description: Commenda file id. Pass to a downstream attach call (for example, create a customer document or upsert a participant document) to put the file to work.
           example: 456
         fileName:
           type: string
@@ -9251,28 +9246,16 @@ components:
           type: integer
           nullable: true
           example: 382144
-        documentSubType:
-          type: string
-          example: Other
-        documentName:
-          type: string
-          example: Passport scan
         customerId:
           type: integer
           example: 77
-        businessEntityId:
-          type: integer
-          example: 44
-        personId:
-          type: integer
-          example: 12
-    CommendaOsCustomerDocumentResponse:
+    CommendaOsCustomerFileResponse:
       type: object
       required:
         - file
       properties:
         file:
-          $ref: '#/components/schemas/CommendaOsCustomerDocument'
+          $ref: '#/components/schemas/CommendaOsCustomerFile'
     CommendaOsDocument:
       type: object
       required:

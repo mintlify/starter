@@ -4016,11 +4016,11 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
-"/partner/commenda-os/customers/{customerId}/documents":
+"/partner/commenda-os/customers/{customerId}/files":
   post:
-    summary: Upload a customer document
-    description: Upload a file with multipart/form-data and create a customer-scoped Commenda document in one request. Optionally link the file to one business entity or one key person in the same customer.
-    operationId: uploadPartnerCommendaOsCustomerDocument
+    summary: Upload a file
+    description: Upload a file with multipart/form-data and receive a reusable fileId. Stores bytes only; does not link the file to any other resource. Use the returned fileId with a separate attach call to put the file to work.
+    operationId: uploadPartnerCommendaOsCustomerFile
     servers:
       - url: https://api.prod.commenda.io/api/v1
     security:
@@ -4037,16 +4037,16 @@
       content:
         multipart/form-data:
           schema:
-            "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerDocumentUploadRequest"
+            "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerFileUploadRequest"
     responses:
       "201":
-        description: Customer document uploaded successfully
+        description: File uploaded successfully
         content:
           application/json:
             schema:
-              "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerDocumentResponse"
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsCustomerFileResponse"
       "400":
-        description: Missing file part, unsupported MIME type, file too large, invalid document type, invalid resource id, or both personId and businessEntityId were provided
+        description: Missing file part or malformed multipart body
         content:
           application/json:
             schema:
@@ -4058,13 +4058,25 @@
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "403":
-        description: Forbidden
+        description: Customer does not belong to this partner firm
         content:
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
       "404":
-        description: Customer, business entity, or key person not found
+        description: Customer not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "413":
+        description: Uploaded file exceeds the 100 MB per-request size limit
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/CommendaOsPartnerError"
+      "415":
+        description: Detected MIME type of the uploaded file is not in the accepted list
         content:
           application/json:
             schema:

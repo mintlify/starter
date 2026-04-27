@@ -5,22 +5,22 @@ description: "Attach customer documents to incorporation requirements."
 
 Use this flow when a customer needs to provide files such as passport scans, utility bills, or corporate documents for an incorporation. Incorporation documents are built from reusable Commenda OS files.
 
-The multipart upload endpoint lives in the [Commenda OS Partner API](/engine/commendaos/partner-api/commenda-os-introduction) because files can be reused outside incorporation for KYC, entity records, registrations, and documents. The Incorporation API scopes those files to an incorporation and assigns them to participants as typed documents in one request.
+The file upload endpoint lives in the [Commenda OS Partner API](/engine/commendaos/partner-api/commenda-os-introduction) because files can be reused outside incorporation for KYC, entity records, registrations, and customer documents. The Incorporation API takes the resulting `fileId` and assigns it to a participant document slot.
 
 ## Flow
 
-1. Upload a customer document with [Upload a customer document](/engine/commendaos/partner-api/commenda-os-documents-POST), sending the file as `multipart/form-data`.
-2. Upsert the returned `file.fileId` into a participant document slot with [Upsert a participant document](/engine/incorporation/partner-incorporation-participant-documents-PUT).
+1. Upload the file with [Upload a file](/engine/commendaos/partner-api/commenda-os-files-POST), sending the bytes as `multipart/form-data`. Save the returned `file.fileId`.
+2. Upsert the `fileId` into a participant document slot with [Upsert a participant document](/engine/incorporation/partner-incorporation-participant-documents-PUT).
 
 ## Endpoint map
 
 | Step | Endpoint | API surface | Output |
 | --- | --- | --- | --- |
-| Upload customer file | `POST /partner/commenda-os/customers/{customerId}/documents` | Commenda OS Partner API | `file.fileId` |
+| Upload file | `POST /partner/commenda-os/customers/{customerId}/files` | Commenda OS Partner API | `file.fileId` |
 | Upsert typed participant document | `PUT /partner/incorporation/{incorporationId}/participants/{participantId}/documents/{documentKind}` | Partner Incorporation API | `document.documentId` |
 
 ## Important handoffs
 
-- Use the `file` form field for the binary upload. Send optional metadata such as `documentName`, `personId`, or `businessEntityId` as regular form fields.
-- Use `file.fileId` when upserting incorporation participant documents. The upsert scopes the file to the incorporation and assigns it to the participant document slot.
-- Use this flow for partner-collected documents that are appropriate to send through the API server. If larger files need direct-to-object-storage uploads, expose that as a separate upload flow.
+- The upload endpoint accepts only a `file` multipart part. It returns a `fileId` and nothing else — any metadata set by future attach calls is layered on top of the underlying file.
+- Use `file.fileId` when upserting incorporation participant documents. The upsert assigns the file to the participant document slot.
+- Uploads are capped at 100 MB per request, must use one of the accepted MIME types, and time out after 120 seconds. See [Upload a file](/engine/commendaos/partner-api/commenda-os-files-POST) for the full limits and error codes. Contact Commenda if you need to upload files larger than 100 MB.
