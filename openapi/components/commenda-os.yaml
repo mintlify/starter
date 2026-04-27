@@ -430,7 +430,7 @@ schemas:
         example: 2026-03-01T00:00:00.000Z
   CommendaOsBusinessEntityCreateRequest:
     type: object
-    description: Create a reusable Commenda OS business entity under a partner-accessible customer. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
+    description: Create a reusable Commenda OS business entity for one of your customers. Use the returned `businessEntity.id` as a `businessEntity` resource id when registering corporate incorporation participants.
     required:
       - incorporationCountry
       - legalName
@@ -1266,7 +1266,7 @@ schemas:
         example: 2
   CommendaOsPersonCreateRequest:
     type: object
-    description: Create a reusable Commenda OS key person under a partner-accessible customer. The `customerId` is taken from the URL path.
+    description: Create a reusable Commenda OS key person for one of your customers. The `customerId` is taken from the URL path.
     required:
       - firstName
     properties:
