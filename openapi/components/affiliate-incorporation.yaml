@@ -43,6 +43,47 @@ schemas:
         type: integer
         description: Internal Commenda company identifier.
         example: 77
+  AffiliateCompany:
+    type: object
+    required:
+      - companyId
+      - name
+      - createdAt
+      - updatedAt
+    properties:
+      companyId:
+        type: integer
+        description: Internal Commenda company identifier.
+        example: 77
+      name:
+        type: string
+        nullable: true
+        description: Display name for the company.
+        example: Acme Holdings
+      createdAt:
+        type: string
+        format: date-time
+        nullable: true
+        description: Timestamp when the company container was created.
+        example: 2026-04-20T19:35:00.000Z
+      updatedAt:
+        type: string
+        format: date-time
+        description: Timestamp when the company container was last updated.
+        example: 2026-04-20T19:40:00.000Z
+  AffiliateListCompaniesResponse:
+    type: object
+    required:
+      - companies
+      - count
+    properties:
+      companies:
+        type: array
+        items:
+          $ref: "./affiliate-incorporation.yaml#/schemas/AffiliateCompany"
+      count:
+        type: integer
+        example: 1
   AffiliateServiceCatalog:
     type: string
     description: Incorporation service types currently supported by the legacy affiliate API.
