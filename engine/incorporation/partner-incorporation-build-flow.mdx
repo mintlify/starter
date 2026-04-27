@@ -334,10 +334,10 @@ For Singapore private limited companies, every individual director and individua
 
 ### 7. Submit intake data
 
-Intake updates are merge-based and may be partial. Use this endpoint for non-participant data such as company name options and registered office address choice.
+Intake updates are merge-based and may be partial. Use this endpoint for incorporation details such as company name options and registered office address choice.
 
 ```bash
-curl --request POST \
+curl --request PATCH \
   --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/intake' \
   --header 'content-type: application/json' \
   --header 'x-api-key: <partner_api_key>' \

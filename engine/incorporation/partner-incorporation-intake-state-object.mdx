@@ -20,7 +20,7 @@ The intake state is not a submission history. Each intake update merges new valu
 
 ## Current state values
 
-`currentState` contains the merged requirement values submitted through [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-POST). The top-level `currentState` property is always returned, but the values inside it are requirements-driven.
+`currentState` contains the merged requirement values submitted through [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-PATCH). The top-level `currentState` property is always returned, but the values inside it are requirements-driven.
 
 When writing intake data, send requirement values under the `requirements` request property. When reading intake state, Commenda returns those same requirement keys under `currentState`.
 
@@ -58,6 +58,6 @@ Each item in `missingRequirements` and `invalidRequirements` has the same shape.
 | Action | Endpoint |
 | --- | --- |
 | Create with initial intake | [Create an incorporation](/engine/incorporation/partner-incorporation-incorporations-POST) |
-| Update intake | [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-POST) |
+| Update intake | [Update incorporation intake](/engine/incorporation/partner-incorporation-intake-PATCH) |
 | Retrieve current state | [Get an incorporation](/engine/incorporation/partner-incorporation-incorporations-id-GET) |
 | Submit when complete | [Submit an incorporation](/engine/incorporation/partner-incorporation-submit-POST) |
