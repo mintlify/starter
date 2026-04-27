@@ -254,12 +254,193 @@ schemas:
       - US
   PartnerIncorporationStatus:
     type: string
-    description: Current lifecycle status for the incorporation. `ready_for_review` is returned only after the partner submits a currently complete incorporation.
+    description: Current top-level lifecycle status for the incorporation.
     enum:
-      - collecting_information
-      - ready_for_review
+      - awaiting_customer_input
+      - submitted
       - in_progress
+      - blocked
       - completed
+  PartnerIncorporationStageStatus:
+    type: string
+    description: Public progress status for one incorporation workflow stage.
+    enum:
+      - not_started
+      - in_progress
+      - blocked
+      - completed
+  PartnerIncorporationStatusStageOwner:
+    type: string
+    description: Party expected to own work in a public status stage.
+    enum:
+      - partner
+      - customer
+      - commenda
+  PartnerIncorporationStatusWorkflowStage:
+    type: object
+    required:
+      - id
+      - label
+      - description
+      - owner
+      - position
+    properties:
+      id:
+        type: string
+        description: Stable stage identifier. Issue scopes may reference this as `stageId`.
+        example: kyc
+      label:
+        type: string
+        example: KYC
+      description:
+        type: string
+        example: Review required identity, ownership, and compliance materials.
+      owner:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStageOwner"
+      position:
+        type: integer
+        description: One-based display order.
+        example: 2
+  PartnerIncorporationStatusWorkflow:
+    type: object
+    required:
+      - schemaVersion
+      - definitionVersion
+      - key
+      - country
+      - countryOptions
+      - name
+      - description
+      - stages
+    properties:
+      schemaVersion:
+        type: string
+        description: Public status workflow schema version.
+        example: "2026-04-26"
+      definitionVersion:
+        type: string
+        description: Active workflow definition version used to produce this public workflow.
+        example: "1.0.0"
+      key:
+        type: string
+        description: Workflow template key.
+        example: singapore-incorporation-partner-api
+      country:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountry"
+      countryOptions:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
+      name:
+        type: string
+        example: Singapore Private Limited Company Incorporation
+      description:
+        type: string
+        example: Track the public progress of a Singapore private limited company incorporation.
+      stages:
+        type: array
+        items:
+          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowStage"
+  PartnerIncorporationStatusWorkflowResponse:
+    type: object
+    required:
+      - statusWorkflow
+    properties:
+      statusWorkflow:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflow"
+  PartnerIncorporationStatusWorkflowSummary:
+    type: object
+    required:
+      - schemaVersion
+      - definitionVersion
+      - key
+    properties:
+      schemaVersion:
+        type: string
+        example: "2026-04-26"
+      definitionVersion:
+        type: string
+        example: "1.0.0"
+      key:
+        type: string
+        example: singapore-incorporation-partner-api
+  PartnerIncorporationCaseStage:
+    allOf:
+      - $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowStage"
+      - type: object
+        required:
+          - status
+          - startedAt
+          - completedAt
+          - blockedByIssueIds
+        properties:
+          status:
+            $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStageStatus"
+          startedAt:
+            type: string
+            format: date-time
+            nullable: true
+            example: 2026-04-26T19:05:00.000Z
+          completedAt:
+            type: string
+            format: date-time
+            nullable: true
+            example: null
+          blockedByIssueIds:
+            type: array
+            description: Active issue ids blocking this stage.
+            items:
+              type: string
+            example:
+              - issue_123
+  PartnerIncorporationCaseStatusResponse:
+    type: object
+    required:
+      - incorporationStatus
+      - incorporationId
+      - serviceRequestId
+      - companyId
+      - country
+      - countryOptions
+      - statusWorkflow
+      - blockingIssueIds
+      - blockingIssueCount
+      - stages
+      - updatedAt
+    properties:
+      incorporationStatus:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatus"
+      incorporationId:
+        type: string
+        example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
+      serviceRequestId:
+        type: string
+        example: 0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91
+      companyId:
+        type: integer
+        example: 77
+      country:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountry"
+      countryOptions:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
+      statusWorkflow:
+        $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowSummary"
+      blockingIssueIds:
+        type: array
+        description: Active partner-visible issue ids currently blocking the incorporation.
+        items:
+          type: string
+        example:
+          - issue_123
+      blockingIssueCount:
+        type: integer
+        example: 1
+      stages:
+        type: array
+        items:
+          $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
+      updatedAt:
+        type: string
+        format: date-time
+        example: 2026-04-26T19:15:00.000Z
   PartnerIncorporationCountryOptions:
     type: object
     description: Country-specific incorporation options. Use the jurisdiction catalog for the currently supported fields and values.
@@ -741,6 +922,10 @@ schemas:
         type: string
         description: Intake field path for `intake_field` scopes.
         example: companyNames.companyNameOptions
+      stageId:
+        type: string
+        description: Optional status workflow stage id this issue blocks.
+        example: kyc
       participantId:
         type: string
         description: Incorporation participant id for participant-scoped issues.
@@ -767,6 +952,7 @@ schemas:
         example: 456
     example:
       type: participant_document
+      stageId: kyc
       participantId: participant_123
       documentKind: passport_scan
       fileId: 456

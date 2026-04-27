@@ -29,7 +29,7 @@ curl --request GET \
 
 1. Create a company with the existing `POST /public/company` endpoint.
 2. Review the informational jurisdiction catalog with `GET /partner/incorporation/jurisdiction-catalog`.
-3. Fetch the current requirements DSL with `GET /partner/incorporation/requirements` for the selected `country` and `countryOptions`.
+3. Fetch the current requirements DSL with `GET /partner/incorporation/requirements` and the progress stages with `GET /partner/incorporation/status-workflow` for the selected `country` and `countryOptions`.
 4. Start an incorporation with `POST /partner/incorporation/companies/{companyId}/incorporations`.
 5. Create or reference reusable people, business entities, and addresses through the Commenda OS Partner API. If an individual director or shareholder does not exist yet, create one with `POST /partner/commenda-os/companies/{companyId}/persons`.
 6. Register people or business entities as incorporation participants with `POST /partner/incorporation/{incorporationId}/participants`.
@@ -38,15 +38,16 @@ curl --request GET \
 9. Link registered files as participant documents with `POST /partner/incorporation/{incorporationId}/documents`.
 10. Update partial or complete non-participant intake data with `POST /partner/incorporation/{incorporationId}/intake`.
 11. Submit a complete incorporation for Commenda review with `POST /partner/incorporation/{incorporationId}/submit`.
-12. Read the incorporation to track `intakeState`, participants, missing requirements, and status.
-13. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
-14. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
+12. Read the incorporation to track `intakeState`, participants, and missing requirements.
+13. Read `GET /partner/incorporation/{incorporationId}/status` to track top-level status, blocking issues, and ordered stage progress.
+14. Read `GET /partner/incorporation/{incorporationId}/issues` to see active or resolved issues that require partner/customer action.
+15. Optionally subscribe to `incorporation.issue.created` and `incorporation.issue.resolved` webhooks with `/partner/webhook-subscriptions`.
 
 This API does not create or return payment intents. Partners using this surface should treat billing as separate from the incorporation resource lifecycle.
 
-KYC, e-signature execution, and document-review workflows are not part of the MVP. The participant/document model is designed so those workflows can be added later without changing how incorporations identify people, entities, and required documents.
+KYC, e-signature execution, and document-review steps may appear in status tracking, but their task internals are not exposed through the Partner API in this MVP. The participant/document model is designed so those workflows can evolve without changing how incorporations identify people, entities, and required documents.
 
-Issue tracking and issue webhooks are available for correction and request-for-information flows. Issues are created and resolved by Commenda; partners fix the underlying data by updating intake, participants, or documents.
+Issue tracking and issue webhooks are available for correction and request-for-information flows. Issues are created and resolved by Commenda; partners fix the underlying data by updating intake, participants, or documents. Active issues make the incorporation status `blocked` and are listed in the status response as blocking issue ids.
 
 ## End-to-end Singapore example
 
@@ -219,7 +220,7 @@ curl --request POST \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-After submit succeeds, reads return `incorporationStatus: "ready_for_review"` until Commenda starts processing.
+After submit succeeds, Commenda starts the dedicated incorporation workflow idempotently. Reads usually return `incorporationStatus: "in_progress"` once that workflow starts; if the workflow has not started yet, the status is `submitted`.
 
 ## Jurisdiction options
 
@@ -247,6 +248,6 @@ Documents are typed files attached to participants. Files remain the low-level s
 
 The requirements endpoint returns a DSL with field names, descriptions, validation rules, participant rules, document rules, and other incorporation requirements. Use it to power your own UI, but treat it as informational: Commenda validates every intake update against the current server-side requirements.
 
-Intake updates may be partial. Each update is merged into the current intake state and returns `intakeState.validation.isComplete: false` plus `missingRequirements` and `invalidRequirements` until the state is complete. Participant and document requirements are evaluated from registered participants and linked documents. Once the current incorporation state satisfies the DSL, call `POST /partner/incorporation/{incorporationId}/submit` to move the incorporation to `ready_for_review`.
+Intake updates may be partial. Each update is merged into the current intake state and returns `intakeState.validation.isComplete: false` plus `missingRequirements` and `invalidRequirements` until the state is complete. Participant and document requirements are evaluated from registered participants and linked documents. Once the current incorporation state satisfies the DSL, call `POST /partner/incorporation/{incorporationId}/submit` to hand the incorporation to Commenda and start the dedicated workflow.
 
 Country-specific validation rules, such as ownership totals, address requirements, and required participant documents, are determined by the current requirements DSL for the selected incorporation.

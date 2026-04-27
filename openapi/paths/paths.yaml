@@ -2223,6 +2223,56 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/incorporation/status-workflow":
+  get:
+    summary: Get incorporation status workflow
+    description: Retrieve the public status workflow for a selected incorporation jurisdiction and type. The response is derived from the active workflow template and includes ordered public stages.
+    operationId: getPartnerIncorporationStatusWorkflow
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: country
+        in: query
+        required: true
+        schema:
+          "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationCountry"
+        description: Incorporation country.
+        example: SG
+      - name: countryOptions
+        in: query
+        required: true
+        style: deepObject
+        explode: true
+        schema:
+          "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationCountryOptions"
+        description: Country-specific options using deep-object query syntax, for example `countryOptions[corporationType]=PRIVATE_LIMITED_COMPANY`.
+    responses:
+      "200":
+        description: Status workflow retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationStatusWorkflowResponse"
+      "400":
+        description: Unsupported or malformed incorporation selection
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Status workflow is not available or active for the requested selection
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
 "/partner/incorporation/companies/{companyId}/incorporations":
   post:
     summary: Create an incorporation
@@ -2382,7 +2432,7 @@
 "/partner/incorporation/{incorporationId}":
   get:
     summary: Get an incorporation
-    description: Retrieve one incorporation visible to the authenticated partner. Use this direct route for Phase 2 intake state reads.
+    description: Retrieve one incorporation visible to the authenticated partner. Use this direct route for intake state reads.
     operationId: getPartnerIncorporationById
     servers:
       - url: https://api.prod.commenda.io/api/v1
@@ -2402,6 +2452,47 @@
           application/json:
             schema:
               "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationResponse"
+      "401":
+        description: Missing or invalid partner API key
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "403":
+        description: Incorporation is not accessible to the partner
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+      "404":
+        description: Incorporation not found
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/AffiliatePublicError"
+"/partner/incorporation/{incorporationId}/status":
+  get:
+    summary: Get incorporation status
+    description: Retrieve the current public status projection for an incorporation, including top-level status, ordered stages, and active blocking issue ids.
+    operationId: getPartnerIncorporationStatus
+    servers:
+      - url: https://api.prod.commenda.io/api/v1
+    security:
+      - xApiKeyAuth: []
+    parameters:
+      - name: incorporationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Incorporation identifier returned by create or list endpoints.
+    responses:
+      "200":
+        description: Incorporation status retrieved successfully
+        content:
+          application/json:
+            schema:
+              "$ref": "../components/components.yaml#/components/schemas/PartnerIncorporationCaseStatusResponse"
       "401":
         description: Missing or invalid partner API key
         content:
@@ -2476,7 +2567,7 @@
 "/partner/incorporation/{incorporationId}/submit":
   post:
     summary: Submit an incorporation
-    description: Submit a currently complete incorporation for Commenda review. The server refreshes validation before accepting the submit request. `intakeState.validation.isComplete` means eligible to submit; `ready_for_review` is returned only after this endpoint succeeds.
+    description: Submit a currently complete incorporation for Commenda review and start the dedicated partner incorporation workflow. The server refreshes validation before accepting the submit request. `intakeState.validation.isComplete` means eligible to submit; `submitted` or `in_progress` is returned only after this endpoint succeeds.
     operationId: submitPartnerIncorporation
     servers:
       - url: https://api.prod.commenda.io/api/v1

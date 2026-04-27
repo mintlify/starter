@@ -14,15 +14,15 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | Phase | Developer question | What to do |
 | --- | --- | --- |
 | Setup | What container owns the work? | Create a company and save `companyId`. |
-| Discovery | What can I incorporate? | Read the jurisdiction catalog and choose `country` plus `countryOptions`. |
+| Discovery | What can I incorporate and how will progress display? | Read the jurisdiction catalog, choose `country` plus `countryOptions`, and fetch the status workflow for the selected case type. |
 | Requirements | What data do I need? | Fetch the requirements DSL for the selected jurisdiction/type. |
 | Incorporation | How do I start the case? | Create the incorporation and save `incorporation.id`. |
 | Resource prep | What reusable records must exist? | Create or reuse Commenda OS people, business entities, and locations. |
 | Participants | Who is involved? | Register reusable people/entities as directors and shareholders. |
 | Documents | How do I attach files? | Follow [Upload documents for incorporation](/engine/incorporation/partner-incorporation-document-upload-flow): upload files directly to S3, create company documents to obtain `fileId`, register each file to the incorporation, then link it as a typed participant document. |
 | Intake | What non-participant fields are needed? | Submit partial or complete intake updates. |
-| Completion | How do I hand it to Commenda? | Read validation, call the submit endpoint when `intakeState.validation.isComplete` is `true`, then track `incorporationStatus`. |
-| Issues | What if Commenda needs corrections? | Read active/resolved issues, update the underlying intake/participants/documents, and optionally receive issue webhooks. |
+| Completion | How do I hand it to Commenda? | Read validation, call the submit endpoint when `intakeState.validation.isComplete` is `true`, then track `GET /partner/incorporation/{incorporationId}/status`. |
+| Issues | What if Commenda needs corrections? | Read active/resolved issues, update the underlying intake/participants/documents, and optionally receive issue webhooks. Active issues set top-level status to `blocked`. |
 
 ## ID map
 
@@ -38,6 +38,7 @@ The Partner Incorporation API does not create or return payment intents. Billing
 | `upload.hostedUrl` | `POST /partner/commenda-os/companies/{companyId}/documents/upload-url` | `fileUrl` in `POST /partner/commenda-os/companies/{companyId}/documents` | Stable S3 URL for the uploaded object. |
 | `fileId` | `POST /partner/commenda-os/companies/{companyId}/documents` | Register file; link participant document | Company-scoped file id. Upload bytes directly to S3 first, then create the company document. |
 | `documentId` | Link participant document | Read/list participant state | Incorporation-scoped typed document link. |
+| `statusWorkflow.stages[].id` | Status workflow or case status | Progress UI and issue-stage correlation | Stage ids come from the active workflow definition, plus the synthetic `intake` stage. |
 | `issue.id` | List issues or issue webhook payload | Dedupe issue webhooks; correlate correction requests | One issue row represents one remediation episode. |
 | `webhookSubscription.id` | Create/list webhook subscriptions | Read or delete webhook subscription | Partner-level subscription, not scoped to one company. |
 
@@ -85,6 +86,14 @@ curl --request GET \
   --header 'x-api-key: <partner_api_key>'
 ```
 
+For the public progress stages:
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/status-workflow?country=SG&countryOptions[corporationType]=PRIVATE_LIMITED_COMPANY' \
+  --header 'x-api-key: <partner_api_key>'
+```
+
 Render your UI from the returned requirements DSL, but treat the server response as informational. Commenda validates every intake update against the current server-side requirements.
 
 ### 3. Create the incorporation
@@ -102,7 +111,7 @@ curl --request POST \
   }'
 ```
 
-Save `incorporation.id`. The initial `incorporationStatus` is usually `collecting_information`.
+Save `incorporation.id`. The initial `incorporationStatus` is usually `awaiting_customer_input`.
 
 ### 4. Create or reuse a person
 
@@ -292,7 +301,17 @@ curl --request POST \
   --header 'x-api-key: <partner_api_key>'
 ```
 
-The submit endpoint refreshes validation before accepting the handoff. If the incorporation is incomplete, it returns `400` with validation details. If it succeeds, the response returns `incorporationStatus: "ready_for_review"`.
+The submit endpoint refreshes validation before accepting the handoff. If the incorporation is incomplete, it returns `400` with validation details. If it succeeds, Commenda creates or reuses the dedicated workflow execution for the incorporation. The response usually returns `incorporationStatus: "in_progress"` once the workflow starts.
+
+### 10. Track status
+
+```bash
+curl --request GET \
+  --url 'https://api.prod.commenda.io/api/v1/partner/incorporation/0f9a8f5e-7f7c-4c1b-a60a-b1022f9d8c91/status' \
+  --header 'x-api-key: <partner_api_key>'
+```
+
+Use this response for customer-facing progress. It includes the top-level `incorporationStatus`, ordered `stages`, and active `blockingIssueIds`.
 
 ## Requirements DSL quick guide
 
@@ -323,13 +342,14 @@ Fetch requirements after the user chooses a jurisdiction and corporation type. Y
 `intakeState.validation.isComplete` means the current data satisfies the requirements DSL and is eligible to submit. It does not by itself hand the incorporation to Commenda.
 
 ```text
-collecting_information
-  -> ready_for_review   after POST /partner/incorporation/{incorporationId}/submit succeeds
-  -> in_progress        when Commenda starts processing
-  -> completed          when the incorporation is complete
+awaiting_customer_input
+  -> submitted    after POST /partner/incorporation/{incorporationId}/submit succeeds and before workflow work starts
+  -> in_progress  when the dedicated workflow starts processing
+  -> blocked      when there are active partner-visible issues or workflow start/runtime failures
+  -> completed    when the incorporation is complete
 ```
 
-Before Commenda starts processing, if validation later becomes incomplete, reads return `collecting_information` again. Rejection/cancellation flows are not part of the MVP surface; correction requests are represented by read-only issues.
+Before workflow work starts, if validation later becomes incomplete, reads return `awaiting_customer_input` again. Rejection/cancellation flows are not part of the MVP surface; correction requests are represented by read-only issues and surface as `blocked` while active.
 
 ## Issues and correction requests
 
@@ -344,6 +364,8 @@ curl --request GET \
 Issues are read-only over the Partner API. To resolve them, fix the underlying data through the normal endpoints: update intake fields, register or update participants, upload/register/link replacement documents, or otherwise provide the requested information. Commenda resolves the issue after review.
 
 Each issue row represents one remediation episode. Resolved incorporation issues are not reopened; if the same kind of correction is needed again later, Commenda creates a new issue with a new `issue.id`.
+
+Active issues are also returned by the status endpoint as `blockingIssueIds`. If an issue scope includes `stageId`, that issue is attached to the matching stage's `blockedByIssueIds`; otherwise it blocks the first non-completed stage.
 
 Issue codes include `missing_information`, `invalid_information`, `document_required`, `document_invalid`, `company_name_rejected`, and `other`. Commenda may add additional issue codes in future API updates.
 

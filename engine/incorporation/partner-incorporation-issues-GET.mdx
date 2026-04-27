@@ -19,7 +19,7 @@ This keeps webhook delivery and partner reconciliation simple:
 - `incorporation.issue.created` is emitted when that episode starts.
 - `incorporation.issue.resolved` is emitted once when that episode is resolved.
 
-Issues do not change `incorporationStatus` in this phase. Continue reading the incorporation resource for lifecycle status, and read issues for correction/request-for-information state.
+Active issues make `incorporationStatus` return `blocked`. Read [Get incorporation status](/engine/incorporation/partner-incorporation-status-GET) to see which issues are currently blocking the case and, when Commenda has assigned a stage, which stage they block.
 
 ## Issue codes
 
@@ -48,6 +48,8 @@ Commenda may add additional issue codes in future API updates. Avoid hard-coding
 | `participant_document` | The issue applies to a participant document kind or linked file. |
 | `file` | The issue applies to a registered file. |
 
+Scopes may also include `stageId`. When present, it matches a stage returned by the status workflow and is used to attach the issue to that stage in the status response.
+
 Example response:
 
 ```json
@@ -60,6 +62,7 @@ Example response:
       "status": "active",
       "scope": {
         "type": "participant_document",
+        "stageId": "kyc",
         "participantId": "participant_123",
         "documentKind": "passport_scan",
         "fileId": 456

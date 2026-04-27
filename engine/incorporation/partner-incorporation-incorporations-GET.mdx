@@ -13,7 +13,8 @@ Each returned incorporation includes `incorporationStatus`:
 
 | Status | Meaning |
 |---|---|
-| `collecting_information` | Required intake information, participant roles, or documents are still missing or invalid, or the current state is complete but has not been submitted for review. |
-| `ready_for_review` | The incorporation was explicitly submitted and currently validates against the requirements DSL. |
-| `in_progress` | Commenda is actively processing the incorporation. |
+| `awaiting_customer_input` | Required intake information, participant roles, or documents are still missing or invalid, or the current state is complete but has not been submitted for review. |
+| `submitted` | The incorporation was explicitly submitted and currently validates against the requirements DSL, but workflow work has not started yet. |
+| `in_progress` | Commenda is actively processing the incorporation through the dedicated workflow. |
+| `blocked` | The incorporation has active partner-visible issues or workflow start/runtime failures. |
 | `completed` | The incorporation has been completed. |

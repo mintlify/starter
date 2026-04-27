@@ -265,6 +265,22 @@ components:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountry"
     PartnerIncorporationStatus:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatus"
+    PartnerIncorporationStageStatus:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStageStatus"
+    PartnerIncorporationStatusStageOwner:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusStageOwner"
+    PartnerIncorporationStatusWorkflowStage:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowStage"
+    PartnerIncorporationStatusWorkflow:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflow"
+    PartnerIncorporationStatusWorkflowResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowResponse"
+    PartnerIncorporationStatusWorkflowSummary:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationStatusWorkflowSummary"
+    PartnerIncorporationCaseStage:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStage"
+    PartnerIncorporationCaseStatusResponse:
+      $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCaseStatusResponse"
     PartnerIncorporationCountryOptions:
       $ref: "./affiliate-incorporation.yaml#/schemas/PartnerIncorporationCountryOptions"
     PartnerCreateCompanyScopedIncorporationRequest:
