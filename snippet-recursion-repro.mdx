@@ -1,0 +1,36 @@
+---
+title: "Snippet self-import recursion repro"
+description: "A snippet that imports itself causes infinite recursion in Mintlify."
+---
+
+import Self from '/snippets/self.mdx';
+
+## Reproduction
+
+`snippets/self.mdx` contains:
+
+```mdx
+import Self from '/snippets/self.mdx';
+
+This snippet imports itself on the line above and renders `<Self />` below.
+
+<Self />
+```
+
+This page imports and renders that snippet:
+
+<Self />
+
+## Expected
+
+Mintlify detects the self-reference (or any cycle in snippet imports) and either errors out with a clear message or stops at the first level.
+
+## Actual
+
+- `mint dev` — local preview hangs / crashes when this page is requested.
+- `mint broken-links` — never completes.
+- Production build on Mintlify hosted — hangs / fails.
+
+## Notes
+
+The same shape applies to mutual cycles (`A` imports `B`, `B` imports `A`). Any cycle in snippet imports should be detected and broken by the loader.

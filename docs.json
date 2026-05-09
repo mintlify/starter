@@ -18,7 +18,8 @@
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "development",
+              "snippet-recursion-repro"
             ]
           },
           {
