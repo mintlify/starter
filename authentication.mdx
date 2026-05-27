@@ -1,0 +1,52 @@
+---
+title: Authentication
+description: "How to authenticate against the Droplinked API — public endpoints, merchant JWTs, and integration keys."
+---
+
+The Droplinked API exposes three access tiers. Pick the one that matches what you're building.
+
+## Public endpoints (no auth)
+
+Anything under a `/public/` path is open and unauthenticated — built for storefronts,
+catalogs, and AI agents that read a merchant's published inventory.
+
+```bash
+curl https://apiv3.droplinked.com/shops/v2/public/name/{shopName}
+curl "https://apiv3.droplinked.com/product-v2/public/shop/{shopName}?page=1&limit=24"
+```
+
+Use these to discover shops and products without any credentials.
+
+## Merchant / customer JWT (Bearer)
+
+Authenticated actions (managing a shop, products, carts, orders) use a **Bearer JWT**.
+
+```bash
+# 1. Obtain a token
+curl -X POST https://apiv3.droplinked.com/merchant/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"••••••"}'
+# → { "data": { "accessToken": "<JWT>" } }
+
+# 2. Call an authenticated endpoint
+curl https://apiv3.droplinked.com/shops/v2 \
+  -H "Authorization: Bearer <JWT>"
+```
+
+<Note>Send the token as `Authorization: Bearer <JWT>`. The scheme in the OpenAPI spec is
+`bearer` (HTTP, JWT).</Note>
+
+## Integration key (server-to-server)
+
+Partner/integration services authenticate to the Integration Services layer with an
+`integration-api-key` header (a `3RPD_…` key issued to your integration). This is for
+backend-to-backend calls, not browser or agent clients.
+
+```bash
+curl https://service.droplinked.com/locations/countries \
+  -H "integration-api-key: 3RPD_…"
+```
+
+<Card title="Next: environments" icon="server" href="/environments">
+Base URLs for production and development.
+</Card>

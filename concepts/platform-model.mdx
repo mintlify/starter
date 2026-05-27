@@ -1,0 +1,48 @@
+---
+title: Platform model
+description: "The core objects and surfaces you'll work with across the Droplinked API."
+---
+
+Droplinked is commerce infrastructure: merchants publish inventory, customers buy it on
+storefronts, and — increasingly — **AI agents discover and purchase it** on the merchant's
+behalf. The same core objects power all of it.
+
+## Core objects
+
+<CardGroup cols={2}>
+  <Card title="Shop" icon="store">
+    A merchant's store (slug, design template, payment methods, currency). Public read via
+    `/shops/v2/public/name/{name}`; managed via `/shops/v2`.
+  </Card>
+  <Card title="Product" icon="box">
+    Physical, digital, or print-on-demand (POD). Carries SKUs, pricing, and — for physical/POD —
+    a `shippingProfileId`. Public catalog via `/product-v2/public/shop/{name}`.
+  </Card>
+  <Card title="Cart" icon="cart-shopping">
+    `/v2/carts/...` — add items, attach a customer, prepare for checkout (address verification +
+    shipping rates), and pay.
+  </Card>
+  <Card title="Order" icon="receipt">
+    The result of a completed checkout (`/order-v2`), including fulfillment for POD via Printful.
+  </Card>
+</CardGroup>
+
+## Surfaces
+
+- **Storefront** (`droplinked.io`) — where customers browse and buy.
+- **Shop Builder** (`droplinked.com`) — where merchants design the storefront and manage inventory.
+- **Checkout** (`checkout.droplinked.io`) — the single-page purchase flow (contact → delivery →
+  shipping → payment), supporting card (Stripe), PayPal, crypto/stablecoin, and regional PSPs per
+  the shop's configured `paymentMethods`.
+
+## Payments & settlement
+
+Droplinked is **payment-rail-neutral**: merchants connect the PSP of their choice and it's
+turnkey through the checkout. Card, PayPal, regional processors, and **crypto/stablecoin**
+settlement are all first-class — the stablecoin path is the on-chain, low-cost differentiator.
+
+## Agentic commerce
+
+The same public catalog is exposed to AI agents via the **MCP server** and a **Stripe Agentic
+Commerce Protocol (ACP) feed**, so a merchant's existing inventory becomes shoppable inside
+ChatGPT, Claude, Cursor, and other agent surfaces. See [Agentic Commerce](/agentic/overview).

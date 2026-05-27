@@ -1,33 +1,39 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Reference'
+description: 'The Droplinked REST API — base URLs, auth, and conventions.'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+The Droplinked API is a REST API over JSON. The endpoint pages in this section are generated
+from the live OpenAPI specification (`Droplinked APIs`, v1.2) and grouped by domain — shops,
+products, carts, orders, collections, customers, subscriptions, AI tools, web3, and more.
 
-## Welcome
+## Base URL
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://apiv3.droplinked.com        # production
+https://apiv3dev.droplinked.com     # development
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+- **Public** endpoints (`/public/…`) need no credentials.
+- **Authenticated** endpoints use a Bearer JWT: `Authorization: Bearer <token>`.
+- **Integration** (server-to-server) calls use the `integration-api-key` header.
+
+See [Authentication](/authentication) for how to obtain each.
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+"securitySchemes": {
+  "bearer": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+}
 ```
+
+## Conventions
+
+- Responses are wrapped as `{ statusCode, message, data }`; the payload is in `data`.
+- List endpoints page with `?page=` and `?limit=`.
+- Versioned resources use `v2`/`-v2` paths (e.g. `shops/v2`, `product-v2`, `order-v2`).
+
+<Note>The interactive Swagger UI is available on development at
+`https://apiv3dev.droplinked.com/api-doc`. The raw spec backing these pages lives at
+`/api-doc-json`.</Note>

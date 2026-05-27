@@ -1,0 +1,50 @@
+---
+title: Agentic Commerce
+description: "Make a merchant's existing inventory shoppable by AI agents — MCP, the Stripe ACP feed, and x402 micropayments."
+---
+
+Droplinked meets merchants **where they already publish their inventory** and projects it into
+agentic surfaces — so an AI agent (ChatGPT, Claude, Cursor, and others) can discover a product,
+start a purchase, and route affiliate revenue, without the merchant rebuilding anything.
+
+## Building blocks
+
+<CardGroup cols={3}>
+  <Card title="MCP server" icon="plug">
+    `droplinked-mcp` exposes the public catalog + checkout as Model Context Protocol tools
+    (`search_products`, `get_product`, `list_shop_products`, `start_checkout`, `get_feed`).
+    Install it in any MCP client.
+  </Card>
+  <Card title="ACP feed" icon="rss">
+    A Stripe **Agentic Commerce Protocol** product feed at
+    `https://apiv3.droplinked.com/feed/acp.json` — the inventory surface agentic shopping
+    consumes.
+  </Card>
+  <Card title="x402 micropayments" icon="coins">
+    Pay-per-call settlement + the 70/20/10 affiliate revenue split, so agents (and the
+    publishers that route them) earn on every conversion.
+  </Card>
+</CardGroup>
+
+## MCP tools
+
+| Tool | Purpose |
+|---|---|
+| `search_products` | Free-text search across the public Droplinked catalog |
+| `get_product` | Fetch a single product by id |
+| `list_shop_products` | Paginate a shop's catalog by slug |
+| `start_checkout` | Begin a purchase (closing the loop via Stripe ACP) |
+| `get_feed` | Return the Stripe ACP product-feed URL |
+
+All tools call the public API at `DROPLINKED_API_BASE` (defaults to `https://apiv3.droplinked.com`)
+and validate input with `zod`.
+
+## The merchant story
+
+A merchant who already sells on Droplinked (or connects an existing store) gets agentic
+distribution for free: their catalog is published to the ACP feed and the MCP server, agents
+surface it to buyers, and the affiliate engine attributes and splits the revenue. This is the
+on-chain, agent-native distribution layer on top of the standard [commerce APIs](/api-reference/introduction).
+
+<Note>This section is being expanded with end-to-end integration guides (install the MCP server,
+register your inventory to the ACP feed, and close the agent purchase loop).</Note>

@@ -1,0 +1,35 @@
+---
+title: Environments
+description: "Production and development base URLs for every Droplinked surface."
+---
+
+Droplinked runs three parallel environments (production, staging, development). Data is
+**isolated per environment** — the same shop slug is different data in each. Build and
+test against development, then promote.
+
+## API & service base URLs
+
+| Service | Production | Development |
+|---|---|---|
+| Core API (backend) | `https://apiv3.droplinked.com` | `https://apiv3dev.droplinked.com` |
+| Integration Services (3rdp) | `https://service.droplinked.com` | `https://servicedev.droplinked.com` |
+| Web3 Integration | `https://web3.droplinked.com` | `https://web3dev.droplinked.com` |
+| Auth / OAuth | `https://auth.droplinked.com` | `https://authdev.droplinked.com` |
+
+## Front-end surfaces
+
+| Surface | Production | Development |
+|---|---|---|
+| Storefront | `https://droplinked.io` (+ custom domains) | `https://dev.droplinked.io` |
+| Shop Builder (designer) | `https://droplinked.com` | `https://dev.droplinked.com` |
+| Checkout | `https://checkout.droplinked.io` | `https://devcheckout.droplinked.io` |
+
+## Health
+
+```bash
+curl https://apiv3.droplinked.com/health
+curl https://service.droplinked.com/health/stripe   # per-integration health
+```
+
+<Note>The interactive Swagger UI is available on development at
+`https://apiv3dev.droplinked.com/api-doc` (and the raw spec at `/api-doc-json`).</Note>

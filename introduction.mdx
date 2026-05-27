@@ -1,71 +1,40 @@
 ---
 title: Introduction
-description: "Welcome to the home of your new documentation"
+description: "Build commerce — and agentic commerce — on Droplinked."
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
-/>
-
-## Setting up
-
-The first step to world-class documentation is setting up your editing environments.
+Droplinked is commerce infrastructure. Merchants publish inventory, customers buy it on
+storefronts, and AI agents increasingly discover and purchase it on the buyer's behalf. These
+docs are the single source of truth for building on the platform — the REST API, the agentic
+commerce layer (MCP + Stripe ACP), and the concepts that tie them together.
 
 <CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Make your first API call against the public catalog in under five minutes.
   </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
+  <Card title="Authentication" icon="key" href="/authentication">
+    Public endpoints, merchant JWTs, and integration keys.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    The full REST surface — shops, products, carts, orders, and more.
+  </Card>
+  <Card title="Agentic Commerce" icon="robot" href="/agentic/overview">
+    Make a merchant's inventory shoppable by AI agents via MCP + the ACP feed.
   </Card>
 </CardGroup>
 
-## Make it yours
+## What you can build
 
-Update your docs to your brand and add valuable content for the best user conversion.
+- **Storefronts & commerce** — read public catalogs, build carts, run checkout, place orders
+  across physical, digital, and print-on-demand inventory.
+- **Merchant tooling** — manage shops, products, collections, pricing, and shipping profiles.
+- **Payments** — accept card (Stripe), PayPal, regional PSPs, and **crypto/stablecoin** settlement,
+  turnkey per the shop's configured payment methods.
+- **Agentic distribution** — project a merchant's existing inventory into AI agent surfaces
+  (ChatGPT, Claude, Cursor) with the MCP server, the Stripe ACP feed, and on-chain affiliate splits.
 
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
-</CardGroup>
+## Where to start
+
+New to the platform? Read the [platform model](/concepts/platform-model) for the core objects
+and surfaces, then run the [quickstart](/quickstart). Building an agent integration? Jump to
+[Agentic Commerce](/agentic/overview).

@@ -1,11 +1,12 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Droplinked Developers",
+  "description": "Build commerce — and agentic commerce — on Droplinked. APIs, the MCP server, and the Agentic Commerce Protocol feed to meet merchants where they already publish their inventory.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#4F46E5",
+    "light": "#818CF8",
+    "dark": "#3730A3"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -18,18 +19,14 @@
             "pages": [
               "introduction",
               "quickstart",
-              "development"
+              "authentication",
+              "environments"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "concepts/platform-model"
             ]
           }
         ]
@@ -38,18 +35,21 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
-          },
+          }
+        ],
+        "openapi": "api-reference/openapi.json"
+      },
+      {
+        "tab": "Agentic Commerce",
+        "groups": [
           {
-            "group": "Endpoint Examples",
+            "group": "Overview",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "agentic/overview"
             ]
           }
         ]
@@ -58,19 +58,19 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "API Status",
+          "href": "https://apiv3.droplinked.com/health",
+          "icon": "signal"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "Storefront",
+          "href": "https://droplinked.io",
+          "icon": "store"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/droplinked",
+          "icon": "github"
         }
       ]
     }
@@ -83,20 +83,20 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@droplinked.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://droplinked.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/droplinked",
+      "github": "https://github.com/droplinked",
+      "website": "https://droplinked.com"
     }
   }
 }
