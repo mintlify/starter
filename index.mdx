@@ -1,133 +1,112 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
-icon: 'star'
+description: "Welcome to your new docs"
 ---
 
-## Setting up
+## Get running locally
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+<Steps>
+  <Step title="Install the Mintlify CLI">
+    ```bash
+    npm i -g mint
+    ```
+  </Step>
+  <Step title="Preview your docs">
+    Navigate to your docs folder and run:
+    ```bash
+    mint dev
+    ```
+    Your docs will be live at `http://localhost:3000`.
+  </Step>
+  <Step title="Push to deploy">
+    Commit and push your changes. If you've connected the [Mintlify GitHub app](https://dashboard.mintlify.com/settings/organization/github-app), your docs will update automatically.
+  </Step>
+</Steps>
 
 ## Make it yours
 
-Design a docs site that looks great and empowers your users.
+Open `docs.json` to change your site name, colors, and navigation. The [configuration reference](https://mintlify.com/docs/settings) covers every option.
+
+## Write content
+
+Mintlify pages are MDX files — Markdown with components. Here are the ones you'll reach for most.
+
+### Callouts
+
+<Note>Use **Note** for general information.</Note>
+
+<Tip>Use **Tip** for shortcuts and best practices.</Tip>
+
+<Warning>Use **Warning** for things that could cause problems.</Warning>
+
+```mdx
+<Note>Use **Note** for general information.</Note>
+<Tip>Use **Tip** for shortcuts and best practices.</Tip>
+<Warning>Use **Warning** for things that could cause problems.</Warning>
+```
+
+### Cards
 
 <Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+  <Card title="Card title" icon="star" href="https://mintlify.com/docs">
+    Add a short description here.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Card title" icon="rocket" href="https://mintlify.com/docs">
+    Add a short description here.
   </Card>
 </Columns>
 
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
+```mdx
 <Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+  <Card title="Card title" icon="star" href="/your-page">
+    Add a short description here.
   </Card>
 </Columns>
+```
 
-## Make your content agent ready
+### Steps
 
-Make your docs work for humans and AI agents alike.
+<Steps>
+  <Step title="First step">
+    Describe what the user does here.
+  </Step>
+  <Step title="Second step">
+    Each step can include code, images, and other components.
+  </Step>
+</Steps>
 
-<Columns cols={2}>
-  <Card
-    title="Prompt component"
-    icon="robot"
-    href="/agent-ready/prompt"
-  >
-    Embed shareable AI prompts readers can copy or open in Cursor.
-  </Card>
-  <Card
-    title="Visibility"
-    icon="eye"
-    href="/agent-ready/visibility"
-  >
-    Show different content to humans and agents reading your docs.
-  </Card>
-  <Card
-    title="Contextual menu"
-    icon="bolt"
-    href="/agent-ready/contextual"
-  >
-    Give readers one-click access to Claude, ChatGPT, Cursor, and more.
-  </Card>
-  <Card
-    title="AI coding tools"
-    icon="wand-magic-sparkles"
-    href="/ai-tools/claude-code"
-  >
-    Set up Claude Code, Cursor, or Windsurf with Mintlify's skill.
-  </Card>
-</Columns>
+```mdx
+<Steps>
+  <Step title="First step">Content here.</Step>
+  <Step title="Second step">Content here.</Step>
+</Steps>
+```
 
-## Need inspiration?
+### Code blocks
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
+````mdx
+```typescript
+const greeting = "Hello, world!";
+```
+````
+
+Use `CodeGroup` to show multiple languages side by side:
+
+````mdx
+<CodeGroup>
+  ```typescript TypeScript
+  const response = await fetch('/api/hello');
+  ```
+  ```python Python
+  response = requests.get('/api/hello')
+  ```
+</CodeGroup>
+````
+
+See the [components overview](https://mintlify.com/docs/components) for the full list.
+
+## Need help?
+
+<Card title="Mintlify documentation" icon="book-open-cover" href="https://mintlify.com/docs" horizontal>
+  Full reference for configuration, components, and deployment.
 </Card>
