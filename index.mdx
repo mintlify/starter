@@ -3,63 +3,72 @@ title: "Introduction"
 description: "Welcome to your new Mintlify site"
 ---
 
-## Get running locally
+## Write and preview content
 
-<Steps>
-  <Step title="Install the Mintlify CLI">
-    ```bash
-    npm i -g mint
-    ```
-  </Step>
-  <Step title="Preview your docs">
-    Navigate to your docs folder and run:
-    ```bash
-    mint dev
-    ```
-    Your docs will be live at `http://localhost:3000`.
-  </Step>
-  <Step title="Push to deploy">
-    Commit and push your changes. If you've connected the [Mintlify GitHub app](https://dashboard.mintlify.com/settings/organization/github-app), your docs will update automatically.
-  </Step>
-</Steps>
+<AccordionGroup>
+  <Accordion title="Use the web editor">
+    Open the [Mintlify dashboard](https://app.mintlify.com) and work directly in your browser.
+  </Accordion>
+  <Accordion title="Work locally with the CLI">
+    <Steps>
+      <Step title="Install the Mintlify CLI">
+        You must have Node.js version 19 or higher installed.
+        
+        ```bash
+        npm i -g mint
+        ```
+      </Step>
+      <Step title="Preview your site">
+        Navigate to the directory containing your `docs.json` file and run:
 
-## Make it yours
+        ```bash
+        mint dev
+        ```
+      </Step>
+    </Steps>
+  </Accordion>
+</AccordionGroup>
 
-Open `docs.json` to change your site name, colors, and navigation. The [configuration reference](https://mintlify.com/docs/settings) covers every option.
+## Customize your site
 
-## Write content
+Open `docs.json` to change your site name, colors, and navigation. See the [Global settings](https://www.mintlify.com/docs/organize/settings) documentation for more information.
 
-Mintlify pages are MDX files — Markdown with components. Here are the ones you'll reach for most.
+## Use components
+
+Mintlify pages are MDX files that support a variety of components. Here are some that people use frequently.
 
 ### Callouts
 
-<Note>Use **Note** for general information.</Note>
+<Note>Use **Notes** for general information.</Note>
 
-<Tip>Use **Tip** for shortcuts and best practices.</Tip>
+<Tip>Use **Tips** for shortcuts and best practices.</Tip>
 
-<Warning>Use **Warning** for things that could cause problems.</Warning>
+<Warning>Use **Warnings** for things that could be destructive.</Warning>
 
-```mdx
-<Note>Use **Note** for general information.</Note>
-<Tip>Use **Tip** for shortcuts and best practices.</Tip>
-<Warning>Use **Warning** for things that could cause problems.</Warning>
+```mdx Example MDX code for callouts
+<Note>Use **Notes** for general information.</Note>
+<Tip>Use **Tips** for shortcuts and best practices.</Tip>
+<Warning>Use **Warnings** for things that could be destructive.</Warning>
 ```
 
 ### Cards
 
 <Columns cols={2}>
   <Card title="Card title" icon="star" href="https://mintlify.com/docs">
-    Add a short description here.
+    This card links to the Mintlify documentation.
   </Card>
-  <Card title="Card title" icon="rocket" href="https://mintlify.com/docs">
-    Add a short description here.
+  <Card title="Card title" icon="smile">
+    This card just contains text without a link.
   </Card>
 </Columns>
 
-```mdx
+```mdx Example MDX code for cards
 <Columns cols={2}>
-  <Card title="Card title" icon="star" href="/your-page">
-    Add a short description here.
+  <Card title="Card title" icon="star" href="https://mintlify.com/docs">
+    This card links to the Mintlify documentation.
+  </Card>
+  <Card title="Card title" icon="smile">
+    This card just contains text without a link.
   </Card>
 </Columns>
 ```
@@ -75,16 +84,20 @@ Mintlify pages are MDX files — Markdown with components. Here are the ones you
   </Step>
 </Steps>
 
-```mdx
+```mdx Example MDX code for steps
 <Steps>
-  <Step title="First step">Content here.</Step>
-  <Step title="Second step">Content here.</Step>
+  <Step title="First step">Describe what the user does here.</Step>
+  <Step title="Second step">Each step can include code, images, and other components.</Step>
 </Steps>
 ```
 
 ### Code blocks
 
-````mdx
+```typescript
+const greeting = "Hello, world!";
+```
+
+````mdx Example MDX code for code blocks
 ```typescript
 const greeting = "Hello, world!";
 ```
@@ -92,7 +105,16 @@ const greeting = "Hello, world!";
 
 Use `CodeGroup` to show multiple languages side by side:
 
-````mdx
+<CodeGroup>
+  ```typescript TypeScript
+  const response = await fetch('/api/hello');
+  ```
+  ```python Python
+  response = requests.get('/api/hello')
+  ```
+</CodeGroup>
+
+````mdx Example MDX code for code groups
 <CodeGroup>
   ```typescript TypeScript
   const response = await fetch('/api/hello');
@@ -103,10 +125,10 @@ Use `CodeGroup` to show multiple languages side by side:
 </CodeGroup>
 ````
 
-See the [components overview](https://mintlify.com/docs/components) for the full list.
+See the [components overview](https://mintlify.com/docs/components) for all available components.
 
-## Need help?
+## Prompts for AI tools
 
-<Card title="Mintlify documentation" icon="book-open-cover" href="https://mintlify.com/docs" horizontal>
-  Full reference for configuration, components, and deployment.
-</Card>
+If you use an AI tool to help set up your site, you can use the following prompts to get started:
+
+
