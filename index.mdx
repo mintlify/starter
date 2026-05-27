@@ -1,128 +1,25 @@
 ---
 title: "Introduction"
-description: "Welcome to your new Mintlify site"
+description: "Welcome to Mintlify"
 ---
 
-## Write and preview content
+Write in MDX, publish beautiful content, and keep everything in sync with your codebase.
 
-<AccordionGroup>
-  <Accordion title="Use the web editor">
-    Open the [Mintlify dashboard](https://app.mintlify.com) and work directly in your browser.
-  </Accordion>
-  <Accordion title="Work locally with the CLI">
-    <Steps>
-      <Step title="Install the Mintlify CLI">
-        You must have Node.js version 19 or higher installed.
-        
-        ```bash
-        npm i -g mint
-        ```
-      </Step>
-      <Step title="Preview your site">
-        Navigate to the directory containing your `docs.json` file and run:
-
-        ```bash
-        mint dev
-        ```
-      </Step>
-    </Steps>
-  </Accordion>
-</AccordionGroup>
-
-## Customize your site
-
-Open `docs.json` to change your site name, colors, and navigation. See the [Global settings](https://www.mintlify.com/docs/organize/settings) documentation for more information.
-
-## Use components
-
-Mintlify pages are MDX files that support a variety of components. Here are some that people use frequently.
-
-### Callouts
-
-<Note>Use **Notes** for general information.</Note>
-
-<Tip>Use **Tips** for shortcuts and best practices.</Tip>
-
-<Warning>Use **Warnings** for things that could be destructive.</Warning>
-
-```mdx Example MDX code for callouts
-<Note>Use **Notes** for general information.</Note>
-<Tip>Use **Tips** for shortcuts and best practices.</Tip>
-<Warning>Use **Warnings** for things that could be destructive.</Warning>
-```
-
-### Cards
-
-<Columns cols={2}>
-  <Card title="Card title" icon="star" href="https://mintlify.com/docs">
-    This card links to the Mintlify documentation.
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="https://mintlify.com/docs/quickstart">
+    Get your site up and running.
   </Card>
-  <Card title="Card title" icon="smile">
-    This card just contains text without a link.
+  <Card title="Components" icon="puzzle-piece" href="https://mintlify.com/docs/components">
+    Cards, callouts, steps, tabs, and more.
   </Card>
-</Columns>
-
-```mdx Example MDX code for cards
-<Columns cols={2}>
-  <Card title="Card title" icon="star" href="https://mintlify.com/docs">
-    This card links to the Mintlify documentation.
+  <Card title="Settings" icon="gear" href="https://mintlify.com/docs/settings">
+    Customize your site name, colors, and navigation.
   </Card>
-  <Card title="Card title" icon="smile">
-    This card just contains text without a link.
+  <Card title="AI Features" icon="sparkles" href="https://mintlify.com/docs/ai">
+    Let users ask questions and get instant answers.
   </Card>
-</Columns>
-```
+</CardGroup>
 
-### Steps
-
-<Steps>
-  <Step title="First step">
-    Describe what the user does here.
-  </Step>
-  <Step title="Second step">
-    Each step can include code, images, and other components.
-  </Step>
-</Steps>
-
-```mdx Example MDX code for steps
-<Steps>
-  <Step title="First step">Describe what the user does here.</Step>
-  <Step title="Second step">Each step can include code, images, and other components.</Step>
-</Steps>
-```
-
-### Code blocks
-
-```typescript
-const greeting = "Hello, world!";
-```
-
-````mdx Example MDX code for code blocks
-```typescript
-const greeting = "Hello, world!";
-```
-````
-
-Use `CodeGroup` to show multiple languages side by side:
-
-<CodeGroup>
-  ```typescript TypeScript
-  const response = await fetch('/api/hello');
-  ```
-  ```python Python
-  response = requests.get('/api/hello')
-  ```
-</CodeGroup>
-
-````mdx Example MDX code for code groups
-<CodeGroup>
-  ```typescript TypeScript
-  const response = await fetch('/api/hello');
-  ```
-  ```python Python
-  response = requests.get('/api/hello')
-  ```
-</CodeGroup>
-````
-
-See the [components overview](https://mintlify.com/docs/components) for all available components.
+<Tip>
+  Ready to make this your own? Edit this page, then update `docs.json` to set your site name and configurations.
+</Tip>
