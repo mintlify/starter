@@ -47,7 +47,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.mintlify.com"
     }
   },
   "contextual": {
