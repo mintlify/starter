@@ -209,7 +209,11 @@
               "agentic/connect-your-store",
               "agentic/connect-shopify",
               "agentic/connect-other-platforms",
-              "agentic/storefront-mcp-discovery"
+              "agentic/storefront-mcp-discovery",
+              "agentic/get-listed-in-mcp-discovery",
+              "agentic/consume-droplinked-mcp",
+              "agentic/aeo-geo-optimization",
+              "agentic/attribution-and-commission"
             ]
           }
         ]

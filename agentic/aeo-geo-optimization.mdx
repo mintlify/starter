@@ -1,0 +1,239 @@
+---
+title: AEO/GEO Optimization
+description: "Make your catalog rank well in answer engines (ChatGPT, Perplexity, Google AI Overviews) and generative engines (Claude, Gemini, agent shopping surfaces)."
+---
+
+Traditional SEO optimizes for ranked link results. **AEO** (Answer Engine
+Optimization) and **GEO** (Generative Engine Optimization) optimize for the
+new surface area — LLM-driven search and agentic shopping where the engine
+synthesizes an answer instead of returning a list. Your product either gets
+cited or it doesn't.
+
+This guide is for merchants who have already
+[opted into MCP discovery](/agentic/get-listed-in-mcp-discovery). The same
+catalog metadata that drives MCP ranking also drives AEO/GEO visibility.
+
+## AEO vs GEO — the short version
+
+- **AEO** — optimize for engines that synthesize a single answer from
+  retrieval (ChatGPT search, Perplexity, Google AI Overviews, Bing Copilot).
+  These engines need clear, structured facts they can quote.
+- **GEO** — optimize for generative engines that compose multi-tool agentic
+  responses (Claude with tool use, Gemini agentic shopping, MCP-backed
+  shopping agents). These engines need machine-readable surface area they
+  can pivot through.
+
+The two overlap heavily. Most of the work helps both.
+
+## The four levers
+
+<CardGroup cols={2}>
+  <Card title="Clarity over cleverness" icon="text">
+    Titles + descriptions that read like facts, not marketing.
+  </Card>
+  <Card title="Structured data" icon="code">
+    Schema.org Product markup + Open Graph + JSON-LD so engines parse you
+    deterministically.
+  </Card>
+  <Card title="FAQ + answer patterns" icon="comments">
+    Surface common buyer questions in copy that answer engines can extract
+    verbatim.
+  </Card>
+  <Card title="Canonical URLs + freshness" icon="link">
+    One stable URL per product, kept current. Stale data is the #1 cause of
+    de-ranking.
+  </Card>
+</CardGroup>
+
+## Product titles
+
+Answer engines and shopping agents both rank on title clarity. The pattern
+that wins:
+
+```
+[Brand] [Product type] — [defining attribute] [secondary attribute] [size/variant]
+```
+
+| Avoid | Prefer |
+|---|---|
+| `Cozy AF Beanie 🔥` | `WarmWool Classic Beanie — 100% merino wool, ribbed knit, one size` |
+| `The Best Coffee You'll Ever Have` | `BlueOak Single-Origin Coffee — Ethiopian Yirgacheffe, light roast, 12oz whole bean` |
+| `New Drop!!! Limited Edition!!!` | `Atlas Carry-On Backpack — 30L, water-resistant nylon, fits 16" laptop` |
+
+The agent is going to surface this title to a buyer in a sentence. It needs
+to read as a fact.
+
+## Product descriptions
+
+Three-paragraph pattern that maps well to both retrieval and agentic synthesis:
+
+1. **First sentence** — declarative summary of what the product is and who
+   it's for. The engine will quote this verbatim in answers.
+2. **Body** — material, dimensions, included items, key specs. Bullet lists
+   are easier for retrieval to chunk than prose.
+3. **Closing** — care instructions, sizing notes, FAQ-style edge cases.
+
+Avoid:
+
+- Repeating the title in the first sentence
+- Marketing fluff above the fold ("This is more than a beanie — it's a
+  statement")
+- Specs hidden in image alt text only
+
+## Schema.org Product markup
+
+The most impactful structured-data investment. Embed JSON-LD in the storefront
+`<head>` of every product page:
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "WarmWool Classic Beanie",
+  "image": [
+    "https://cdn.example.com/beanie-1.jpg",
+    "https://cdn.example.com/beanie-2.jpg"
+  ],
+  "description": "100% merino wool, ribbed knit, one size fits most. Hand-wash cold.",
+  "sku": "WW-BEANIE-CLS-BLK",
+  "brand": {
+    "@type": "Brand",
+    "name": "WarmWool"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://warmwool.droplinked.io/classic-wool-beanie",
+    "priceCurrency": "USD",
+    "price": "34.00",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.7",
+    "reviewCount": "142"
+  }
+}
+</script>
+```
+
+For storefronts hosted on `droplinked.io`, the template injects this
+automatically. For Shopify and custom storefronts, add it to your product
+template.
+
+## Open Graph + Twitter cards
+
+Shareable links that appear correctly in chat surfaces (Slack, iMessage, X,
+Discord) are far more likely to get cited by an agent crawling that channel.
+
+```html
+<!-- Open Graph -->
+<meta property="og:type" content="product">
+<meta property="og:title" content="WarmWool Classic Beanie">
+<meta property="og:description" content="100% merino wool, ribbed knit, one size fits most.">
+<meta property="og:image" content="https://cdn.example.com/beanie-og.jpg">
+<meta property="og:url" content="https://warmwool.droplinked.io/classic-wool-beanie">
+<meta property="product:price:amount" content="34.00">
+<meta property="product:price:currency" content="USD">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WarmWool Classic Beanie">
+<meta name="twitter:description" content="100% merino wool, ribbed knit.">
+<meta name="twitter:image" content="https://cdn.example.com/beanie-og.jpg">
+```
+
+## FAQ blocks
+
+Answer engines aggressively extract FAQ blocks. Add a short FAQ section to
+high-traffic product pages and mark it up:
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this beanie shrink?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hand-wash cold and lay flat to dry. Machine drying may shrink the wool by up to 5%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this suitable for sensitive skin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — 100% merino wool is naturally fine and itch-free for most skin types."
+      }
+    }
+  ]
+}
+</script>
+```
+
+## Canonical URLs + freshness
+
+- **One canonical URL per product** — pass `<link rel="canonical">` on every
+  variant page that points back to the parent product.
+- **Don't break URLs on rename** — if you rename the product, 301-redirect
+  the old slug.
+- **Keep stock + price accurate** — engines de-rank stale catalog data. The
+  Droplinked ACP feed refreshes on every product write plus a short
+  background cycle.
+
+## Storefront-level signals
+
+Beyond per-product metadata, engines weight storefront-level signals:
+
+- **`robots.txt`** allowing `User-agent: *` (or explicitly `GPTBot`,
+  `ClaudeBot`, `PerplexityBot`, `Google-Extended`)
+- **A sitemap** at `/sitemap.xml` listing every product URL
+- **Stable storefront name** — frequent rebranding fragments your signal
+- **MCP discovery meta tag** in `<head>` (see
+  [Storefront MCP Discovery](/agentic/storefront-mcp-discovery))
+
+## Verification
+
+Validate your structured data:
+
+- [Google Rich Results Test](https://search.google.com/test/rich-results) —
+  Product + FAQPage support
+- [Schema.org Validator](https://validator.schema.org/) — generic JSON-LD
+  validation
+- [OpenGraph.xyz](https://www.opengraph.xyz/) — preview Open Graph cards
+
+Verify your product is in the agentic feed:
+
+```bash
+curl -s "https://apiv3.droplinked.com/feed/acp.json" \
+  | jq '.items[] | select(.title | contains("Classic Beanie"))'
+```
+
+## Anti-patterns
+
+- **Stuffing brand into every field** — the engine treats this as noise.
+- **Hiding specs in images** — alt text helps but is not a substitute for
+  body copy.
+- **Identical descriptions across variants** — variants should share the
+  parent description and add only their differentiator.
+- **Auto-translated copy without review** — synthesized translations often
+  fail AEO ranking because key terms get paraphrased.
+- **Blocking AI crawlers in `robots.txt`** — if you want agentic
+  discovery, you can't block the agents.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Opt in to discovery" icon="plug" href="/agentic/get-listed-in-mcp-discovery">
+    The prerequisite — your shop has to be projecting to the ACP feed and
+    MCP server first.
+  </Card>
+  <Card title="Attribution + commission" icon="route" href="/agentic/attribution-and-commission">
+    See how a well-ranked catalog converts to USDC + fiat revenue.
+  </Card>
+</CardGroup>

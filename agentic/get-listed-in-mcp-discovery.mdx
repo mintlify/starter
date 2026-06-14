@@ -1,0 +1,169 @@
+---
+title: Get listed in MCP discovery
+description: "Opt your existing catalog into Droplinked's agentic discovery surface — meet AI shoppers where they already are, with a new performance-based commission rail."
+---
+
+Droplinked projects your existing catalog into the agentic surfaces AI shoppers
+already use — ChatGPT, Claude, Cursor, and any MCP-capable client. Listing your
+shop publishes it to the [ACP feed](/agentic/acp-feed), the platform-wide
+[MCP server](/agentic/mcp-server), and a per-merchant MCP surface at
+`mcp.droplinked.com/{shopSlug}`. No re-platforming, no new checkout. Additive
+distribution on top of the commerce you already run.
+
+## What MCP discovery actually is
+
+**MCP** is the Model Context Protocol — the open standard agents like Claude,
+ChatGPT, Cursor, and Continue use to call tools at runtime. Droplinked runs an
+MCP server that exposes your catalog as a tool surface
+(`searchProducts`, `findInventory`, `getProductDetail`, `placeOrderAgentic`,
+`getOrderReceipt`). When an AI agent answers "find me a black wool beanie under
+$40," the agent calls those tools, your inventory appears in the results, and a
+purchase routes through the existing storefront chokepoint.
+
+## Why opt in
+
+<CardGroup cols={3}>
+  <Card title="Agentic traffic" icon="robot">
+    Your catalog becomes a result candidate in agentic shopping sessions across
+    every MCP-aware client.
+  </Card>
+  <Card title="A new commission rail" icon="coins">
+    Conversions attributed to an agent settle through the 70/20/10 split —
+    you keep 70%, the agent that surfaced you earns 10%, Droplinked takes 20%
+    for the discovery + settlement layer.
+  </Card>
+  <Card title="Zero migration risk" icon="shield-check">
+    Your storefront, PSPs, and fulfillment stack stay exactly as they are.
+    Discovery is purely additive.
+  </Card>
+</CardGroup>
+
+## How to opt in
+
+<Steps>
+  <Step title="Confirm your shop is publishable">
+    Any Droplinked shop with at least one published product flows into the
+    ACP feed and the public MCP catalog automatically. If you connect a Shopify
+    or other storefront, finish that onboarding first — see
+    [Connect your store](/agentic/connect-your-store) or the
+    [Connect Shopify](/agentic/connect-shopify) walkthrough.
+  </Step>
+  <Step title="Verify your shop appears in the ACP feed">
+    ```bash
+    curl -s "https://apiv3.droplinked.com/feed/acp.json" \
+      | jq '.items[] | select(.brand == "Your Brand Name") | {id, title, link, price}' \
+      | head -20
+    ```
+    If items return, you are live in agentic discovery. If not, see the
+    pre-flight checklist below.
+  </Step>
+  <Step title="Verify the per-merchant MCP surface">
+    ```bash
+    curl -s "https://mcp.droplinked.com/your-shop-slug/manifest" | jq .
+    ```
+    A 200 with shop metadata + tool URLs confirms agents can pin to your shop
+    directly. A 404 means the slug isn't registered — confirm the slug in your
+    dashboard.
+  </Step>
+  <Step title="Optional: advertise discovery from your storefront">
+    Add one line to your storefront `<head>` so agents that arrive at your shop
+    URL can pivot straight to your MCP surface:
+    ```html
+    <meta name="mcp-url" content="https://mcp.droplinked.com/your-shop-slug">
+    ```
+    Full instructions: [Storefront MCP Discovery](/agentic/storefront-mcp-discovery).
+  </Step>
+</Steps>
+
+## Catalog pre-flight checklist
+
+Agents converge on a small set of fields when ranking candidates. Make sure
+each product has:
+
+<Accordion title="Required for inclusion in discovery">
+  - **Title** — descriptive, agent-readable (see
+    [AEO/GEO optimization](/agentic/aeo-geo-optimization))
+  - **Description** — at least one full sentence
+  - **Primary image** — public-accessible URL, square or 1:1 preferred
+  - **Price + currency** — must resolve to a non-zero amount in a supported
+    currency
+  - **Availability** — at least one SKU with stock state `in_stock` or
+    `low_stock`
+  - **Public visibility** — product not gated behind a draft / unpublished
+    flag
+</Accordion>
+
+<Accordion title="Recommended for better ranking">
+  - **Brand** — fills the `brand` field on the ACP feed item
+  - **`item_group_id`** — variants of the same product grouped under a parent
+  - **Condition** — `new` / `refurbished` / `used`
+  - **Structured-data optimized titles + descriptions** — see
+    [AEO/GEO optimization](/agentic/aeo-geo-optimization)
+</Accordion>
+
+## Pricing + commission
+
+Listing your catalog in MCP discovery is **free**. You pay only on
+agent-attributed conversions, on a 70/20/10 split:
+
+| Party | Share | Description |
+|---|---|---|
+| You (merchant) | **70%** | Net of fulfillment, PSP fees, and the 30% routed below |
+| AI-agent affiliate | **10%** | The agent that surfaced your product to the buyer |
+| Droplinked | **20%** | Discovery + settlement + the agentic infrastructure |
+
+Settlement runs on two rails:
+
+- **USDC on Base via x402** — micropayment streaming, suitable for high-volume
+  agent traffic. Settles continuously.
+- **Fiat off-ramp via Stripe** — weekly payout to your Stripe-connected bank
+  account.
+
+You can mix the two. See
+[Attribution + commission](/agentic/attribution-and-commission) for the
+detailed flow.
+
+## Privacy + control
+
+<Note>
+  The discovery surface exposes only **public catalog metadata** — shop name,
+  slug, product titles, descriptions, prices, images, availability. It does
+  **not** expose PII, operator data, sales volume, or PSP routing decisions.
+  Per-merchant attestation policies (`public`, `lenders_only`, `private`)
+  govern any deeper inventory + attestation surface — see
+  [Inventory MCP](/agentic/inventory-mcp).
+</Note>
+
+You can opt out at any time by un-publishing the shop or contacting support.
+
+## Troubleshooting
+
+<Accordion title="My shop isn't appearing in the ACP feed">
+  Most common causes, in order:
+  1. No published products — drafts don't appear
+  2. All SKUs marked out of stock
+  3. The shop slug isn't matching the `brand` field — try filtering by `.link`
+     containing your storefront URL instead
+  4. The feed regenerates on product write plus a short refresh cycle — wait
+     5 minutes after publishing
+</Accordion>
+
+<Accordion title="The per-merchant MCP manifest returns 404">
+  - Verify the slug exactly matches the one in your dashboard URL
+  - The slug is case-sensitive and dash-separated
+  - If you recently renamed your shop, the slug may have changed — old slugs
+    don't redirect
+</Accordion>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Optimize your catalog for AI" icon="magnifying-glass" href="/agentic/aeo-geo-optimization">
+    Apply answer-engine + generative-engine optimization to your titles and
+    descriptions so agents rank you higher.
+  </Card>
+  <Card title="See the attribution flow" icon="route" href="/agentic/attribution-and-commission">
+    Detailed walkthrough of how an agent-driven conversion is attributed and
+    settled.
+  </Card>
+</CardGroup>

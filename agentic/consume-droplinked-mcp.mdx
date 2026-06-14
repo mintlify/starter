@@ -1,0 +1,257 @@
+---
+title: Consume Droplinked MCP
+description: "Build an AI agent that searches, buys, and earns commission against the Droplinked catalog via the public MCP server."
+---
+
+This guide is for **agent developers** — anyone building on top of MCP-capable
+clients (Claude, ChatGPT, Cursor, Continue, the Vercel AI SDK) who wants to
+turn the Droplinked catalog into a tool surface their agent can call. For the
+install side (point Claude Desktop / Claude Code at the local server), see
+[MCP Server](/agentic/mcp-server). This page covers the **HTTP transport** at
+`mcp.droplinked.com`.
+
+## Endpoints
+
+| Surface | URL | Auth |
+|---|---|---|
+| Discovery doc | `https://apiv3.droplinked.com/.well-known/mcp.json` | None |
+| Platform-wide manifest | `https://mcp.droplinked.com/manifest` | None |
+| Per-merchant manifest | `https://mcp.droplinked.com/{shopSlug}/manifest` | None |
+| Platform-wide tool list | `https://mcp.droplinked.com/mcp/tools` | `X-MCP-API-Key` |
+| Per-merchant tool list | `https://mcp.droplinked.com/{shopSlug}/mcp/tools` | `X-MCP-API-Key` |
+| Tool invocation | `https://mcp.droplinked.com/mcp/tools/{name}` (POST) | `X-MCP-API-Key` |
+
+Manifests and the well-known discovery doc are **unauthenticated** — any agent
+can probe them at runtime to learn the surface.
+
+## Authentication
+
+For any tool invocation, send your key as the `X-MCP-API-Key` header:
+
+```bash
+curl -X POST https://mcp.droplinked.com/mcp/tools/searchProducts \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{"query": "wool beanie", "limit": 5}'
+```
+
+Request a key in the [Droplinked dashboard](https://droplinked.com) under
+**Developer Settings → MCP Keys**. Keys are per-agent (one per integration is
+recommended so you can revoke independently). Treat them like an API secret —
+they identify your agent for attribution, rate-limiting, and the commission
+rail.
+
+<Note>
+  The well-known discovery doc at
+  `https://apiv3.droplinked.com/.well-known/mcp.json` is the canonical source
+  of truth for the tool registry — names, descriptions, JSON-schema input
+  shapes, output shapes. Any compliant MCP client uses it for auto-discovery.
+</Note>
+
+## Tool catalog
+
+The full list (with input schemas + descriptions) is in the discovery doc.
+The most relevant tools for an agentic shopping flow:
+
+### Discovery
+
+| Tool | Purpose |
+|---|---|
+| `searchProducts` | Free-text search across the public catalog. Returns up to 25 matches with id, title, lowest SKU price, primary image, and product URL. Optional `shopUrl` filters to a single merchant. |
+| `findInventory` | SKU-availability-aware query. Returns stock state, source, price, attestation status. Designed for cart composition. |
+| `getProductDetail` | Full product detail — title, description, all images, all SKUs (price + inventory), tags, public URL. |
+| `getShopInfo` | Public shop metadata (name, description, currency, logo, social links). Call before `getProductDetail` so the agent knows the shop's currency. |
+| `listMerchants` | Paginated list of active merchants. Optional ISO-3166 region filter. |
+
+### Transaction
+
+| Tool | Purpose |
+|---|---|
+| `placeOrderAgentic` | Compose an order from `[{skuId, quantity}]` + email. Phase 3 also returns the payment-intent (card / paypal / crypto / wallet slots) in the same call. PSP-invisible — the resolver picks the provider. Caps: 50 items, qty 1..99. |
+| `getOrderReceipt` | PII-free order receipt — items, totals, payment state, fulfillment state. The `paymentMethod` field exposes the method category (`creditCard` / `paypal` / `crypto` / …), not the underlying PSP. |
+| `getOrderStatus` | Lightweight state-machine projection for polling — status, payment state, fulfillment state, tracking, last-updated. No line items, no totals. |
+| `refundOrder` | Issue a refund. Resolves the PSP automatically; supply `orderId` + optional partial amount + reason. Idempotency-keyed. |
+
+### Trust + financing
+
+| Tool | Purpose |
+|---|---|
+| `recommendLender` | Recommend active lenders for a jurisdiction (ISO 3166-1 alpha-2). Required before initiating a lending application. |
+| `getUnderwritingSignals` | Composite underwriting read for a merchant — credit tier, repayment history, upgrade preview. Privacy-aware. |
+
+For the complete list (including admin tools, stockout monitoring, attestation
+lineage, and cart operations), see
+[Inventory MCP](/agentic/inventory-mcp),
+[Underwriting MCP Tools](/agentic/underwriting-mcp-tools), and
+[Lender Trinity MCP Tools](/agentic/lender-trinity-mcp-tools).
+
+## End-to-end example
+
+A canonical agentic shopping loop: search → detail → order → receipt.
+
+<CodeGroup>
+```bash curl
+# 1. Search
+curl -s -X POST https://mcp.droplinked.com/mcp/tools/searchProducts \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{"query": "wool beanie", "limit": 5}'
+
+# 2. Detail (pick a result)
+curl -s -X POST https://mcp.droplinked.com/mcp/tools/getProductDetail \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{"shopUrl": "warmwool", "productSlug": "classic-wool-beanie"}'
+
+# 3. Place order
+curl -s -X POST https://mcp.droplinked.com/mcp/tools/placeOrderAgentic \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{
+    "shopUrl": "warmwool",
+    "email": "shopper@example.com",
+    "items": [{"skuId": "65f…", "quantity": 1}],
+    "returnPaymentIntent": true
+  }'
+
+# 4. Poll status / pull receipt
+curl -s -X POST https://mcp.droplinked.com/mcp/tools/getOrderReceipt \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{"orderId": "ord_…"}'
+```
+
+```typescript typescript
+const MCP = 'https://mcp.droplinked.com';
+const headers = {
+  'X-MCP-API-Key': process.env.DROPLINKED_MCP_KEY!,
+  'content-type': 'application/json',
+};
+
+async function call<T>(tool: string, args: Record<string, unknown>): Promise<T> {
+  const res = await fetch(`${MCP}/mcp/tools/${tool}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(args),
+  });
+  if (!res.ok) throw new Error(`${tool}: ${res.status} ${await res.text()}`);
+  return res.json();
+}
+
+// 1. Search
+const results = await call<{items: Array<{id: string; title: string; lowestPriceCents: number}>}>(
+  'searchProducts',
+  {query: 'wool beanie', limit: 5},
+);
+
+// 2. Detail
+const detail = await call<{skus: Array<{id: string; priceCents: number; inventory: number}>}>(
+  'getProductDetail',
+  {shopUrl: 'warmwool', productSlug: 'classic-wool-beanie'},
+);
+
+// 3. Order
+const order = await call<{orderId: string; paymentIntent: {redirectUrl: string}}>(
+  'placeOrderAgentic',
+  {
+    shopUrl: 'warmwool',
+    email: 'shopper@example.com',
+    items: [{skuId: detail.skus[0].id, quantity: 1}],
+    returnPaymentIntent: true,
+  },
+);
+
+// 4. Receipt
+const receipt = await call('getOrderReceipt', {orderId: order.orderId});
+```
+
+```python python
+import os, requests
+
+MCP = 'https://mcp.droplinked.com'
+HEADERS = {
+    'X-MCP-API-Key': os.environ['DROPLINKED_MCP_KEY'],
+    'content-type': 'application/json',
+}
+
+def call(tool, args):
+    r = requests.post(f'{MCP}/mcp/tools/{tool}', headers=HEADERS, json=args, timeout=10)
+    r.raise_for_status()
+    return r.json()
+
+# 1. Search
+results = call('searchProducts', {'query': 'wool beanie', 'limit': 5})
+
+# 2. Detail
+detail = call('getProductDetail', {'shopUrl': 'warmwool', 'productSlug': 'classic-wool-beanie'})
+
+# 3. Order
+order = call('placeOrderAgentic', {
+    'shopUrl': 'warmwool',
+    'email': 'shopper@example.com',
+    'items': [{'skuId': detail['skus'][0]['id'], 'quantity': 1}],
+    'returnPaymentIntent': True,
+})
+
+# 4. Receipt
+receipt = call('getOrderReceipt', {'orderId': order['orderId']})
+```
+</CodeGroup>
+
+## Per-merchant pinning
+
+When the user arrives at a single storefront, scope your tool calls to that
+shop's per-merchant surface — no `shopUrl` filter argument, no risk of
+fanning out across the catalog:
+
+```bash
+# Discovery
+curl -s https://mcp.droplinked.com/warmwool/manifest
+
+# Pre-bound tool list
+curl -s https://mcp.droplinked.com/warmwool/mcp/tools \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY"
+
+# Invoke a tool, pre-scoped to warmwool's catalog
+curl -s -X POST https://mcp.droplinked.com/warmwool/mcp/tools/searchProducts \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{"query": "beanie"}'
+```
+
+The per-merchant surface inherits the platform-wide tool catalog but
+pre-scopes every call. See [Storefront MCP Discovery](/agentic/storefront-mcp-discovery)
+for the `<meta name="mcp-url">` advertisement pattern.
+
+## Attribution
+
+Every tool call you make against `mcp.droplinked.com` is tagged with the
+API key, which Droplinked maps to your agent identity. When a downstream
+conversion (`placeOrderAgentic` → payment-captured) is attributed to your
+agent, the **10% affiliate share** in the
+[70/20/10 split](/agentic/attribution-and-commission) routes to you.
+
+You don't need to call a separate "record intent" tool — attribution is
+implicit in the tool-call chain.
+
+## Rate limits + observability
+
+- Default: 600 tool calls / minute / API key. Burst headroom up to 1000/min.
+- 429 responses include `Retry-After` headers and a body listing the
+  exceeded budget.
+- Discovery + manifest endpoints are unrate-limited.
+- All requests are logged with `correlationId` headers — quote them in
+  support tickets for fast diagnosis.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Optimize for ranking" icon="magnifying-glass" href="/agentic/aeo-geo-optimization">
+    Understand the catalog metadata your agent will rank against — so you can
+    surface the best candidates.
+  </Card>
+  <Card title="Attribution + commission" icon="route" href="/agentic/attribution-and-commission">
+    Full walkthrough of how an agent-driven conversion routes USDC + fiat back
+    to you.
+  </Card>
+</CardGroup>

@@ -1,0 +1,159 @@
+---
+title: Attribution + Commission
+description: "How agentic conversions are attributed to the AI surface that drove them, and how the 70/20/10 split settles in USDC + fiat."
+---
+
+When an AI agent surfaces a Droplinked product to a buyer and the buyer
+converts, three parties earn:
+
+| Party | Share | Why |
+|---|---|---|
+| **Merchant** | 70% | The product, the inventory, the fulfillment |
+| **Droplinked** | 20% | Discovery surface (ACP feed + MCP server), settlement, attribution infrastructure |
+| **AI-agent affiliate** | 10% | The agent that surfaced the product to the buyer |
+
+This page walks through how that attribution actually happens — for merchants,
+agent developers, and anyone integrating against the
+[MCP server](/agentic/mcp-server).
+
+## How attribution works
+
+Attribution is **tool-call-driven**, not click-driven. There's no cookie, no
+UTM parameter, no redirect chain. The flow:
+
+<Steps>
+  <Step title="Agent calls Droplinked tools">
+    Every call to `mcp.droplinked.com/mcp/tools/{name}` is signed with the
+    agent's `X-MCP-API-Key`. The MCP server records the call chain (search →
+    detail → cart → order) against that key with a correlation id.
+  </Step>
+  <Step title="Order is placed">
+    When the agent calls `placeOrderAgentic`, the resulting order is tagged
+    with the agent's identity (via the API key) at creation time. This tag
+    persists on the order document and follows it through the lifecycle.
+  </Step>
+  <Step title="Payment captures">
+    The PSP captures payment via the resolver chain (`creditCard` / `paypal`
+    / `crypto` / `wallet`, picked from the merchant's authorized pool — see
+    [PSP-invisible to customer/agent](/concepts/platform-model)). Capture is
+    the attribution-eligibility moment — refunds reverse it.
+  </Step>
+  <Step title="Settlement engine reads the order tag">
+    On capture, the settlement engine reads the agent tag and the merchant's
+    payout preferences, then routes the three shares.
+  </Step>
+</Steps>
+
+The agent does **not** need to call a separate "record intent" tool —
+attribution is implicit in the API-key-signed tool chain.
+
+## Idempotency + edge cases
+
+- **Multiple agents in a chain** — if Agent A calls `searchProducts` and
+  Agent B calls `placeOrderAgentic` on the same cart, attribution goes to
+  Agent B (the order-placer).
+- **Human-completed checkout** — if the agent only returns a checkout link
+  to the buyer (instead of calling `placeOrderAgentic`), attribution still
+  holds via the `intentId` embedded in the checkout URL.
+- **Refunds** — refunding an order via `refundOrder` (or any other refund
+  channel) reverses the commission. The agent's share is clawed back from
+  pending or future settlements.
+- **Disputes** — chargeback losses reverse the commission for the merchant
+  + agent. Droplinked's 20% covers dispute infrastructure costs and is not
+  reversed.
+
+## Commission settlement
+
+You can take your share on either of two rails. Most merchants and agents
+take both.
+
+### USDC on Base via x402
+
+- **Cadence** — continuous. Settles per-order as soon as the payment
+  capture clears.
+- **Pros** — fast, low-fee, programmable. Suitable for high-volume agent
+  traffic where waiting weekly would tie up capital.
+- **Onboard** — connect a Base-compatible wallet in
+  **Dashboard → Wallet → Connect Base**. USDC streams to the connected
+  address.
+
+### Fiat off-ramp via Stripe
+
+- **Cadence** — weekly. Drops on the merchant's Stripe payout schedule
+  (default: every Monday).
+- **Pros** — bank-account-native, integrates with existing accounting
+  flows.
+- **Onboard** — your existing Stripe-connected account, no extra setup.
+  Off-ramp uses Stripe's standard payout schedule.
+
+## Dashboard visibility
+
+Merchants and agent developers each see attribution + commission state in
+their dashboards:
+
+- **Merchants** — `/management/billing-history` shows order-by-order
+  commission deductions, the agent that drove each order (when applicable),
+  and the rolling payout in both rails.
+- **Agent developers** — `/management/agent-earnings` shows per-key tool
+  call counts, conversion attribution, and the rolling commission balance
+  in both rails.
+
+A small percentage of orders will surface as **unattributed agentic** in
+the dashboard — these are agentic shopping sessions Droplinked detected
+(e.g. user-agent strings matching known AI clients) where no MCP key was
+present on the call. Droplinked still recognizes these orders as agentic
+for reporting but does not pay the 10% affiliate share for them.
+
+## Refund + dispute mechanics
+
+| Event | Merchant share | Droplinked share | Agent share |
+|---|---|---|---|
+| Order captures | +70% | +20% | +10% |
+| Refund | -70% | -20% | -10% |
+| Chargeback (lost) | -100% (lost) | -20% (clawback) | -10% (clawback) |
+| Chargeback (won) | no change | no change | no change |
+
+The agent share is always offset against future settlements — there's no
+clawback from a wallet, just a deduction from the rolling balance.
+
+## Anti-fraud
+
+Droplinked monitors tool-call patterns for attribution gaming:
+
+- **Self-attribution** — an agent calling tools against a shop it operates.
+  Detected via merchant ↔ MCP key linkage; commission clawed back.
+- **Click-farming** — high tool-call volume with near-zero conversion.
+  Triggers a manual review; can result in key suspension.
+- **Wash trading** — the same buyer email + payment method recurring across
+  many small orders. Captured via the order graph.
+
+These checks run async — they don't slow live settlement, but suspicious
+balances are held for 14 days before payout.
+
+## Verification
+
+Confirm attribution on a known order:
+
+```bash
+curl -s -X POST https://mcp.droplinked.com/mcp/tools/getOrderReceipt \
+  -H "X-MCP-API-Key: $DROPLINKED_MCP_KEY" \
+  -H "content-type: application/json" \
+  -d '{"orderId": "ord_…"}' \
+  | jq '{orderId, attributedAgentKey, paymentMethod, totals}'
+```
+
+The `attributedAgentKey` field will match your key prefix if attribution
+landed correctly. (Only the prefix is exposed for privacy.)
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Get listed" icon="plug" href="/agentic/get-listed-in-mcp-discovery">
+    Merchant-facing: opt your catalog into the discovery surface that drives
+    these commissions.
+  </Card>
+  <Card title="Consume the MCP" icon="robot" href="/agentic/consume-droplinked-mcp">
+    Agent-developer-facing: how to call the tool surface that drives
+    attribution.
+  </Card>
+</CardGroup>
