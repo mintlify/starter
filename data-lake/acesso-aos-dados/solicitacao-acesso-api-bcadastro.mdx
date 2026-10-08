@@ -1,0 +1,110 @@
+---
+title: Acesso à API do bCadastro
+description: Fluxo simplificado de solicitação de acesso por e-mail
+icon: "key"
+---
+
+# Solicitação de Acesso às APIs
+
+_Fluxo simplificado de solicitação de acesso por e-mail_
+
+Guia para equipes e órgãos que necessitam consumir a API do BCadastro sob responsabilidade da VPIA na IplanRio. A solicitação inicial deve ser enviada ao Escritório de Dados, com a identificação do sistema e dos responsáveis pelo consumo.
+
+**Solicitante:** Responsável pelo sistema ou integração que utilizará a API.
+
+## Passo 1: Solicitação ao Escritório de Dados
+
+**Responsável:** Equipe solicitante
+
+Envie um e-mail para ed.iplanrio@prefeitura.rio, com os responsáveis pelo sistema em cópia. Utilize o assunto “Solicitação de Acesso à API - [Sistema] - [API]” e informe:
+
+- **Solicitante e equipe:** nome, órgão ou instituição e e-mail institucional.
+- **Nome do sistema consumidor:** nome do sistema ou integração que acessará a API, acompanhado de uma breve descrição. Informação obrigatória.
+- **Responsáveis:** nome e e-mail do responsável técnico e do responsável de negócio, além do contato para avisos de mudanças.
+- **Finalidade:** justificativa e uso pretendido da API.
+- **Escopo:** API, endpoints e operações desejadas; se não souber os endpoints, descreva a funcionalidade necessária.
+- **Ambientes:** desenvolvimento, homologação e/ou produção, conforme a necessidade.
+- **IP de origem para a whitelist:** informe o(s) endereço(s) IP de saída do sistema que deverão ser autorizados para acessar a API, indicando o ambiente correspondente a cada IP. Informação obrigatória. Caso haja NAT ou proxy, informe o IP de saída apresentado à API; confirme esse endereço com a equipe de infraestrutura.
+- **Consumo e criticidade:** volume e frequência estimados e impacto de uma indisponibilidade. Informe quando a estimativa não estiver disponível.
+- **Prazo de acesso:** data desejada de início e término ou justificativa para uso contínuo.
+
+<Warning>
+Não inclua senhas, tokens ou chaves de acesso no e-mail.
+</Warning>
+
+## Modelo de e-mail
+
+**Para:** ed.iplanrio@prefeitura.rio
+
+**Cc:** [Responsáveis pelo sistema]
+
+```text
+Assunto: Solicitação de Acesso à API - [Sistema] - [API]
+
+Prezados,
+
+Solicito acesso à API conforme as informações abaixo:
+
+Nome do solicitante: [Nome completo]
+Órgão ou instituição e equipe: [Informar]
+E-mail institucional: [E-mail]
+Nome do sistema consumidor: [Nome do sistema - obrigatório]
+Descrição do sistema: [Breve descrição]
+Responsável técnico: [Nome e e-mail]
+Responsável de negócio: [Nome e e-mail]
+Contato para avisos de mudanças: [E-mail da equipe]
+Finalidade da integração: [Justificativa]
+API e endpoints: [Nome, caminhos ou funcionalidades]
+Operações necessárias: [Consulta, inclusão, alteração etc.]
+Ambientes: [Desenvolvimento, homologação e/ou produção]
+IP(s) de origem para inclusão na whitelist: [IP(s) de saída - obrigatório]
+Ambiente de cada IP: [Relacionar cada IP ao respectivo ambiente]
+Volume e frequência de consumo: [Estimativa ou informar desconhecido]
+Criticidade: [Impacto em caso de indisponibilidade]
+Prazo: [Início e término ou justificativa para uso contínuo]
+
+Fico à disposição para complementar as informações e validar o acesso.
+
+Atenciosamente,
+[Nome e equipe]
+```
+
+## Passo 2: Análise e aprovação
+
+**Responsável:** Escritório de Dados e responsáveis pela API
+
+O Escritório de Dados confere as informações e encaminha o pedido para análise técnica e, quando aplicável, aprovação do responsável de negócio ou controlador dos dados. Caso sejam necessárias informações adicionais, o solicitante será contatado na mesma conversa de e-mail.
+
+<Note>
+A aprovação define os ambientes, endpoints, operações, IPs de origem e condições de uso autorizados, incluindo a validade quando aplicável. O envio da solicitação não autoriza o consumo imediato da API.
+</Note>
+
+## Passo 3: Liberação e validação do acesso
+
+**Responsável:** Equipe técnica da API e equipe solicitante
+
+Após a aprovação, a equipe técnica inclui os IPs autorizados na whitelist e concede o acesso. O solicitante recebe as orientações de uso, o escopo liberado e a validade, quando aplicável. As credenciais serão disponibilizadas pela equipe técnica e enviadas ao solicitante.
+
+A equipe solicitante testa a integração a partir dos IPs e no ambiente autorizados e confirma o resultado na mesma conversa de e-mail. O Escritório de Dados registra a concessão no inventário de consumidores, vinculando o nome do sistema, seus responsáveis, os IPs liberados por ambiente e o acesso aprovado.
+
+## Passo 4: Acompanhamento e atualização
+
+**Responsável:** Escritório de Dados, equipe técnica e responsável pelo sistema consumidor
+
+Mantenha os contatos atualizados e comunique as situações abaixo pelo mesmo canal, informando o sistema, a API e a referência da solicitação anterior.
+
+| Situação | Orientação |
+| --- | --- |
+| Alteração do acesso | Solicite análise antes de ampliar endpoints, operações, ambientes ou finalidade. |
+| Alteração de IP de origem | Solicite a atualização da whitelist antes da mudança, informando o nome do sistema, o ambiente e os IPs a incluir ou remover. |
+| Troca de responsável | Informe os novos responsáveis e contatos para atualização do inventário. |
+| Renovação | Solicite a renovação antes do término da validade informada na concessão. |
+| Revisão periódica | Quando contatado, confirme a necessidade do acesso, o escopo e os responsáveis. |
+| Encerramento do consumo | Solicite a revogação do acesso quando a integração deixar de utilizá-lo. |
+| Mudança de domínio ou endpoint | Acompanhe os avisos enviados aos contatos cadastrados, realize os ajustes e confirme a validação da migração. |
+
+## Informações adicionais
+
+Utilize o acesso somente para a finalidade e o escopo aprovados. Proteja as credenciais e comunique suspeitas de uso indevido ao Escritório de Dados.
+
+**Suporte:** ed.iplanrio@prefeitura.rio
