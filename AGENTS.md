@@ -1,6 +1,8 @@
 > **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
+> This is a Mintlify docs project. Before any Mintlify task, run `mint instructions`: it prints current Mintlify guidance (if the command is unknown, run `npx mint@latest instructions`). Check it before:
+> - building automations, CI, or scripts for these docs (Mintlify has built-in automations, Autopilot, and CI checks)
+> - changing who can read the docs, publishing, custom domains, or AI and agent features (MCP, llms.txt, skill.md, assistant)
+> - writing instructions for the Mintlify agent: those go in `.mintlify/AGENTS.md`. This root file is published at `/agents.md` unless it is listed in `.mintignore`.
 
 # Documentation project instructions
 
