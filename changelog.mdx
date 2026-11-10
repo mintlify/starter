@@ -45,7 +45,7 @@ rss: true
 
 <Update
   label="October 29, 2026"
-  tags={["New", "API"]}
+  tags={["New", "API", "Webhooks"]}
   rss={{
     title: "Know when a card added at checkout is fully set up",
     description: "When a shopper adds a new card during checkout, you now receive card_enrollment.completed once the card and its passkey are fully set up, whether or not the payment succeeds. The event includes the new card ID and the original checkout session ID."
@@ -65,7 +65,16 @@ rss: true
   [Card enrollment events →](/webhooks/events#enrollment-and-mandate-setup)
 </Update>
 
-<Update label="October 29, 2026 - Card lifecycle webhooks" tags={["API", "New"]}>
+<Update
+  label="October 29, 2026 - Card lifecycle webhooks"
+  tags={["New", "API", "Webhooks"]}
+  rss={{
+    title: "Keep saved cards in sync with card webhooks",
+    description: "Subscribe to card.saved and card.deleted to know when a card is stored or removed. Events identify the card, the Prava customer and your original user_id. Existing subscriptions are unchanged, and earlier card saves are not backfilled."
+  }}
+>
+  ## Keep saved cards in sync with card webhooks
+
   Applications can subscribe to `card.saved` when a new card is durably stored
   and `card.deleted` when it is deleted. Events identify the card and
   Prava customer and your original `user_id`, with an owned session when available. Existing subscriptions
@@ -85,12 +94,14 @@ rss: true
 
 <Update
   label="October 28, 2026 - Payment webhook card identity"
-  tags={["Fixes", "API"]}
+  tags={["Fixes", "API", "Webhooks"]}
   rss={{
     title: "Associate cards used during checkout through payment webhooks",
     description: "Payment events include the actual attempt's card ID. Explicit sandbox payment-success simulation now emits credentials-ready and clearly labelled simulated success events."
   }}
 >
+  ## Associate cards used during checkout through payment webhooks
+
   - New payment events include `data.card_id`, allowing applications to associate
     a replacement card added during checkout. Older retained events can omit it;
     unresolved owned card references are `null`.
@@ -167,7 +178,7 @@ rss: true
 
 <Update
   label="October 24, 2026 - Webhooks"
-  tags={["New", "API", "Dashboard"]}
+  tags={["New", "API", "Dashboard", "Webhooks"]}
   rss={{
     title: "Prava webhooks are live: stay in sync with payments and mandates",
     description: "Applications with webhooks enabled can subscribe to signed payment-attempt, card-enrollment, and mandate events. Configure and test endpoints in the dashboard, inspect delivery failures, and recover retained events."

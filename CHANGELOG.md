@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased] — 2026-11-10-2
+
+### Fixed
+
+- Restore the two-column changelog layout, with dates and tags beside each entry on wide screens.
+- Add headlines to the October 28 payment card and October 29 card lifecycle entries, so every entry has a heading and feed summary.
+
+### Added
+
+- Add a Webhooks changelog filter covering the webhook launch and the card, enrollment and payment webhook updates.
+
 ## [Unreleased] — 2026-11-10-1
 
 ### Added

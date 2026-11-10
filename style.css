@@ -259,20 +259,3 @@ img[src*="brand-banner"] {
 :where(div, span):has(> .nav-tag-pill) {
   order: -1;
 }
-
-/* ============================================================
-   Changelog — keep each update stacked on wide screens too.
-   Mintlify's default puts the date and tags in a 160px column
-   beside the entry from the lg breakpoint, which indents every
-   entry and wraps longer labels. Stacking matches the narrow
-   layout: date and tags above, entry aligned with the page title.
-   ============================================================ */
-.update.update-container {
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.update.update-container > :first-child {
-  position: relative;
-  top: auto;
-  width: 100%;
-}
