@@ -5,12 +5,64 @@ icon: 'clock-rotate-left'
 rss: true
 ---
 
-<Update label="October 29, 2026" description="Checkout enrollment completion">
-  Newly added checkout cards now emit `card_enrollment.completed` after full
-  enrollment, including VIC enrollment and the confirmed passkey result. The
-  event identifies the new card and original session independently of payment
-  success. Checkout enrollment resources use `sa_...`; standalone enrollment
-  keeps `ses_...`. Reusing a saved card does not emit another enrollment.
+<Update
+  label="November 9, 2026 - Mandate setup"
+  tags={["Fixes"]}
+  rss={{
+    title: "Shoppers set up mandates without filling in a shipping form",
+    description: "Mandate setup is now a shorter step: the hosted card form no longer shows Shipping Details fields, including after a retry. No integration change is needed."
+  }}
+>
+  ## Shoppers set up mandates without filling in a shipping form
+
+  Setting up a mandate is now a shorter step for shoppers. The hosted card form asks only for
+  what the mandate needs and no longer shows **Shipping Details** fields, including after a
+  retry. Those fields were never used during setup, and quote-backed mandates already carry the
+  delivery address, so your integration doesn't need to change.
+</Update>
+
+<Update
+  label="November 6, 2026 - Fixes"
+  tags={["Fixes", "API"]}
+  rss={{
+    title: "Spot bad quote IDs sooner and keep sandbox polling working",
+    description: "Session creation now flags a malformed quote_id with a 400 validation error instead of a misleading 404. Sandbox payment-result polling returns the order status instead of a 500 when a simulated order was never paid."
+  }}
+>
+  ## Spot bad quote IDs sooner and keep sandbox polling working
+
+  - **Find the real problem straight away:** when `purchase_context.quote_id` is malformed,
+    `POST /v1/sessions` now returns a `400` validation error pointing at that field. A broken
+    value, such as `"None"` left over from a failed quote request, no longer looks like a
+    missing quote (`404 QUOTE_NOT_FOUND`). Send the `qte_…` ID exactly as quote creation returned it.
+  - **Sandbox polling keeps working:** `GET /v1/sessions/{sessionId}/payment-result` now
+    returns `200` with the order's status when a sandbox session requested success simulation
+    but never paid, for example because another session paid the same quote. Previously this
+    failed with `500`. A declined payment is still never reported as completed.
+
+  [Create a session →](/api-reference/create-session) · [Sandbox simulation →](/api-reference/testing#simulate-successful-payment-completion)
+</Update>
+
+<Update
+  label="October 29, 2026"
+  tags={["New", "API"]}
+  rss={{
+    title: "Know when a card added at checkout is fully set up",
+    description: "When a shopper adds a new card during checkout, you now receive card_enrollment.completed once the card and its passkey are fully set up, whether or not the payment succeeds. The event includes the new card ID and the original checkout session ID."
+  }}
+>
+  ## Know when a card added at checkout is fully set up
+
+  When a shopper adds a new card during checkout, you now receive `card_enrollment.completed`
+  once the card and its passkey are fully set up, whether or not the payment succeeds. The event
+  includes the new card's `card_id` and the original checkout `session_id`. Paying with a card
+  that's already saved doesn't send it.
+
+  For cards added at checkout, the event's resource ID starts with `sa_` instead of the `ses_`
+  you get from standalone card enrollment. Use `data.card_id` and `data.session_id` to match the
+  event to your records.
+
+  [Card enrollment events →](/webhooks/events#enrollment-and-mandate-setup)
 </Update>
 
 <Update label="October 29, 2026 - Card lifecycle webhooks" tags={["API", "New"]}>
@@ -53,6 +105,64 @@ rss: true
     unchanged, and earlier missing events are not backfilled.
 
   [Review payment events →](/webhooks/events) · [Test simulation →](/webhooks/testing#test-payment-simulation)
+</Update>
+
+<Update
+  label="October 28, 2026 - New card form"
+  tags={["Improvements", "Fixes"]}
+  rss={{
+    title: "Add a new card at checkout without the wait",
+    description: "The new-card form now opens right away because checkout preloads it while shoppers look at saved cards. onReady fires as soon as shoppers can pick a card, and a form that fails to load offers Retry instead of a dead end."
+  }}
+>
+  ## Add a new card at checkout without the wait
+
+  When a shopper chooses to add a new card, the card form now opens right away instead of
+  loading from scratch. Checkout preloads the secure form in the background while the shopper
+  looks at their saved cards, so switching cards is quick and paying with a saved card is never
+  slowed down by it.
+
+  - **Your page is ready sooner:** when saved cards are shown, `onReady` fires as soon as
+    shoppers can pick a card. A slow new-card form no longer holds it back. It still fires
+    only once per iframe session.
+  - **No dead ends:** if the card form can't load, shoppers see a clear error with **Retry**
+    instead of a form that never finishes loading. Preloading or retrying the form never starts
+    a payment.
+
+  [collectPAN callbacks →](/sdk/cards/collect-pan)
+</Update>
+
+<Update
+  label="October 25, 2026 - Checkout branding"
+  tags={["New", "Dashboard"]}
+  rss={{
+    title: "Make checkout look like your product: logo, name and colors",
+    description: "Shoppers now see your logo, name and brand color in Prava checkout. Set it up from Branding in the developer dashboard with a live preview; no code changes needed. Sandbox and Production each keep their own appearance."
+  }}
+>
+  ## Make checkout look like your product: logo, name and colors
+
+  Shoppers now see your logo and name at the top of Prava checkout, with your brand color on
+  buttons, links and card fields, so paying feels like part of your app. Set it up from
+  **Branding** in the developer dashboard and see each change in a live preview of full and quote
+  checkout before you save. No code changes are needed.
+
+  - **Your logo, ready for checkout:** upload a PNG, JPG or WebP and choose how it fits. Prava
+    stores an optimized copy, so checkout never loads images from your site.
+  - **Your name in the header:** up to 20 characters, or your application name by default.
+    Hide it if your logo already includes the name.
+  - **Readable on any color:** the editor tells you whether your brand color is readable, and
+    checkout adjusts button text and links so they stay legible.
+  - **More looks:** a PCI Secure badge, header glow, checkout background themes and brand name
+    size can be enabled for your account by the Prava team.
+
+  Try a look in Sandbox before you use it in Production: each environment keeps its own
+  appearance. Full and quote checkout show your branded header; embedded checkout uses your
+  brand color and leaves the header to your page. Resellers can brand their applications once
+  Prava enables it for them. Quote checkout order summaries also line up item quantities and
+  prices, so they're easier to scan.
+
+  [Open the dashboard →](/dashboard)
 </Update>
 
 <Update

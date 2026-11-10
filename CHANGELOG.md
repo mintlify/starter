@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased] — 2026-11-10-1
+
+### Added
+
+- Add outcome-focused public changelog entries for checkout branding (October 25), the preloaded new-card form (October 28), session quote-ID validation and sandbox polling fixes (November 6), and mandate setup without shipping fields (November 9). Clarify the October 29 checkout enrollment completion entry with a headline and plain-language resource ID guidance.
+
+### Changed
+
+- Keep changelog updates stacked on wide screens, with the date and tags above each entry, so entries align with the page title instead of sitting in an indented column.
+
 ## [Unreleased] — 2026-10-29-2
 
 ### Changed
