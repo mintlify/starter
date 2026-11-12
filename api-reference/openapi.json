@@ -527,7 +527,7 @@
     "/v1/cards/{id}/default": {
       "patch": {
         "summary": "Set Default Card",
-        "description": "Set one of a customer's saved cards as their default. The card identifies the customer, so only the card ID is sent. The default is listed first in List Cards and preselected in the payment iframe.",
+        "description": "Set one of a customer's saved cards as their default. The card identifies the customer, so only the card ID is sent. The default is listed first in List Cards and preselected in the payment iframe's saved-card list.",
         "operationId": "setDefaultCard",
         "security": [
           {
