@@ -154,6 +154,7 @@
               "api-reference/revoke-session",
               "api-reference/list-cards",
               "api-reference/delete-card",
+              "api-reference/set-default-card",
               "api-reference/get-payment-result",
               "api-reference/report-status",
               "api-reference/mandate-charge",

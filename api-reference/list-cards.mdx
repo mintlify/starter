@@ -37,7 +37,7 @@ Retrieve a customer's enrolled cards. Only non-sensitive card metadata is return
     <ResponseField name="card_exp_month" type="number | null">1–12.</ResponseField>
     <ResponseField name="card_exp_year" type="number | null">4-digit year.</ResponseField>
     <ResponseField name="masked_card_number" type="string | null">Masked PAN, or null.</ResponseField>
-    <ResponseField name="is_default" type="boolean">Whether this is the customer's default card.</ResponseField>
+    <ResponseField name="is_default" type="boolean">Whether this is the customer's default card. Set it with [Set Default Card](/api-reference/set-default-card).</ResponseField>
     <ResponseField name="status" type="string">`active` or `deleted`.</ResponseField>
     <ResponseField name="card_art_url" type="string | null">Only when `include_card_art=true`.</ResponseField>
     <ResponseField name="metadata" type="object | null">Display metadata (`backgroundColor`, `foregroundColor`, `labelColor`).</ResponseField>

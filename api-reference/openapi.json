@@ -524,6 +524,89 @@
         }
       }
     },
+    "/v1/cards/{id}/default": {
+      "patch": {
+        "summary": "Set Default Card",
+        "description": "Set one of a customer's saved cards as their default. The card identifies the customer, so only the card ID is sent. The default is listed first in List Cards and preselected in the payment iframe.",
+        "operationId": "setDefaultCard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The card to make the default (card_id from List Cards). Must be an active card saved through your merchant account."
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional. Prava's customer ID (cus_..., from the card.saved webhook), not your user_id. When sent, it must match the card's owner, otherwise 404. Omit it to let the card identify the customer."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default card set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "default_card_id": {
+                      "type": "string",
+                      "description": "The card that is now the customer's default"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "customer_id sent but empty (VAL_2001)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key (AUTH_1001)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Card not found, deleted, not saved through your merchant account, or customer_id does not match the card's owner (NOT_FOUND)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/mandates/{id}/charge": {
       "post": {
         "summary": "Charge a Mandate",

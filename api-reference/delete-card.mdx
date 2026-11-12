@@ -28,7 +28,7 @@ Subscribe to [`card.deleted`](/webhooks/events#card-lifecycle) to reconcile card
 
 <ResponseField name="success" type="boolean">Whether the card was deleted.</ResponseField>
 <ResponseField name="card_id" type="string">The deleted card id.</ResponseField>
-<ResponseField name="was_default" type="boolean">Whether the deleted card was the customer's default. If `true`, the customer picks a new default on their next payment.</ResponseField>
+<ResponseField name="was_default" type="boolean">Whether the deleted card was the customer's default. If `true`, the oldest remaining active card is preselected until a new default is set with [Set Default Card](/api-reference/set-default-card).</ResponseField>
 <ResponseField name="network_token_deleted" type="boolean">Whether a card-network token was retired as part of the deletion.</ResponseField>
 
 ## Error responses

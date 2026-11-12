@@ -1,0 +1,77 @@
+---
+title: 'Set Default Card'
+description: "Choose which of a customer's saved cards is preselected at checkout"
+icon: 'star'
+openapi: '/api-reference/openapi.json PATCH /v1/cards/{id}/default'
+playground: 'interactive'
+---
+
+Set one of a customer's saved cards as their default. The default card is listed first in [List Cards](/api-reference/list-cards) with `is_default: true` and is preselected in the payment iframe's saved-card list. The customer can still choose another card at checkout.
+
+`PATCH /v1/cards/{id}/default` · Authenticated with your secret key.
+
+The card identifies the customer, so the card ID is all you need to send. Get card IDs from [List Cards](/api-reference/list-cards) or the [`card.saved`](/webhooks/events#card-lifecycle) webhook.
+
+<Note>
+  If no default has been set, or the default card is deleted, the customer's oldest active card is preselected until you set a new default.
+</Note>
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The card to make the default (`card_id` from [List Cards](/api-reference/list-cards)). It must be an active card saved through your merchant account.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="customer_id" type="string">
+  Optional. Prava's customer ID (`cus_…`, from the [`card.saved`](/webhooks/events#card-lifecycle) webhook), **not** your `user_id`. When sent, it must match the card's owner, otherwise the request returns `404`. Leave it out to let the card identify the customer.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">Whether the default was set.</ResponseField>
+<ResponseField name="default_card_id" type="string">The card that is now the customer's default.</ResponseField>
+
+## Error responses
+
+| Status | Code | Cause | Resolution |
+|--------|------|-------|------------|
+| 400 | `VAL_2001` | `customer_id` sent but empty | Send a `cus_` ID or omit the parameter |
+| 401 | `AUTH_1001` | Invalid API key | Check your secret key |
+| 404 | `NOT_FOUND` | Card doesn't exist, is deleted, wasn't saved through your merchant account, or `customer_id` doesn't match the card's owner | Verify `id` via [List Cards](/api-reference/list-cards); omit `customer_id` or send the card owner's `cus_` ID |
+
+<RequestExample>
+```bash cURL
+curl -X PATCH https://sandbox.api.prava.space/v1/cards/card_1/default \
+  -H "Authorization: Bearer sk_test_..."
+```
+
+```python Python
+import requests
+
+resp = requests.patch(
+    "https://sandbox.api.prava.space/v1/cards/card_1/default",
+    headers={"Authorization": "Bearer sk_test_..."},
+)
+```
+
+```javascript JavaScript
+const resp = await fetch("https://sandbox.api.prava.space/v1/cards/card_1/default", {
+  method: "PATCH",
+  headers: { Authorization: "Bearer sk_test_..." },
+});
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 Success
+{ "success": true, "default_card_id": "card_1" }
+```
+
+```json 404 Not Found
+{
+  "error": { "code": "NOT_FOUND", "message": "Card not found or not active" }
+}
+```
+</ResponseExample>

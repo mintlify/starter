@@ -121,12 +121,13 @@ merchant does not call another API or create another session.
 | 502 | `VISA_CONFIRMATION_FAILED` | Card-network confirmation failed | Retry; then support |
 | 500 | `REPORT_STATUS_ERROR` | Internal error | Contact support with the `X-Response-ID` |
 
-## Cards — `GET /v1/listCards` · `POST /v1/deleteCard`
+## Cards — `GET /v1/listCards` · `POST /v1/deleteCard` · `PATCH /v1/cards/{id}/default`
 
 | Status | Code | Cause | Recovery |
 |--------|------|-------|----------|
 | 404 | `CUSTOMER_NOT_FOUND` | No customer for the given identifier | Verify `customer_id` (the `user_id` you used at session creation) |
 | 404 | `NOT_FOUND` | Card not found (delete) | Verify `card_id` via [List Cards](/api-reference/list-cards) |
+| 404 | `NOT_FOUND` | Card not found, deleted, or not saved through your merchant account (set default) | Verify the card ID via [List Cards](/api-reference/list-cards) |
 | 502 | `NETWORK_DELETE_FAILED` | Card-network deletion failed (delete) | Retry |
 
 ## Revoke Session — `POST /v1/sessions/{id}/revoke`
