@@ -127,7 +127,7 @@ merchant does not call another API or create another session.
 |--------|------|-------|----------|
 | 404 | `CUSTOMER_NOT_FOUND` | No customer for the given identifier | Verify `customer_id` (the `user_id` you used at session creation) |
 | 404 | `NOT_FOUND` | Card not found (delete) | Verify `card_id` via [List Cards](/api-reference/list-cards) |
-| 404 | `NOT_FOUND` | Card not found, deleted, or not saved through your merchant account (set default) | Verify the card ID via [List Cards](/api-reference/list-cards) |
+| 404 | `NOT_FOUND` | Card not found, deleted, not saved through your merchant account, or `customer_id` doesn't match the card's owner (set default) | Verify the card ID via [List Cards](/api-reference/list-cards); omit `customer_id` or send the card owner's `cus_` ID |
 | 502 | `NETWORK_DELETE_FAILED` | Card-network deletion failed (delete) | Retry |
 
 ## Revoke Session — `POST /v1/sessions/{id}/revoke`
